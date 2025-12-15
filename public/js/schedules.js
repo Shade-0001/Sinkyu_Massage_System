@@ -195,10 +195,6 @@ function initializeEventListeners() {
     const userId = document.getElementById('new-user-select').value;
     const therapistId = document.getElementById('new-therapist-select').value;
 
-    console.log('[DEBUG schedules.js] 登録画面へボタンクリック');
-    console.log('[DEBUG schedules.js] userId:', userId);
-    console.log('[DEBUG schedules.js] therapistId:', therapistId);
-
     if (!userId) {
       showCursorWarning(e, '利用者を選択してください');
       return;
@@ -212,18 +208,12 @@ function initializeEventListeners() {
     const startDate = formatDate(newEventDate);
     const startTime = `${newEventHour}:${String(newEventMinute).padStart(2, '0')}`;
 
-    console.log('[DEBUG schedules.js] startDate:', startDate);
-    console.log('[DEBUG schedules.js] startTime:', startTime);
-    console.log('[DEBUG schedules.js] from:', 'schedule');
-
     const targetUrl = window.scheduleConfig.recordsIndexUrl +
       '?clinic_user_id=' + userId +
       '&therapist_id=' + therapistId +
       '&start_date=' + startDate +
       '&start_time=' + startTime +
       '&from=schedule';
-
-    console.log('[DEBUG schedules.js] 遷移先URL:', targetUrl);
 
     window.location.href = targetUrl;
   });
@@ -316,19 +306,16 @@ function loadScheduleData(preserveScroll = false, preservedScrollLeft = 0) {
   const dateRange = getDateRange();
 
   const url = `${window.scheduleConfig.dataUrl}?therapist_id=${therapistId}&start_date=${dateRange.start}&end_date=${dateRange.end}`;
-  console.log('[DEBUG schedules.js] データ読み込み開始:', url);
 
   fetch(url)
     .then(response => response.json())
     .then(data => {
-      console.log('[DEBUG schedules.js] データ取得完了:', data.length, '件');
-      console.log('[DEBUG schedules.js] データ詳細:', data);
       scheduleData = data;
       renderSchedule(preserveScroll, preservedScrollLeft);
       updateHeaderDisplay();
     })
     .catch(error => {
-      console.error('[DEBUG schedules.js] スケジュールデータの読み込みエラー:', error);
+      console.error('スケジュールデータの読み込みエラー:', error);
     });
 }
 
@@ -645,23 +632,6 @@ function renderWeekRangeWithCells(startWeekIndex, endWeekIndex, displayStartWeek
             // 重複イベントの中でこのイベントのインデックスを取得
             const columnIndex = overlappingEvents.findIndex(e => e.id === event.id);
 
-            if (totalColumns > 1) {
-              console.log('[DEBUG イベント追加] 複数カラム配置:', {
-                date: formatDate(date),
-                hour,
-                minute,
-                eventId: event.id,
-                user_name: event.user_name,
-                start_time: event.start_time,
-                end_time: event.end_time,
-                columnIndex,
-                totalColumns,
-                widthPercent: (100 / totalColumns),
-                leftPercent: (100 / totalColumns) * columnIndex,
-                overlappingEventIds: overlappingEvents.map(e => e.id)
-              });
-            }
-
             const eventDiv = createEventElement(event, columnIndex, totalColumns);
             td.appendChild(eventDiv);
           });
@@ -898,15 +868,6 @@ function getEventsForDateTime(date, hour, minute) {
     return startHour === hour && startMin === minute;
   });
 
-  if (events.length > 0) {
-    console.log('[DEBUG getEventsForDateTime] イベント発見:', {
-      dateStr,
-      hour,
-      minute,
-      events
-    });
-  }
-
   return events;
 }
 
@@ -926,16 +887,6 @@ function getOverlappingEvents(date, hour, minute) {
     // 現在の時刻がイベントの開始時刻以降、終了時刻より前であれば進行中
     return currentMinutes >= startMinutes && currentMinutes < endMinutes;
   });
-
-  if (overlapping.length > 1) {
-    console.log('[DEBUG getOverlappingEvents] 重複イベント検出:', {
-      dateStr,
-      hour,
-      minute,
-      count: overlapping.length,
-      events: overlapping
-    });
-  }
 
   return overlapping;
 }

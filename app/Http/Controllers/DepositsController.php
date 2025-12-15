@@ -44,13 +44,26 @@ class DepositsController extends Controller
     // 逆順に並べる
     $yearMonths = array_reverse($yearMonths);
 
+    // 年ごとのデータ件数を取得
+    $depositsData = Deposit::select('year_month')->get();
+    $yearCounts = [];
+    foreach ($depositsData as $deposit) {
+      $year = (int)substr($deposit->year_month, 0, 4);
+      if (!isset($yearCounts[$year])) {
+        $yearCounts[$year] = 0;
+      }
+      $yearCounts[$year]++;
+    }
+
     // 年ごとにグループ化
-    $depositsByYear = collect($yearMonths)->groupBy('year')->map(function ($months, $year) {
+    $depositsByYear = collect($yearMonths)->groupBy('year')->map(function ($months, $year) use ($yearCounts) {
       // その年に入金データが1件でもあるかチェック（月データのhas_dataフラグを確認）
       $hasDeposits = collect($months)->contains('has_data', true);
+      $count = $yearCounts[$year] ?? 0;
 
       return [
         'has_deposits' => $hasDeposits,
+        'count' => $count,
         'months' => $months->values()->all(),
       ];
     })->all();

@@ -23,7 +23,9 @@
       "Bash(iconv:*)",
       "Bash(git show:*)",
       "Bash(git config:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(move:*)",
+      "Bash(composer require:*)"
     ],
     "deny": [],
     "ask": []

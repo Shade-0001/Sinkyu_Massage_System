@@ -24,6 +24,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\UserSearchController;
 use App\Http\Controllers\TherapyPeriodController;
 use App\Http\Controllers\DepositsController;
+use App\Http\Controllers\PrintsController;
 
 Route::get('/', fn() => redirect()->route('login'));
 
@@ -253,6 +254,10 @@ Route::middleware('auth')->group(function () {
 
   // 要加療期間リスト
   Route::get('/therapy-periods/index', [TherapyPeriodController::class, 'index'])->name('therapy-periods.index');
+
+  // 印刷メニュー
+  Route::get('/prints/index', [PrintsController::class, 'index'])->name('prints.index');
+  Route::post('/prints/acupuncture-benefit', [PrintsController::class, 'acupunctureBenefit'])->name('prints.acupuncture-benefit');
 });
 
 require __DIR__.'/auth.php';

@@ -27,6 +27,7 @@
     @foreach($depositsByYear as $year => $yearData)
       @php
         $hasDeposits = $yearData['has_deposits'];
+        $count = $yearData['count'] ?? 0;
         $months = $yearData['months'];
         $collapseId = 'year-' . $year;
       @endphp
@@ -45,6 +46,8 @@
           >
             <span class="toggle-icon">▶</span>
             <span>［ {{ $year }} ］</span>
+            <div class="vr ms-3 me-4" style="height: 1.8rem; position: relative; top: 0.1rem;"></div>
+            <span style="font-size: 0.95rem; font-weight: normal;">{{ $count }}件</span>
           </button>
         </div>
       @else

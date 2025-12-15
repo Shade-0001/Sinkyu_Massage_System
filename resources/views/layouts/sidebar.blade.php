@@ -45,7 +45,7 @@
         </ul>
       </li>
       <li class="border-bottom border-secondary">
-        <a href="#" class="sidebar-link">印刷メニュー</a>
+        <a href="{{ route('prints.index') }}" class="sidebar-link">印刷メニュー</a>
       </li>
       <li class="border-bottom border-secondary">
         <a href="{{ route('therapy-periods.index') }}" class="sidebar-link">要加療期間リスト</a>
