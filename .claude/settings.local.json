@@ -25,7 +25,8 @@
       "Bash(git config:*)",
       "Bash(npm run build:*)",
       "Bash(move:*)",
-      "Bash(composer require:*)"
+      "Bash(composer require:*)",
+      "Bash(dir:*)"
     ],
     "deny": [],
     "ask": []

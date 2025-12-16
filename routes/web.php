@@ -257,7 +257,13 @@ Route::middleware('auth')->group(function () {
 
   // 印刷メニュー
   Route::get('/prints/index', [PrintsController::class, 'index'])->name('prints.index');
-  Route::post('/prints/acupuncture-benefit', [PrintsController::class, 'acupunctureBenefit'])->name('prints.acupuncture-benefit');
+  Route::post('/prints/acupuncture-benefit/{filename}', [PrintsController::class, 'acupunctureBenefit'])->name('prints.acupuncture-benefit');
+
+  // 座標調整管理画面
+  Route::get('/prints/coordinate-adjuster', [PrintsController::class, 'coordinateAdjuster'])->name('prints.coordinate-adjuster');
+  Route::get('/prints/get-coordinates', [PrintsController::class, 'getCoordinates'])->name('prints.get-coordinates');
+  Route::post('/prints/save-coordinates', [PrintsController::class, 'saveCoordinates'])->name('prints.save-coordinates');
+  Route::post('/prints/preview-pdf', [PrintsController::class, 'previewPdf'])->name('prints.preview-pdf');
 });
 
 require __DIR__.'/auth.php';

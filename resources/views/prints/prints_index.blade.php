@@ -74,7 +74,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form id="acupunctureBenefitForm" data-action="{{ route('prints.acupuncture-benefit') }}">
+          <form id="acupunctureBenefitForm" method="POST">
             @csrf
 
             <!-- サービス提供年月 -->
