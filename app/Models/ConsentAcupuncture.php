@@ -28,6 +28,8 @@ class ConsentAcupuncture extends Model
     'illness_name_acupuncture_id',
     'illness_name_acupuncture_addendum',
     'is_housecall_required',
+    'housecall_reason_id',
+    'housecall_reason_addendum',
     'therapy_period',
     'therapy_period_start_date',
     'therapy_period_end_date',

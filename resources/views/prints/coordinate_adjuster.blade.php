@@ -10,6 +10,18 @@
           <h5 class="mb-0">フィールド設定</h5>
         </div>
         <div class="card-body p-0" style="max-height: 80vh; overflow-y: auto;">
+          <!-- 利用者選択 -->
+          <div class="p-3 border-bottom bg-light">
+            <label for="clinic-user-select" class="form-label mb-2">プレビュー利用者：</label>
+            <select id="clinic-user-select" class="form-control">
+              @foreach($clinicUsers as $user)
+                <option value="{{ $user->id }}">
+                  {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
+                </option>
+              @endforeach
+            </select>
+          </div>
+
           <div id="field-settings">
             <!-- JavaScriptで動的に生成 -->
           </div>
@@ -53,17 +65,43 @@
 
 <style>
 .field-group {
-  margin-bottom: 20px;
-  padding: 15px;
+  margin-bottom: 10px;
+  padding: 10px;
   border: 1px solid #e0e0e0;
   border-radius: 5px;
   background-color: #f9f9f9;
 }
 
-.field-group h6 {
-  margin-bottom: 10px;
+.field-header {
+  margin-bottom: 0;
+  padding: 5px;
   color: #333;
   font-weight: bold;
+  border-radius: 3px;
+  transition: background-color 0.2s;
+}
+
+.field-header:hover {
+  background-color: #e8e8e8;
+}
+
+.toggle-icon {
+  display: inline-block;
+  width: 15px;
+  font-size: 12px;
+  transition: transform 0.2s;
+}
+
+.field-controls {
+  margin-top: 10px;
+  padding-left: 20px;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  max-height: 0;
+}
+
+.field-controls.show {
+  max-height: 500px;
 }
 
 .coordinate-input {
@@ -89,6 +127,21 @@
   font-size: 16px;
   line-height: 1;
 }
+
+.btn-group-sm {
+  margin-top: 5px;
+}
+
+.btn-group-sm .btn {
+  font-size: 0.85em;
+  padding: 4px 8px;
+}
+
+.btn-group-sm .btn.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
 </style>
 
 <script>
@@ -101,6 +154,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // イベントリスナー
   document.getElementById('btn-reset').addEventListener('click', resetCoordinates);
+  document.getElementById('clinic-user-select').addEventListener('change', function() {
+    previewPdf();
+  });
 });
 
 // 座標読み込み
@@ -127,88 +183,193 @@ function renderFieldSettings() {
   const container = document.getElementById('field-settings');
   container.innerHTML = '';
 
+  console.log('Total fields:', Object.keys(coordinates).length);
+
   Object.keys(coordinates).forEach(key => {
     const field = coordinates[key];
     const div = document.createElement('div');
     div.className = 'field-group';
 
     div.innerHTML = `
-      <h6>${field.label || key}</h6>
+      <h6 class="field-header" onclick="toggleField('${key}')" style="cursor: pointer; user-select: none;">
+        <span class="toggle-icon" id="toggle-${key}">▶</span> ${field.label || key}
+      </h6>
 
-      <div class="coordinate-input">
-        <label>X座標:</label>
-        <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                onmousedown="startLongPress('${key}', 'x', -0.5)"
-                onmouseup="stopLongPress()"
-                onmouseleave="stopLongPress()"
-                ontouchstart="startLongPress('${key}', 'x', -0.5)"
-                ontouchend="stopLongPress()">←</button>
-        <input type="number" step="0.5" value="${field.x}"
-               onchange="updateCoordinate('${key}', 'x', this.value)"
-               class="form-control form-control-sm">
-        <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                onmousedown="startLongPress('${key}', 'x', 0.5)"
-                onmouseup="stopLongPress()"
-                onmouseleave="stopLongPress()"
-                ontouchstart="startLongPress('${key}', 'x', 0.5)"
-                ontouchend="stopLongPress()">→</button>
-      </div>
+      <div class="field-controls" id="controls-${key}">
+        <div class="coordinate-input">
+          <label>X座標:</label>
+          <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                  onmousedown="startLongPress('${key}', 'x', -0.5)"
+                  onmouseup="stopLongPress()"
+                  onmouseleave="stopLongPress()"
+                  ontouchstart="startLongPress('${key}', 'x', -0.5)"
+                  ontouchend="stopLongPress()">←</button>
+          <input type="number" step="0.5" value="${field.x}"
+                 onchange="updateCoordinate('${key}', 'x', this.value)"
+                 class="form-control form-control-sm" data-property="x">
+          <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                  onmousedown="startLongPress('${key}', 'x', 0.5)"
+                  onmouseup="stopLongPress()"
+                  onmouseleave="stopLongPress()"
+                  ontouchstart="startLongPress('${key}', 'x', 0.5)"
+                  ontouchend="stopLongPress()">→</button>
+        </div>
 
-      <div class="coordinate-input">
-        <label>Y座標:</label>
-        <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                onmousedown="startLongPress('${key}', 'y', -0.5)"
-                onmouseup="stopLongPress()"
-                onmouseleave="stopLongPress()"
-                ontouchstart="startLongPress('${key}', 'y', -0.5)"
-                ontouchend="stopLongPress()">↑</button>
-        <input type="number" step="0.5" value="${field.y}"
-               onchange="updateCoordinate('${key}', 'y', this.value)"
-               class="form-control form-control-sm">
-        <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                onmousedown="startLongPress('${key}', 'y', 0.5)"
-                onmouseup="stopLongPress()"
-                onmouseleave="stopLongPress()"
-                ontouchstart="startLongPress('${key}', 'y', 0.5)"
-                ontouchend="stopLongPress()">↓</button>
-      </div>
+        <div class="coordinate-input">
+          <label>Y座標:</label>
+          <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                  onmousedown="startLongPress('${key}', 'y', -0.5)"
+                  onmouseup="stopLongPress()"
+                  onmouseleave="stopLongPress()"
+                  ontouchstart="startLongPress('${key}', 'y', -0.5)"
+                  ontouchend="stopLongPress()">↑</button>
+          <input type="number" step="0.5" value="${field.y}"
+                 onchange="updateCoordinate('${key}', 'y', this.value)"
+                 class="form-control form-control-sm" data-property="y">
+          <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                  onmousedown="startLongPress('${key}', 'y', 0.5)"
+                  onmouseup="stopLongPress()"
+                  onmouseleave="stopLongPress()"
+                  ontouchstart="startLongPress('${key}', 'y', 0.5)"
+                  ontouchend="stopLongPress()">↓</button>
+        </div>
 
-      <div class="coordinate-input">
-        <label>フォントサイズ:</label>
-        <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                onmousedown="startLongPress('${key}', 'fontSize', -0.5)"
-                onmouseup="stopLongPress()"
-                onmouseleave="stopLongPress()"
-                ontouchstart="startLongPress('${key}', 'fontSize', -0.5)"
-                ontouchend="stopLongPress()">−</button>
-        <input type="number" step="0.5" value="${field.fontSize}"
-               onchange="updateCoordinate('${key}', 'fontSize', this.value)"
-               class="form-control form-control-sm">
-        <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                onmousedown="startLongPress('${key}', 'fontSize', 0.5)"
-                onmouseup="stopLongPress()"
-                onmouseleave="stopLongPress()"
-                ontouchstart="startLongPress('${key}', 'fontSize', 0.5)"
-                ontouchend="stopLongPress()">+</button>
-      </div>
+        <div class="coordinate-input">
+          <label>フォントサイズ:</label>
+          <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                  onmousedown="startLongPress('${key}', 'fontSize', -0.5)"
+                  onmouseup="stopLongPress()"
+                  onmouseleave="stopLongPress()"
+                  ontouchstart="startLongPress('${key}', 'fontSize', -0.5)"
+                  ontouchend="stopLongPress()">−</button>
+          <input type="number" step="0.5" value="${field.fontSize}"
+                 onchange="updateCoordinate('${key}', 'fontSize', this.value)"
+                 class="form-control form-control-sm" data-property="fontSize">
+          <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                  onmousedown="startLongPress('${key}', 'fontSize', 0.5)"
+                  onmouseup="stopLongPress()"
+                  onmouseleave="stopLongPress()"
+                  ontouchstart="startLongPress('${key}', 'fontSize', 0.5)"
+                  ontouchend="stopLongPress()">+</button>
+        </div>
 
-      <div class="coordinate-input">
-        <label>文字間隔:</label>
-        <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                onmousedown="startLongPress('${key}', 'letterSpacing', -0.1)"
-                onmouseup="stopLongPress()"
-                onmouseleave="stopLongPress()"
-                ontouchstart="startLongPress('${key}', 'letterSpacing', -0.1)"
-                ontouchend="stopLongPress()">−</button>
-        <input type="number" step="0.1" value="${field.letterSpacing || 0}"
-               onchange="updateCoordinate('${key}', 'letterSpacing', this.value)"
-               class="form-control form-control-sm">
-        <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                onmousedown="startLongPress('${key}', 'letterSpacing', 0.1)"
-                onmouseup="stopLongPress()"
-                onmouseleave="stopLongPress()"
-                ontouchstart="startLongPress('${key}', 'letterSpacing', 0.1)"
-                ontouchend="stopLongPress()">+</button>
+        <div class="coordinate-input">
+          <label>文字間隔:</label>
+          <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                  onmousedown="startLongPress('${key}', 'letterSpacing', -0.1)"
+                  onmouseup="stopLongPress()"
+                  onmouseleave="stopLongPress()"
+                  ontouchstart="startLongPress('${key}', 'letterSpacing', -0.1)"
+                  ontouchend="stopLongPress()">−</button>
+          <input type="number" step="0.1" value="${field.letterSpacing || 0}"
+                 onchange="updateCoordinate('${key}', 'letterSpacing', this.value)"
+                 class="form-control form-control-sm" data-property="letterSpacing">
+          <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                  onmousedown="startLongPress('${key}', 'letterSpacing', 0.1)"
+                  onmouseup="stopLongPress()"
+                  onmouseleave="stopLongPress()"
+                  ontouchstart="startLongPress('${key}', 'letterSpacing', 0.1)"
+                  ontouchend="stopLongPress()">+</button>
+        </div>
+
+        <div class="coordinate-input">
+          <label>テキスト配置:</label>
+          <div class="btn-group btn-group-sm d-flex" role="group">
+            <button type="button" class="btn btn-outline-secondary flex-fill ${field.textAlign === 'left' || !field.textAlign ? 'active' : ''}"
+                    onclick="updateCoordinate('${key}', 'textAlign', 'left')"
+                    title="左揃え">左</button>
+            <button type="button" class="btn btn-outline-secondary flex-fill ${field.textAlign === 'center' ? 'active' : ''}"
+                    onclick="updateCoordinate('${key}', 'textAlign', 'center')"
+                    title="中央揃え">中央</button>
+            <button type="button" class="btn btn-outline-secondary flex-fill ${field.textAlign === 'right' ? 'active' : ''}"
+                    onclick="updateCoordinate('${key}', 'textAlign', 'right')"
+                    title="右揃え">右</button>
+          </div>
+        </div>
+
+        ${field.ellipseWidth !== undefined ? `
+        <div class="coordinate-input">
+          <label>楕円幅:</label>
+          <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                  onmousedown="startLongPress('${key}', 'ellipseWidth', -0.5)"
+                  onmouseup="stopLongPress()"
+                  onmouseleave="stopLongPress()"
+                  ontouchstart="startLongPress('${key}', 'ellipseWidth', -0.5)"
+                  ontouchend="stopLongPress()">−</button>
+          <input type="number" step="0.5" value="${field.ellipseWidth || 8}"
+                 onchange="updateCoordinate('${key}', 'ellipseWidth', this.value)"
+                 class="form-control form-control-sm" data-property="ellipseWidth">
+          <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                  onmousedown="startLongPress('${key}', 'ellipseWidth', 0.5)"
+                  onmouseup="stopLongPress()"
+                  onmouseleave="stopLongPress()"
+                  ontouchstart="startLongPress('${key}', 'ellipseWidth', 0.5)"
+                  ontouchend="stopLongPress()">+</button>
+        </div>
+        ` : ''}
+
+        ${field.ellipseHeight !== undefined ? `
+        <div class="coordinate-input">
+          <label>楕円高さ:</label>
+          <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                  onmousedown="startLongPress('${key}', 'ellipseHeight', -0.5)"
+                  onmouseup="stopLongPress()"
+                  onmouseleave="stopLongPress()"
+                  ontouchstart="startLongPress('${key}', 'ellipseHeight', -0.5)"
+                  ontouchend="stopLongPress()">−</button>
+          <input type="number" step="0.5" value="${field.ellipseHeight || 5}"
+                 onchange="updateCoordinate('${key}', 'ellipseHeight', this.value)"
+                 class="form-control form-control-sm" data-property="ellipseHeight">
+          <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                  onmousedown="startLongPress('${key}', 'ellipseHeight', 0.5)"
+                  onmouseup="stopLongPress()"
+                  onmouseleave="stopLongPress()"
+                  ontouchstart="startLongPress('${key}', 'ellipseHeight', 0.5)"
+                  ontouchend="stopLongPress()">+</button>
+        </div>
+        ` : ''}
+
+        ${field.circleRadius !== undefined ? `
+        <div class="coordinate-input">
+          <label>○半径:</label>
+          <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                  onmousedown="startLongPress('${key}', 'circleRadius', -0.1)"
+                  onmouseup="stopLongPress()"
+                  onmouseleave="stopLongPress()"
+                  ontouchstart="startLongPress('${key}', 'circleRadius', -0.1)"
+                  ontouchend="stopLongPress()">−</button>
+          <input type="number" step="0.1" value="${field.circleRadius || 1.2}"
+                 onchange="updateCoordinate('${key}', 'circleRadius', this.value)"
+                 class="form-control form-control-sm" data-property="circleRadius">
+          <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                  onmousedown="startLongPress('${key}', 'circleRadius', 0.1)"
+                  onmouseup="stopLongPress()"
+                  onmouseleave="stopLongPress()"
+                  ontouchstart="startLongPress('${key}', 'circleRadius', 0.1)"
+                  ontouchend="stopLongPress()">+</button>
+        </div>
+        ` : ''}
+
+        ${field.doubleCircleInnerRadius !== undefined ? `
+        <div class="coordinate-input">
+          <label>◎内円半径:</label>
+          <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                  onmousedown="startLongPress('${key}', 'doubleCircleInnerRadius', -0.05)"
+                  onmouseup="stopLongPress()"
+                  onmouseleave="stopLongPress()"
+                  ontouchstart="startLongPress('${key}', 'doubleCircleInnerRadius', -0.05)"
+                  ontouchend="stopLongPress()">−</button>
+          <input type="number" step="0.05" value="${field.doubleCircleInnerRadius || 0.4}"
+                 onchange="updateCoordinate('${key}', 'doubleCircleInnerRadius', this.value)"
+                 class="form-control form-control-sm" data-property="doubleCircleInnerRadius">
+          <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                  onmousedown="startLongPress('${key}', 'doubleCircleInnerRadius', 0.05)"
+                  onmouseup="stopLongPress()"
+                  onmouseleave="stopLongPress()"
+                  ontouchstart="startLongPress('${key}', 'doubleCircleInnerRadius', 0.05)"
+                  ontouchend="stopLongPress()">+</button>
+        </div>
+        ` : ''}
       </div>
     `;
 
@@ -218,7 +379,27 @@ function renderFieldSettings() {
 
 // 座標更新
 function updateCoordinate(key, property, value) {
-  coordinates[key][property] = parseFloat(value);
+  // テキスト配置の場合は文字列、その他は数値に変換
+  if (property === 'textAlign') {
+    coordinates[key][property] = value;
+  } else {
+    coordinates[key][property] = parseFloat(value);
+  }
+  
+  // テキスト配置更新の場合はボタンのアクティブ状態を更新
+  if (property === 'textAlign') {
+    const controls = document.getElementById('controls-' + key);
+    if (controls) {
+      const buttons = controls.querySelectorAll('.btn-group-sm .btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+      
+      const activeIndex = ['left', 'center', 'right'].indexOf(value);
+      if (activeIndex >= 0 && buttons[activeIndex]) {
+        buttons[activeIndex].classList.add('active');
+      }
+    }
+  }
+  
   autoPreview();
   autoSave();
 }
@@ -226,9 +407,28 @@ function updateCoordinate(key, property, value) {
 // 微調整ボタン
 function adjustValue(key, property, delta) {
   const currentValue = coordinates[key][property] || 0;
-  const newValue = Math.round((currentValue + delta) * 10) / 10; // 小数点第1位まで丸める
+  
+  // delta の精度に応じて丸め桁を決定
+  let roundDigits = 1; // デフォルトは小数第1位
+  if (Math.abs(delta) === 0.05) {
+    roundDigits = 2; // ±0.05 の場合は小数第2位
+  } else if (Math.abs(delta) === 0.1) {
+    roundDigits = 1; // ±0.1 の場合は小数第1位
+  }
+  
+  const multiplier = Math.pow(10, roundDigits);
+  const newValue = Math.round((currentValue + delta) * multiplier) / multiplier;
   coordinates[key][property] = newValue;
-  renderFieldSettings();
+
+  // 該当のinput要素を data-property 属性で探して更新
+  const controls = document.getElementById('controls-' + key);
+  if (controls) {
+    const input = controls.querySelector(`input[data-property="${property}"]`);
+    if (input) {
+      input.value = newValue;
+    }
+  }
+
   autoPreview();
   autoSave();
 }
@@ -259,11 +459,11 @@ function startLongPress(key, property, delta) {
   // 即座に1回実行
   adjustValue(key, property, delta);
 
-  // 300ms後から連続実行開始
+  // 100ms後から連続実行開始
   longPressTimeout = setTimeout(() => {
     longPressInterval = setInterval(() => {
       adjustValue(key, property, delta);
-    }, 20); // 20msごとに実行
+    }, 1); // 5msごとに実行
   }, 100);
 }
 
@@ -329,6 +529,8 @@ function previewPdf() {
   const iframe = document.getElementById('pdf-iframe');
   const loadingBadge = document.getElementById('preview-loading');
   const overlay = document.getElementById('preview-overlay');
+  const clinicUserSelect = document.getElementById('clinic-user-select');
+  const clinicUserId = clinicUserSelect ? clinicUserSelect.value : null;
 
   // ローディング表示
   loadingBadge.style.display = 'inline-block';
@@ -340,7 +542,10 @@ function previewPdf() {
       'Content-Type': 'application/json',
       'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
     },
-    body: JSON.stringify({ coordinates })
+    body: JSON.stringify({
+      coordinates,
+      clinic_user_id: clinicUserId
+    })
   })
     .then(response => response.blob())
     .then(blob => {
@@ -359,6 +564,35 @@ function previewPdf() {
       loadingBadge.style.display = 'none';
       overlay.style.display = 'none';
     });
+}
+
+// フィールドの展開/折りたたみ
+function toggleField(key) {
+  const controls = document.getElementById('controls-' + key);
+  const toggle = document.getElementById('toggle-' + key);
+
+  if (controls.classList.contains('show')) {
+    // 格納
+    controls.style.maxHeight = controls.scrollHeight + 'px';
+    setTimeout(() => {
+      controls.style.maxHeight = '0';
+    }, 10);
+    controls.classList.remove('show');
+    toggle.textContent = '▶';
+  } else {
+    // 展開
+    controls.classList.add('show');
+    controls.style.maxHeight = controls.scrollHeight + 'px';
+    toggle.textContent = '▼';
+
+    // アニメーション完了後にmax-heightをnoneに設定（リサイズ対応）
+    controls.addEventListener('transitionend', function handler() {
+      if (controls.classList.contains('show')) {
+        controls.style.maxHeight = 'none';
+      }
+      controls.removeEventListener('transitionend', handler);
+    });
+  }
 }
 
 // リセット

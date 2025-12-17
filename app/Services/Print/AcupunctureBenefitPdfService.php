@@ -94,30 +94,51 @@ class AcupunctureBenefitPdfService
    */
   protected function fetchData(int $clinicUserId, string $serviceYearMonth): ?array
   {
-    // 利用者情報取得
-    $clinicUser = DB::table('clinic_users')->where('id', $clinicUserId)->first();
+    // 利用者情報取得（性別情報もJOIN）
+    $clinicUser = DB::table('clinic_users')
+      ->leftJoin('gender', 'clinic_users.gender_id', '=', 'gender.id')
+      ->where('clinic_users.id', $clinicUserId)
+      ->select('clinic_users.*', 'gender.gender')
+      ->first();
 
     if (!$clinicUser) {
       \Log::error('利用者情報が見つかりません', ['clinic_user_id' => $clinicUserId]);
       return null;
     }
 
-    // 保険情報取得（保険者情報とJOIN）
+    // 保険情報取得（保険者情報、続柄、給付割合もJOIN）
     $insurance = DB::table('insurances')
       ->leftJoin('insurers', 'insurances.insurers_id', '=', 'insurers.id')
+      ->leftJoin('relationships_with_clinic_user', 'insurances.relationship_with_clinic_user_id', '=', 'relationships_with_clinic_user.id')
+      ->leftJoin('expenses_borne_ratios', 'insurances.expenses_borne_ratio_id', '=', 'expenses_borne_ratios.id')
       ->where('insurances.clinic_user_id', $clinicUserId)
       ->orderBy('insurances.created_at', 'desc')
-      ->select('insurances.*', 'insurers.insurer_number', 'insurers.insurer_name')
+      ->select(
+        'insurances.*',
+        'insurers.insurer_number',
+        'insurers.insurer_name',
+        'relationships_with_clinic_user.relationship',
+        'expenses_borne_ratios.expenses_borne_ratio'
+      )
       ->first();
 
     if (!$insurance) {
       \Log::warning('保険情報が見つかりません', ['clinic_user_id' => $clinicUserId]);
     }
 
-    // はり・きゅう同意書情報取得
+    // はり・きゅう同意書情報取得（請求区分、転帰、業務上区分もJOIN）
     $consent = DB::table('consents_acupuncture')
-      ->where('clinic_user_id', $clinicUserId)
-      ->orderBy('consenting_date', 'desc')
+      ->leftJoin('bill_categories', 'consents_acupuncture.bill_category_id', '=', 'bill_categories.id')
+      ->leftJoin('outcomes', 'consents_acupuncture.outcome_id', '=', 'outcomes.id')
+      ->leftJoin('work_scope_types', 'consents_acupuncture.work_scope_type_id', '=', 'work_scope_types.id')
+      ->where('consents_acupuncture.clinic_user_id', $clinicUserId)
+      ->orderBy('consents_acupuncture.consenting_date', 'desc')
+      ->select(
+        'consents_acupuncture.*',
+        'bill_categories.bill_category',
+        'outcomes.outcome',
+        'work_scope_types.work_scope_type'
+      )
       ->first();
 
     if (!$consent) {
@@ -222,17 +243,38 @@ class AcupunctureBenefitPdfService
     // === 機関コード（医療機関番号） ===
     if ($clinicInfo && isset($clinicInfo->medical_institution_number)) {
       $pdf->SetFontSize($this->coord('institution_code', 'fontSize'));
-      $this->drawTextByKey($pdf, 'institution_code', (string)($clinicInfo->medical_institution_number ?? ''));
+      // 医療機関番号は通常7桁
+      $this->fillBoxesByKey($pdf, 'institution_code', (string)$clinicInfo->medical_institution_number, 7, 5.6);
       $pdf->SetFontSize(10);
     } else {
       \Log::warning('医療機関番号が設定されていません', ['clinic_info' => $clinicInfo]);
     }
 
+    // === 公費負担者番号（8桁） ===
+    if ($insurance && isset($insurance->public_funds_payer_code) && $insurance->public_funds_payer_code) {
+      $pdf->SetFontSize($this->coord('public_funds_payer_number', 'fontSize'));
+      $this->fillBoxesByKey($pdf, 'public_funds_payer_number', $insurance->public_funds_payer_code, 8, 5.6);
+      $pdf->SetFontSize(10);
+    }
+
+    // === 公費受給者番号（7桁） ===
+    if ($insurance && isset($insurance->public_funds_recipient_code) && $insurance->public_funds_recipient_code) {
+      $pdf->SetFontSize($this->coord('public_funds_recipient_number', 'fontSize'));
+      $this->fillBoxesByKey($pdf, 'public_funds_recipient_number', $insurance->public_funds_recipient_code, 7, 5.6);
+      $pdf->SetFontSize(10);
+    }
+
+    // === 区市町村番号（6桁） ===
+    if ($insurance && isset($insurance->locality_code) && $insurance->locality_code) {
+      $pdf->SetFontSize($this->coord('locality_code', 'fontSize'));
+      $this->fillBoxesByKey($pdf, 'locality_code', $insurance->locality_code, 6, 5.6);
+      $pdf->SetFontSize(10);
+    }
+
     // === 受給者番号（区市町村番号と種類の下） ===
     if ($insurance && isset($insurance->recipient_code) && $insurance->recipient_code) {
       $pdf->SetFontSize($this->coord('recipient_number', 'fontSize'));
-      $letterSpacing = $this->coordinates['recipient_number']['letterSpacing'] ?? 0;
-      $this->fillBoxes($pdf, $this->coord('recipient_number', 'x'), $this->coord('recipient_number', 'y'), $insurance->recipient_code, 6, 5.6, (float)$letterSpacing);
+      $this->fillBoxesByKey($pdf, 'recipient_number', $insurance->recipient_code, 6, 5.6);
       $pdf->SetFontSize(10);
     } else {
       \Log::warning('受給者番号が設定されていません', ['insurance' => $insurance]);
@@ -241,8 +283,7 @@ class AcupunctureBenefitPdfService
     // === 保険者番号 ===
     if ($insurance && isset($insurance->insurer_number) && $insurance->insurer_number) {
       $pdf->SetFontSize($this->coord('insurer_number', 'fontSize'));
-      $letterSpacing = $this->coordinates['insurer_number']['letterSpacing'] ?? 0;
-      $this->fillBoxes($pdf, $this->coord('insurer_number', 'x'), $this->coord('insurer_number', 'y'), $insurance->insurer_number, 8, 5.6, (float)$letterSpacing);
+      $this->fillBoxesByKey($pdf, 'insurer_number', $insurance->insurer_number, 8, 5.6);
       $pdf->SetFontSize(10);
     } else {
       \Log::warning('保険者番号が設定されていません', ['insurance' => $insurance]);
@@ -299,27 +340,116 @@ class AcupunctureBenefitPdfService
     $this->drawTextByKey($pdf, 'patient_name', (string)$fullName);
     $pdf->SetFontSize(10);
 
+    // === 続柄 ===
+    if ($insurance && isset($insurance->relationship) && $insurance->relationship) {
+      $pdf->SetFontSize($this->coord('patient_relationship', 'fontSize'));
+      $this->drawTextByKey($pdf, 'patient_relationship', (string)$insurance->relationship);
+      $pdf->SetFontSize(10);
+    }
+
+    // === 性別（男・女に○を表示） ===
+    if (isset($clinicUser->gender) && $clinicUser->gender) {
+      if ($clinicUser->gender === '男') {
+        $pdf->SetFontSize($this->coord('patient_gender_male', 'fontSize'));
+        $this->drawTextByKey($pdf, 'patient_gender_male', '○');
+        $pdf->SetFontSize(10);
+      } elseif ($clinicUser->gender === '女') {
+        $pdf->SetFontSize($this->coord('patient_gender_female', 'fontSize'));
+        $this->drawTextByKey($pdf, 'patient_gender_female', '○');
+        $pdf->SetFontSize(10);
+      }
+    }
+
     // === 生年月日 ===
     if (isset($clinicUser->birthday)) {
       [$birthYear, $birthMonth, $birthDay] = explode('-', $clinicUser->birthday);
       $birthJapaneseYear = $this->convertToJapaneseYear((int)$birthYear, (int)$birthMonth);
 
-      $pdf->SetFontSize($this->coord('birthday_year', 'fontSize'));
       // 明・大・昭・平・令の選択（令和の場合）
       if ($birthJapaneseYear['era'] === '令和') {
+        $pdf->SetFontSize($this->coord('birthday_era_reiwa', 'fontSize'));
         $this->drawTextByKey($pdf, 'birthday_era_reiwa', '○');
       } elseif ($birthJapaneseYear['era'] === '平成') {
+        $pdf->SetFontSize($this->coord('birthday_era_heisei', 'fontSize'));
         $this->drawTextByKey($pdf, 'birthday_era_heisei', '○');
       } elseif ($birthJapaneseYear['era'] === '昭和') {
+        $pdf->SetFontSize($this->coord('birthday_era_showa', 'fontSize'));
         $this->drawTextByKey($pdf, 'birthday_era_showa', '○');
       }
 
+      $pdf->SetFontSize($this->coord('birthday_year', 'fontSize'));
       $this->drawTextByKey($pdf, 'birthday_year', (string)$birthJapaneseYear['year']);
+
+      $pdf->SetFontSize($this->coord('birthday_month', 'fontSize'));
       $this->drawTextByKey($pdf, 'birthday_month', (string)(int)$birthMonth);
+
+      $pdf->SetFontSize($this->coord('birthday_day', 'fontSize'));
       $this->drawTextByKey($pdf, 'birthday_day', (string)(int)$birthDay);
+
       $pdf->SetFontSize(10);
     } else {
       \Log::warning('生年月日が設定されていません', ['clinic_user' => $clinicUser]);
+    }
+
+    // === 発病又は負傷年月日 ===
+    if ($consent && isset($consent->onset_and_injury_date) && $consent->onset_and_injury_date) {
+      [$onsetYear, $onsetMonth, $onsetDay] = explode('-', $consent->onset_and_injury_date);
+      $onsetJapaneseYear = $this->convertToJapaneseYear((int)$onsetYear, (int)$onsetMonth);
+
+      $pdf->SetFontSize($this->coord('onset_date_year', 'fontSize'));
+      $this->drawTextByKey($pdf, 'onset_date_year', (string)$onsetJapaneseYear['year']);
+
+      $pdf->SetFontSize($this->coord('onset_date_month', 'fontSize'));
+      $this->drawTextByKey($pdf, 'onset_date_month', (string)(int)$onsetMonth);
+
+      $pdf->SetFontSize($this->coord('onset_date_day', 'fontSize'));
+      $this->drawTextByKey($pdf, 'onset_date_day', (string)(int)$onsetDay);
+
+      $pdf->SetFontSize(10);
+    }
+
+    // === 傷病名（発病又は負傷年月日の隣） ===
+    if ($consent) {
+      $onsetIllnessName = '';
+
+      // illness_name_acupuncture_idから病名を取得
+      if (isset($consent->illness_name_acupuncture_id) && $consent->illness_name_acupuncture_id) {
+        $illness = DB::table('illnesses_acupuncture')
+          ->where('id', $consent->illness_name_acupuncture_id)
+          ->first();
+        if ($illness && isset($illness->illness_name_acupuncture)) {
+          $onsetIllnessName = $illness->illness_name_acupuncture;
+        }
+      }
+
+      // 追記がある場合は追加
+      if (isset($consent->illness_name_acupuncture_addendum) && $consent->illness_name_acupuncture_addendum) {
+        $onsetIllnessName .= ($onsetIllnessName ? '、' : '') . $consent->illness_name_acupuncture_addendum;
+      }
+
+      if ($onsetIllnessName) {
+        $pdf->SetFontSize($this->coord('onset_illness_name', 'fontSize'));
+        $this->drawTextByKey($pdf, 'onset_illness_name', (string)$onsetIllnessName);
+        $pdf->SetFontSize(10);
+      }
+    }
+
+    // === 業務上・外、第三者行為の有無 ===
+    if ($consent && isset($consent->work_scope_type) && $consent->work_scope_type) {
+      // ○を表示 (1.業務上 2.第三者行為である 3.その他)
+      if ($consent->work_scope_type === '業務上') {
+        $pdf->SetFontSize($this->coord('work_scope_type_1', 'fontSize'));
+        $this->drawTextByKey($pdf, 'work_scope_type_1', '○');
+        $pdf->SetFontSize(10);
+      } elseif ($consent->work_scope_type === '第三者行為である') {
+        $pdf->SetFontSize($this->coord('work_scope_type_2', 'fontSize'));
+        $this->drawTextByKey($pdf, 'work_scope_type_2', '○');
+        $pdf->SetFontSize(10);
+      } elseif ($consent->work_scope_type === 'その他') {
+        $pdf->SetFontSize($this->coord('work_scope_type_3', 'fontSize'));
+        $this->drawTextByKey($pdf, 'work_scope_type_3', '○');
+        $pdf->SetFontSize(10);
+      }
     }
 
     // === 初療年月日 ===
@@ -330,8 +460,13 @@ class AcupunctureBenefitPdfService
 
       $pdf->SetFontSize($this->coord('first_treatment_year', 'fontSize'));
       $this->drawTextByKey($pdf, 'first_treatment_year', (string)$firstJapaneseYear['year']);
+
+      $pdf->SetFontSize($this->coord('first_treatment_month', 'fontSize'));
       $this->drawTextByKey($pdf, 'first_treatment_month', (string)(int)$firstMonth);
+
+      $pdf->SetFontSize($this->coord('first_treatment_day', 'fontSize'));
       $this->drawTextByKey($pdf, 'first_treatment_day', (string)(int)$firstDay);
+
       $pdf->SetFontSize(10);
     }
 
@@ -346,44 +481,101 @@ class AcupunctureBenefitPdfService
       $startJapaneseYear = $this->convertToJapaneseYear((int)$startYear, (int)$startMonth);
       $endJapaneseYear = $this->convertToJapaneseYear((int)$endYear, (int)$endMonth);
 
-      $pdf->SetFontSize($this->coord('treatment_start_year', 'fontSize'));
       // 自：開始日
+      $pdf->SetFontSize($this->coord('treatment_start_year', 'fontSize'));
       $this->drawTextByKey($pdf, 'treatment_start_year', (string)$startJapaneseYear['year']);
+
+      $pdf->SetFontSize($this->coord('treatment_start_month', 'fontSize'));
       $this->drawTextByKey($pdf, 'treatment_start_month', (string)(int)$startMonth);
+
+      $pdf->SetFontSize($this->coord('treatment_start_day', 'fontSize'));
       $this->drawTextByKey($pdf, 'treatment_start_day', (string)(int)$startDay);
 
       // 至：終了日
+      $pdf->SetFontSize($this->coord('treatment_end_year', 'fontSize'));
       $this->drawTextByKey($pdf, 'treatment_end_year', (string)$endJapaneseYear['year']);
+
+      $pdf->SetFontSize($this->coord('treatment_end_month', 'fontSize'));
       $this->drawTextByKey($pdf, 'treatment_end_month', (string)(int)$endMonth);
+
+      $pdf->SetFontSize($this->coord('treatment_end_day', 'fontSize'));
       $this->drawTextByKey($pdf, 'treatment_end_day', (string)(int)$endDay);
 
       // 実日数
+      $pdf->SetFontSize($this->coord('treatment_days', 'fontSize'));
       $this->drawTextByKey($pdf, 'treatment_days', (string)$records->count());
+
       $pdf->SetFontSize(10);
     }
 
-    // === 傷病名（同意書から取得） ===
-    if ($consent) {
-      $illnessName = '';
+    // === 請求区分（新規・継続） ===
+    if ($consent && isset($consent->bill_category) && $consent->bill_category) {
+      // 楕円を描画（線を太くする）
+      $pdf->SetLineWidth(0.5);
+      if ($consent->bill_category === '新規') {
+        $x = $this->coord('bill_category_new', 'x');
+        $y = $this->coord('bill_category_new', 'y');
+        $width = $this->coord('bill_category_new', 'ellipseWidth') ?? 8;
+        $height = $this->coord('bill_category_new', 'ellipseHeight') ?? 5;
+        $pdf->Ellipse($x, $y, $width / 2, $height / 2, 0, 0, 360, 'D');
+      } elseif ($consent->bill_category === '継続') {
+        $x = $this->coord('bill_category_continued', 'x');
+        $y = $this->coord('bill_category_continued', 'y');
+        $width = $this->coord('bill_category_continued', 'ellipseWidth') ?? 8;
+        $height = $this->coord('bill_category_continued', 'ellipseHeight') ?? 5;
+        $pdf->Ellipse($x, $y, $width / 2, $height / 2, 0, 0, 360, 'D');
+      }
+      $pdf->SetLineWidth(0.2);
+    }
 
-      // illness_name_acupuncture_idから病名を取得
-      if (isset($consent->illness_name_acupuncture_id) && $consent->illness_name_acupuncture_id) {
-        $illness = DB::table('illness_name_acupuncture')
-          ->where('id', $consent->illness_name_acupuncture_id)
-          ->first();
-        if ($illness && isset($illness->illness_name)) {
-          $illnessName = $illness->illness_name;
-        }
+    // === 転帰（継続・治癒・中止・転医） ===
+    if ($consent && isset($consent->outcome) && $consent->outcome) {
+      // 楕円を描画（線を太くする）
+      $pdf->SetLineWidth(0.5);
+      if ($consent->outcome === '継続') {
+        $x = $this->coord('outcome_continued', 'x');
+        $y = $this->coord('outcome_continued', 'y');
+        $width = $this->coord('outcome_continued', 'ellipseWidth') ?? 8;
+        $height = $this->coord('outcome_continued', 'ellipseHeight') ?? 5;
+        $pdf->Ellipse($x, $y, $width / 2, $height / 2, 0, 0, 360, 'D');
+      } elseif ($consent->outcome === '治癒') {
+        $x = $this->coord('outcome_cured', 'x');
+        $y = $this->coord('outcome_cured', 'y');
+        $width = $this->coord('outcome_cured', 'ellipseWidth') ?? 8;
+        $height = $this->coord('outcome_cured', 'ellipseHeight') ?? 5;
+        $pdf->Ellipse($x, $y, $width / 2, $height / 2, 0, 0, 360, 'D');
+      } elseif ($consent->outcome === '中止') {
+        $x = $this->coord('outcome_discontinued', 'x');
+        $y = $this->coord('outcome_discontinued', 'y');
+        $width = $this->coord('outcome_discontinued', 'ellipseWidth') ?? 8;
+        $height = $this->coord('outcome_discontinued', 'ellipseHeight') ?? 5;
+        $pdf->Ellipse($x, $y, $width / 2, $height / 2, 0, 0, 360, 'D');
+      } elseif ($consent->outcome === '転医') {
+        $x = $this->coord('outcome_transferred', 'x');
+        $y = $this->coord('outcome_transferred', 'y');
+        $width = $this->coord('outcome_transferred', 'ellipseWidth') ?? 8;
+        $height = $this->coord('outcome_transferred', 'ellipseHeight') ?? 5;
+        $pdf->Ellipse($x, $y, $width / 2, $height / 2, 0, 0, 360, 'D');
+      }
+      $pdf->SetLineWidth(0.2);
+    }
+
+    // === 傷病名（施術内容欄のチェックボックス） ===
+    if ($consent && isset($consent->illness_name_acupuncture_id) && $consent->illness_name_acupuncture_id) {
+      // illness_name_acupuncture_idに応じて○を表示
+      // 1:神経痛, 2:リウマチ, 3:頸腕症候群, 4:五十肩, 5:腰痛症, 6:頸椎捻挫後遺症, 7:その他
+      $illnessId = (int)$consent->illness_name_acupuncture_id;
+
+      if ($illnessId >= 1 && $illnessId <= 7) {
+        $pdf->SetFontSize($this->coord('illness_name_' . $illnessId, 'fontSize'));
+        $this->drawTextByKey($pdf, 'illness_name_' . $illnessId, '○');
+        $pdf->SetFontSize(10);
       }
 
-      // 追記がある場合は追加
-      if (isset($consent->illness_name_acupuncture_addendum) && $consent->illness_name_acupuncture_addendum) {
-        $illnessName .= ($illnessName ? '、' : '') . $consent->illness_name_acupuncture_addendum;
-      }
-
-      if ($illnessName) {
-        $pdf->SetFontSize($this->coord('illness_name', 'fontSize'));
-        $this->drawTextByKey($pdf, 'illness_name', (string)$illnessName);
+      // 「その他」の場合、追記テキストを表示
+      if ($illnessId === 7 && isset($consent->illness_name_acupuncture_addendum) && $consent->illness_name_acupuncture_addendum) {
+        $pdf->SetFontSize($this->coord('illness_name_other_text', 'fontSize'));
+        $this->drawTextByKey($pdf, 'illness_name_other_text', (string)$consent->illness_name_acupuncture_addendum);
         $pdf->SetFontSize(10);
       }
     }
@@ -399,8 +591,13 @@ class AcupunctureBenefitPdfService
 
       $pdf->SetFontSize($this->coord('clinic_date_year', 'fontSize'));
       $this->drawTextByKey($pdf, 'clinic_date_year', (string)$submissionJapaneseYear['year']);
+
+      $pdf->SetFontSize($this->coord('clinic_date_month', 'fontSize'));
       $this->drawTextByKey($pdf, 'clinic_date_month', (string)(int)$submissionParts[1]);
+
+      $pdf->SetFontSize($this->coord('clinic_date_day', 'fontSize'));
       $this->drawTextByKey($pdf, 'clinic_date_day', (string)(int)$submissionParts[2]);
+
       $pdf->SetFontSize(10);
 
       // 施術所所在地
@@ -438,6 +635,79 @@ class AcupunctureBenefitPdfService
       $pdf->SetFontSize($this->coord('clinic_phone', 'fontSize'));
       $this->drawTextByKey($pdf, 'clinic_phone', (string)($clinicInfo->phone ?? ''));
       $pdf->SetFontSize(10);
+
+      // === 保健所登録区分 ===
+      if (isset($clinicInfo->health_center_registerd_location) && $clinicInfo->health_center_registerd_location) {
+        // 1.施術所所在地 or 2.出張専門施術者住所地 の番号を表示
+        $registrationNumber = '';
+        if (strpos($clinicInfo->health_center_registerd_location, '施術所') !== false) {
+          $registrationNumber = '1';
+        } elseif (strpos($clinicInfo->health_center_registerd_location, '出張') !== false) {
+          $registrationNumber = '2';
+        }
+        if ($registrationNumber) {
+          $pdf->SetFontSize($this->coord('health_center_registration', 'fontSize'));
+          $this->drawTextByKey($pdf, 'health_center_registration', $registrationNumber);
+          $pdf->SetFontSize(10);
+        }
+      }
+
+      // === 登録記号番号（施術者番号） ===
+      if (isset($clinicInfo->therapist_number) && $clinicInfo->therapist_number) {
+        $pdf->SetFontSize($this->coord('therapist_registration_number', 'fontSize'));
+        $this->drawTextByKey($pdf, 'therapist_registration_number', (string)$clinicInfo->therapist_number);
+        $pdf->SetFontSize(10);
+      }
+    }
+
+    // === 同意記録欄 ===
+    if ($consent) {
+      // 同意医師氏名
+      if (isset($consent->consenting_doctor_name) && $consent->consenting_doctor_name) {
+        $pdf->SetFontSize($this->coord('consent_doctor_name', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_doctor_name', (string)$consent->consenting_doctor_name);
+        $pdf->SetFontSize(10);
+      }
+
+      // 同意年月日
+      if (isset($consent->consenting_date) && $consent->consenting_date) {
+        [$consentYear, $consentMonth, $consentDay] = explode('-', $consent->consenting_date);
+        $consentJapaneseYear = $this->convertToJapaneseYear((int)$consentYear, (int)$consentMonth);
+
+        $pdf->SetFontSize($this->coord('consent_date_year', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_date_year', (string)$consentJapaneseYear['year']);
+
+        $pdf->SetFontSize($this->coord('consent_date_month', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_date_month', (string)(int)$consentMonth);
+
+        $pdf->SetFontSize($this->coord('consent_date_day', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_date_day', (string)(int)$consentDay);
+
+        $pdf->SetFontSize(10);
+      }
+
+      // 同意書の傷病名（illness_nameと同じ内容を使用）
+      if (isset($consent->illness_name_acupuncture_id) && $consent->illness_name_acupuncture_id) {
+        $illness = DB::table('illnesses_acupuncture')
+          ->where('id', $consent->illness_name_acupuncture_id)
+          ->first();
+        if ($illness && isset($illness->illness_name_acupuncture)) {
+          $consentIllnessName = $illness->illness_name_acupuncture;
+          if (isset($consent->illness_name_acupuncture_addendum) && $consent->illness_name_acupuncture_addendum) {
+            $consentIllnessName .= '、' . $consent->illness_name_acupuncture_addendum;
+          }
+          $pdf->SetFontSize($this->coord('consent_illness_name', 'fontSize'));
+          $this->drawTextByKey($pdf, 'consent_illness_name', (string)$consentIllnessName);
+          $pdf->SetFontSize(10);
+        }
+      }
+
+      // 要加療期間
+      if (isset($consent->therapy_period) && $consent->therapy_period) {
+        $pdf->SetFontSize($this->coord('therapy_period', 'fontSize'));
+        $this->drawTextByKey($pdf, 'therapy_period', (string)$consent->therapy_period);
+        $pdf->SetFontSize(10);
+      }
     }
 
     // === 申請欄：提出年月日 ===
@@ -446,8 +716,13 @@ class AcupunctureBenefitPdfService
 
     $pdf->SetFontSize($this->coord('submission_date_year', 'fontSize'));
     $this->drawTextByKey($pdf, 'submission_date_year', (string)$submissionJapaneseYear['year']);
+
+    $pdf->SetFontSize($this->coord('submission_date_month', 'fontSize'));
     $this->drawTextByKey($pdf, 'submission_date_month', (string)(int)$submissionParts[1]);
+
+    $pdf->SetFontSize($this->coord('submission_date_day', 'fontSize'));
     $this->drawTextByKey($pdf, 'submission_date_day', (string)(int)$submissionParts[2]);
+
     $pdf->SetFontSize(10);
 
     // === 申請者情報 ===
@@ -473,6 +748,26 @@ class AcupunctureBenefitPdfService
    * @return void
    */
   /**
+   * ボックスに数字を均等配置（座標キーベース版・文字間隔とテキスト配置対応）
+   *
+   * @param Fpdi $pdf
+   * @param string $key 座標キー
+   * @param string $text テキスト
+   * @param int $boxCount ボックス数
+   * @param float $boxWidth ボックス幅
+   * @return void
+   */
+  protected function fillBoxesByKey(Fpdi $pdf, string $key, string $text, int $boxCount, float $boxWidth): void
+  {
+    $startX = $this->coord($key, 'x');
+    $y = $this->coord($key, 'y');
+    $letterSpacing = $this->coordinates[$key]['letterSpacing'] ?? 0;
+    $textAlign = $this->coordinates[$key]['textAlign'] ?? 'left';
+    
+    $this->fillBoxes($pdf, $startX, $y, $text, $boxCount, $boxWidth, (float)$letterSpacing, $textAlign);
+  }
+
+  /**
    * ボックスに数字を均等配置（文字間隔オプション対応）
    *
    * @param Fpdi $pdf
@@ -482,15 +777,16 @@ class AcupunctureBenefitPdfService
    * @param int $boxCount
    * @param float $boxWidth
    * @param float $letterSpacing (mm) 追加の文字間隔
+   * @param string $textAlign テキスト配置（left, center, right）
    * @return void
    */
-  protected function fillBoxes(Fpdi $pdf, float $startX, float $y, string $text, int $boxCount, float $boxWidth, float $letterSpacing = 0): void
+  protected function fillBoxes(Fpdi $pdf, float $startX, float $y, string $text, int $boxCount, float $boxWidth, float $letterSpacing = 0, string $textAlign = 'left'): void
   {
     // マルチバイトを安全に分割
     $chars = preg_split('//u', (string)$text, -1, PREG_SPLIT_NO_EMPTY);
 
-    if ($letterSpacing == 0) {
-      // 従来通りボックス幅で配置
+    // テキスト配置で左揃え・文字間隔なしの場合は従来のボックス幅で配置
+    if ($letterSpacing == 0 && $textAlign === 'left') {
       for ($i = 0; $i < min(count($chars), $boxCount); $i++) {
         $x = $startX + ($i * $boxWidth);
         $pdf->Text($x, $y, $chars[$i]);
@@ -498,17 +794,32 @@ class AcupunctureBenefitPdfService
       return;
     }
 
-    // letterSpacing が指定されている場合は幅に加算して配置
-    for ($i = 0; $i < min(count($chars), $boxCount); $i++) {
-      $x = $startX + ($i * ($boxWidth + $letterSpacing));
-      $pdf->Text($x, $y, $chars[$i]);
+    // 文字間隔またはテキスト配置がある場合
+    // 全幅を計算
+    $totalWidth = 0;
+    foreach ($chars as $char) {
+      $width = $pdf->GetStringWidth($char);
+      $totalWidth += $width + $letterSpacing;
+    }
+    if ($totalWidth > 0) {
+      $totalWidth -= $letterSpacing; // 最後の文字間隔は不要
+    }
+    
+    // 配置領域の幅（ボックス数 × ボックス幅）
+    $alignmentWidth = $boxCount * $boxWidth;
+    
+    // テキスト配置に基づいて開始位置を調整
+    $x = $startX;
+    if ($textAlign === 'center') {
+      $x = $startX + ($alignmentWidth - $totalWidth) / 2;
+    } elseif ($textAlign === 'right') {
+      $x = $startX + ($alignmentWidth - $totalWidth);
     }
 
-    // ログ（デバッグ）
-    try {
-      \Log::debug('fillBoxes with spacing', ['startX' => $startX, 'y' => $y, 'letterSpacing' => $letterSpacing, 'text_sample' => mb_substr($text, 0, 10)]);
-    } catch (\Throwable $e) {
-      // ignore
+    for ($i = 0; $i < min(count($chars), $boxCount); $i++) {
+      $pdf->Text($x, $y, $chars[$i]);
+      $width = $pdf->GetStringWidth($chars[$i]);
+      $x += $width + $letterSpacing;
     }
   }
 
@@ -521,17 +832,33 @@ class AcupunctureBenefitPdfService
    */
   protected function fillServiceDates(Fpdi $pdf, $records): void
   {
-    $pdf->SetFontSize($this->coord('calendar_start', 'fontSize'));
+    $letterSpacing = $this->coord('calendar_start', 'letterSpacing') ?? 0;
+    $cellWidth = $this->coord('calendar_start', 'cellWidth');
+    $circleRadius = $this->coord('calendar_start', 'circleRadius') ?? 1.2;
+    $innerRadius = $this->coord('calendar_start', 'doubleCircleInnerRadius') ?? 0.4;
+    
     foreach ($records as $record) {
       $day = (int)date('d', strtotime($record->date));
 
-      // 日付に応じて○を記入
-      $x = $this->coord('calendar_start', 'x') + ($day - 1) * $this->coord('calendar_start', 'cellWidth');
+      $x = $this->coord('calendar_start', 'x') + ($day - 1) * ($cellWidth + $letterSpacing);
       $y = $this->coord('calendar_start', 'y');
 
-      $pdf->Text($x, $y, '○');
+      // therapy_category: 1=通院（○）、2=往療（◎）
+      if ($record->therapy_category == 2) {
+        // 往療: 外側と内側の2つの円を描画
+        $pdf->SetDrawColor(0, 0, 0);
+        $pdf->SetLineWidth(0.2);
+        // 外側の円
+        $pdf->Ellipse($x, $y, $circleRadius, $circleRadius, 0, 0, 360, 'D');
+        // 内側の円
+        $pdf->Ellipse($x, $y, $innerRadius, $innerRadius, 0, 0, 360, 'D');
+      } else {
+        // 通院: 単純な円
+        $pdf->SetDrawColor(0, 0, 0);
+        $pdf->SetLineWidth(0.2);
+        $pdf->Ellipse($x, $y, $circleRadius, $circleRadius, 0, 0, 360, 'D');
+      }
     }
-    $pdf->SetFontSize(10);
   }
 
   /**
@@ -576,11 +903,30 @@ class AcupunctureBenefitPdfService
    * @param float $letterSpacing 追加の文字間隔（mm）
    * @return void
    */
-  protected function drawTextWithSpacing(Fpdi $pdf, float $startX, float $y, string $text, float $letterSpacing): void
+  protected function drawTextWithSpacing(Fpdi $pdf, float $startX, float $y, string $text, float $letterSpacing, string $textAlign = 'left', float $alignmentWidth = 0): void
   {
     // マルチバイト対応で1文字ずつに分割
     $chars = preg_split('//u', (string)$text, -1, PREG_SPLIT_NO_EMPTY);
+    
+    // 全テキストの幅を計算
+    $totalWidth = 0;
+    foreach ($chars as $char) {
+      $width = $pdf->GetStringWidth($char);
+      $totalWidth += $width + $letterSpacing;
+    }
+    // 最後の文字間隔は不要
+    $totalWidth -= $letterSpacing;
+    
+    // テキスト配置に基づいて開始位置を調整
     $x = $startX;
+    if ($textAlign === 'center' && $alignmentWidth > 0) {
+      // 中央揃え
+      $x = $startX + ($alignmentWidth - $totalWidth) / 2;
+    } elseif ($textAlign === 'right' && $alignmentWidth > 0) {
+      // 右揃え
+      $x = $startX + ($alignmentWidth - $totalWidth);
+    }
+    // 左揃え（textAlign === 'left'）はそのまま
 
     foreach ($chars as $char) {
       $pdf->Text($x, $y, $char);
@@ -603,20 +949,27 @@ class AcupunctureBenefitPdfService
     $x = $this->coord($key, 'x');
     $y = $this->coord($key, 'y');
     $letterSpacing = $this->coordinates[$key]['letterSpacing'] ?? 0;
+    $textAlign = $this->coordinates[$key]['textAlign'] ?? 'left';
+    $alignmentWidth = $this->coordinates[$key]['alignmentWidth'] ?? 0;
 
-    if (empty($letterSpacing)) {
+    // alignmentWidth が指定されていない場合はPDFのページ幅を使用
+    if ($alignmentWidth <= 0) {
+      $alignmentWidth = $pdf->GetPageWidth();
+    }
+
+    if (empty($letterSpacing) && $textAlign === 'left') {
       $pdf->Text($x, $y, $text);
       return;
     }
 
     // ログ（デバッグ）：実際に文字間隔を使って描画されるか確認
     try {
-      \Log::debug('drawTextByKey with spacing', ['key' => $key, 'letterSpacing' => $letterSpacing, 'text_sample' => mb_substr($text, 0, 10)]);
+      \Log::debug('drawTextByKey with spacing', ['key' => $key, 'letterSpacing' => $letterSpacing, 'textAlign' => $textAlign, 'text_sample' => mb_substr($text, 0, 10)]);
     } catch (\Throwable $e) {
       // ログ失敗は致命的でない
     }
 
-    $this->drawTextWithSpacing($pdf, $x, $y, $text, (float)$letterSpacing);
+    $this->drawTextWithSpacing($pdf, $x, $y, $text, (float)$letterSpacing, $textAlign, (float)$alignmentWidth);
   }
 
   /**

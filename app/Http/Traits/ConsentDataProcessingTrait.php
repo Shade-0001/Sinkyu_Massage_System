@@ -18,7 +18,7 @@ trait ConsentDataProcessingTrait
 {
     /**
      * カスタム傷病名・発病負傷経過の処理
-     * 
+     *
      * フォームで新規に入力された傷病名や発病負傷経過を
      * マスターテーブルに登録し、IDを設定する。
      *
@@ -27,7 +27,7 @@ trait ConsentDataProcessingTrait
      */
     protected function processCustomMasterData(array &$data)
     {
-        // カスタム傷病名の処理
+        // カスタム傷病名の処理（マッサージ用）
         if (!empty($data['disease_name_custom'])) {
             $illness = Illness::create([
                 'illness_name' => $data['disease_name_custom']
@@ -36,13 +36,31 @@ trait ConsentDataProcessingTrait
             unset($data['disease_name_custom']);
         }
 
-        // カスタム発病負傷経過の処理
+        // カスタム傷病名の処理（鍼灸用）
+        if (!empty($data['illness_name_acupuncture_addendum'])) {
+            $illness = Illness::create([
+                'illness_name' => $data['illness_name_acupuncture_addendum']
+            ]);
+            $data['illness_name_acupuncture_id'] = $illness->id;
+            unset($data['illness_name_acupuncture_addendum']);
+        }
+
+        // カスタム発病負傷経過の処理（マッサージ用）
         if (!empty($data['disease_progress_custom'])) {
             $condition = Condition::create([
                 'condition_name' => $data['disease_progress_custom']
             ]);
             $data['condition_id'] = $condition->id;
             unset($data['disease_progress_custom']);
+        }
+
+        // カスタム発病負傷経過の処理（鍼灸用）
+        if (!empty($data['condition_custom'])) {
+            $condition = Condition::create([
+                'condition_name' => $data['condition_custom']
+            ]);
+            $data['condition'] = $condition->id;
+            unset($data['condition_custom']);
         }
     }
 

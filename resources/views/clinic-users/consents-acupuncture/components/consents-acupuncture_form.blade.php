@@ -78,11 +78,11 @@
   </div>
 
   <div class="mb-3">
-    <label class="fw-semibold" for="injury_and_illness_name_id">病名（はり・きゅう）</label><br>
-    <select id="injury_and_illness_name_id" name="injury_and_illness_name_id">
+    <label class="fw-semibold" for="illness_name_acupuncture_id">病名（はり・きゅう）</label><br>
+    <select id="illness_name_acupuncture_id" name="illness_name_acupuncture_id">
       <option value="">╌╌╌</option>
       @foreach($diseaseNames ?? [] as $disease)
-        <option value="{{ $disease->id }}" {{ old('injury_and_illness_name_id', $history?->injury_and_illness_name_id ?? '') == $disease->id ? 'selected' : '' }}>
+        <option value="{{ $disease->id }}" {{ old('illness_name_acupuncture_id', $history?->illness_name_acupuncture_id ?? '') == $disease->id ? 'selected' : '' }}>
           {{ $disease->illness_name }}
         </option>
       @endforeach
@@ -90,11 +90,11 @@
     <div class="mt-1">
       <small>上記に無い場合は下に入力してマスター登録できます。</small>
     </div>
-    <input type="text" id="disease_name_custom" name="disease_name_custom" placeholder="その他の時の病名（入力でマスター登録）" value="{{ old('disease_name_custom', '') }}">
-    @error('injury_and_illness_name_id')
+    <input type="text" id="illness_name_acupuncture_addendum" name="illness_name_acupuncture_addendum" placeholder="その他の時の病名（入力でマスター登録）" value="{{ old('illness_name_acupuncture_addendum', $history?->illness_name_acupuncture_addendum ?? '') }}">
+    @error('illness_name_acupuncture_id')
       <div class="text-danger">{{ $message }}</div>
     @enderror
-    @error('disease_name_custom')
+    @error('illness_name_acupuncture_addendum')
       <div class="text-danger">{{ $message }}</div>
     @enderror
   </div>
@@ -195,11 +195,11 @@
   </div>
 
   <div class="mb-3">
-    <label class="fw-semibold" for="condition_id">発病負傷経過</label><br>
-    <select id="condition_id" name="condition_id">
+    <label class="fw-semibold" for="condition">発病負傷経過</label><br>
+    <select id="condition" name="condition">
       <option value="">╌╌╌</option>
       @foreach($diseaseProgresses ?? [] as $progress)
-        <option value="{{ $progress->id }}" {{ old('condition_id', $history?->condition_id ?? '') == $progress->id ? 'selected' : '' }}>
+        <option value="{{ $progress->id }}" {{ old('condition', $history?->condition ?? '') == $progress->id ? 'selected' : '' }}>
           {{ $progress->condition_name }}
         </option>
       @endforeach
@@ -207,11 +207,11 @@
     <div class="mt-1">
       <small>上記欄に記入無い場合は下に入力してマスター登録できます。</small>
     </div>
-    <input type="text" id="disease_progress_custom" name="disease_progress_custom" placeholder="発病負傷経過（入力でマスター登録）" value="{{ old('disease_progress_custom', '') }}">
-    @error('condition_id')
+    <input type="text" id="condition_custom" name="condition_custom" placeholder="発病負傷経過（入力でマスター登録）" value="{{ old('condition_custom', '') }}">
+    @error('condition')
       <div class="text-danger">{{ $message }}</div>
     @enderror
-    @error('disease_progress_custom')
+    @error('condition_custom')
       <div class="text-danger">{{ $message }}</div>
     @enderror
   </div>

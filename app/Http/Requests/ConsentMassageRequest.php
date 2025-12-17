@@ -29,8 +29,12 @@ class ConsentMassageRequest extends FormRequest
       'benefit_period_start_date' => 'nullable|date',
       'benefit_period_end_date' => 'nullable|date',
       'first_care_date' => 'nullable|date',
+      // マッサージ用
       'injury_and_illness_name_id' => 'nullable|integer|exists:illnesses_massage,id',
       'disease_name_custom' => 'nullable|string|max:255',
+      // 鍼灸用
+      'illness_name_acupuncture_id' => 'nullable|integer|exists:illnesses_massage,id',
+      'illness_name_acupuncture_addendum' => 'nullable|string|max:255',
       'reconsenting_expiry' => 'nullable|date',
       'bill_category_id' => 'nullable|integer|exists:bill_categories,id',
       'outcome_id' => 'nullable|integer|exists:outcomes,id',
@@ -57,8 +61,12 @@ class ConsentMassageRequest extends FormRequest
       'therapy_period_start_date' => 'nullable|date',
       'therapy_period_end_date' => 'nullable|date',
       'first_therapy_content_id' => 'nullable|integer|exists:therapy_contents,id',
+      // マッサージ用
       'condition_id' => 'nullable|integer|exists:conditions,id',
       'disease_progress_custom' => 'nullable|string|max:255',
+      // 鍼灸用
+      'condition' => 'nullable|integer|exists:conditions,id',
+      'condition_custom' => 'nullable|string|max:255',
       'work_scope_type_id' => 'nullable|integer|exists:work_scope_types,id',
       'onset_and_injury_date' => 'nullable|date',
     ];
@@ -78,15 +86,23 @@ class ConsentMassageRequest extends FormRequest
       'benefit_period_start_date.date' => '給付期間開始日は正しい日付形式で入力してください。',
       'benefit_period_end_date.date' => '給付期間終了日は正しい日付形式で入力してください。',
       'first_care_date.date' => '初療日は正しい日付形式で入力してください。',
+      // マッサージ用
       'injury_and_illness_name_id.exists' => '選択された傷病名が無効です。',
       'disease_name_custom.max' => '傷病名（新規）は255文字以内で入力してください。',
+      // 鍼灸用
+      'illness_name_acupuncture_id.exists' => '選択された病名が無効です。',
+      'illness_name_acupuncture_addendum.max' => '病名（新規）は255文字以内で入力してください。',
       'reconsenting_expiry.date' => '再同意期限は正しい日付形式で入力してください。',
       'bill_category_id.exists' => '選択された請求区分が無効です。',
       'outcome_id.exists' => '選択された転帰が無効です。',
       'housecall_reason_id.exists' => '選択された往療理由が無効です。',
       'first_therapy_content_id.exists' => '選択された初回施術内容が無効です。',
+      // マッサージ用
       'condition_id.exists' => '選択された発病負傷経過が無効です。',
       'disease_progress_custom.max' => '発病負傷経過（新規）は255文字以内で入力してください。',
+      // 鍼灸用
+      'condition.exists' => '選択された発病負傷経過が無効です。',
+      'condition_custom.max' => '発病負傷経過（新規）は255文字以内で入力してください。',
       'work_scope_type_id.exists' => '選択された業務上外等区分が無効です。',
       'onset_and_injury_date.date' => '発症・負傷日は正しい日付形式で入力してください。',
       'notes.max' => '備考は255文字以内で入力してください。',

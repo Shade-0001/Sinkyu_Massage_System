@@ -32,9 +32,9 @@
     if ($mode === 'create') {
       $formAction = route('clinic-users.consents-acupuncture.confirm', $id);
     } elseif ($mode === 'edit') {
-      $formAction = route('clinic-users.consents-acupuncture.edit.confirm', [$id, $history->id]);
+      $formAction = route('clinic-users.consents-acupuncture.edit.confirm', [$id, $history_id ?? $history->id]);
     } else { // duplicate
-      $formAction = route('clinic-users.consents-acupuncture.duplicate.confirm', [$id, $history->id]);
+      $formAction = route('clinic-users.consents-acupuncture.duplicate.confirm', [$id, $history_id ?? $history->id]);
     }
   @endphp
 

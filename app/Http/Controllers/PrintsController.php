@@ -87,7 +87,13 @@ class PrintsController extends Controller
    */
   public function coordinateAdjuster()
   {
-    return view('prints.coordinate_adjuster');
+    // 利用者一覧を取得
+    $clinicUsers = DB::table('clinic_users')
+      ->select('id', 'last_name', 'first_name', 'last_kana', 'first_kana')
+      ->orderBy('last_kana')
+      ->get();
+
+    return view('prints.coordinate_adjuster', compact('clinicUsers'));
   }
 
   /**
@@ -172,8 +178,14 @@ class PrintsController extends Controller
         \Log::warning('Preview letterSpacing logging failed', ['message' => $e->getMessage()]);
       }
 
-      // サンプルデータでPDF生成
-      $clinicUsers = DB::table('clinic_users')->limit(1)->pluck('id')->toArray();
+      // リクエストから利用者IDを取得、なければ最初の利用者を使用
+      $clinicUserId = $request->input('clinic_user_id');
+
+      if ($clinicUserId) {
+        $clinicUsers = [(int)$clinicUserId];
+      } else {
+        $clinicUsers = DB::table('clinic_users')->limit(1)->pluck('id')->toArray();
+      }
 
       if (empty($clinicUsers)) {
         // 元の設定に戻す
