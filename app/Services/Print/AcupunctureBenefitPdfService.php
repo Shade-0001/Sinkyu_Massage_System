@@ -17,11 +17,37 @@ class AcupunctureBenefitPdfService
   protected $coordinates;
 
   /**
+   * サンプルデータ表示モード
+   */
+  protected $sampleDataMode = false;
+
+  /**
+   * カスタムサンプルデータ
+   */
+  protected $customSampleData = null;
+
+  /**
    * コンストラクタ
    */
   public function __construct()
   {
     $this->loadCoordinates();
+  }
+
+  /**
+   * サンプルデータ表示モードを設定
+   */
+  public function setSampleDataMode(bool $enabled): void
+  {
+    $this->sampleDataMode = $enabled;
+  }
+
+  /**
+   * カスタムサンプルデータを設定
+   */
+  public function setCustomSampleData(array $data): void
+  {
+    $this->customSampleData = $data;
   }
 
   /**
@@ -34,9 +60,58 @@ class AcupunctureBenefitPdfService
     if (file_exists($configPath)) {
       $json = file_get_contents($configPath);
       $this->coordinates = json_decode($json, true);
+      
+      // ラジオグループの整合性を確保（複数の isSelected: true が残っていないか確認）
+      $this->ensureRadioGroupIntegrity();
     } else {
       // デフォルト座標（JSONファイルがない場合のフォールバック）
       $this->coordinates = $this->getDefaultCoordinates();
+    }
+  }
+
+  /**
+   * ラジオグループの整合性を確保（各グループで最大1つだけ isSelected: true）
+   */
+  protected function ensureRadioGroupIntegrity(): void
+  {
+    $processedGroups = [];
+    
+    foreach ($this->coordinates as $key => $field) {
+      if (!isset($field['radioGroup'])) {
+        continue;
+      }
+      
+      $groupName = $field['radioGroup'];
+      
+      // グループ内で複数の isSelected: true がないか確認
+      if (!isset($processedGroups[$groupName])) {
+        $processedGroups[$groupName] = false;
+        
+        // グループ内のすべてのフィールドをチェック
+        $firstSelectedKey = null;
+        foreach ($this->coordinates as $k => $f) {
+          if (isset($f['radioGroup']) && $f['radioGroup'] === $groupName) {
+            if (isset($f['isSelected']) && $f['isSelected']) {
+              if ($firstSelectedKey === null) {
+                $firstSelectedKey = $k;
+              } else {
+                // 複数の isSelected: true がある場合は、2番目以降を false にする
+                $this->coordinates[$k]['isSelected'] = false;
+              }
+            }
+          }
+        }
+        
+        // グループ内に isSelected: true が1つもない場合は、最初のフィールドを true にする
+        if ($firstSelectedKey === null) {
+          foreach ($this->coordinates as $k => $f) {
+            if (isset($f['radioGroup']) && $f['radioGroup'] === $groupName) {
+              $this->coordinates[$k]['isSelected'] = true;
+              break;
+            }
+          }
+        }
+      }
     }
   }
 
@@ -94,6 +169,11 @@ class AcupunctureBenefitPdfService
    */
   protected function fetchData(int $clinicUserId, string $serviceYearMonth): ?array
   {
+    // サンプルデータ表示モードの場合
+    if ($this->sampleDataMode) {
+      return $this->getSampleData($serviceYearMonth);
+    }
+
     // 利用者情報取得（性別情報もJOIN）
     $clinicUser = DB::table('clinic_users')
       ->leftJoin('gender', 'clinic_users.gender_id', '=', 'gender.id')
@@ -348,7 +428,21 @@ class AcupunctureBenefitPdfService
     }
 
     // === 性別（男・女に○を表示） ===
-    if (isset($clinicUser->gender) && $clinicUser->gender) {
+    // isSelectedフラグをチェック（サンプルデータの場合）
+    $genderKey = null;
+    if (isset($this->coordinates['patient_gender_male']['isSelected']) && $this->coordinates['patient_gender_male']['isSelected']) {
+      $genderKey = 'patient_gender_male';
+    } elseif (isset($this->coordinates['patient_gender_female']['isSelected']) && $this->coordinates['patient_gender_female']['isSelected']) {
+      $genderKey = 'patient_gender_female';
+    }
+    
+    if ($genderKey) {
+      // isSelectedで指定されたフィールドに○を表示
+      $pdf->SetFontSize($this->coord($genderKey, 'fontSize'));
+      $this->drawTextByKey($pdf, $genderKey, '○');
+      $pdf->SetFontSize(10);
+    } elseif (isset($clinicUser->gender) && $clinicUser->gender) {
+      // isSelectedがない場合は実データから判定
       if ($clinicUser->gender === '男') {
         $pdf->SetFontSize($this->coord('patient_gender_male', 'fontSize'));
         $this->drawTextByKey($pdf, 'patient_gender_male', '○');
@@ -365,16 +459,33 @@ class AcupunctureBenefitPdfService
       [$birthYear, $birthMonth, $birthDay] = explode('-', $clinicUser->birthday);
       $birthJapaneseYear = $this->convertToJapaneseYear((int)$birthYear, (int)$birthMonth);
 
-      // 明・大・昭・平・令の選択（令和の場合）
-      if ($birthJapaneseYear['era'] === '令和') {
-        $pdf->SetFontSize($this->coord('birthday_era_reiwa', 'fontSize'));
-        $this->drawTextByKey($pdf, 'birthday_era_reiwa', '○');
-      } elseif ($birthJapaneseYear['era'] === '平成') {
-        $pdf->SetFontSize($this->coord('birthday_era_heisei', 'fontSize'));
-        $this->drawTextByKey($pdf, 'birthday_era_heisei', '○');
-      } elseif ($birthJapaneseYear['era'] === '昭和') {
-        $pdf->SetFontSize($this->coord('birthday_era_showa', 'fontSize'));
-        $this->drawTextByKey($pdf, 'birthday_era_showa', '○');
+      // isSelectedフラグをチェック（サンプルデータの場合）
+      $birthdayEraKey = null;
+      if (isset($this->coordinates['birthday_era_reiwa']['isSelected']) && $this->coordinates['birthday_era_reiwa']['isSelected']) {
+        $birthdayEraKey = 'birthday_era_reiwa';
+      } elseif (isset($this->coordinates['birthday_era_heisei']['isSelected']) && $this->coordinates['birthday_era_heisei']['isSelected']) {
+        $birthdayEraKey = 'birthday_era_heisei';
+      } elseif (isset($this->coordinates['birthday_era_showa']['isSelected']) && $this->coordinates['birthday_era_showa']['isSelected']) {
+        $birthdayEraKey = 'birthday_era_showa';
+      }
+      
+      if ($birthdayEraKey) {
+        // isSelectedで指定されたフィールドに○を表示
+        $pdf->SetFontSize($this->coord($birthdayEraKey, 'fontSize'));
+        $this->drawTextByKey($pdf, $birthdayEraKey, '○');
+      } else {
+        // isSelectedがない場合は実データから判定
+        // 明・大・昭・平・令の選択（令和の場合）
+        if ($birthJapaneseYear['era'] === '令和') {
+          $pdf->SetFontSize($this->coord('birthday_era_reiwa', 'fontSize'));
+          $this->drawTextByKey($pdf, 'birthday_era_reiwa', '○');
+        } elseif ($birthJapaneseYear['era'] === '平成') {
+          $pdf->SetFontSize($this->coord('birthday_era_heisei', 'fontSize'));
+          $this->drawTextByKey($pdf, 'birthday_era_heisei', '○');
+        } elseif ($birthJapaneseYear['era'] === '昭和') {
+          $pdf->SetFontSize($this->coord('birthday_era_showa', 'fontSize'));
+          $this->drawTextByKey($pdf, 'birthday_era_showa', '○');
+        }
       }
 
       $pdf->SetFontSize($this->coord('birthday_year', 'fontSize'));
@@ -435,7 +546,23 @@ class AcupunctureBenefitPdfService
     }
 
     // === 業務上・外、第三者行為の有無 ===
-    if ($consent && isset($consent->work_scope_type) && $consent->work_scope_type) {
+    // isSelectedフラグをチェック（サンプルデータの場合）
+    $workScopeTypeKey = null;
+    if (isset($this->coordinates['work_scope_type_1']['isSelected']) && $this->coordinates['work_scope_type_1']['isSelected']) {
+      $workScopeTypeKey = 'work_scope_type_1';
+    } elseif (isset($this->coordinates['work_scope_type_2']['isSelected']) && $this->coordinates['work_scope_type_2']['isSelected']) {
+      $workScopeTypeKey = 'work_scope_type_2';
+    } elseif (isset($this->coordinates['work_scope_type_3']['isSelected']) && $this->coordinates['work_scope_type_3']['isSelected']) {
+      $workScopeTypeKey = 'work_scope_type_3';
+    }
+    
+    if ($workScopeTypeKey) {
+      // isSelectedで指定されたフィールドに○を表示
+      $pdf->SetFontSize($this->coord($workScopeTypeKey, 'fontSize'));
+      $this->drawTextByKey($pdf, $workScopeTypeKey, '○');
+      $pdf->SetFontSize(10);
+    } elseif ($consent && isset($consent->work_scope_type) && $consent->work_scope_type) {
+      // isSelectedがない場合は実データから判定
       // ○を表示 (1.業務上 2.第三者行為である 3.その他)
       if ($consent->work_scope_type === '業務上') {
         $pdf->SetFontSize($this->coord('work_scope_type_1', 'fontSize'));
@@ -509,9 +636,26 @@ class AcupunctureBenefitPdfService
     }
 
     // === 請求区分（新規・継続） ===
-    if ($consent && isset($consent->bill_category) && $consent->bill_category) {
-      // 楕円を描画（線を太くする）
-      $pdf->SetLineWidth(0.5);
+    // isSelectedフラグをチェック（サンプルデータの場合）
+    $billCategoryKey = null;
+    if (isset($this->coordinates['bill_category_new']['isSelected']) && $this->coordinates['bill_category_new']['isSelected']) {
+      $billCategoryKey = 'bill_category_new';
+    } elseif (isset($this->coordinates['bill_category_continued']['isSelected']) && $this->coordinates['bill_category_continued']['isSelected']) {
+      $billCategoryKey = 'bill_category_continued';
+    }
+    
+    // 楕円を描画（線を太くする）
+    $pdf->SetLineWidth(0.5);
+    
+    if ($billCategoryKey) {
+      // isSelectedで指定されたフィールドに楕円を表示
+      $x = $this->coord($billCategoryKey, 'x');
+      $y = $this->coord($billCategoryKey, 'y');
+      $width = $this->coord($billCategoryKey, 'ellipseWidth') ?? 8;
+      $height = $this->coord($billCategoryKey, 'ellipseHeight') ?? 5;
+      $pdf->Ellipse($x, $y, $width / 2, $height / 2, 0, 0, 360, 'D');
+    } elseif ($consent && isset($consent->bill_category) && $consent->bill_category) {
+      // isSelectedがない場合は実データから判定
       if ($consent->bill_category === '新規') {
         $x = $this->coord('bill_category_new', 'x');
         $y = $this->coord('bill_category_new', 'y');
@@ -525,37 +669,61 @@ class AcupunctureBenefitPdfService
         $height = $this->coord('bill_category_continued', 'ellipseHeight') ?? 5;
         $pdf->Ellipse($x, $y, $width / 2, $height / 2, 0, 0, 360, 'D');
       }
-      $pdf->SetLineWidth(0.2);
     }
+    
+    $pdf->SetLineWidth(0.2);
 
     // === 転帰（継続・治癒・中止・転医） ===
     if ($consent && isset($consent->outcome) && $consent->outcome) {
       // 楕円を描画（線を太くする）
       $pdf->SetLineWidth(0.5);
-      if ($consent->outcome === '継続') {
-        $x = $this->coord('outcome_continued', 'x');
-        $y = $this->coord('outcome_continued', 'y');
-        $width = $this->coord('outcome_continued', 'ellipseWidth') ?? 8;
-        $height = $this->coord('outcome_continued', 'ellipseHeight') ?? 5;
+      
+      // isSelected フラグをチェック（サンプルデータの場合）
+      $outcomeKey = null;
+      if (isset($this->coordinates['outcome_continued']['isSelected']) && $this->coordinates['outcome_continued']['isSelected']) {
+        $outcomeKey = 'outcome_continued';
+      } elseif (isset($this->coordinates['outcome_cured']['isSelected']) && $this->coordinates['outcome_cured']['isSelected']) {
+        $outcomeKey = 'outcome_cured';
+      } elseif (isset($this->coordinates['outcome_discontinued']['isSelected']) && $this->coordinates['outcome_discontinued']['isSelected']) {
+        $outcomeKey = 'outcome_discontinued';
+      } elseif (isset($this->coordinates['outcome_transferred']['isSelected']) && $this->coordinates['outcome_transferred']['isSelected']) {
+        $outcomeKey = 'outcome_transferred';
+      }
+      
+      // outcomeKeyが設定されたら、そのオプションの座標を使用
+      if ($outcomeKey) {
+        $x = $this->coord($outcomeKey, 'x');
+        $y = $this->coord($outcomeKey, 'y');
+        $width = $this->coord($outcomeKey, 'ellipseWidth') ?? 8;
+        $height = $this->coord($outcomeKey, 'ellipseHeight') ?? 5;
         $pdf->Ellipse($x, $y, $width / 2, $height / 2, 0, 0, 360, 'D');
-      } elseif ($consent->outcome === '治癒') {
-        $x = $this->coord('outcome_cured', 'x');
-        $y = $this->coord('outcome_cured', 'y');
-        $width = $this->coord('outcome_cured', 'ellipseWidth') ?? 8;
-        $height = $this->coord('outcome_cured', 'ellipseHeight') ?? 5;
-        $pdf->Ellipse($x, $y, $width / 2, $height / 2, 0, 0, 360, 'D');
-      } elseif ($consent->outcome === '中止') {
-        $x = $this->coord('outcome_discontinued', 'x');
-        $y = $this->coord('outcome_discontinued', 'y');
-        $width = $this->coord('outcome_discontinued', 'ellipseWidth') ?? 8;
-        $height = $this->coord('outcome_discontinued', 'ellipseHeight') ?? 5;
-        $pdf->Ellipse($x, $y, $width / 2, $height / 2, 0, 0, 360, 'D');
-      } elseif ($consent->outcome === '転医') {
-        $x = $this->coord('outcome_transferred', 'x');
-        $y = $this->coord('outcome_transferred', 'y');
-        $width = $this->coord('outcome_transferred', 'ellipseWidth') ?? 8;
-        $height = $this->coord('outcome_transferred', 'ellipseHeight') ?? 5;
-        $pdf->Ellipse($x, $y, $width / 2, $height / 2, 0, 0, 360, 'D');
+      } else {
+        // isSelected フラグがない場合は実データから判定
+        if ($consent->outcome === '継続') {
+          $x = $this->coord('outcome_continued', 'x');
+          $y = $this->coord('outcome_continued', 'y');
+          $width = $this->coord('outcome_continued', 'ellipseWidth') ?? 8;
+          $height = $this->coord('outcome_continued', 'ellipseHeight') ?? 5;
+          $pdf->Ellipse($x, $y, $width / 2, $height / 2, 0, 0, 360, 'D');
+        } elseif ($consent->outcome === '治癒') {
+          $x = $this->coord('outcome_cured', 'x');
+          $y = $this->coord('outcome_cured', 'y');
+          $width = $this->coord('outcome_cured', 'ellipseWidth') ?? 8;
+          $height = $this->coord('outcome_cured', 'ellipseHeight') ?? 5;
+          $pdf->Ellipse($x, $y, $width / 2, $height / 2, 0, 0, 360, 'D');
+        } elseif ($consent->outcome === '中止') {
+          $x = $this->coord('outcome_discontinued', 'x');
+          $y = $this->coord('outcome_discontinued', 'y');
+          $width = $this->coord('outcome_discontinued', 'ellipseWidth') ?? 8;
+          $height = $this->coord('outcome_discontinued', 'ellipseHeight') ?? 5;
+          $pdf->Ellipse($x, $y, $width / 2, $height / 2, 0, 0, 360, 'D');
+        } elseif ($consent->outcome === '転医') {
+          $x = $this->coord('outcome_transferred', 'x');
+          $y = $this->coord('outcome_transferred', 'y');
+          $width = $this->coord('outcome_transferred', 'ellipseWidth') ?? 8;
+          $height = $this->coord('outcome_transferred', 'ellipseHeight') ?? 5;
+          $pdf->Ellipse($x, $y, $width / 2, $height / 2, 0, 0, 360, 'D');
+        }
       }
       $pdf->SetLineWidth(0.2);
     }
@@ -638,17 +806,17 @@ class AcupunctureBenefitPdfService
 
       // === 保健所登録区分 ===
       if (isset($clinicInfo->health_center_registerd_location) && $clinicInfo->health_center_registerd_location) {
-        // 1.施術所所在地 or 2.出張専門施術者住所地 の番号を表示
-        $registrationNumber = '';
+        // 1.施術所所在地 or 2.出張専門施術者住所地 の○を表示
         if (strpos($clinicInfo->health_center_registerd_location, '施術所') !== false) {
-          $registrationNumber = '1';
+          $x = $this->coord('health_center_registration_1', 'x');
+          $y = $this->coord('health_center_registration_1', 'y');
+          $radius = $this->coord('health_center_registration_1', 'circleRadius') ?? 1.2;
+          $pdf->Ellipse($x, $y, $radius, $radius, 0, 0, 360, 'D');
         } elseif (strpos($clinicInfo->health_center_registerd_location, '出張') !== false) {
-          $registrationNumber = '2';
-        }
-        if ($registrationNumber) {
-          $pdf->SetFontSize($this->coord('health_center_registration', 'fontSize'));
-          $this->drawTextByKey($pdf, 'health_center_registration', $registrationNumber);
-          $pdf->SetFontSize(10);
+          $x = $this->coord('health_center_registration_2', 'x');
+          $y = $this->coord('health_center_registration_2', 'y');
+          $radius = $this->coord('health_center_registration_2', 'circleRadius') ?? 1.2;
+          $pdf->Ellipse($x, $y, $radius, $radius, 0, 0, 360, 'D');
         }
       }
 
@@ -970,6 +1138,94 @@ class AcupunctureBenefitPdfService
     }
 
     $this->drawTextWithSpacing($pdf, $x, $y, $text, (float)$letterSpacing, $textAlign, (float)$alignmentWidth);
+  }
+
+  /**
+   * サンプルデータを生成
+   *
+   * @param string $serviceYearMonth
+   * @return array
+   */
+  protected function getSampleData(string $serviceYearMonth): array
+  {
+    // カスタムサンプルデータがあればそれを優先的に使用
+    $custom = $this->customSampleData;
+
+    // サンプル利用者情報
+    $clinicUser = (object)[
+      'id' => 999,
+      'last_name' => $custom['last_name'] ?? '山田',
+      'first_name' => $custom['first_name'] ?? '太郎',
+      'last_kana' => $custom['last_kana'] ?? 'ヤマダ',
+      'first_kana' => $custom['first_kana'] ?? 'タロウ',
+      'gender' => $custom['gender'] ?? '男',
+      'birthday' => $custom['birthdate'] ?? '1950-04-15',
+      'postal_code' => '123-4567',
+      'address_1' => $custom['address'] ?? '東京都新宿区西新宿1-2-3',
+      'address_2' => '',
+      'address_3' => '',
+    ];
+
+    // サンプル保険情報
+    $insurance = (object)[
+      'insurer_number' => $custom['insurer_number'] ?? '12345678',
+      'insurer_name' => 'サンプル健康保険組合',
+      'insurance_type_1_id' => 1,
+      'code_number' => $custom['insurance_symbol'] ?? '12345',
+      'account_number' => '67890',
+      'insured_number' => $custom['insurance_number'] ?? '1234567890',
+      'relationship' => $custom['relationship'] ?? '本人',
+      'public_funds_payer_code' => '12345678',
+      'public_funds_recipient_code' => '1234567',
+      'locality_code' => '123456',
+      'recipient_code' => '123456',
+    ];
+
+    // サンプル同意書情報
+    $consent = (object)[
+      'consenting_date' => $custom['consent_date'] ?? date('Y-m-d'),
+      'consenting_doctor_name' => $custom['doctor_name'] ?? '鈴木医師',
+      'illness_name_acupuncture_id' => 1,
+      'illness_name_acupuncture_addendum' => $custom['disease'] ?? '追加症状',
+      'onset_and_injury_date' => '2024-01-01',
+      'therapy_period' => '6ヶ月',
+      'bill_category' => '新規',
+      'outcome' => '継続',
+      'work_scope_type' => 'その他',
+    ];
+
+    // サンプル施術実績（月の1日、5日、10日、15日、20日、25日）
+    $treatmentDays = $custom['treatment_days'] ?? 15;
+    $records = collect([
+      (object)['date' => $serviceYearMonth . '-01', 'therapy_category' => 1],
+      (object)['date' => $serviceYearMonth . '-05', 'therapy_category' => 1],
+      (object)['date' => $serviceYearMonth . '-10', 'therapy_category' => 2],
+      (object)['date' => $serviceYearMonth . '-15', 'therapy_category' => 1],
+      (object)['date' => $serviceYearMonth . '-20', 'therapy_category' => 2],
+      (object)['date' => $serviceYearMonth . '-25', 'therapy_category' => 1],
+    ]);
+
+    // サンプル施術所情報
+    $clinicInfo = (object)[
+      'medical_institution_number' => $custom['institution_code'] ?? '1234567',
+      'clinic_name' => $custom['clinic_name'] ?? 'サンプル鍼灸院',
+      'postal_code' => '100-0001',
+      'address_1' => $custom['clinic_address'] ?? '東京都千代田区千代田1-1-1',
+      'address_2' => '',
+      'address_3' => '',
+      'phone' => $custom['clinic_phone'] ?? '03-1234-5678',
+      'therapist_number' => '東京-12345',
+      'health_center_registerd_location' => '施術所所在地',
+    ];
+
+    return [
+      'clinic_user' => $clinicUser,
+      'insurance' => $insurance,
+      'consent' => $consent,
+      'records' => $records,
+      'clinic_info' => $clinicInfo,
+      'service_year_month' => $serviceYearMonth,
+    ];
   }
 
   /**

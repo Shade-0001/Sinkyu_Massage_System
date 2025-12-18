@@ -81,29 +81,99 @@ class PrintsController extends Controller
   }
 
   /**
-   * 座標調整管理画面を表示
+   * あんま・マッサージ療養費支給申請書PDF出力
    *
+   * @param Request $request
+   * @param \App\Services\Print\MassageBenefitPdfService $service
+   * @param string $filename
+   * @return \Illuminate\Http\Response
+   */
+  public function massageBenefit(Request $request, \App\Services\Print\MassageBenefitPdfService $service, string $filename)
+  {
+    try {
+      $validated = $request->validate([
+        'clinic_user_ids' => 'required|array',
+        'clinic_user_ids.*' => 'exists:clinic_users,id',
+        'service_year_month' => 'required|date_format:Y-m',
+        'submission_date' => 'required|date',
+      ]);
+
+      \Log::info('あんま・マッサージPDF生成開始', [
+        'clinic_user_ids' => $validated['clinic_user_ids'],
+        'service_year_month' => $validated['service_year_month'],
+        'submission_date' => $validated['submission_date'],
+      ]);
+
+      $pdfBinary = $service->generate(
+        $validated['clinic_user_ids'],
+        $validated['service_year_month'],
+        $validated['submission_date']
+      );
+
+      \Log::info('あんま・マッサージPDF生成完了', ['size' => strlen($pdfBinary)]);
+
+      return response($pdfBinary, 200, [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'inline',
+      ]);
+    } catch (\Exception $e) {
+      \Log::error('あんま・マッサージPDF生成エラー', [
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+        'trace' => $e->getTraceAsString(),
+      ]);
+
+      return response()->json([
+        'error' => 'PDF生成に失敗しました',
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+      ], 500);
+    }
+  }
+
+  /**
+   * PDFレイアウト調整ツール画面を表示
+   *
+   * @param Request $request
    * @return \Illuminate\View\View
    */
-  public function coordinateAdjuster()
+  public function coordinateAdjuster(Request $request)
   {
+    // PDFタイプをクエリパラメータから取得（デフォルト: acupuncture）
+    $pdfType = $request->query('pdf_type', 'acupuncture');
+
+    // PDFタイプ名を設定
+    $pdfTypeName = $pdfType === 'massage' ? 'あんま・マッサージ療養費支給申請書' : 'はり・きゅう療養費支給申請書';
+
     // 利用者一覧を取得
     $clinicUsers = DB::table('clinic_users')
       ->select('id', 'last_name', 'first_name', 'last_kana', 'first_kana')
       ->orderBy('last_kana')
       ->get();
 
-    return view('prints.coordinate_adjuster', compact('clinicUsers'));
+    // サンプルデータ用のマスタデータを取得
+    $masterData = [
+      'genders' => DB::table('gender')->select('id', 'gender')->get(),
+      'relationships' => DB::table('relationships_with_clinic_user')->select('id', 'relationship')->get(),
+    ];
+
+    return view('prints.coordinate_adjuster', compact('clinicUsers', 'pdfType', 'pdfTypeName', 'masterData'));
   }
 
   /**
    * 現在の座標設定を取得
    *
+   * @param Request $request
    * @return \Illuminate\Http\JsonResponse
    */
-  public function getCoordinates()
+  public function getCoordinates(Request $request)
   {
-    $configPath = storage_path('app/config/acupuncture_benefit_coordinates.json');
+    // PDFタイプをクエリパラメータから取得（デフォルト: acupuncture）
+    $pdfType = $request->query('pdf_type', 'acupuncture');
+    $configFileName = $pdfType === 'massage' ? 'massage_benefit_coordinates.json' : 'acupuncture_benefit_coordinates.json';
+    $configPath = storage_path('app/config/' . $configFileName);
 
     if (file_exists($configPath)) {
       $json = file_get_contents($configPath);
@@ -131,8 +201,10 @@ class PrintsController extends Controller
   {
     try {
       $coordinates = $request->input('coordinates');
+      $pdfType = $request->input('pdf_type', 'acupuncture');
+      $configFileName = $pdfType === 'massage' ? 'massage_benefit_coordinates.json' : 'acupuncture_benefit_coordinates.json';
+      $configPath = storage_path('app/config/' . $configFileName);
 
-      $configPath = storage_path('app/config/acupuncture_benefit_coordinates.json');
       file_put_contents($configPath, json_encode($coordinates, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
       return response()->json([
@@ -151,7 +223,7 @@ class PrintsController extends Controller
    * プレビューPDFを生成
    *
    * @param Request $request
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse
    */
   public function previewPdf(Request $request)
   {
@@ -159,13 +231,20 @@ class PrintsController extends Controller
       // ログ：プレビューエンドポイントが呼ばれたことを記録
       \Log::info('PreviewPdf invoked', ['ip' => $request->ip(), 'has_coordinates' => $request->has('coordinates')]);
 
+      // PDFタイプを取得
+      $pdfType = $request->input('pdf_type', 'acupuncture');
+      $configFileName = $pdfType === 'massage' ? 'massage_benefit_coordinates.json' : 'acupuncture_benefit_coordinates.json';
+      $configPath = storage_path("app/config/{$configFileName}");
+
       // 一時的に座標設定を更新
       $coordinates = $request->input('coordinates');
-      $configPath = storage_path('app/config/acupuncture_benefit_coordinates.json');
       $originalCoordinates = file_get_contents($configPath);
 
       // 一時保存
       file_put_contents($configPath, json_encode($coordinates, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+
+      // サンプルデータ表示モードの確認
+      $showSampleData = $request->input('show_sample_data', false);
 
       // ログ：letterSpacingが設定されているフィールドを確認（デバッグ用）
       try {
@@ -196,8 +275,23 @@ class PrintsController extends Controller
         ], 404);
       }
 
-      // 座標ファイル更新後に新しいインスタンスを生成
-      $service = new AcupunctureBenefitPdfService();
+      // PDFタイプに応じてサービスを選択
+      if ($pdfType === 'massage') {
+        $service = new \App\Services\Print\MassageBenefitPdfService();
+      } else {
+        $service = new AcupunctureBenefitPdfService();
+      }
+
+      // サンプルデータ表示モードを設定
+      if ($showSampleData && method_exists($service, 'setSampleDataMode')) {
+        $service->setSampleDataMode(true);
+
+        // カスタムサンプルデータがある場合は設定
+        $customSampleData = $request->input('custom_sample_data');
+        if ($customSampleData && method_exists($service, 'setCustomSampleData')) {
+          $service->setCustomSampleData($customSampleData);
+        }
+      }
 
       $pdfBinary = $service->generate(
         $clinicUsers,

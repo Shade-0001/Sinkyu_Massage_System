@@ -258,8 +258,9 @@ Route::middleware('auth')->group(function () {
   // 印刷メニュー
   Route::get('/prints/index', [PrintsController::class, 'index'])->name('prints.index');
   Route::post('/prints/acupuncture-benefit/{filename}', [PrintsController::class, 'acupunctureBenefit'])->name('prints.acupuncture-benefit');
+  Route::post('/prints/massage-benefit/{filename}', [PrintsController::class, 'massageBenefit'])->name('prints.massage-benefit');
 
-  // 座標調整管理画面
+  // PDFレイアウト調整ツール
   Route::get('/prints/coordinate-adjuster', [PrintsController::class, 'coordinateAdjuster'])->name('prints.coordinate-adjuster');
   Route::get('/prints/get-coordinates', [PrintsController::class, 'getCoordinates'])->name('prints.get-coordinates');
   Route::post('/prints/save-coordinates', [PrintsController::class, 'saveCoordinates'])->name('prints.save-coordinates');

@@ -27,7 +27,7 @@
   <br><br>
 
   <h3>あんま・マッサージ関連</h3>
-  <button>療養費支給申請書</button>
+  <button type="button" class="btn btn-primary" onclick="openMassageBenefitModal()">療養費支給申請書</button>
   <button>施術料金領収書</button>
   <button>医療助成費支給申請書</button>
   <button>後期高齢者医療療養費支給申請書</button>
@@ -117,6 +117,63 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
           <button type="button" class="btn btn-primary" onclick="submitAcupunctureBenefit()">印刷</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- あんま・マッサージ療養費支給申請書モーダル -->
+  <div class="modal fade" id="massageBenefitModal" tabindex="-1" aria-labelledby="massageBenefitModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="massageBenefitModalLabel">あんま・マッサージ療養費支給申請書 出力設定</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="massageBenefitForm" method="POST">
+            @csrf
+
+            <!-- サービス提供年月 -->
+            <div class="mb-3">
+              <label for="massage_service_year_month" class="form-label">サービス提供年月 <span class="text-danger">*</span></label>
+              <select class="form-select" id="massage_service_year_month" name="service_year_month" required>
+                <option value="">選択してください</option>
+                @php
+                  $currentDate = now();
+                  for ($i = 0; $i < 24; $i++) {
+                    $date = $currentDate->copy()->subMonths($i);
+                    $value = $date->format('Y-m');
+                    $display = $date->format('Y年m月');
+                    echo "<option value=\"{$value}\">{$display}</option>";
+                  }
+                @endphp
+              </select>
+            </div>
+
+            <!-- 利用者選択 -->
+            <div class="mb-3">
+              <label for="massage_clinic_user_ids" class="form-label">利用者 <span class="text-danger">*</span></label>
+              <select class="form-select" id="massage_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
+                @foreach($clinicUsers as $user)
+                  <option value="{{ $user->id }}">
+                    {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
+                  </option>
+                @endforeach
+              </select>
+              <div class="form-text">複数選択可（Ctrlキー + クリック）</div>
+            </div>
+
+            <!-- 提出年月日 -->
+            <div class="mb-3">
+              <label for="massage_submission_date" class="form-label">提出年月日 <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" id="massage_submission_date" name="submission_date" value="{{ now()->format('Y-m-d') }}" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-primary" onclick="submitMassageBenefit()">印刷</button>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 <x-app-layout>
 <div class="container-fluid mt-4">
-  <h4 class="mb-4">はり・きゅう療養費支給申請書 - 座標調整ツール</h4>
+  <h4 class="mb-4">{{ $pdfTypeName }} - PDFレイアウト調整ツール</h4>
 
   <div class="row">
     <!-- 左側: 設定パネル -->
@@ -10,6 +10,15 @@
           <h5 class="mb-0">フィールド設定</h5>
         </div>
         <div class="card-body p-0" style="max-height: 80vh; overflow-y: auto;">
+          <!-- PDFタイプ選択 -->
+          <div class="p-3 border-bottom bg-info">
+            <label for="pdf-type-select" class="form-label mb-2 text-white">PDFタイプ：</label>
+            <select id="pdf-type-select" class="form-control">
+              <option value="acupuncture" {{ $pdfType === 'acupuncture' ? 'selected' : '' }}>はり・きゅう</option>
+              <option value="massage" {{ $pdfType === 'massage' ? 'selected' : '' }}>あんま・マッサージ</option>
+            </select>
+          </div>
+
           <!-- 利用者選択 -->
           <div class="p-3 border-bottom bg-light">
             <label for="clinic-user-select" class="form-label mb-2">プレビュー利用者：</label>
@@ -20,6 +29,17 @@
                 </option>
               @endforeach
             </select>
+          </div>
+
+          <!-- サンプル表示オプション -->
+          <div class="p-3 border-bottom" style="background-color: #f8f9fa;">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="show-sample-data">
+              <label class="form-check-label" for="show-sample-data">
+                サンプルデータを表示
+              </label>
+            </div>
+            <small class="text-muted d-block mt-1">全フィールドにサンプル値を表示してレイアウトを確認</small>
           </div>
 
           <div id="field-settings">
@@ -147,21 +167,126 @@
 <script>
 let coordinates = {};
 let originalCoordinates = {};
+let currentPdfType = '{{ $pdfType }}';
+
+// マスタデータ
+const masterData = {
+  genders: @json($masterData['genders']),
+  relationships: @json($masterData['relationships'])
+};
+
+let customSampleData = {
+  last_name: '佐藤',
+  first_name: '花子',
+  last_kana: 'サトウ',
+  first_kana: 'ハナコ',
+  gender: '女',
+  birthdate: '1955-03-15',
+  address: '東京都千代田区丸の内1-1-1',
+  phone: '03-1234-5678',
+  insurer_number: '12345678',
+  insurance_symbol: 'ABC123',
+  insurance_number: '9876543210',
+  relationship: '本人',
+  doctor_name: '山田太郎',
+  medical_institution: '〇〇病院',
+  consent_date: '',
+  disease: '腰痛症',
+  bodypart: '腰部',
+  treatment_days: '15',
+  clinic_name: '〇〇鍼灸マッサージ院',
+  clinic_address: '東京都渋谷区〇〇1-2-3',
+  clinic_manager: '田中一郎',
+  clinic_phone: '03-9876-5432',
+  institution_code: '1234567890',
+  outcome: '継続',
+  work_scope_type: '業務上',
+  birthday_era: '昭和',
+  bill_category: '新規'
+};
+
+// サンプルデータフィールドマッピング（座標キーとサンプルデータキーの対応）
+const sampleDataFieldMapping = {
+  'patient_name': { field: 'last_name', label: '氏名（姓）', type: 'text', combine: ['last_name', 'first_name'] },
+  'patient_name_kana': { field: 'last_kana', label: '氏名カナ（姓）', type: 'text', combine: ['last_kana', 'first_kana'] },
+  'patient_gender_male': { field: 'gender', label: '性別', type: 'select', masterKey: 'genders', valueField: 'gender' },
+  'patient_gender_female': { field: 'gender', label: '性別', type: 'select', masterKey: 'genders', valueField: 'gender' },
+  'birthday_year': { field: 'birthdate', label: '生年月日', type: 'date' },
+  'birthday_month': { field: 'birthdate', label: '生年月日', type: 'date' },
+  'birthday_day': { field: 'birthdate', label: '生年月日', type: 'date' },
+  'insurer_number': { field: 'insurer_number', label: '保険者番号', type: 'text' },
+  'insurance_symbol': { field: 'insurance_symbol', label: '被保険者証記号', type: 'text' },
+  'patient_relationship': { field: 'relationship', label: '続柄', type: 'select', masterKey: 'relationships', valueField: 'relationship' },
+  'clinic_name': { field: 'clinic_name', label: '施術所名称', type: 'text' },
+  'clinic_address': { field: 'clinic_address', label: '施術所所在地', type: 'text' },
+  'clinic_manager': { field: 'clinic_manager', label: '施術管理者氏名', type: 'text' },
+  'clinic_phone': { field: 'clinic_phone', label: '電話番号', type: 'text' },
+  'institution_code': { field: 'institution_code', label: '機関コード', type: 'text' },
+  'treatment_days': { field: 'treatment_days', label: '実日数', type: 'number' },
+  'outcome_continued': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'] },
+  'outcome_cured': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'] },
+  'outcome_discontinued': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'] },
+  'outcome_transferred': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'] },
+  'work_scope_type_1': { field: 'work_scope_type', label: '業務上第三者行為', type: 'select', options: ['業務上', '第三者行為である', 'その他'] },
+  'work_scope_type_2': { field: 'work_scope_type', label: '業務上第三者行為', type: 'select', options: ['業務上', '第三者行為である', 'その他'] },
+  'work_scope_type_3': { field: 'work_scope_type', label: '業務上第三者行為', type: 'select', options: ['業務上', '第三者行為である', 'その他'] },
+  'birthday_era_reiwa': { field: 'birthday_era', label: '生年月日元号', type: 'select', options: ['令和', '平成', '昭和'] },
+  'birthday_era_heisei': { field: 'birthday_era', label: '生年月日元号', type: 'select', options: ['令和', '平成', '昭和'] },
+  'birthday_era_showa': { field: 'birthday_era', label: '生年月日元号', type: 'select', options: ['令和', '平成', '昭和'] },
+  'bill_category_new': { field: 'bill_category', label: '請求区分', type: 'select', options: ['新規', '継続'] },
+  'bill_category_continued': { field: 'bill_category', label: '請求区分', type: 'select', options: ['新規', '継続'] }
+};
 
 // 初期化
 document.addEventListener('DOMContentLoaded', function() {
   loadCoordinates();
+  loadCustomSampleData();
 
   // イベントリスナー
   document.getElementById('btn-reset').addEventListener('click', resetCoordinates);
   document.getElementById('clinic-user-select').addEventListener('change', function() {
     previewPdf();
   });
+  document.getElementById('pdf-type-select').addEventListener('change', function() {
+    const newPdfType = this.value;
+    // ページをリロードして新しいPDFタイプを適用
+    window.location.href = '/prints/coordinate-adjuster?pdf_type=' + newPdfType;
+  });
+  document.getElementById('show-sample-data').addEventListener('change', function() {
+    const isChecked = this.checked;
+    // チェックを外してもラジオグループはリセットせず、プレビュー利用者の実データから判定する
+    renderFieldSettings(); // サンプルデータ入力欄の表示/非表示を更新
+    previewPdf();
+  });
 });
+
+// ラジオグループをデフォルト状態にリセット
+function resetRadioGroupsToDefault() {
+  // 各radioGroupの最初のフィールドをisSelected: trueに設定
+  const processedGroups = new Set();
+  
+  Object.keys(coordinates).forEach(key => {
+    const field = coordinates[key];
+    if (field.radioGroup && !processedGroups.has(field.radioGroup)) {
+      processedGroups.add(field.radioGroup);
+      
+      // グループ内のフィールドをリセット
+      Object.keys(coordinates).forEach(k => {
+        const f = coordinates[k];
+        if (f.radioGroup === field.radioGroup) {
+          f.isSelected = false;
+        }
+      });
+      
+      // 最初のフィールドをisSelected: trueに
+      coordinates[key].isSelected = true;
+    }
+  });
+}
 
 // 座標読み込み
 function loadCoordinates() {
-  fetch('/prints/get-coordinates')
+  fetch('/prints/get-coordinates?pdf_type=' + currentPdfType)
     .then(response => response.json())
     .then(data => {
       if (data.success) {
@@ -185,8 +310,85 @@ function renderFieldSettings() {
 
   console.log('Total fields:', Object.keys(coordinates).length);
 
+  // radioGroupでグループ化されたフィールドを追跡
+  const processedGroups = new Set();
+
   Object.keys(coordinates).forEach(key => {
     const field = coordinates[key];
+    
+    // radioGroupが定義されている場合、グループの最初のフィールドでセレクトボックスを表示
+    if (field.radioGroup && !processedGroups.has(field.radioGroup)) {
+      processedGroups.add(field.radioGroup);
+      
+      // グループ内のすべてのフィールドを取得
+      const groupFields = Object.entries(coordinates)
+        .filter(([k, v]) => v.radioGroup === field.radioGroup)
+        .sort((a, b) => {
+          // キーの番号順でソート
+          const numA = parseInt(a[0].match(/\d+$/)?.[0] || 0);
+          const numB = parseInt(b[0].match(/\d+$/)?.[0] || 0);
+          return numA - numB;
+        });
+
+      // グループの最初のフィールドを基準にセレクトボックスを作成
+      const firstField = groupFields[0][1];
+      const firstKey = groupFields[0][0];
+      
+      // 現在選択されているオプションを判定
+      let selectedKey = firstKey;
+      for (const [k, v] of groupFields) {
+        if (v.isSelected) {
+          selectedKey = k;
+          break;
+        }
+      }
+
+      const div = document.createElement('div');
+      div.className = 'field-group';
+      div.setAttribute('data-radio-group', field.radioGroup);
+
+      // オプションを生成
+      const options = groupFields.map(([k, v]) => {
+        return `<option value="${k}" ${selectedKey === k ? 'selected' : ''}>${v.optionLabel || v.label}</option>`;
+      }).join('');
+
+      // サンプルデータ表示状態に応じてセレクトボックスを表示/非表示
+      const showSampleData = document.getElementById('show-sample-data')?.checked;
+      const selectDisplay = showSampleData ? 'block' : 'none';
+
+      div.innerHTML = `
+        <h6 class="field-header" onclick="toggleField('${field.radioGroup}')" style="cursor: pointer; user-select: none;">
+          <span class="toggle-icon" id="toggle-${field.radioGroup}">▶</span> ${field.label || field.radioGroup}
+        </h6>
+
+        <div class="field-controls" id="controls-${field.radioGroup}">
+          <div class="coordinate-input" style="display: ${selectDisplay};">
+            <label>選択:</label>
+            <select onchange="updateRadioGroupSelection('${field.radioGroup}', this.value)"
+                    class="form-control form-control-sm"
+                    style="width: auto; display: inline-block; margin-left: 10px;">
+              ${options}
+            </select>
+          </div>
+
+          <div id="radiogroup-fields-${field.radioGroup}">
+            <!-- 選択されたオプションの詳細設定をここに表示 -->
+          </div>
+        </div>
+      `;
+
+      container.appendChild(div);
+      
+      // 選択されたオプションの詳細設定を表示
+      updateRadioGroupSelection(field.radioGroup, selectedKey);
+      return;
+    }
+    
+    // radioGroupが定義されていない場合は通常通り表示
+    if (field.radioGroup) {
+      return; // グループ内のその他のフィールドはスキップ
+    }
+
     const div = document.createElement('div');
     div.className = 'field-group';
 
@@ -275,10 +477,10 @@ function renderFieldSettings() {
         <div class="coordinate-input">
           <label>テキスト配置:</label>
           <div class="btn-group btn-group-sm d-flex" role="group">
-            <button type="button" class="btn btn-outline-secondary flex-fill ${field.textAlign === 'left' || !field.textAlign ? 'active' : ''}"
+            <button type="button" class="btn btn-outline-secondary flex-fill ${field.textAlign === 'left' ? 'active' : ''}"
                     onclick="updateCoordinate('${key}', 'textAlign', 'left')"
                     title="左揃え">左</button>
-            <button type="button" class="btn btn-outline-secondary flex-fill ${field.textAlign === 'center' ? 'active' : ''}"
+            <button type="button" class="btn btn-outline-secondary flex-fill ${field.textAlign === 'center' || !field.textAlign ? 'active' : ''}"
                     onclick="updateCoordinate('${key}', 'textAlign', 'center')"
                     title="中央揃え">中央</button>
             <button type="button" class="btn btn-outline-secondary flex-fill ${field.textAlign === 'right' ? 'active' : ''}"
@@ -370,11 +572,416 @@ function renderFieldSettings() {
                   ontouchend="stopLongPress()">+</button>
         </div>
         ` : ''}
+
+        ${getSampleDataInput(key)}
       </div>
     `;
 
     container.appendChild(div);
   });
+}
+
+// ラジオグループの選択を更新
+function updateRadioGroupSelection(groupName, selectedKey) {
+  // 座標のisSelectedを更新
+  Object.keys(coordinates).forEach(key => {
+    const field = coordinates[key];
+    if (field.radioGroup === groupName) {
+      field.isSelected = (key === selectedKey);
+    }
+  });
+
+  // グループ内の設定詳細を表示
+  const fieldsContainer = document.getElementById(`radiogroup-fields-${groupName}`);
+  if (!fieldsContainer) return;
+
+  fieldsContainer.innerHTML = '';
+
+  const selectedField = coordinates[selectedKey];
+  if (!selectedField) return;
+
+  const detailsDiv = document.createElement('div');
+  detailsDiv.style.borderTop = '1px solid #ddd';
+  detailsDiv.style.marginTop = '10px';
+  detailsDiv.style.paddingTop = '10px';
+
+  // X座標
+  const xDiv = document.createElement('div');
+  xDiv.className = 'coordinate-input';
+  xDiv.innerHTML = `
+    <label>X座標:</label>
+  `;
+  const xBtnLeft = document.createElement('button');
+  xBtnLeft.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+  xBtnLeft.innerHTML = '←';
+  xBtnLeft.addEventListener('mousedown', function() {
+    console.log('X Left clicked, selectedKey:', selectedKey);
+    startLongPress(selectedKey, 'x', -0.5);
+  });
+  xBtnLeft.addEventListener('mouseup', stopLongPress);
+  xBtnLeft.addEventListener('mouseleave', stopLongPress);
+  xBtnLeft.addEventListener('touchstart', function() {
+    startLongPress(selectedKey, 'x', -0.5);
+  });
+  xBtnLeft.addEventListener('touchend', stopLongPress);
+  
+  const xInput = document.createElement('input');
+  xInput.type = 'number';
+  xInput.step = '0.5';
+  xInput.value = selectedField.x;
+  xInput.className = 'form-control form-control-sm';
+  xInput.style.width = '80px';
+  xInput.style.display = 'inline-block';
+  xInput.style.marginLeft = '5px';
+  xInput.style.marginRight = '5px';
+  xInput.setAttribute('data-property', 'x');
+  xInput.addEventListener('change', function() {
+    updateCoordinate(selectedKey, 'x', this.value);
+  });
+  
+  const xBtnRight = document.createElement('button');
+  xBtnRight.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+  xBtnRight.innerHTML = '→';
+  xBtnRight.addEventListener('mousedown', () => startLongPress(selectedKey, 'x', 0.5));
+  xBtnRight.addEventListener('mouseup', stopLongPress);
+  xBtnRight.addEventListener('mouseleave', stopLongPress);
+  xBtnRight.addEventListener('touchstart', () => startLongPress(selectedKey, 'x', 0.5));
+  xBtnRight.addEventListener('touchend', stopLongPress);
+  
+  xDiv.appendChild(xBtnLeft);
+  xDiv.appendChild(xInput);
+  xDiv.appendChild(xBtnRight);
+  detailsDiv.appendChild(xDiv);
+
+  // Y座標
+  const yDiv = document.createElement('div');
+  yDiv.className = 'coordinate-input';
+  yDiv.innerHTML = `<label>Y座標:</label>`;
+  
+  const yBtnUp = document.createElement('button');
+  yBtnUp.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+  yBtnUp.innerHTML = '↑';
+  yBtnUp.addEventListener('mousedown', () => startLongPress(selectedKey, 'y', -0.5));
+  yBtnUp.addEventListener('mouseup', stopLongPress);
+  yBtnUp.addEventListener('mouseleave', stopLongPress);
+  yBtnUp.addEventListener('touchstart', () => startLongPress(selectedKey, 'y', -0.5));
+  yBtnUp.addEventListener('touchend', stopLongPress);
+  
+  const yInput = document.createElement('input');
+  yInput.type = 'number';
+  yInput.step = '0.5';
+  yInput.value = selectedField.y;
+  yInput.className = 'form-control form-control-sm';
+  yInput.style.width = '80px';
+  yInput.style.display = 'inline-block';
+  yInput.style.marginLeft = '5px';
+  yInput.style.marginRight = '5px';
+  yInput.setAttribute('data-property', 'y');
+  yInput.addEventListener('change', function() {
+    updateCoordinate(selectedKey, 'y', this.value);
+  });
+  
+  const yBtnDown = document.createElement('button');
+  yBtnDown.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+  yBtnDown.innerHTML = '↓';
+  yBtnDown.addEventListener('mousedown', () => startLongPress(selectedKey, 'y', 0.5));
+  yBtnDown.addEventListener('mouseup', stopLongPress);
+  yBtnDown.addEventListener('mouseleave', stopLongPress);
+  yBtnDown.addEventListener('touchstart', () => startLongPress(selectedKey, 'y', 0.5));
+  yBtnDown.addEventListener('touchend', stopLongPress);
+  
+  yDiv.appendChild(yBtnUp);
+  yDiv.appendChild(yInput);
+  yDiv.appendChild(yBtnDown);
+  detailsDiv.appendChild(yDiv);
+
+  // フォントサイズ
+  const fsDiv = document.createElement('div');
+  fsDiv.className = 'coordinate-input';
+  fsDiv.innerHTML = `<label>フォントサイズ:</label>`;
+  
+  const fsBtnMinus = document.createElement('button');
+  fsBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+  fsBtnMinus.innerHTML = '−';
+  fsBtnMinus.addEventListener('mousedown', () => startLongPress(selectedKey, 'fontSize', -0.5));
+  fsBtnMinus.addEventListener('mouseup', stopLongPress);
+  fsBtnMinus.addEventListener('mouseleave', stopLongPress);
+  fsBtnMinus.addEventListener('touchstart', () => startLongPress(selectedKey, 'fontSize', -0.5));
+  fsBtnMinus.addEventListener('touchend', stopLongPress);
+  
+  const fsInput = document.createElement('input');
+  fsInput.type = 'number';
+  fsInput.step = '0.5';
+  fsInput.value = selectedField.fontSize;
+  fsInput.className = 'form-control form-control-sm';
+  fsInput.style.width = '80px';
+  fsInput.style.display = 'inline-block';
+  fsInput.style.marginLeft = '5px';
+  fsInput.setAttribute('data-property', 'fontSize');
+  fsInput.style.marginRight = '5px';
+  fsInput.addEventListener('change', function() {
+    updateCoordinate(selectedKey, 'fontSize', this.value);
+  });
+  
+  const fsBtnPlus = document.createElement('button');
+  fsBtnPlus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+  fsBtnPlus.innerHTML = '+';
+  fsBtnPlus.addEventListener('mousedown', () => startLongPress(selectedKey, 'fontSize', 0.5));
+  fsBtnPlus.addEventListener('mouseup', stopLongPress);
+  fsBtnPlus.addEventListener('mouseleave', stopLongPress);
+  fsBtnPlus.addEventListener('touchstart', () => startLongPress(selectedKey, 'fontSize', 0.5));
+  fsBtnPlus.addEventListener('touchend', stopLongPress);
+  
+  fsDiv.appendChild(fsBtnMinus);
+  fsDiv.appendChild(fsInput);
+  fsDiv.appendChild(fsBtnPlus);
+  detailsDiv.appendChild(fsDiv);
+
+  // 文字間隔
+  const lsDiv = document.createElement('div');
+  lsDiv.className = 'coordinate-input';
+  lsDiv.innerHTML = `<label>文字間隔:</label>`;
+  
+  const lsBtnMinus = document.createElement('button');
+  lsBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+  lsBtnMinus.innerHTML = '−';
+  lsBtnMinus.addEventListener('mousedown', () => startLongPress(selectedKey, 'letterSpacing', -0.1));
+  lsBtnMinus.addEventListener('mouseup', stopLongPress);
+  lsBtnMinus.addEventListener('mouseleave', stopLongPress);
+  lsBtnMinus.addEventListener('touchstart', () => startLongPress(selectedKey, 'letterSpacing', -0.1));
+  lsBtnMinus.addEventListener('touchend', stopLongPress);
+  
+  const lsInput = document.createElement('input');
+  lsInput.type = 'number';
+  lsInput.step = '0.1';
+  lsInput.value = selectedField.letterSpacing || 0;
+  lsInput.className = 'form-control form-control-sm';
+  lsInput.style.width = '80px';
+  lsInput.style.display = 'inline-block';
+  lsInput.style.marginLeft = '5px';
+  lsInput.setAttribute('data-property', 'letterSpacing');
+  lsInput.style.marginRight = '5px';
+  lsInput.addEventListener('change', function() {
+    updateCoordinate(selectedKey, 'letterSpacing', this.value);
+  });
+  
+  const lsBtnPlus = document.createElement('button');
+  lsBtnPlus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+  lsBtnPlus.innerHTML = '+';
+  lsBtnPlus.addEventListener('mousedown', () => startLongPress(selectedKey, 'letterSpacing', 0.1));
+  lsBtnPlus.addEventListener('mouseup', stopLongPress);
+  lsBtnPlus.addEventListener('mouseleave', stopLongPress);
+  lsBtnPlus.addEventListener('touchstart', () => startLongPress(selectedKey, 'letterSpacing', 0.1));
+  lsBtnPlus.addEventListener('touchend', stopLongPress);
+  
+  lsDiv.appendChild(lsBtnMinus);
+  lsDiv.appendChild(lsInput);
+  lsDiv.appendChild(lsBtnPlus);
+  detailsDiv.appendChild(lsDiv);
+
+  // 円半径
+  if (selectedField.circleRadius !== undefined) {
+    const crDiv = document.createElement('div');
+    crDiv.className = 'coordinate-input';
+    crDiv.innerHTML = `<label>○半径:</label>`;
+    
+    const crBtnMinus = document.createElement('button');
+    crBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+    crBtnMinus.innerHTML = '−';
+    crBtnMinus.addEventListener('mousedown', () => startLongPress(selectedKey, 'circleRadius', -0.1));
+    crBtnMinus.addEventListener('mouseup', stopLongPress);
+    crBtnMinus.addEventListener('mouseleave', stopLongPress);
+    crBtnMinus.addEventListener('touchstart', () => startLongPress(selectedKey, 'circleRadius', -0.1));
+    crBtnMinus.addEventListener('touchend', stopLongPress);
+    
+    const crInput = document.createElement('input');
+    crInput.type = 'number';
+    crInput.step = '0.1';
+    crInput.value = selectedField.circleRadius || 1.2;
+    crInput.className = 'form-control form-control-sm';
+    crInput.style.width = '80px';
+    crInput.style.display = 'inline-block';
+    crInput.setAttribute('data-property', 'circleRadius');
+    crInput.style.marginLeft = '5px';
+    crInput.style.marginRight = '5px';
+    crInput.addEventListener('change', function() {
+      updateCoordinate(selectedKey, 'circleRadius', this.value);
+    });
+    
+    const crBtnPlus = document.createElement('button');
+    crBtnPlus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+    crBtnPlus.innerHTML = '+';
+    crBtnPlus.addEventListener('mousedown', () => startLongPress(selectedKey, 'circleRadius', 0.1));
+    crBtnPlus.addEventListener('mouseup', stopLongPress);
+    crBtnPlus.addEventListener('mouseleave', stopLongPress);
+    crBtnPlus.addEventListener('touchstart', () => startLongPress(selectedKey, 'circleRadius', 0.1));
+    crBtnPlus.addEventListener('touchend', stopLongPress);
+    
+    crDiv.appendChild(crBtnMinus);
+    crDiv.appendChild(crInput);
+    crDiv.appendChild(crBtnPlus);
+    detailsDiv.appendChild(crDiv);
+  }
+
+  // 楕円幅
+  if (selectedField.ellipseWidth !== undefined) {
+    const ewDiv = document.createElement('div');
+    ewDiv.className = 'coordinate-input';
+    ewDiv.innerHTML = `<label>楕円幅:</label>`;
+    
+    const ewBtnMinus = document.createElement('button');
+    ewBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+    ewBtnMinus.innerHTML = '−';
+    ewBtnMinus.addEventListener('mousedown', () => startLongPress(selectedKey, 'ellipseWidth', -0.5));
+    ewBtnMinus.addEventListener('mouseup', stopLongPress);
+    ewBtnMinus.addEventListener('mouseleave', stopLongPress);
+    ewBtnMinus.addEventListener('touchstart', () => startLongPress(selectedKey, 'ellipseWidth', -0.5));
+    ewBtnMinus.addEventListener('touchend', stopLongPress);
+    
+    const ewInput = document.createElement('input');
+    ewInput.type = 'number';
+    ewInput.step = '0.5';
+    ewInput.value = selectedField.ellipseWidth || 8;
+    ewInput.className = 'form-control form-control-sm';
+    ewInput.style.width = '80px';
+    ewInput.style.display = 'inline-block';
+    ewInput.setAttribute('data-property', 'ellipseWidth');
+    ewInput.style.marginLeft = '5px';
+    ewInput.style.marginRight = '5px';
+    ewInput.addEventListener('change', function() {
+      updateCoordinate(selectedKey, 'ellipseWidth', this.value);
+    });
+    
+    const ewBtnPlus = document.createElement('button');
+    ewBtnPlus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+    ewBtnPlus.innerHTML = '+';
+    ewBtnPlus.addEventListener('mousedown', () => startLongPress(selectedKey, 'ellipseWidth', 0.5));
+    ewBtnPlus.addEventListener('mouseup', stopLongPress);
+    ewBtnPlus.addEventListener('mouseleave', stopLongPress);
+    ewBtnPlus.addEventListener('touchstart', () => startLongPress(selectedKey, 'ellipseWidth', 0.5));
+    ewBtnPlus.addEventListener('touchend', stopLongPress);
+    
+    ewDiv.appendChild(ewBtnMinus);
+    ewDiv.appendChild(ewInput);
+    ewDiv.appendChild(ewBtnPlus);
+    detailsDiv.appendChild(ewDiv);
+  }
+
+  // 楕円高さ
+  if (selectedField.ellipseHeight !== undefined) {
+    const ehDiv = document.createElement('div');
+    ehDiv.className = 'coordinate-input';
+    ehDiv.innerHTML = `<label>楕円高さ:</label>`;
+    
+    const ehBtnMinus = document.createElement('button');
+    ehBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+    ehBtnMinus.innerHTML = '−';
+    ehBtnMinus.addEventListener('mousedown', () => startLongPress(selectedKey, 'ellipseHeight', -0.5));
+    ehBtnMinus.addEventListener('mouseup', stopLongPress);
+    ehBtnMinus.addEventListener('mouseleave', stopLongPress);
+    ehBtnMinus.addEventListener('touchstart', () => startLongPress(selectedKey, 'ellipseHeight', -0.5));
+    ehBtnMinus.addEventListener('touchend', stopLongPress);
+    
+    const ehInput = document.createElement('input');
+    ehInput.type = 'number';
+    ehInput.step = '0.5';
+    ehInput.value = selectedField.ellipseHeight || 5;
+    ehInput.className = 'form-control form-control-sm';
+    ehInput.style.width = '80px';
+    ehInput.style.display = 'inline-block';
+    ehInput.setAttribute('data-property', 'ellipseHeight');
+    ehInput.style.marginLeft = '5px';
+    ehInput.style.marginRight = '5px';
+    ehInput.addEventListener('change', function() {
+      updateCoordinate(selectedKey, 'ellipseHeight', this.value);
+    });
+    
+    const ehBtnPlus = document.createElement('button');
+    ehBtnPlus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+    ehBtnPlus.innerHTML = '+';
+    ehBtnPlus.addEventListener('mousedown', () => startLongPress(selectedKey, 'ellipseHeight', 0.5));
+    ehBtnPlus.addEventListener('mouseup', stopLongPress);
+    ehBtnPlus.addEventListener('mouseleave', stopLongPress);
+    ehBtnPlus.addEventListener('touchstart', () => startLongPress(selectedKey, 'ellipseHeight', 0.5));
+    ehBtnPlus.addEventListener('touchend', stopLongPress);
+    
+    ehDiv.appendChild(ehBtnMinus);
+    ehDiv.appendChild(ehInput);
+    ehDiv.appendChild(ehBtnPlus);
+    detailsDiv.appendChild(ehDiv);
+  }
+
+  fieldsContainer.appendChild(detailsDiv);
+
+  autoSave();
+  autoPreview();
+}
+
+// サンプルデータ入力欄を生成
+function getSampleDataInput(key) {
+  const showSampleData = document.getElementById('show-sample-data')?.checked;
+  if (!showSampleData) return '';
+
+  const mapping = sampleDataFieldMapping[key];
+  if (!mapping) return '';
+
+  const currentValue = customSampleData[mapping.field] || '';
+
+  let inputHtml = '';
+
+  if (mapping.type === 'text' || mapping.type === 'number') {
+    inputHtml = `
+      <div class="coordinate-input mt-3 pt-3" style="border-top: 1px dashed #ccc;">
+        <label style="color: #0066cc;">サンプル${mapping.label}:</label>
+        <input type="${mapping.type}"
+               value="${currentValue}"
+               onchange="updateSampleData('${mapping.field}', this.value)"
+               class="form-control form-control-sm">
+      </div>
+    `;
+  } else if (mapping.type === 'date') {
+    inputHtml = `
+      <div class="coordinate-input mt-3 pt-3" style="border-top: 1px dashed #ccc;">
+        <label style="color: #0066cc;">サンプル${mapping.label}:</label>
+        <input type="date"
+               value="${currentValue}"
+               onchange="updateSampleData('${mapping.field}', this.value)"
+               class="form-control form-control-sm">
+      </div>
+    `;
+  } else if (mapping.type === 'select') {
+    let options = '';
+    
+    // masterKeyからmasterDataを参照してオプション生成
+    if (mapping.masterKey) {
+      const masterKey = mapping.masterKey;
+      const valueField = mapping.valueField;
+      const masterOptions = masterData[masterKey] || [];
+      
+      options = masterOptions.map(opt => {
+        const optValue = opt[valueField] || opt;
+        return `<option value="${optValue}" ${currentValue === optValue ? 'selected' : ''}>${optValue}</option>`;
+      }).join('');
+    }
+    // optionsから直接オプション生成
+    else if (mapping.options) {
+      options = mapping.options.map(opt => {
+        return `<option value="${opt}" ${currentValue === opt ? 'selected' : ''}>${opt}</option>`;
+      }).join('');
+    }
+    
+    inputHtml = `
+      <div class="coordinate-input mt-3 pt-3" style="border-top: 1px dashed #ccc;">
+        <label style="color: #0066cc;">サンプル${mapping.label}:</label>
+        <select onchange="updateSampleData('${mapping.field}', this.value)"
+                class="form-control form-control-sm">
+          ${options}
+        </select>
+      </div>
+    `;
+  }
+
+  return inputHtml;
 }
 
 // 座標更新
@@ -421,7 +1028,16 @@ function adjustValue(key, property, delta) {
   coordinates[key][property] = newValue;
 
   // 該当のinput要素を data-property 属性で探して更新
-  const controls = document.getElementById('controls-' + key);
+  // ラジオグループの場合とそうでない場合の両方に対応
+  const controlsId = 'controls-' + key;
+  const radioGroupName = coordinates[key].radioGroup;
+  
+  let controls = document.getElementById(controlsId);
+  if (!controls && radioGroupName) {
+    // ラジオグループの場合
+    controls = document.getElementById('radiogroup-fields-' + radioGroupName);
+  }
+  
   if (controls) {
     const input = controls.querySelector(`input[data-property="${property}"]`);
     if (input) {
@@ -488,13 +1104,27 @@ function saveCoordinates(isAuto = false) {
     saveIndicator.style.display = 'inline-block';
   }
 
+  // isSelectedフラグを除外した座標データを作成
+  const coordinatesToSave = {};
+  Object.keys(coordinates).forEach(key => {
+    coordinatesToSave[key] = {};
+    Object.keys(coordinates[key]).forEach(prop => {
+      if (prop !== 'isSelected') {
+        coordinatesToSave[key][prop] = coordinates[key][prop];
+      }
+    });
+  });
+
   fetch('/prints/save-coordinates', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
     },
-    body: JSON.stringify({ coordinates })
+    body: JSON.stringify({
+      coordinates: coordinatesToSave,
+      pdf_type: currentPdfType
+    })
   })
     .then(response => response.json())
     .then(data => {
@@ -531,10 +1161,39 @@ function previewPdf() {
   const overlay = document.getElementById('preview-overlay');
   const clinicUserSelect = document.getElementById('clinic-user-select');
   const clinicUserId = clinicUserSelect ? clinicUserSelect.value : null;
+  const showSampleData = document.getElementById('show-sample-data').checked;
 
   // ローディング表示
   loadingBadge.style.display = 'inline-block';
   overlay.style.display = 'flex';
+
+  // プレビュー用の座標データを作成
+  let coordinatesForPreview = coordinates;
+
+  // サンプルデータ表示がOFFの場合は、isSelectedフラグを除外
+  if (!showSampleData) {
+    coordinatesForPreview = {};
+    Object.keys(coordinates).forEach(key => {
+      coordinatesForPreview[key] = {};
+      Object.keys(coordinates[key]).forEach(prop => {
+        if (prop !== 'isSelected') {
+          coordinatesForPreview[key][prop] = coordinates[key][prop];
+        }
+      });
+    });
+  }
+
+  const requestBody = {
+    coordinates: coordinatesForPreview,
+    clinic_user_id: clinicUserId,
+    pdf_type: currentPdfType,
+    show_sample_data: showSampleData
+  };
+
+  // カスタムサンプルデータがある場合は追加
+  if (showSampleData && customSampleData) {
+    requestBody.custom_sample_data = customSampleData;
+  }
 
   fetch('/prints/preview-pdf', {
     method: 'POST',
@@ -542,10 +1201,7 @@ function previewPdf() {
       'Content-Type': 'application/json',
       'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
     },
-    body: JSON.stringify({
-      coordinates,
-      clinic_user_id: clinicUserId
-    })
+    body: JSON.stringify(requestBody)
   })
     .then(response => response.blob())
     .then(blob => {
@@ -602,6 +1258,42 @@ function resetCoordinates() {
   coordinates = JSON.parse(JSON.stringify(originalCoordinates));
   renderFieldSettings();
   previewPdf();
+}
+
+// カスタムサンプルデータをlocalStorageから読み込み
+function loadCustomSampleData() {
+  const storageKey = 'customSampleData_' + currentPdfType;
+  const stored = localStorage.getItem(storageKey);
+  if (stored) {
+    try {
+      const savedData = JSON.parse(stored);
+      // デフォルト値とマージ
+      customSampleData = { ...customSampleData, ...savedData };
+    } catch (e) {
+      console.error('サンプルデータの読み込みエラー:', e);
+    }
+  }
+
+  // consent_dateのデフォルト値を設定
+  if (!customSampleData.consent_date) {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    customSampleData.consent_date = `${yyyy}-${mm}-${dd}`;
+  }
+}
+
+// サンプルデータを更新
+function updateSampleData(field, value) {
+  customSampleData[field] = value;
+
+  // localStorageに保存
+  const storageKey = 'customSampleData_' + currentPdfType;
+  localStorage.setItem(storageKey, JSON.stringify(customSampleData));
+
+  // プレビューを自動更新
+  autoPreview();
 }
 </script>
 </x-app-layout>
