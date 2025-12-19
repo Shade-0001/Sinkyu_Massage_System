@@ -159,7 +159,12 @@ class PrintsController extends Controller
       'relationships' => DB::table('relationships_with_clinic_user')->select('id', 'relationship')->get(),
     ];
 
-    return view('prints.coordinate_adjuster', compact('clinicUsers', 'pdfType', 'pdfTypeName', 'masterData'));
+    // 最新の施術料金データを取得
+    $treatmentFees = DB::table('treatment_fees')
+      ->orderBy('created_at', 'desc')
+      ->first();
+
+    return view('prints.coordinate_adjuster', compact('clinicUsers', 'pdfType', 'pdfTypeName', 'masterData', 'treatmentFees'));
   }
 
   /**
@@ -288,6 +293,11 @@ class PrintsController extends Controller
 
         // カスタムサンプルデータがある場合は設定
         $customSampleData = $request->input('custom_sample_data');
+        \Log::info('カスタムサンプルデータ受信チェック', [
+          'exists' => !empty($customSampleData),
+          'fee_hari_unit' => $customSampleData['fee_hari_unit'] ?? 'なし',
+          'fee_kyu_unit' => $customSampleData['fee_kyu_unit'] ?? 'なし',
+        ]);
         if ($customSampleData && method_exists($service, 'setCustomSampleData')) {
           $service->setCustomSampleData($customSampleData);
         }

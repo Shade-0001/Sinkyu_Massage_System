@@ -1,18 +1,18 @@
 <x-app-layout>
 <div class="container-fluid mt-4">
-  <h4 class="mb-4">{{ $pdfTypeName }} - PDFレイアウト調整ツール</h4>
+  <h4 class="mb-4">PDFレイアウト調整ツール｜{{ $pdfTypeName }}</h4>
 
   <div class="row">
     <!-- 左側: 設定パネル -->
     <div class="col-md-3">
       <div class="card">
-        <div class="card-header bg-primary text-white">
+        <div class="card-header bg-secondary text-white">
           <h5 class="mb-0">フィールド設定</h5>
         </div>
         <div class="card-body p-0" style="max-height: 80vh; overflow-y: auto;">
           <!-- PDFタイプ選択 -->
-          <div class="p-3 border-bottom bg-info">
-            <label for="pdf-type-select" class="form-label mb-2 text-white">PDFタイプ：</label>
+          <div class="p-3 border-bottom bg-light">
+            <label for="pdf-type-select" class="form-label mb-2">PDFタイプ</label>
             <select id="pdf-type-select" class="form-control">
               <option value="acupuncture" {{ $pdfType === 'acupuncture' ? 'selected' : '' }}>はり・きゅう</option>
               <option value="massage" {{ $pdfType === 'massage' ? 'selected' : '' }}>あんま・マッサージ</option>
@@ -21,7 +21,7 @@
 
           <!-- 利用者選択 -->
           <div class="p-3 border-bottom bg-light">
-            <label for="clinic-user-select" class="form-label mb-2">プレビュー利用者：</label>
+            <label for="clinic-user-select" class="form-label mb-2">プレビュー利用者</label>
             <select id="clinic-user-select" class="form-control">
               @foreach($clinicUsers as $user)
                 <option value="{{ $user->id }}">
@@ -36,10 +36,9 @@
             <div class="form-check">
               <input class="form-check-input" type="checkbox" id="show-sample-data">
               <label class="form-check-label" for="show-sample-data">
-                サンプルデータを表示
+                サンプルデータ表示
               </label>
             </div>
-            <small class="text-muted d-block mt-1">全フィールドにサンプル値を表示してレイアウトを確認</small>
           </div>
 
           <div id="field-settings">
@@ -175,12 +174,15 @@ const masterData = {
   relationships: @json($masterData['relationships'])
 };
 
+// 施術料金データ
+const treatmentFees = @json($treatmentFees ?? null);
+
 let customSampleData = {
-  last_name: '佐藤',
-  first_name: '花子',
-  last_kana: 'サトウ',
-  first_kana: 'ハナコ',
-  gender: '女',
+  last_name: '田中',
+  first_name: '太郎',
+  last_kana: 'タナカ',
+  first_kana: 'タロウ',
+  gender: '男',
   birthdate: '1955-03-15',
   address: '東京都千代田区丸の内1-1-1',
   phone: '03-1234-5678',
@@ -188,11 +190,31 @@ let customSampleData = {
   insurance_symbol: 'ABC123',
   insurance_number: '9876543210',
   relationship: '本人',
+  office_name: '株式会社〇〇',
   doctor_name: '山田太郎',
   medical_institution: '〇〇病院',
+  doctor_address: '東京都新宿区〇〇1-2-3',
   consent_date: '',
+  consent_year: '',
+  consent_month: '',
+  consent_day: '',
   disease: '腰痛症',
   bodypart: '腰部',
+  treatment_year_month: '',
+  // 代理人情報
+  agent_address: '東京都千代田区〇〇2-3-4',
+  agent_name: '田中花子',
+  // 支払機関情報
+  payment_institution_date_year: '7',
+  payment_institution_date_month: '12',
+  payment_institution_date_day: '19',
+  payment_institution_address: '〒100-0001 東京都千代田区〇〇1-2-3',
+  payment_institution_name: '〇〇健康保険組合',
+  payment_institution_phone: '03-9876-5432',
+  // 仮保険者情報
+  temporary_insurer_name: '田中太郎',
+  treatment_start_date: '',
+  treatment_period: '',
   treatment_days: '15',
   clinic_name: '〇〇鍼灸マッサージ院',
   clinic_address: '東京都渋谷区〇〇1-2-3',
@@ -202,45 +224,196 @@ let customSampleData = {
   outcome: '継続',
   work_scope_type: '業務上',
   birthday_era: '昭和',
-  bill_category: '新規'
+  bill_category: '新規',
+  claim_number: '2025-0001',
+  bank_name: '〇〇銀行',
+  branch_name: '△△支店',
+  account_type: '普通',
+  account_number: '1234567',
+  account_holder: 'タナカ イチロウ',
+  // 施術料金関連（鍼灸）
+  fee_hari_unit: '1500',
+  fee_hari_count: '10',
+  fee_hari_total: '15000',
+  fee_kyu_unit: '1500',
+  fee_kyu_count: '5',
+  fee_kyu_total: '7500',
+  fee_hari_kyu_unit: '2500',
+  fee_hari_kyu_count: '0',
+  fee_hari_kyu_total: '0',
+  fee_electric_unit: '100',
+  fee_electric_count: '0',
+  fee_electric_total: '0',
+  fee_housecall_unit: '250',
+  fee_housecall_count: '15',
+  fee_housecall_total: '3750',
+  fee_housecall_additional_unit: '125',
+  fee_housecall_additional_count: '0',
+  fee_housecall_additional_total: '0',
+  fee_previous_payment_unit: '0',
+  fee_previous_payment_count: '0',
+  fee_previous_payment_total: '0',
+  fee_subtotal: '26250',
+  fee_partial_payment: '2625',
+  fee_total_claim: '23625',
+  // 施術料金関連（マッサージ）
+  fee_massage_unit: '2000',
+  fee_massage_count: '12',
+  fee_massage_total: '24000',
+  // 傷病名
+  illness_name: '1' // 1:神経痛, 2:リウマチ, 3:頸腕症候群, 4:五十肩, 5:腰痛症, 6:頸椎捻挫後遺症, 7:その他
 };
 
 // サンプルデータフィールドマッピング（座標キーとサンプルデータキーの対応）
+// 申請書の記載順序に合わせて整理
 const sampleDataFieldMapping = {
-  'patient_name': { field: 'last_name', label: '氏名（姓）', type: 'text', combine: ['last_name', 'first_name'] },
-  'patient_name_kana': { field: 'last_kana', label: '氏名カナ（姓）', type: 'text', combine: ['last_kana', 'first_kana'] },
+  // === 1. 基本情報・請求書番号 ===
+  'claim_number': { field: 'claim_number', label: '請求書番号', type: 'text' },
+  'treatment_year_month': { field: 'treatment_year_month', label: '施術年月', type: 'text' },
+
+  // === 2. 被保険者情報 ===
+  // 保険者番号
+  'insurer_number': { field: 'insurer_number', label: '保険者番号', type: 'text' },
+  
+  // 被保険者証記号・番号
+  'insurance_symbol': { field: 'insurance_symbol', label: '被保険者証記号', type: 'text' },
+  'insurance_number': { field: 'insurance_number', label: '被保険者番号', type: 'text' },
+  
+  // 氏名（フリガナ）
+  'patient_last_kana': { field: 'last_kana', label: '氏名カナ（姓）', type: 'text' },
+  'patient_first_kana': { field: 'first_kana', label: '氏名カナ（名）', type: 'text' },
+  'patient_name_kana': { field: 'last_kana', label: '氏名カナ（姓名）', type: 'text', combine: ['last_kana', 'first_kana'] },
+  
+  // 氏名
+  'patient_last_name': { field: 'last_name', label: '氏名（姓）', type: 'text' },
+  'patient_first_name': { field: 'first_name', label: '氏名（名）', type: 'text' },
+  'patient_name': { field: 'last_name', label: '氏名（姓名）', type: 'text', combine: ['last_name', 'first_name'] },
+  
+  // 性別
   'patient_gender_male': { field: 'gender', label: '性別', type: 'select', masterKey: 'genders', valueField: 'gender' },
   'patient_gender_female': { field: 'gender', label: '性別', type: 'select', masterKey: 'genders', valueField: 'gender' },
-  'birthday_year': { field: 'birthdate', label: '生年月日', type: 'date' },
-  'birthday_month': { field: 'birthdate', label: '生年月日', type: 'date' },
-  'birthday_day': { field: 'birthdate', label: '生年月日', type: 'date' },
-  'insurer_number': { field: 'insurer_number', label: '保険者番号', type: 'text' },
-  'insurance_symbol': { field: 'insurance_symbol', label: '被保険者証記号', type: 'text' },
+  
+  // 生年月日
+  'birthday_era_reiwa': { field: 'birthday_era', label: '生年月日元号', type: 'select', options: ['令和', '平成', '昭和'] },
+  'birthday_era_heisei': { field: 'birthday_era', label: '生年月日元号', type: 'select', options: ['令和', '平成', '昭和'] },
+  'birthday_era_showa': { field: 'birthday_era', label: '生年月日元号', type: 'select', options: ['令和', '平成', '昭和'] },
+  'birthday_year': { field: 'birthdate', label: '生年月日（年）', type: 'date' },
+  'birthday_month': { field: 'birthdate', label: '生年月日（月）', type: 'date' },
+  'birthday_day': { field: 'birthdate', label: '生年月日（日）', type: 'date' },
+  
+  // 続柄
   'patient_relationship': { field: 'relationship', label: '続柄', type: 'select', masterKey: 'relationships', valueField: 'relationship' },
-  'clinic_name': { field: 'clinic_name', label: '施術所名称', type: 'text' },
-  'clinic_address': { field: 'clinic_address', label: '施術所所在地', type: 'text' },
-  'clinic_manager': { field: 'clinic_manager', label: '施術管理者氏名', type: 'text' },
-  'clinic_phone': { field: 'clinic_phone', label: '電話番号', type: 'text' },
-  'institution_code': { field: 'institution_code', label: '機関コード', type: 'text' },
+  
+  // 事業所名称
+  'office_name': { field: 'office_name', label: '事業所名称', type: 'text' },
+  
+  // 初療年月日・施術期間
+  'treatment_start_date': { field: 'treatment_start_date', label: '初療年月日', type: 'date' },
+  'treatment_period': { field: 'treatment_period', label: '施術期間', type: 'text' },
+
+  // === 3. 傷病名 ===
+  'illness_name_1': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'] },
+  'illness_name_2': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'] },
+  'illness_name_3': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'] },
+  'illness_name_4': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'] },
+  'illness_name_5': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'] },
+  'illness_name_6': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'] },
+  'illness_name_7': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'] },
+
+  // === 4. 施術情報 ===
+  // 実日数
   'treatment_days': { field: 'treatment_days', label: '実日数', type: 'number' },
+  
+  // 請求区分
+  'bill_category_new': { field: 'bill_category', label: '請求区分', type: 'select', options: ['新規', '継続'] },
+  'bill_category_continued': { field: 'bill_category', label: '請求区分', type: 'select', options: ['新規', '継続'] },
+  
+  // 転帰
   'outcome_continued': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'] },
   'outcome_cured': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'] },
   'outcome_discontinued': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'] },
   'outcome_transferred': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'] },
+  
+  // 業務上・第三者行為
   'work_scope_type_1': { field: 'work_scope_type', label: '業務上第三者行為', type: 'select', options: ['業務上', '第三者行為である', 'その他'] },
   'work_scope_type_2': { field: 'work_scope_type', label: '業務上第三者行為', type: 'select', options: ['業務上', '第三者行為である', 'その他'] },
   'work_scope_type_3': { field: 'work_scope_type', label: '業務上第三者行為', type: 'select', options: ['業務上', '第三者行為である', 'その他'] },
-  'birthday_era_reiwa': { field: 'birthday_era', label: '生年月日元号', type: 'select', options: ['令和', '平成', '昭和'] },
-  'birthday_era_heisei': { field: 'birthday_era', label: '生年月日元号', type: 'select', options: ['令和', '平成', '昭和'] },
-  'birthday_era_showa': { field: 'birthday_era', label: '生年月日元号', type: 'select', options: ['令和', '平成', '昭和'] },
-  'bill_category_new': { field: 'bill_category', label: '請求区分', type: 'select', options: ['新規', '継続'] },
-  'bill_category_continued': { field: 'bill_category', label: '請求区分', type: 'select', options: ['新規', '継続'] }
+
+  // === 5. 施術料金（鍼灸） ===
+  'fee_hari_unit': { field: 'fee_hari_unit', label: 'はり料金（単価）', type: 'number' },
+  'fee_hari_count': { field: 'fee_hari_count', label: 'はり料金（回数）', type: 'number' },
+  'fee_hari_total': { field: 'fee_hari_total', label: 'はり料金（合計）', type: 'number' },
+  'fee_kyu_unit': { field: 'fee_kyu_unit', label: 'きゅう料金（単価）', type: 'number' },
+  'fee_kyu_count': { field: 'fee_kyu_count', label: 'きゅう料金（回数）', type: 'number' },
+  'fee_kyu_total': { field: 'fee_kyu_total', label: 'きゅう料金（合計）', type: 'number' },
+  'fee_hari_kyu_unit': { field: 'fee_hari_kyu_unit', label: 'はり・きゅう併用（単価）', type: 'number' },
+  'fee_hari_kyu_count': { field: 'fee_hari_kyu_count', label: 'はり・きゅう併用（回数）', type: 'number' },
+  'fee_hari_kyu_total': { field: 'fee_hari_kyu_total', label: 'はり・きゅう併用（合計）', type: 'number' },
+  'fee_electric_unit': { field: 'fee_electric_unit', label: '電療料（単価）', type: 'number' },
+  'fee_electric_count': { field: 'fee_electric_count', label: '電療料（回数）', type: 'number' },
+  'fee_electric_total': { field: 'fee_electric_total', label: '電療料（合計）', type: 'number' },
+  'fee_housecall_unit': { field: 'fee_housecall_unit', label: '往療料（単価）', type: 'number' },
+  'fee_housecall_count': { field: 'fee_housecall_count', label: '往療料（回数）', type: 'number' },
+  'fee_housecall_total': { field: 'fee_housecall_total', label: '往療料（合計）', type: 'number' },
+  'fee_housecall_additional_unit': { field: 'fee_housecall_additional_unit', label: '往療料4km超（単価）', type: 'number' },
+  'fee_housecall_additional_count': { field: 'fee_housecall_additional_count', label: '往療料4km超（回数）', type: 'number' },
+  'fee_housecall_additional_total': { field: 'fee_housecall_additional_total', label: '往療料4km超（合計）', type: 'number' },
+  'fee_previous_payment_unit': { field: 'fee_previous_payment_unit', label: '施術給付金支払（単価）', type: 'number' },
+  'fee_previous_payment_count': { field: 'fee_previous_payment_count', label: '施術給付金支払（回数）', type: 'number' },
+  'fee_previous_payment_total': { field: 'fee_previous_payment_total', label: '施術給付金支払（合計）', type: 'number' },
+  'fee_subtotal': { field: 'fee_subtotal', label: '合計', type: 'number' },
+  'fee_partial_payment': { field: 'fee_partial_payment', label: '一部負担金', type: 'number' },
+  'fee_total_claim': { field: 'fee_total_claim', label: '請求額', type: 'number' },
+  
+  // === 6. 施術料金（マッサージ） ===
+  'fee_massage_unit': { field: 'fee_massage_unit', label: 'マッサージ料金（単価）', type: 'number' },
+  'fee_massage_count': { field: 'fee_massage_count', label: 'マッサージ料金（回数）', type: 'number' },
+  'fee_massage_total': { field: 'fee_massage_total', label: 'マッサージ料金（合計）', type: 'number' },
+
+  // === 7. 施術所情報 ===
+  'clinic_address': { field: 'clinic_address', label: '施術所所在地', type: 'text' },
+  'clinic_name': { field: 'clinic_name', label: '施術所名称', type: 'text' },
+  'clinic_manager': { field: 'clinic_manager', label: '施術管理者氏名', type: 'text' },
+  'clinic_phone': { field: 'clinic_phone', label: '電話番号', type: 'text' },
+  'institution_code': { field: 'institution_code', label: '機関コード', type: 'text' },
+
+  // === 8. 医師情報 ===
+  'consent_date': { field: 'consent_date', label: '同意年月日', type: 'date' },
+  'consent_year': { field: 'consent_year', label: '同意年', type: 'number' },
+  'consent_month': { field: 'consent_month', label: '同意月', type: 'number' },
+  'consent_day': { field: 'consent_day', label: '同意日', type: 'number' },
+  'doctor_address': { field: 'doctor_address', label: '医師所在地', type: 'text' },
+  'medical_institution': { field: 'medical_institution', label: '医療機関名', type: 'text' },
+  'doctor_name': { field: 'doctor_name', label: '医師氏名', type: 'text' },
+
+  // === 9. 振込口座情報 ===
+  'bank_name': { field: 'bank_name', label: '銀行名', type: 'text' },
+  'branch_name': { field: 'branch_name', label: '支店名', type: 'text' },
+  'account_type': { field: 'account_type', label: '口座種別', type: 'select', options: ['普通', '当座'] },
+  'account_number': { field: 'account_number', label: '口座番号', type: 'text' },
+  'account_holder': { field: 'account_holder', label: '口座名義', type: 'text' },
+
+  // === 10. 代理人情報 ===
+  'agent_address': { field: 'agent_address', label: '代理人住所', type: 'text' },
+  'agent_name': { field: 'agent_name', label: '代理人氏名', type: 'text' },
+
+  // === 11. 支払機関欄 ===
+  'payment_institution_date_year': { field: 'payment_institution_date_year', label: '支払機関年月日（年）', type: 'number' },
+  'payment_institution_date_month': { field: 'payment_institution_date_month', label: '支払機関年月日（月）', type: 'number' },
+  'payment_institution_date_day': { field: 'payment_institution_date_day', label: '支払機関年月日（日）', type: 'number' },
+  'payment_institution_address': { field: 'payment_institution_address', label: '支払機関住所', type: 'text' },
+  'payment_institution_name': { field: 'payment_institution_name', label: '支払機関名称', type: 'text' },
+  'payment_institution_phone': { field: 'payment_institution_phone', label: '支払機関電話番号', type: 'text' },
+
+  // === 12. 仮保険者情報 ===
+  'temporary_insurer_name': { field: 'temporary_insurer_name', label: '仮保険者氏名', type: 'text' }
 };
 
 // 初期化
 document.addEventListener('DOMContentLoaded', function() {
   loadCoordinates();
   loadCustomSampleData();
+  displayTreatmentFees();
 
   // イベントリスナー
   document.getElementById('btn-reset').addEventListener('click', resetCoordinates);
@@ -308,13 +481,25 @@ function renderFieldSettings() {
   const container = document.getElementById('field-settings');
   container.innerHTML = '';
 
-  console.log('Total fields:', Object.keys(coordinates).length);
-
   // radioGroupでグループ化されたフィールドを追跡
   const processedGroups = new Set();
+  const processedKeys = new Set();
 
+  // sampleDataFieldMappingの順序でフィールドを処理
+  const orderedKeys = Object.keys(sampleDataFieldMapping).filter(key => coordinates[key]);
+  
+  // coordinatesに存在するが、sampleDataFieldMappingにないキーも追加
   Object.keys(coordinates).forEach(key => {
+    if (!orderedKeys.includes(key)) {
+      orderedKeys.push(key);
+    }
+  });
+
+  orderedKeys.forEach(key => {
+    if (processedKeys.has(key)) return;
+    
     const field = coordinates[key];
+    if (!field) return;
     
     // radioGroupが定義されている場合、グループの最初のフィールドでセレクトボックスを表示
     if (field.radioGroup && !processedGroups.has(field.radioGroup)) {
@@ -324,11 +509,19 @@ function renderFieldSettings() {
       const groupFields = Object.entries(coordinates)
         .filter(([k, v]) => v.radioGroup === field.radioGroup)
         .sort((a, b) => {
-          // キーの番号順でソート
+          // sampleDataFieldMappingの順序でソート
+          const indexA = orderedKeys.indexOf(a[0]);
+          const indexB = orderedKeys.indexOf(b[0]);
+          if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+          
+          // フォールバック: キーの番号順でソート
           const numA = parseInt(a[0].match(/\d+$/)?.[0] || 0);
           const numB = parseInt(b[0].match(/\d+$/)?.[0] || 0);
           return numA - numB;
         });
+
+      // グループ内のすべてのキーを処理済みとしてマーク
+      groupFields.forEach(([k]) => processedKeys.add(k));
 
       // グループの最初のフィールドを基準にセレクトボックスを作成
       const firstField = groupFields[0][1];
@@ -384,10 +577,13 @@ function renderFieldSettings() {
       return;
     }
     
-    // radioGroupが定義されていない場合は通常通り表示
+    // radioGroupが定義されている場合はスキップ（既に処理済み）
     if (field.radioGroup) {
-      return; // グループ内のその他のフィールドはスキップ
+      return;
     }
+    
+    // 処理済みとしてマーク
+    processedKeys.add(key);
 
     const div = document.createElement('div');
     div.className = 'field-group';
@@ -615,7 +811,6 @@ function updateRadioGroupSelection(groupName, selectedKey) {
   xBtnLeft.className = 'btn btn-sm btn-outline-secondary btn-adjust';
   xBtnLeft.innerHTML = '←';
   xBtnLeft.addEventListener('mousedown', function() {
-    console.log('X Left clicked, selectedKey:', selectedKey);
     startLongPress(selectedKey, 'x', -0.5);
   });
   xBtnLeft.addEventListener('mouseup', stopLongPress);
@@ -925,9 +1120,32 @@ function getSampleDataInput(key) {
   const mapping = sampleDataFieldMapping[key];
   if (!mapping) return '';
 
-  const currentValue = customSampleData[mapping.field] || '';
-
   let inputHtml = '';
+
+  // combine属性がある場合は複数のフィールドの入力欄を作成
+  if (mapping.combine && Array.isArray(mapping.combine)) {
+    inputHtml = '<div class="mt-3 pt-3" style="border-top: 1px dashed #ccc;">';
+    mapping.combine.forEach(fieldName => {
+      const currentValue = customSampleData[fieldName] || '';
+      const fieldLabel = fieldName.includes('last') ? '姓' : '名';
+      const isKana = fieldName.includes('kana');
+      const labelPrefix = isKana ? '氏名カナ' : '氏名';
+      
+      inputHtml += `
+        <div class="coordinate-input">
+          <label style="color: #0066cc;">サンプル${labelPrefix}（${fieldLabel}）:</label>
+          <input type="text"
+                 value="${currentValue}"
+                 onchange="updateSampleData('${fieldName}', this.value)"
+                 class="form-control form-control-sm">
+        </div>
+      `;
+    });
+    inputHtml += '</div>';
+    return inputHtml;
+  }
+
+  const currentValue = customSampleData[mapping.field] || '';
 
   if (mapping.type === 'text' || mapping.type === 'number') {
     inputHtml = `
@@ -965,8 +1183,9 @@ function getSampleDataInput(key) {
     }
     // optionsから直接オプション生成
     else if (mapping.options) {
-      options = mapping.options.map(opt => {
-        return `<option value="${opt}" ${currentValue === opt ? 'selected' : ''}>${opt}</option>`;
+      options = mapping.options.map((opt, index) => {
+        const label = mapping.optionLabels ? mapping.optionLabels[index] : opt;
+        return `<option value="${opt}" ${currentValue === opt ? 'selected' : ''}>${label}</option>`;
       }).join('');
     }
     
@@ -1294,6 +1513,92 @@ function updateSampleData(field, value) {
 
   // プレビューを自動更新
   autoPreview();
+}
+
+// 施術料金データを表示
+function displayTreatmentFees() {
+  const container = document.getElementById('treatment-fees-display');
+  if (!container) return;
+
+  if (!treatmentFees) {
+    container.innerHTML = '<div style="color: #999;">施術料金データなし</div>';
+    return;
+  }
+
+  // 料金項目のラベルマッピング
+  const feeLabels = {
+    // 鍼灸関連
+    hari_first: 'はり（初検）',
+    hari_normal: 'はり（2回目以降）',
+    hari_and_elec_needle_first: 'はり+電気鍼（初検）',
+    hari_and_elec_needle_normal: 'はり+電気鍼（2回目以降）',
+    kyu_first: 'きゅう（初検）',
+    kyu_normal: 'きゅう（2回目以降）',
+    kyu_and_elec_moxa_heater_first: 'きゅう+電気温灸器（初検）',
+    kyu_and_elec_moxa_heater_normal: 'きゅう+電気温灸器（2回目以降）',
+    hari_and_kyu_first: 'はり+きゅう（初検）',
+    hari_and_kyu_normal: 'はり+きゅう（2回目以降）',
+    hari_and_kyu_elec_first: 'はり+きゅう+電気（初検）',
+    hari_and_kyu_elec_normal: 'はり+きゅう+電気（2回目以降）',
+    housecall_max_2km_first: '往療（2km以内・初検）',
+    housecall_max_2km_normal: '往療（2km以内・2回目以降）',
+    housecall_additional_max_4km_first: '往療加算（4km以内・初検）',
+    housecall_additional_max_4km_normal: '往療加算（4km以内・2回目以降）',
+
+    // マッサージ関連
+    massage_trunk_first: 'マッサージ 体幹（初検）',
+    massage_trunk_normal: 'マッサージ 体幹（2回目以降）',
+    massage_upper_limb_r_first: 'マッサージ 上肢右（初検）',
+    massage_upper_limb_r_normal: 'マッサージ 上肢右（2回目以降）',
+    massage_upper_limb_l_first: 'マッサージ 上肢左（初検）',
+    massage_upper_limb_l_normal: 'マッサージ 上肢左（2回目以降）',
+    massage_lower_limb_r_first: 'マッサージ 下肢右（初検）',
+    massage_lower_limb_r_normal: 'マッサージ 下肢右（2回目以降）',
+    massage_lower_limb_l_first: 'マッサージ 下肢左（初検）',
+    massage_lower_limb_l_normal: 'マッサージ 下肢左（2回目以降）',
+    manual_correction_first: '変形徒手矯正術（初検）',
+    manual_correction_normal: '変形徒手矯正術（2回目以降）',
+    fomentation_first: '温罨法（初検）',
+    fomentation_normal: '温罨法（2回目以降）',
+    fomentation_and_elec_ray_first: '温罨法+電気光線（初検）',
+    fomentation_and_elec_ray_normal: '温罨法+電気光線（2回目以降）'
+  };
+
+  // PDFタイプに応じて表示する項目をフィルタリング
+  let html = '<div style="max-height: 300px; overflow-y: auto;">';
+
+  // 適用期間を表示
+  if (treatmentFees.period_start && treatmentFees.period_end) {
+    html += `<div style="margin-bottom: 8px; font-weight: bold; border-bottom: 1px solid #ddd; padding-bottom: 4px;">`;
+    html += `適用期間: ${treatmentFees.period_start} 〜 ${treatmentFees.period_end}`;
+    html += `</div>`;
+  }
+
+  Object.keys(feeLabels).forEach(key => {
+    // PDFタイプに応じてフィルタリング
+    if (currentPdfType === 'acupuncture') {
+      // 鍼灸用PDFでは鍼灸関連の料金のみ表示
+      if (!key.startsWith('hari_') && !key.startsWith('kyu_') && !key.startsWith('housecall_')) {
+        return;
+      }
+    } else if (currentPdfType === 'massage') {
+      // マッサージ用PDFではマッサージ関連の料金のみ表示
+      if (!key.startsWith('massage_') && !key.startsWith('manual_') && !key.startsWith('fomentation_')) {
+        return;
+      }
+    }
+
+    const value = treatmentFees[key];
+    if (value !== null && value !== undefined) {
+      html += `<div style="margin-bottom: 4px; display: flex; justify-content: space-between;">`;
+      html += `<span style="flex: 1; font-size: 0.75em;">${feeLabels[key]}:</span>`;
+      html += `<span style="font-weight: bold; min-width: 60px; text-align: right;">${Number(value).toLocaleString()}円</span>`;
+      html += `</div>`;
+    }
+  });
+
+  html += '</div>';
+  container.innerHTML = html;
 }
 </script>
 </x-app-layout>
