@@ -454,20 +454,14 @@ class AcupunctureBenefitPdfService
     }
     
     if ($genderKey) {
-      // isSelectedで指定されたフィールドに○を表示
-      $pdf->SetFontSize($this->coord($genderKey, 'fontSize'));
-      $this->drawTextByKey($pdf, $genderKey, '○');
-      $pdf->SetFontSize(10);
+      // isSelectedで指定されたフィールドに楕円を表示
+      $this->drawEllipseByKey($pdf, $genderKey);
     } elseif (isset($clinicUser->gender) && $clinicUser->gender) {
       // isSelectedがない場合は実データから判定
       if ($clinicUser->gender === '男') {
-        $pdf->SetFontSize($this->coord('patient_gender_male', 'fontSize'));
-        $this->drawTextByKey($pdf, 'patient_gender_male', '○');
-        $pdf->SetFontSize(10);
+        $this->drawEllipseByKey($pdf, 'patient_gender_male');
       } elseif ($clinicUser->gender === '女') {
-        $pdf->SetFontSize($this->coord('patient_gender_female', 'fontSize'));
-        $this->drawTextByKey($pdf, 'patient_gender_female', '○');
-        $pdf->SetFontSize(10);
+        $this->drawEllipseByKey($pdf, 'patient_gender_female');
       }
     }
 
@@ -489,20 +483,16 @@ class AcupunctureBenefitPdfService
         }
 
         if ($birthdayEraKey) {
-          $pdf->SetFontSize($this->coord($birthdayEraKey, 'fontSize'));
-          $this->drawTextByKey($pdf, $birthdayEraKey, '○');
+          $this->drawEllipseByKey($pdf, $birthdayEraKey);
         }
       } else {
         // 実データから判定
         if ($birthJapaneseYear['era'] === '令和') {
-          $pdf->SetFontSize($this->coord('birthday_era_reiwa', 'fontSize'));
-          $this->drawTextByKey($pdf, 'birthday_era_reiwa', '○');
+          $this->drawEllipseByKey($pdf, 'birthday_era_reiwa');
         } elseif ($birthJapaneseYear['era'] === '平成') {
-          $pdf->SetFontSize($this->coord('birthday_era_heisei', 'fontSize'));
-          $this->drawTextByKey($pdf, 'birthday_era_heisei', '○');
+          $this->drawEllipseByKey($pdf, 'birthday_era_heisei');
         } elseif ($birthJapaneseYear['era'] === '昭和') {
-          $pdf->SetFontSize($this->coord('birthday_era_showa', 'fontSize'));
-          $this->drawTextByKey($pdf, 'birthday_era_showa', '○');
+          $this->drawEllipseByKey($pdf, 'birthday_era_showa');
         }
       }
 
@@ -575,25 +565,17 @@ class AcupunctureBenefitPdfService
     }
     
     if ($workScopeTypeKey) {
-      // isSelectedで指定されたフィールドに○を表示
-      $pdf->SetFontSize($this->coord($workScopeTypeKey, 'fontSize'));
-      $this->drawTextByKey($pdf, $workScopeTypeKey, '○');
-      $pdf->SetFontSize(10);
+      // isSelectedで指定されたフィールドに楕円を表示
+      $this->drawEllipseByKey($pdf, $workScopeTypeKey);
     } elseif ($consent && isset($consent->work_scope_type) && $consent->work_scope_type) {
       // isSelectedがない場合は実データから判定
-      // ○を表示 (1.業務上 2.第三者行為である 3.その他)
+      // 楕円を表示 (1.業務上 2.第三者行為である 3.その他)
       if ($consent->work_scope_type === '業務上') {
-        $pdf->SetFontSize($this->coord('work_scope_type_1', 'fontSize'));
-        $this->drawTextByKey($pdf, 'work_scope_type_1', '○');
-        $pdf->SetFontSize(10);
+        $this->drawEllipseByKey($pdf, 'work_scope_type_1');
       } elseif ($consent->work_scope_type === '第三者行為である') {
-        $pdf->SetFontSize($this->coord('work_scope_type_2', 'fontSize'));
-        $this->drawTextByKey($pdf, 'work_scope_type_2', '○');
-        $pdf->SetFontSize(10);
+        $this->drawEllipseByKey($pdf, 'work_scope_type_2');
       } elseif ($consent->work_scope_type === 'その他') {
-        $pdf->SetFontSize($this->coord('work_scope_type_3', 'fontSize'));
-        $this->drawTextByKey($pdf, 'work_scope_type_3', '○');
-        $pdf->SetFontSize(10);
+        $this->drawEllipseByKey($pdf, 'work_scope_type_3');
       }
     }
 
@@ -751,9 +733,7 @@ class AcupunctureBenefitPdfService
       for ($i = 1; $i <= 7; $i++) {
         $key = 'illness_name_' . $i;
         if (isset($this->coordinates[$key]['isSelected']) && $this->coordinates[$key]['isSelected']) {
-          $pdf->SetFontSize($this->coord($key, 'fontSize'));
-          $this->drawTextByKey($pdf, $key, '○');
-          $pdf->SetFontSize(10);
+          $this->drawEllipseByKey($pdf, $key);
 
           // 「その他」の場合、追記テキストを表示
           if ($i === 7 && isset($this->customSampleData['disease']) && $this->customSampleData['disease']) {
@@ -765,14 +745,12 @@ class AcupunctureBenefitPdfService
         }
       }
     } elseif ($consent && isset($consent->illness_name_acupuncture_id) && $consent->illness_name_acupuncture_id) {
-      // 実データモード：illness_name_acupuncture_idに応じて○を表示
+      // 実データモード：illness_name_acupuncture_idに応じて楕円を表示
       // 1:神経痛, 2:リウマチ, 3:頸腕症候群, 4:五十肩, 5:腰痛症, 6:頸椎捻挫後遺症, 7:その他
       $illnessId = (int)$consent->illness_name_acupuncture_id;
 
       if ($illnessId >= 1 && $illnessId <= 7) {
-        $pdf->SetFontSize($this->coord('illness_name_' . $illnessId, 'fontSize'));
-        $this->drawTextByKey($pdf, 'illness_name_' . $illnessId, '○');
-        $pdf->SetFontSize(10);
+        $this->drawEllipseByKey($pdf, 'illness_name_' . $illnessId);
       }
 
       // 「その他」の場合、追記テキストを表示
@@ -803,9 +781,14 @@ class AcupunctureBenefitPdfService
 
       $pdf->SetFontSize(10);
 
-      // 施術所所在地
-      $clinicAddress = ($clinicInfo->postal_code ?? '') . ' ' .
-                       ($clinicInfo->address_1 ?? '') .
+      // 施術所郵便番号
+      if ($this->hasCoord('clinic_postal_code')) {
+        $pdf->SetFontSize($this->coord('clinic_postal_code', 'fontSize'));
+        $this->drawTextByKey($pdf, 'clinic_postal_code', (string)($clinicInfo->postal_code ?? ''));
+      }
+
+      // 施術所住所
+      $clinicAddress = ($clinicInfo->address_1 ?? '') .
                        ($clinicInfo->address_2 ?? '') .
                        ($clinicInfo->address_3 ?? '');
       $pdf->SetFontSize($this->coord('clinic_address', 'fontSize'));
@@ -820,8 +803,8 @@ class AcupunctureBenefitPdfService
       // 施術管理者氏名（施術者情報から取得）
       $therapist = DB::table('therapists')->first();
       if ($therapist) {
-        $therapistName = ($therapist->last_name ?? '') . ($therapist->first_name ?? '');
-        if (empty($therapistName)) {
+        $therapistName = ($therapist->last_name ?? '') . ' ' . ($therapist->first_name ?? '');
+        if (empty(trim($therapistName))) {
           \Log::warning('施術管理者氏名が設定されていません', ['therapist' => $therapist]);
         }
         $pdf->SetFontSize($this->coord('clinic_manager', 'fontSize'));
@@ -929,8 +912,14 @@ class AcupunctureBenefitPdfService
     $pdf->SetFontSize(10);
 
     // === 申請者情報 ===
-    $address = ($clinicUser->postal_code ?? '') . ' ' .
-               ($clinicUser->address_1 ?? '') .
+    // 申請者郵便番号
+    if ($this->hasCoord('applicant_postal_code')) {
+      $pdf->SetFontSize($this->coord('applicant_postal_code', 'fontSize'));
+      $this->drawTextByKey($pdf, 'applicant_postal_code', (string)($clinicUser->postal_code ?? ''));
+    }
+
+    // 申請者住所
+    $address = ($clinicUser->address_1 ?? '') .
                ($clinicUser->address_2 ?? '') .
                ($clinicUser->address_3 ?? '');
     $pdf->SetFontSize($this->coord('applicant_address', 'fontSize'));
@@ -939,10 +928,16 @@ class AcupunctureBenefitPdfService
     $pdf->SetFontSize(10);
 
     // === 代理人情報 ===
-    if ($this->hasCoord('agent_address') || $this->hasCoord('agent_name')) {
+    if ($this->hasCoord('agent_postal_code') || $this->hasCoord('agent_address') || $this->hasCoord('agent_name')) {
       // カスタムサンプルデータから取得、なければ空文字
+      $agentPostalCode = $this->customSampleData['agent_postal_code'] ?? '';
       $agentAddress = $this->customSampleData['agent_address'] ?? '';
       $agentName = $this->customSampleData['agent_name'] ?? '';
+
+      if ($this->hasCoord('agent_postal_code') && $agentPostalCode) {
+        $pdf->SetFontSize($this->coord('agent_postal_code', 'fontSize'));
+        $this->drawTextByKey($pdf, 'agent_postal_code', (string)$agentPostalCode);
+      }
 
       if ($this->hasCoord('agent_address') && $agentAddress) {
         $pdf->SetFontSize($this->coord('agent_address', 'fontSize'));
@@ -958,52 +953,160 @@ class AcupunctureBenefitPdfService
     }
 
     // === 支払機関情報 ===
-    if ($this->hasCoord('payment_institution_date_year')) {
-      $today = date('Y-m-d');
-      $todayParts = explode('-', $today);
-      $todayJapaneseYear = $this->convertToJapaneseYear((int)$todayParts[0], (int)$todayParts[1]);
-
-      $paymentYear = $this->customSampleData['payment_institution_date_year'] ?? (string)$todayJapaneseYear['year'];
-      $paymentMonth = $this->customSampleData['payment_institution_date_month'] ?? (string)(int)$todayParts[1];
-      $paymentDay = $this->customSampleData['payment_institution_date_day'] ?? (string)(int)$todayParts[2];
-      $paymentAddress = $this->customSampleData['payment_institution_address'] ?? '';
-      $paymentName = $this->customSampleData['payment_institution_name'] ?? '';
-      $paymentPhone = $this->customSampleData['payment_institution_phone'] ?? '';
-
-      if ($this->hasCoord('payment_institution_date_year')) {
-        $pdf->SetFontSize($this->coord('payment_institution_date_year', 'fontSize'));
-        $this->drawTextByKey($pdf, 'payment_institution_date_year', (string)$paymentYear);
+    // 支払区分
+    if ($this->hasCoord('payment_method')) {
+      $paymentMethod = $this->customSampleData['payment_method'] ?? '';
+      if ($paymentMethod) {
+        $pdf->SetFontSize($this->coord('payment_method', 'fontSize'));
+        $this->drawTextByKey($pdf, 'payment_method', $paymentMethod);
       }
-
-      if ($this->hasCoord('payment_institution_date_month')) {
-        $pdf->SetFontSize($this->coord('payment_institution_date_month', 'fontSize'));
-        $this->drawTextByKey($pdf, 'payment_institution_date_month', (string)$paymentMonth);
-      }
-
-      if ($this->hasCoord('payment_institution_date_day')) {
-        $pdf->SetFontSize($this->coord('payment_institution_date_day', 'fontSize'));
-        $this->drawTextByKey($pdf, 'payment_institution_date_day', (string)$paymentDay);
-      }
-
-      if ($this->hasCoord('payment_institution_address') && $paymentAddress) {
-        $pdf->SetFontSize($this->coord('payment_institution_address', 'fontSize'));
-        $this->drawTextByKey($pdf, 'payment_institution_address', (string)$paymentAddress);
-      }
-
-      if ($this->hasCoord('payment_institution_name') && $paymentName) {
-        $pdf->SetFontSize($this->coord('payment_institution_name', 'fontSize'));
-        $this->drawTextByKey($pdf, 'payment_institution_name', (string)$paymentName);
-      }
-
-      if ($this->hasCoord('payment_institution_phone') && $paymentPhone) {
-        $pdf->SetFontSize($this->coord('payment_institution_phone', 'fontSize'));
-        $this->drawTextByKey($pdf, 'payment_institution_phone', (string)$paymentPhone);
-      }
-
-      $pdf->SetFontSize(10);
     }
 
-    // === 仮保険者情報 ===
+    // 預金の種類
+    if ($this->hasCoord('deposit_type')) {
+      $depositType = $this->customSampleData['deposit_type'] ?? '';
+      if ($depositType) {
+        $pdf->SetFontSize($this->coord('deposit_type', 'fontSize'));
+        $this->drawTextByKey($pdf, 'deposit_type', $depositType);
+      }
+    }
+
+    // 金融機関名（種類）
+    if ($this->hasCoord('financial_institution_type')) {
+      $financialInstitutionType = $this->customSampleData['financial_institution_type'] ?? '';
+      if ($financialInstitutionType) {
+        $pdf->SetFontSize($this->coord('financial_institution_type', 'fontSize'));
+        $this->drawTextByKey($pdf, 'financial_institution_type', $financialInstitutionType);
+      }
+    }
+
+    // 金融機関名（詳細）
+    if ($this->hasCoord('financial_institution_name')) {
+      $financialInstitutionName = $this->customSampleData['financial_institution_name'] ?? '';
+      if ($financialInstitutionName) {
+        $pdf->SetFontSize($this->coord('financial_institution_name', 'fontSize'));
+        $this->drawTextByKey($pdf, 'financial_institution_name', $financialInstitutionName);
+      }
+    }
+
+    // 本店支店出張所（種類）
+    if ($this->hasCoord('branch_type')) {
+      $branchType = $this->customSampleData['branch_type'] ?? '';
+      if ($branchType) {
+        $pdf->SetFontSize($this->coord('branch_type', 'fontSize'));
+        $this->drawTextByKey($pdf, 'branch_type', $branchType);
+      }
+    }
+
+    // 支店名
+    if ($this->hasCoord('branch_name')) {
+      $branchName = $this->customSampleData['branch_name'] ?? '';
+      if ($branchName) {
+        $pdf->SetFontSize($this->coord('branch_name', 'fontSize'));
+        $this->drawTextByKey($pdf, 'branch_name', $branchName);
+      }
+    }
+
+    // 口座番号
+    if ($this->hasCoord('account_number')) {
+      $accountNumber = $this->customSampleData['account_number'] ?? '';
+      if ($accountNumber) {
+        $pdf->SetFontSize($this->coord('account_number', 'fontSize'));
+        $this->drawTextByKey($pdf, 'account_number', $accountNumber);
+      }
+    }
+
+    // 口座名義
+    if ($this->hasCoord('account_holder')) {
+      $accountHolder = $this->customSampleData['account_holder'] ?? '';
+      if ($accountHolder) {
+        $pdf->SetFontSize($this->coord('account_holder', 'fontSize'));
+        $this->drawTextByKey($pdf, 'account_holder', $accountHolder);
+      }
+    }
+
+    $pdf->SetFontSize(10);
+
+    // === 支払機関欄の楕円描画 ===
+    $pdf->SetLineWidth(0.5);
+
+    // 支払区分
+    $paymentMethodKey = null;
+    if (isset($this->coordinates['payment_method_transfer']['isSelected']) && $this->coordinates['payment_method_transfer']['isSelected']) {
+      $paymentMethodKey = 'payment_method_transfer';
+    } elseif (isset($this->coordinates['payment_method_bank']['isSelected']) && $this->coordinates['payment_method_bank']['isSelected']) {
+      $paymentMethodKey = 'payment_method_bank';
+    } elseif (isset($this->coordinates['payment_method_post']['isSelected']) && $this->coordinates['payment_method_post']['isSelected']) {
+      $paymentMethodKey = 'payment_method_post';
+    } elseif (isset($this->coordinates['payment_method_checking']['isSelected']) && $this->coordinates['payment_method_checking']['isSelected']) {
+      $paymentMethodKey = 'payment_method_checking';
+    }
+
+    if ($paymentMethodKey) {
+      $x = $this->coord($paymentMethodKey, 'x');
+      $y = $this->coord($paymentMethodKey, 'y');
+      $width = $this->coord($paymentMethodKey, 'ellipseWidth') ?? 8;
+      $height = $this->coord($paymentMethodKey, 'ellipseHeight') ?? 4;
+      $pdf->Ellipse($x, $y, $width / 2, $height / 2, 0, 0, 360, 'D');
+    }
+
+    // 預金の種類
+    $depositTypeKey = null;
+    if (isset($this->coordinates['deposit_type_normal']['isSelected']) && $this->coordinates['deposit_type_normal']['isSelected']) {
+      $depositTypeKey = 'deposit_type_normal';
+    } elseif (isset($this->coordinates['deposit_type_checking']['isSelected']) && $this->coordinates['deposit_type_checking']['isSelected']) {
+      $depositTypeKey = 'deposit_type_checking';
+    } elseif (isset($this->coordinates['deposit_type_notice']['isSelected']) && $this->coordinates['deposit_type_notice']['isSelected']) {
+      $depositTypeKey = 'deposit_type_notice';
+    }
+
+    if ($depositTypeKey) {
+      $x = $this->coord($depositTypeKey, 'x');
+      $y = $this->coord($depositTypeKey, 'y');
+      $width = $this->coord($depositTypeKey, 'ellipseWidth') ?? 8;
+      $height = $this->coord($depositTypeKey, 'ellipseHeight') ?? 4;
+      $pdf->Ellipse($x, $y, $width / 2, $height / 2, 0, 0, 360, 'D');
+    }
+
+    // 金融機関種類
+    $financialInstitutionTypeKey = null;
+    if (isset($this->coordinates['financial_institution_type_bank']['isSelected']) && $this->coordinates['financial_institution_type_bank']['isSelected']) {
+      $financialInstitutionTypeKey = 'financial_institution_type_bank';
+    } elseif (isset($this->coordinates['financial_institution_type_credit']['isSelected']) && $this->coordinates['financial_institution_type_credit']['isSelected']) {
+      $financialInstitutionTypeKey = 'financial_institution_type_credit';
+    } elseif (isset($this->coordinates['financial_institution_type_coop']['isSelected']) && $this->coordinates['financial_institution_type_coop']['isSelected']) {
+      $financialInstitutionTypeKey = 'financial_institution_type_coop';
+    }
+
+    if ($financialInstitutionTypeKey) {
+      $x = $this->coord($financialInstitutionTypeKey, 'x');
+      $y = $this->coord($financialInstitutionTypeKey, 'y');
+      $width = $this->coord($financialInstitutionTypeKey, 'ellipseWidth') ?? 8;
+      $height = $this->coord($financialInstitutionTypeKey, 'ellipseHeight') ?? 4;
+      $pdf->Ellipse($x, $y, $width / 2, $height / 2, 0, 0, 360, 'D');
+    }
+
+    // 本店支店出張所
+    $branchTypeKey = null;
+    if (isset($this->coordinates['branch_type_head']['isSelected']) && $this->coordinates['branch_type_head']['isSelected']) {
+      $branchTypeKey = 'branch_type_head';
+    } elseif (isset($this->coordinates['branch_type_branch']['isSelected']) && $this->coordinates['branch_type_branch']['isSelected']) {
+      $branchTypeKey = 'branch_type_branch';
+    } elseif (isset($this->coordinates['branch_type_office']['isSelected']) && $this->coordinates['branch_type_office']['isSelected']) {
+      $branchTypeKey = 'branch_type_office';
+    }
+
+    if ($branchTypeKey) {
+      $x = $this->coord($branchTypeKey, 'x');
+      $y = $this->coord($branchTypeKey, 'y');
+      $width = $this->coord($branchTypeKey, 'ellipseWidth') ?? 8;
+      $height = $this->coord($branchTypeKey, 'ellipseHeight') ?? 4;
+      $pdf->Ellipse($x, $y, $width / 2, $height / 2, 0, 0, 360, 'D');
+    }
+
+    $pdf->SetLineWidth(0.2);
+
+    // === 被保険者情報 ===
     if ($this->hasCoord('temporary_insurer_name')) {
       $tempInsurerName = $this->customSampleData['temporary_insurer_name'] ?? '';
 
@@ -1246,6 +1349,25 @@ class AcupunctureBenefitPdfService
 
 
     $this->drawTextWithSpacing($pdf, $x, $y, $text, (float)$letterSpacing, $textAlign, (float)$alignmentWidth);
+  }
+
+  /**
+   * 楕円をキーで描画
+   *
+   * @param Fpdi $pdf
+   * @param string $key
+   * @return void
+   */
+  protected function drawEllipseByKey(Fpdi $pdf, string $key): void
+  {
+    $x = $this->coord($key, 'x');
+    $y = $this->coord($key, 'y');
+    $ellipseWidth = $this->coordinates[$key]['ellipseWidth'] ?? 2.5;
+    $ellipseHeight = $this->coordinates[$key]['ellipseHeight'] ?? 2.5;
+
+    $pdf->SetDrawColor(0, 0, 0);
+    $pdf->SetLineWidth(0.2);
+    $pdf->Ellipse($x, $y, $ellipseWidth, $ellipseHeight, 0, 0, 360, 'D');
   }
 
   /**

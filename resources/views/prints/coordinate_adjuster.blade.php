@@ -60,11 +60,11 @@
     <!-- 右側: PDFプレビュー -->
     <div class="col-md-9">
       <div class="card">
-        <div class="card-header bg-info text-white">
+        <div class="card-header bg-secondary text-white">
           <h5 class="mb-0">
             PDFプレビュー
-            <span id="preview-loading" class="badge badge-light ml-2" style="display: none;">更新中...</span>
-            <span id="save-indicator" class="badge badge-success ml-2" style="display: none;">保存中...</span>
+            <span id="preview-loading" class="badge badge-light ml-2" style="display: none;">更新中･･･</span>
+            <span id="save-indicator" class="badge badge-success ml-2" style="display: none;">保存中･･･</span>
           </h5>
         </div>
         <div class="card-body">
@@ -178,6 +178,16 @@ const masterData = {
 const treatmentFees = @json($treatmentFees ?? null);
 
 let customSampleData = {
+  // タイトル情報
+  title_year_era: '令和',
+  title_year_number: '7',
+  title_month: '12',
+  // 公費・受給者情報
+  public_funds_payer_number: '',
+  public_funds_recipient_number: '',
+  locality_code: '',
+  recipient_number: '',
+  // 患者情報
   last_name: '田中',
   first_name: '太郎',
   last_kana: 'タナカ',
@@ -191,36 +201,113 @@ let customSampleData = {
   insurance_number: '9876543210',
   relationship: '本人',
   office_name: '株式会社〇〇',
+  // 発病または負傷年月日
+  onset_date_year: '7',
+  onset_date_month: '11',
+  onset_date_day: '15',
+  onset_illness_name: '腰痛症',
+  // 初療・施術期間
+  first_treatment_year: '7',
+  first_treatment_month: '11',
+  first_treatment_day: '20',
+  treatment_start_year: '7',
+  treatment_start_month: '12',
+  treatment_start_day: '1',
+  treatment_end_year: '7',
+  treatment_end_month: '12',
+  treatment_end_day: '31',
+  // 医師・同意書情報
   doctor_name: '山田太郎',
   medical_institution: '〇〇病院',
   doctor_address: '東京都新宿区〇〇1-2-3',
+  medical_institution_location_type: '1',
   consent_date: '',
   consent_year: '',
   consent_month: '',
   consent_day: '',
+  consent_date_year: '7',
+  consent_date_month: '11',
+  consent_date_day: '25',
+  consent_doctor_name: '山田太郎',
+  consent_illness_name: '腰痛症',
+  therapy_period: '3ヶ月',
   disease: '腰痛症',
   bodypart: '腰部',
   treatment_year_month: '',
   // 代理人情報
+  agent_postal_code: '100-0001',
   agent_address: '東京都千代田区〇〇2-3-4',
   agent_name: '田中花子',
+  // 申請者情報
+  applicant_postal_code: '160-0022',
   // 支払機関情報
   payment_institution_date_year: '7',
   payment_institution_date_month: '12',
-  payment_institution_date_day: '19',
-  payment_institution_address: '〒100-0001 東京都千代田区〇〇1-2-3',
+  payment_institution_date_day: '31',
+  payment_institution_postal_code: '100-0005',
+  payment_institution_address: '東京都千代田区〇〇3-4-5',
   payment_institution_name: '〇〇健康保険組合',
-  payment_institution_phone: '03-9876-5432',
-  // 仮保険者情報
+  payment_institution_phone: '03-1234-5678',
+  payment_method: '振込',
+  deposit_type: '普通',
+  financial_institution_type: '銀行',
+  financial_institution_name: '〇〇銀行',
+  branch_type: '支店',
+  branch_name: '新宿支店',
+  account_number: '1234567',
+  account_holder: 'タナカタロウ',
+  // 被保険者情報
   temporary_insurer_name: '田中太郎',
   treatment_start_date: '',
   treatment_period: '',
   treatment_days: '15',
+  // 施術日カレンダー（1-31日）
+  treatment_day_1: '1',
+  treatment_day_2: '2',
+  treatment_day_3: '3',
+  treatment_day_4: '4',
+  treatment_day_5: '5',
+  treatment_day_6: '6',
+  treatment_day_7: '7',
+  treatment_day_8: '8',
+  treatment_day_9: '9',
+  treatment_day_10: '10',
+  treatment_day_11: '11',
+  treatment_day_12: '12',
+  treatment_day_13: '13',
+  treatment_day_14: '14',
+  treatment_day_15: '15',
+  treatment_day_16: '16',
+  treatment_day_17: '17',
+  treatment_day_18: '18',
+  treatment_day_19: '19',
+  treatment_day_20: '20',
+  treatment_day_21: '21',
+  treatment_day_22: '22',
+  treatment_day_23: '23',
+  treatment_day_24: '24',
+  treatment_day_25: '25',
+  treatment_day_26: '26',
+  treatment_day_27: '27',
+  treatment_day_28: '28',
+  treatment_day_29: '29',
+  treatment_day_30: '30',
+  treatment_day_31: '31',
+  clinic_postal_code: '150-0001',
   clinic_name: '〇〇鍼灸マッサージ院',
   clinic_address: '東京都渋谷区〇〇1-2-3',
   clinic_manager: '田中一郎',
   clinic_phone: '03-9876-5432',
   institution_code: '1234567890',
+  therapist_registration_number: '1234567',
+  health_center_registration_1: '1',
+  health_center_registration_2: '1',
+  clinic_date_year: '7',
+  clinic_date_month: '12',
+  clinic_date_day: '31',
+  submission_date_year: '7',
+  submission_date_month: '12',
+  submission_date_day: '31',
   outcome: '継続',
   work_scope_type: '業務上',
   birthday_era: '昭和',
@@ -261,57 +348,78 @@ let customSampleData = {
   fee_massage_count: '12',
   fee_massage_total: '24000',
   // 傷病名
-  illness_name: '1' // 1:神経痛, 2:リウマチ, 3:頸腕症候群, 4:五十肩, 5:腰痛症, 6:頸椎捻挫後遺症, 7:その他
+  illness_name: '1', // 1:神経痛, 2:リウマチ, 3:頸腕症候群, 4:五十肩, 5:腰痛症, 6:頸椎捻挫後遺症, 7:その他
+  illness_name_other_text: '脊柱管狭窄症',
+  // 施術日ラベル
+  treatment_month_label_1: '月',
+  treatment_month_label_2: '日'
 };
 
 // サンプルデータフィールドマッピング（座標キーとサンプルデータキーの対応）
-// 申請書の記載順序に合わせて整理
+// 申請書の上から下への記載順序に合わせて整理
 const sampleDataFieldMapping = {
-  // === 1. 基本情報・請求書番号 ===
-  'claim_number': { field: 'claim_number', label: '請求書番号', type: 'text' },
-  'treatment_year_month': { field: 'treatment_year_month', label: '施術年月', type: 'text' },
+  // === 1. タイトル・機関コード ===
+  'title_year_era': { field: 'title_year_era', label: 'タイトル年・元号', type: 'select', options: ['令和', '平成', '昭和'] },
+  'title_year_number': { field: 'title_year_number', label: 'タイトル年・数字', type: 'number' },
+  'title_month': { field: 'title_month', label: 'タイトル月', type: 'number' },
+  'institution_code': { field: 'institution_code', label: '機関コード', type: 'text' },
 
-  // === 2. 被保険者情報 ===
-  // 保険者番号
+  // === 2. 公費・受給者番号 ===
+  'public_funds_payer_number': { field: 'public_funds_payer_number', label: '公費負担者番号', type: 'text' },
+  'public_funds_recipient_number': { field: 'public_funds_recipient_number', label: '公費受給者番号', type: 'text' },
+  'locality_code': { field: 'locality_code', label: '区市町村番号', type: 'text' },
+  'recipient_number': { field: 'recipient_number', label: '受給者番号', type: 'text' },
+
+  // === 3. 保険者番号 ===
   'insurer_number': { field: 'insurer_number', label: '保険者番号', type: 'text' },
-  
-  // 被保険者証記号・番号
+
+  // === 4. 被保険者証記号・番号、発病年月日、傷病名 ===
   'insurance_symbol': { field: 'insurance_symbol', label: '被保険者証記号', type: 'text' },
   'insurance_number': { field: 'insurance_number', label: '被保険者番号', type: 'text' },
-  
-  // 氏名（フリガナ）
+  'onset_date_year': { field: 'onset_date_year', label: '発病または負傷年月日（年）', type: 'number' },
+  'onset_date_month': { field: 'onset_date_month', label: '発病または負傷年月日（月）', type: 'number' },
+  'onset_date_day': { field: 'onset_date_day', label: '発病または負傷年月日（日）', type: 'number' },
+  'onset_illness_name': { field: 'onset_illness_name', label: '傷病名（発病または負傷年月日の隣）', type: 'text' },
+
+  // === 5. 患者氏名カナ・続柄・氏名 ===
   'patient_last_kana': { field: 'last_kana', label: '氏名カナ（姓）', type: 'text' },
   'patient_first_kana': { field: 'first_kana', label: '氏名カナ（名）', type: 'text' },
   'patient_name_kana': { field: 'last_kana', label: '氏名カナ（姓名）', type: 'text', combine: ['last_kana', 'first_kana'] },
-  
-  // 氏名
+  'patient_relationship': { field: 'relationship', label: '続柄', type: 'select', masterKey: 'relationships', valueField: 'relationship' },
   'patient_last_name': { field: 'last_name', label: '氏名（姓）', type: 'text' },
   'patient_first_name': { field: 'first_name', label: '氏名（名）', type: 'text' },
   'patient_name': { field: 'last_name', label: '氏名（姓名）', type: 'text', combine: ['last_name', 'first_name'] },
-  
-  // 性別
+
+  // === 6. 性別・業務上第三者行為・生年月日 ===
   'patient_gender_male': { field: 'gender', label: '性別', type: 'select', masterKey: 'genders', valueField: 'gender' },
   'patient_gender_female': { field: 'gender', label: '性別', type: 'select', masterKey: 'genders', valueField: 'gender' },
-  
-  // 生年月日
+  'work_scope_type_1': { field: 'work_scope_type', label: '業務上第三者行為', type: 'select', options: ['業務上', '第三者行為である', 'その他'] },
+  'work_scope_type_2': { field: 'work_scope_type', label: '業務上第三者行為', type: 'select', options: ['業務上', '第三者行為である', 'その他'] },
+  'work_scope_type_3': { field: 'work_scope_type', label: '業務上第三者行為', type: 'select', options: ['業務上', '第三者行為である', 'その他'] },
   'birthday_era_reiwa': { field: 'birthday_era', label: '生年月日元号', type: 'select', options: ['令和', '平成', '昭和'] },
   'birthday_era_heisei': { field: 'birthday_era', label: '生年月日元号', type: 'select', options: ['令和', '平成', '昭和'] },
   'birthday_era_showa': { field: 'birthday_era', label: '生年月日元号', type: 'select', options: ['令和', '平成', '昭和'] },
   'birthday_year': { field: 'birthdate', label: '生年月日（年）', type: 'date' },
   'birthday_month': { field: 'birthdate', label: '生年月日（月）', type: 'date' },
   'birthday_day': { field: 'birthdate', label: '生年月日（日）', type: 'date' },
-  
-  // 続柄
-  'patient_relationship': { field: 'relationship', label: '続柄', type: 'select', masterKey: 'relationships', valueField: 'relationship' },
-  
-  // 事業所名称
-  'office_name': { field: 'office_name', label: '事業所名称', type: 'text' },
-  
-  // 初療年月日・施術期間
-  'treatment_start_date': { field: 'treatment_start_date', label: '初療年月日', type: 'date' },
-  'treatment_period': { field: 'treatment_period', label: '施術期間', type: 'text' },
 
-  // === 3. 傷病名 ===
+  // === 7. 初療年月日・施術期間 ===
+  'treatment_start_date': { field: 'treatment_start_date', label: '初療年月日', type: 'date' },
+  'first_treatment_year': { field: 'first_treatment_year', label: '初療年月日（年）', type: 'number' },
+  'first_treatment_month': { field: 'first_treatment_month', label: '初療年月日（月）', type: 'number' },
+  'first_treatment_day': { field: 'first_treatment_day', label: '初療年月日（日）', type: 'number' },
+  'treatment_period': { field: 'treatment_period', label: '施術期間', type: 'text' },
+  'treatment_start_year': { field: 'treatment_start_year', label: '施術開始年', type: 'number' },
+  'treatment_start_month': { field: 'treatment_start_month', label: '施術開始月', type: 'number' },
+  'treatment_start_day': { field: 'treatment_start_day', label: '施術開始日', type: 'number' },
+  'treatment_end_year': { field: 'treatment_end_year', label: '施術終了年', type: 'number' },
+  'treatment_end_month': { field: 'treatment_end_month', label: '施術終了月', type: 'number' },
+  'treatment_end_day': { field: 'treatment_end_day', label: '施術終了日', type: 'number' },
+
+  // === 8. 実日数・請求区分・傷病名・転帰 ===
+  'treatment_days': { field: 'treatment_days', label: '実日数', type: 'number' },
+  'bill_category_new': { field: 'bill_category', label: '請求区分', type: 'select', options: ['新規', '継続'] },
+  'bill_category_continued': { field: 'bill_category', label: '請求区分', type: 'select', options: ['新規', '継続'] },
   'illness_name_1': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'] },
   'illness_name_2': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'] },
   'illness_name_3': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'] },
@@ -319,27 +427,48 @@ const sampleDataFieldMapping = {
   'illness_name_5': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'] },
   'illness_name_6': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'] },
   'illness_name_7': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'] },
-
-  // === 4. 施術情報 ===
-  // 実日数
-  'treatment_days': { field: 'treatment_days', label: '実日数', type: 'number' },
-  
-  // 請求区分
-  'bill_category_new': { field: 'bill_category', label: '請求区分', type: 'select', options: ['新規', '継続'] },
-  'bill_category_continued': { field: 'bill_category', label: '請求区分', type: 'select', options: ['新規', '継続'] },
-  
-  // 転帰
+  'illness_name_other_text': { field: 'illness_name_other_text', label: '傷病名（その他の内容）', type: 'text' },
   'outcome_continued': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'] },
   'outcome_cured': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'] },
   'outcome_discontinued': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'] },
   'outcome_transferred': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'] },
-  
-  // 業務上・第三者行為
-  'work_scope_type_1': { field: 'work_scope_type', label: '業務上第三者行為', type: 'select', options: ['業務上', '第三者行為である', 'その他'] },
-  'work_scope_type_2': { field: 'work_scope_type', label: '業務上第三者行為', type: 'select', options: ['業務上', '第三者行為である', 'その他'] },
-  'work_scope_type_3': { field: 'work_scope_type', label: '業務上第三者行為', type: 'select', options: ['業務上', '第三者行為である', 'その他'] },
+  'treatment_month_label_1': { field: 'treatment_month_label_1', label: '施術日（月ラベル1）', type: 'text' },
+  'treatment_month_label_2': { field: 'treatment_month_label_2', label: '施術日（月ラベル2）', type: 'text' },
 
-  // === 5. 施術料金（鍼灸） ===
+  // === 9. 施術日カレンダー（1-31日） ===
+  'treatment_day_1': { field: 'treatment_day_1', label: '施術日1日', type: 'text' },
+  'treatment_day_2': { field: 'treatment_day_2', label: '施術日2日', type: 'text' },
+  'treatment_day_3': { field: 'treatment_day_3', label: '施術日3日', type: 'text' },
+  'treatment_day_4': { field: 'treatment_day_4', label: '施術日4日', type: 'text' },
+  'treatment_day_5': { field: 'treatment_day_5', label: '施術日5日', type: 'text' },
+  'treatment_day_6': { field: 'treatment_day_6', label: '施術日6日', type: 'text' },
+  'treatment_day_7': { field: 'treatment_day_7', label: '施術日7日', type: 'text' },
+  'treatment_day_8': { field: 'treatment_day_8', label: '施術日8日', type: 'text' },
+  'treatment_day_9': { field: 'treatment_day_9', label: '施術日9日', type: 'text' },
+  'treatment_day_10': { field: 'treatment_day_10', label: '施術日10日', type: 'text' },
+  'treatment_day_11': { field: 'treatment_day_11', label: '施術日11日', type: 'text' },
+  'treatment_day_12': { field: 'treatment_day_12', label: '施術日12日', type: 'text' },
+  'treatment_day_13': { field: 'treatment_day_13', label: '施術日13日', type: 'text' },
+  'treatment_day_14': { field: 'treatment_day_14', label: '施術日14日', type: 'text' },
+  'treatment_day_15': { field: 'treatment_day_15', label: '施術日15日', type: 'text' },
+  'treatment_day_16': { field: 'treatment_day_16', label: '施術日16日', type: 'text' },
+  'treatment_day_17': { field: 'treatment_day_17', label: '施術日17日', type: 'text' },
+  'treatment_day_18': { field: 'treatment_day_18', label: '施術日18日', type: 'text' },
+  'treatment_day_19': { field: 'treatment_day_19', label: '施術日19日', type: 'text' },
+  'treatment_day_20': { field: 'treatment_day_20', label: '施術日20日', type: 'text' },
+  'treatment_day_21': { field: 'treatment_day_21', label: '施術日21日', type: 'text' },
+  'treatment_day_22': { field: 'treatment_day_22', label: '施術日22日', type: 'text' },
+  'treatment_day_23': { field: 'treatment_day_23', label: '施術日23日', type: 'text' },
+  'treatment_day_24': { field: 'treatment_day_24', label: '施術日24日', type: 'text' },
+  'treatment_day_25': { field: 'treatment_day_25', label: '施術日25日', type: 'text' },
+  'treatment_day_26': { field: 'treatment_day_26', label: '施術日26日', type: 'text' },
+  'treatment_day_27': { field: 'treatment_day_27', label: '施術日27日', type: 'text' },
+  'treatment_day_28': { field: 'treatment_day_28', label: '施術日28日', type: 'text' },
+  'treatment_day_29': { field: 'treatment_day_29', label: '施術日29日', type: 'text' },
+  'treatment_day_30': { field: 'treatment_day_30', label: '施術日30日', type: 'text' },
+  'treatment_day_31': { field: 'treatment_day_31', label: '施術日31日', type: 'text' },
+
+  // === 10. 施術料金（鍼灸） ===
   'fee_hari_unit': { field: 'fee_hari_unit', label: 'はり料金（単価）', type: 'number' },
   'fee_hari_count': { field: 'fee_hari_count', label: 'はり料金（回数）', type: 'number' },
   'fee_hari_total': { field: 'fee_hari_total', label: 'はり料金（合計）', type: 'number' },
@@ -370,43 +499,85 @@ const sampleDataFieldMapping = {
   'fee_massage_count': { field: 'fee_massage_count', label: 'マッサージ料金（回数）', type: 'number' },
   'fee_massage_total': { field: 'fee_massage_total', label: 'マッサージ料金（合計）', type: 'number' },
 
-  // === 7. 施術所情報 ===
+  // === 12. 施術所情報 ===
+  'clinic_postal_code': { field: 'clinic_postal_code', label: '施術所郵便番号', type: 'text' },
   'clinic_address': { field: 'clinic_address', label: '施術所所在地', type: 'text' },
   'clinic_name': { field: 'clinic_name', label: '施術所名称', type: 'text' },
   'clinic_manager': { field: 'clinic_manager', label: '施術管理者氏名', type: 'text' },
   'clinic_phone': { field: 'clinic_phone', label: '電話番号', type: 'text' },
   'institution_code': { field: 'institution_code', label: '機関コード', type: 'text' },
+  'therapist_registration_number': { field: 'therapist_registration_number', label: '施術者登録番号', type: 'text' },
+  'health_center_registration_1': { field: 'health_center_registration_1', label: '保健所登録1', type: 'select', options: ['1', '2'], optionLabels: ['保健所', '〇〇'] },
+  'health_center_registration_2': { field: 'health_center_registration_2', label: '保健所登録2', type: 'select', options: ['1', '2'], optionLabels: ['保健所', '〇〇'] },
+  'clinic_date_year': { field: 'clinic_date_year', label: '施術所年月日（年）', type: 'number' },
+  'clinic_date_month': { field: 'clinic_date_month', label: '施術所年月日（月）', type: 'number' },
+  'clinic_date_day': { field: 'clinic_date_day', label: '施術所年月日（日）', type: 'number' },
+  'submission_date_year': { field: 'submission_date_year', label: '提出年月日（年）', type: 'number' },
+  'submission_date_month': { field: 'submission_date_month', label: '提出年月日（月）', type: 'number' },
+  'submission_date_day': { field: 'submission_date_day', label: '提出年月日（日）', type: 'number' },
 
-  // === 8. 医師情報 ===
+  // === 13. 申請者情報 ===
+  'applicant_postal_code': { field: 'applicant_postal_code', label: '申請者郵便番号', type: 'text' },
+  'applicant_address': { field: 'address', label: '申請者住所', type: 'text' },
+  'applicant_name': { field: 'last_name', label: '申請者氏名', type: 'text', combine: ['last_name', 'first_name'] },
+  'patient_address': { field: 'address', label: '住所', type: 'text' },
+  'patient_phone': { field: 'phone', label: '電話番号', type: 'text' },
+  'office_name': { field: 'office_name', label: '事業所名称', type: 'text' },
+
+  // === 14. 医師情報・同意書 ===
   'consent_date': { field: 'consent_date', label: '同意年月日', type: 'date' },
   'consent_year': { field: 'consent_year', label: '同意年', type: 'number' },
   'consent_month': { field: 'consent_month', label: '同意月', type: 'number' },
   'consent_day': { field: 'consent_day', label: '同意日', type: 'number' },
+  'consent_date_year': { field: 'consent_date_year', label: '同意年月日（年）', type: 'number' },
+  'consent_date_month': { field: 'consent_date_month', label: '同意年月日（月）', type: 'number' },
+  'consent_date_day': { field: 'consent_date_day', label: '同意年月日（日）', type: 'number' },
+  'consent_doctor_name': { field: 'consent_doctor_name', label: '同意書医師氏名', type: 'text' },
+  'consent_illness_name': { field: 'consent_illness_name', label: '同意書傷病名', type: 'text' },
+  'therapy_period': { field: 'therapy_period', label: '要加療期間', type: 'text' },
   'doctor_address': { field: 'doctor_address', label: '医師所在地', type: 'text' },
   'medical_institution': { field: 'medical_institution', label: '医療機関名', type: 'text' },
   'doctor_name': { field: 'doctor_name', label: '医師氏名', type: 'text' },
+  'medical_institution_location_type_1': { field: 'medical_institution_location_type', label: '医療機関所在地区分', type: 'select', options: ['1', '2'], optionLabels: ['区郡市府県庁所在地', '出張所等指定都市所在地域'] },
+  'medical_institution_location_type_2': { field: 'medical_institution_location_type', label: '医療機関所在地区分', type: 'select', options: ['1', '2'], optionLabels: ['区郡市府県庁所在地', '出張所等指定都市所在地域'] },
 
-  // === 9. 振込口座情報 ===
+  // === 15. 振込口座情報 ===
   'bank_name': { field: 'bank_name', label: '銀行名', type: 'text' },
   'branch_name': { field: 'branch_name', label: '支店名', type: 'text' },
   'account_type': { field: 'account_type', label: '口座種別', type: 'select', options: ['普通', '当座'] },
   'account_number': { field: 'account_number', label: '口座番号', type: 'text' },
   'account_holder': { field: 'account_holder', label: '口座名義', type: 'text' },
 
-  // === 10. 代理人情報 ===
+  // === 16. 代理人情報 ===
+  'agent_postal_code': { field: 'agent_postal_code', label: '代理人郵便番号', type: 'text' },
   'agent_address': { field: 'agent_address', label: '代理人住所', type: 'text' },
   'agent_name': { field: 'agent_name', label: '代理人氏名', type: 'text' },
 
-  // === 11. 支払機関欄 ===
-  'payment_institution_date_year': { field: 'payment_institution_date_year', label: '支払機関年月日（年）', type: 'number' },
-  'payment_institution_date_month': { field: 'payment_institution_date_month', label: '支払機関年月日（月）', type: 'number' },
-  'payment_institution_date_day': { field: 'payment_institution_date_day', label: '支払機関年月日（日）', type: 'number' },
-  'payment_institution_address': { field: 'payment_institution_address', label: '支払機関住所', type: 'text' },
-  'payment_institution_name': { field: 'payment_institution_name', label: '支払機関名称', type: 'text' },
-  'payment_institution_phone': { field: 'payment_institution_phone', label: '支払機関電話番号', type: 'text' },
+  // === 17. 支払機関欄 ===
+  'payment_method_transfer': { field: 'payment_method', label: '支払区分', type: 'select', options: ['振込', '銀行送金', '郵便局送金', '当座払'], optionLabels: ['振込', '銀行送金', '郵便局送金', '当座払'] },
+  'payment_method_bank': { field: 'payment_method', label: '支払区分', type: 'select', options: ['振込', '銀行送金', '郵便局送金', '当座払'], optionLabels: ['振込', '銀行送金', '郵便局送金', '当座払'] },
+  'payment_method_post': { field: 'payment_method', label: '支払区分', type: 'select', options: ['振込', '銀行送金', '郵便局送金', '当座払'], optionLabels: ['振込', '銀行送金', '郵便局送金', '当座払'] },
+  'payment_method_checking': { field: 'payment_method', label: '支払区分', type: 'select', options: ['振込', '銀行送金', '郵便局送金', '当座払'], optionLabels: ['振込', '銀行送金', '郵便局送金', '当座払'] },
+  'deposit_type_normal': { field: 'deposit_type', label: '預金の種類', type: 'select', options: ['普通', '当座', '通知'], optionLabels: ['普通', '当座', '通知'] },
+  'deposit_type_checking': { field: 'deposit_type', label: '預金の種類', type: 'select', options: ['普通', '当座', '通知'], optionLabels: ['普通', '当座', '通知'] },
+  'deposit_type_notice': { field: 'deposit_type', label: '預金の種類', type: 'select', options: ['普通', '当座', '通知'], optionLabels: ['普通', '当座', '通知'] },
+  'financial_institution_type_bank': { field: 'financial_institution_type', label: '金融機関種類', type: 'select', options: ['銀行', '金庫', '農協'], optionLabels: ['銀行', '金庫', '農協'] },
+  'financial_institution_type_credit': { field: 'financial_institution_type', label: '金融機関種類', type: 'select', options: ['銀行', '金庫', '農協'], optionLabels: ['銀行', '金庫', '農協'] },
+  'financial_institution_type_coop': { field: 'financial_institution_type', label: '金融機関種類', type: 'select', options: ['銀行', '金庫', '農協'], optionLabels: ['銀行', '金庫', '農協'] },
+  'financial_institution_name': { field: 'financial_institution_name', label: '金融機関名', type: 'text' },
+  'branch_type_head': { field: 'branch_type', label: '本店支店出張所', type: 'select', options: ['本店', '支店', '出張所'], optionLabels: ['本店', '支店', '出張所'] },
+  'branch_type_branch': { field: 'branch_type', label: '本店支店出張所', type: 'select', options: ['本店', '支店', '出張所'], optionLabels: ['本店', '支店', '出張所'] },
+  'branch_type_office': { field: 'branch_type', label: '本店支店出張所', type: 'select', options: ['本店', '支店', '出張所'], optionLabels: ['本店', '支店', '出張所'] },
+  'branch_name': { field: 'branch_name', label: '支店名', type: 'text' },
+  'account_number': { field: 'account_number', label: '口座番号', type: 'text' },
+  'account_holder': { field: 'account_holder', label: '口座名義', type: 'text' },
 
-  // === 12. 仮保険者情報 ===
-  'temporary_insurer_name': { field: 'temporary_insurer_name', label: '仮保険者氏名', type: 'text' }
+  // === 18. 被保険者情報 ===
+  'temporary_insurer_name': { field: 'temporary_insurer_name', label: '被保険者氏名', type: 'text' },
+
+  // === 19. その他 ===
+  'claim_number': { field: 'claim_number', label: '請求書番号', type: 'text' },
+  'treatment_year_month': { field: 'treatment_year_month', label: '施術年月', type: 'text' }
 };
 
 // 初期化
@@ -1124,7 +1295,7 @@ function getSampleDataInput(key) {
 
   // combine属性がある場合は複数のフィールドの入力欄を作成
   if (mapping.combine && Array.isArray(mapping.combine)) {
-    inputHtml = '<div class="mt-3 pt-3" style="border-top: 1px dashed #ccc;">';
+    inputHtml = '<div>';
     mapping.combine.forEach(fieldName => {
       const currentValue = customSampleData[fieldName] || '';
       const fieldLabel = fieldName.includes('last') ? '姓' : '名';
@@ -1133,7 +1304,7 @@ function getSampleDataInput(key) {
       
       inputHtml += `
         <div class="coordinate-input">
-          <label style="color: #0066cc;">サンプル${labelPrefix}（${fieldLabel}）:</label>
+          <label>サンプル${labelPrefix}（${fieldLabel}）:</label>
           <input type="text"
                  value="${currentValue}"
                  onchange="updateSampleData('${fieldName}', this.value)"
@@ -1149,8 +1320,8 @@ function getSampleDataInput(key) {
 
   if (mapping.type === 'text' || mapping.type === 'number') {
     inputHtml = `
-      <div class="coordinate-input mt-3 pt-3" style="border-top: 1px dashed #ccc;">
-        <label style="color: #0066cc;">サンプル${mapping.label}:</label>
+      <div class="coordinate-input">
+        <label>サンプル${mapping.label}:</label>
         <input type="${mapping.type}"
                value="${currentValue}"
                onchange="updateSampleData('${mapping.field}', this.value)"
@@ -1159,8 +1330,8 @@ function getSampleDataInput(key) {
     `;
   } else if (mapping.type === 'date') {
     inputHtml = `
-      <div class="coordinate-input mt-3 pt-3" style="border-top: 1px dashed #ccc;">
-        <label style="color: #0066cc;">サンプル${mapping.label}:</label>
+      <div class="coordinate-input">
+        <label>サンプル${mapping.label}:</label>
         <input type="date"
                value="${currentValue}"
                onchange="updateSampleData('${mapping.field}', this.value)"
@@ -1190,8 +1361,8 @@ function getSampleDataInput(key) {
     }
     
     inputHtml = `
-      <div class="coordinate-input mt-3 pt-3" style="border-top: 1px dashed #ccc;">
-        <label style="color: #0066cc;">サンプル${mapping.label}:</label>
+      <div class="coordinate-input">
+        <label>サンプル${mapping.label}:</label>
         <select onchange="updateSampleData('${mapping.field}', this.value)"
                 class="form-control form-control-sm">
           ${options}
