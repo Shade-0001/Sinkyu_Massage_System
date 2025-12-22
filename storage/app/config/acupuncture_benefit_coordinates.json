@@ -4,7 +4,7 @@
         "y": 5.5,
         "fontSize": 7,
         "letterSpacing": 0,
-        "label": "タイトル年・元号",
+        "label": "タイトル年（元号）",
         "textAlign": "center"
     },
     "title_year_number": {
@@ -12,7 +12,7 @@
         "y": 8,
         "fontSize": 8,
         "letterSpacing": 0,
-        "label": "タイトル年・数字",
+        "label": "タイトル年（数字）",
         "textAlign": "center"
     },
     "title_month": {
@@ -77,18 +77,20 @@
         "textAlign": "left"
     },
     "patient_name_kana": {
-        "x": 46.5,
-        "y": 28.5,
+        "x": -34,
+        "y": 53.5,
         "fontSize": 10,
         "letterSpacing": 0,
-        "label": "氏名カナ（姓名）"
+        "label": "氏名カナ（姓名）",
+        "textAlign": "center"
     },
     "patient_name": {
-        "x": 46.5,
-        "y": 34.5,
-        "fontSize": 12,
+        "x": -38,
+        "y": 60.5,
+        "fontSize": 18,
         "letterSpacing": 0,
-        "label": "氏名（姓名）"
+        "label": "氏名（姓名）",
+        "textAlign": "center"
     },
     "patient_relationship": {
         "x": 0.5,
@@ -123,11 +125,11 @@
         "optionLabel": "女"
     },
     "birthday_era_reiwa": {
-        "x": 46.5,
-        "y": 40.5,
+        "x": 66,
+        "y": 73.5,
         "fontSize": 10,
         "letterSpacing": 0,
-        "label": "生年月日元号",
+        "label": "生年月日（元号）",
         "radioGroup": "birthday_era",
         "optionLabel": "令和",
         "ellipseWidth": 2.5,
@@ -135,11 +137,11 @@
         "lineWidth": 0.5
     },
     "birthday_era_heisei": {
-        "x": 56.5,
-        "y": 40.5,
+        "x": 60.5,
+        "y": 73.5,
         "fontSize": 10,
         "letterSpacing": 0,
-        "label": "生年月日元号",
+        "label": "生年月日（元号）",
         "radioGroup": "birthday_era",
         "optionLabel": "平成",
         "ellipseWidth": 2.5,
@@ -147,16 +149,40 @@
         "lineWidth": 0.5
     },
     "birthday_era_showa": {
-        "x": 66.5,
-        "y": 40.5,
+        "x": 54.5,
+        "y": 73.5,
         "fontSize": 10,
         "letterSpacing": 0,
-        "label": "生年月日元号",
+        "label": "生年月日（元号）",
         "radioGroup": "birthday_era",
         "optionLabel": "昭和",
         "ellipseWidth": 2.5,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5
+    },
+    "birthday_era_taisho": {
+        "x": 54.5,
+        "y": 83.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "生年月日（元号）",
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "birthday_era",
+        "optionLabel": "大正"
+    },
+    "birthday_era_meiji": {
+        "x": 54.5,
+        "y": 93.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "生年月日（元号）",
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "birthday_era",
+        "optionLabel": "明治"
     },
     "birthday_year": {
         "x": 76.5,
@@ -764,13 +790,13 @@
         "lineWidth": 0.5
     },
     "abstract": {
-        "x": 149.5,
-        "y": 114,
+        "x": 155,
+        "y": 112,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "摘要",
         "textAlign": "left",
-        "width": 180,
+        "width": 40,
         "lineHeight": 5
     }
 }

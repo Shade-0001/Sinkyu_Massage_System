@@ -361,8 +361,8 @@ let customSampleData = {
 // 申請書の上から下への記載順序に合わせて整理
 const sampleDataFieldMapping = {
   // === 1. タイトル・機関コード ===
-  'title_year_era': { field: 'title_year_era', label: 'タイトル年・元号', type: 'select', options: ['令和', '平成', '昭和'] },
-  'title_year_number': { field: 'title_year_number', label: 'タイトル年・数字', type: 'number' },
+  'title_year_era': { field: 'title_year_era', label: 'タイトル年（元号）', type: 'select', options: ['令和', '平成', '昭和'] },
+  'title_year_number': { field: 'title_year_number', label: 'タイトル年（数字）', type: 'number' },
   'title_month': { field: 'title_month', label: 'タイトル月', type: 'number' },
   'institution_code': { field: 'institution_code', label: '機関コード', type: 'text' },
 
@@ -398,9 +398,11 @@ const sampleDataFieldMapping = {
   'work_scope_type_1': { field: 'work_scope_type', label: '業務上', type: 'select', options: ['業務上', '第三者行為である', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'work_scope_type', optionLabel: '業務上' },
   'work_scope_type_2': { field: 'work_scope_type', label: '第三者行為である', type: 'select', options: ['業務上', '第三者行為である', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'work_scope_type', optionLabel: '第三者行為である' },
   'work_scope_type_3': { field: 'work_scope_type', label: 'その他', type: 'select', options: ['業務上', '第三者行為である', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'work_scope_type', optionLabel: 'その他' },
-  'birthday_era_reiwa': { field: 'birthday_era', label: '生年月日元号', type: 'select', options: ['令和', '平成', '昭和'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '令和' },
-  'birthday_era_heisei': { field: 'birthday_era', label: '生年月日元号', type: 'select', options: ['令和', '平成', '昭和'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '平成' },
-  'birthday_era_showa': { field: 'birthday_era', label: '生年月日元号', type: 'select', options: ['令和', '平成', '昭和'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '昭和' },
+  'birthday_era_reiwa': { field: 'birthday_era', label: '生年月日（元号）', type: 'select', options: ['令和', '平成', '昭和', '大正', '明治'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '令和' },
+  'birthday_era_heisei': { field: 'birthday_era', label: '生年月日（元号）', type: 'select', options: ['令和', '平成', '昭和', '大正', '明治'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '平成' },
+  'birthday_era_showa': { field: 'birthday_era', label: '生年月日（元号）', type: 'select', options: ['令和', '平成', '昭和', '大正', '明治'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '昭和' },
+  'birthday_era_taisho': { field: 'birthday_era', label: '生年月日（元号）', type: 'select', options: ['令和', '平成', '昭和', '大正', '明治'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '大正' },
+  'birthday_era_meiji': { field: 'birthday_era', label: '生年月日（元号）', type: 'select', options: ['令和', '平成', '昭和', '大正', '明治'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '明治' },
   'birthday_year': { field: 'birthdate', label: '生年月日（年）', type: 'date' },
   'birthday_month': { field: 'birthdate', label: '生年月日（月）', type: 'date' },
   'birthday_day': { field: 'birthdate', label: '生年月日（日）', type: 'date' },
