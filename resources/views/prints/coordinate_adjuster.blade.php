@@ -352,7 +352,9 @@ let customSampleData = {
   illness_name_other_text: '脊柱管狭窄症',
   // 施術日ラベル
   treatment_month_label_1: '月',
-  treatment_month_label_2: '日'
+  treatment_month_label_2: '日',
+  // 摘要
+  abstract: '特記事項なし'
 };
 
 // サンプルデータフィールドマッピング（座標キーとサンプルデータキーの対応）
@@ -391,14 +393,14 @@ const sampleDataFieldMapping = {
   'patient_name': { field: 'last_name', label: '氏名（姓名）', type: 'text', combine: ['last_name', 'first_name'] },
 
   // === 6. 性別・業務上第三者行為・生年月日 ===
-  'patient_gender_male': { field: 'gender', label: '性別', type: 'select', masterKey: 'genders', valueField: 'gender' },
-  'patient_gender_female': { field: 'gender', label: '性別', type: 'select', masterKey: 'genders', valueField: 'gender' },
-  'work_scope_type_1': { field: 'work_scope_type', label: '業務上第三者行為', type: 'select', options: ['業務上', '第三者行為である', 'その他'] },
-  'work_scope_type_2': { field: 'work_scope_type', label: '業務上第三者行為', type: 'select', options: ['業務上', '第三者行為である', 'その他'] },
-  'work_scope_type_3': { field: 'work_scope_type', label: '業務上第三者行為', type: 'select', options: ['業務上', '第三者行為である', 'その他'] },
-  'birthday_era_reiwa': { field: 'birthday_era', label: '生年月日元号', type: 'select', options: ['令和', '平成', '昭和'] },
-  'birthday_era_heisei': { field: 'birthday_era', label: '生年月日元号', type: 'select', options: ['令和', '平成', '昭和'] },
-  'birthday_era_showa': { field: 'birthday_era', label: '生年月日元号', type: 'select', options: ['令和', '平成', '昭和'] },
+  'patient_gender_male': { field: 'gender', label: '性別', type: 'select', masterKey: 'genders', valueField: 'gender', ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'gender', optionLabel: '男' },
+  'patient_gender_female': { field: 'gender', label: '性別', type: 'select', masterKey: 'genders', valueField: 'gender', ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'gender', optionLabel: '女' },
+  'work_scope_type_1': { field: 'work_scope_type', label: '業務上', type: 'select', options: ['業務上', '第三者行為である', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'work_scope_type', optionLabel: '業務上' },
+  'work_scope_type_2': { field: 'work_scope_type', label: '第三者行為である', type: 'select', options: ['業務上', '第三者行為である', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'work_scope_type', optionLabel: '第三者行為である' },
+  'work_scope_type_3': { field: 'work_scope_type', label: 'その他', type: 'select', options: ['業務上', '第三者行為である', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'work_scope_type', optionLabel: 'その他' },
+  'birthday_era_reiwa': { field: 'birthday_era', label: '生年月日元号', type: 'select', options: ['令和', '平成', '昭和'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '令和' },
+  'birthday_era_heisei': { field: 'birthday_era', label: '生年月日元号', type: 'select', options: ['令和', '平成', '昭和'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '平成' },
+  'birthday_era_showa': { field: 'birthday_era', label: '生年月日元号', type: 'select', options: ['令和', '平成', '昭和'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '昭和' },
   'birthday_year': { field: 'birthdate', label: '生年月日（年）', type: 'date' },
   'birthday_month': { field: 'birthdate', label: '生年月日（月）', type: 'date' },
   'birthday_day': { field: 'birthdate', label: '生年月日（日）', type: 'date' },
@@ -418,22 +420,23 @@ const sampleDataFieldMapping = {
 
   // === 8. 実日数・請求区分・傷病名・転帰 ===
   'treatment_days': { field: 'treatment_days', label: '実日数', type: 'number' },
-  'bill_category_new': { field: 'bill_category', label: '請求区分', type: 'select', options: ['新規', '継続'] },
-  'bill_category_continued': { field: 'bill_category', label: '請求区分', type: 'select', options: ['新規', '継続'] },
-  'illness_name_1': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'] },
-  'illness_name_2': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'] },
-  'illness_name_3': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'] },
-  'illness_name_4': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'] },
-  'illness_name_5': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'] },
-  'illness_name_6': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'] },
-  'illness_name_7': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'] },
+  'bill_category_new': { field: 'bill_category', label: '請求区分', type: 'select', options: ['新規', '継続'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'bill_category', optionLabel: '新規' },
+  'bill_category_continued': { field: 'bill_category', label: '請求区分', type: 'select', options: ['新規', '継続'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'bill_category', optionLabel: '継続' },
+  'illness_name_1': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: '神経痛' },
+  'illness_name_2': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: 'リウマチ' },
+  'illness_name_3': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: '頸腕症候群' },
+  'illness_name_4': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: '五十肩' },
+  'illness_name_5': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: '腰痛症' },
+  'illness_name_6': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: '頸椎捻挫後遺症' },
+  'illness_name_7': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: 'その他' },
   'illness_name_other_text': { field: 'illness_name_other_text', label: '傷病名（その他の内容）', type: 'text' },
-  'outcome_continued': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'] },
-  'outcome_cured': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'] },
-  'outcome_discontinued': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'] },
-  'outcome_transferred': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'] },
+  'outcome_continued': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'outcome', optionLabel: '継続' },
+  'outcome_cured': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'outcome', optionLabel: '治癒' },
+  'outcome_discontinued': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'outcome', optionLabel: '中止' },
+  'outcome_transferred': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'outcome', optionLabel: '転医' },
   'treatment_month_label_1': { field: 'treatment_month_label_1', label: '施術日（月ラベル1）', type: 'text' },
   'treatment_month_label_2': { field: 'treatment_month_label_2', label: '施術日（月ラベル2）', type: 'text' },
+  'abstract': { field: 'abstract', label: '摘要', type: 'text' },
 
   // === 9. 施術日カレンダー（1-31日） ===
   'treatment_day_1': { field: 'treatment_day_1', label: '施術日1日', type: 'text' },
@@ -507,8 +510,8 @@ const sampleDataFieldMapping = {
   'clinic_phone': { field: 'clinic_phone', label: '電話番号', type: 'text' },
   'institution_code': { field: 'institution_code', label: '機関コード', type: 'text' },
   'therapist_registration_number': { field: 'therapist_registration_number', label: '施術者登録番号', type: 'text' },
-  'health_center_registration_1': { field: 'health_center_registration_1', label: '保健所登録1', type: 'select', options: ['1', '2'], optionLabels: ['保健所', '〇〇'] },
-  'health_center_registration_2': { field: 'health_center_registration_2', label: '保健所登録2', type: 'select', options: ['1', '2'], optionLabels: ['保健所', '〇〇'] },
+  'health_center_registration_1': { field: 'health_center_registration_1', label: '保健所登録1', type: 'select', options: ['1', '2'], optionLabels: ['保健所', '〇〇'], circleRadius: 1.2, lineWidth: 0.5 },
+  'health_center_registration_2': { field: 'health_center_registration_2', label: '保健所登録2', type: 'select', options: ['1', '2'], optionLabels: ['保健所', '〇〇'], circleRadius: 1.2, lineWidth: 0.5 },
   'clinic_date_year': { field: 'clinic_date_year', label: '施術所年月日（年）', type: 'number' },
   'clinic_date_month': { field: 'clinic_date_month', label: '施術所年月日（月）', type: 'number' },
   'clinic_date_day': { field: 'clinic_date_day', label: '施術所年月日（日）', type: 'number' },
@@ -635,7 +638,38 @@ function loadCoordinates() {
     .then(data => {
       if (data.success) {
         coordinates = data.coordinates;
-        originalCoordinates = JSON.parse(JSON.stringify(data.coordinates));
+
+        // フィールド定義のデフォルト値をマージ
+        Object.keys(sampleDataFieldMapping).forEach(key => {
+          if (coordinates[key]) {
+            const definition = sampleDataFieldMapping[key];
+            // ellipseWidth, ellipseHeight, circleRadius, lineWidth などのデフォルト値を設定
+            if (definition.ellipseWidth !== undefined && coordinates[key].ellipseWidth === undefined) {
+              coordinates[key].ellipseWidth = definition.ellipseWidth;
+            }
+            if (definition.ellipseHeight !== undefined && coordinates[key].ellipseHeight === undefined) {
+              coordinates[key].ellipseHeight = definition.ellipseHeight;
+            }
+            if (definition.circleRadius !== undefined && coordinates[key].circleRadius === undefined) {
+              coordinates[key].circleRadius = definition.circleRadius;
+            }
+            if (definition.lineWidth !== undefined && coordinates[key].lineWidth === undefined) {
+              coordinates[key].lineWidth = definition.lineWidth;
+            }
+            // radioGroup, optionLabel, label などのメタデータをマージ
+            if (definition.radioGroup !== undefined) {
+              coordinates[key].radioGroup = definition.radioGroup;
+            }
+            if (definition.optionLabel !== undefined) {
+              coordinates[key].optionLabel = definition.optionLabel;
+            }
+            if (definition.label !== undefined) {
+              coordinates[key].label = definition.label;
+            }
+          }
+        });
+
+        originalCoordinates = JSON.parse(JSON.stringify(coordinates));
         renderFieldSettings();
         // 初回プレビュー表示
         previewPdf();
@@ -697,7 +731,7 @@ function renderFieldSettings() {
       // グループの最初のフィールドを基準にセレクトボックスを作成
       const firstField = groupFields[0][1];
       const firstKey = groupFields[0][0];
-      
+
       // 現在選択されているオプションを判定
       let selectedKey = firstKey;
       for (const [k, v] of groupFields) {
@@ -711,22 +745,21 @@ function renderFieldSettings() {
       div.className = 'field-group';
       div.setAttribute('data-radio-group', field.radioGroup);
 
+      // グループラベルを取得
+      const groupLabel = field.label || field.radioGroup;
+
       // オプションを生成
       const options = groupFields.map(([k, v]) => {
         return `<option value="${k}" ${selectedKey === k ? 'selected' : ''}>${v.optionLabel || v.label}</option>`;
       }).join('');
 
-      // サンプルデータ表示状態に応じてセレクトボックスを表示/非表示
-      const showSampleData = document.getElementById('show-sample-data')?.checked;
-      const selectDisplay = showSampleData ? 'block' : 'none';
-
       div.innerHTML = `
         <h6 class="field-header" onclick="toggleField('${field.radioGroup}')" style="cursor: pointer; user-select: none;">
-          <span class="toggle-icon" id="toggle-${field.radioGroup}">▶</span> ${field.label || field.radioGroup}
+          <span class="toggle-icon" id="toggle-${field.radioGroup}">▶</span> ${groupLabel}
         </h6>
 
         <div class="field-controls" id="controls-${field.radioGroup}">
-          <div class="coordinate-input" style="display: ${selectDisplay};">
+          <div class="coordinate-input">
             <label>選択:</label>
             <select onchange="updateRadioGroupSelection('${field.radioGroup}', this.value)"
                     class="form-control form-control-sm"
@@ -1061,10 +1094,14 @@ function updateRadioGroupSelection(groupName, selectedKey) {
   yDiv.appendChild(yBtnDown);
   detailsDiv.appendChild(yDiv);
 
-  // フォントサイズ
-  const fsDiv = document.createElement('div');
-  fsDiv.className = 'coordinate-input';
-  fsDiv.innerHTML = `<label>フォントサイズ:</label>`;
+  // 楕円・円のみのフィールドかどうかを判定
+  const isShapeOnly = selectedField.ellipseWidth !== undefined || selectedField.ellipseHeight !== undefined || selectedField.circleRadius !== undefined;
+
+  // フォントサイズ（楕円・円のみのフィールドでは非表示）
+  if (!isShapeOnly) {
+    const fsDiv = document.createElement('div');
+    fsDiv.className = 'coordinate-input';
+    fsDiv.innerHTML = `<label>フォントサイズ:</label>`;
   
   const fsBtnMinus = document.createElement('button');
   fsBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
@@ -1098,15 +1135,17 @@ function updateRadioGroupSelection(groupName, selectedKey) {
   fsBtnPlus.addEventListener('touchstart', () => startLongPress(selectedKey, 'fontSize', 0.5));
   fsBtnPlus.addEventListener('touchend', stopLongPress);
   
-  fsDiv.appendChild(fsBtnMinus);
-  fsDiv.appendChild(fsInput);
-  fsDiv.appendChild(fsBtnPlus);
-  detailsDiv.appendChild(fsDiv);
+    fsDiv.appendChild(fsBtnMinus);
+    fsDiv.appendChild(fsInput);
+    fsDiv.appendChild(fsBtnPlus);
+    detailsDiv.appendChild(fsDiv);
+  }
 
-  // 文字間隔
-  const lsDiv = document.createElement('div');
-  lsDiv.className = 'coordinate-input';
-  lsDiv.innerHTML = `<label>文字間隔:</label>`;
+  // 文字間隔（楕円・円のみのフィールドでは非表示）
+  if (!isShapeOnly) {
+    const lsDiv = document.createElement('div');
+    lsDiv.className = 'coordinate-input';
+    lsDiv.innerHTML = `<label>文字間隔:</label>`;
   
   const lsBtnMinus = document.createElement('button');
   lsBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
@@ -1140,10 +1179,11 @@ function updateRadioGroupSelection(groupName, selectedKey) {
   lsBtnPlus.addEventListener('touchstart', () => startLongPress(selectedKey, 'letterSpacing', 0.1));
   lsBtnPlus.addEventListener('touchend', stopLongPress);
   
-  lsDiv.appendChild(lsBtnMinus);
-  lsDiv.appendChild(lsInput);
-  lsDiv.appendChild(lsBtnPlus);
-  detailsDiv.appendChild(lsDiv);
+    lsDiv.appendChild(lsBtnMinus);
+    lsDiv.appendChild(lsInput);
+    lsDiv.appendChild(lsBtnPlus);
+    detailsDiv.appendChild(lsDiv);
+  }
 
   // 円半径
   if (selectedField.circleRadius !== undefined) {

@@ -26,7 +26,8 @@
       "Bash(npm run build:*)",
       "Bash(move:*)",
       "Bash(composer require:*)",
-      "Bash(dir:*)"
+      "Bash(dir:*)",
+      "Bash(findstr:*)"
     ],
     "deny": [],
     "ask": []

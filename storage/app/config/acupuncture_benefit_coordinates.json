@@ -39,16 +39,16 @@
     },
     "insurance_symbol": {
         "x": 46.5,
-        "y": 22.5,
+        "y": 53.5,
         "fontSize": 12,
         "letterSpacing": 0,
         "label": "被保険者証記号"
     },
     "public_funds_payer_number": {
-        "x": 50,
-        "y": 30,
-        "fontSize": 10,
-        "letterSpacing": 0,
+        "x": 46.5,
+        "y": 16.5,
+        "fontSize": 15,
+        "letterSpacing": 4.1,
         "label": "公費負担者番号"
     },
     "public_funds_recipient_number": {
@@ -380,13 +380,6 @@
         "fontSize": 9,
         "letterSpacing": 0,
         "label": "支払機関電話番号"
-    },
-    "remarks": {
-        "x": 10,
-        "y": 250,
-        "fontSize": 9,
-        "letterSpacing": 0,
-        "label": "摘要"
     },
     "temporary_insurer_name": {
         "x": 46.5,
@@ -765,5 +758,12 @@
         "textAlign": "left",
         "circleRadius": 1.2,
         "lineWidth": 0.5
+    },
+    "abstract": {
+        "x": 10,
+        "y": 250,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "label": "摘要"
     }
 }
