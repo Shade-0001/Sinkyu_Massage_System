@@ -436,7 +436,7 @@ const sampleDataFieldMapping = {
   'outcome_transferred': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'outcome', optionLabel: '転医' },
   'treatment_month_label_1': { field: 'treatment_month_label_1', label: '施術日（月ラベル1）', type: 'text' },
   'treatment_month_label_2': { field: 'treatment_month_label_2', label: '施術日（月ラベル2）', type: 'text' },
-  'abstract': { field: 'abstract', label: '摘要', type: 'text' },
+  'abstract': { field: 'abstract', label: '摘要', type: 'text', width: 180, lineHeight: 5 },
 
   // === 9. 施術日カレンダー（1-31日） ===
   'treatment_day_1': { field: 'treatment_day_1', label: '施術日1日', type: 'text' },
@@ -656,6 +656,12 @@ function loadCoordinates() {
             if (definition.lineWidth !== undefined && coordinates[key].lineWidth === undefined) {
               coordinates[key].lineWidth = definition.lineWidth;
             }
+            if (definition.width !== undefined && coordinates[key].width === undefined) {
+              coordinates[key].width = definition.width;
+            }
+            if (definition.lineHeight !== undefined && coordinates[key].lineHeight === undefined) {
+              coordinates[key].lineHeight = definition.lineHeight;
+            }
             // radioGroup, optionLabel, label などのメタデータをマージ
             if (definition.radioGroup !== undefined) {
               coordinates[key].radioGroup = definition.radioGroup;
@@ -873,6 +879,48 @@ function renderFieldSettings() {
                   ontouchstart="startLongPress('${key}', 'letterSpacing', 0.1)"
                   ontouchend="stopLongPress()">+</button>
         </div>
+
+        ${field.width !== undefined ? `
+        <div class="coordinate-input">
+          <label>折り返し幅:</label>
+          <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                  onmousedown="startLongPress('${key}', 'width', -5)"
+                  onmouseup="stopLongPress()"
+                  onmouseleave="stopLongPress()"
+                  ontouchstart="startLongPress('${key}', 'width', -5)"
+                  ontouchend="stopLongPress()">−</button>
+          <input type="number" step="5" value="${field.width || 180}"
+                 onchange="updateCoordinate('${key}', 'width', this.value)"
+                 class="form-control form-control-sm" data-property="width">
+          <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                  onmousedown="startLongPress('${key}', 'width', 5)"
+                  onmouseup="stopLongPress()"
+                  onmouseleave="stopLongPress()"
+                  ontouchstart="startLongPress('${key}', 'width', 5)"
+                  ontouchend="stopLongPress()">+</button>
+        </div>
+        ` : ''}
+
+        ${field.lineHeight !== undefined ? `
+        <div class="coordinate-input">
+          <label>行間:</label>
+          <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                  onmousedown="startLongPress('${key}', 'lineHeight', -0.5)"
+                  onmouseup="stopLongPress()"
+                  onmouseleave="stopLongPress()"
+                  ontouchstart="startLongPress('${key}', 'lineHeight', -0.5)"
+                  ontouchend="stopLongPress()">−</button>
+          <input type="number" step="0.5" value="${field.lineHeight || 5}"
+                 onchange="updateCoordinate('${key}', 'lineHeight', this.value)"
+                 class="form-control form-control-sm" data-property="lineHeight">
+          <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                  onmousedown="startLongPress('${key}', 'lineHeight', 0.5)"
+                  onmouseup="stopLongPress()"
+                  onmouseleave="stopLongPress()"
+                  ontouchstart="startLongPress('${key}', 'lineHeight', 0.5)"
+                  ontouchend="stopLongPress()">+</button>
+        </div>
+        ` : ''}
 
         <div class="coordinate-input">
           <label>テキスト配置:</label>

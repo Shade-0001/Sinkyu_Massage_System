@@ -929,8 +929,15 @@ class AcupunctureBenefitPdfService
       $abstracts = $records->pluck('abstract')->filter()->unique()->toArray();
       if (!empty($abstracts)) {
         $abstractText = implode('、', $abstracts);
-        $pdf->SetFontSize($this->coord('abstract', 'fontSize'));
-        $this->drawTextByKey($pdf, 'abstract', $abstractText);
+        $x = $this->coord('abstract', 'x');
+        $y = $this->coord('abstract', 'y');
+        $fontSize = $this->coord('abstract', 'fontSize');
+        $width = $this->coordinates['abstract']['width'] ?? 180; // デフォルト180mm
+        $lineHeight = $this->coordinates['abstract']['lineHeight'] ?? 5; // デフォルト5mm
+
+        $pdf->SetFontSize($fontSize);
+        $pdf->SetXY($x, $y);
+        $pdf->MultiCell($width, $lineHeight, $abstractText, 0, 'L', false, 1);
       }
     }
 

@@ -23,7 +23,7 @@
         "label": "タイトル月"
     },
     "institution_code": {
-        "x": 122,
+        "x": 119,
         "y": 11,
         "fontSize": 10.5,
         "letterSpacing": 0.2,
@@ -38,8 +38,8 @@
         "label": "保険者番号"
     },
     "insurance_symbol": {
-        "x": 46.5,
-        "y": 53.5,
+        "x": 32,
+        "y": 48,
         "fontSize": 12,
         "letterSpacing": 0,
         "label": "被保険者証記号"
@@ -49,28 +49,32 @@
         "y": 16.5,
         "fontSize": 15,
         "letterSpacing": 4.1,
-        "label": "公費負担者番号"
+        "label": "公費負担者番号",
+        "textAlign": "left"
     },
     "public_funds_recipient_number": {
-        "x": 50,
-        "y": 35,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "label": "公費受給者番号"
+        "x": 46.5,
+        "y": 22.5,
+        "fontSize": 15,
+        "letterSpacing": 4.1,
+        "label": "公費受給者番号",
+        "textAlign": "left"
     },
     "locality_code": {
-        "x": 50,
-        "y": 40,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "label": "区市町村番号"
+        "x": 46.5,
+        "y": 29,
+        "fontSize": 15,
+        "letterSpacing": 4.1,
+        "label": "区市町村番号",
+        "textAlign": "left"
     },
     "recipient_number": {
-        "x": 50,
-        "y": 45,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "label": "受給者番号"
+        "x": 46.5,
+        "y": 35,
+        "fontSize": 15,
+        "letterSpacing": 4.1,
+        "label": "受給者番号",
+        "textAlign": "left"
     },
     "patient_name_kana": {
         "x": 46.5,
@@ -760,10 +764,13 @@
         "lineWidth": 0.5
     },
     "abstract": {
-        "x": 10,
-        "y": 250,
-        "fontSize": 9,
+        "x": 149.5,
+        "y": 114,
+        "fontSize": 10,
         "letterSpacing": 0,
-        "label": "摘要"
+        "label": "摘要",
+        "textAlign": "left",
+        "width": 180,
+        "lineHeight": 5
     }
 }
