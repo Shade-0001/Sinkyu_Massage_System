@@ -495,6 +495,10 @@ class AcupunctureBenefitPdfService
         $birthdayEraKey = 'birthday_era_heisei';
       } elseif (isset($this->coordinates['birthday_era_showa']['isSelected']) && $this->coordinates['birthday_era_showa']['isSelected']) {
         $birthdayEraKey = 'birthday_era_showa';
+      } elseif (isset($this->coordinates['birthday_era_taisho']['isSelected']) && $this->coordinates['birthday_era_taisho']['isSelected']) {
+        $birthdayEraKey = 'birthday_era_taisho';
+      } elseif (isset($this->coordinates['birthday_era_meiji']['isSelected']) && $this->coordinates['birthday_era_meiji']['isSelected']) {
+        $birthdayEraKey = 'birthday_era_meiji';
       } elseif (isset($this->customSampleData['birthday_era'])) {
         // customSampleDataから元号を取得
         $era = $this->customSampleData['birthday_era'];
@@ -504,6 +508,10 @@ class AcupunctureBenefitPdfService
           $birthdayEraKey = 'birthday_era_heisei';
         } elseif ($era === '昭和') {
           $birthdayEraKey = 'birthday_era_showa';
+        } elseif ($era === '大正') {
+          $birthdayEraKey = 'birthday_era_taisho';
+        } elseif ($era === '明治') {
+          $birthdayEraKey = 'birthday_era_meiji';
         }
       }
 
@@ -539,6 +547,10 @@ class AcupunctureBenefitPdfService
         $this->drawEllipseByKey($pdf, 'birthday_era_heisei');
       } elseif ($birthJapaneseYear['era'] === '昭和') {
         $this->drawEllipseByKey($pdf, 'birthday_era_showa');
+      } elseif ($birthJapaneseYear['era'] === '大正') {
+        $this->drawEllipseByKey($pdf, 'birthday_era_taisho');
+      } elseif ($birthJapaneseYear['era'] === '明治') {
+        $this->drawEllipseByKey($pdf, 'birthday_era_meiji');
       }
 
       $pdf->SetFontSize($this->coord('birthday_year', 'fontSize'));
@@ -1648,10 +1660,14 @@ class AcupunctureBenefitPdfService
   {
     if ($year >= 2019 && ($year > 2019 || $month >= 5)) {
       return ['era' => '令和', 'year' => $year - 2018];
-    } elseif ($year >= 1989) {
+    } elseif ($year >= 1989 && ($year > 1989 || $month >= 1)) {
       return ['era' => '平成', 'year' => $year - 1988];
-    } elseif ($year >= 1926) {
+    } elseif ($year >= 1926 && ($year > 1926 || $month >= 12)) {
       return ['era' => '昭和', 'year' => $year - 1925];
+    } elseif ($year >= 1912 && ($year > 1912 || $month >= 7)) {
+      return ['era' => '大正', 'year' => $year - 1911];
+    } elseif ($year >= 1868) {
+      return ['era' => '明治', 'year' => $year - 1867];
     }
     return ['era' => '', 'year' => $year];
   }
