@@ -58,6 +58,20 @@
         "letterSpacing": 0,
         "label": "公費受給者番号"
     },
+    "locality_code": {
+        "x": 50,
+        "y": 40,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "区市町村番号"
+    },
+    "recipient_number": {
+        "x": 50,
+        "y": 45,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "受給者番号"
+    },
     "patient_name_kana": {
         "x": 46.5,
         "y": 28.5,
@@ -366,6 +380,13 @@
         "fontSize": 9,
         "letterSpacing": 0,
         "label": "支払機関電話番号"
+    },
+    "remarks": {
+        "x": 10,
+        "y": 250,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "label": "摘要"
     },
     "temporary_insurer_name": {
         "x": 46.5,
