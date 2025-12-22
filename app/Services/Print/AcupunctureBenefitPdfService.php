@@ -476,16 +476,9 @@ class AcupunctureBenefitPdfService
     // === 生年月日 ===
     if ($this->sampleDataMode && $this->customSampleData) {
       // サンプルデータモード：customSampleDataから取得
-      $birthYear = null;
-      $birthMonth = null;
-      $birthDay = null;
-
-      // birthdateがある場合は分解
-      if (isset($this->customSampleData['birthdate']) && $this->customSampleData['birthdate']) {
-        [$birthYear, $birthMonth, $birthDay] = explode('-', $this->customSampleData['birthdate']);
-        $birthJapaneseYear = $this->convertToJapaneseYear((int)$birthYear, (int)$birthMonth);
-        $birthYear = $birthJapaneseYear['year'];
-      }
+      $birthYear = $this->customSampleData['birthday_year'] ?? null;
+      $birthMonth = $this->customSampleData['birthday_month'] ?? null;
+      $birthDay = $this->customSampleData['birthday_day'] ?? null;
 
       // isSelectedフラグまたはcustomSampleDataから元号を取得
       $birthdayEraKey = null;

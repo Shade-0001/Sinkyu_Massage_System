@@ -194,6 +194,9 @@ let customSampleData = {
   first_kana: 'タロウ',
   gender: '男',
   birthdate: '1955-03-15',
+  birthday_year: '30',
+  birthday_month: '3',
+  birthday_day: '15',
   address: '東京都千代田区丸の内1-1-1',
   phone: '03-1234-5678',
   insurer_number: '12345678',
@@ -403,9 +406,9 @@ const sampleDataFieldMapping = {
   'birthday_era_showa': { field: 'birthday_era', label: '生年月日（元号）', type: 'select', options: ['令和', '平成', '昭和', '大正', '明治'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '昭和' },
   'birthday_era_taisho': { field: 'birthday_era', label: '生年月日（元号）', type: 'select', options: ['令和', '平成', '昭和', '大正', '明治'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '大正' },
   'birthday_era_meiji': { field: 'birthday_era', label: '生年月日（元号）', type: 'select', options: ['令和', '平成', '昭和', '大正', '明治'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '明治' },
-  'birthday_year': { field: 'birthdate', label: '生年月日（年）', type: 'date' },
-  'birthday_month': { field: 'birthdate', label: '生年月日（月）', type: 'date' },
-  'birthday_day': { field: 'birthdate', label: '生年月日（日）', type: 'date' },
+  'birthday_year': { field: 'birthdate', label: '生年月日（年）', type: 'text' },
+  'birthday_month': { field: 'birthdate', label: '生年月日（月）', type: 'text' },
+  'birthday_day': { field: 'birthdate', label: '生年月日（日）', type: 'text' },
 
   // === 7. 初療年月日・施術期間 ===
   'treatment_start_date': { field: 'treatment_start_date', label: '初療年月日', type: 'date' },
@@ -1422,10 +1425,11 @@ function getSampleDataInput(key) {
     inputHtml = `
       <div class="coordinate-input">
         <label>サンプル${mapping.label}:</label>
-        <input type="date"
+        <input type="text"
                value="${currentValue}"
                onchange="updateSampleData('${mapping.field}', this.value)"
-               class="form-control form-control-sm">
+               class="form-control form-control-sm"
+               placeholder="例: 2024-01-01">
       </div>
     `;
   } else if (mapping.type === 'select') {
