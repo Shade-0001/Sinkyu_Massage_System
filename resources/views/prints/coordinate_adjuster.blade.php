@@ -303,8 +303,7 @@ let customSampleData = {
   clinic_phone: '03-9876-5432',
   institution_code: '1234567890',
   therapist_registration_number: '1234567',
-  health_center_registration_1: '1',
-  health_center_registration_2: '1',
+  health_center_registration: '施術所所在地',
   clinic_date_year: '7',
   clinic_date_month: '12',
   clinic_date_day: '31',
@@ -353,9 +352,6 @@ let customSampleData = {
   // 傷病名
   illness_name: '1', // 1:神経痛, 2:リウマチ, 3:頸腕症候群, 4:五十肩, 5:腰痛症, 6:頸椎捻挫後遺症, 7:その他
   illness_name_other_text: '脊柱管狭窄症',
-  // 施術日ラベル
-  treatment_month_label_1: '月',
-  treatment_month_label_2: '日',
   // 摘要
   abstract: '特記事項なし'
 };
@@ -406,9 +402,9 @@ const sampleDataFieldMapping = {
   'birthday_era_showa': { field: 'birthday_era', label: '生年月日（元号）', type: 'select', options: ['令和', '平成', '昭和', '大正', '明治'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '昭和' },
   'birthday_era_taisho': { field: 'birthday_era', label: '生年月日（元号）', type: 'select', options: ['令和', '平成', '昭和', '大正', '明治'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '大正' },
   'birthday_era_meiji': { field: 'birthday_era', label: '生年月日（元号）', type: 'select', options: ['令和', '平成', '昭和', '大正', '明治'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '明治' },
-  'birthday_year': { field: 'birthdate', label: '生年月日（年）', type: 'text' },
-  'birthday_month': { field: 'birthdate', label: '生年月日（月）', type: 'text' },
-  'birthday_day': { field: 'birthdate', label: '生年月日（日）', type: 'text' },
+  'birthday_year': { field: 'birthday_year', label: '生年月日（年）', type: 'text' },
+  'birthday_month': { field: 'birthday_month', label: '生年月日（月）', type: 'text' },
+  'birthday_day': { field: 'birthday_day', label: '生年月日（日）', type: 'text' },
 
   // === 7. 初療年月日・施術期間 ===
   'treatment_start_date': { field: 'treatment_start_date', label: '初療年月日', type: 'date' },
@@ -439,8 +435,6 @@ const sampleDataFieldMapping = {
   'outcome_cured': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'outcome', optionLabel: '治癒' },
   'outcome_discontinued': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'outcome', optionLabel: '中止' },
   'outcome_transferred': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'outcome', optionLabel: '転医' },
-  'treatment_month_label_1': { field: 'treatment_month_label_1', label: '施術日（月ラベル1）', type: 'text' },
-  'treatment_month_label_2': { field: 'treatment_month_label_2', label: '施術日（月ラベル2）', type: 'text' },
   'abstract': { field: 'abstract', label: '摘要', type: 'text', width: 180, lineHeight: 5 },
 
   // === 9. 施術日カレンダー（1-31日） ===
@@ -495,9 +489,9 @@ const sampleDataFieldMapping = {
   'fee_housecall_additional_unit': { field: 'fee_housecall_additional_unit', label: '往療料4km超（単価）', type: 'number' },
   'fee_housecall_additional_count': { field: 'fee_housecall_additional_count', label: '往療料4km超（回数）', type: 'number' },
   'fee_housecall_additional_total': { field: 'fee_housecall_additional_total', label: '往療料4km超（合計）', type: 'number' },
-  'fee_previous_payment_unit': { field: 'fee_previous_payment_unit', label: '施術給付金支払（単価）', type: 'number' },
-  'fee_previous_payment_count': { field: 'fee_previous_payment_count', label: '施術給付金支払（回数）', type: 'number' },
-  'fee_previous_payment_total': { field: 'fee_previous_payment_total', label: '施術給付金支払（合計）', type: 'number' },
+  'fee_previous_payment_unit': { field: 'fee_previous_payment_unit', label: '施術報告書交付料（単価）', type: 'number' },
+  'fee_previous_payment_count': { field: 'fee_previous_payment_count', label: '施術報告書交付料（回数）', type: 'number' },
+  'fee_previous_payment_total': { field: 'fee_previous_payment_total', label: '施術報告書交付料（合計）', type: 'number' },
   'fee_subtotal': { field: 'fee_subtotal', label: '合計', type: 'number' },
   'fee_partial_payment': { field: 'fee_partial_payment', label: '一部負担金', type: 'number' },
   'fee_total_claim': { field: 'fee_total_claim', label: '請求額', type: 'number' },
@@ -515,17 +509,17 @@ const sampleDataFieldMapping = {
   'clinic_phone': { field: 'clinic_phone', label: '電話番号', type: 'text' },
   'institution_code': { field: 'institution_code', label: '機関コード', type: 'text' },
   'therapist_registration_number': { field: 'therapist_registration_number', label: '施術者登録番号', type: 'text' },
-  'health_center_registration_1': { field: 'health_center_registration_1', label: '保健所登録1', type: 'select', options: ['1', '2'], optionLabels: ['保健所', '〇〇'], circleRadius: 1.2, lineWidth: 0.5 },
-  'health_center_registration_2': { field: 'health_center_registration_2', label: '保健所登録2', type: 'select', options: ['1', '2'], optionLabels: ['保健所', '〇〇'], circleRadius: 1.2, lineWidth: 0.5 },
-  'clinic_date_year': { field: 'clinic_date_year', label: '施術所年月日（年）', type: 'number' },
-  'clinic_date_month': { field: 'clinic_date_month', label: '施術所年月日（月）', type: 'number' },
-  'clinic_date_day': { field: 'clinic_date_day', label: '施術所年月日（日）', type: 'number' },
+  'health_center_registration_1': { field: 'health_center_registration', label: '保健所登録区分', type: 'select', options: ['施術所所在地', '出張専門施術者住所地'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'health_center_registration', optionLabel: '施術所所在地' },
+  'health_center_registration_2': { field: 'health_center_registration', label: '保健所登録区分', type: 'select', options: ['施術所所在地', '出張専門施術者住所地'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'health_center_registration', optionLabel: '出張専門施術者住所地' },
+  'clinic_date_year': { field: 'clinic_date_year', label: '施術証明年月日（年）', type: 'number' },
+  'clinic_date_month': { field: 'clinic_date_month', label: '施術証明年月日（月）', type: 'number' },
+  'clinic_date_day': { field: 'clinic_date_day', label: '施術証明年月日（日）', type: 'number' },
   'submission_date_year': { field: 'submission_date_year', label: '提出年月日（年）', type: 'number' },
   'submission_date_month': { field: 'submission_date_month', label: '提出年月日（月）', type: 'number' },
   'submission_date_day': { field: 'submission_date_day', label: '提出年月日（日）', type: 'number' },
 
   // === 13. 申請者情報 ===
-  'applicant_postal_code': { field: 'applicant_postal_code', label: '申請者郵便番号', type: 'text' },
+  'applicant_postal_code': { field: 'applicant_postal_code', label: '申請者郵便番号', type: 'postal_code', postalCodeGap: 2 },
   'applicant_address': { field: 'address', label: '申請者住所', type: 'text' },
   'applicant_name': { field: 'last_name', label: '申請者氏名', type: 'text', combine: ['last_name', 'first_name'] },
   'patient_address': { field: 'address', label: '住所', type: 'text' },
@@ -667,7 +661,7 @@ function loadCoordinates() {
             if (definition.lineHeight !== undefined && coordinates[key].lineHeight === undefined) {
               coordinates[key].lineHeight = definition.lineHeight;
             }
-            // radioGroup, optionLabel, label などのメタデータをマージ
+            // radioGroup, optionLabel, label, type などのメタデータをマージ
             if (definition.radioGroup !== undefined) {
               coordinates[key].radioGroup = definition.radioGroup;
             }
@@ -676,6 +670,12 @@ function loadCoordinates() {
             }
             if (definition.label !== undefined) {
               coordinates[key].label = definition.label;
+            }
+            if (definition.type !== undefined) {
+              coordinates[key].type = definition.type;
+            }
+            if (definition.postalCodeGap !== undefined && coordinates[key].postalCodeGap === undefined) {
+              coordinates[key].postalCodeGap = definition.postalCodeGap;
             }
           }
         });
@@ -984,7 +984,7 @@ function renderFieldSettings() {
         </div>
         ` : ''}
 
-        ${field.circleRadius !== undefined ? `
+        ${field.circleRadius !== undefined && field.ellipseWidth === undefined && field.ellipseHeight === undefined ? `
         <div class="coordinate-input">
           <label>○半径:</label>
           <button class="btn btn-sm btn-outline-secondary btn-adjust"
@@ -1022,6 +1022,27 @@ function renderFieldSettings() {
                   onmouseup="stopLongPress()"
                   onmouseleave="stopLongPress()"
                   ontouchstart="startLongPress('${key}', 'doubleCircleInnerRadius', 0.05)"
+                  ontouchend="stopLongPress()">+</button>
+        </div>
+        ` : ''}
+
+        ${field.type === 'postal_code' ? `
+        <div class="coordinate-input">
+          <label>郵便番号間隔:</label>
+          <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                  onmousedown="startLongPress('${key}', 'postalCodeGap', -0.5)"
+                  onmouseup="stopLongPress()"
+                  onmouseleave="stopLongPress()"
+                  ontouchstart="startLongPress('${key}', 'postalCodeGap', -0.5)"
+                  ontouchend="stopLongPress()">−</button>
+          <input type="number" step="0.5" value="${field.postalCodeGap || 2}"
+                 onchange="updateCoordinate('${key}', 'postalCodeGap', this.value)"
+                 class="form-control form-control-sm" data-property="postalCodeGap">
+          <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                  onmousedown="startLongPress('${key}', 'postalCodeGap', 0.5)"
+                  onmouseup="stopLongPress()"
+                  onmouseleave="stopLongPress()"
+                  ontouchstart="startLongPress('${key}', 'postalCodeGap', 0.5)"
                   ontouchend="stopLongPress()">+</button>
         </div>
         ` : ''}
@@ -1238,8 +1259,8 @@ function updateRadioGroupSelection(groupName, selectedKey) {
     detailsDiv.appendChild(lsDiv);
   }
 
-  // 円半径
-  if (selectedField.circleRadius !== undefined) {
+  // 円半径（楕円を使用している場合は表示しない）
+  if (selectedField.circleRadius !== undefined && selectedField.ellipseWidth === undefined && selectedField.ellipseHeight === undefined) {
     const crDiv = document.createElement('div');
     crDiv.className = 'coordinate-input';
     crDiv.innerHTML = `<label>○半径:</label>`;
