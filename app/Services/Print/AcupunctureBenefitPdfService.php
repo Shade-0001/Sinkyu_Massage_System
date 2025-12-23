@@ -402,7 +402,7 @@ class AcupunctureBenefitPdfService
         $symbol = $insurance->code_number ?? '';
         $number = $insurance->account_number ?? '';
         if ($symbol || $number) {
-          $displayText = trim(($symbol ?: '') . ($symbol && $number ? '・' : '') . ($number ?: ''));
+          $displayText = trim(($symbol ?: '') . ($symbol && $number ? '　' : '') . ($number ?: ''));
         }
       } else {
         // 公費・後期・退職の場合: 被保険者番号のみ
@@ -639,6 +639,23 @@ class AcupunctureBenefitPdfService
       }
     }
 
+    // === 発病負傷の原因･経過 ===
+    if ($this->sampleDataMode && $this->customSampleData) {
+      // サンプルデータモード：customSampleDataから取得
+      $condition = $this->customSampleData['condition'] ?? '';
+
+      if ($condition) {
+        $pdf->SetFontSize($this->coord('condition', 'fontSize'));
+        $this->drawTextByKey($pdf, 'condition', (string)$condition);
+        $pdf->SetFontSize(10);
+      }
+    } elseif ($consent && isset($consent->condition) && $consent->condition) {
+      // 通常モード：実データから取得
+      $pdf->SetFontSize($this->coord('condition', 'fontSize'));
+      $this->drawTextByKey($pdf, 'condition', (string)$consent->condition);
+      $pdf->SetFontSize(10);
+    }
+
     // === 業務上・外、第三者行為の有無 ===
     $workScopeTypeKey = null;
 
@@ -654,7 +671,7 @@ class AcupunctureBenefitPdfService
       $workScopeType = $this->customSampleData['work_scope_type'];
       if ($workScopeType === '業務上') {
         $workScopeTypeKey = 'work_scope_type_1';
-      } elseif ($workScopeType === '第三者行為である') {
+      } elseif ($workScopeType === '第三者行為') {
         $workScopeTypeKey = 'work_scope_type_2';
       } elseif ($workScopeType === 'その他') {
         $workScopeTypeKey = 'work_scope_type_3';
@@ -663,7 +680,7 @@ class AcupunctureBenefitPdfService
       // 通常モード：実データから判定
       if ($consent->work_scope_type === '業務上') {
         $workScopeTypeKey = 'work_scope_type_1';
-      } elseif ($consent->work_scope_type === '第三者行為である') {
+      } elseif ($consent->work_scope_type === '第三者行為') {
         $workScopeTypeKey = 'work_scope_type_2';
       } elseif ($consent->work_scope_type === 'その他') {
         $workScopeTypeKey = 'work_scope_type_3';
@@ -1203,6 +1220,7 @@ class AcupunctureBenefitPdfService
     $applicantName = $this->sampleDataMode && isset($this->customSampleData['applicant_name'])
       ? $this->customSampleData['applicant_name']
       : $fullName;
+    $pdf->SetFontSize($this->coord('applicant_name', 'fontSize'));
     $this->drawTextByKey($pdf, 'applicant_name', (string)$applicantName);
     $pdf->SetFontSize(10);
 
@@ -1681,8 +1699,8 @@ class AcupunctureBenefitPdfService
       'insurer_number' => $custom['insurer_number'] ?? '12345678',
       'insurer_name' => 'サンプル健康保険組合',
       'insurance_type_1_id' => 1,
-      'code_number' => $custom['insurance_symbol'] ?? '12345',
-      'account_number' => '67890',
+      'code_number' => $custom['insurance_symbol_kigou'] ?? '12345',
+      'account_number' => $custom['insurance_symbol_bangou'] ?? '67890',
       'insured_number' => $custom['insurance_number'] ?? '1234567890',
       'relationship' => $custom['relationship'] ?? '本人',
       'public_funds_payer_code' => '12345678',

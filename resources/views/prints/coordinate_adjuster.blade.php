@@ -201,6 +201,8 @@ let customSampleData = {
   phone: '03-1234-5678',
   insurer_number: '12345678',
   insurance_symbol: 'ABC123',
+  insurance_symbol_kigou: '12345',
+  insurance_symbol_bangou: '67890',
   insurance_number: '9876543210',
   relationship: '本人',
   office_name: '株式会社〇〇',
@@ -238,16 +240,13 @@ let customSampleData = {
   bodypart: '腰部',
   treatment_year_month: '',
   // 代理人情報
-  agent_postal_code: '100-0001',
+  agent_postal_code: '1000001',
   agent_address: '東京都千代田区〇〇2-3-4',
   agent_name: '田中花子',
   // 申請者情報
-  applicant_postal_code: '160-0022',
+  applicant_postal_code: '1600022',
   // 支払機関情報
-  payment_institution_date_year: '7',
-  payment_institution_date_month: '12',
-  payment_institution_date_day: '31',
-  payment_institution_postal_code: '100-0005',
+  payment_institution_postal_code: '1000005',
   payment_institution_address: '東京都千代田区〇〇3-4-5',
   payment_institution_name: '〇〇健康保険組合',
   payment_institution_phone: '03-1234-5678',
@@ -296,7 +295,7 @@ let customSampleData = {
   treatment_day_29: '29',
   treatment_day_30: '30',
   treatment_day_31: '31',
-  clinic_postal_code: '150-0001',
+  clinic_postal_code: '1500001',
   clinic_name: '〇〇鍼灸マッサージ院',
   clinic_address: '東京都渋谷区〇〇1-2-3',
   clinic_manager: '田中一郎',
@@ -352,6 +351,8 @@ let customSampleData = {
   // 傷病名
   illness_name: '1', // 1:神経痛, 2:リウマチ, 3:頸腕症候群, 4:五十肩, 5:腰痛症, 6:頸椎捻挫後遺症, 7:その他
   illness_name_other_text: '脊柱管狭窄症',
+  // 発病負傷の原因･経過
+  condition: '自宅の階段で転倒し腰部を打撲。その後徐々に腰痛が悪化。',
   // 摘要
   abstract: '特記事項なし'
 };
@@ -360,9 +361,9 @@ let customSampleData = {
 // 申請書の上から下への記載順序に合わせて整理
 const sampleDataFieldMapping = {
   // === 1. タイトル・機関コード ===
-  'title_year_era': { field: 'title_year_era', label: 'タイトル年（元号）', type: 'select', options: ['令和', '平成', '昭和'] },
-  'title_year_number': { field: 'title_year_number', label: 'タイトル年（数字）', type: 'number' },
-  'title_month': { field: 'title_month', label: 'タイトル月', type: 'number' },
+  'title_year_era': { field: 'title_year_era', label: '元号', type: 'select', options: ['令和', '平成', '昭和'], compositeGroup: 'title_date', compositeLabel: 'タイトル年月' },
+  'title_year_number': { field: 'title_year_number', label: '年', type: 'number', compositeGroup: 'title_date', compositeLabel: 'タイトル年月' },
+  'title_month': { field: 'title_month', label: '月', type: 'number', compositeGroup: 'title_date', compositeLabel: 'タイトル年月' },
   'institution_code': { field: 'institution_code', label: '機関コード', type: 'text' },
 
   // === 2. 公費・受給者番号 ===
@@ -375,7 +376,7 @@ const sampleDataFieldMapping = {
   'insurer_number': { field: 'insurer_number', label: '保険者番号', type: 'text' },
 
   // === 4. 被保険者証記号・番号、発病年月日、傷病名 ===
-  'insurance_symbol': { field: 'insurance_symbol', label: '被保険者証記号', type: 'text' },
+  'insurance_symbol': { field: 'insurance_symbol_kigou', label: '被保険者証等記号番号', type: 'text', combine: ['insurance_symbol_kigou', 'insurance_symbol_bangou'] },
   'insurance_number': { field: 'insurance_number', label: '被保険者番号', type: 'text' },
   'onset_date_year': { field: 'onset_date_year', label: '発病または負傷年月日（年）', type: 'number' },
   'onset_date_month': { field: 'onset_date_month', label: '発病または負傷年月日（月）', type: 'number' },
@@ -394,30 +395,30 @@ const sampleDataFieldMapping = {
   // === 6. 性別・業務上第三者行為・生年月日 ===
   'patient_gender_male': { field: 'gender', label: '性別', type: 'select', masterKey: 'genders', valueField: 'gender', ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'gender', optionLabel: '男' },
   'patient_gender_female': { field: 'gender', label: '性別', type: 'select', masterKey: 'genders', valueField: 'gender', ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'gender', optionLabel: '女' },
-  'work_scope_type_1': { field: 'work_scope_type', label: '業務上', type: 'select', options: ['業務上', '第三者行為である', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'work_scope_type', optionLabel: '業務上' },
-  'work_scope_type_2': { field: 'work_scope_type', label: '第三者行為である', type: 'select', options: ['業務上', '第三者行為である', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'work_scope_type', optionLabel: '第三者行為である' },
-  'work_scope_type_3': { field: 'work_scope_type', label: 'その他', type: 'select', options: ['業務上', '第三者行為である', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'work_scope_type', optionLabel: 'その他' },
-  'birthday_era_reiwa': { field: 'birthday_era', label: '生年月日（元号）', type: 'select', options: ['令和', '平成', '昭和', '大正', '明治'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '令和' },
-  'birthday_era_heisei': { field: 'birthday_era', label: '生年月日（元号）', type: 'select', options: ['令和', '平成', '昭和', '大正', '明治'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '平成' },
-  'birthday_era_showa': { field: 'birthday_era', label: '生年月日（元号）', type: 'select', options: ['令和', '平成', '昭和', '大正', '明治'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '昭和' },
-  'birthday_era_taisho': { field: 'birthday_era', label: '生年月日（元号）', type: 'select', options: ['令和', '平成', '昭和', '大正', '明治'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '大正' },
-  'birthday_era_meiji': { field: 'birthday_era', label: '生年月日（元号）', type: 'select', options: ['令和', '平成', '昭和', '大正', '明治'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '明治' },
-  'birthday_year': { field: 'birthday_year', label: '生年月日（年）', type: 'text' },
-  'birthday_month': { field: 'birthday_month', label: '生年月日（月）', type: 'text' },
-  'birthday_day': { field: 'birthday_day', label: '生年月日（日）', type: 'text' },
+  'work_scope_type_1': { field: 'work_scope_type', label: '業務上･外･第三者行為の有無', type: 'select', options: ['業務上', '第三者行為', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'work_scope_type', optionLabel: '業務上' },
+  'work_scope_type_2': { field: 'work_scope_type', label: '業務上･外･第三者行為の有無', type: 'select', options: ['業務上', '第三者行為', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'work_scope_type', optionLabel: '第三者行為' },
+  'work_scope_type_3': { field: 'work_scope_type', label: '業務上･外･第三者行為の有無', type: 'select', options: ['業務上', '第三者行為', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'work_scope_type', optionLabel: 'その他' },
+  'birthday_era_meiji': { field: 'birthday_era', label: '元号', type: 'select', options: ['明治', '大正', '昭和', '平成', '令和'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '明治', compositeGroup: 'birthday_full_date', compositeLabel: '生年月日' },
+  'birthday_era_taisho': { field: 'birthday_era', label: '元号', type: 'select', options: ['明治', '大正', '昭和', '平成', '令和'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '大正', compositeGroup: 'birthday_full_date', compositeLabel: '生年月日' },
+  'birthday_era_showa': { field: 'birthday_era', label: '元号', type: 'select', options: ['明治', '大正', '昭和', '平成', '令和'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '昭和', compositeGroup: 'birthday_full_date', compositeLabel: '生年月日' },
+  'birthday_era_heisei': { field: 'birthday_era', label: '元号', type: 'select', options: ['明治', '大正', '昭和', '平成', '令和'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '平成', compositeGroup: 'birthday_full_date', compositeLabel: '生年月日' },
+  'birthday_era_reiwa': { field: 'birthday_era', label: '元号', type: 'select', options: ['明治', '大正', '昭和', '平成', '令和'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '令和', compositeGroup: 'birthday_full_date', compositeLabel: '生年月日' },
+  'birthday_year': { field: 'birthday_year', label: '年', type: 'text', compositeGroup: 'birthday_full_date', compositeLabel: '生年月日' },
+  'birthday_month': { field: 'birthday_month', label: '月', type: 'text', compositeGroup: 'birthday_full_date', compositeLabel: '生年月日' },
+  'birthday_day': { field: 'birthday_day', label: '日', type: 'text', compositeGroup: 'birthday_full_date', compositeLabel: '生年月日' },
 
   // === 7. 初療年月日・施術期間 ===
   'treatment_start_date': { field: 'treatment_start_date', label: '初療年月日', type: 'date' },
-  'first_treatment_year': { field: 'first_treatment_year', label: '初療年月日（年）', type: 'number' },
-  'first_treatment_month': { field: 'first_treatment_month', label: '初療年月日（月）', type: 'number' },
-  'first_treatment_day': { field: 'first_treatment_day', label: '初療年月日（日）', type: 'number' },
+  'first_treatment_year': { field: 'first_treatment_year', label: '年', type: 'number', compositeGroup: 'first_treatment_date', compositeLabel: '初療年月日' },
+  'first_treatment_month': { field: 'first_treatment_month', label: '月', type: 'number', compositeGroup: 'first_treatment_date', compositeLabel: '初療年月日' },
+  'first_treatment_day': { field: 'first_treatment_day', label: '日', type: 'number', compositeGroup: 'first_treatment_date', compositeLabel: '初療年月日' },
   'treatment_period': { field: 'treatment_period', label: '施術期間', type: 'text' },
-  'treatment_start_year': { field: 'treatment_start_year', label: '施術開始年', type: 'number' },
-  'treatment_start_month': { field: 'treatment_start_month', label: '施術開始月', type: 'number' },
-  'treatment_start_day': { field: 'treatment_start_day', label: '施術開始日', type: 'number' },
-  'treatment_end_year': { field: 'treatment_end_year', label: '施術終了年', type: 'number' },
-  'treatment_end_month': { field: 'treatment_end_month', label: '施術終了月', type: 'number' },
-  'treatment_end_day': { field: 'treatment_end_day', label: '施術終了日', type: 'number' },
+  'treatment_start_year': { field: 'treatment_start_year', label: '年', type: 'number', compositeGroup: 'treatment_start_date', compositeLabel: '施術開始年月日' },
+  'treatment_start_month': { field: 'treatment_start_month', label: '月', type: 'number', compositeGroup: 'treatment_start_date', compositeLabel: '施術開始年月日' },
+  'treatment_start_day': { field: 'treatment_start_day', label: '日', type: 'number', compositeGroup: 'treatment_start_date', compositeLabel: '施術開始年月日' },
+  'treatment_end_year': { field: 'treatment_end_year', label: '年', type: 'number', compositeGroup: 'treatment_end_date', compositeLabel: '施術終了年月日' },
+  'treatment_end_month': { field: 'treatment_end_month', label: '月', type: 'number', compositeGroup: 'treatment_end_date', compositeLabel: '施術終了年月日' },
+  'treatment_end_day': { field: 'treatment_end_day', label: '日', type: 'number', compositeGroup: 'treatment_end_date', compositeLabel: '施術終了年月日' },
 
   // === 8. 実日数・請求区分・傷病名・転帰 ===
   'treatment_days': { field: 'treatment_days', label: '実日数', type: 'number' },
@@ -435,6 +436,7 @@ const sampleDataFieldMapping = {
   'outcome_cured': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'outcome', optionLabel: '治癒' },
   'outcome_discontinued': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'outcome', optionLabel: '中止' },
   'outcome_transferred': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'outcome', optionLabel: '転医' },
+  'condition': { field: 'condition', label: '発病負傷の原因･経過', type: 'text' },
   'abstract': { field: 'abstract', label: '摘要', type: 'text', width: 180, lineHeight: 5 },
 
   // === 9. 施術日カレンダー（1-31日） ===
@@ -471,27 +473,27 @@ const sampleDataFieldMapping = {
   'treatment_day_31': { field: 'treatment_day_31', label: '施術日31日', type: 'text' },
 
   // === 10. 施術料金（鍼灸） ===
-  'fee_hari_unit': { field: 'fee_hari_unit', label: 'はり料金（単価）', type: 'number' },
-  'fee_hari_count': { field: 'fee_hari_count', label: 'はり料金（回数）', type: 'number' },
-  'fee_hari_total': { field: 'fee_hari_total', label: 'はり料金（合計）', type: 'number' },
-  'fee_kyu_unit': { field: 'fee_kyu_unit', label: 'きゅう料金（単価）', type: 'number' },
-  'fee_kyu_count': { field: 'fee_kyu_count', label: 'きゅう料金（回数）', type: 'number' },
-  'fee_kyu_total': { field: 'fee_kyu_total', label: 'きゅう料金（合計）', type: 'number' },
-  'fee_hari_kyu_unit': { field: 'fee_hari_kyu_unit', label: 'はり・きゅう併用（単価）', type: 'number' },
-  'fee_hari_kyu_count': { field: 'fee_hari_kyu_count', label: 'はり・きゅう併用（回数）', type: 'number' },
-  'fee_hari_kyu_total': { field: 'fee_hari_kyu_total', label: 'はり・きゅう併用（合計）', type: 'number' },
-  'fee_electric_unit': { field: 'fee_electric_unit', label: '電療料（単価）', type: 'number' },
-  'fee_electric_count': { field: 'fee_electric_count', label: '電療料（回数）', type: 'number' },
-  'fee_electric_total': { field: 'fee_electric_total', label: '電療料（合計）', type: 'number' },
-  'fee_housecall_unit': { field: 'fee_housecall_unit', label: '往療料（単価）', type: 'number' },
-  'fee_housecall_count': { field: 'fee_housecall_count', label: '往療料（回数）', type: 'number' },
-  'fee_housecall_total': { field: 'fee_housecall_total', label: '往療料（合計）', type: 'number' },
-  'fee_housecall_additional_unit': { field: 'fee_housecall_additional_unit', label: '往療料4km超（単価）', type: 'number' },
-  'fee_housecall_additional_count': { field: 'fee_housecall_additional_count', label: '往療料4km超（回数）', type: 'number' },
-  'fee_housecall_additional_total': { field: 'fee_housecall_additional_total', label: '往療料4km超（合計）', type: 'number' },
-  'fee_previous_payment_unit': { field: 'fee_previous_payment_unit', label: '施術報告書交付料（単価）', type: 'number' },
-  'fee_previous_payment_count': { field: 'fee_previous_payment_count', label: '施術報告書交付料（回数）', type: 'number' },
-  'fee_previous_payment_total': { field: 'fee_previous_payment_total', label: '施術報告書交付料（合計）', type: 'number' },
+  'fee_hari_unit': { field: 'fee_hari_unit', label: '単価', type: 'number', compositeGroup: 'fee_hari', compositeLabel: 'はり料金' },
+  'fee_hari_count': { field: 'fee_hari_count', label: '回数', type: 'number', compositeGroup: 'fee_hari', compositeLabel: 'はり料金' },
+  'fee_hari_total': { field: 'fee_hari_total', label: '合計', type: 'number', compositeGroup: 'fee_hari', compositeLabel: 'はり料金' },
+  'fee_kyu_unit': { field: 'fee_kyu_unit', label: '単価', type: 'number', compositeGroup: 'fee_kyu', compositeLabel: 'きゅう料金' },
+  'fee_kyu_count': { field: 'fee_kyu_count', label: '回数', type: 'number', compositeGroup: 'fee_kyu', compositeLabel: 'きゅう料金' },
+  'fee_kyu_total': { field: 'fee_kyu_total', label: '合計', type: 'number', compositeGroup: 'fee_kyu', compositeLabel: 'きゅう料金' },
+  'fee_hari_kyu_unit': { field: 'fee_hari_kyu_unit', label: '単価', type: 'number', compositeGroup: 'fee_hari_kyu', compositeLabel: 'はり・きゅう併用料金' },
+  'fee_hari_kyu_count': { field: 'fee_hari_kyu_count', label: '回数', type: 'number', compositeGroup: 'fee_hari_kyu', compositeLabel: 'はり・きゅう併用料金' },
+  'fee_hari_kyu_total': { field: 'fee_hari_kyu_total', label: '合計', type: 'number', compositeGroup: 'fee_hari_kyu', compositeLabel: 'はり・きゅう併用料金' },
+  'fee_electric_unit': { field: 'fee_electric_unit', label: '単価', type: 'number', compositeGroup: 'fee_electric', compositeLabel: '電療料' },
+  'fee_electric_count': { field: 'fee_electric_count', label: '回数', type: 'number', compositeGroup: 'fee_electric', compositeLabel: '電療料' },
+  'fee_electric_total': { field: 'fee_electric_total', label: '合計', type: 'number', compositeGroup: 'fee_electric', compositeLabel: '電療料' },
+  'fee_housecall_unit': { field: 'fee_housecall_unit', label: '単価', type: 'number', compositeGroup: 'fee_housecall', compositeLabel: '往療料' },
+  'fee_housecall_count': { field: 'fee_housecall_count', label: '回数', type: 'number', compositeGroup: 'fee_housecall', compositeLabel: '往療料' },
+  'fee_housecall_total': { field: 'fee_housecall_total', label: '合計', type: 'number', compositeGroup: 'fee_housecall', compositeLabel: '往療料' },
+  'fee_housecall_additional_unit': { field: 'fee_housecall_additional_unit', label: '単価', type: 'number', compositeGroup: 'fee_housecall_additional', compositeLabel: '往療4km超料金' },
+  'fee_housecall_additional_count': { field: 'fee_housecall_additional_count', label: '回数', type: 'number', compositeGroup: 'fee_housecall_additional', compositeLabel: '往療4km超料金' },
+  'fee_housecall_additional_total': { field: 'fee_housecall_additional_total', label: '合計', type: 'number', compositeGroup: 'fee_housecall_additional', compositeLabel: '往療4km超料金' },
+  'fee_previous_payment_unit': { field: 'fee_previous_payment_unit', label: '単価', type: 'number', compositeGroup: 'fee_previous_payment', compositeLabel: '施術報告書交付料' },
+  'fee_previous_payment_count': { field: 'fee_previous_payment_count', label: '回数', type: 'number', compositeGroup: 'fee_previous_payment', compositeLabel: '施術報告書交付料' },
+  'fee_previous_payment_total': { field: 'fee_previous_payment_total', label: '合計', type: 'number', compositeGroup: 'fee_previous_payment', compositeLabel: '施術報告書交付料' },
   'fee_subtotal': { field: 'fee_subtotal', label: '合計', type: 'number' },
   'fee_partial_payment': { field: 'fee_partial_payment', label: '一部負担金', type: 'number' },
   'fee_total_claim': { field: 'fee_total_claim', label: '請求額', type: 'number' },
@@ -511,9 +513,9 @@ const sampleDataFieldMapping = {
   'therapist_registration_number': { field: 'therapist_registration_number', label: '施術者登録番号', type: 'text' },
   'health_center_registration_1': { field: 'health_center_registration', label: '保健所登録区分', type: 'select', options: ['施術所所在地', '出張専門施術者住所地'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'health_center_registration', optionLabel: '施術所所在地' },
   'health_center_registration_2': { field: 'health_center_registration', label: '保健所登録区分', type: 'select', options: ['施術所所在地', '出張専門施術者住所地'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'health_center_registration', optionLabel: '出張専門施術者住所地' },
-  'clinic_date_year': { field: 'clinic_date_year', label: '施術証明年月日（年）', type: 'number' },
-  'clinic_date_month': { field: 'clinic_date_month', label: '施術証明年月日（月）', type: 'number' },
-  'clinic_date_day': { field: 'clinic_date_day', label: '施術証明年月日（日）', type: 'number' },
+  'clinic_date_year': { field: 'clinic_date_year', label: '年', type: 'number', compositeGroup: 'clinic_date', compositeLabel: '施術証明年月日' },
+  'clinic_date_month': { field: 'clinic_date_month', label: '月', type: 'number', compositeGroup: 'clinic_date', compositeLabel: '施術証明年月日' },
+  'clinic_date_day': { field: 'clinic_date_day', label: '日', type: 'number', compositeGroup: 'clinic_date', compositeLabel: '施術証明年月日' },
   'submission_date_year': { field: 'submission_date_year', label: '提出年月日（年）', type: 'number' },
   'submission_date_month': { field: 'submission_date_month', label: '提出年月日（月）', type: 'number' },
   'submission_date_day': { field: 'submission_date_day', label: '提出年月日（日）', type: 'number' },
@@ -531,9 +533,9 @@ const sampleDataFieldMapping = {
   'consent_year': { field: 'consent_year', label: '同意年', type: 'number' },
   'consent_month': { field: 'consent_month', label: '同意月', type: 'number' },
   'consent_day': { field: 'consent_day', label: '同意日', type: 'number' },
-  'consent_date_year': { field: 'consent_date_year', label: '同意年月日（年）', type: 'number' },
-  'consent_date_month': { field: 'consent_date_month', label: '同意年月日（月）', type: 'number' },
-  'consent_date_day': { field: 'consent_date_day', label: '同意年月日（日）', type: 'number' },
+  'consent_date_year': { field: 'consent_date_year', label: '年', type: 'number', compositeGroup: 'consent_date', compositeLabel: '同意年月日' },
+  'consent_date_month': { field: 'consent_date_month', label: '月', type: 'number', compositeGroup: 'consent_date', compositeLabel: '同意年月日' },
+  'consent_date_day': { field: 'consent_date_day', label: '日', type: 'number', compositeGroup: 'consent_date', compositeLabel: '同意年月日' },
   'consent_doctor_name': { field: 'consent_doctor_name', label: '同意書医師氏名', type: 'text' },
   'consent_illness_name': { field: 'consent_illness_name', label: '同意書傷病名', type: 'text' },
   'therapy_period': { field: 'therapy_period', label: '要加療期間', type: 'text' },
@@ -677,6 +679,13 @@ function loadCoordinates() {
             if (definition.postalCodeGap !== undefined && coordinates[key].postalCodeGap === undefined) {
               coordinates[key].postalCodeGap = definition.postalCodeGap;
             }
+            // compositeGroup, compositeLabel のマージ
+            if (definition.compositeGroup !== undefined) {
+              coordinates[key].compositeGroup = definition.compositeGroup;
+            }
+            if (definition.compositeLabel !== undefined) {
+              coordinates[key].compositeLabel = definition.compositeLabel;
+            }
           }
         });
 
@@ -697,8 +706,9 @@ function renderFieldSettings() {
   const container = document.getElementById('field-settings');
   container.innerHTML = '';
 
-  // radioGroupでグループ化されたフィールドを追跡
+  // radioGroupとcompositeGroupでグループ化されたフィールドを追跡
   const processedGroups = new Set();
+  const processedCompositeGroups = new Set();
   const processedKeys = new Set();
 
   // sampleDataFieldMappingの順序でフィールドを処理
@@ -716,6 +726,83 @@ function renderFieldSettings() {
     
     const field = coordinates[key];
     if (!field) return;
+    
+    // compositeGroupが定義されている場合、グループの最初のフィールドでセレクトボックスを表示
+    if (field.compositeGroup && !processedCompositeGroups.has(field.compositeGroup)) {
+      processedCompositeGroups.add(field.compositeGroup);
+      
+      // グループ内のすべてのフィールドを取得
+      const groupFields = Object.entries(coordinates)
+        .filter(([k, v]) => v.compositeGroup === field.compositeGroup)
+        .sort((a, b) => {
+          const indexA = orderedKeys.indexOf(a[0]);
+          const indexB = orderedKeys.indexOf(b[0]);
+          return indexA - indexB;
+        });
+
+      // グループ内のすべてのキーを処理済みとしてマーク
+      groupFields.forEach(([k]) => processedKeys.add(k));
+
+      // グループの最初のフィールドを基準にセレクトボックスを作成
+      const firstKey = groupFields[0][0];
+      
+      // 現在選択されているフィールドを判定（デフォルトは最初のフィールド）
+      let selectedKey = firstKey;
+
+      const div = document.createElement('div');
+      div.className = 'field-group';
+      div.setAttribute('data-composite-group', field.compositeGroup);
+
+      // グループラベルを取得
+      const groupLabel = field.compositeLabel || field.compositeGroup;
+
+      // オプションを生成
+      const options = groupFields.map(([k, v]) => {
+        const mapping = sampleDataFieldMapping[k];
+        // radioGroupの場合はoptionLabelを優先、それ以外はlabelを使用
+        let optionLabel = v.label;
+        if (mapping) {
+          if (mapping.optionLabel) {
+            optionLabel = mapping.optionLabel;
+          } else if (mapping.label) {
+            optionLabel = mapping.label;
+          }
+        }
+        return `<option value="${k}" ${selectedKey === k ? 'selected' : ''}>${optionLabel}</option>`;
+      }).join('');
+
+      div.innerHTML = `
+        <h6 class="field-header" onclick="toggleField('${field.compositeGroup}')" style="cursor: pointer; user-select: none;">
+          <span class="toggle-icon" id="toggle-${field.compositeGroup}">▶</span> ${groupLabel}
+        </h6>
+
+        <div class="field-controls" id="controls-${field.compositeGroup}">
+          <div class="coordinate-input">
+            <label>要素選択:</label>
+            <select onchange="updateCompositeGroupSelection('${field.compositeGroup}', this.value)"
+                    class="form-control form-control-sm"
+                    style="width: auto; display: inline-block; margin-left: 10px;">
+              ${options}
+            </select>
+          </div>
+
+          <div id="compositegroup-fields-${field.compositeGroup}">
+            <!-- 選択された要素の詳細設定をここに表示 -->
+          </div>
+        </div>
+      `;
+
+      container.appendChild(div);
+      
+      // 選択された要素の詳細設定を表示
+      updateCompositeGroupSelection(field.compositeGroup, selectedKey);
+      return;
+    }
+    
+    // compositeGroupが定義されている場合はスキップ（既に処理済み）
+    if (field.compositeGroup) {
+      return;
+    }
     
     // radioGroupが定義されている場合、グループの最初のフィールドでセレクトボックスを表示
     if (field.radioGroup && !processedGroups.has(field.radioGroup)) {
@@ -1053,6 +1140,438 @@ function renderFieldSettings() {
 
     container.appendChild(div);
   });
+}
+
+// compositeGroupの選択を更新
+function updateCompositeGroupSelection(groupName, selectedKey) {
+  // radioGroupの場合、isSelectedを更新
+  const selectedField = coordinates[selectedKey];
+  if (selectedField && selectedField.radioGroup) {
+    Object.keys(coordinates).forEach(key => {
+      const field = coordinates[key];
+      if (field.radioGroup === selectedField.radioGroup) {
+        field.isSelected = (key === selectedKey);
+      }
+    });
+  }
+
+  const fieldsContainer = document.getElementById(`compositegroup-fields-${groupName}`);
+  if (!fieldsContainer) return;
+
+  fieldsContainer.innerHTML = '';
+
+  if (!selectedField) return;
+
+  const detailsDiv = document.createElement('div');
+  detailsDiv.style.borderTop = '1px solid #ddd';
+  detailsDiv.style.marginTop = '10px';
+  detailsDiv.style.paddingTop = '10px';
+
+  // 選択されたフィールドのマッピング情報を取得
+  const mapping = sampleDataFieldMapping[selectedKey];
+  const fieldLabel = mapping ? (mapping.optionLabel || mapping.label) : selectedField.label;
+
+  // フィールド名表示
+  const labelDiv = document.createElement('div');
+  labelDiv.style.marginBottom = '10px';
+  labelDiv.innerHTML = `<strong>調整対象: ${fieldLabel}</strong>`;
+  detailsDiv.appendChild(labelDiv);
+
+  // X座標
+  const xDiv = document.createElement('div');
+  xDiv.className = 'coordinate-input';
+  xDiv.innerHTML = `<label>X座標:</label>`;
+  
+  const xBtnLeft = document.createElement('button');
+  xBtnLeft.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+  xBtnLeft.innerHTML = '←';
+  xBtnLeft.addEventListener('mousedown', () => startLongPress(selectedKey, 'x', -0.5));
+  xBtnLeft.addEventListener('mouseup', stopLongPress);
+  xBtnLeft.addEventListener('mouseleave', stopLongPress);
+  xBtnLeft.addEventListener('touchstart', () => startLongPress(selectedKey, 'x', -0.5));
+  xBtnLeft.addEventListener('touchend', stopLongPress);
+  
+  const xInput = document.createElement('input');
+  xInput.type = 'number';
+  xInput.step = '0.5';
+  xInput.value = selectedField.x;
+  xInput.className = 'form-control form-control-sm';
+  xInput.style.width = '80px';
+  xInput.style.display = 'inline-block';
+  xInput.style.marginLeft = '5px';
+  xInput.style.marginRight = '5px';
+  xInput.setAttribute('data-property', 'x');
+  xInput.addEventListener('change', function() {
+    updateCoordinate(selectedKey, 'x', this.value);
+  });
+  
+  const xBtnRight = document.createElement('button');
+  xBtnRight.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+  xBtnRight.innerHTML = '→';
+  xBtnRight.addEventListener('mousedown', () => startLongPress(selectedKey, 'x', 0.5));
+  xBtnRight.addEventListener('mouseup', stopLongPress);
+  xBtnRight.addEventListener('mouseleave', stopLongPress);
+  xBtnRight.addEventListener('touchstart', () => startLongPress(selectedKey, 'x', 0.5));
+  xBtnRight.addEventListener('touchend', stopLongPress);
+  
+  xDiv.appendChild(xBtnLeft);
+  xDiv.appendChild(xInput);
+  xDiv.appendChild(xBtnRight);
+  detailsDiv.appendChild(xDiv);
+
+  // Y座標
+  const yDiv = document.createElement('div');
+  yDiv.className = 'coordinate-input';
+  yDiv.innerHTML = `<label>Y座標:</label>`;
+  
+  const yBtnUp = document.createElement('button');
+  yBtnUp.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+  yBtnUp.innerHTML = '↑';
+  yBtnUp.addEventListener('mousedown', () => startLongPress(selectedKey, 'y', -0.5));
+  yBtnUp.addEventListener('mouseup', stopLongPress);
+  yBtnUp.addEventListener('mouseleave', stopLongPress);
+  yBtnUp.addEventListener('touchstart', () => startLongPress(selectedKey, 'y', -0.5));
+  yBtnUp.addEventListener('touchend', stopLongPress);
+  
+  const yInput = document.createElement('input');
+  yInput.type = 'number';
+  yInput.step = '0.5';
+  yInput.value = selectedField.y;
+  yInput.className = 'form-control form-control-sm';
+  yInput.style.width = '80px';
+  yInput.style.display = 'inline-block';
+  yInput.style.marginLeft = '5px';
+  yInput.style.marginRight = '5px';
+  yInput.setAttribute('data-property', 'y');
+  yInput.addEventListener('change', function() {
+    updateCoordinate(selectedKey, 'y', this.value);
+  });
+  
+  const yBtnDown = document.createElement('button');
+  yBtnDown.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+  yBtnDown.innerHTML = '↓';
+  yBtnDown.addEventListener('mousedown', () => startLongPress(selectedKey, 'y', 0.5));
+  yBtnDown.addEventListener('mouseup', stopLongPress);
+  yBtnDown.addEventListener('mouseleave', stopLongPress);
+  yBtnDown.addEventListener('touchstart', () => startLongPress(selectedKey, 'y', 0.5));
+  yBtnDown.addEventListener('touchend', stopLongPress);
+  
+  yDiv.appendChild(yBtnUp);
+  yDiv.appendChild(yInput);
+  yDiv.appendChild(yBtnDown);
+  detailsDiv.appendChild(yDiv);
+
+  // フォントサイズ
+  const fsDiv = document.createElement('div');
+  fsDiv.className = 'coordinate-input';
+  fsDiv.innerHTML = `<label>フォントサイズ:</label>`;
+  
+  const fsBtnMinus = document.createElement('button');
+  fsBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+  fsBtnMinus.innerHTML = '−';
+  fsBtnMinus.addEventListener('mousedown', () => startLongPress(selectedKey, 'fontSize', -0.5));
+  fsBtnMinus.addEventListener('mouseup', stopLongPress);
+  fsBtnMinus.addEventListener('mouseleave', stopLongPress);
+  fsBtnMinus.addEventListener('touchstart', () => startLongPress(selectedKey, 'fontSize', -0.5));
+  fsBtnMinus.addEventListener('touchend', stopLongPress);
+  
+  const fsInput = document.createElement('input');
+  fsInput.type = 'number';
+  fsInput.step = '0.5';
+  fsInput.value = selectedField.fontSize;
+  fsInput.className = 'form-control form-control-sm';
+  fsInput.style.width = '80px';
+  fsInput.style.display = 'inline-block';
+  fsInput.style.marginLeft = '5px';
+  fsInput.style.marginRight = '5px';
+  fsInput.setAttribute('data-property', 'fontSize');
+  fsInput.addEventListener('change', function() {
+    updateCoordinate(selectedKey, 'fontSize', this.value);
+  });
+  
+  const fsBtnPlus = document.createElement('button');
+  fsBtnPlus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+  fsBtnPlus.innerHTML = '+';
+  fsBtnPlus.addEventListener('mousedown', () => startLongPress(selectedKey, 'fontSize', 0.5));
+  fsBtnPlus.addEventListener('mouseup', stopLongPress);
+  fsBtnPlus.addEventListener('mouseleave', stopLongPress);
+  fsBtnPlus.addEventListener('touchstart', () => startLongPress(selectedKey, 'fontSize', 0.5));
+  fsBtnPlus.addEventListener('touchend', stopLongPress);
+  
+  fsDiv.appendChild(fsBtnMinus);
+  fsDiv.appendChild(fsInput);
+  fsDiv.appendChild(fsBtnPlus);
+  detailsDiv.appendChild(fsDiv);
+
+  // 文字間隔
+  const lsDiv = document.createElement('div');
+  lsDiv.className = 'coordinate-input';
+  lsDiv.innerHTML = `<label>文字間隔:</label>`;
+  
+  const lsBtnMinus = document.createElement('button');
+  lsBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+  lsBtnMinus.innerHTML = '−';
+  lsBtnMinus.addEventListener('mousedown', () => startLongPress(selectedKey, 'letterSpacing', -0.1));
+  lsBtnMinus.addEventListener('mouseup', stopLongPress);
+  lsBtnMinus.addEventListener('mouseleave', stopLongPress);
+  lsBtnMinus.addEventListener('touchstart', () => startLongPress(selectedKey, 'letterSpacing', -0.1));
+  lsBtnMinus.addEventListener('touchend', stopLongPress);
+  
+  const lsInput = document.createElement('input');
+  lsInput.type = 'number';
+  lsInput.step = '0.1';
+  lsInput.value = selectedField.letterSpacing || 0;
+  lsInput.className = 'form-control form-control-sm';
+  lsInput.style.width = '80px';
+  lsInput.style.display = 'inline-block';
+  lsInput.style.marginLeft = '5px';
+  lsInput.style.marginRight = '5px';
+  lsInput.setAttribute('data-property', 'letterSpacing');
+  lsInput.addEventListener('change', function() {
+    updateCoordinate(selectedKey, 'letterSpacing', this.value);
+  });
+  
+  const lsBtnPlus = document.createElement('button');
+  lsBtnPlus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+  lsBtnPlus.innerHTML = '+';
+  lsBtnPlus.addEventListener('mousedown', () => startLongPress(selectedKey, 'letterSpacing', 0.1));
+  lsBtnPlus.addEventListener('mouseup', stopLongPress);
+  lsBtnPlus.addEventListener('mouseleave', stopLongPress);
+  lsBtnPlus.addEventListener('touchstart', () => startLongPress(selectedKey, 'letterSpacing', 0.1));
+  lsBtnPlus.addEventListener('touchend', stopLongPress);
+  
+  lsDiv.appendChild(lsBtnMinus);
+  lsDiv.appendChild(lsInput);
+  lsDiv.appendChild(lsBtnPlus);
+  detailsDiv.appendChild(lsDiv);
+
+  // テキスト配置
+  const taDiv = document.createElement('div');
+  taDiv.className = 'coordinate-input';
+  taDiv.innerHTML = `<label>テキスト配置:</label>`;
+  
+  const taBtnGroup = document.createElement('div');
+  taBtnGroup.className = 'btn-group btn-group-sm d-flex';
+  taBtnGroup.setAttribute('role', 'group');
+  taBtnGroup.style.marginLeft = '10px';
+  
+  const taLeft = document.createElement('button');
+  taLeft.type = 'button';
+  taLeft.className = `btn btn-outline-secondary flex-fill ${selectedField.textAlign === 'left' ? 'active' : ''}`;
+  taLeft.innerHTML = '左';
+  taLeft.title = '左揃え';
+  taLeft.addEventListener('click', () => updateCoordinate(selectedKey, 'textAlign', 'left'));
+  
+  const taCenter = document.createElement('button');
+  taCenter.type = 'button';
+  taCenter.className = `btn btn-outline-secondary flex-fill ${selectedField.textAlign === 'center' || !selectedField.textAlign ? 'active' : ''}`;
+  taCenter.innerHTML = '中央';
+  taCenter.title = '中央揃え';
+  taCenter.addEventListener('click', () => updateCoordinate(selectedKey, 'textAlign', 'center'));
+  
+  const taRight = document.createElement('button');
+  taRight.type = 'button';
+  taRight.className = `btn btn-outline-secondary flex-fill ${selectedField.textAlign === 'right' ? 'active' : ''}`;
+  taRight.innerHTML = '右';
+  taRight.title = '右揃え';
+  taRight.addEventListener('click', () => updateCoordinate(selectedKey, 'textAlign', 'right'));
+  
+  taBtnGroup.appendChild(taLeft);
+  taBtnGroup.appendChild(taCenter);
+  taBtnGroup.appendChild(taRight);
+  taDiv.appendChild(taBtnGroup);
+  detailsDiv.appendChild(taDiv);
+
+  // 折り返し幅（複数行テキストの場合）
+  if (selectedField.width !== undefined) {
+    const wDiv = document.createElement('div');
+    wDiv.className = 'coordinate-input';
+    wDiv.innerHTML = `<label>折り返し幅:</label>`;
+
+    const wBtnMinus = document.createElement('button');
+    wBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+    wBtnMinus.innerHTML = '−';
+    wBtnMinus.addEventListener('mousedown', () => startLongPress(selectedKey, 'width', -5));
+    wBtnMinus.addEventListener('mouseup', stopLongPress);
+    wBtnMinus.addEventListener('mouseleave', stopLongPress);
+    wBtnMinus.addEventListener('touchstart', () => startLongPress(selectedKey, 'width', -5));
+    wBtnMinus.addEventListener('touchend', stopLongPress);
+
+    const wInput = document.createElement('input');
+    wInput.type = 'number';
+    wInput.step = '5';
+    wInput.value = selectedField.width || 180;
+    wInput.className = 'form-control form-control-sm';
+    wInput.style.width = '80px';
+    wInput.style.display = 'inline-block';
+    wInput.style.marginLeft = '5px';
+    wInput.style.marginRight = '5px';
+    wInput.setAttribute('data-property', 'width');
+    wInput.addEventListener('change', function() {
+      updateCoordinate(selectedKey, 'width', this.value);
+    });
+
+    const wBtnPlus = document.createElement('button');
+    wBtnPlus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+    wBtnPlus.innerHTML = '+';
+    wBtnPlus.addEventListener('mousedown', () => startLongPress(selectedKey, 'width', 5));
+    wBtnPlus.addEventListener('mouseup', stopLongPress);
+    wBtnPlus.addEventListener('mouseleave', stopLongPress);
+    wBtnPlus.addEventListener('touchstart', () => startLongPress(selectedKey, 'width', 5));
+    wBtnPlus.addEventListener('touchend', stopLongPress);
+
+    wDiv.appendChild(wBtnMinus);
+    wDiv.appendChild(wInput);
+    wDiv.appendChild(wBtnPlus);
+    detailsDiv.appendChild(wDiv);
+  }
+
+  // 行間（複数行テキストの場合）
+  if (selectedField.lineHeight !== undefined) {
+    const lhDiv = document.createElement('div');
+    lhDiv.className = 'coordinate-input';
+    lhDiv.innerHTML = `<label>行間:</label>`;
+
+    const lhBtnMinus = document.createElement('button');
+    lhBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+    lhBtnMinus.innerHTML = '−';
+    lhBtnMinus.addEventListener('mousedown', () => startLongPress(selectedKey, 'lineHeight', -0.5));
+    lhBtnMinus.addEventListener('mouseup', stopLongPress);
+    lhBtnMinus.addEventListener('mouseleave', stopLongPress);
+    lhBtnMinus.addEventListener('touchstart', () => startLongPress(selectedKey, 'lineHeight', -0.5));
+    lhBtnMinus.addEventListener('touchend', stopLongPress);
+
+    const lhInput = document.createElement('input');
+    lhInput.type = 'number';
+    lhInput.step = '0.5';
+    lhInput.value = selectedField.lineHeight || 5;
+    lhInput.className = 'form-control form-control-sm';
+    lhInput.style.width = '80px';
+    lhInput.style.display = 'inline-block';
+    lhInput.style.marginLeft = '5px';
+    lhInput.style.marginRight = '5px';
+    lhInput.setAttribute('data-property', 'lineHeight');
+    lhInput.addEventListener('change', function() {
+      updateCoordinate(selectedKey, 'lineHeight', this.value);
+    });
+
+    const lhBtnPlus = document.createElement('button');
+    lhBtnPlus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+    lhBtnPlus.innerHTML = '+';
+    lhBtnPlus.addEventListener('mousedown', () => startLongPress(selectedKey, 'lineHeight', 0.5));
+    lhBtnPlus.addEventListener('mouseup', stopLongPress);
+    lhBtnPlus.addEventListener('mouseleave', stopLongPress);
+    lhBtnPlus.addEventListener('touchstart', () => startLongPress(selectedKey, 'lineHeight', 0.5));
+    lhBtnPlus.addEventListener('touchend', stopLongPress);
+
+    lhDiv.appendChild(lhBtnMinus);
+    lhDiv.appendChild(lhInput);
+    lhDiv.appendChild(lhBtnPlus);
+    detailsDiv.appendChild(lhDiv);
+  }
+
+  // 楽円設定（radioGroupの場合のみ）
+  if (selectedField.ellipseWidth !== undefined) {
+    const ewDiv = document.createElement('div');
+    ewDiv.className = 'coordinate-input';
+    ewDiv.innerHTML = `<label>楽円幅:</label>`;
+    
+    const ewBtnMinus = document.createElement('button');
+    ewBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+    ewBtnMinus.innerHTML = '−';
+    ewBtnMinus.addEventListener('mousedown', () => startLongPress(selectedKey, 'ellipseWidth', -0.5));
+    ewBtnMinus.addEventListener('mouseup', stopLongPress);
+    ewBtnMinus.addEventListener('mouseleave', stopLongPress);
+    ewBtnMinus.addEventListener('touchstart', () => startLongPress(selectedKey, 'ellipseWidth', -0.5));
+    ewBtnMinus.addEventListener('touchend', stopLongPress);
+    
+    const ewInput = document.createElement('input');
+    ewInput.type = 'number';
+    ewInput.step = '0.5';
+    ewInput.value = selectedField.ellipseWidth || 8;
+    ewInput.className = 'form-control form-control-sm';
+    ewInput.style.width = '80px';
+    ewInput.style.display = 'inline-block';
+    ewInput.style.marginLeft = '5px';
+    ewInput.style.marginRight = '5px';
+    ewInput.setAttribute('data-property', 'ellipseWidth');
+    ewInput.addEventListener('change', function() {
+      updateCoordinate(selectedKey, 'ellipseWidth', this.value);
+    });
+    
+    const ewBtnPlus = document.createElement('button');
+    ewBtnPlus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+    ewBtnPlus.innerHTML = '+';
+    ewBtnPlus.addEventListener('mousedown', () => startLongPress(selectedKey, 'ellipseWidth', 0.5));
+    ewBtnPlus.addEventListener('mouseup', stopLongPress);
+    ewBtnPlus.addEventListener('mouseleave', stopLongPress);
+    ewBtnPlus.addEventListener('touchstart', () => startLongPress(selectedKey, 'ellipseWidth', 0.5));
+    ewBtnPlus.addEventListener('touchend', stopLongPress);
+    
+    ewDiv.appendChild(ewBtnMinus);
+    ewDiv.appendChild(ewInput);
+    ewDiv.appendChild(ewBtnPlus);
+    detailsDiv.appendChild(ewDiv);
+  }
+
+  if (selectedField.ellipseHeight !== undefined) {
+    const ehDiv = document.createElement('div');
+    ehDiv.className = 'coordinate-input';
+    ehDiv.innerHTML = `<label>楽円高さ:</label>`;
+    
+    const ehBtnMinus = document.createElement('button');
+    ehBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+    ehBtnMinus.innerHTML = '−';
+    ehBtnMinus.addEventListener('mousedown', () => startLongPress(selectedKey, 'ellipseHeight', -0.5));
+    ehBtnMinus.addEventListener('mouseup', stopLongPress);
+    ehBtnMinus.addEventListener('mouseleave', stopLongPress);
+    ehBtnMinus.addEventListener('touchstart', () => startLongPress(selectedKey, 'ellipseHeight', -0.5));
+    ehBtnMinus.addEventListener('touchend', stopLongPress);
+    
+    const ehInput = document.createElement('input');
+    ehInput.type = 'number';
+    ehInput.step = '0.5';
+    ehInput.value = selectedField.ellipseHeight || 5;
+    ehInput.className = 'form-control form-control-sm';
+    ehInput.style.width = '80px';
+    ehInput.style.display = 'inline-block';
+    ehInput.style.marginLeft = '5px';
+    ehInput.style.marginRight = '5px';
+    ehInput.setAttribute('data-property', 'ellipseHeight');
+    ehInput.addEventListener('change', function() {
+      updateCoordinate(selectedKey, 'ellipseHeight', this.value);
+    });
+    
+    const ehBtnPlus = document.createElement('button');
+    ehBtnPlus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+    ehBtnPlus.innerHTML = '+';
+    ehBtnPlus.addEventListener('mousedown', () => startLongPress(selectedKey, 'ellipseHeight', 0.5));
+    ehBtnPlus.addEventListener('mouseup', stopLongPress);
+    ehBtnPlus.addEventListener('mouseleave', stopLongPress);
+    ehBtnPlus.addEventListener('touchstart', () => startLongPress(selectedKey, 'ellipseHeight', 0.5));
+    ehBtnPlus.addEventListener('touchend', stopLongPress);
+    
+    ehDiv.appendChild(ehBtnMinus);
+    ehDiv.appendChild(ehInput);
+    ehDiv.appendChild(ehBtnPlus);
+    detailsDiv.appendChild(ehDiv);
+  }
+
+  // サンプルデータ入力（楽円フィールド以外）
+  const isEllipseField = selectedField.ellipseWidth !== undefined || selectedField.ellipseHeight !== undefined;
+  if (!isEllipseField) {
+    const sampleDataHtml = getSampleDataInput(selectedKey);
+    if (sampleDataHtml) {
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = sampleDataHtml;
+      detailsDiv.appendChild(tempDiv.firstElementChild);
+    }
+  }
+
+  fieldsContainer.appendChild(detailsDiv);
+
+  autoSave();
+  autoPreview();
 }
 
 // ラジオグループの選択を更新
@@ -1412,9 +1931,28 @@ function getSampleDataInput(key) {
     inputHtml = '<div>';
     mapping.combine.forEach(fieldName => {
       const currentValue = customSampleData[fieldName] || '';
-      const fieldLabel = fieldName.includes('last') ? '姓' : '名';
-      const isKana = fieldName.includes('kana');
-      const labelPrefix = isKana ? '氏名カナ' : '氏名';
+      let fieldLabel = '';
+      let labelPrefix = '';
+      
+      // 氏名系の判定
+      if (fieldName.includes('last') || fieldName.includes('first')) {
+        fieldLabel = fieldName.includes('last') ? '姓' : '名';
+        const isKana = fieldName.includes('kana');
+        labelPrefix = isKana ? '氏名カナ' : '氏名';
+      }
+      // 記号番号系の判定
+      else if (fieldName.includes('kigou')) {
+        fieldLabel = '記号';
+        labelPrefix = '記号番号';
+      }
+      else if (fieldName.includes('bangou')) {
+        fieldLabel = '番号';
+        labelPrefix = '記号番号';
+      }
+      else {
+        fieldLabel = fieldName;
+        labelPrefix = mapping.label || '';
+      }
       
       inputHtml += `
         <div class="coordinate-input">
@@ -1484,6 +2022,17 @@ function getSampleDataInput(key) {
         </select>
       </div>
     `;
+  } else if (mapping.type === 'postal_code') {
+    inputHtml = `
+      <div class="coordinate-input">
+        <label>サンプル${mapping.label}:</label>
+        <input type="text"
+               value="${currentValue}"
+               onchange="updateSampleData('${mapping.field}', this.value)"
+               class="form-control form-control-sm"
+               placeholder="例: 1600022">
+      </div>
+    `;
   }
 
   return inputHtml;
@@ -1498,11 +2047,39 @@ function updateCoordinate(key, property, value) {
     coordinates[key][property] = parseFloat(value);
   }
   
+  // postal_codeタイプの場合、x/y/postalCodeGap変更時にfirstX/firstY/lastXも同期
+  const mapping = sampleDataFieldMapping[key];
+  if (mapping && mapping.type === 'postal_code') {
+    if (property === 'x') {
+      coordinates[key]['firstX'] = parseFloat(value);
+      // lastXも再計算
+      const gap = coordinates[key]['postalCodeGap'] || 2;
+      coordinates[key]['lastX'] = parseFloat(value) + gap;
+    } else if (property === 'y') {
+      coordinates[key]['firstY'] = parseFloat(value);
+      coordinates[key]['lastY'] = parseFloat(value);
+    } else if (property === 'postalCodeGap') {
+      // postalCodeGap変更時はlastXを再計算
+      const firstX = coordinates[key]['firstX'] || coordinates[key]['x'] || 0;
+      coordinates[key]['lastX'] = firstX + parseFloat(value);
+    }
+  }
+  
   // テキスト配置更新の場合はボタンのアクティブ状態を更新
   if (property === 'textAlign') {
-    const controls = document.getElementById('controls-' + key);
+    const radioGroupName = coordinates[key].radioGroup;
+    const compositeGroupName = coordinates[key].compositeGroup;
+    
+    let controls = document.getElementById('controls-' + key);
+    if (!controls && radioGroupName) {
+      controls = document.getElementById('radiogroup-fields-' + radioGroupName);
+    }
+    if (!controls && compositeGroupName) {
+      controls = document.getElementById('compositegroup-fields-' + compositeGroupName);
+    }
+    
     if (controls) {
-      const buttons = controls.querySelectorAll('.btn-group-sm .btn');
+      const buttons = controls.querySelectorAll('.btn-group .btn');
       buttons.forEach(btn => btn.classList.remove('active'));
       
       const activeIndex = ['left', 'center', 'right'].indexOf(value);
@@ -1532,15 +2109,38 @@ function adjustValue(key, property, delta) {
   const newValue = Math.round((currentValue + delta) * multiplier) / multiplier;
   coordinates[key][property] = newValue;
 
+  // postal_codeタイプの場合、x/y/postalCodeGap変更時にfirstX/firstY/lastXも同期
+  const mapping = sampleDataFieldMapping[key];
+  if (mapping && mapping.type === 'postal_code') {
+    if (property === 'x') {
+      coordinates[key]['firstX'] = newValue;
+      // lastXも再計算
+      const gap = coordinates[key]['postalCodeGap'] || 2;
+      coordinates[key]['lastX'] = newValue + gap;
+    } else if (property === 'y') {
+      coordinates[key]['firstY'] = newValue;
+      coordinates[key]['lastY'] = newValue;
+    } else if (property === 'postalCodeGap') {
+      // postalCodeGap変更時はlastXを再計算
+      const firstX = coordinates[key]['firstX'] || coordinates[key]['x'] || 0;
+      coordinates[key]['lastX'] = firstX + newValue;
+    }
+  }
+
   // 該当のinput要素を data-property 属性で探して更新
-  // ラジオグループの場合とそうでない場合の両方に対応
+  // ラジオグループとcompositeGroupの場合とそうでない場合の両方に対応
   const controlsId = 'controls-' + key;
   const radioGroupName = coordinates[key].radioGroup;
+  const compositeGroupName = coordinates[key].compositeGroup;
   
   let controls = document.getElementById(controlsId);
   if (!controls && radioGroupName) {
     // ラジオグループの場合
     controls = document.getElementById('radiogroup-fields-' + radioGroupName);
+  }
+  if (!controls && compositeGroupName) {
+    // compositeGroupの場合
+    controls = document.getElementById('compositegroup-fields-' + compositeGroupName);
   }
   
   if (controls) {
