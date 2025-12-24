@@ -200,6 +200,8 @@ class AcupunctureBenefitPdfService
       ->leftJoin('insurers', 'insurances.insurers_id', '=', 'insurers.id')
       ->leftJoin('relationships_with_clinic_user', 'insurances.relationship_with_clinic_user_id', '=', 'relationships_with_clinic_user.id')
       ->leftJoin('expenses_borne_ratios', 'insurances.expenses_borne_ratio_id', '=', 'expenses_borne_ratios.id')
+      ->leftJoin('insurance_types_1', 'insurances.insurance_type_1_id', '=', 'insurance_types_1.id')
+      ->leftJoin('insurance_types_3', 'insurances.insurance_type_3_id', '=', 'insurance_types_3.id')
       ->where('insurances.clinic_user_id', $clinicUserId)
       ->orderBy('insurances.created_at', 'desc')
       ->select(
@@ -207,7 +209,9 @@ class AcupunctureBenefitPdfService
         'insurers.insurer_number',
         'insurers.insurer_name',
         'relationships_with_clinic_user.relationship',
-        'expenses_borne_ratios.expenses_borne_ratio'
+        'expenses_borne_ratios.expenses_borne_ratio',
+        'insurance_types_1.insurance_type_1',
+        'insurance_types_3.insurance_type_3'
       )
       ->first();
 
@@ -378,6 +382,54 @@ class AcupunctureBenefitPdfService
       $pdf->SetFontSize(10);
     } else {
       \Log::warning('受給者番号が設定されていません', ['insurance' => $insurance]);
+    }
+
+    // === 保険種別１ ===
+    if ($insurance && isset($insurance->insurance_type_1)) {
+      $insuranceType1Map = [
+        '社･国･組' => 'insurance_type_1_shakoku',
+        '公費' => 'insurance_type_1_kouhi',
+        '後期' => 'insurance_type_1_kouki',
+        '退職' => 'insurance_type_1_taishoku',
+      ];
+      $key = $insuranceType1Map[$insurance->insurance_type_1] ?? null;
+      if ($key) {
+        $this->drawEllipseByKey($pdf, $key);
+      }
+    }
+
+    // === 保険種別３ ===
+    if ($insurance && isset($insurance->insurance_type_3)) {
+      $insuranceType3Map = [
+        '本外' => 'insurance_type_3_hongai',
+        '三外' => 'insurance_type_3_sangai',
+        '家外' => 'insurance_type_3_kagai',
+        '高外９' => 'insurance_type_3_kougai9',
+        '高外８' => 'insurance_type_3_kougai8',
+      ];
+      $key = $insuranceType3Map[$insurance->insurance_type_3] ?? null;
+      if ($key) {
+        $this->drawEllipseByKey($pdf, $key);
+      }
+    }
+
+    // === 一部負担金（楕円） ===
+    if ($insurance && isset($insurance->expenses_borne_ratio)) {
+      // 表示ラベルを数値に変換（サンプルデータ対応）
+      $ratioValue = (string)$insurance->expenses_borne_ratio;
+      if ($ratioValue === '１割') $ratioValue = '10';
+      if ($ratioValue === '２割') $ratioValue = '20';
+      if ($ratioValue === '３割') $ratioValue = '30';
+
+      $expensesBorneRatioMap = [
+        '10' => 'expenses_borne_ratio_10',
+        '20' => 'expenses_borne_ratio_20',
+        '30' => 'expenses_borne_ratio_30',
+      ];
+      $key = $expensesBorneRatioMap[$ratioValue] ?? null;
+      if ($key) {
+        $this->drawEllipseByKey($pdf, $key);
+      }
     }
 
     // === 保険者番号 ===
@@ -1699,6 +1751,9 @@ class AcupunctureBenefitPdfService
       'insurer_number' => $custom['insurer_number'] ?? '12345678',
       'insurer_name' => 'サンプル健康保険組合',
       'insurance_type_1_id' => 1,
+      'insurance_type_1' => $custom['insurance_type_1'] ?? '社･国･組',
+      'insurance_type_3' => $custom['insurance_type_3'] ?? '本外',
+      'expenses_borne_ratio' => $custom['expenses_borne_ratio'] ?? '３割',
       'code_number' => $custom['insurance_symbol_kigou'] ?? '12345',
       'account_number' => $custom['insurance_symbol_bangou'] ?? '67890',
       'insured_number' => $custom['insurance_number'] ?? '1234567890',
