@@ -363,6 +363,15 @@
         "letterSpacing": 0,
         "label": "施術所 年月日（日）"
     },
+    "therapist_registration_number": {
+        "x": 46.5,
+        "y": 274,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "label": "登録記号番号",
+        "textAlign": "left",
+        "type": "text"
+    },
     "clinic_postal_code": {
         "x": 46.5,
         "y": 256,

@@ -528,6 +528,15 @@
         "compositeGroup": "clinic_date",
         "compositeLabel": "施術証明年月日"
     },
+    "therapist_registration_number": {
+        "x": -55,
+        "y": 197.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "施術者登録番号",
+        "textAlign": "center",
+        "type": "text"
+    },
     "clinic_postal_code": {
         "x": 123,
         "y": 185,
