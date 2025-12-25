@@ -192,8 +192,50 @@ function renderFieldSettings() {
       </h6>
 
       <div class="field-controls" id="controls-${key}">
+        ${field.ellipseX !== undefined ? `
         <div class="coordinate-input">
-          <label>X座標:</label>
+          <label>X座標（サークル）:</label>
+          <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                  onmousedown="startLongPress('${key}', 'ellipseX', -0.5)"
+                  onmouseup="stopLongPress()"
+                  onmouseleave="stopLongPress()"
+                  ontouchstart="startLongPress('${key}', 'ellipseX', -0.5)"
+                  ontouchend="stopLongPress()">←</button>
+          <input type="number" step="0.5" value="${field.ellipseX}"
+                 onchange="updateCoordinate('${key}', 'ellipseX', this.value)"
+                 class="form-control form-control-sm" data-property="ellipseX">
+          <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                  onmousedown="startLongPress('${key}', 'ellipseX', 0.5)"
+                  onmouseup="stopLongPress()"
+                  onmouseleave="stopLongPress()"
+                  ontouchstart="startLongPress('${key}', 'ellipseX', 0.5)"
+                  ontouchend="stopLongPress()">→</button>
+        </div>
+        ` : ''}
+
+        ${field.ellipseY !== undefined ? `
+        <div class="coordinate-input">
+          <label>Y座標（サークル）:</label>
+          <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                  onmousedown="startLongPress('${key}', 'ellipseY', -0.5)"
+                  onmouseup="stopLongPress()"
+                  onmouseleave="stopLongPress()"
+                  ontouchstart="startLongPress('${key}', 'ellipseY', -0.5)"
+                  ontouchend="stopLongPress()">↑</button>
+          <input type="number" step="0.5" value="${field.ellipseY}"
+                 onchange="updateCoordinate('${key}', 'ellipseY', this.value)"
+                 class="form-control form-control-sm" data-property="ellipseY">
+          <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                  onmousedown="startLongPress('${key}', 'ellipseY', 0.5)"
+                  onmouseup="stopLongPress()"
+                  onmouseleave="stopLongPress()"
+                  ontouchstart="startLongPress('${key}', 'ellipseY', 0.5)"
+                  ontouchend="stopLongPress()">↓</button>
+        </div>
+        ` : ''}
+
+        <div class="coordinate-input">
+          <label>${field.ellipseX !== undefined ? 'X座標（テキスト）:' : 'X座標:'}</label>
           <button class="btn btn-sm btn-outline-secondary btn-adjust"
                   onmousedown="startLongPress('${key}', 'x', -0.5)"
                   onmouseup="stopLongPress()"
@@ -212,7 +254,7 @@ function renderFieldSettings() {
         </div>
 
         <div class="coordinate-input">
-          <label>Y座標:</label>
+          <label>${field.ellipseY !== undefined ? 'Y座標（テキスト）:' : 'Y座標:'}</label>
           <button class="btn btn-sm btn-outline-secondary btn-adjust"
                   onmousedown="startLongPress('${key}', 'y', -0.5)"
                   onmouseup="stopLongPress()"
@@ -909,11 +951,99 @@ function updateRadioGroupSelection(groupName, selectedKey) {
   detailsDiv.style.marginTop = '10px';
   detailsDiv.style.paddingTop = '10px';
 
+  // ellipseXが定義されている場合
+  if (selectedField.ellipseX !== undefined) {
+    const ellipseXDiv = document.createElement('div');
+    ellipseXDiv.className = 'coordinate-input';
+    ellipseXDiv.innerHTML = `<label>X座標（サークル）:</label>`;
+
+    const ellipseXBtnLeft = document.createElement('button');
+    ellipseXBtnLeft.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+    ellipseXBtnLeft.innerHTML = '←';
+    ellipseXBtnLeft.addEventListener('mousedown', () => startLongPress(selectedKey, 'ellipseX', -0.5));
+    ellipseXBtnLeft.addEventListener('mouseup', stopLongPress);
+    ellipseXBtnLeft.addEventListener('mouseleave', stopLongPress);
+    ellipseXBtnLeft.addEventListener('touchstart', () => startLongPress(selectedKey, 'ellipseX', -0.5));
+    ellipseXBtnLeft.addEventListener('touchend', stopLongPress);
+
+    const ellipseXInput = document.createElement('input');
+    ellipseXInput.type = 'number';
+    ellipseXInput.step = '0.5';
+    ellipseXInput.value = selectedField.ellipseX;
+    ellipseXInput.className = 'form-control form-control-sm';
+    ellipseXInput.style.width = '80px';
+    ellipseXInput.style.display = 'inline-block';
+    ellipseXInput.style.marginLeft = '5px';
+    ellipseXInput.style.marginRight = '5px';
+    ellipseXInput.setAttribute('data-property', 'ellipseX');
+    ellipseXInput.addEventListener('change', function() {
+      updateCoordinate(selectedKey, 'ellipseX', this.value);
+    });
+
+    const ellipseXBtnRight = document.createElement('button');
+    ellipseXBtnRight.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+    ellipseXBtnRight.innerHTML = '→';
+    ellipseXBtnRight.addEventListener('mousedown', () => startLongPress(selectedKey, 'ellipseX', 0.5));
+    ellipseXBtnRight.addEventListener('mouseup', stopLongPress);
+    ellipseXBtnRight.addEventListener('mouseleave', stopLongPress);
+    ellipseXBtnRight.addEventListener('touchstart', () => startLongPress(selectedKey, 'ellipseX', 0.5));
+    ellipseXBtnRight.addEventListener('touchend', stopLongPress);
+
+    ellipseXDiv.appendChild(ellipseXBtnLeft);
+    ellipseXDiv.appendChild(ellipseXInput);
+    ellipseXDiv.appendChild(ellipseXBtnRight);
+    detailsDiv.appendChild(ellipseXDiv);
+  }
+
+  // ellipseYが定義されている場合
+  if (selectedField.ellipseY !== undefined) {
+    const ellipseYDiv = document.createElement('div');
+    ellipseYDiv.className = 'coordinate-input';
+    ellipseYDiv.innerHTML = `<label>Y座標（サークル）:</label>`;
+
+    const ellipseYBtnUp = document.createElement('button');
+    ellipseYBtnUp.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+    ellipseYBtnUp.innerHTML = '↑';
+    ellipseYBtnUp.addEventListener('mousedown', () => startLongPress(selectedKey, 'ellipseY', -0.5));
+    ellipseYBtnUp.addEventListener('mouseup', stopLongPress);
+    ellipseYBtnUp.addEventListener('mouseleave', stopLongPress);
+    ellipseYBtnUp.addEventListener('touchstart', () => startLongPress(selectedKey, 'ellipseY', -0.5));
+    ellipseYBtnUp.addEventListener('touchend', stopLongPress);
+
+    const ellipseYInput = document.createElement('input');
+    ellipseYInput.type = 'number';
+    ellipseYInput.step = '0.5';
+    ellipseYInput.value = selectedField.ellipseY;
+    ellipseYInput.className = 'form-control form-control-sm';
+    ellipseYInput.style.width = '80px';
+    ellipseYInput.style.display = 'inline-block';
+    ellipseYInput.style.marginLeft = '5px';
+    ellipseYInput.style.marginRight = '5px';
+    ellipseYInput.setAttribute('data-property', 'ellipseY');
+    ellipseYInput.addEventListener('change', function() {
+      updateCoordinate(selectedKey, 'ellipseY', this.value);
+    });
+
+    const ellipseYBtnDown = document.createElement('button');
+    ellipseYBtnDown.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+    ellipseYBtnDown.innerHTML = '↓';
+    ellipseYBtnDown.addEventListener('mousedown', () => startLongPress(selectedKey, 'ellipseY', 0.5));
+    ellipseYBtnDown.addEventListener('mouseup', stopLongPress);
+    ellipseYBtnDown.addEventListener('mouseleave', stopLongPress);
+    ellipseYBtnDown.addEventListener('touchstart', () => startLongPress(selectedKey, 'ellipseY', 0.5));
+    ellipseYBtnDown.addEventListener('touchend', stopLongPress);
+
+    ellipseYDiv.appendChild(ellipseYBtnUp);
+    ellipseYDiv.appendChild(ellipseYInput);
+    ellipseYDiv.appendChild(ellipseYBtnDown);
+    detailsDiv.appendChild(ellipseYDiv);
+  }
+
   // X座標
   const xDiv = document.createElement('div');
   xDiv.className = 'coordinate-input';
   xDiv.innerHTML = `
-    <label>X座標:</label>
+    <label>${selectedField.ellipseX !== undefined ? 'X座標（テキスト）:' : 'X座標:'}</label>
   `;
   const xBtnLeft = document.createElement('button');
   xBtnLeft.className = 'btn btn-sm btn-outline-secondary btn-adjust';
@@ -927,7 +1057,7 @@ function updateRadioGroupSelection(groupName, selectedKey) {
     startLongPress(selectedKey, 'x', -0.5);
   });
   xBtnLeft.addEventListener('touchend', stopLongPress);
-  
+
   const xInput = document.createElement('input');
   xInput.type = 'number';
   xInput.step = '0.5';
@@ -941,7 +1071,7 @@ function updateRadioGroupSelection(groupName, selectedKey) {
   xInput.addEventListener('change', function() {
     updateCoordinate(selectedKey, 'x', this.value);
   });
-  
+
   const xBtnRight = document.createElement('button');
   xBtnRight.className = 'btn btn-sm btn-outline-secondary btn-adjust';
   xBtnRight.innerHTML = '→';
@@ -950,7 +1080,7 @@ function updateRadioGroupSelection(groupName, selectedKey) {
   xBtnRight.addEventListener('mouseleave', stopLongPress);
   xBtnRight.addEventListener('touchstart', () => startLongPress(selectedKey, 'x', 0.5));
   xBtnRight.addEventListener('touchend', stopLongPress);
-  
+
   xDiv.appendChild(xBtnLeft);
   xDiv.appendChild(xInput);
   xDiv.appendChild(xBtnRight);
@@ -959,7 +1089,7 @@ function updateRadioGroupSelection(groupName, selectedKey) {
   // Y座標
   const yDiv = document.createElement('div');
   yDiv.className = 'coordinate-input';
-  yDiv.innerHTML = `<label>Y座標:</label>`;
+  yDiv.innerHTML = `<label>${selectedField.ellipseY !== undefined ? 'Y座標（テキスト）:' : 'Y座標:'}</label>`;
   
   const yBtnUp = document.createElement('button');
   yBtnUp.className = 'btn btn-sm btn-outline-secondary btn-adjust';

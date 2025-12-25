@@ -27,7 +27,8 @@
       "Bash(move:*)",
       "Bash(composer require:*)",
       "Bash(dir:*)",
-      "Bash(findstr:*)"
+      "Bash(findstr:*)",
+      "Bash(git -c core.quotepath=false commit -m \"$\\(cat <<''EOF''\n施術者登録番号フィールドの座標設定を追加\n\n鍼灸・マッサージ両様式の座標設定ファイルに施術者登録番号フィールドの座標情報を追加し、座標調整ツールのサンプルデータの項目順序を調整。\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
     ],
     "deny": [],
     "ask": []

@@ -91,6 +91,9 @@ const sampleDataFieldMapping = {
   'condition': { field: 'condition', label: '発病負傷の原因･経過', type: 'text' },
   'abstract': { field: 'abstract', label: '摘要', type: 'text', width: 180, lineHeight: 5 },
 
+  // 施術月
+  'treatment_month': { field: 'treatment_month', label: '施術月', type: 'number' },
+
   // === 10. 施術日カレンダー（1-31日） ===
   'treatment_day_1': { field: 'treatment_day_1', label: '施術日1日', type: 'text' },
   'treatment_day_2': { field: 'treatment_day_2', label: '施術日2日', type: 'text' },
@@ -146,6 +149,9 @@ const sampleDataFieldMapping = {
   'fee_previous_payment_unit': { field: 'fee_previous_payment_unit', label: '単価', type: 'number', compositeGroup: 'fee_previous_payment', compositeLabel: '施術報告書交付料' },
   'fee_previous_payment_count': { field: 'fee_previous_payment_count', label: '回数', type: 'number', compositeGroup: 'fee_previous_payment', compositeLabel: '施術報告書交付料' },
   'fee_previous_payment_total': { field: 'fee_previous_payment_total', label: '合計', type: 'number', compositeGroup: 'fee_previous_payment', compositeLabel: '施術報告書交付料' },
+  'fee_initial_examination_hari': { field: 'fee_initial_examination', label: '初検料', type: 'select', options: ['はり', 'きゅう', 'はり･きゅう併用'], ellipseWidth: 6, ellipseHeight: 3, lineWidth: 0.5, radioGroup: 'fee_initial_examination', optionLabel: 'はり' },
+  'fee_initial_examination_kyu': { field: 'fee_initial_examination', label: '初検料', type: 'select', options: ['はり', 'きゅう', 'はり･きゅう併用'], ellipseWidth: 6, ellipseHeight: 3, lineWidth: 0.5, radioGroup: 'fee_initial_examination', optionLabel: 'きゅう' },
+  'fee_initial_examination_combined': { field: 'fee_initial_examination', label: '初検料', type: 'select', options: ['はり', 'きゅう', 'はり･きゅう併用'], ellipseWidth: 6, ellipseHeight: 3, lineWidth: 0.5, radioGroup: 'fee_initial_examination', optionLabel: 'はり･きゅう併用' },
   'fee_subtotal': { field: 'fee_subtotal', label: '合計', type: 'number' },
 
   // === 11-2. 一部負担金（楕円） ===
@@ -185,6 +191,16 @@ const sampleDataFieldMapping = {
   'patient_address': { field: 'address', label: '住所', type: 'text' },
   'patient_phone': { field: 'phone', label: '電話番号', type: 'text' },
   'office_name': { field: 'office_name', label: '事業所名称', type: 'text' },
+
+
+  // 同意記録
+  'consent_record_doctor_name': { field: 'consent_record_doctor_name', label: '同意医師氏名（同意記録）', type: 'text' },
+  'consent_record_doctor_address': { field: 'consent_record_doctor_address', label: '同意医師住所（同意記録）', type: 'text' },
+  'consent_record_date_year': { field: 'consent_record_date_year', label: '同意年月日（年）', type: 'number' },
+  'consent_record_date_month': { field: 'consent_record_date_month', label: '同意年月日（月）', type: 'number' },
+  'consent_record_date_day': { field: 'consent_record_date_day', label: '同意年月日（日）', type: 'number' },
+  'consent_record_illness_name': { field: 'consent_record_illness_name', label: '傷病名（同意記録）', type: 'text' },
+  'required_treatment_period': { field: 'required_treatment_period', label: '要加療期間', type: 'text' },
 
   // === 15. 医師情報・同意書 ===
   'consent_date': { field: 'consent_date', label: '同意年月日', type: 'date' },
@@ -234,10 +250,48 @@ const sampleDataFieldMapping = {
   'account_number': { field: 'account_number', label: '口座番号', type: 'text' },
   'account_holder': { field: 'account_holder', label: '口座名義', type: 'text' },
 
+
+  // 支払区分（ラジオグループ）
+  'payment_category_furikomi': { field: 'payment_category', label: '支払区分', type: 'select', options: ['振込', '銀行送金', '郵便局送金', '当地払'], ellipseWidth: 6, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'payment_category', optionLabel: '振込' },
+  'payment_category_bank_transfer': { field: 'payment_category', label: '支払区分', type: 'select', options: ['振込', '銀行送金', '郵便局送金', '当地払'], ellipseWidth: 8, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'payment_category', optionLabel: '銀行送金' },
+  'payment_category_post_transfer': { field: 'payment_category', label: '支払区分', type: 'select', options: ['振込', '銀行送金', '郵便局送金', '当地払'], ellipseWidth: 10, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'payment_category', optionLabel: '郵便局送金' },
+  'payment_category_local_payment': { field: 'payment_category', label: '支払区分', type: 'select', options: ['振込', '銀行送金', '郵便局送金', '当地払'], ellipseWidth: 8, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'payment_category', optionLabel: '当地払' },
+
+  // 預金種別（ラジオグループ）
+  'deposit_type_ordinary': { field: 'deposit_type', label: '預金種別', type: 'select', options: ['普通', '当座', '通知', '別段'], ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'deposit_type', optionLabel: '普通' },
+  'deposit_type_current': { field: 'deposit_type', label: '預金種別', type: 'select', options: ['普通', '当座', '通知', '別段'], ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'deposit_type', optionLabel: '当座' },
+  'deposit_type_notice': { field: 'deposit_type', label: '預金種別', type: 'select', options: ['普通', '当座', '通知', '別段'], ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'deposit_type', optionLabel: '通知' },
+  'deposit_type_betsudan': { field: 'deposit_type', label: '預金種別', type: 'select', options: ['普通', '当座', '通知', '別段'], ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'deposit_type', optionLabel: '別段' },
+
+  // 金融機関情報
+  'financial_institution_name_1': { field: 'financial_institution_name_1', label: '金融機関名1', type: 'text' },
+  'financial_institution_type_bank': { field: 'financial_institution_type', label: '金融機関種別', type: 'select', options: ['銀行', '金庫', '農協'], ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'financial_institution_type', optionLabel: '銀行' },
+  'financial_institution_type_kinko': { field: 'financial_institution_type', label: '金融機関種別', type: 'select', options: ['銀行', '金庫', '農協'], ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'financial_institution_type', optionLabel: '金庫' },
+  'financial_institution_type_nokyo': { field: 'financial_institution_type', label: '金融機関種別', type: 'select', options: ['銀行', '金庫', '農協'], ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'financial_institution_type', optionLabel: '農協' },
+  'financial_institution_name_2': { field: 'financial_institution_name_2', label: '金融機関名2', type: 'text' },
+  'branch_type_honten': { field: 'branch_type', label: '支店種別', type: 'select', options: ['本店', '支店', '出張所'], ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'branch_type', optionLabel: '本店' },
+  'branch_type_shiten': { field: 'branch_type', label: '支店種別', type: 'select', options: ['本店', '支店', '出張所'], ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'branch_type', optionLabel: '支店' },
+  'branch_type_shucchoujo': { field: 'branch_type', label: '支店種別', type: 'select', options: ['本店', '支店', '出張所'], ellipseWidth: 7, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'branch_type', optionLabel: '出張所' },
+  'bank_account_holder_kana': { field: 'bank_account_holder_kana', label: '口座名義', type: 'text' },
+  'bank_account_number': { field: 'bank_account_number', label: '口座番号', type: 'text' },
+  'insurer_name': { field: 'insurer_name', label: '申請先名称', type: 'text' },
+
   // === 19. 被保険者情報 ===
   'temporary_insurer_name': { field: 'temporary_insurer_name', label: '被保険者氏名', type: 'text' },
 
   // === 20. その他 ===
   'claim_number': { field: 'claim_number', label: '請求書番号', type: 'text' },
-  'treatment_year_month': { field: 'treatment_year_month', label: '施術年月', type: 'text' }
+  'treatment_year_month': { field: 'treatment_year_month', label: '施術年月', type: 'text' },
+
+  // === 21. 署名・申請情報 ===
+  // 年月日（署名）
+  'signature_date_year': { field: 'signature_date_year', label: '年月日（署名・年）', type: 'number' },
+  'signature_date_month': { field: 'signature_date_month', label: '年月日（署名・月）', type: 'number' },
+  'signature_date_day': { field: 'signature_date_day', label: '年月日（署名・日）', type: 'number' },
+  'signature_applicant_address': { field: 'signature_applicant_address', label: '申請者住所（署名）', type: 'text' },
+
+  // 申請年月日
+  'submission_date_year': { field: 'submission_date_year', label: '申請年月日（年）', type: 'number' },
+  'submission_date_month': { field: 'submission_date_month', label: '申請年月日（月）', type: 'number' },
+  'submission_date_day': { field: 'submission_date_day', label: '申請年月日（日）', type: 'number' }
 };

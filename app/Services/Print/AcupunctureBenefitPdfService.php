@@ -1690,8 +1690,9 @@ class AcupunctureBenefitPdfService
    */
   protected function drawEllipseByKey(Fpdi $pdf, string $key): void
   {
-    $x = $this->coord($key, 'x');
-    $y = $this->coord($key, 'y');
+    // ellipseX/ellipseYがある場合はそれを優先、なければx/yを使用
+    $x = $this->coordinates[$key]['ellipseX'] ?? $this->coord($key, 'x');
+    $y = $this->coordinates[$key]['ellipseY'] ?? $this->coord($key, 'y');
     $ellipseWidth = $this->coordinates[$key]['ellipseWidth'] ?? 2.5;
     $ellipseHeight = $this->coordinates[$key]['ellipseHeight'] ?? 2.5;
     $lineWidth = $this->coordinates[$key]['lineWidth'] ?? 0.5;
@@ -1999,6 +2000,190 @@ class AcupunctureBenefitPdfService
         $this->drawTextByKey($pdf, 'fee_total_claim', (string)($custom['fee_total_claim'] ?? ''));
       }
 
+      // 初検料
+      if (isset($custom['fee_initial_examination']) && $custom['fee_initial_examination']) {
+        $initialExamType = $custom['fee_initial_examination'];
+        $keyMap = [
+          'はり' => 'fee_initial_examination_hari',
+          'きゅう' => 'fee_initial_examination_kyu',
+          'はり･きゅう併用' => 'fee_initial_examination_combined'
+        ];
+
+        $key = $keyMap[$initialExamType] ?? null;
+        if ($key && isset($this->coordinates[$key])) {
+          // 楕円描画
+          $this->drawEllipseByKey($pdf, $key);
+
+          // 金額描画（1500円固定）
+          $pdf->SetFontSize($this->coord($key, 'fontSize'));
+          $this->drawTextByKey($pdf, $key, '1500');
+        }
+      }
+
+      // 新規追加フィールド（サンプルデータモード）
+
+      // 施術月
+      if (isset($custom['treatment_month'])) {
+        $pdf->SetFontSize($this->coord('treatment_month', 'fontSize'));
+        $this->drawTextByKey($pdf, 'treatment_month', (string)$custom['treatment_month']);
+      }
+
+      // 申請年月日
+      if (isset($custom['submission_date_year'])) {
+        $pdf->SetFontSize($this->coord('submission_date_year', 'fontSize'));
+        $this->drawTextByKey($pdf, 'submission_date_year', (string)$custom['submission_date_year']);
+      }
+      if (isset($custom['submission_date_month'])) {
+        $pdf->SetFontSize($this->coord('submission_date_month', 'fontSize'));
+        $this->drawTextByKey($pdf, 'submission_date_month', (string)$custom['submission_date_month']);
+      }
+      if (isset($custom['submission_date_day'])) {
+        $pdf->SetFontSize($this->coord('submission_date_day', 'fontSize'));
+        $this->drawTextByKey($pdf, 'submission_date_day', (string)$custom['submission_date_day']);
+      }
+
+      // 申請先名称
+      if (isset($custom['insurer_name'])) {
+        $pdf->SetFontSize($this->coord('insurer_name', 'fontSize'));
+        $this->drawTextByKey($pdf, 'insurer_name', $custom['insurer_name']);
+      }
+
+      // 支払区分（ラジオグループ）
+      if (isset($custom['payment_category'])) {
+        $paymentCategoryMap = [
+          '振込' => 'payment_category_furikomi',
+          '銀行送金' => 'payment_category_bank_transfer',
+          '郵便局送金' => 'payment_category_post_transfer',
+          '当地払' => 'payment_category_local_payment'
+        ];
+        $key = $paymentCategoryMap[$custom['payment_category']] ?? null;
+        if ($key && isset($this->coordinates[$key])) {
+          $this->drawEllipseByKey($pdf, $key);
+        }
+      }
+
+      // 預金種別（ラジオグループ）
+      if (isset($custom['deposit_type'])) {
+        $depositTypeMap = [
+          '普通' => 'deposit_type_ordinary',
+          '当座' => 'deposit_type_current',
+          '通知' => 'deposit_type_notice',
+          '別段' => 'deposit_type_betsudan'
+        ];
+        $key = $depositTypeMap[$custom['deposit_type']] ?? null;
+        if ($key && isset($this->coordinates[$key])) {
+          $this->drawEllipseByKey($pdf, $key);
+        }
+      }
+
+      // 金融機関名1
+      if (isset($custom['financial_institution_name_1'])) {
+        $pdf->SetFontSize($this->coord('financial_institution_name_1', 'fontSize'));
+        $this->drawTextByKey($pdf, 'financial_institution_name_1', $custom['financial_institution_name_1']);
+      }
+
+      // 金融機関種別（ラジオグループ）
+      if (isset($custom['financial_institution_type'])) {
+        $finTypeMap = [
+          '銀行' => 'financial_institution_type_bank',
+          '金庫' => 'financial_institution_type_kinko',
+          '農協' => 'financial_institution_type_nokyo'
+        ];
+        $key = $finTypeMap[$custom['financial_institution_type']] ?? null;
+        if ($key && isset($this->coordinates[$key])) {
+          $this->drawEllipseByKey($pdf, $key);
+        }
+      }
+
+      // 金融機関名2
+      if (isset($custom['financial_institution_name_2'])) {
+        $pdf->SetFontSize($this->coord('financial_institution_name_2', 'fontSize'));
+        $this->drawTextByKey($pdf, 'financial_institution_name_2', $custom['financial_institution_name_2']);
+      }
+
+      // 支店種別（ラジオグループ）
+      if (isset($custom['branch_type'])) {
+        $branchTypeMap = [
+          '本店' => 'branch_type_honten',
+          '支店' => 'branch_type_shiten',
+          '出張所' => 'branch_type_shucchoujo'
+        ];
+        $key = $branchTypeMap[$custom['branch_type']] ?? null;
+        if ($key && isset($this->coordinates[$key])) {
+          $this->drawEllipseByKey($pdf, $key);
+        }
+      }
+
+      // 口座名義
+      if (isset($custom['bank_account_holder_kana'])) {
+        $pdf->SetFontSize($this->coord('bank_account_holder_kana', 'fontSize'));
+        $this->drawTextByKey($pdf, 'bank_account_holder_kana', $custom['bank_account_holder_kana']);
+      }
+
+      // 口座番号
+      if (isset($custom['bank_account_number'])) {
+        $pdf->SetFontSize($this->coord('bank_account_number', 'fontSize'));
+        $this->drawTextByKey($pdf, 'bank_account_number', (string)$custom['bank_account_number']);
+      }
+
+      // 同意医師氏名（同意記録）
+      if (isset($custom['consent_record_doctor_name'])) {
+        $pdf->SetFontSize($this->coord('consent_record_doctor_name', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_doctor_name', $custom['consent_record_doctor_name']);
+      }
+
+      // 同意医師住所（同意記録）
+      if (isset($custom['consent_record_doctor_address'])) {
+        $pdf->SetFontSize($this->coord('consent_record_doctor_address', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_doctor_address', $custom['consent_record_doctor_address']);
+      }
+
+      // 同意年月日（同意記録）
+      if (isset($custom['consent_record_date_year'])) {
+        $pdf->SetFontSize($this->coord('consent_record_date_year', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_date_year', (string)$custom['consent_record_date_year']);
+      }
+      if (isset($custom['consent_record_date_month'])) {
+        $pdf->SetFontSize($this->coord('consent_record_date_month', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_date_month', (string)$custom['consent_record_date_month']);
+      }
+      if (isset($custom['consent_record_date_day'])) {
+        $pdf->SetFontSize($this->coord('consent_record_date_day', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_date_day', (string)$custom['consent_record_date_day']);
+      }
+
+      // 傷病名（同意記録）
+      if (isset($custom['consent_record_illness_name'])) {
+        $pdf->SetFontSize($this->coord('consent_record_illness_name', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_illness_name', $custom['consent_record_illness_name']);
+      }
+
+      // 要加療期間
+      if (isset($custom['required_treatment_period'])) {
+        $pdf->SetFontSize($this->coord('required_treatment_period', 'fontSize'));
+        $this->drawTextByKey($pdf, 'required_treatment_period', $custom['required_treatment_period']);
+      }
+
+      // 年月日（署名）
+      if (isset($custom['signature_date_year'])) {
+        $pdf->SetFontSize($this->coord('signature_date_year', 'fontSize'));
+        $this->drawTextByKey($pdf, 'signature_date_year', (string)$custom['signature_date_year']);
+      }
+      if (isset($custom['signature_date_month'])) {
+        $pdf->SetFontSize($this->coord('signature_date_month', 'fontSize'));
+        $this->drawTextByKey($pdf, 'signature_date_month', (string)$custom['signature_date_month']);
+      }
+      if (isset($custom['signature_date_day'])) {
+        $pdf->SetFontSize($this->coord('signature_date_day', 'fontSize'));
+        $this->drawTextByKey($pdf, 'signature_date_day', (string)$custom['signature_date_day']);
+      }
+
+      // 申請者住所（署名）
+      if (isset($custom['signature_applicant_address'])) {
+        $pdf->SetFontSize($this->coord('signature_applicant_address', 'fontSize'));
+        $this->drawTextByKey($pdf, 'signature_applicant_address', $custom['signature_applicant_address']);
+      }
+
       $pdf->SetFontSize(10);
       return;
     }
@@ -2077,6 +2262,35 @@ class AcupunctureBenefitPdfService
       $this->drawTextByKey($pdf, 'fee_housecall_count', (string)$housecallCount);
       $this->drawTextByKey($pdf, 'fee_housecall_total', (string)$total);
       $totalFee += $total;
+    }
+
+    // 初検料（初回施術時のみ描画）
+    if ($isFirstTreatment) {
+      $initialExaminationFee = 1500;
+
+      // 施術タイプを判定
+      $hariCount = ($therapyTypeCounts[1] ?? 0) + ($therapyTypeCounts[2] ?? 0);
+      $kyuCount = ($therapyTypeCounts[3] ?? 0) + ($therapyTypeCounts[4] ?? 0);
+
+      $key = null;
+      if ($hariCount > 0 && $kyuCount > 0) {
+        $key = 'fee_initial_examination_combined';
+      } elseif ($hariCount > 0) {
+        $key = 'fee_initial_examination_hari';
+      } elseif ($kyuCount > 0) {
+        $key = 'fee_initial_examination_kyu';
+      }
+
+      if ($key && isset($this->coordinates[$key])) {
+        // 楕円描画
+        $this->drawEllipseByKey($pdf, $key);
+
+        // 金額描画
+        $pdf->SetFontSize($this->coord($key, 'fontSize'));
+        $this->drawTextByKey($pdf, $key, (string)$initialExaminationFee);
+
+        $totalFee += $initialExaminationFee;
+      }
     }
 
     // 一部負担金（保険負担割合から計算）

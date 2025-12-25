@@ -180,5 +180,49 @@ let customSampleData = {
   // 発病負傷の原因･経過
   condition: '自宅の階段で転倒し腰部を打撲。その後徐々に腰痛が悪化。',
   // 摘要
-  abstract: '特記事項なし'
+  abstract: '特記事項なし',
+  // 初検料
+  fee_initial_examination: 'はり', // はり、きゅう、はり･きゅう併用
+  // 施術月
+  treatment_month: '12',
+  // 申請年月日
+  submission_date_year: '7',
+  submission_date_month: '12',
+  submission_date_day: '31',
+  // 申請先名称
+  insurer_name: '〇〇健康保険組合',
+  // 支払区分
+  payment_category: '振込', // 振込、銀行送金、郵便局送金、当地払
+  // 預金種別
+  deposit_type: '普通', // 普通、当座、通知、別段
+  // 金融機関名1
+  financial_institution_name_1: '〇〇',
+  // 金融機関種別
+  financial_institution_type: '銀行', // 銀行、金庫、農協
+  // 金融機関名2
+  financial_institution_name_2: '新宿',
+  // 支店種別
+  branch_type: '支店', // 本店、支店、出張所
+  // 口座名義
+  bank_account_holder_kana: 'タナカ イチロウ',
+  // 口座番号
+  bank_account_number: '1234567',
+  // 同意医師氏名（同意記録）
+  consent_record_doctor_name: '山田太郎',
+  // 同意医師住所（同意記録）
+  consent_record_doctor_address: '東京都新宿区〇〇1-2-3',
+  // 同意年月日（同意記録）
+  consent_record_date_year: '7',
+  consent_record_date_month: '11',
+  consent_record_date_day: '25',
+  // 傷病名（同意記録）
+  consent_record_illness_name: '腰痛症',
+  // 要加療期間
+  required_treatment_period: '3ヶ月',
+  // 年月日（署名）
+  signature_date_year: '7',
+  signature_date_month: '12',
+  signature_date_day: '31',
+  // 申請者住所（署名）
+  signature_applicant_address: '東京都千代田区丸の内1-1-1'
 };
