@@ -76,3 +76,38 @@
   color: white;
   border-color: #007bff;
 }
+
+/* カテゴリアコーディオン */
+.category-group {
+  border-bottom: 2px solid #ddd;
+  margin-bottom: 10px;
+}
+
+.category-header {
+  cursor: pointer;
+  user-select: none;
+  padding: 12px;
+  background-color: #e9ecef;
+  margin: 0;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.category-header:hover {
+  background-color: #dee2e6;
+}
+
+.category-content {
+  padding: 10px 5px;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.category-content.show {
+  max-height: 10000px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}

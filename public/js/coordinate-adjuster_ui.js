@@ -1,3 +1,4 @@
+// カテゴリアコーディオン対応のrenderFieldSettings関数（新版）
 function renderFieldSettings() {
   const container = document.getElementById('field-settings');
   container.innerHTML = '';
@@ -9,7 +10,7 @@ function renderFieldSettings() {
 
   // sampleDataFieldMappingの順序でフィールドを処理
   const orderedKeys = Object.keys(sampleDataFieldMapping).filter(key => coordinates[key]);
-  
+
   // coordinatesに存在するが、sampleDataFieldMappingにないキーも追加
   Object.keys(coordinates).forEach(key => {
     if (!orderedKeys.includes(key)) {
@@ -17,470 +18,405 @@ function renderFieldSettings() {
     }
   });
 
+  // カテゴリごとにフィールドをグループ化
+  const categorizedFields = {};
+  categoryOrder.forEach(category => {
+    categorizedFields[category] = [];
+  });
+  categorizedFields['uncategorized'] = []; // 未分類用
+
+  // フィールドをカテゴリに振り分け
   orderedKeys.forEach(key => {
-    if (processedKeys.has(key)) return;
-    
-    const field = coordinates[key];
-    if (!field) return;
-    
-    // compositeGroupが定義されている場合、グループの最初のフィールドでセレクトボックスを表示
-    if (field.compositeGroup && !processedCompositeGroups.has(field.compositeGroup)) {
-      processedCompositeGroups.add(field.compositeGroup);
-      
-      // グループ内のすべてのフィールドを取得
-      const groupFields = Object.entries(coordinates)
-        .filter(([k, v]) => v.compositeGroup === field.compositeGroup)
-        .sort((a, b) => {
-          const indexA = orderedKeys.indexOf(a[0]);
-          const indexB = orderedKeys.indexOf(b[0]);
-          return indexA - indexB;
-        });
-
-      // グループ内のすべてのキーを処理済みとしてマーク
-      groupFields.forEach(([k]) => processedKeys.add(k));
-
-      // グループの最初のフィールドを基準にセレクトボックスを作成
-      const firstKey = groupFields[0][0];
-      
-      // 現在選択されているフィールドを判定（デフォルトは最初のフィールド）
-      let selectedKey = firstKey;
-
-      const div = document.createElement('div');
-      div.className = 'field-group';
-      div.setAttribute('data-composite-group', field.compositeGroup);
-
-      // グループラベルを取得
-      const groupLabel = field.compositeLabel || field.compositeGroup;
-
-      // オプションを生成
-      const options = groupFields.map(([k, v]) => {
-        const mapping = sampleDataFieldMapping[k];
-        // radioGroupの場合はoptionLabelを優先、それ以外はlabelを使用
-        let optionLabel = v.label;
-        if (mapping) {
-          if (mapping.optionLabel) {
-            optionLabel = mapping.optionLabel;
-          } else if (mapping.label) {
-            optionLabel = mapping.label;
-          }
-        }
-        return `<option value="${k}" ${selectedKey === k ? 'selected' : ''}>${optionLabel}</option>`;
-      }).join('');
-
-      div.innerHTML = `
-        <h6 class="field-header" onclick="toggleField('${field.compositeGroup}')" style="cursor: pointer; user-select: none;">
-          <span class="toggle-icon" id="toggle-${field.compositeGroup}">▶</span> ${groupLabel}
-        </h6>
-
-        <div class="field-controls" id="controls-${field.compositeGroup}">
-          <div class="coordinate-input">
-            <label>要素選択:</label>
-            <select onchange="updateCompositeGroupSelection('${field.compositeGroup}', this.value)"
-                    class="form-control form-control-sm"
-                    style="width: auto; display: inline-block; margin-left: 10px;">
-              ${options}
-            </select>
-          </div>
-
-          <div id="compositegroup-fields-${field.compositeGroup}">
-            <!-- 選択された要素の詳細設定をここに表示 -->
-          </div>
-        </div>
-      `;
-
-      container.appendChild(div);
-      
-      // 選択された要素の詳細設定を表示
-      updateCompositeGroupSelection(field.compositeGroup, selectedKey);
-      return;
+    const category = fieldCategories[key] || 'uncategorized';
+    if (!categorizedFields[category]) {
+      categorizedFields[category] = [];
     }
-    
-    // compositeGroupが定義されている場合はスキップ（既に処理済み）
-    if (field.compositeGroup) {
-      return;
-    }
-    
-    // radioGroupが定義されている場合、グループの最初のフィールドでセレクトボックスを表示
-    if (field.radioGroup && !processedGroups.has(field.radioGroup)) {
-      processedGroups.add(field.radioGroup);
-      
-      // グループ内のすべてのフィールドを取得
-      const groupFields = Object.entries(coordinates)
-        .filter(([k, v]) => v.radioGroup === field.radioGroup)
-        .sort((a, b) => {
-          // sampleDataFieldMappingの順序でソート
-          const indexA = orderedKeys.indexOf(a[0]);
-          const indexB = orderedKeys.indexOf(b[0]);
-          if (indexA !== -1 && indexB !== -1) return indexA - indexB;
-          
-          // フォールバック: キーの番号順でソート
-          const numA = parseInt(a[0].match(/\d+$/)?.[0] || 0);
-          const numB = parseInt(b[0].match(/\d+$/)?.[0] || 0);
-          return numA - numB;
-        });
+    categorizedFields[category].push(key);
+  });
 
-      // グループ内のすべてのキーを処理済みとしてマーク
-      groupFields.forEach(([k]) => processedKeys.add(k));
+  // カテゴリごとにアコーディオンを作成
+  categoryOrder.forEach(category => {
+    const fields = categorizedFields[category];
+    if (!fields || fields.length === 0) return;
 
-      // グループの最初のフィールドを基準にセレクトボックスを作成
-      const firstField = groupFields[0][1];
-      const firstKey = groupFields[0][0];
+    const categoryDiv = document.createElement('div');
+    categoryDiv.className = 'category-group';
 
-      // 現在選択されているオプションを判定
-      let selectedKey = firstKey;
-      for (const [k, v] of groupFields) {
-        if (v.isSelected) {
-          selectedKey = k;
-          break;
-        }
-      }
+    const categoryLabel = categoryLabels[category] || category;
 
-      const div = document.createElement('div');
-      div.className = 'field-group';
-      div.setAttribute('data-radio-group', field.radioGroup);
-
-      // グループラベルを取得
-      const groupLabel = field.label || field.radioGroup;
-
-      // オプションを生成
-      const options = groupFields.map(([k, v]) => {
-        return `<option value="${k}" ${selectedKey === k ? 'selected' : ''}>${v.optionLabel || v.label}</option>`;
-      }).join('');
-
-      div.innerHTML = `
-        <h6 class="field-header" onclick="toggleField('${field.radioGroup}')" style="cursor: pointer; user-select: none;">
-          <span class="toggle-icon" id="toggle-${field.radioGroup}">▶</span> ${groupLabel}
-        </h6>
-
-        <div class="field-controls" id="controls-${field.radioGroup}">
-          <div class="coordinate-input">
-            <label>選択:</label>
-            <select onchange="updateRadioGroupSelection('${field.radioGroup}', this.value)"
-                    class="form-control form-control-sm"
-                    style="width: auto; display: inline-block; margin-left: 10px;">
-              ${options}
-            </select>
-          </div>
-
-          <div id="radiogroup-fields-${field.radioGroup}">
-            <!-- 選択されたオプションの詳細設定をここに表示 -->
-          </div>
-        </div>
-      `;
-
-      container.appendChild(div);
-      
-      // 選択されたオプションの詳細設定を表示
-      updateRadioGroupSelection(field.radioGroup, selectedKey);
-      return;
-    }
-    
-    // radioGroupが定義されている場合はスキップ（既に処理済み）
-    if (field.radioGroup) {
-      return;
-    }
-    
-    // 処理済みとしてマーク
-    processedKeys.add(key);
-
-    const div = document.createElement('div');
-    div.className = 'field-group';
-
-    div.innerHTML = `
-      <h6 class="field-header" onclick="toggleField('${key}')" style="cursor: pointer; user-select: none;">
-        <span class="toggle-icon" id="toggle-${key}">▶</span> ${field.label || key}
-      </h6>
-
-      <div class="field-controls" id="controls-${key}">
-        ${field.ellipseX !== undefined ? `
-        <div class="coordinate-input">
-          <label>X座標（サークル）:</label>
-          <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                  onmousedown="startLongPress('${key}', 'ellipseX', -0.5)"
-                  onmouseup="stopLongPress()"
-                  onmouseleave="stopLongPress()"
-                  ontouchstart="startLongPress('${key}', 'ellipseX', -0.5)"
-                  ontouchend="stopLongPress()">←</button>
-          <input type="number" step="0.5" value="${field.ellipseX}"
-                 onchange="updateCoordinate('${key}', 'ellipseX', this.value)"
-                 class="form-control form-control-sm" data-property="ellipseX">
-          <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                  onmousedown="startLongPress('${key}', 'ellipseX', 0.5)"
-                  onmouseup="stopLongPress()"
-                  onmouseleave="stopLongPress()"
-                  ontouchstart="startLongPress('${key}', 'ellipseX', 0.5)"
-                  ontouchend="stopLongPress()">→</button>
-        </div>
-        ` : ''}
-
-        ${field.ellipseY !== undefined ? `
-        <div class="coordinate-input">
-          <label>Y座標（サークル）:</label>
-          <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                  onmousedown="startLongPress('${key}', 'ellipseY', -0.5)"
-                  onmouseup="stopLongPress()"
-                  onmouseleave="stopLongPress()"
-                  ontouchstart="startLongPress('${key}', 'ellipseY', -0.5)"
-                  ontouchend="stopLongPress()">↑</button>
-          <input type="number" step="0.5" value="${field.ellipseY}"
-                 onchange="updateCoordinate('${key}', 'ellipseY', this.value)"
-                 class="form-control form-control-sm" data-property="ellipseY">
-          <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                  onmousedown="startLongPress('${key}', 'ellipseY', 0.5)"
-                  onmouseup="stopLongPress()"
-                  onmouseleave="stopLongPress()"
-                  ontouchstart="startLongPress('${key}', 'ellipseY', 0.5)"
-                  ontouchend="stopLongPress()">↓</button>
-        </div>
-        ` : ''}
-
-        <div class="coordinate-input">
-          <label>${field.ellipseX !== undefined ? 'X座標（テキスト）:' : 'X座標:'}</label>
-          <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                  onmousedown="startLongPress('${key}', 'x', -0.5)"
-                  onmouseup="stopLongPress()"
-                  onmouseleave="stopLongPress()"
-                  ontouchstart="startLongPress('${key}', 'x', -0.5)"
-                  ontouchend="stopLongPress()">←</button>
-          <input type="number" step="0.5" value="${field.x}"
-                 onchange="updateCoordinate('${key}', 'x', this.value)"
-                 class="form-control form-control-sm" data-property="x">
-          <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                  onmousedown="startLongPress('${key}', 'x', 0.5)"
-                  onmouseup="stopLongPress()"
-                  onmouseleave="stopLongPress()"
-                  ontouchstart="startLongPress('${key}', 'x', 0.5)"
-                  ontouchend="stopLongPress()">→</button>
-        </div>
-
-        <div class="coordinate-input">
-          <label>${field.ellipseY !== undefined ? 'Y座標（テキスト）:' : 'Y座標:'}</label>
-          <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                  onmousedown="startLongPress('${key}', 'y', -0.5)"
-                  onmouseup="stopLongPress()"
-                  onmouseleave="stopLongPress()"
-                  ontouchstart="startLongPress('${key}', 'y', -0.5)"
-                  ontouchend="stopLongPress()">↑</button>
-          <input type="number" step="0.5" value="${field.y}"
-                 onchange="updateCoordinate('${key}', 'y', this.value)"
-                 class="form-control form-control-sm" data-property="y">
-          <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                  onmousedown="startLongPress('${key}', 'y', 0.5)"
-                  onmouseup="stopLongPress()"
-                  onmouseleave="stopLongPress()"
-                  ontouchstart="startLongPress('${key}', 'y', 0.5)"
-                  ontouchend="stopLongPress()">↓</button>
-        </div>
-
-        <div class="coordinate-input">
-          <label>フォントサイズ:</label>
-          <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                  onmousedown="startLongPress('${key}', 'fontSize', -0.5)"
-                  onmouseup="stopLongPress()"
-                  onmouseleave="stopLongPress()"
-                  ontouchstart="startLongPress('${key}', 'fontSize', -0.5)"
-                  ontouchend="stopLongPress()">−</button>
-          <input type="number" step="0.5" value="${field.fontSize}"
-                 onchange="updateCoordinate('${key}', 'fontSize', this.value)"
-                 class="form-control form-control-sm" data-property="fontSize">
-          <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                  onmousedown="startLongPress('${key}', 'fontSize', 0.5)"
-                  onmouseup="stopLongPress()"
-                  onmouseleave="stopLongPress()"
-                  ontouchstart="startLongPress('${key}', 'fontSize', 0.5)"
-                  ontouchend="stopLongPress()">+</button>
-        </div>
-
-        <div class="coordinate-input">
-          <label>文字間隔:</label>
-          <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                  onmousedown="startLongPress('${key}', 'letterSpacing', -0.1)"
-                  onmouseup="stopLongPress()"
-                  onmouseleave="stopLongPress()"
-                  ontouchstart="startLongPress('${key}', 'letterSpacing', -0.1)"
-                  ontouchend="stopLongPress()">−</button>
-          <input type="number" step="0.1" value="${field.letterSpacing || 0}"
-                 onchange="updateCoordinate('${key}', 'letterSpacing', this.value)"
-                 class="form-control form-control-sm" data-property="letterSpacing">
-          <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                  onmousedown="startLongPress('${key}', 'letterSpacing', 0.1)"
-                  onmouseup="stopLongPress()"
-                  onmouseleave="stopLongPress()"
-                  ontouchstart="startLongPress('${key}', 'letterSpacing', 0.1)"
-                  ontouchend="stopLongPress()">+</button>
-        </div>
-
-        ${field.width !== undefined ? `
-        <div class="coordinate-input">
-          <label>折り返し幅:</label>
-          <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                  onmousedown="startLongPress('${key}', 'width', -5)"
-                  onmouseup="stopLongPress()"
-                  onmouseleave="stopLongPress()"
-                  ontouchstart="startLongPress('${key}', 'width', -5)"
-                  ontouchend="stopLongPress()">−</button>
-          <input type="number" step="5" value="${field.width || 180}"
-                 onchange="updateCoordinate('${key}', 'width', this.value)"
-                 class="form-control form-control-sm" data-property="width">
-          <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                  onmousedown="startLongPress('${key}', 'width', 5)"
-                  onmouseup="stopLongPress()"
-                  onmouseleave="stopLongPress()"
-                  ontouchstart="startLongPress('${key}', 'width', 5)"
-                  ontouchend="stopLongPress()">+</button>
-        </div>
-        ` : ''}
-
-        ${field.lineHeight !== undefined ? `
-        <div class="coordinate-input">
-          <label>行間:</label>
-          <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                  onmousedown="startLongPress('${key}', 'lineHeight', -0.5)"
-                  onmouseup="stopLongPress()"
-                  onmouseleave="stopLongPress()"
-                  ontouchstart="startLongPress('${key}', 'lineHeight', -0.5)"
-                  ontouchend="stopLongPress()">−</button>
-          <input type="number" step="0.5" value="${field.lineHeight || 5}"
-                 onchange="updateCoordinate('${key}', 'lineHeight', this.value)"
-                 class="form-control form-control-sm" data-property="lineHeight">
-          <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                  onmousedown="startLongPress('${key}', 'lineHeight', 0.5)"
-                  onmouseup="stopLongPress()"
-                  onmouseleave="stopLongPress()"
-                  ontouchstart="startLongPress('${key}', 'lineHeight', 0.5)"
-                  ontouchend="stopLongPress()">+</button>
-        </div>
-        ` : ''}
-
-        <div class="coordinate-input">
-          <label>テキスト配置:</label>
-          <div class="btn-group btn-group-sm d-flex" role="group">
-            <button type="button" class="btn btn-outline-secondary flex-fill ${field.textAlign === 'left' ? 'active' : ''}"
-                    onclick="updateCoordinate('${key}', 'textAlign', 'left')"
-                    title="左揃え">左</button>
-            <button type="button" class="btn btn-outline-secondary flex-fill ${field.textAlign === 'center' || !field.textAlign ? 'active' : ''}"
-                    onclick="updateCoordinate('${key}', 'textAlign', 'center')"
-                    title="中央揃え">中央</button>
-            <button type="button" class="btn btn-outline-secondary flex-fill ${field.textAlign === 'right' ? 'active' : ''}"
-                    onclick="updateCoordinate('${key}', 'textAlign', 'right')"
-                    title="右揃え">右</button>
-          </div>
-        </div>
-
-        ${field.ellipseWidth !== undefined ? `
-        <div class="coordinate-input">
-          <label>楕円幅:</label>
-          <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                  onmousedown="startLongPress('${key}', 'ellipseWidth', -0.5)"
-                  onmouseup="stopLongPress()"
-                  onmouseleave="stopLongPress()"
-                  ontouchstart="startLongPress('${key}', 'ellipseWidth', -0.5)"
-                  ontouchend="stopLongPress()">−</button>
-          <input type="number" step="0.5" value="${field.ellipseWidth || 8}"
-                 onchange="updateCoordinate('${key}', 'ellipseWidth', this.value)"
-                 class="form-control form-control-sm" data-property="ellipseWidth">
-          <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                  onmousedown="startLongPress('${key}', 'ellipseWidth', 0.5)"
-                  onmouseup="stopLongPress()"
-                  onmouseleave="stopLongPress()"
-                  ontouchstart="startLongPress('${key}', 'ellipseWidth', 0.5)"
-                  ontouchend="stopLongPress()">+</button>
-        </div>
-        ` : ''}
-
-        ${field.ellipseHeight !== undefined ? `
-        <div class="coordinate-input">
-          <label>楕円高さ:</label>
-          <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                  onmousedown="startLongPress('${key}', 'ellipseHeight', -0.5)"
-                  onmouseup="stopLongPress()"
-                  onmouseleave="stopLongPress()"
-                  ontouchstart="startLongPress('${key}', 'ellipseHeight', -0.5)"
-                  ontouchend="stopLongPress()">−</button>
-          <input type="number" step="0.5" value="${field.ellipseHeight || 5}"
-                 onchange="updateCoordinate('${key}', 'ellipseHeight', this.value)"
-                 class="form-control form-control-sm" data-property="ellipseHeight">
-          <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                  onmousedown="startLongPress('${key}', 'ellipseHeight', 0.5)"
-                  onmouseup="stopLongPress()"
-                  onmouseleave="stopLongPress()"
-                  ontouchstart="startLongPress('${key}', 'ellipseHeight', 0.5)"
-                  ontouchend="stopLongPress()">+</button>
-        </div>
-        ` : ''}
-
-        ${field.circleRadius !== undefined && field.ellipseWidth === undefined && field.ellipseHeight === undefined ? `
-        <div class="coordinate-input">
-          <label>○半径:</label>
-          <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                  onmousedown="startLongPress('${key}', 'circleRadius', -0.1)"
-                  onmouseup="stopLongPress()"
-                  onmouseleave="stopLongPress()"
-                  ontouchstart="startLongPress('${key}', 'circleRadius', -0.1)"
-                  ontouchend="stopLongPress()">−</button>
-          <input type="number" step="0.1" value="${field.circleRadius || 1.2}"
-                 onchange="updateCoordinate('${key}', 'circleRadius', this.value)"
-                 class="form-control form-control-sm" data-property="circleRadius">
-          <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                  onmousedown="startLongPress('${key}', 'circleRadius', 0.1)"
-                  onmouseup="stopLongPress()"
-                  onmouseleave="stopLongPress()"
-                  ontouchstart="startLongPress('${key}', 'circleRadius', 0.1)"
-                  ontouchend="stopLongPress()">+</button>
-        </div>
-        ` : ''}
-
-        ${field.doubleCircleInnerRadius !== undefined ? `
-        <div class="coordinate-input">
-          <label>◎内円半径:</label>
-          <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                  onmousedown="startLongPress('${key}', 'doubleCircleInnerRadius', -0.05)"
-                  onmouseup="stopLongPress()"
-                  onmouseleave="stopLongPress()"
-                  ontouchstart="startLongPress('${key}', 'doubleCircleInnerRadius', -0.05)"
-                  ontouchend="stopLongPress()">−</button>
-          <input type="number" step="0.05" value="${field.doubleCircleInnerRadius || 0.4}"
-                 onchange="updateCoordinate('${key}', 'doubleCircleInnerRadius', this.value)"
-                 class="form-control form-control-sm" data-property="doubleCircleInnerRadius">
-          <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                  onmousedown="startLongPress('${key}', 'doubleCircleInnerRadius', 0.05)"
-                  onmouseup="stopLongPress()"
-                  onmouseleave="stopLongPress()"
-                  ontouchstart="startLongPress('${key}', 'doubleCircleInnerRadius', 0.05)"
-                  ontouchend="stopLongPress()">+</button>
-        </div>
-        ` : ''}
-
-        ${field.type === 'postal_code' ? `
-        <div class="coordinate-input">
-          <label>郵便番号間隔:</label>
-          <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                  onmousedown="startLongPress('${key}', 'postalCodeGap', -0.5)"
-                  onmouseup="stopLongPress()"
-                  onmouseleave="stopLongPress()"
-                  ontouchstart="startLongPress('${key}', 'postalCodeGap', -0.5)"
-                  ontouchend="stopLongPress()">−</button>
-          <input type="number" step="0.5" value="${field.postalCodeGap || 2}"
-                 onchange="updateCoordinate('${key}', 'postalCodeGap', this.value)"
-                 class="form-control form-control-sm" data-property="postalCodeGap">
-          <button class="btn btn-sm btn-outline-secondary btn-adjust"
-                  onmousedown="startLongPress('${key}', 'postalCodeGap', 0.5)"
-                  onmouseup="stopLongPress()"
-                  onmouseleave="stopLongPress()"
-                  ontouchstart="startLongPress('${key}', 'postalCodeGap', 0.5)"
-                  ontouchend="stopLongPress()">+</button>
-        </div>
-        ` : ''}
-
-        ${getSampleDataInput(key)}
+    categoryDiv.innerHTML = `
+      <h5 class="category-header" onclick="toggleCategory('${category}')">
+        <span class="toggle-icon" id="toggle-category-${category}">▶</span> ${categoryLabel}
+      </h5>
+      <div class="category-content" id="category-content-${category}">
+        <!-- カテゴリ内のフィールドをここに配置 -->
       </div>
     `;
 
-    container.appendChild(div);
+    container.appendChild(categoryDiv);
+
+    const categoryContent = document.getElementById(`category-content-${category}`);
+
+    // カテゴリ内のフィールドを処理
+    fields.forEach(key => {
+      if (processedKeys.has(key)) return;
+
+      const field = coordinates[key];
+      if (!field) return;
+
+      // compositeGroupの処理
+      if (field.compositeGroup && !processedCompositeGroups.has(field.compositeGroup)) {
+        processedCompositeGroups.add(field.compositeGroup);
+
+        const groupFields = Object.entries(coordinates)
+          .filter(([k, v]) => v.compositeGroup === field.compositeGroup)
+          .sort((a, b) => {
+            const indexA = orderedKeys.indexOf(a[0]);
+            const indexB = orderedKeys.indexOf(b[0]);
+            return indexA - indexB;
+          });
+
+        groupFields.forEach(([k]) => processedKeys.add(k));
+
+        const firstKey = groupFields[0][0];
+        let selectedKey = firstKey;
+
+        const div = document.createElement('div');
+        div.className = 'field-group';
+        div.setAttribute('data-composite-group', field.compositeGroup);
+
+        const groupLabel = field.compositeLabel || field.compositeGroup;
+
+        const options = groupFields.map(([k, v]) => {
+          const mapping = sampleDataFieldMapping[k];
+          let optionLabel = v.label;
+          if (mapping) {
+            if (mapping.optionLabel) {
+              optionLabel = mapping.optionLabel;
+            } else if (mapping.label) {
+              optionLabel = mapping.label;
+            }
+          }
+          return `<option value="${k}" ${selectedKey === k ? 'selected' : ''}>${optionLabel}</option>`;
+        }).join('');
+
+        div.innerHTML = `
+          <h6 class="field-header" onclick="toggleField('${field.compositeGroup}')" style="cursor: pointer; user-select: none;">
+            <span class="toggle-icon" id="toggle-${field.compositeGroup}">▶</span> ${groupLabel}
+          </h6>
+
+          <div class="field-controls" id="controls-${field.compositeGroup}">
+            <div class="coordinate-input">
+              <label>要素選択:</label>
+              <select onchange="updateCompositeGroupSelection('${field.compositeGroup}', this.value)"
+                      class="form-control form-control-sm"
+                      style="width: auto; display: inline-block; margin-left: 10px;">
+                ${options}
+              </select>
+            </div>
+
+            <div id="compositegroup-fields-${field.compositeGroup}">
+              <!-- 選択された要素の詳細設定をここに表示 -->
+            </div>
+          </div>
+        `;
+
+        categoryContent.appendChild(div);
+        updateCompositeGroupSelection(field.compositeGroup, selectedKey);
+        return;
+      }
+
+      if (field.compositeGroup) {
+        return;
+      }
+
+      // radioGroupの処理
+      if (field.radioGroup && !processedGroups.has(field.radioGroup)) {
+        processedGroups.add(field.radioGroup);
+
+        const groupFields = Object.entries(coordinates)
+          .filter(([k, v]) => v.radioGroup === field.radioGroup)
+          .sort((a, b) => {
+            const indexA = orderedKeys.indexOf(a[0]);
+            const indexB = orderedKeys.indexOf(b[0]);
+            if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+
+            const numA = parseInt(a[0].match(/\d+$/)?.[0] || 0);
+            const numB = parseInt(b[0].match(/\d+$/)?.[0] || 0);
+            return numA - numB;
+          });
+
+        groupFields.forEach(([k]) => processedKeys.add(k));
+
+        const firstField = groupFields[0][1];
+        const firstKey = groupFields[0][0];
+
+        let selectedKey = firstKey;
+        for (const [k, v] of groupFields) {
+          if (v.isSelected) {
+            selectedKey = k;
+            break;
+          }
+        }
+
+        const div = document.createElement('div');
+        div.className = 'field-group';
+        div.setAttribute('data-radio-group', field.radioGroup);
+
+        const groupLabel = field.label || field.radioGroup;
+
+        const options = groupFields.map(([k, v]) => {
+          return `<option value="${k}" ${selectedKey === k ? 'selected' : ''}>${v.optionLabel || v.label}</option>`;
+        }).join('');
+
+        div.innerHTML = `
+          <h6 class="field-header" onclick="toggleField('${field.radioGroup}')" style="cursor: pointer; user-select: none;">
+            <span class="toggle-icon" id="toggle-${field.radioGroup}">▶</span> ${groupLabel}
+          </h6>
+
+          <div class="field-controls" id="controls-${field.radioGroup}">
+            <div class="coordinate-input">
+              <label>選択:</label>
+              <select onchange="updateRadioGroupSelection('${field.radioGroup}', this.value)"
+                      class="form-control form-control-sm"
+                      style="width: auto; display: inline-block; margin-left: 10px;">
+                ${options}
+              </select>
+            </div>
+
+            <div id="radiogroup-fields-${field.radioGroup}">
+              <!-- 選択されたオプションの詳細設定をここに表示 -->
+            </div>
+          </div>
+        `;
+
+        categoryContent.appendChild(div);
+        updateRadioGroupSelection(field.radioGroup, selectedKey);
+        return;
+      }
+
+      if (field.radioGroup) {
+        return;
+      }
+
+      // 通常フィールドの処理
+      processedKeys.add(key);
+
+      const div = document.createElement('div');
+      div.className = 'field-group';
+
+      // フィールドの詳細HTMLを生成（既存のロジックを使用）
+      div.innerHTML = renderSingleFieldHTML(key, field);
+
+      categoryContent.appendChild(div);
+    });
   });
+
+  // 未分類フィールドがあれば最後に追加
+  if (categorizedFields['uncategorized'] && categorizedFields['uncategorized'].length > 0) {
+    // 同様の処理...
+  }
 }
 
-// compositeGroupの選択を更新
+// カテゴリアコーディオンの開閉
+function toggleCategory(categoryId) {
+  const content = document.getElementById(`category-content-${categoryId}`);
+  const icon = document.getElementById(`toggle-category-${categoryId}`);
+
+  if (content.classList.contains('show')) {
+    // 格納
+    content.style.maxHeight = content.scrollHeight + 'px';
+    setTimeout(() => {
+      content.style.maxHeight = '0';
+      content.style.paddingTop = '0';
+      content.style.paddingBottom = '0';
+    }, 10);
+    content.classList.remove('show');
+    icon.textContent = '▶';
+  } else {
+    // 展開
+    content.classList.add('show');
+    content.style.maxHeight = content.scrollHeight + 'px';
+    content.style.paddingTop = '10px';
+    content.style.paddingBottom = '10px';
+    icon.textContent = '▼';
+
+    // アニメーション完了後にmax-heightを自動調整可能にする
+    setTimeout(() => {
+      if (content.classList.contains('show')) {
+        content.style.maxHeight = 'none';
+      }
+    }, 300);
+  }
+}
+
+// 単一フィールドのHTML生成（既存のロジックから抽出）
+function renderSingleFieldHTML(key, field) {
+  return `
+    <h6 class="field-header" onclick="toggleField('${key}')" style="cursor: pointer; user-select: none;">
+      <span class="toggle-icon" id="toggle-${key}">▶</span> ${field.label || key}
+    </h6>
+
+    <div class="field-controls" id="controls-${key}">
+      ${field.ellipseX !== undefined ? `
+      <div class="coordinate-input">
+        <label>X座標（サークル）:</label>
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'ellipseX', -0.5)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'ellipseX', -0.5)"
+                ontouchend="stopLongPress()">←</button>
+        <input type="number" step="0.5" value="${field.ellipseX}"
+               onchange="updateCoordinate('${key}', 'ellipseX', this.value)"
+               class="form-control form-control-sm" data-property="ellipseX">
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'ellipseX', 0.5)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'ellipseX', 0.5)"
+                ontouchend="stopLongPress()">→</button>
+      </div>
+      ` : ''}
+
+      ${field.ellipseY !== undefined ? `
+      <div class="coordinate-input">
+        <label>Y座標（サークル）:</label>
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'ellipseY', -0.5)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'ellipseY', -0.5)"
+                ontouchend="stopLongPress()">↑</button>
+        <input type="number" step="0.5" value="${field.ellipseY}"
+               onchange="updateCoordinate('${key}', 'ellipseY', this.value)"
+               class="form-control form-control-sm" data-property="ellipseY">
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'ellipseY', 0.5)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'ellipseY', 0.5)"
+                ontouchend="stopLongPress()">↓</button>
+      </div>
+      ` : ''}
+
+      <div class="coordinate-input">
+        <label>${field.ellipseX !== undefined ? 'X座標（テキスト）:' : 'X座標:'}</label>
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'x', -0.5)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'x', -0.5)"
+                ontouchend="stopLongPress()">←</button>
+        <input type="number" step="0.5" value="${field.x}"
+               onchange="updateCoordinate('${key}', 'x', this.value)"
+               class="form-control form-control-sm" data-property="x">
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'x', 0.5)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'x', 0.5)"
+                ontouchend="stopLongPress()">→</button>
+      </div>
+
+      <div class="coordinate-input">
+        <label>${field.ellipseY !== undefined ? 'Y座標（テキスト）:' : 'Y座標:'}</label>
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'y', -0.5)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'y', -0.5)"
+                ontouchend="stopLongPress()">↑</button>
+        <input type="number" step="0.5" value="${field.y}"
+               onchange="updateCoordinate('${key}', 'y', this.value)"
+               class="form-control form-control-sm" data-property="y">
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'y', 0.5)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'y', 0.5)"
+                ontouchend="stopLongPress()">↓</button>
+      </div>
+
+      ${field.fontSize !== undefined ? `
+      <div class="coordinate-input">
+        <label>フォントサイズ:</label>
+        <input type="number" step="1" value="${field.fontSize}"
+               onchange="updateCoordinate('${key}', 'fontSize', this.value)"
+               class="form-control form-control-sm" style="width: 80px;" data-property="fontSize">
+      </div>
+      ` : ''}
+
+      ${field.letterSpacing !== undefined ? `
+      <div class="coordinate-input">
+        <label>文字間隔:</label>
+        <input type="number" step="0.1" value="${field.letterSpacing}"
+               onchange="updateCoordinate('${key}', 'letterSpacing', this.value)"
+               class="form-control form-control-sm" style="width: 80px;" data-property="letterSpacing">
+      </div>
+      ` : ''}
+
+      ${field.textAlign !== undefined ? `
+      <div class="coordinate-input">
+        <label>配置:</label>
+        <select onchange="updateCoordinate('${key}', 'textAlign', this.value)"
+                class="form-control form-control-sm" style="width: auto;" data-property="textAlign">
+          <option value="left" ${field.textAlign === 'left' ? 'selected' : ''}>左</option>
+          <option value="center" ${field.textAlign === 'center' ? 'selected' : ''}>中央</option>
+          <option value="right" ${field.textAlign === 'right' ? 'selected' : ''}>右</option>
+        </select>
+      </div>
+      ` : ''}
+
+      ${field.ellipseWidth !== undefined ? `
+      <div class="coordinate-input">
+        <label>楕円幅:</label>
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'ellipseWidth', -0.5)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'ellipseWidth', -0.5)"
+                ontouchend="stopLongPress()">−</button>
+        <input type="number" step="0.5" value="${field.ellipseWidth}"
+               onchange="updateCoordinate('${key}', 'ellipseWidth', this.value)"
+               class="form-control form-control-sm" style="width: 80px;" data-property="ellipseWidth">
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'ellipseWidth', 0.5)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'ellipseWidth', 0.5)"
+                ontouchend="stopLongPress()">+</button>
+      </div>
+      ` : ''}
+
+      ${field.ellipseHeight !== undefined ? `
+      <div class="coordinate-input">
+        <label>楕円高さ:</label>
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'ellipseHeight', -0.5)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'ellipseHeight', -0.5)"
+                ontouchend="stopLongPress()">−</button>
+        <input type="number" step="0.5" value="${field.ellipseHeight}"
+               onchange="updateCoordinate('${key}', 'ellipseHeight', this.value)"
+               class="form-control form-control-sm" style="width: 80px;" data-property="ellipseHeight">
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'ellipseHeight', 0.5)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'ellipseHeight', 0.5)"
+                ontouchend="stopLongPress()">+</button>
+      </div>
+      ` : ''}
+
+      ${(() => {
+        const sampleDataHtml = getSampleDataInput(key);
+        return sampleDataHtml || '';
+      })()}
+    </div>
+  `;
+}
 function updateCompositeGroupSelection(groupName, selectedKey) {
   // radioGroupの場合、isSelectedを更新
   const selectedField = coordinates[selectedKey];

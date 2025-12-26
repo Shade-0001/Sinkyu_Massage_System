@@ -197,11 +197,11 @@ let customSampleData = {
   deposit_type: '普通', // 普通、当座、通知、別段
   // 金融機関名1
   financial_institution_name_1: '〇〇',
-  // 金融機関種別
+  // 金融機関種別（金融機関名１サークル）
   financial_institution_type: '銀行', // 銀行、金庫、農協
   // 金融機関名2
   financial_institution_name_2: '新宿',
-  // 支店種別
+  // 支店種別（金融機関名２サークル）
   branch_type: '支店', // 本店、支店、出張所
   // 口座名義
   bank_account_holder_kana: 'タナカ イチロウ',
@@ -209,6 +209,8 @@ let customSampleData = {
   bank_account_number: '1234567',
   // 同意医師氏名（同意記録）
   consent_record_doctor_name: '山田太郎',
+  // 同意医師郵便番号（同意記録）
+  consent_record_doctor_postal_code: '1600022',
   // 同意医師住所（同意記録）
   consent_record_doctor_address: '東京都新宿区〇〇1-2-3',
   // 同意年月日（同意記録）
@@ -223,6 +225,8 @@ let customSampleData = {
   signature_date_year: '7',
   signature_date_month: '12',
   signature_date_day: '31',
+  // 申請者郵便番号（署名）
+  signature_applicant_postal_code: '100-0005',
   // 申請者住所（署名）
   signature_applicant_address: '東京都千代田区丸の内1-1-1'
 };

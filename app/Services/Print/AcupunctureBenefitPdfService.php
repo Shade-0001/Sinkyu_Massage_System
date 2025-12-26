@@ -2082,14 +2082,14 @@ class AcupunctureBenefitPdfService
         $this->drawTextByKey($pdf, 'financial_institution_name_1', $custom['financial_institution_name_1']);
       }
 
-      // 金融機関種別（ラジオグループ）
+      // 金融機関種別（金融機関名１サークル）
       if (isset($custom['financial_institution_type'])) {
-        $finTypeMap = [
+        $institutionTypeMap = [
           '銀行' => 'financial_institution_type_bank',
           '金庫' => 'financial_institution_type_kinko',
-          '農協' => 'financial_institution_type_nokyo'
+          '農協' => 'financial_institution_type_nokyo',
         ];
-        $key = $finTypeMap[$custom['financial_institution_type']] ?? null;
+        $key = $institutionTypeMap[$custom['financial_institution_type']] ?? null;
         if ($key && isset($this->coordinates[$key])) {
           $this->drawEllipseByKey($pdf, $key);
         }
@@ -2130,6 +2130,17 @@ class AcupunctureBenefitPdfService
       if (isset($custom['consent_record_doctor_name'])) {
         $pdf->SetFontSize($this->coord('consent_record_doctor_name', 'fontSize'));
         $this->drawTextByKey($pdf, 'consent_record_doctor_name', $custom['consent_record_doctor_name']);
+      }
+
+      // 同意医師郵便番号（同意記録）
+      if (isset($custom['consent_record_doctor_postal_code'])) {
+        $pdf->SetFontSize($this->coord('consent_record_doctor_postal_code', 'fontSize'));
+        $postalCode = $custom['consent_record_doctor_postal_code'];
+        // 7桁の数字を "XXX - XXXX" 形式に変換
+        if (strlen($postalCode) === 7 && ctype_digit($postalCode)) {
+          $postalCode = substr($postalCode, 0, 3) . ' - ' . substr($postalCode, 3);
+        }
+        $this->drawTextByKey($pdf, 'consent_record_doctor_postal_code', $postalCode);
       }
 
       // 同意医師住所（同意記録）
@@ -2176,6 +2187,12 @@ class AcupunctureBenefitPdfService
       if (isset($custom['signature_date_day'])) {
         $pdf->SetFontSize($this->coord('signature_date_day', 'fontSize'));
         $this->drawTextByKey($pdf, 'signature_date_day', (string)$custom['signature_date_day']);
+      }
+
+      // 申請者郵便番号（署名）
+      if (isset($custom['signature_applicant_postal_code'])) {
+        $pdf->SetFontSize($this->coord('signature_applicant_postal_code', 'fontSize'));
+        $this->drawTextByKey($pdf, 'signature_applicant_postal_code', $custom['signature_applicant_postal_code']);
       }
 
       // 申請者住所（署名）

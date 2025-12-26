@@ -195,6 +195,7 @@ const sampleDataFieldMapping = {
 
   // 同意記録
   'consent_record_doctor_name': { field: 'consent_record_doctor_name', label: '同意医師氏名（同意記録）', type: 'text' },
+  'consent_record_doctor_postal_code': { field: 'consent_record_doctor_postal_code', label: '同意医師郵便番号（同意記録）', type: 'postal_code' },
   'consent_record_doctor_address': { field: 'consent_record_doctor_address', label: '同意医師住所（同意記録）', type: 'text' },
   'consent_record_date_year': { field: 'consent_record_date_year', label: '同意年月日（年）', type: 'number' },
   'consent_record_date_month': { field: 'consent_record_date_month', label: '同意年月日（月）', type: 'number' },
@@ -265,13 +266,13 @@ const sampleDataFieldMapping = {
 
   // 金融機関情報
   'financial_institution_name_1': { field: 'financial_institution_name_1', label: '金融機関名1', type: 'text' },
-  'financial_institution_type_bank': { field: 'financial_institution_type', label: '金融機関種別', type: 'select', options: ['銀行', '金庫', '農協'], ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'financial_institution_type', optionLabel: '銀行' },
-  'financial_institution_type_kinko': { field: 'financial_institution_type', label: '金融機関種別', type: 'select', options: ['銀行', '金庫', '農協'], ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'financial_institution_type', optionLabel: '金庫' },
-  'financial_institution_type_nokyo': { field: 'financial_institution_type', label: '金融機関種別', type: 'select', options: ['銀行', '金庫', '農協'], ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'financial_institution_type', optionLabel: '農協' },
+  'financial_institution_type_bank': { field: 'financial_institution_type', label: '金融機関名１（サークル）', type: 'select', options: ['銀行', '金庫', '農協'], ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'financial_institution_type', optionLabel: '銀行' },
+  'financial_institution_type_kinko': { field: 'financial_institution_type', label: '金融機関名１（サークル）', type: 'select', options: ['銀行', '金庫', '農協'], ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'financial_institution_type', optionLabel: '金庫' },
+  'financial_institution_type_nokyo': { field: 'financial_institution_type', label: '金融機関名１（サークル）', type: 'select', options: ['銀行', '金庫', '農協'], ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'financial_institution_type', optionLabel: '農協' },
   'financial_institution_name_2': { field: 'financial_institution_name_2', label: '金融機関名2', type: 'text' },
-  'branch_type_honten': { field: 'branch_type', label: '支店種別', type: 'select', options: ['本店', '支店', '出張所'], ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'branch_type', optionLabel: '本店' },
-  'branch_type_shiten': { field: 'branch_type', label: '支店種別', type: 'select', options: ['本店', '支店', '出張所'], ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'branch_type', optionLabel: '支店' },
-  'branch_type_shucchoujo': { field: 'branch_type', label: '支店種別', type: 'select', options: ['本店', '支店', '出張所'], ellipseWidth: 7, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'branch_type', optionLabel: '出張所' },
+  'branch_type_honten': { field: 'branch_type', label: '金融機関名２（サークル）', type: 'select', options: ['本店', '支店', '出張所'], ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'branch_type', optionLabel: '本店' },
+  'branch_type_shiten': { field: 'branch_type', label: '金融機関名２（サークル）', type: 'select', options: ['本店', '支店', '出張所'], ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'branch_type', optionLabel: '支店' },
+  'branch_type_shucchoujo': { field: 'branch_type', label: '金融機関名２（サークル）', type: 'select', options: ['本店', '支店', '出張所'], ellipseWidth: 7, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'branch_type', optionLabel: '出張所' },
   'bank_account_holder_kana': { field: 'bank_account_holder_kana', label: '口座名義', type: 'text' },
   'bank_account_number': { field: 'bank_account_number', label: '口座番号', type: 'text' },
   'insurer_name': { field: 'insurer_name', label: '申請先名称', type: 'text' },
@@ -288,6 +289,7 @@ const sampleDataFieldMapping = {
   'signature_date_year': { field: 'signature_date_year', label: '年月日（署名・年）', type: 'number' },
   'signature_date_month': { field: 'signature_date_month', label: '年月日（署名・月）', type: 'number' },
   'signature_date_day': { field: 'signature_date_day', label: '年月日（署名・日）', type: 'number' },
+  'signature_applicant_postal_code': { field: 'signature_applicant_postal_code', label: '申請者郵便番号（署名）', type: 'text' },
   'signature_applicant_address': { field: 'signature_applicant_address', label: '申請者住所（署名）', type: 'text' },
 
   // 申請年月日
