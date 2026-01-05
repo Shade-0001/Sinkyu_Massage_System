@@ -331,15 +331,27 @@ class AcupunctureBenefitPdfService
 
     // === 上部：年月 ===
     // タイトル行「療養費支給申請書（　年　月分）」
-    // 年：上段に元号、下段に年数
-    $pdf->SetFontSize($this->coord('title_year_era', 'fontSize'));
-    $this->drawTextByKey($pdf, 'title_year_era', (string)$japaneseYear['era']);
-    $pdf->SetFontSize($this->coord('title_year_number', 'fontSize'));
-    $this->drawTextByKey($pdf, 'title_year_number', (string)$japaneseYear['year']);
+    if ($this->sampleDataMode) {
+      // サンプルデータモード：カスタムサンプルデータを使用
+      $pdf->SetFontSize($this->coord('title_year_era', 'fontSize'));
+      $this->drawTextByKey($pdf, 'title_year_era', (string)($this->customSampleData['title_year_era'] ?? '令和'));
 
-    // 月
-    $pdf->SetFontSize($this->coord('title_month', 'fontSize'));
-    $this->drawTextByKey($pdf, 'title_month', (string)(int)$month);
+      $pdf->SetFontSize($this->coord('title_year_number', 'fontSize'));
+      $this->drawTextByKey($pdf, 'title_year_number', (string)($this->customSampleData['title_year_number'] ?? '7'));
+
+      $pdf->SetFontSize($this->coord('title_month', 'fontSize'));
+      $this->drawTextByKey($pdf, 'title_month', (string)($this->customSampleData['title_month'] ?? '12'));
+    } else {
+      // 通常モード：実データから和暦変換
+      $pdf->SetFontSize($this->coord('title_year_era', 'fontSize'));
+      $this->drawTextByKey($pdf, 'title_year_era', (string)$japaneseYear['era']);
+
+      $pdf->SetFontSize($this->coord('title_year_number', 'fontSize'));
+      $this->drawTextByKey($pdf, 'title_year_number', (string)$japaneseYear['year']);
+
+      $pdf->SetFontSize($this->coord('title_month', 'fontSize'));
+      $this->drawTextByKey($pdf, 'title_month', (string)(int)$month);
+    }
 
     // === 機関コード（医療機関番号） ===
     $institutionCode = $this->sampleDataMode && isset($this->customSampleData['institution_code'])
@@ -1213,19 +1225,38 @@ class AcupunctureBenefitPdfService
     }
 
     // === 申請欄：提出年月日 ===
-    $submissionParts = explode('-', $submissionDate);
-    $submissionJapaneseYear = $this->convertToJapaneseYear((int)$submissionParts[0], (int)$submissionParts[1]);
+    if ($this->sampleDataMode && isset($this->customSampleData['submission_date_year'])) {
+      // サンプルデータモード：customSampleDataを使用
+      $pdf->SetFontSize($this->coord('submission_date_year', 'fontSize'));
+      $this->drawTextByKey($pdf, 'submission_date_year', (string)$this->customSampleData['submission_date_year']);
 
-    $pdf->SetFontSize($this->coord('submission_date_year', 'fontSize'));
-    $this->drawTextByKey($pdf, 'submission_date_year', (string)$submissionJapaneseYear['year']);
+      if (isset($this->customSampleData['submission_date_month'])) {
+        $pdf->SetFontSize($this->coord('submission_date_month', 'fontSize'));
+        $this->drawTextByKey($pdf, 'submission_date_month', (string)$this->customSampleData['submission_date_month']);
+      }
 
-    $pdf->SetFontSize($this->coord('submission_date_month', 'fontSize'));
-    $this->drawTextByKey($pdf, 'submission_date_month', (string)(int)$submissionParts[1]);
+      if (isset($this->customSampleData['submission_date_day'])) {
+        $pdf->SetFontSize($this->coord('submission_date_day', 'fontSize'));
+        $this->drawTextByKey($pdf, 'submission_date_day', (string)$this->customSampleData['submission_date_day']);
+      }
 
-    $pdf->SetFontSize($this->coord('submission_date_day', 'fontSize'));
-    $this->drawTextByKey($pdf, 'submission_date_day', (string)(int)$submissionParts[2]);
+      $pdf->SetFontSize(10);
+    } else {
+      // 通常モード：実データから和暦変換
+      $submissionParts = explode('-', $submissionDate);
+      $submissionJapaneseYear = $this->convertToJapaneseYear((int)$submissionParts[0], (int)$submissionParts[1]);
 
-    $pdf->SetFontSize(10);
+      $pdf->SetFontSize($this->coord('submission_date_year', 'fontSize'));
+      $this->drawTextByKey($pdf, 'submission_date_year', (string)$submissionJapaneseYear['year']);
+
+      $pdf->SetFontSize($this->coord('submission_date_month', 'fontSize'));
+      $this->drawTextByKey($pdf, 'submission_date_month', (string)(int)$submissionParts[1]);
+
+      $pdf->SetFontSize($this->coord('submission_date_day', 'fontSize'));
+      $this->drawTextByKey($pdf, 'submission_date_day', (string)(int)$submissionParts[2]);
+
+      $pdf->SetFontSize(10);
+    }
 
     // === 申請者情報 ===
     // 申請者郵便番号（前半3桁・後半4桁に分割）
@@ -1274,6 +1305,16 @@ class AcupunctureBenefitPdfService
       : $fullName;
     $pdf->SetFontSize($this->coord('applicant_name', 'fontSize'));
     $this->drawTextByKey($pdf, 'applicant_name', (string)$applicantName);
+
+    // 電話番号
+    if ($this->hasCoord('patient_phone')) {
+      $phone = $this->sampleDataMode && isset($this->customSampleData['patient_phone'])
+        ? $this->customSampleData['patient_phone']
+        : ($clinicUser->phone ?? '');
+      $pdf->SetFontSize($this->coord('patient_phone', 'fontSize'));
+      $this->drawTextByKey($pdf, 'patient_phone', (string)$phone);
+    }
+
     $pdf->SetFontSize(10);
 
     // === 代理人情報 ===
@@ -2028,19 +2069,7 @@ class AcupunctureBenefitPdfService
         $this->drawTextByKey($pdf, 'treatment_month', (string)$custom['treatment_month']);
       }
 
-      // 申請年月日
-      if (isset($custom['submission_date_year'])) {
-        $pdf->SetFontSize($this->coord('submission_date_year', 'fontSize'));
-        $this->drawTextByKey($pdf, 'submission_date_year', (string)$custom['submission_date_year']);
-      }
-      if (isset($custom['submission_date_month'])) {
-        $pdf->SetFontSize($this->coord('submission_date_month', 'fontSize'));
-        $this->drawTextByKey($pdf, 'submission_date_month', (string)$custom['submission_date_month']);
-      }
-      if (isset($custom['submission_date_day'])) {
-        $pdf->SetFontSize($this->coord('submission_date_day', 'fontSize'));
-        $this->drawTextByKey($pdf, 'submission_date_day', (string)$custom['submission_date_day']);
-      }
+      // 申請年月日は上部のメイン処理で既に描画済みのため、ここでは不要
 
       // 申請先名称
       if (isset($custom['insurer_name'])) {

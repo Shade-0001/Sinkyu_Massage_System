@@ -49,9 +49,6 @@
             <div id="save-status" class="alert alert-success" style="display: none; padding: 8px; margin-bottom: 10px; font-size: 0.9em;">
               自動保存済み
             </div>
-            <button id="btn-reset" class="btn btn-secondary btn-block">
-              元に戻す
-            </button>
           </div>
         </div>
       </div>

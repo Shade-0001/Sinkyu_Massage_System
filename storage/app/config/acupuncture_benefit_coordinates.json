@@ -22,14 +22,15 @@
         "compositeLabel": "タイトル年月"
     },
     "title_month": {
-        "x": 108,
+        "x": 5.5,
         "y": 7,
         "fontSize": 9.5,
         "letterSpacing": 0,
         "label": "月",
         "type": "number",
         "compositeGroup": "title_date",
-        "compositeLabel": "タイトル年月"
+        "compositeLabel": "タイトル年月",
+        "textAlign": "center"
     },
     "institution_code": {
         "x": 119,
@@ -158,40 +159,40 @@
         "optionLabel": "高外８"
     },
     "expenses_borne_ratio_10": {
-        "x": 0,
-        "y": 0,
+        "x": 48,
+        "y": 159.5,
         "fontSize": 10,
         "letterSpacing": 0,
-        "label": "一部負担金（楕円）",
+        "label": "一部負担金（サークル）",
         "type": "select",
-        "ellipseWidth": 2.5,
-        "ellipseHeight": 2.5,
+        "ellipseWidth": 6,
+        "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "expenses_borne_ratio",
         "optionLabel": "１割"
     },
     "expenses_borne_ratio_20": {
-        "x": 0,
-        "y": 0,
+        "x": 62,
+        "y": 159.5,
         "fontSize": 10,
         "letterSpacing": 0,
-        "label": "一部負担金（楕円）",
+        "label": "一部負担金（サークル）",
         "type": "select",
-        "ellipseWidth": 2.5,
-        "ellipseHeight": 2.5,
+        "ellipseWidth": 6,
+        "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "expenses_borne_ratio",
         "optionLabel": "２割"
     },
     "expenses_borne_ratio_30": {
-        "x": 0,
-        "y": 0,
+        "x": 76.5,
+        "y": 159.5,
         "fontSize": 10,
         "letterSpacing": 0,
-        "label": "一部負担金（楕円）",
+        "label": "一部負担金（サークル）",
         "type": "select",
-        "ellipseWidth": 2.5,
-        "ellipseHeight": 2.5,
+        "ellipseWidth": 6,
+        "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "expenses_borne_ratio",
         "optionLabel": "３割"
@@ -574,7 +575,7 @@
         "type": "text"
     },
     "clinic_phone": {
-        "x": 174,
+        "x": 173.5,
         "y": 198.5,
         "fontSize": 8.5,
         "letterSpacing": -0.1,
@@ -659,7 +660,7 @@
         "y": 274,
         "fontSize": 12,
         "letterSpacing": 0,
-        "label": "被保険者氏名",
+        "label": "署名申請者氏名",
         "type": "text",
         "textAlign": "center"
     },
@@ -1254,40 +1255,40 @@
         "y": 48,
         "fontSize": 10,
         "letterSpacing": 0,
-        "label": "発病または負傷年月日（年）",
+        "label": "年",
         "textAlign": "center",
         "type": "number",
         "compositeGroup": "onset_date",
-        "compositeLabel": "発病負傷年月日"
+        "compositeLabel": "発病または負傷年月日"
     },
     "onset_date_month": {
         "x": 11,
         "y": 48,
         "fontSize": 10,
         "letterSpacing": 0,
-        "label": "発病または負傷年月日（月）",
+        "label": "月",
         "textAlign": "center",
         "type": "number",
         "compositeGroup": "onset_date",
-        "compositeLabel": "発病負傷年月日"
+        "compositeLabel": "発病または負傷年月日"
     },
     "onset_date_day": {
         "x": 20,
         "y": 48,
         "fontSize": 10,
         "letterSpacing": 0,
-        "label": "発病または負傷年月日（日）",
+        "label": "日",
         "textAlign": "center",
         "type": "number",
         "compositeGroup": "onset_date",
-        "compositeLabel": "発病負傷年月日"
+        "compositeLabel": "発病または負傷年月日"
     },
     "onset_illness_name": {
         "x": 60,
         "y": 48,
         "fontSize": 10,
         "letterSpacing": 0,
-        "label": "傷病名（発病または負傷年月日の隣）",
+        "label": "傷病名",
         "textAlign": "center",
         "type": "text"
     },
@@ -1331,40 +1332,46 @@
         "type": "select"
     },
     "treatment_month": {
-        "x": 50,
-        "y": 145,
-        "fontSize": 10,
+        "x": -70.5,
+        "y": 171.5,
+        "fontSize": 12,
         "letterSpacing": 0,
         "label": "施術月",
         "textAlign": "center",
         "type": "number"
     },
     "submission_date_year": {
-        "x": 150,
-        "y": 275,
+        "x": -72.5,
+        "y": 208,
         "fontSize": 10,
         "letterSpacing": 0,
-        "label": "申請年月日（年）",
+        "label": "年",
         "textAlign": "center",
-        "type": "number"
+        "type": "number",
+        "compositeGroup": "submission_date",
+        "compositeLabel": "申請年月日"
     },
     "submission_date_month": {
-        "x": 165,
-        "y": 275,
+        "x": -61,
+        "y": 208,
         "fontSize": 10,
         "letterSpacing": 0,
-        "label": "申請年月日（月）",
+        "label": "月",
         "textAlign": "center",
-        "type": "number"
+        "type": "number",
+        "compositeGroup": "submission_date",
+        "compositeLabel": "申請年月日"
     },
     "submission_date_day": {
-        "x": 175,
-        "y": 275,
+        "x": -49.5,
+        "y": 208,
         "fontSize": 10,
         "letterSpacing": 0,
-        "label": "申請年月日（日）",
+        "label": "日",
         "textAlign": "center",
-        "type": "number"
+        "type": "number",
+        "compositeGroup": "submission_date",
+        "compositeLabel": "申請年月日"
     },
     "insurer_name": {
         "x": -129,
@@ -1570,9 +1577,9 @@
         "type": "text"
     },
     "branch_type_honten": {
-        "ellipseX": 90,
-        "ellipseY": 205,
-        "ellipseWidth": 5,
+        "ellipseX": 191,
+        "ellipseY": 223.5,
+        "ellipseWidth": 4.5,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "x": 90,
@@ -1586,9 +1593,9 @@
         "optionLabel": "本店"
     },
     "branch_type_shiten": {
-        "ellipseX": 100,
-        "ellipseY": 205,
-        "ellipseWidth": 5,
+        "ellipseX": 191,
+        "ellipseY": 227,
+        "ellipseWidth": 4.5,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "x": 100,
@@ -1602,9 +1609,9 @@
         "optionLabel": "支店"
     },
     "branch_type_shucchoujo": {
-        "ellipseX": 110,
-        "ellipseY": 205,
-        "ellipseWidth": 7,
+        "ellipseX": 189.5,
+        "ellipseY": 230.5,
+        "ellipseWidth": 6,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "x": 110,
@@ -1671,27 +1678,33 @@
         "y": 247,
         "fontSize": 9,
         "letterSpacing": 0,
-        "label": "同意年月日（年）",
+        "label": "年",
         "textAlign": "center",
-        "type": "number"
+        "type": "number",
+        "compositeGroup": "consent_record_date",
+        "compositeLabel": "同意年月日（同意記録）"
     },
     "consent_record_date_month": {
         "x": 17,
         "y": 247,
         "fontSize": 9,
         "letterSpacing": 0,
-        "label": "同意年月日（月）",
+        "label": "月",
         "textAlign": "center",
-        "type": "number"
+        "type": "number",
+        "compositeGroup": "consent_record_date",
+        "compositeLabel": "同意年月日（同意記録）"
     },
     "consent_record_date_day": {
         "x": 24,
         "y": 247,
         "fontSize": 9,
         "letterSpacing": 0,
-        "label": "同意年月日（日）",
+        "label": "日",
         "textAlign": "center",
-        "type": "number"
+        "type": "number",
+        "compositeGroup": "consent_record_date",
+        "compositeLabel": "同意年月日（同意記録）"
     },
     "consent_record_illness_name": {
         "x": 50.5,
@@ -1716,34 +1729,49 @@
         "y": 257.5,
         "fontSize": 10,
         "letterSpacing": 0,
-        "label": "年月日（署名・年）",
+        "label": "年",
         "textAlign": "center",
-        "type": "number"
+        "type": "number",
+        "compositeGroup": "signature_date",
+        "compositeLabel": "署名年月日"
     },
     "signature_date_month": {
         "x": 36,
         "y": 257.5,
         "fontSize": 10,
         "letterSpacing": 0,
-        "label": "年月日（署名・月）",
+        "label": "月",
         "textAlign": "center",
-        "type": "number"
+        "type": "number",
+        "compositeGroup": "signature_date",
+        "compositeLabel": "署名年月日"
     },
     "signature_date_day": {
         "x": 45.5,
         "y": 257.5,
         "fontSize": 10,
         "letterSpacing": 0,
-        "label": "年月日（署名・日）",
+        "label": "日",
         "textAlign": "center",
-        "type": "number"
+        "type": "number",
+        "compositeGroup": "signature_date",
+        "compositeLabel": "署名年月日"
     },
     "signature_applicant_address": {
         "x": 48,
         "y": 267,
         "fontSize": 9,
         "letterSpacing": 0,
-        "label": "申請者住所（署名）",
+        "label": "署名申請者住所",
+        "textAlign": "left",
+        "type": "text"
+    },
+    "patient_phone": {
+        "x": 173.5,
+        "y": 217.2,
+        "fontSize": 8,
+        "letterSpacing": -0.1,
+        "label": "電話番号",
         "textAlign": "left",
         "type": "text"
     }

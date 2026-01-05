@@ -30,10 +30,10 @@ const sampleDataFieldMapping = {
   // === 5. 被保険者証記号・番号、発病年月日、傷病名 ===
   'insurance_symbol': { field: 'insurance_symbol_kigou', label: '被保険者証等記号番号', type: 'text', combine: ['insurance_symbol_kigou', 'insurance_symbol_bangou'] },
   'insurance_number': { field: 'insurance_number', label: '被保険者番号', type: 'text' },
-  'onset_date_year': { field: 'onset_date_year', label: '発病または負傷年月日（年）', type: 'number' },
-  'onset_date_month': { field: 'onset_date_month', label: '発病または負傷年月日（月）', type: 'number' },
-  'onset_date_day': { field: 'onset_date_day', label: '発病または負傷年月日（日）', type: 'number' },
-  'onset_illness_name': { field: 'onset_illness_name', label: '傷病名（発病または負傷年月日の隣）', type: 'text' },
+  'onset_date_year': { field: 'onset_date_year', label: '年', type: 'number', compositeGroup: 'onset_date', compositeLabel: '発病または負傷年月日' },
+  'onset_date_month': { field: 'onset_date_month', label: '月', type: 'number', compositeGroup: 'onset_date', compositeLabel: '発病または負傷年月日' },
+  'onset_date_day': { field: 'onset_date_day', label: '日', type: 'number', compositeGroup: 'onset_date', compositeLabel: '発病または負傷年月日' },
+  'onset_illness_name': { field: 'onset_illness_name', label: '傷病名', type: 'text' },
 
   // === 6. 患者氏名カナ・続柄・氏名 ===
   'patient_last_kana': { field: 'last_kana', label: '氏名カナ（姓）', type: 'text' },
@@ -154,10 +154,10 @@ const sampleDataFieldMapping = {
   'fee_initial_examination_combined': { field: 'fee_initial_examination', label: '初検料', type: 'select', options: ['はり', 'きゅう', 'はり･きゅう併用'], ellipseWidth: 6, ellipseHeight: 3, lineWidth: 0.5, radioGroup: 'fee_initial_examination', optionLabel: 'はり･きゅう併用' },
   'fee_subtotal': { field: 'fee_subtotal', label: '合計', type: 'number' },
 
-  // === 11-2. 一部負担金（楕円） ===
-  'expenses_borne_ratio_10': { field: 'expenses_borne_ratio', label: '一部負担金（楕円）', type: 'select', options: ['１割', '２割', '３割'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'expenses_borne_ratio', optionLabel: '１割' },
-  'expenses_borne_ratio_20': { field: 'expenses_borne_ratio', label: '一部負担金（楕円）', type: 'select', options: ['１割', '２割', '３割'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'expenses_borne_ratio', optionLabel: '２割' },
-  'expenses_borne_ratio_30': { field: 'expenses_borne_ratio', label: '一部負担金（楕円）', type: 'select', options: ['１割', '２割', '３割'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'expenses_borne_ratio', optionLabel: '３割' },
+  // === 11-2. 一部負担金（サークル） ===
+  'expenses_borne_ratio_10': { field: 'expenses_borne_ratio', label: '一部負担金（サークル）', type: 'select', options: ['１割', '２割', '３割'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'expenses_borne_ratio', optionLabel: '１割' },
+  'expenses_borne_ratio_20': { field: 'expenses_borne_ratio', label: '一部負担金（サークル）', type: 'select', options: ['１割', '２割', '３割'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'expenses_borne_ratio', optionLabel: '２割' },
+  'expenses_borne_ratio_30': { field: 'expenses_borne_ratio', label: '一部負担金（サークル）', type: 'select', options: ['１割', '２割', '３割'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'expenses_borne_ratio', optionLabel: '３割' },
 
   'fee_partial_payment': { field: 'fee_partial_payment', label: '一部負担金', type: 'number' },
   'fee_total_claim': { field: 'fee_total_claim', label: '請求額', type: 'number' },
@@ -180,16 +180,13 @@ const sampleDataFieldMapping = {
   'clinic_date_year': { field: 'clinic_date_year', label: '年', type: 'number', compositeGroup: 'clinic_date', compositeLabel: '施術証明年月日' },
   'clinic_date_month': { field: 'clinic_date_month', label: '月', type: 'number', compositeGroup: 'clinic_date', compositeLabel: '施術証明年月日' },
   'clinic_date_day': { field: 'clinic_date_day', label: '日', type: 'number', compositeGroup: 'clinic_date', compositeLabel: '施術証明年月日' },
-  'submission_date_year': { field: 'submission_date_year', label: '提出年月日（年）', type: 'number' },
-  'submission_date_month': { field: 'submission_date_month', label: '提出年月日（月）', type: 'number' },
-  'submission_date_day': { field: 'submission_date_day', label: '提出年月日（日）', type: 'number' },
 
   // === 14. 申請者情報 ===
   'applicant_postal_code': { field: 'applicant_postal_code', label: '申請者郵便番号', type: 'postal_code', postalCodeGap: 2 },
-  'applicant_address': { field: 'address', label: '申請者住所', type: 'text' },
-  'applicant_name': { field: 'last_name', label: '申請者氏名', type: 'text', combine: ['last_name', 'first_name'] },
+  'applicant_address': { field: 'applicant_address', label: '申請者住所', type: 'text' },
+  'applicant_name': { field: 'applicant_name', label: '申請者氏名', type: 'text' },
   'patient_address': { field: 'address', label: '住所', type: 'text' },
-  'patient_phone': { field: 'phone', label: '電話番号', type: 'text' },
+  'patient_phone': { field: 'patient_phone', label: '電話番号', type: 'text' },
   'office_name': { field: 'office_name', label: '事業所名称', type: 'text' },
 
 
@@ -197,9 +194,9 @@ const sampleDataFieldMapping = {
   'consent_record_doctor_name': { field: 'consent_record_doctor_name', label: '同意医師氏名（同意記録）', type: 'text' },
   'consent_record_doctor_postal_code': { field: 'consent_record_doctor_postal_code', label: '同意医師郵便番号（同意記録）', type: 'postal_code' },
   'consent_record_doctor_address': { field: 'consent_record_doctor_address', label: '同意医師住所（同意記録）', type: 'text' },
-  'consent_record_date_year': { field: 'consent_record_date_year', label: '同意年月日（年）', type: 'number' },
-  'consent_record_date_month': { field: 'consent_record_date_month', label: '同意年月日（月）', type: 'number' },
-  'consent_record_date_day': { field: 'consent_record_date_day', label: '同意年月日（日）', type: 'number' },
+  'consent_record_date_year': { field: 'consent_record_date_year', label: '年', type: 'number', compositeGroup: 'consent_record_date', compositeLabel: '同意年月日（同意記録）' },
+  'consent_record_date_month': { field: 'consent_record_date_month', label: '月', type: 'number', compositeGroup: 'consent_record_date', compositeLabel: '同意年月日（同意記録）' },
+  'consent_record_date_day': { field: 'consent_record_date_day', label: '日', type: 'number', compositeGroup: 'consent_record_date', compositeLabel: '同意年月日（同意記録）' },
   'consent_record_illness_name': { field: 'consent_record_illness_name', label: '傷病名（同意記録）', type: 'text' },
   'required_treatment_period': { field: 'required_treatment_period', label: '要加療期間', type: 'text' },
 
@@ -278,22 +275,18 @@ const sampleDataFieldMapping = {
   'insurer_name': { field: 'insurer_name', label: '申請先名称', type: 'text' },
 
   // === 19. 被保険者情報 ===
-  'temporary_insurer_name': { field: 'temporary_insurer_name', label: '被保険者氏名', type: 'text' },
+  'temporary_insurer_name': { field: 'temporary_insurer_name', label: '署名申請者氏名', type: 'text' },
 
-  // === 20. その他 ===
-  'claim_number': { field: 'claim_number', label: '請求書番号', type: 'text' },
-  'treatment_year_month': { field: 'treatment_year_month', label: '施術年月', type: 'text' },
-
-  // === 21. 署名・申請情報 ===
-  // 年月日（署名）
-  'signature_date_year': { field: 'signature_date_year', label: '年月日（署名・年）', type: 'number' },
-  'signature_date_month': { field: 'signature_date_month', label: '年月日（署名・月）', type: 'number' },
-  'signature_date_day': { field: 'signature_date_day', label: '年月日（署名・日）', type: 'number' },
+  // === 20. 署名・申請情報 ===
+  // 署名年月日
+  'signature_date_year': { field: 'signature_date_year', label: '年', type: 'number', compositeGroup: 'signature_date', compositeLabel: '署名年月日' },
+  'signature_date_month': { field: 'signature_date_month', label: '月', type: 'number', compositeGroup: 'signature_date', compositeLabel: '署名年月日' },
+  'signature_date_day': { field: 'signature_date_day', label: '日', type: 'number', compositeGroup: 'signature_date', compositeLabel: '署名年月日' },
   'signature_applicant_postal_code': { field: 'signature_applicant_postal_code', label: '申請者郵便番号（署名）', type: 'text' },
-  'signature_applicant_address': { field: 'signature_applicant_address', label: '申請者住所（署名）', type: 'text' },
+  'signature_applicant_address': { field: 'signature_applicant_address', label: '署名申請者住所', type: 'text' },
 
   // 申請年月日
-  'submission_date_year': { field: 'submission_date_year', label: '申請年月日（年）', type: 'number' },
-  'submission_date_month': { field: 'submission_date_month', label: '申請年月日（月）', type: 'number' },
-  'submission_date_day': { field: 'submission_date_day', label: '申請年月日（日）', type: 'number' }
+  'submission_date_year': { field: 'submission_date_year', label: '年', type: 'number', compositeGroup: 'submission_date', compositeLabel: '申請年月日' },
+  'submission_date_month': { field: 'submission_date_month', label: '月', type: 'number', compositeGroup: 'submission_date', compositeLabel: '申請年月日' },
+  'submission_date_day': { field: 'submission_date_day', label: '日', type: 'number', compositeGroup: 'submission_date', compositeLabel: '申請年月日' }
 };

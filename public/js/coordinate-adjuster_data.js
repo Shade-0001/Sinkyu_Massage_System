@@ -71,6 +71,9 @@ let customSampleData = {
   agent_name: '田中花子',
   // 申請者情報
   applicant_postal_code: '1600022',
+  applicant_address: '東京都千代田区丸の内1-1-1',
+  applicant_name: '田中太郎',
+  patient_phone: '03-1234-5678',
   // 支払機関情報
   payment_institution_postal_code: '1000005',
   payment_institution_address: '東京都千代田区〇〇3-4-5',
@@ -221,12 +224,12 @@ let customSampleData = {
   consent_record_illness_name: '腰痛症',
   // 要加療期間
   required_treatment_period: '3ヶ月',
-  // 年月日（署名）
+  // 署名年月日
   signature_date_year: '7',
   signature_date_month: '12',
   signature_date_day: '31',
   // 申請者郵便番号（署名）
   signature_applicant_postal_code: '100-0005',
-  // 申請者住所（署名）
+  // 署名申請者住所
   signature_applicant_address: '東京都千代田区丸の内1-1-1'
 };

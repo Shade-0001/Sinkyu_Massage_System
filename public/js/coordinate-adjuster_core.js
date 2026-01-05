@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', function() {
   displayTreatmentFees();
 
   // イベントリスナー
-  document.getElementById('btn-reset').addEventListener('click', resetCoordinates);
   document.getElementById('clinic-user-select').addEventListener('change', function() {
     previewPdf();
   });
@@ -413,15 +412,6 @@ function previewPdf() {
     });
 }
 
-// リセット
-function resetCoordinates() {
-  if (!confirm('変更を破棄して元に戻しますか？')) return;
-
-  coordinates = JSON.parse(JSON.stringify(originalCoordinates));
-  renderFieldSettings();
-  previewPdf();
-}
-
 // カスタムサンプルデータをlocalStorageから読み込み
 function loadCustomSampleData() {
   const storageKey = 'customSampleData_' + currentPdfType;
@@ -429,8 +419,12 @@ function loadCustomSampleData() {
   if (stored) {
     try {
       const savedData = JSON.parse(stored);
-      // デフォルト値とマージ
-      customSampleData = { ...customSampleData, ...savedData };
+      // デフォルト値とマージ（空文字やnullの場合はデフォルト値を優先）
+      Object.keys(savedData).forEach(key => {
+        if (savedData[key] !== '' && savedData[key] !== null && savedData[key] !== undefined) {
+          customSampleData[key] = savedData[key];
+        }
+      });
     } catch (e) {
       console.error('サンプルデータの読み込みエラー:', e);
     }
@@ -444,6 +438,15 @@ function loadCustomSampleData() {
     const dd = String(today.getDate()).padStart(2, '0');
     customSampleData.consent_date = `${yyyy}-${mm}-${dd}`;
   }
+
+  // localStorageの空文字データをクリーンアップして再保存
+  const cleanedData = {};
+  Object.keys(customSampleData).forEach(key => {
+    if (customSampleData[key] !== '' && customSampleData[key] !== null && customSampleData[key] !== undefined) {
+      cleanedData[key] = customSampleData[key];
+    }
+  });
+  localStorage.setItem(storageKey, JSON.stringify(cleanedData));
 }
 
 // サンプルデータを更新
