@@ -660,7 +660,7 @@
         "y": 274,
         "fontSize": 12,
         "letterSpacing": 0,
-        "label": "署名申請者氏名",
+        "label": "委任申請者氏名",
         "type": "text",
         "textAlign": "center"
     },
@@ -1733,7 +1733,7 @@
         "textAlign": "center",
         "type": "number",
         "compositeGroup": "signature_date",
-        "compositeLabel": "署名年月日"
+        "compositeLabel": "委任年月日"
     },
     "signature_date_month": {
         "x": 36,
@@ -1744,7 +1744,7 @@
         "textAlign": "center",
         "type": "number",
         "compositeGroup": "signature_date",
-        "compositeLabel": "署名年月日"
+        "compositeLabel": "委任年月日"
     },
     "signature_date_day": {
         "x": 45.5,
@@ -1755,14 +1755,14 @@
         "textAlign": "center",
         "type": "number",
         "compositeGroup": "signature_date",
-        "compositeLabel": "署名年月日"
+        "compositeLabel": "委任年月日"
     },
     "signature_applicant_address": {
         "x": 48,
         "y": 267,
         "fontSize": 9,
         "letterSpacing": 0,
-        "label": "署名申請者住所",
+        "label": "委任申請者住所",
         "textAlign": "left",
         "type": "text"
     },

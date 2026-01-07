@@ -181,16 +181,7 @@ const sampleDataFieldMapping = {
   'clinic_date_month': { field: 'clinic_date_month', label: '月', type: 'number', compositeGroup: 'clinic_date', compositeLabel: '施術証明年月日' },
   'clinic_date_day': { field: 'clinic_date_day', label: '日', type: 'number', compositeGroup: 'clinic_date', compositeLabel: '施術証明年月日' },
 
-  // === 14. 申請者情報 ===
-  'applicant_postal_code': { field: 'applicant_postal_code', label: '申請者郵便番号', type: 'postal_code', postalCodeGap: 2 },
-  'applicant_address': { field: 'applicant_address', label: '申請者住所', type: 'text' },
-  'applicant_name': { field: 'applicant_name', label: '申請者氏名', type: 'text' },
-  'patient_address': { field: 'address', label: '住所', type: 'text' },
-  'patient_phone': { field: 'patient_phone', label: '電話番号', type: 'text' },
-  'office_name': { field: 'office_name', label: '事業所名称', type: 'text' },
-
-
-  // 同意記録
+  // === 14. 同意記録 ===
   'consent_record_doctor_name': { field: 'consent_record_doctor_name', label: '同意医師氏名（同意記録）', type: 'text' },
   'consent_record_doctor_postal_code': { field: 'consent_record_doctor_postal_code', label: '同意医師郵便番号（同意記録）', type: 'postal_code' },
   'consent_record_doctor_address': { field: 'consent_record_doctor_address', label: '同意医師住所（同意記録）', type: 'text' },
@@ -200,7 +191,14 @@ const sampleDataFieldMapping = {
   'consent_record_illness_name': { field: 'consent_record_illness_name', label: '傷病名（同意記録）', type: 'text' },
   'required_treatment_period': { field: 'required_treatment_period', label: '要加療期間', type: 'text' },
 
-  // === 15. 医師情報・同意書 ===
+  // === 15. 申請欄 ===
+  'applicant_postal_code': { field: 'applicant_postal_code', label: '申請者郵便番号', type: 'postal_code', postalCodeGap: 2 },
+  'applicant_address': { field: 'applicant_address', label: '申請者住所', type: 'text' },
+  'applicant_name': { field: 'applicant_name', label: '申請者氏名', type: 'text' },
+  'patient_address': { field: 'address', label: '住所', type: 'text' },
+  'patient_phone': { field: 'patient_phone', label: '電話番号', type: 'text' },
+
+  // === 16. 医師情報（旧：医師情報・同意書） ===
   'consent_date': { field: 'consent_date', label: '同意年月日', type: 'date' },
   'consent_year': { field: 'consent_year', label: '同意年', type: 'number' },
   'consent_month': { field: 'consent_month', label: '同意月', type: 'number' },
@@ -217,17 +215,12 @@ const sampleDataFieldMapping = {
   'medical_institution_location_type_1': { field: 'medical_institution_location_type', label: '医療機関所在地区分', type: 'select', options: ['1', '2'], optionLabels: ['区郡市府県庁所在地', '出張所等指定都市所在地域'] },
   'medical_institution_location_type_2': { field: 'medical_institution_location_type', label: '医療機関所在地区分', type: 'select', options: ['1', '2'], optionLabels: ['区郡市府県庁所在地', '出張所等指定都市所在地域'] },
 
-  // === 16. 振込口座情報 ===
+  // === 17. 振込口座情報（旧番号、カテゴリとしては支払機関欄に統合） ===
   'bank_name': { field: 'bank_name', label: '銀行名', type: 'text' },
   'branch_name': { field: 'branch_name', label: '支店名', type: 'text' },
   'account_type': { field: 'account_type', label: '口座種別', type: 'select', options: ['普通', '当座'] },
   'account_number': { field: 'account_number', label: '口座番号', type: 'text' },
   'account_holder': { field: 'account_holder', label: '口座名義', type: 'text' },
-
-  // === 17. 代理人情報 ===
-  'agent_postal_code': { field: 'agent_postal_code', label: '代理人郵便番号', type: 'text' },
-  'agent_address': { field: 'agent_address', label: '代理人住所', type: 'text' },
-  'agent_name': { field: 'agent_name', label: '代理人氏名', type: 'text' },
 
   // === 18. 支払機関欄 ===
   'payment_method_transfer': { field: 'payment_method', label: '支払区分', type: 'select', options: ['振込', '銀行送金', '郵便局送金', '当座払'], optionLabels: ['振込', '銀行送金', '郵便局送金', '当座払'] },
@@ -273,20 +266,18 @@ const sampleDataFieldMapping = {
   'bank_account_holder_kana': { field: 'bank_account_holder_kana', label: '口座名義', type: 'text' },
   'bank_account_number': { field: 'bank_account_number', label: '口座番号', type: 'text' },
   'insurer_name': { field: 'insurer_name', label: '申請先名称', type: 'text' },
-
-  // === 19. 被保険者情報 ===
-  'temporary_insurer_name': { field: 'temporary_insurer_name', label: '署名申請者氏名', type: 'text' },
-
-  // === 20. 署名・申請情報 ===
-  // 署名年月日
-  'signature_date_year': { field: 'signature_date_year', label: '年', type: 'number', compositeGroup: 'signature_date', compositeLabel: '署名年月日' },
-  'signature_date_month': { field: 'signature_date_month', label: '月', type: 'number', compositeGroup: 'signature_date', compositeLabel: '署名年月日' },
-  'signature_date_day': { field: 'signature_date_day', label: '日', type: 'number', compositeGroup: 'signature_date', compositeLabel: '署名年月日' },
-  'signature_applicant_postal_code': { field: 'signature_applicant_postal_code', label: '申請者郵便番号（署名）', type: 'text' },
-  'signature_applicant_address': { field: 'signature_applicant_address', label: '署名申請者住所', type: 'text' },
-
-  // 申請年月日
   'submission_date_year': { field: 'submission_date_year', label: '年', type: 'number', compositeGroup: 'submission_date', compositeLabel: '申請年月日' },
   'submission_date_month': { field: 'submission_date_month', label: '月', type: 'number', compositeGroup: 'submission_date', compositeLabel: '申請年月日' },
-  'submission_date_day': { field: 'submission_date_day', label: '日', type: 'number', compositeGroup: 'submission_date', compositeLabel: '申請年月日' }
+  'submission_date_day': { field: 'submission_date_day', label: '日', type: 'number', compositeGroup: 'submission_date', compositeLabel: '申請年月日' },
+
+  // === 19. 委任欄 ===
+  'agent_postal_code': { field: 'agent_postal_code', label: '代理人郵便番号', type: 'text' },
+  'agent_address': { field: 'agent_address', label: '代理人住所', type: 'text' },
+  'agent_name': { field: 'agent_name', label: '代理人氏名', type: 'text' },
+  'temporary_insurer_name': { field: 'temporary_insurer_name', label: '委任申請者氏名', type: 'text' },
+  'signature_date_year': { field: 'signature_date_year', label: '年', type: 'number', compositeGroup: 'signature_date', compositeLabel: '委任年月日' },
+  'signature_date_month': { field: 'signature_date_month', label: '月', type: 'number', compositeGroup: 'signature_date', compositeLabel: '委任年月日' },
+  'signature_date_day': { field: 'signature_date_day', label: '日', type: 'number', compositeGroup: 'signature_date', compositeLabel: '委任年月日' },
+  'signature_applicant_postal_code': { field: 'signature_applicant_postal_code', label: '申請者郵便番号（委任）', type: 'text' },
+  'signature_applicant_address': { field: 'signature_applicant_address', label: '委任申請者住所', type: 'text' }
 };

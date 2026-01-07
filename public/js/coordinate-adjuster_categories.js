@@ -237,7 +237,7 @@ const categoryLabels = {
     "guarantor_info": "保証人情報",
     "payment_institution": "支払機関欄",
     "application": "申請欄",
-    "signature": "署名欄"
+    "signature": "委任欄"
 };
 
 const categoryOrder = [

@@ -31,7 +31,6 @@ let customSampleData = {
   insurance_symbol_bangou: '67890',
   insurance_number: '9876543210',
   relationship: '本人',
-  office_name: '株式会社〇〇',
   // 発病または負傷年月日
   onset_date_year: '7',
   onset_date_month: '11',
@@ -65,16 +64,12 @@ let customSampleData = {
   disease: '腰痛症',
   bodypart: '腰部',
   treatment_year_month: '',
-  // 代理人情報
-  agent_postal_code: '1000001',
-  agent_address: '東京都千代田区〇〇2-3-4',
-  agent_name: '田中花子',
-  // 申請者情報
+  // 申請欄
   applicant_postal_code: '1600022',
   applicant_address: '東京都千代田区丸の内1-1-1',
   applicant_name: '田中太郎',
   patient_phone: '03-1234-5678',
-  // 支払機関情報
+  // 支払機関欄
   payment_institution_postal_code: '1000005',
   payment_institution_address: '東京都千代田区〇〇3-4-5',
   payment_institution_name: '〇〇健康保険組合',
@@ -87,7 +82,10 @@ let customSampleData = {
   branch_name: '新宿支店',
   account_number: '1234567',
   account_holder: 'タナカタロウ',
-  // 被保険者情報
+  // 委任欄
+  agent_postal_code: '1000001',
+  agent_address: '東京都千代田区〇〇2-3-4',
+  agent_name: '田中花子',
   temporary_insurer_name: '田中太郎',
   treatment_start_date: '',
   treatment_period: '',
@@ -224,12 +222,12 @@ let customSampleData = {
   consent_record_illness_name: '腰痛症',
   // 要加療期間
   required_treatment_period: '3ヶ月',
-  // 署名年月日
+  // 委任年月日
   signature_date_year: '7',
   signature_date_month: '12',
   signature_date_day: '31',
-  // 申請者郵便番号（署名）
+  // 申請者郵便番号（委任）
   signature_applicant_postal_code: '100-0005',
-  // 署名申請者住所
+  // 委任申請者住所
   signature_applicant_address: '東京都千代田区丸の内1-1-1'
 };
