@@ -812,6 +812,30 @@
         "radioGroup": "fee_initial_examination",
         "optionLabel": "はり･きゅう併用"
     },
+    "therapy_content_electric_needle": {
+        "label": "電療料｜電気針（サークル）",
+        "lineWidth": 0.5,
+        "ellipseX": 39.5,
+        "ellipseY": 129,
+        "ellipseWidth": 5.5,
+        "ellipseHeight": 2.5
+    },
+    "therapy_content_electric_moxa": {
+        "label": "電療料｜電気温灸器（サークル）",
+        "lineWidth": 0.5,
+        "ellipseX": 52.5,
+        "ellipseY": 129,
+        "ellipseWidth": 8.5,
+        "ellipseHeight": 2.5
+    },
+    "therapy_content_electric_light": {
+        "label": "電療料｜電気光線器具（サークル）",
+        "lineWidth": 0.5,
+        "ellipseX": 67.5,
+        "ellipseY": 69.5,
+        "ellipseWidth": 60.5,
+        "ellipseHeight": 63.5
+    },
     "fee_hari_unit": {
         "x": -5,
         "y": 108.5,

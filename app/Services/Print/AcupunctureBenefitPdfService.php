@@ -1017,7 +1017,7 @@ class AcupunctureBenefitPdfService
       // 全レコードの摘要を結合（重複排除）
       $abstracts = $records->pluck('abstract')->filter()->unique()->toArray();
       if (!empty($abstracts)) {
-        $abstractText = implode('、', $abstracts);
+        $abstractText = implode('｜', $abstracts);
         $x = $this->coord('abstract', 'x');
         $y = $this->coord('abstract', 'y');
         $fontSize = $this->coord('abstract', 'fontSize');
@@ -1502,7 +1502,7 @@ class AcupunctureBenefitPdfService
     }
 
     // === 施術月（実データモード） ===
-    if ($this->hasCoord('treatment_month')) {
+    if (!$this->sampleDataMode && $this->hasCoord('treatment_month')) {
       [$year, $month] = explode('-', $data['service_year_month']);
       $pdf->SetFontSize($this->coord('treatment_month', 'fontSize'));
       $this->drawTextByKey($pdf, 'treatment_month', (string)(int)$month);
@@ -1510,14 +1510,14 @@ class AcupunctureBenefitPdfService
     }
 
     // === 申請先名称（実データモード） ===
-    if ($this->hasCoord('insurer_name') && $insurance && isset($insurance->insurer_name)) {
+    if (!$this->sampleDataMode && $this->hasCoord('insurer_name') && $insurance && isset($insurance->insurer_name)) {
       $pdf->SetFontSize($this->coord('insurer_name', 'fontSize'));
       $this->drawTextByKey($pdf, 'insurer_name', (string)$insurance->insurer_name);
       $pdf->SetFontSize(10);
     }
 
     // === 同意記録（実データモード） ===
-    if ($consent) {
+    if (!$this->sampleDataMode && $consent) {
       // 同意医師氏名
       if ($this->hasCoord('consent_record_doctor_name') && isset($consent->consenting_doctor_name)) {
         $pdf->SetFontSize($this->coord('consent_record_doctor_name', 'fontSize'));
@@ -1694,8 +1694,8 @@ class AcupunctureBenefitPdfService
       }
     }
 
-    // === 委任欄（実データモード） ===
-    if ($clinicInfo) {
+    // === 代理人情報（実データモード） ===
+    if (!$this->sampleDataMode && $clinicInfo) {
       // 代理人情報はclinic_infoテーブルを参照
       if ($this->hasCoord('agent_postal_code') && isset($clinicInfo->postal_code)) {
         $pdf->SetFontSize($this->coord('agent_postal_code', 'fontSize'));
@@ -1714,39 +1714,42 @@ class AcupunctureBenefitPdfService
       }
     }
 
-    // 委任申請者郵便番号・住所は当該利用者のデータを参照
-    if ($this->hasCoord('signature_applicant_postal_code') && isset($clinicUser->postal_code)) {
-      $pdf->SetFontSize($this->coord('signature_applicant_postal_code', 'fontSize'));
-      $this->drawTextByKey($pdf, 'signature_applicant_postal_code', (string)$clinicUser->postal_code);
-    }
-
-    if ($this->hasCoord('signature_applicant_address')) {
-      $signatureAddress = ($clinicUser->address_1 ?? '') . ($clinicUser->address_2 ?? '') . ($clinicUser->address_3 ?? '');
-      if ($signatureAddress) {
-        $pdf->SetFontSize($this->coord('signature_applicant_address', 'fontSize'));
-        $this->drawTextByKey($pdf, 'signature_applicant_address', (string)$signatureAddress);
-      }
-    }
-
-    // 委任年月日は提出年月日と同じ値を使用
-    if ($this->hasCoord('signature_date_year')) {
-      $submissionParts = explode('-', $submissionDate);
-      $submissionJapaneseYear = $this->convertToJapaneseYear((int)$submissionParts[0], (int)$submissionParts[1]);
-
-      $pdf->SetFontSize($this->coord('signature_date_year', 'fontSize'));
-      $this->drawTextByKey($pdf, 'signature_date_year', (string)$submissionJapaneseYear['year']);
-
-      if ($this->hasCoord('signature_date_month')) {
-        $pdf->SetFontSize($this->coord('signature_date_month', 'fontSize'));
-        $this->drawTextByKey($pdf, 'signature_date_month', (string)(int)$submissionParts[1]);
+    // === 委任欄（実データモード） ===
+    if (!$this->sampleDataMode) {
+      // 委任申請者郵便番号・住所は当該利用者のデータを参照
+      if ($this->hasCoord('signature_applicant_postal_code') && isset($clinicUser->postal_code)) {
+        $pdf->SetFontSize($this->coord('signature_applicant_postal_code', 'fontSize'));
+        $this->drawTextByKey($pdf, 'signature_applicant_postal_code', (string)$clinicUser->postal_code);
       }
 
-      if ($this->hasCoord('signature_date_day')) {
-        $pdf->SetFontSize($this->coord('signature_date_day', 'fontSize'));
-        $this->drawTextByKey($pdf, 'signature_date_day', (string)(int)$submissionParts[2]);
+      if ($this->hasCoord('signature_applicant_address')) {
+        $signatureAddress = ($clinicUser->address_1 ?? '') . ($clinicUser->address_2 ?? '') . ($clinicUser->address_3 ?? '');
+        if ($signatureAddress) {
+          $pdf->SetFontSize($this->coord('signature_applicant_address', 'fontSize'));
+          $this->drawTextByKey($pdf, 'signature_applicant_address', (string)$signatureAddress);
+        }
       }
 
-      $pdf->SetFontSize(10);
+      // 委任年月日は提出年月日と同じ値を使用
+      if ($this->hasCoord('signature_date_year')) {
+        $submissionParts = explode('-', $submissionDate);
+        $submissionJapaneseYear = $this->convertToJapaneseYear((int)$submissionParts[0], (int)$submissionParts[1]);
+
+        $pdf->SetFontSize($this->coord('signature_date_year', 'fontSize'));
+        $this->drawTextByKey($pdf, 'signature_date_year', (string)$submissionJapaneseYear['year']);
+
+        if ($this->hasCoord('signature_date_month')) {
+          $pdf->SetFontSize($this->coord('signature_date_month', 'fontSize'));
+          $this->drawTextByKey($pdf, 'signature_date_month', (string)(int)$submissionParts[1]);
+        }
+
+        if ($this->hasCoord('signature_date_day')) {
+          $pdf->SetFontSize($this->coord('signature_date_day', 'fontSize'));
+          $this->drawTextByKey($pdf, 'signature_date_day', (string)(int)$submissionParts[2]);
+        }
+
+        $pdf->SetFontSize(10);
+      }
     }
 
     // === 施術料金情報 ===
@@ -2052,7 +2055,7 @@ class AcupunctureBenefitPdfService
     // サンプル保険情報
     $insurance = (object)[
       'insurer_number' => $custom['insurer_number'] ?? '12345678',
-      'insurer_name' => 'サンプル健康保険組合',
+      'insurer_name' => $custom['insurer_name'] ?? 'サンプル健康保険組合',
       'insurance_type_1_id' => 1,
       'insurance_type_1' => $custom['insurance_type_1'] ?? '社･国･組',
       'insurance_type_3' => $custom['insurance_type_3'] ?? '本外',
@@ -2322,6 +2325,14 @@ class AcupunctureBenefitPdfService
         }
       }
 
+      // 電療料（サンプルデータモード：個別チェックボックス）
+      $therapyContentFields = ['therapy_content_electric_needle', 'therapy_content_electric_moxa', 'therapy_content_electric_light'];
+      foreach ($therapyContentFields as $field) {
+        if (isset($custom[$field]) && $custom[$field] === true) {
+          $this->drawEllipseByKey($pdf, $field);
+        }
+      }
+
       // 新規追加フィールド（サンプルデータモード）
 
       // 施術月（サンプルデータモード）
@@ -2569,6 +2580,20 @@ class AcupunctureBenefitPdfService
       $this->drawTextByKey($pdf, 'fee_housecall_count', (string)$housecallCount);
       $this->drawTextByKey($pdf, 'fee_housecall_total', (string)$total);
       $totalFee += $total;
+    }
+
+    // === 電療料（サークルのみ描画、複数選択可能） ===
+    // therapy_content_id: 14=電気針, 15=電気温灸器, 16=電気光線器具
+    $therapyContentMap = [
+      14 => 'therapy_content_electric_needle',
+      15 => 'therapy_content_electric_moxa',
+      16 => 'therapy_content_electric_light',
+    ];
+
+    foreach ($therapyContentMap as $contentId => $fieldKey) {
+      if (isset($therapyTypeCounts[$contentId]) && $therapyTypeCounts[$contentId] > 0) {
+        $this->drawEllipseByKey($pdf, $fieldKey);
+      }
     }
 
     // 初検料（初回施術時のみ描画）

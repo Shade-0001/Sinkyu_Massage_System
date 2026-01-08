@@ -149,7 +149,7 @@
           <select id="therapy_content_id" name="therapy_content_id" data-tooltip="先に日付を選択してください">
             <option value="">╌╌╌</option>
             @foreach($therapyContents as $content)
-              <option value="{{ $content->id }}" {{ old('therapy_content_id') == $content->id ? 'selected' : '' }}>{{ $content->therapy_content }}</option>
+              <option value="{{ $content->id }}" data-therapy-type="{{ $content->therapy_type }}" {{ old('therapy_content_id') == $content->id ? 'selected' : '' }}>{{ $content->therapy_content }}</option>
             @endforeach
           </select>
 

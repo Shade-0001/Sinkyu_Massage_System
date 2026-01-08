@@ -121,7 +121,7 @@
           <select id="therapy_content_id" name="therapy_content_id">
             <option value="">選択してください</option>
             @foreach($therapyContents as $content)
-              <option value="{{ $content->id }}" {{ old('therapy_content_id', $record->therapy_conetnt_id) == $content->id ? 'selected' : '' }}>{{ $content->therapy_content }}</option>
+              <option value="{{ $content->id }}" data-therapy-type="{{ $content->therapy_type }}" {{ old('therapy_content_id', $record->therapy_conetnt_id) == $content->id ? 'selected' : '' }}>{{ $content->therapy_content }}</option>
             @endforeach
           </select>
 

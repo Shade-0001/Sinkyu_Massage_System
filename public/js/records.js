@@ -264,6 +264,40 @@ function updateConsentExpiryDisplay() {
       const acupunctureValue = consentExpiryAcupuncture.textContent.trim();
       consentExpiryInput.value = acupunctureValue === '未登録' ? '' : acupunctureValue;
     }
+
+    // 施術内容のフィルタリング
+    filterTherapyContents(checkedRadio.value);
+  }
+}
+
+// 施術内容のフィルタリング
+function filterTherapyContents(therapyType) {
+  const therapyContentSelect = document.getElementById('therapy_content_id');
+  if (!therapyContentSelect) return;
+
+  const allOptions = therapyContentSelect.querySelectorAll('option');
+  const currentValue = therapyContentSelect.value;
+
+  // 全てのオプションを表示
+  allOptions.forEach(option => {
+    if (option.value === '') {
+      // 空のオプションは常に表示
+      option.style.display = '';
+      return;
+    }
+
+    const optionTherapyType = option.getAttribute('data-therapy-type');
+    if (optionTherapyType === therapyType) {
+      option.style.display = '';
+    } else {
+      option.style.display = 'none';
+    }
+  });
+
+  // 現在選択されている値が非表示になる場合、選択を解除
+  const currentOption = therapyContentSelect.querySelector(`option[value="${currentValue}"]`);
+  if (currentOption && currentOption.style.display === 'none') {
+    therapyContentSelect.value = '';
   }
 }
 

@@ -281,6 +281,9 @@ function stopLongPress() {
   if (longPressInterval) {
     clearInterval(longPressInterval);
     longPressInterval = null;
+    // インターバル終了後に保存とプレビューを実行
+    autoPreview();
+    autoSave();
   }
 }
 
@@ -460,3 +463,4 @@ function updateSampleData(field, value) {
   // プレビューを自動更新
   autoPreview();
 }
+

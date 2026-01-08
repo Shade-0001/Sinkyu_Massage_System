@@ -162,7 +162,7 @@ class RecordsController extends Controller
 
     // 施術内容リストを取得
     $therapyContents = DB::table('therapy_contents')
-      ->select('id', 'therapy_content')
+      ->select('id', 'therapy_type', 'therapy_content')
       ->orderBy('id')
       ->get();
 
@@ -426,7 +426,7 @@ class RecordsController extends Controller
 
     // 施術内容リストを取得
     $therapyContents = DB::table('therapy_contents')
-      ->select('id', 'therapy_content')
+      ->select('id', 'therapy_type', 'therapy_content')
       ->orderBy('id')
       ->get();
 
@@ -494,6 +494,9 @@ class RecordsController extends Controller
       // 削除対象のレコードIDを取得
       $deletedRecordIds = $deletedRecords->pluck('id')->toArray();
 
+      // 元の登録日時を保持（最も古いcreated_atを取得）
+      $originalCreatedAt = $deletedRecords->min('created_at');
+
       // bodyparts-recordsテーブルから関連データを削除
       DB::table('bodyparts-records')
         ->whereIn('records_id', $deletedRecordIds)
@@ -507,8 +510,8 @@ class RecordsController extends Controller
 
       // 新しいレコードを作成
       foreach ($housecallDistances as $date => $distance) {
-        // recordsテーブルにデータを挿入
-        $record = Record::create([
+        // recordsテーブルにデータを挿入（元の登録日時を保持）
+        $record = new Record([
           'clinic_user_id' => $validated['clinic_user_id'],
           'date' => $date,
           'start_time' => $validated['start_time'],
@@ -524,6 +527,8 @@ class RecordsController extends Controller
           'therapist_id' => $validated['therapist_id'],
           'abstract' => $validated['abstract'] ?? null,
         ]);
+        $record->created_at = $originalCreatedAt;
+        $record->save();
         $recordId = $record->id;
 
         // あんま･マッサージの場合、bodyparts-recordsテーブルに身体部位を保存
@@ -556,7 +561,7 @@ class RecordsController extends Controller
           }
 
           foreach ($duplicateContents as $contentId) {
-            $duplicateRecord = Record::create([
+            $duplicateRecord = new Record([
               'clinic_user_id' => $validated['clinic_user_id'],
               'date' => $date,
               'start_time' => $validated['start_time'],
@@ -572,6 +577,8 @@ class RecordsController extends Controller
               'therapist_id' => $validated['therapist_id'],
               'abstract' => $validated['abstract'] ?? null,
             ]);
+            $duplicateRecord->created_at = $originalCreatedAt;
+            $duplicateRecord->save();
             $duplicateRecordId = $duplicateRecord->id;
 
             // 複製したレコードにも身体部位を保存
@@ -745,7 +752,7 @@ class RecordsController extends Controller
 
     // 施術内容リストを取得
     $therapyContents = DB::table('therapy_contents')
-      ->select('id', 'therapy_content')
+      ->select('id', 'therapy_type', 'therapy_content')
       ->orderBy('id')
       ->get();
 

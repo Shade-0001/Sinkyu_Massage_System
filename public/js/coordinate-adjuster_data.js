@@ -184,6 +184,10 @@ let customSampleData = {
   abstract: '特記事項なし',
   // 初検料
   fee_initial_examination: 'はり', // はり、きゅう、はり･きゅう併用
+  // 電療料（個別チェックボックス）
+  therapy_content_electric_needle: true,
+  therapy_content_electric_moxa: true,
+  therapy_content_electric_light: true,
   // 施術月
   treatment_month: '12',
   // 申請年月日

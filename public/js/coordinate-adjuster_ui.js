@@ -199,6 +199,7 @@ function renderFieldSettings() {
         return;
       }
 
+
       // 通常フィールドの処理
       processedKeys.add(key);
 
@@ -300,6 +301,7 @@ function renderSingleFieldHTML(key, field) {
       </div>
       ` : ''}
 
+      ${field.x !== undefined ? `
       <div class="coordinate-input">
         <label>${field.ellipseX !== undefined ? 'X座標（テキスト）:' : 'X座標:'}</label>
         <button class="btn btn-sm btn-outline-secondary btn-adjust"
@@ -318,7 +320,9 @@ function renderSingleFieldHTML(key, field) {
                 ontouchstart="startLongPress('${key}', 'x', 0.5)"
                 ontouchend="stopLongPress()">→</button>
       </div>
+      ` : ''}
 
+      ${field.y !== undefined ? `
       <div class="coordinate-input">
         <label>${field.ellipseY !== undefined ? 'Y座標（テキスト）:' : 'Y座標:'}</label>
         <button class="btn btn-sm btn-outline-secondary btn-adjust"
@@ -337,6 +341,7 @@ function renderSingleFieldHTML(key, field) {
                 ontouchstart="startLongPress('${key}', 'y', 0.5)"
                 ontouchend="stopLongPress()">↓</button>
       </div>
+      ` : ''}
 
       ${field.fontSize !== undefined ? `
       <div class="coordinate-input">
@@ -1412,6 +1417,25 @@ function getSampleDataInput(key) {
       </div>
     `;
   }
+  // 楕円フィールドで、mappingが存在しない場合（例: therapy_content_electric_needle）
+  // coordinatesから直接フィールド情報を取得してチェックボックスを生成
+  else if (!mapping && coordinates[key] && coordinates[key].ellipseWidth !== undefined) {
+    const field = coordinates[key];
+    const isChecked = customSampleData[key] === true;
+    inputHtml = `
+      <div class="coordinate-input">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox"
+                 id="sample_${key}"
+                 ${isChecked ? 'checked' : ''}
+                 onchange="updateSampleData('${key}', this.checked)">
+          <label class="form-check-label" for="sample_${key}">
+            有効化
+          </label>
+        </div>
+      </div>
+    `;
+  }
 
   return inputHtml;
 }
@@ -1444,6 +1468,7 @@ function toggleField(key) {
     });
   }
 }
+
 
 // 施術料金データを表示
 function displayTreatmentFees() {
