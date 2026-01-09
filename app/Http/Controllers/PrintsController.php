@@ -247,6 +247,18 @@ class PrintsController extends Controller
       $coordinates = $request->input('coordinates');
       $originalCoordinates = file_get_contents($configPath);
 
+      // デバッグ：isSelectedが含まれているかチェック
+      $hasIsSelected = false;
+      foreach ($coordinates as $k => $v) {
+        if (isset($v['isSelected'])) {
+          \Log::warning('PreviewPdf: isSelected detected', ['key' => $k, 'isSelected' => $v['isSelected']]);
+          $hasIsSelected = true;
+        }
+      }
+      if (!$hasIsSelected) {
+        \Log::info('PreviewPdf: No isSelected flags detected');
+      }
+
       // 一時保存
       file_put_contents($configPath, json_encode($coordinates, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 

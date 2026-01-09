@@ -18,7 +18,7 @@ class Record extends Model
     'housecall_distance',
     'therapy_days',
     'consent_expiry',
-    'therapy_conetnt_id',
+    'therapy_content_id',
     'bill_category_id',
     'therapist_id',
     'abstract',

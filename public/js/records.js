@@ -626,7 +626,7 @@ function createTimePicker(wrapper, hiddenInput) {
 
 // 時刻のフォーマット
 function formatTime(hour, minute) {
-  return `${hour}:${String(minute).padStart(2, '0')}`;
+  return `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
 }
 
 // 古い入力値を復元

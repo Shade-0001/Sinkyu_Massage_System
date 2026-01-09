@@ -71,6 +71,7 @@ class AcupunctureBenefitPdfService
 
   /**
    * ラジオグループの整合性を確保（各グループで最大1つだけ isSelected: true）
+   * サンプルデータモードがONの場合のみ、isSelectedがない場合に最初のフィールドを選択する
    */
   protected function ensureRadioGroupIntegrity(): void
   {
@@ -102,15 +103,8 @@ class AcupunctureBenefitPdfService
           }
         }
         
-        // グループ内に isSelected: true が1つもない場合は、最初のフィールドを true にする
-        if ($firstSelectedKey === null) {
-          foreach ($this->coordinates as $k => $f) {
-            if (isset($f['radioGroup']) && $f['radioGroup'] === $groupName) {
-              $this->coordinates[$k]['isSelected'] = true;
-              break;
-            }
-          }
-        }
+        // グループ内に isSelected: true が1つもない場合は、isSelectedを設定しない
+        // （通常モードでは実データから値を取得するため）
       }
     }
   }
@@ -217,6 +211,13 @@ class AcupunctureBenefitPdfService
 
     if (!$insurance) {
       \Log::warning('保険情報が見つかりません', ['clinic_user_id' => $clinicUserId]);
+    } else {
+      \Log::info('保険情報取得成功', [
+        'clinic_user_id' => $clinicUserId,
+        'insurance_id' => $insurance->id ?? null,
+        'expenses_borne_ratio_id' => $insurance->expenses_borne_ratio_id ?? null,
+        'expenses_borne_ratio' => $insurance->expenses_borne_ratio ?? null,
+      ]);
     }
 
     // はり・きゅう同意書情報取得（請求区分、転帰、業務上区分もJOIN）
@@ -426,22 +427,39 @@ class AcupunctureBenefitPdfService
     }
 
     // === 一部負担金（楕円） ===
-    if ($insurance && isset($insurance->expenses_borne_ratio)) {
-      // 表示ラベルを数値に変換（サンプルデータ対応）
+    $expensesBorneRatioKey = null;
+
+    // isSelectedフラグをチェック（サンプルデータの場合）
+    if (isset($this->coordinates['expenses_borne_ratio_10']['isSelected']) && $this->coordinates['expenses_borne_ratio_10']['isSelected']) {
+      $expensesBorneRatioKey = 'expenses_borne_ratio_10';
+      \Log::info('一部負担金: isSelected 10');
+    } elseif (isset($this->coordinates['expenses_borne_ratio_20']['isSelected']) && $this->coordinates['expenses_borne_ratio_20']['isSelected']) {
+      $expensesBorneRatioKey = 'expenses_borne_ratio_20';
+      \Log::info('一部負担金: isSelected 20');
+    } elseif (isset($this->coordinates['expenses_borne_ratio_30']['isSelected']) && $this->coordinates['expenses_borne_ratio_30']['isSelected']) {
+      $expensesBorneRatioKey = 'expenses_borne_ratio_30';
+      \Log::info('一部負担金: isSelected 30');
+    } elseif ($insurance && isset($insurance->expenses_borne_ratio)) {
+      // 通常モード：保険データから取得
       $ratioValue = (string)$insurance->expenses_borne_ratio;
-      if ($ratioValue === '１割') $ratioValue = '10';
-      if ($ratioValue === '２割') $ratioValue = '20';
-      if ($ratioValue === '３割') $ratioValue = '30';
+      \Log::info('一部負担金: 保険データから取得', ['original' => $ratioValue]);
+      
+      // 半角数字+全角「割」と全角数字+全角「割」の両方に対応
+      if ($ratioValue === '１割' || $ratioValue === '1割') $ratioValue = '10';
+      if ($ratioValue === '２割' || $ratioValue === '2割') $ratioValue = '20';
+      if ($ratioValue === '３割' || $ratioValue === '3割') $ratioValue = '30';
 
       $expensesBorneRatioMap = [
         '10' => 'expenses_borne_ratio_10',
         '20' => 'expenses_borne_ratio_20',
         '30' => 'expenses_borne_ratio_30',
       ];
-      $key = $expensesBorneRatioMap[$ratioValue] ?? null;
-      if ($key) {
-        $this->drawEllipseByKey($pdf, $key);
-      }
+      $expensesBorneRatioKey = $expensesBorneRatioMap[$ratioValue] ?? null;
+      \Log::info('一部負担金: 変換後', ['converted' => $ratioValue, 'key' => $expensesBorneRatioKey]);
+    }
+
+    if ($expensesBorneRatioKey) {
+      $this->drawEllipseByKey($pdf, $expensesBorneRatioKey);
     }
 
     // === 保険者番号 ===
@@ -706,18 +724,30 @@ class AcupunctureBenefitPdfService
     // === 発病負傷の原因･経過 ===
     if ($this->sampleDataMode && $this->customSampleData) {
       // サンプルデータモード：customSampleDataから取得
-      $condition = $this->customSampleData['condition'] ?? '';
+      $conditionId = $this->customSampleData['condition'] ?? '';
 
-      if ($condition) {
-        $pdf->SetFontSize($this->coord('condition', 'fontSize'));
-        $this->drawTextByKey($pdf, 'condition', (string)$condition);
-        $pdf->SetFontSize(10);
+      if ($conditionId) {
+        // IDから名称を取得
+        $condition = \App\Models\Condition::find($conditionId);
+        $conditionName = $condition ? $condition->condition_name : '';
+        
+        if ($conditionName) {
+          $pdf->SetFontSize($this->coord('condition', 'fontSize'));
+          $this->drawTextByKey($pdf, 'condition', $conditionName);
+          $pdf->SetFontSize(10);
+        }
       }
     } elseif ($consent && isset($consent->condition) && $consent->condition) {
       // 通常モード：実データから取得
-      $pdf->SetFontSize($this->coord('condition', 'fontSize'));
-      $this->drawTextByKey($pdf, 'condition', (string)$consent->condition);
-      $pdf->SetFontSize(10);
+      // IDから名称を取得
+      $condition = \App\Models\Condition::find($consent->condition);
+      $conditionName = $condition ? $condition->condition_name : '';
+      
+      if ($conditionName) {
+        $pdf->SetFontSize($this->coord('condition', 'fontSize'));
+        $this->drawTextByKey($pdf, 'condition', $conditionName);
+        $pdf->SetFontSize(10);
+      }
     }
 
     // === 業務上・外、第三者行為の有無 ===
@@ -1017,7 +1047,20 @@ class AcupunctureBenefitPdfService
       // 全レコードの摘要を結合（重複排除）
       $abstracts = $records->pluck('abstract')->filter()->unique()->toArray();
       if (!empty($abstracts)) {
-        $abstractText = implode('｜', $abstracts);
+        // "。"で区切る（前後に既に"。"がある場合は重複しないように）
+        $abstractText = '';
+        foreach ($abstracts as $i => $abstract) {
+          if ($i > 0) {
+            // 前の文字列の末尾と現在の文字列の先頭をチェック
+            $lastChar = mb_substr($abstractText, -1);
+            $firstChar = mb_substr($abstract, 0, 1);
+            if ($lastChar !== '。' && $firstChar !== '。') {
+              $abstractText .= '。';
+            }
+          }
+          $abstractText .= $abstract;
+        }
+        
         $x = $this->coord('abstract', 'x');
         $y = $this->coord('abstract', 'y');
         $fontSize = $this->coord('abstract', 'fontSize');
@@ -1492,7 +1535,10 @@ class AcupunctureBenefitPdfService
 
     // === 被保険者情報 ===
     if ($this->hasCoord('temporary_insurer_name')) {
-      $tempInsurerName = $this->customSampleData['temporary_insurer_name'] ?? '';
+      // サンプルデータモード時は専用の値を使用、実データモードでは申請者氏名と同じデータを参照
+      $tempInsurerName = $this->sampleDataMode 
+        ? ($this->customSampleData['temporary_insurer_name'] ?? '')
+        : $fullName;
 
       if ($tempInsurerName) {
         $pdf->SetFontSize($this->coord('temporary_insurer_name', 'fontSize'));
@@ -1526,8 +1572,8 @@ class AcupunctureBenefitPdfService
 
       // 同意医師住所・郵便番号（doctorsテーブルから取得）
       if (isset($consent->consenting_doctor_name)) {
-        // 医師名から姓名を分割（スペース区切りを想定）
-        $nameParts = explode(' ', trim($consent->consenting_doctor_name));
+        // 医師名から姓名を分割（半角・全角・Unicodeスペースに対応）
+        $nameParts = preg_split('/[\s\x{2000}-\x{200B}\x{3000}]+/u', trim($consent->consenting_doctor_name));
         if (count($nameParts) >= 2) {
           $lastName = $nameParts[0];
           $firstName = $nameParts[1];
@@ -2316,12 +2362,14 @@ class AcupunctureBenefitPdfService
 
         $key = $keyMap[$initialExamType] ?? null;
         if ($key && isset($this->coordinates[$key])) {
-          // 楕円描画
+          // 楕円描画（初検料サークル）
           $this->drawEllipseByKey($pdf, $key);
 
-          // 金額描画（1500円固定）
-          $pdf->SetFontSize($this->coord($key, 'fontSize'));
-          $this->drawTextByKey($pdf, $key, '1500');
+          // 初検料金額描画（別の座標に描画）
+          if (isset($custom['fee_initial_examination_amount']) && isset($this->coordinates['fee_initial_examination_amount'])) {
+            $pdf->SetFontSize($this->coord('fee_initial_examination_amount', 'fontSize'));
+            $this->drawTextByKey($pdf, 'fee_initial_examination_amount', (string)$custom['fee_initial_examination_amount']);
+          }
         }
       }
 
@@ -2512,7 +2560,7 @@ class AcupunctureBenefitPdfService
 
     // 施術実績を集計
     foreach ($records as $index => $record) {
-      $therapyContentId = $record->therapy_conetnt_id ?? null;
+      $therapyContentId = $record->therapy_content_id ?? null;
 
       // 初検かどうかを判定（最初のレコードのみ）
       if ($index === 0) {
@@ -2530,9 +2578,9 @@ class AcupunctureBenefitPdfService
 
     $totalFee = 0;
 
-    // はり料金
-    if (isset($therapyTypeCounts[1]) || isset($therapyTypeCounts[2])) {
-      $hariCount = ($therapyTypeCounts[1] ?? 0) + ($therapyTypeCounts[2] ?? 0);
+    // はり料金（therapy_content_id: 11=はり のみ、13は含めない）
+    if (isset($therapyTypeCounts[11])) {
+      $hariCount = $therapyTypeCounts[11];
       $feeKey = $isFirstTreatment ? 'hari_first' : 'hari_normal';
       $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
       $total = $unitPrice * $hariCount;
@@ -2546,9 +2594,9 @@ class AcupunctureBenefitPdfService
       }
     }
 
-    // きゅう料金
-    if (isset($therapyTypeCounts[3]) || isset($therapyTypeCounts[4])) {
-      $kyuCount = ($therapyTypeCounts[3] ?? 0) + ($therapyTypeCounts[4] ?? 0);
+    // きゅう料金（therapy_content_id: 12=きゅう のみ、13は含めない）
+    if (isset($therapyTypeCounts[12])) {
+      $kyuCount = $therapyTypeCounts[12];
       $feeKey = $isFirstTreatment ? 'kyu_first' : 'kyu_normal';
       $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
       $total = $unitPrice * $kyuCount;
@@ -2582,13 +2630,23 @@ class AcupunctureBenefitPdfService
       $totalFee += $total;
     }
 
-    // === 電療料（サークルのみ描画、複数選択可能） ===
-    // therapy_content_id: 14=電気針, 15=電気温灸器, 16=電気光線器具
+    // === 電療料（サークル描画 + 金額計算） ===
+    // therapy_content_id: 14=電気針, 15=電気温灸器, 16/17=電気光線器具
     $therapyContentMap = [
       14 => 'therapy_content_electric_needle',
       15 => 'therapy_content_electric_moxa',
       16 => 'therapy_content_electric_light',
+      17 => 'therapy_content_electric_light', // 重複ID対応
     ];
+
+    // 電療料の種類をカウント（複数種類があるかチェック）
+    $electricTypes = [];
+    if (isset($therapyTypeCounts[14]) && $therapyTypeCounts[14] > 0) $electricTypes[] = 14;
+    if (isset($therapyTypeCounts[15]) && $therapyTypeCounts[15] > 0) $electricTypes[] = 15;
+    if ((isset($therapyTypeCounts[16]) && $therapyTypeCounts[16] > 0) || 
+        (isset($therapyTypeCounts[17]) && $therapyTypeCounts[17] > 0)) $electricTypes[] = 16;
+    
+    $multipleElectricTypes = count($electricTypes) > 1;
 
     foreach ($therapyContentMap as $contentId => $fieldKey) {
       if (isset($therapyTypeCounts[$contentId]) && $therapyTypeCounts[$contentId] > 0) {
@@ -2596,13 +2654,100 @@ class AcupunctureBenefitPdfService
       }
     }
 
+    // 複数種類の電療料がある場合は料金を描画しない（手書き用）
+    if (!$multipleElectricTypes) {
+      // 電気針（はり+電気針）
+      if (isset($therapyTypeCounts[14]) && isset($this->coordinates['fee_electric_unit'])) {
+        $electricCount = $therapyTypeCounts[14];
+        $feeKey = $isFirstTreatment ? 'hari_and_elec_needle_first' : 'hari_and_elec_needle_normal';
+        $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
+        $total = $unitPrice * $electricCount;
+
+        if ($total > 0) {
+          $pdf->SetFontSize($this->coord('fee_electric_unit', 'fontSize'));
+          $this->drawTextByKey($pdf, 'fee_electric_unit', (string)$unitPrice);
+          $this->drawTextByKey($pdf, 'fee_electric_count', (string)$electricCount);
+          $this->drawTextByKey($pdf, 'fee_electric_total', (string)$total);
+          $totalFee += $total;
+        }
+      }
+
+      // 電気温灸器（きゅう+電気温灸器）
+      if (isset($therapyTypeCounts[15]) && isset($this->coordinates['fee_electric_unit'])) {
+        $electricCount = $therapyTypeCounts[15];
+        $feeKey = $isFirstTreatment ? 'kyu_and_elec_moxa_heater_first' : 'kyu_and_elec_moxa_heater_normal';
+        $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
+        $total = $unitPrice * $electricCount;
+
+        if ($total > 0) {
+          $pdf->SetFontSize($this->coord('fee_electric_unit', 'fontSize'));
+          $this->drawTextByKey($pdf, 'fee_electric_unit', (string)$unitPrice);
+          $this->drawTextByKey($pdf, 'fee_electric_count', (string)$electricCount);
+          $this->drawTextByKey($pdf, 'fee_electric_total', (string)$total);
+          $totalFee += $total;
+        }
+      }
+
+      // 電気光線器具（温罨法+電気光線器具）
+      if ((isset($therapyTypeCounts[16]) || isset($therapyTypeCounts[17])) && isset($this->coordinates['fee_electric_unit'])) {
+        $electricCount = ($therapyTypeCounts[16] ?? 0) + ($therapyTypeCounts[17] ?? 0);
+        $feeKey = $isFirstTreatment ? 'fomentation_and_elec_ray_first' : 'fomentation_and_elec_ray_normal';
+        $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
+        $total = $unitPrice * $electricCount;
+
+        if ($total > 0) {
+          $pdf->SetFontSize($this->coord('fee_electric_unit', 'fontSize'));
+          $this->drawTextByKey($pdf, 'fee_electric_unit', (string)$unitPrice);
+          $this->drawTextByKey($pdf, 'fee_electric_count', (string)$electricCount);
+          $this->drawTextByKey($pdf, 'fee_electric_total', (string)$total);
+          $totalFee += $total;
+        }
+      }
+    }
+
+    // はり・きゅう併用料金（therapy_content_id: 13）
+    if (isset($therapyTypeCounts[13]) && isset($this->coordinates['fee_hari_kyu_unit'])) {
+      $combinedCount = $therapyTypeCounts[13];
+      $feeKey = $isFirstTreatment ? 'hari_and_kyu_first' : 'hari_and_kyu_normal';
+      $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
+      $total = $unitPrice * $combinedCount;
+
+      if ($total > 0) {
+        $pdf->SetFontSize($this->coord('fee_hari_kyu_unit', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_hari_kyu_unit', (string)$unitPrice);
+        $this->drawTextByKey($pdf, 'fee_hari_kyu_count', (string)$combinedCount);
+        $this->drawTextByKey($pdf, 'fee_hari_kyu_total', (string)$total);
+        $totalFee += $total;
+      }
+    }
+
+    // 往療料（4km超）
+    $housecallAdditionalCount = 0;
+    foreach ($records as $record) {
+      if (isset($record->housecall_distance) && $record->housecall_distance > 4) {
+        $housecallAdditionalCount++;
+      }
+    }
+
+    if ($housecallAdditionalCount > 0 && isset($this->coordinates['fee_housecall_additional_unit'])) {
+      $feeKey = $isFirstTreatment ? 'housecall_additional_max_4km_first' : 'housecall_additional_max_4km_normal';
+      $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
+      $total = $unitPrice * $housecallAdditionalCount;
+
+      $pdf->SetFontSize($this->coord('fee_housecall_additional_unit', 'fontSize'));
+      $this->drawTextByKey($pdf, 'fee_housecall_additional_unit', (string)$unitPrice);
+      $this->drawTextByKey($pdf, 'fee_housecall_additional_count', (string)$housecallAdditionalCount);
+      $this->drawTextByKey($pdf, 'fee_housecall_additional_total', (string)$total);
+      $totalFee += $total;
+    }
+
     // 初検料（初回施術時のみ描画）
     if ($isFirstTreatment) {
       $initialExaminationFee = 1500;
 
-      // 施術タイプを判定
-      $hariCount = ($therapyTypeCounts[1] ?? 0) + ($therapyTypeCounts[2] ?? 0);
-      $kyuCount = ($therapyTypeCounts[3] ?? 0) + ($therapyTypeCounts[4] ?? 0);
+      // 施術タイプを判定（正しいIDを使用）
+      $hariCount = ($therapyTypeCounts[11] ?? 0) + ($therapyTypeCounts[13] ?? 0);
+      $kyuCount = ($therapyTypeCounts[12] ?? 0) + ($therapyTypeCounts[13] ?? 0);
 
       $key = null;
       if ($hariCount > 0 && $kyuCount > 0) {
@@ -2614,20 +2759,35 @@ class AcupunctureBenefitPdfService
       }
 
       if ($key && isset($this->coordinates[$key])) {
-        // 楕円描画
+        // 楕円描画（初検料サークル）
         $this->drawEllipseByKey($pdf, $key);
 
-        // 金額描画
-        $pdf->SetFontSize($this->coord($key, 'fontSize'));
-        $this->drawTextByKey($pdf, $key, (string)$initialExaminationFee);
-
+        // 初検料金額描画（別の座標に描画）
+        if (isset($this->coordinates['fee_initial_examination_amount'])) {
+          $pdf->SetFontSize($this->coord('fee_initial_examination_amount', 'fontSize'));
+          $this->drawTextByKey($pdf, 'fee_initial_examination_amount', (string)$initialExaminationFee);
+        }
+        
         $totalFee += $initialExaminationFee;
       }
     }
 
+    // 合計（fee_subtotal）
+    if (isset($this->coordinates['fee_subtotal'])) {
+      $pdf->SetFontSize($this->coord('fee_subtotal', 'fontSize'));
+      $this->drawTextByKey($pdf, 'fee_subtotal', (string)$totalFee);
+    }
+
     // 一部負担金（保険負担割合から計算）
     if (isset($this->coordinates['fee_partial_payment'])) {
-      $expensesBorneRatio = (int)($insurance->expenses_borne_ratio ?? 30); // デフォルト3割負担
+      // expenses_borne_ratioから数値を抽出（"2割" → 20）
+      $ratioText = (string)($insurance->expenses_borne_ratio ?? '3割');
+      $expensesBorneRatio = 30; // デフォルト3割
+      
+      if (preg_match('/(\d+)割/', $ratioText, $matches)) {
+        $expensesBorneRatio = (int)$matches[1] * 10;
+      }
+
       $partialPayment = (int)($totalFee * ($expensesBorneRatio / 100));
 
       $pdf->SetFontSize($this->coord('fee_partial_payment', 'fontSize'));
@@ -2645,3 +2805,5 @@ class AcupunctureBenefitPdfService
     $pdf->SetFontSize(10);
   }
 }
+
+

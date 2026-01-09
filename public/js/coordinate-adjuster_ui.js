@@ -261,7 +261,7 @@ function renderSingleFieldHTML(key, field) {
     <div class="field-controls" id="controls-${key}">
       ${field.ellipseX !== undefined ? `
       <div class="coordinate-input">
-        <label>X座標（サークル）:</label>
+        <label>X座標:</label>
         <button class="btn btn-sm btn-outline-secondary btn-adjust"
                 onmousedown="startLongPress('${key}', 'ellipseX', -0.5)"
                 onmouseup="stopLongPress()"
@@ -282,7 +282,7 @@ function renderSingleFieldHTML(key, field) {
 
       ${field.ellipseY !== undefined ? `
       <div class="coordinate-input">
-        <label>Y座標（サークル）:</label>
+        <label>Y座標:</label>
         <button class="btn btn-sm btn-outline-secondary btn-adjust"
                 onmousedown="startLongPress('${key}', 'ellipseY', -0.5)"
                 onmouseup="stopLongPress()"
@@ -896,7 +896,7 @@ function updateRadioGroupSelection(groupName, selectedKey) {
   if (selectedField.ellipseX !== undefined) {
     const ellipseXDiv = document.createElement('div');
     ellipseXDiv.className = 'coordinate-input';
-    ellipseXDiv.innerHTML = `<label>X座標（サークル）:</label>`;
+    ellipseXDiv.innerHTML = `<label>X座標:</label>`;
 
     const ellipseXBtnLeft = document.createElement('button');
     ellipseXBtnLeft.className = 'btn btn-sm btn-outline-secondary btn-adjust';
@@ -940,7 +940,7 @@ function updateRadioGroupSelection(groupName, selectedKey) {
   if (selectedField.ellipseY !== undefined) {
     const ellipseYDiv = document.createElement('div');
     ellipseYDiv.className = 'coordinate-input';
-    ellipseYDiv.innerHTML = `<label>Y座標（サークル）:</label>`;
+    ellipseYDiv.innerHTML = `<label>Y座標:</label>`;
 
     const ellipseYBtnUp = document.createElement('button');
     ellipseYBtnUp.className = 'btn btn-sm btn-outline-secondary btn-adjust';
@@ -980,94 +980,96 @@ function updateRadioGroupSelection(groupName, selectedKey) {
     detailsDiv.appendChild(ellipseYDiv);
   }
 
-  // X座標
-  const xDiv = document.createElement('div');
-  xDiv.className = 'coordinate-input';
-  xDiv.innerHTML = `
-    <label>${selectedField.ellipseX !== undefined ? 'X座標（テキスト）:' : 'X座標:'}</label>
-  `;
-  const xBtnLeft = document.createElement('button');
-  xBtnLeft.className = 'btn btn-sm btn-outline-secondary btn-adjust';
-  xBtnLeft.innerHTML = '←';
-  xBtnLeft.addEventListener('mousedown', function() {
-    startLongPress(selectedKey, 'x', -0.5);
-  });
-  xBtnLeft.addEventListener('mouseup', stopLongPress);
-  xBtnLeft.addEventListener('mouseleave', stopLongPress);
-  xBtnLeft.addEventListener('touchstart', function() {
-    startLongPress(selectedKey, 'x', -0.5);
-  });
-  xBtnLeft.addEventListener('touchend', stopLongPress);
+  // X座標（ellipseXがある場合は非表示）
+  if (selectedField.x !== undefined && selectedField.ellipseX === undefined) {
+    const xDiv = document.createElement('div');
+    xDiv.className = 'coordinate-input';
+    xDiv.innerHTML = `<label>X座標:</label>`;
+    const xBtnLeft = document.createElement('button');
+    xBtnLeft.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+    xBtnLeft.innerHTML = '←';
+    xBtnLeft.addEventListener('mousedown', function() {
+      startLongPress(selectedKey, 'x', -0.5);
+    });
+    xBtnLeft.addEventListener('mouseup', stopLongPress);
+    xBtnLeft.addEventListener('mouseleave', stopLongPress);
+    xBtnLeft.addEventListener('touchstart', function() {
+      startLongPress(selectedKey, 'x', -0.5);
+    });
+    xBtnLeft.addEventListener('touchend', stopLongPress);
 
-  const xInput = document.createElement('input');
-  xInput.type = 'number';
-  xInput.step = '0.5';
-  xInput.value = selectedField.x;
-  xInput.className = 'form-control form-control-sm';
-  xInput.style.width = '80px';
-  xInput.style.display = 'inline-block';
-  xInput.style.marginLeft = '5px';
-  xInput.style.marginRight = '5px';
-  xInput.setAttribute('data-property', 'x');
-  xInput.addEventListener('change', function() {
-    updateCoordinate(selectedKey, 'x', this.value);
-  });
+    const xInput = document.createElement('input');
+    xInput.type = 'number';
+    xInput.step = '0.5';
+    xInput.value = selectedField.x;
+    xInput.className = 'form-control form-control-sm';
+    xInput.style.width = '80px';
+    xInput.style.display = 'inline-block';
+    xInput.style.marginLeft = '5px';
+    xInput.style.marginRight = '5px';
+    xInput.setAttribute('data-property', 'x');
+    xInput.addEventListener('change', function() {
+      updateCoordinate(selectedKey, 'x', this.value);
+    });
 
-  const xBtnRight = document.createElement('button');
-  xBtnRight.className = 'btn btn-sm btn-outline-secondary btn-adjust';
-  xBtnRight.innerHTML = '→';
-  xBtnRight.addEventListener('mousedown', () => startLongPress(selectedKey, 'x', 0.5));
-  xBtnRight.addEventListener('mouseup', stopLongPress);
-  xBtnRight.addEventListener('mouseleave', stopLongPress);
-  xBtnRight.addEventListener('touchstart', () => startLongPress(selectedKey, 'x', 0.5));
-  xBtnRight.addEventListener('touchend', stopLongPress);
+    const xBtnRight = document.createElement('button');
+    xBtnRight.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+    xBtnRight.innerHTML = '→';
+    xBtnRight.addEventListener('mousedown', () => startLongPress(selectedKey, 'x', 0.5));
+    xBtnRight.addEventListener('mouseup', stopLongPress);
+    xBtnRight.addEventListener('mouseleave', stopLongPress);
+    xBtnRight.addEventListener('touchstart', () => startLongPress(selectedKey, 'x', 0.5));
+    xBtnRight.addEventListener('touchend', stopLongPress);
 
-  xDiv.appendChild(xBtnLeft);
-  xDiv.appendChild(xInput);
-  xDiv.appendChild(xBtnRight);
-  detailsDiv.appendChild(xDiv);
+    xDiv.appendChild(xBtnLeft);
+    xDiv.appendChild(xInput);
+    xDiv.appendChild(xBtnRight);
+    detailsDiv.appendChild(xDiv);
+  }
 
-  // Y座標
-  const yDiv = document.createElement('div');
-  yDiv.className = 'coordinate-input';
-  yDiv.innerHTML = `<label>${selectedField.ellipseY !== undefined ? 'Y座標（テキスト）:' : 'Y座標:'}</label>`;
+  // Y座標（ellipseYがある場合は非表示）
+  if (selectedField.y !== undefined && selectedField.ellipseY === undefined) {
+    const yDiv = document.createElement('div');
+    yDiv.className = 'coordinate-input';
+    yDiv.innerHTML = `<label>Y座標:</label>`;
   
-  const yBtnUp = document.createElement('button');
-  yBtnUp.className = 'btn btn-sm btn-outline-secondary btn-adjust';
-  yBtnUp.innerHTML = '↑';
-  yBtnUp.addEventListener('mousedown', () => startLongPress(selectedKey, 'y', -0.5));
-  yBtnUp.addEventListener('mouseup', stopLongPress);
-  yBtnUp.addEventListener('mouseleave', stopLongPress);
-  yBtnUp.addEventListener('touchstart', () => startLongPress(selectedKey, 'y', -0.5));
-  yBtnUp.addEventListener('touchend', stopLongPress);
+    const yBtnUp = document.createElement('button');
+    yBtnUp.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+    yBtnUp.innerHTML = '↑';
+    yBtnUp.addEventListener('mousedown', () => startLongPress(selectedKey, 'y', -0.5));
+    yBtnUp.addEventListener('mouseup', stopLongPress);
+    yBtnUp.addEventListener('mouseleave', stopLongPress);
+    yBtnUp.addEventListener('touchstart', () => startLongPress(selectedKey, 'y', -0.5));
+    yBtnUp.addEventListener('touchend', stopLongPress);
   
-  const yInput = document.createElement('input');
-  yInput.type = 'number';
-  yInput.step = '0.5';
-  yInput.value = selectedField.y;
-  yInput.className = 'form-control form-control-sm';
-  yInput.style.width = '80px';
-  yInput.style.display = 'inline-block';
-  yInput.style.marginLeft = '5px';
-  yInput.style.marginRight = '5px';
-  yInput.setAttribute('data-property', 'y');
-  yInput.addEventListener('change', function() {
-    updateCoordinate(selectedKey, 'y', this.value);
-  });
+    const yInput = document.createElement('input');
+    yInput.type = 'number';
+    yInput.step = '0.5';
+    yInput.value = selectedField.y;
+    yInput.className = 'form-control form-control-sm';
+    yInput.style.width = '80px';
+    yInput.style.display = 'inline-block';
+    yInput.style.marginLeft = '5px';
+    yInput.style.marginRight = '5px';
+    yInput.setAttribute('data-property', 'y');
+    yInput.addEventListener('change', function() {
+      updateCoordinate(selectedKey, 'y', this.value);
+    });
   
-  const yBtnDown = document.createElement('button');
-  yBtnDown.className = 'btn btn-sm btn-outline-secondary btn-adjust';
-  yBtnDown.innerHTML = '↓';
-  yBtnDown.addEventListener('mousedown', () => startLongPress(selectedKey, 'y', 0.5));
-  yBtnDown.addEventListener('mouseup', stopLongPress);
-  yBtnDown.addEventListener('mouseleave', stopLongPress);
-  yBtnDown.addEventListener('touchstart', () => startLongPress(selectedKey, 'y', 0.5));
-  yBtnDown.addEventListener('touchend', stopLongPress);
+    const yBtnDown = document.createElement('button');
+    yBtnDown.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+    yBtnDown.innerHTML = '↓';
+    yBtnDown.addEventListener('mousedown', () => startLongPress(selectedKey, 'y', 0.5));
+    yBtnDown.addEventListener('mouseup', stopLongPress);
+    yBtnDown.addEventListener('mouseleave', stopLongPress);
+    yBtnDown.addEventListener('touchstart', () => startLongPress(selectedKey, 'y', 0.5));
+    yBtnDown.addEventListener('touchend', stopLongPress);
   
-  yDiv.appendChild(yBtnUp);
-  yDiv.appendChild(yInput);
-  yDiv.appendChild(yBtnDown);
-  detailsDiv.appendChild(yDiv);
+    yDiv.appendChild(yBtnUp);
+    yDiv.appendChild(yInput);
+    yDiv.appendChild(yBtnDown);
+    detailsDiv.appendChild(yDiv);
+  }
 
   // 楕円・円のみのフィールドかどうかを判定
   const isShapeOnly = selectedField.ellipseWidth !== undefined || selectedField.ellipseHeight !== undefined || selectedField.circleRadius !== undefined;
@@ -1417,7 +1419,25 @@ function getSampleDataInput(key) {
       </div>
     `;
   }
-  // 楕円フィールドで、mappingが存在しない場合（例: therapy_content_electric_needle）
+  // 楕円フィールドでtypeが定義されていない場合（例: therapy_content_electric_needle）
+  // チェックボックスを生成してサークルの描画を切り替え
+  else if (mapping && !mapping.type && mapping.ellipseWidth !== undefined) {
+    const isChecked = customSampleData[key] === true;
+    inputHtml = `
+      <div class="coordinate-input">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox"
+                 id="sample_${key}"
+                 ${isChecked ? 'checked' : ''}
+                 onchange="updateSampleData('${key}', this.checked)">
+          <label class="form-check-label" for="sample_${key}">
+            有効化
+          </label>
+        </div>
+      </div>
+    `;
+  }
+  // 楕円フィールドで、mappingが存在しない場合
   // coordinatesから直接フィールド情報を取得してチェックボックスを生成
   else if (!mapping && coordinates[key] && coordinates[key].ellipseWidth !== undefined) {
     const field = coordinates[key];

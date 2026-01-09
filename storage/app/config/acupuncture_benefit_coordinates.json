@@ -770,12 +770,7 @@
         "ellipseWidth": 5.5,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
-        "x": 3,
-        "y": 102,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "label": "初検料",
-        "textAlign": "center",
+        "label": "初検料（サークル）",
         "type": "select",
         "radioGroup": "fee_initial_examination",
         "optionLabel": "はり"
@@ -786,12 +781,7 @@
         "ellipseWidth": 6.5,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
-        "x": 36,
-        "y": 114.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "label": "初検料",
-        "textAlign": "center",
+        "label": "初検料（サークル）",
         "type": "select",
         "radioGroup": "fee_initial_examination",
         "optionLabel": "きゅう"
@@ -802,15 +792,19 @@
         "ellipseWidth": 13,
         "ellipseHeight": 3,
         "lineWidth": 0.5,
-        "x": 36,
-        "y": 121,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "label": "初検料",
-        "textAlign": "center",
+        "label": "初検料（サークル）",
         "type": "select",
         "radioGroup": "fee_initial_examination",
         "optionLabel": "はり･きゅう併用"
+    },
+    "fee_initial_examination_amount": {
+        "label": "初検料",
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "fontSize": 10,
+        "type": "number",
+        "x": 15,
+        "y": 102.5
     },
     "therapy_content_electric_needle": {
         "label": "電療料｜電気針（サークル）",
@@ -831,10 +825,10 @@
     "therapy_content_electric_light": {
         "label": "電療料｜電気光線器具（サークル）",
         "lineWidth": 0.5,
-        "ellipseX": 67.5,
-        "ellipseY": 69.5,
-        "ellipseWidth": 60.5,
-        "ellipseHeight": 63.5
+        "ellipseX": 69,
+        "ellipseY": 129,
+        "ellipseWidth": 10,
+        "ellipseHeight": 2.5
     },
     "fee_hari_unit": {
         "x": -5,
@@ -927,7 +921,7 @@
     "fee_hari_kyu_total": {
         "x": 36,
         "y": 121,
-        "fontSize": 9,
+        "fontSize": 10,
         "letterSpacing": 0,
         "label": "合計",
         "textAlign": "center",

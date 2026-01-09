@@ -149,9 +149,10 @@ const sampleDataFieldMapping = {
   'fee_previous_payment_unit': { field: 'fee_previous_payment_unit', label: '単価', type: 'number', compositeGroup: 'fee_previous_payment', compositeLabel: '施術報告書交付料' },
   'fee_previous_payment_count': { field: 'fee_previous_payment_count', label: '回数', type: 'number', compositeGroup: 'fee_previous_payment', compositeLabel: '施術報告書交付料' },
   'fee_previous_payment_total': { field: 'fee_previous_payment_total', label: '合計', type: 'number', compositeGroup: 'fee_previous_payment', compositeLabel: '施術報告書交付料' },
-  'fee_initial_examination_hari': { field: 'fee_initial_examination', label: '初検料', type: 'select', options: ['はり', 'きゅう', 'はり･きゅう併用'], ellipseWidth: 6, ellipseHeight: 3, lineWidth: 0.5, radioGroup: 'fee_initial_examination', optionLabel: 'はり' },
-  'fee_initial_examination_kyu': { field: 'fee_initial_examination', label: '初検料', type: 'select', options: ['はり', 'きゅう', 'はり･きゅう併用'], ellipseWidth: 6, ellipseHeight: 3, lineWidth: 0.5, radioGroup: 'fee_initial_examination', optionLabel: 'きゅう' },
-  'fee_initial_examination_combined': { field: 'fee_initial_examination', label: '初検料', type: 'select', options: ['はり', 'きゅう', 'はり･きゅう併用'], ellipseWidth: 6, ellipseHeight: 3, lineWidth: 0.5, radioGroup: 'fee_initial_examination', optionLabel: 'はり･きゅう併用' },
+  'fee_initial_examination_hari': { field: 'fee_initial_examination', label: '初検料（サークル）', type: 'select', options: ['はり', 'きゅう', 'はり･きゅう併用'], ellipseWidth: 6, ellipseHeight: 3, lineWidth: 0.5, radioGroup: 'fee_initial_examination', optionLabel: 'はり' },
+  'fee_initial_examination_kyu': { field: 'fee_initial_examination', label: '初検料（サークル）', type: 'select', options: ['はり', 'きゅう', 'はり･きゅう併用'], ellipseWidth: 6, ellipseHeight: 3, lineWidth: 0.5, radioGroup: 'fee_initial_examination', optionLabel: 'きゅう' },
+  'fee_initial_examination_combined': { field: 'fee_initial_examination', label: '初検料（サークル）', type: 'select', options: ['はり', 'きゅう', 'はり･きゅう併用'], ellipseWidth: 6, ellipseHeight: 3, lineWidth: 0.5, radioGroup: 'fee_initial_examination', optionLabel: 'はり･きゅう併用' },
+  'fee_initial_examination_amount': { field: 'fee_initial_examination_amount', label: '初検料', type: 'number' },
 
   // === 11-3. 電療料（サークル） ===
   'therapy_content_electric_needle': {

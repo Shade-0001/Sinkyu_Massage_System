@@ -37,8 +37,8 @@ class RecordRequest extends FormRequest
   {
     // 営業時間を取得
     $clinicInfo = DB::table('clinic_info')->first();
-    $businessHoursStart = $clinicInfo->business_hours_start ?? null;
-    $businessHoursEnd = $clinicInfo->business_hours_end ?? null;
+    $businessHoursStart = $clinicInfo->business_hours_start ? substr($clinicInfo->business_hours_start, 0, 5) : null;
+    $businessHoursEnd = $clinicInfo->business_hours_end ? substr($clinicInfo->business_hours_end, 0, 5) : null;
 
     return [
       'clinic_user_id' => 'required|integer|exists:clinic_users,id',
@@ -50,7 +50,7 @@ class RecordRequest extends FormRequest
         // 営業時間チェック
         if ($businessHoursStart && $businessHoursEnd) {
           if ($value < $businessHoursStart || $value >= $businessHoursEnd) {
-            $fail('開始時刻は営業時間 (' . substr($businessHoursStart, 0, 5) . '～' . substr($businessHoursEnd, 0, 5) . ') の範囲内で入力してください。');
+            $fail('開始時刻は営業時間 (' . $businessHoursStart . '～' . $businessHoursEnd . ') の範囲内で入力してください。');
           }
         }
       }],
@@ -62,7 +62,7 @@ class RecordRequest extends FormRequest
         // 営業時間チェック
         if ($businessHoursStart && $businessHoursEnd) {
           if ($value < $businessHoursStart || $value > $businessHoursEnd) {
-            $fail('終了時刻は営業時間 (' . substr($businessHoursStart, 0, 5) . '～' . substr($businessHoursEnd, 0, 5) . ') の範囲内で入力してください。');
+            $fail('終了時刻は営業時間 (' . $businessHoursStart . '～' . $businessHoursEnd . ') の範囲内で入力してください。');
           }
         }
       }],

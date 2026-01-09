@@ -123,7 +123,7 @@ class RecordsController extends Controller
       $endDate = date('Y-m-t', strtotime($startDate));
 
       $records = DB::table('records')
-        ->leftJoin('therapy_contents', 'records.therapy_conetnt_id', '=', 'therapy_contents.id')
+        ->leftJoin('therapy_contents', 'records.therapy_content_id', '=', 'therapy_contents.id')
         ->leftJoin('therapists', 'records.therapist_id', '=', 'therapists.id')
         ->where('records.clinic_user_id', $selectedUserId)
         ->whereBetween('records.date', [$startDate, $endDate])
@@ -138,7 +138,7 @@ class RecordsController extends Controller
           // 施術内容、施術者、時刻が同じレコードをグループ化
           return sprintf(
             '%s_%s_%s_%s',
-            $record->therapy_conetnt_id,
+            $record->therapy_content_id,
             $record->therapist_id,
             $record->start_time,
             $record->end_time
@@ -239,7 +239,7 @@ class RecordsController extends Controller
           'housecall_distance' => $validated['therapy_category'] == 2 ? $distance : null,
           'therapy_days' => count($housecallDistances),
           'consent_expiry' => $validated['consent_expiry'] ?? null,
-          'therapy_conetnt_id' => $validated['therapy_content_id'],
+          'therapy_content_id' => $validated['therapy_content_id'],
           'bill_category_id' => $validated['bill_category_id'],
           'therapist_id' => $validated['therapist_id'],
           'abstract' => $validated['abstract'] ?? null,
@@ -290,7 +290,7 @@ class RecordsController extends Controller
               'housecall_distance' => $validated['therapy_category'] == 2 ? $distance : null,
               'therapy_days' => count($housecallDistances),
               'consent_expiry' => $validated['consent_expiry'] ?? null,
-              'therapy_conetnt_id' => $contentId,
+              'therapy_content_id' => $contentId,
               'bill_category_id' => $validated['bill_category_id'],
               'therapist_id' => $validated['therapist_id'],
               'abstract' => $validated['abstract'] ?? null,
@@ -363,7 +363,7 @@ class RecordsController extends Controller
     // 同一グループのレコードを全て取得（施術内容、施術者、時刻が同じもの）
     $groupRecords = DB::table('records')
       ->where('clinic_user_id', $record->clinic_user_id)
-      ->where('therapy_conetnt_id', $record->therapy_conetnt_id)
+      ->where('therapy_content_id', $record->therapy_content_id)
       ->where('therapist_id', $record->therapist_id)
       ->where('start_time', $record->start_time)
       ->where('end_time', $record->end_time)
@@ -485,7 +485,7 @@ class RecordsController extends Controller
       // 同一グループの全レコードを削除（施術内容、施術者、時刻が同じもの）
       $deletedRecords = DB::table('records')
         ->where('clinic_user_id', $originalRecord->clinic_user_id)
-        ->where('therapy_conetnt_id', $originalRecord->therapy_conetnt_id)
+        ->where('therapy_content_id', $originalRecord->therapy_content_id)
         ->where('therapist_id', $originalRecord->therapist_id)
         ->where('start_time', $originalRecord->start_time)
         ->where('end_time', $originalRecord->end_time)
@@ -522,7 +522,7 @@ class RecordsController extends Controller
           'housecall_distance' => $validated['therapy_category'] == 2 ? $distance : null,
           'therapy_days' => count($housecallDistances),
           'consent_expiry' => $validated['consent_expiry'] ?? null,
-          'therapy_conetnt_id' => $validated['therapy_content_id'],
+          'therapy_content_id' => $validated['therapy_content_id'],
           'bill_category_id' => $validated['bill_category_id'],
           'therapist_id' => $validated['therapist_id'],
           'abstract' => $validated['abstract'] ?? null,
@@ -572,7 +572,7 @@ class RecordsController extends Controller
               'housecall_distance' => $validated['therapy_category'] == 2 ? $distance : null,
               'therapy_days' => count($housecallDistances),
               'consent_expiry' => $validated['consent_expiry'] ?? null,
-              'therapy_conetnt_id' => $contentId,
+              'therapy_content_id' => $contentId,
               'bill_category_id' => $validated['bill_category_id'],
               'therapist_id' => $validated['therapist_id'],
               'abstract' => $validated['abstract'] ?? null,
@@ -663,7 +663,7 @@ class RecordsController extends Controller
     // 同一グループのレコードを全て取得
     $groupRecords = DB::table('records')
       ->where('clinic_user_id', $record->clinic_user_id)
-      ->where('therapy_conetnt_id', $record->therapy_conetnt_id)
+      ->where('therapy_content_id', $record->therapy_content_id)
       ->where('therapist_id', $record->therapist_id)
       ->where('start_time', $record->start_time)
       ->where('end_time', $record->end_time)
@@ -815,7 +815,7 @@ class RecordsController extends Controller
           'housecall_distance' => $validated['therapy_category'] == 2 ? $distance : null,
           'therapy_days' => count($housecallDistances),
           'consent_expiry' => $validated['consent_expiry'] ?? null,
-          'therapy_conetnt_id' => $validated['therapy_content_id'],
+          'therapy_content_id' => $validated['therapy_content_id'],
           'bill_category_id' => $validated['bill_category_id'],
           'therapist_id' => $validated['therapist_id'],
           'abstract' => $validated['abstract'] ?? null,
@@ -863,7 +863,7 @@ class RecordsController extends Controller
               'housecall_distance' => $validated['therapy_category'] == 2 ? $distance : null,
               'therapy_days' => count($housecallDistances),
               'consent_expiry' => $validated['consent_expiry'] ?? null,
-              'therapy_conetnt_id' => $contentId,
+              'therapy_content_id' => $contentId,
               'bill_category_id' => $validated['bill_category_id'],
               'therapist_id' => $validated['therapist_id'],
               'abstract' => $validated['abstract'] ?? null,
@@ -923,7 +923,7 @@ class RecordsController extends Controller
       // 同一グループの全レコードを取得（施術内容、施術者、時刻が同じもの）
       $groupRecords = DB::table('records')
         ->where('clinic_user_id', $record->clinic_user_id)
-        ->where('therapy_conetnt_id', $record->therapy_conetnt_id)
+        ->where('therapy_content_id', $record->therapy_content_id)
         ->where('therapist_id', $record->therapist_id)
         ->where('start_time', $record->start_time)
         ->where('end_time', $record->end_time)
@@ -1011,7 +1011,7 @@ class RecordsController extends Controller
           'housecall_distance' => $record->housecall_distance,
           'therapy_days' => $record->therapy_days,
           'consent_expiry' => $record->consent_expiry,
-          'therapy_conetnt_id' => $record->therapy_conetnt_id,
+          'therapy_content_id' => $record->therapy_content_id,
           'bill_category_id' => $record->bill_category_id,
           'therapist_id' => $record->therapist_id,
           'abstract' => $record->abstract,
@@ -1052,3 +1052,4 @@ class RecordsController extends Controller
     }
   }
 }
+

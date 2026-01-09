@@ -1,5 +1,9 @@
 // Bladeファイルから渡された変数を取得
-const { currentPdfType, masterData, treatmentFees, csrfToken } = window.coordinateAdjusterData;
+const coordinateAdjusterData = window.coordinateAdjusterData || {};
+const currentPdfType = coordinateAdjusterData.currentPdfType;
+const masterData = coordinateAdjusterData.masterData || {};
+const treatmentFees = coordinateAdjusterData.treatmentFees;
+const csrfToken = coordinateAdjusterData.csrfToken;
 
 // 座標データ管理用変数
 let coordinates = {};
@@ -112,7 +116,8 @@ function loadCoordinates() {
         originalCoordinates = JSON.parse(JSON.stringify(coordinates));
         resetRadioGroupsToDefault();
         renderFieldSettings();
-        previewPdf();
+        // プレビューはautoPreview()に任せる（重複防止のため直接呼び出しを削除）
+        // previewPdf();
       } else {
         alert('座標データの読み込みに失敗しました');
       }
@@ -348,7 +353,29 @@ function saveCoordinates(isAuto = false) {
 }
 
 // プレビュー
+// プレビュー実行中フラグとAbortController
+let previewPdfInProgress = false;
+let previewAbortController = null;
+let lastPreviewTime = 0;
+const PREVIEW_DEBOUNCE_MS = 200; // 200ms以内の重複呼び出しを無視
+
 function previewPdf() {
+  const now = Date.now();
+  
+  // 200ms以内の重複呼び出しを無視
+  if (now - lastPreviewTime < PREVIEW_DEBOUNCE_MS) {
+    return;
+  }
+  lastPreviewTime = now;
+  
+  // 既に実行中の場合は前のリクエストをキャンセル
+  if (previewPdfInProgress && previewAbortController) {
+    previewAbortController.abort();
+  }
+  
+  previewPdfInProgress = true;
+  previewAbortController = new AbortController();
+  
   const iframe = document.getElementById('pdf-iframe');
   const loadingBadge = document.getElementById('preview-loading');
   const overlay = document.getElementById('preview-overlay');
@@ -360,21 +387,22 @@ function previewPdf() {
   loadingBadge.style.display = 'inline-block';
   overlay.style.display = 'flex';
 
-  // プレビュー用の座標データを作成
-  let coordinatesForPreview = coordinates;
-
-  // サンプルデータ表示がOFFの場合は、isSelectedフラグを除外
-  if (!showSampleData) {
-    coordinatesForPreview = {};
-    Object.keys(coordinates).forEach(key => {
-      coordinatesForPreview[key] = {};
-      Object.keys(coordinates[key]).forEach(prop => {
-        if (prop !== 'isSelected') {
-          coordinatesForPreview[key][prop] = coordinates[key][prop];
-        }
-      });
+  // プレビュー用の座標データを作成（isSelectedフラグは常に除外）
+  const coordinatesForPreview = {};
+  Object.keys(coordinates).forEach(key => {
+    coordinatesForPreview[key] = {};
+    Object.keys(coordinates[key]).forEach(prop => {
+      if (prop !== 'isSelected') {
+        coordinatesForPreview[key][prop] = coordinates[key][prop];
+      }
     });
-  }
+  });
+
+  // デバッグ：isSelectedが除外されているか確認
+  const hasIsSelected = Object.keys(coordinatesForPreview).some(key => 
+    coordinatesForPreview[key].hasOwnProperty('isSelected')
+  );
+  console.log('PreviewPDF: isSelected除外チェック', { hasIsSelected, sampleCount: Object.keys(coordinatesForPreview).length });
 
   const requestBody = {
     coordinates: coordinatesForPreview,
@@ -394,7 +422,8 @@ function previewPdf() {
       'Content-Type': 'application/json',
       'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
     },
-    body: JSON.stringify(requestBody)
+    body: JSON.stringify(requestBody),
+    signal: previewAbortController.signal
   })
     .then(response => response.blob())
     .then(blob => {
@@ -404,14 +433,25 @@ function previewPdf() {
       // ローディング非表示
       loadingBadge.style.display = 'none';
       overlay.style.display = 'none';
+      
+      // 実行中フラグをクリア
+      previewPdfInProgress = false;
     })
     .catch(error => {
+      // AbortErrorは無視（意図的なキャンセル）
+      if (error.name === 'AbortError') {
+        return;
+      }
+      
       console.error('プレビューエラー:', error);
       alert('プレビュー表示に失敗しました');
 
       // ローディング非表示
       loadingBadge.style.display = 'none';
       overlay.style.display = 'none';
+      
+      // 実行中フラグをクリア
+      previewPdfInProgress = false;
     });
 }
 
