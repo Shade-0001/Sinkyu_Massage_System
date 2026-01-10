@@ -210,7 +210,7 @@
         "y": 48,
         "fontSize": 12,
         "letterSpacing": 0,
-        "label": "被保険者証記号番号",
+        "label": "被保険者証等記号番号",
         "type": "text",
         "textAlign": "center"
     },
@@ -420,7 +420,7 @@
         "textAlign": "center",
         "type": "number",
         "compositeGroup": "treatment_start_date",
-        "compositeLabel": "施術期間（開始）"
+        "compositeLabel": "施術開始年月日"
     },
     "treatment_start_month": {
         "x": -22.5,
@@ -431,7 +431,7 @@
         "textAlign": "center",
         "type": "number",
         "compositeGroup": "treatment_start_date",
-        "compositeLabel": "施術期間（開始）"
+        "compositeLabel": "施術開始年月日"
     },
     "treatment_start_day": {
         "x": -15,
@@ -442,7 +442,7 @@
         "textAlign": "center",
         "type": "number",
         "compositeGroup": "treatment_start_date",
-        "compositeLabel": "施術期間（開始）"
+        "compositeLabel": "施術開始年月日"
     },
     "treatment_end_year": {
         "x": 6.5,
@@ -453,7 +453,7 @@
         "textAlign": "center",
         "type": "number",
         "compositeGroup": "treatment_end_date",
-        "compositeLabel": "施術期間（終了）"
+        "compositeLabel": "施術終了年月日"
     },
     "treatment_end_month": {
         "x": 13.5,
@@ -464,7 +464,7 @@
         "textAlign": "center",
         "type": "number",
         "compositeGroup": "treatment_end_date",
-        "compositeLabel": "施術期間（終了）"
+        "compositeLabel": "施術終了年月日"
     },
     "treatment_end_day": {
         "x": 21,
@@ -475,7 +475,7 @@
         "textAlign": "center",
         "type": "number",
         "compositeGroup": "treatment_end_date",
-        "compositeLabel": "施術期間（終了）"
+        "compositeLabel": "施術終了年月日"
     },
     "treatment_days": {
         "x": 38,
@@ -1277,7 +1277,7 @@
         "textAlign": "center",
         "type": "number",
         "compositeGroup": "onset_date",
-        "compositeLabel": "発病負傷年月日"
+        "compositeLabel": "発病または負傷年月日"
     },
     "onset_date_month": {
         "x": 11,
@@ -1288,7 +1288,7 @@
         "textAlign": "center",
         "type": "number",
         "compositeGroup": "onset_date",
-        "compositeLabel": "発病負傷年月日"
+        "compositeLabel": "発病または負傷年月日"
     },
     "onset_date_day": {
         "x": 20,
@@ -1299,7 +1299,7 @@
         "textAlign": "center",
         "type": "number",
         "compositeGroup": "onset_date",
-        "compositeLabel": "発病負傷年月日"
+        "compositeLabel": "発病または負傷年月日"
     },
     "onset_illness_name": {
         "x": 60,
@@ -1791,750 +1791,6 @@
         "letterSpacing": -0.1,
         "label": "電話番号",
         "textAlign": "left",
-        "type": "text"
-    },
-    "insurance_number": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "insurance_number",
-        "label": "被保険者番号",
-        "type": "text"
-    },
-    "patient_last_kana": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "last_kana",
-        "label": "氏名カナ（姓）",
-        "type": "text"
-    },
-    "patient_first_kana": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "first_kana",
-        "label": "氏名カナ（名）",
-        "type": "text"
-    },
-    "patient_last_name": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "last_name",
-        "label": "氏名（姓）",
-        "type": "text"
-    },
-    "patient_first_name": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "first_name",
-        "label": "氏名（名）",
-        "type": "text"
-    },
-    "patient_address": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "address",
-        "label": "住所",
-        "type": "text"
-    },
-    "treatment_start_date": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_start_date",
-        "label": "初療年月日",
-        "type": "date"
-    },
-    "treatment_period": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_period",
-        "label": "施術期間",
-        "type": "text"
-    },
-    "treatment_day_1": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_1",
-        "label": "施術日1日",
-        "type": "text"
-    },
-    "treatment_day_2": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_2",
-        "label": "施術日2日",
-        "type": "text"
-    },
-    "treatment_day_3": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_3",
-        "label": "施術日3日",
-        "type": "text"
-    },
-    "treatment_day_4": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_4",
-        "label": "施術日4日",
-        "type": "text"
-    },
-    "treatment_day_5": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_5",
-        "label": "施術日5日",
-        "type": "text"
-    },
-    "treatment_day_6": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_6",
-        "label": "施術日6日",
-        "type": "text"
-    },
-    "treatment_day_7": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_7",
-        "label": "施術日7日",
-        "type": "text"
-    },
-    "treatment_day_8": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_8",
-        "label": "施術日8日",
-        "type": "text"
-    },
-    "treatment_day_9": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_9",
-        "label": "施術日9日",
-        "type": "text"
-    },
-    "treatment_day_10": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_10",
-        "label": "施術日10日",
-        "type": "text"
-    },
-    "treatment_day_11": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_11",
-        "label": "施術日11日",
-        "type": "text"
-    },
-    "treatment_day_12": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_12",
-        "label": "施術日12日",
-        "type": "text"
-    },
-    "treatment_day_13": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_13",
-        "label": "施術日13日",
-        "type": "text"
-    },
-    "treatment_day_14": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_14",
-        "label": "施術日14日",
-        "type": "text"
-    },
-    "treatment_day_15": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_15",
-        "label": "施術日15日",
-        "type": "text"
-    },
-    "treatment_day_16": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_16",
-        "label": "施術日16日",
-        "type": "text"
-    },
-    "treatment_day_17": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_17",
-        "label": "施術日17日",
-        "type": "text"
-    },
-    "treatment_day_18": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_18",
-        "label": "施術日18日",
-        "type": "text"
-    },
-    "treatment_day_19": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_19",
-        "label": "施術日19日",
-        "type": "text"
-    },
-    "treatment_day_20": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_20",
-        "label": "施術日20日",
-        "type": "text"
-    },
-    "treatment_day_21": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_21",
-        "label": "施術日21日",
-        "type": "text"
-    },
-    "treatment_day_22": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_22",
-        "label": "施術日22日",
-        "type": "text"
-    },
-    "treatment_day_23": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_23",
-        "label": "施術日23日",
-        "type": "text"
-    },
-    "treatment_day_24": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_24",
-        "label": "施術日24日",
-        "type": "text"
-    },
-    "treatment_day_25": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_25",
-        "label": "施術日25日",
-        "type": "text"
-    },
-    "treatment_day_26": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_26",
-        "label": "施術日26日",
-        "type": "text"
-    },
-    "treatment_day_27": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_27",
-        "label": "施術日27日",
-        "type": "text"
-    },
-    "treatment_day_28": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_28",
-        "label": "施術日28日",
-        "type": "text"
-    },
-    "treatment_day_29": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_29",
-        "label": "施術日29日",
-        "type": "text"
-    },
-    "treatment_day_30": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_30",
-        "label": "施術日30日",
-        "type": "text"
-    },
-    "treatment_day_31": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "treatment_day_31",
-        "label": "施術日31日",
-        "type": "text"
-    },
-    "consent_date_year": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "consent_date_year",
-        "label": "年",
-        "type": "number",
-        "compositeGroup": "consent_date",
-        "compositeLabel": "同意年月日"
-    },
-    "consent_date_month": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "consent_date_month",
-        "label": "月",
-        "type": "number",
-        "compositeGroup": "consent_date",
-        "compositeLabel": "同意年月日"
-    },
-    "consent_date_day": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "consent_date_day",
-        "label": "日",
-        "type": "number",
-        "compositeGroup": "consent_date",
-        "compositeLabel": "同意年月日"
-    },
-    "consent_doctor_name": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "consent_doctor_name",
-        "label": "同意書医師氏名",
-        "type": "text"
-    },
-    "consent_illness_name": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "consent_illness_name",
-        "label": "同意書傷病名",
-        "type": "text"
-    },
-    "doctor_address": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "doctor_address",
-        "label": "医師所在地",
-        "type": "text"
-    },
-    "doctor_name": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "doctor_name",
-        "label": "医師氏名",
-        "type": "text"
-    },
-    "branch_name": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "branch_name",
-        "label": "支店名",
-        "type": "text"
-    },
-    "account_number": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "account_number",
-        "label": "口座番号",
-        "type": "text"
-    },
-    "account_holder": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "account_holder",
-        "label": "口座名義",
-        "type": "text"
-    },
-    "payment_method_transfer": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "payment_method",
-        "label": "支払区分",
-        "type": "select",
-        "options": [
-            "振込",
-            "銀行送金",
-            "郵便局送金",
-            "当座払"
-        ],
-        "optionLabels": [
-            "振込",
-            "銀行送金",
-            "郵便局送金",
-            "当座払"
-        ]
-    },
-    "payment_method_bank": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "payment_method",
-        "label": "支払区分",
-        "type": "select",
-        "options": [
-            "振込",
-            "銀行送金",
-            "郵便局送金",
-            "当座払"
-        ],
-        "optionLabels": [
-            "振込",
-            "銀行送金",
-            "郵便局送金",
-            "当座払"
-        ]
-    },
-    "payment_method_post": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "payment_method",
-        "label": "支払区分",
-        "type": "select",
-        "options": [
-            "振込",
-            "銀行送金",
-            "郵便局送金",
-            "当座払"
-        ],
-        "optionLabels": [
-            "振込",
-            "銀行送金",
-            "郵便局送金",
-            "当座払"
-        ]
-    },
-    "payment_method_checking": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "payment_method",
-        "label": "支払区分",
-        "type": "select",
-        "options": [
-            "振込",
-            "銀行送金",
-            "郵便局送金",
-            "当座払"
-        ],
-        "optionLabels": [
-            "振込",
-            "銀行送金",
-            "郵便局送金",
-            "当座払"
-        ]
-    },
-    "deposit_type_normal": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "deposit_type",
-        "label": "預金の種類",
-        "type": "select",
-        "options": [
-            "普通",
-            "当座",
-            "通知"
-        ],
-        "optionLabels": [
-            "普通",
-            "当座",
-            "通知"
-        ]
-    },
-    "deposit_type_checking": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "deposit_type",
-        "label": "預金の種類",
-        "type": "select",
-        "options": [
-            "普通",
-            "当座",
-            "通知"
-        ],
-        "optionLabels": [
-            "普通",
-            "当座",
-            "通知"
-        ]
-    },
-    "financial_institution_type_credit": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "financial_institution_type",
-        "label": "金融機関種類",
-        "type": "select",
-        "options": [
-            "銀行",
-            "金庫",
-            "農協"
-        ],
-        "optionLabels": [
-            "銀行",
-            "金庫",
-            "農協"
-        ]
-    },
-    "financial_institution_type_coop": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "financial_institution_type",
-        "label": "金融機関種類",
-        "type": "select",
-        "options": [
-            "銀行",
-            "金庫",
-            "農協"
-        ],
-        "optionLabels": [
-            "銀行",
-            "金庫",
-            "農協"
-        ]
-    },
-    "financial_institution_name": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "financial_institution_name",
-        "label": "金融機関名",
-        "type": "text"
-    },
-    "branch_type_head": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "branch_type",
-        "label": "本店支店出張所",
-        "type": "select",
-        "options": [
-            "本店",
-            "支店",
-            "出張所"
-        ],
-        "optionLabels": [
-            "本店",
-            "支店",
-            "出張所"
-        ]
-    },
-    "branch_type_branch": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "branch_type",
-        "label": "本店支店出張所",
-        "type": "select",
-        "options": [
-            "本店",
-            "支店",
-            "出張所"
-        ],
-        "optionLabels": [
-            "本店",
-            "支店",
-            "出張所"
-        ]
-    },
-    "branch_type_office": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "branch_type",
-        "label": "本店支店出張所",
-        "type": "select",
-        "options": [
-            "本店",
-            "支店",
-            "出張所"
-        ],
-        "optionLabels": [
-            "本店",
-            "支店",
-            "出張所"
-        ]
-    },
-    "signature_applicant_postal_code": {
-        "x": 0,
-        "y": 0,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "signature_applicant_postal_code",
-        "label": "申請者郵便番号（委任）",
         "type": "text"
     }
 }

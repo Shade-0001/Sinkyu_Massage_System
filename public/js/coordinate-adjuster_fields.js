@@ -28,11 +28,11 @@ const sampleDataFieldMapping = {
   'insurer_number': { field: 'insurer_number', label: '保険者番号', type: 'text' },
 
   // === 5. 被保険者証記号・番号、発病年月日、傷病名 ===
-  'insurance_symbol': { field: 'insurance_symbol_kigou', label: '被保険者証等記号番号', type: 'text', combine: ['insurance_symbol_kigou', 'insurance_symbol_bangou'] },
+  'insurance_symbol': { field: 'insurance_symbol_kigou', label: '被保険者証記号番号', type: 'text', combine: ['insurance_symbol_kigou', 'insurance_symbol_bangou'] },
   'insurance_number': { field: 'insurance_number', label: '被保険者番号', type: 'text' },
-  'onset_date_year': { field: 'onset_date_year', label: '年', type: 'number', compositeGroup: 'onset_date', compositeLabel: '発病または負傷年月日' },
-  'onset_date_month': { field: 'onset_date_month', label: '月', type: 'number', compositeGroup: 'onset_date', compositeLabel: '発病または負傷年月日' },
-  'onset_date_day': { field: 'onset_date_day', label: '日', type: 'number', compositeGroup: 'onset_date', compositeLabel: '発病または負傷年月日' },
+  'onset_date_year': { field: 'onset_date_year', label: '年', type: 'number', compositeGroup: 'onset_date', compositeLabel: '発病負傷年月日' },
+  'onset_date_month': { field: 'onset_date_month', label: '月', type: 'number', compositeGroup: 'onset_date', compositeLabel: '発病負傷年月日' },
+  'onset_date_day': { field: 'onset_date_day', label: '日', type: 'number', compositeGroup: 'onset_date', compositeLabel: '発病負傷年月日' },
   'onset_illness_name': { field: 'onset_illness_name', label: '傷病名', type: 'text' },
 
   // === 6. 患者氏名カナ・続柄・氏名 ===
@@ -65,17 +65,21 @@ const sampleDataFieldMapping = {
   'first_treatment_month': { field: 'first_treatment_month', label: '月', type: 'number', compositeGroup: 'first_treatment_date', compositeLabel: '初療年月日' },
   'first_treatment_day': { field: 'first_treatment_day', label: '日', type: 'number', compositeGroup: 'first_treatment_date', compositeLabel: '初療年月日' },
   'treatment_period': { field: 'treatment_period', label: '施術期間', type: 'text' },
-  'treatment_start_year': { field: 'treatment_start_year', label: '年', type: 'number', compositeGroup: 'treatment_start_date', compositeLabel: '施術開始年月日' },
-  'treatment_start_month': { field: 'treatment_start_month', label: '月', type: 'number', compositeGroup: 'treatment_start_date', compositeLabel: '施術開始年月日' },
-  'treatment_start_day': { field: 'treatment_start_day', label: '日', type: 'number', compositeGroup: 'treatment_start_date', compositeLabel: '施術開始年月日' },
-  'treatment_end_year': { field: 'treatment_end_year', label: '年', type: 'number', compositeGroup: 'treatment_end_date', compositeLabel: '施術終了年月日' },
-  'treatment_end_month': { field: 'treatment_end_month', label: '月', type: 'number', compositeGroup: 'treatment_end_date', compositeLabel: '施術終了年月日' },
-  'treatment_end_day': { field: 'treatment_end_day', label: '日', type: 'number', compositeGroup: 'treatment_end_date', compositeLabel: '施術終了年月日' },
+  'treatment_start_year': { field: 'treatment_start_year', label: '年', type: 'number', compositeGroup: 'treatment_start_date', compositeLabel: '施術期間（開始）' },
+  'treatment_start_month': { field: 'treatment_start_month', label: '月', type: 'number', compositeGroup: 'treatment_start_date', compositeLabel: '施術期間（開始）' },
+  'treatment_start_day': { field: 'treatment_start_day', label: '日', type: 'number', compositeGroup: 'treatment_start_date', compositeLabel: '施術期間（開始）' },
+  'treatment_end_year': { field: 'treatment_end_year', label: '年', type: 'number', compositeGroup: 'treatment_end_date', compositeLabel: '施術期間（終了）' },
+  'treatment_end_month': { field: 'treatment_end_month', label: '月', type: 'number', compositeGroup: 'treatment_end_date', compositeLabel: '施術期間（終了）' },
+  'treatment_end_day': { field: 'treatment_end_day', label: '日', type: 'number', compositeGroup: 'treatment_end_date', compositeLabel: '施術期間（終了）' },
 
   // === 9. 実日数・請求区分・傷病名・転帰 ===
   'treatment_days': { field: 'treatment_days', label: '実日数', type: 'number' },
   'bill_category_new': { field: 'bill_category', label: '請求区分', type: 'select', options: ['新規', '継続'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'bill_category', optionLabel: '新規' },
   'bill_category_continued': { field: 'bill_category', label: '請求区分', type: 'select', options: ['新規', '継続'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'bill_category', optionLabel: '継続' },
+
+  // === 9-2. 傷病名・症状（マッサージ用） ===
+  'illness_name_symptom': { field: 'illness_name_symptom', label: '傷病名・症状', type: 'text' },
+
   'illness_name_1': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: '神経痛' },
   'illness_name_2': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: 'リウマチ' },
   'illness_name_3': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: '頸腕症候群' },
@@ -84,6 +88,7 @@ const sampleDataFieldMapping = {
   'illness_name_6': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: '頸椎捻挫後遺症' },
   'illness_name_7': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: 'その他' },
   'illness_name_other_text': { field: 'illness_name_other_text', label: '傷病名（その他の内容）', type: 'text' },
+
   'outcome_continued': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'outcome', optionLabel: '継続' },
   'outcome_cured': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'outcome', optionLabel: '治癒' },
   'outcome_discontinued': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'outcome', optionLabel: '中止' },
@@ -140,6 +145,33 @@ const sampleDataFieldMapping = {
   'fee_electric_unit': { field: 'fee_electric_unit', label: '単価', type: 'number', compositeGroup: 'fee_electric', compositeLabel: '電療料' },
   'fee_electric_count': { field: 'fee_electric_count', label: '回数', type: 'number', compositeGroup: 'fee_electric', compositeLabel: '電療料' },
   'fee_electric_total': { field: 'fee_electric_total', label: '合計', type: 'number', compositeGroup: 'fee_electric', compositeLabel: '電療料' },
+
+  // === 11-2. マッサージ関連（マッサージ用PDF） ===
+  'fee_massage_trunk_unit': { field: 'fee_massage_trunk_unit', label: '単価', type: 'number', compositeGroup: 'fee_massage_trunk', compositeLabel: 'マッサージ料金｜躯幹' },
+  'fee_massage_trunk_count': { field: 'fee_massage_trunk_count', label: '回数', type: 'number', compositeGroup: 'fee_massage_trunk', compositeLabel: 'マッサージ料金｜躯幹' },
+  'fee_massage_trunk_total': { field: 'fee_massage_trunk_total', label: '合計', type: 'number', compositeGroup: 'fee_massage_trunk', compositeLabel: 'マッサージ料金｜躯幹' },
+  'fee_massage_upper_limb_r_unit': { field: 'fee_massage_upper_limb_r_unit', label: '単価', type: 'number', compositeGroup: 'fee_massage_upper_limb_r', compositeLabel: 'マッサージ料金｜右上肢' },
+  'fee_massage_upper_limb_r_count': { field: 'fee_massage_upper_limb_r_count', label: '回数', type: 'number', compositeGroup: 'fee_massage_upper_limb_r', compositeLabel: 'マッサージ料金｜右上肢' },
+  'fee_massage_upper_limb_r_total': { field: 'fee_massage_upper_limb_r_total', label: '合計', type: 'number', compositeGroup: 'fee_massage_upper_limb_r', compositeLabel: 'マッサージ料金｜右上肢' },
+  'fee_massage_upper_limb_l_unit': { field: 'fee_massage_upper_limb_l_unit', label: '単価', type: 'number', compositeGroup: 'fee_massage_upper_limb_l', compositeLabel: 'マッサージ料金｜左上肢' },
+  'fee_massage_upper_limb_l_count': { field: 'fee_massage_upper_limb_l_count', label: '回数', type: 'number', compositeGroup: 'fee_massage_upper_limb_l', compositeLabel: 'マッサージ料金｜左上肢' },
+  'fee_massage_upper_limb_l_total': { field: 'fee_massage_upper_limb_l_total', label: '合計', type: 'number', compositeGroup: 'fee_massage_upper_limb_l', compositeLabel: 'マッサージ料金｜左上肢' },
+  'fee_massage_lower_limb_r_unit': { field: 'fee_massage_lower_limb_r_unit', label: '単価', type: 'number', compositeGroup: 'fee_massage_lower_limb_r', compositeLabel: 'マッサージ料金｜右下肢' },
+  'fee_massage_lower_limb_r_count': { field: 'fee_massage_lower_limb_r_count', label: '回数', type: 'number', compositeGroup: 'fee_massage_lower_limb_r', compositeLabel: 'マッサージ料金｜右下肢' },
+  'fee_massage_lower_limb_r_total': { field: 'fee_massage_lower_limb_r_total', label: '合計', type: 'number', compositeGroup: 'fee_massage_lower_limb_r', compositeLabel: 'マッサージ料金｜右下肢' },
+  'fee_massage_lower_limb_l_unit': { field: 'fee_massage_lower_limb_l_unit', label: '単価', type: 'number', compositeGroup: 'fee_massage_lower_limb_l', compositeLabel: 'マッサージ料金｜左下肢' },
+  'fee_massage_lower_limb_l_count': { field: 'fee_massage_lower_limb_l_count', label: '回数', type: 'number', compositeGroup: 'fee_massage_lower_limb_l', compositeLabel: 'マッサージ料金｜左下肢' },
+  'fee_massage_lower_limb_l_total': { field: 'fee_massage_lower_limb_l_total', label: '合計', type: 'number', compositeGroup: 'fee_massage_lower_limb_l', compositeLabel: 'マッサージ料金｜左下肢' },
+  'fee_manual_correction_unit': { field: 'fee_manual_correction_unit', label: '単価', type: 'number', compositeGroup: 'fee_manual_correction', compositeLabel: '変形徒手矯正術' },
+  'fee_manual_correction_count': { field: 'fee_manual_correction_count', label: '回数', type: 'number', compositeGroup: 'fee_manual_correction', compositeLabel: '変形徒手矯正術' },
+  'fee_manual_correction_total': { field: 'fee_manual_correction_total', label: '合計', type: 'number', compositeGroup: 'fee_manual_correction', compositeLabel: '変形徒手矯正術' },
+  'fee_fomentation_unit': { field: 'fee_fomentation_unit', label: '単価', type: 'number', compositeGroup: 'fee_fomentation', compositeLabel: '温罨法' },
+  'fee_fomentation_count': { field: 'fee_fomentation_count', label: '回数', type: 'number', compositeGroup: 'fee_fomentation', compositeLabel: '温罨法' },
+  'fee_fomentation_total': { field: 'fee_fomentation_total', label: '合計', type: 'number', compositeGroup: 'fee_fomentation', compositeLabel: '温罨法' },
+  'fee_fomentation_electric_light_unit': { field: 'fee_fomentation_electric_light_unit', label: '単価', type: 'number', compositeGroup: 'fee_fomentation_electric_light', compositeLabel: '温罨法・電光線器具' },
+  'fee_fomentation_electric_light_count': { field: 'fee_fomentation_electric_light_count', label: '回数', type: 'number', compositeGroup: 'fee_fomentation_electric_light', compositeLabel: '温罨法・電光線器具' },
+  'fee_fomentation_electric_light_total': { field: 'fee_fomentation_electric_light_total', label: '合計', type: 'number', compositeGroup: 'fee_fomentation_electric_light', compositeLabel: '温罨法・電光線器具' },
+
   'fee_housecall_unit': { field: 'fee_housecall_unit', label: '単価', type: 'number', compositeGroup: 'fee_housecall', compositeLabel: '往療料' },
   'fee_housecall_count': { field: 'fee_housecall_count', label: '回数', type: 'number', compositeGroup: 'fee_housecall', compositeLabel: '往療料' },
   'fee_housecall_total': { field: 'fee_housecall_total', label: '合計', type: 'number', compositeGroup: 'fee_housecall', compositeLabel: '往療料' },
@@ -186,11 +218,6 @@ const sampleDataFieldMapping = {
 
   'fee_partial_payment': { field: 'fee_partial_payment', label: '一部負担金', type: 'number' },
   'fee_total_claim': { field: 'fee_total_claim', label: '請求額', type: 'number' },
-
-  // === 12. 施術料金（マッサージ） ===
-  'fee_massage_unit': { field: 'fee_massage_unit', label: 'マッサージ料金（単価）', type: 'number' },
-  'fee_massage_count': { field: 'fee_massage_count', label: 'マッサージ料金（回数）', type: 'number' },
-  'fee_massage_total': { field: 'fee_massage_total', label: 'マッサージ料金（合計）', type: 'number' },
 
   // === 13. 施術所情報 ===
   'clinic_postal_code': { field: 'clinic_postal_code', label: '施術所郵便番号', type: 'text' },

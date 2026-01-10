@@ -1,6 +1,6 @@
 // Bladeファイルから渡された変数を取得
 const coordinateAdjusterData = window.coordinateAdjusterData || {};
-const currentPdfType = coordinateAdjusterData.currentPdfType;
+let currentPdfType = coordinateAdjusterData.currentPdfType; // let に変更して更新可能に
 const masterData = coordinateAdjusterData.masterData || {};
 const treatmentFees = coordinateAdjusterData.treatmentFees;
 const csrfToken = coordinateAdjusterData.csrfToken;
@@ -21,6 +21,9 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   document.getElementById('pdf-type-select').addEventListener('change', function() {
     const newPdfType = this.value;
+    // グローバル変数を更新
+    currentPdfType = newPdfType;
+    window.coordinateAdjusterData.currentPdfType = newPdfType;
     // ページをリロードして新しいPDFタイプを適用
     window.location.href = '/prints/coordinate-adjuster?pdf_type=' + newPdfType;
   });

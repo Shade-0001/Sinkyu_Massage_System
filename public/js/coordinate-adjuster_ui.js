@@ -3,13 +3,20 @@ function renderFieldSettings() {
   const container = document.getElementById('field-settings');
   container.innerHTML = '';
 
+  // 現在のPDFタイプを取得
+  const currentPdfType = window.coordinateAdjusterData?.currentPdfType || 'therapy_benefit_acupuncture';
+  
+  // PDFタイプに応じたカテゴリ定義を取得
+  const fieldCategories = getFieldCategories(currentPdfType);
+  const categoryOrder = getCategoryOrder(currentPdfType);
+
   // radioGroupとcompositeGroupでグループ化されたフィールドを追跡
   const processedGroups = new Set();
   const processedCompositeGroups = new Set();
   const processedKeys = new Set();
 
-  // sampleDataFieldMappingの順序でフィールドを処理
-  const orderedKeys = Object.keys(sampleDataFieldMapping).filter(key => coordinates[key]);
+  // sampleDataFieldMappingの順序でフィールドを処理（coordinatesに存在しなくても表示）
+  const orderedKeys = Object.keys(sampleDataFieldMapping);
 
   // coordinatesに存在するが、sampleDataFieldMappingにないキーも追加
   Object.keys(coordinates).forEach(key => {
@@ -25,8 +32,50 @@ function renderFieldSettings() {
   });
   categorizedFields['uncategorized'] = []; // 未分類用
 
+  // PDFタイプ別にフィールドをフィルタリングする関数
+  function shouldIncludeField(key, pdfType) {
+    if (pdfType === 'therapy_benefit_acupuncture') {
+      // 鍼灸用PDFではマッサージ専用フィールドを除外
+      const massageOnlyFields = [
+        'illness_name_symptom',
+        'fee_massage_trunk_unit', 'fee_massage_trunk_count', 'fee_massage_trunk_total',
+        'fee_massage_upper_limb_r_unit', 'fee_massage_upper_limb_r_count', 'fee_massage_upper_limb_r_total',
+        'fee_massage_upper_limb_l_unit', 'fee_massage_upper_limb_l_count', 'fee_massage_upper_limb_l_total',
+        'fee_massage_lower_limb_r_unit', 'fee_massage_lower_limb_r_count', 'fee_massage_lower_limb_r_total',
+        'fee_massage_lower_limb_l_unit', 'fee_massage_lower_limb_l_count', 'fee_massage_lower_limb_l_total',
+        'fee_manual_correction_unit', 'fee_manual_correction_count', 'fee_manual_correction_total',
+        'fee_fomentation_unit', 'fee_fomentation_count', 'fee_fomentation_total',
+        'fee_fomentation_electric_light_unit', 'fee_fomentation_electric_light_count', 'fee_fomentation_electric_light_total'
+      ];
+      return !massageOnlyFields.includes(key);
+    } else if (pdfType === 'therapy_benefit_massage') {
+      // マッサージ用PDFでは鍼灸専用フィールドを除外
+      const acupunctureOnlyFields = [
+        'fee_initial_examination_hari', 'fee_initial_examination_kyu', 'fee_initial_examination_combined',
+        'fee_initial_examination_amount',
+        'therapy_content_electric_needle', 'therapy_content_electric_moxa', 'therapy_content_electric_light',
+        'fee_hari_unit', 'fee_hari_count', 'fee_hari_total',
+        'fee_kyu_unit', 'fee_kyu_count', 'fee_kyu_total',
+        'fee_hari_kyu_unit', 'fee_hari_kyu_count', 'fee_hari_kyu_total',
+        'fee_electric_unit', 'fee_electric_count', 'fee_electric_total',
+        // 傷病名（鍼灸用）
+        'illness_name_1', 'illness_name_2', 'illness_name_3', 'illness_name_4',
+        'illness_name_5', 'illness_name_6', 'illness_name_7', 'illness_name_other_text',
+        // 旧マッサージフィールド（5部位に分割したため除外）
+        'fee_massage_unit', 'fee_massage_count', 'fee_massage_total'
+      ];
+      return !acupunctureOnlyFields.includes(key);
+    }
+    return true;
+  }
+
   // フィールドをカテゴリに振り分け
   orderedKeys.forEach(key => {
+    // PDFタイプに応じてフィールドをフィルタリング
+    if (!shouldIncludeField(key, currentPdfType)) {
+      return; // このフィールドをスキップ
+    }
+
     const category = fieldCategories[key] || 'uncategorized';
     if (!categorizedFields[category]) {
       categorizedFields[category] = [];
@@ -61,7 +110,19 @@ function renderFieldSettings() {
     fields.forEach(key => {
       if (processedKeys.has(key)) return;
 
-      const field = coordinates[key];
+      let field = coordinates[key];
+      // coordinatesに存在しない場合はsampleDataFieldMappingから作成
+      if (!field && sampleDataFieldMapping[key]) {
+        field = {
+          x: 0,
+          y: 0,
+          fontSize: 10,
+          letterSpacing: 0,
+          textAlign: 'left',
+          ...sampleDataFieldMapping[key]
+        };
+        coordinates[key] = field;
+      }
       if (!field) return;
 
       // compositeGroupの処理
@@ -1551,12 +1612,12 @@ function displayTreatmentFees() {
 
   Object.keys(feeLabels).forEach(key => {
     // PDFタイプに応じてフィルタリング
-    if (currentPdfType === 'acupuncture') {
+    if (currentPdfType === 'therapy_benefit_acupuncture') {
       // 鍼灸用PDFでは鍼灸関連の料金のみ表示
       if (!key.startsWith('hari_') && !key.startsWith('kyu_') && !key.startsWith('housecall_')) {
         return;
       }
-    } else if (currentPdfType === 'massage') {
+    } else if (currentPdfType === 'therapy_benefit_massage') {
       // マッサージ用PDFではマッサージ関連の料金のみ表示
       if (!key.startsWith('massage_') && !key.startsWith('manual_') && !key.startsWith('fomentation_')) {
         return;

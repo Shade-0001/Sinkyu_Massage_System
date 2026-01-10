@@ -31,7 +31,7 @@ let customSampleData = {
   insurance_symbol_bangou: '67890',
   insurance_number: '9876543210',
   relationship: '本人',
-  // 発病または負傷年月日
+  // 発病負傷年月日
   onset_date_year: '7',
   onset_date_month: '11',
   onset_date_day: '15',
@@ -228,7 +228,7 @@ let customSampleData = {
   // 傷病名（同意記録）
   consent_record_illness_name: '腰痛症',
   // 要加療期間
-  required_treatment_period: '3ヶ月',
+  required_treatment_period: '2026/08/20',
   // 委任年月日
   signature_date_year: '7',
   signature_date_month: '12',

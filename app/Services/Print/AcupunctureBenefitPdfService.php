@@ -1646,13 +1646,10 @@ class AcupunctureBenefitPdfService
       if ($this->hasCoord('required_treatment_period')) {
         $therapyPeriodText = '';
 
-        // therapy_period_start_dateとtherapy_period_end_dateから日数を計算
-        if (isset($consent->therapy_period_start_date) && isset($consent->therapy_period_end_date)) {
-          $startDate = new \DateTime($consent->therapy_period_start_date);
+        // therapy_period_end_dateをYYYY/MM/DD形式で表示
+        if (isset($consent->therapy_period_end_date)) {
           $endDate = new \DateTime($consent->therapy_period_end_date);
-          $diff = $startDate->diff($endDate);
-          $days = $diff->days;
-          $therapyPeriodText = $days . '日';
+          $therapyPeriodText = $endDate->format('Y/m/d');
         } elseif (isset($consent->therapy_period) && $consent->therapy_period) {
           // フォールバック: therapy_periodフィールドがある場合はそのまま使用
           $therapyPeriodText = $consent->therapy_period;
@@ -1672,7 +1669,10 @@ class AcupunctureBenefitPdfService
       // 金融機関名1
       if ($this->hasCoord('financial_institution_name_1') && isset($clinicInfo->bank_name)) {
         $pdf->SetFontSize($this->coord('financial_institution_name_1', 'fontSize'));
-        $this->drawTextByKey($pdf, 'financial_institution_name_1', (string)$clinicInfo->bank_name);
+        $bankName = (string)$clinicInfo->bank_name;
+        // 末尾の「銀行」「金庫」「農協」を除去
+        $bankName = preg_replace('/(銀行|金庫|農協)$/', '', $bankName);
+        $this->drawTextByKey($pdf, 'financial_institution_name_1', $bankName);
       }
 
       // 金融機関種別（末尾文字列から推測）
@@ -1690,7 +1690,10 @@ class AcupunctureBenefitPdfService
       // 金融機関名2（支店名）
       if ($this->hasCoord('financial_institution_name_2') && isset($clinicInfo->bank_branch_name)) {
         $pdf->SetFontSize($this->coord('financial_institution_name_2', 'fontSize'));
-        $this->drawTextByKey($pdf, 'financial_institution_name_2', (string)$clinicInfo->bank_branch_name);
+        $branchName = (string)$clinicInfo->bank_branch_name;
+        // 末尾の「本店」「支店」「出張所」を除去
+        $branchName = preg_replace('/(本店|支店|出張所)$/', '', $branchName);
+        $this->drawTextByKey($pdf, 'financial_institution_name_2', $branchName);
       }
 
       // 支店種別（末尾文字列から推測）
@@ -2428,7 +2431,10 @@ class AcupunctureBenefitPdfService
       // 金融機関名1
       if (isset($custom['financial_institution_name_1'])) {
         $pdf->SetFontSize($this->coord('financial_institution_name_1', 'fontSize'));
-        $this->drawTextByKey($pdf, 'financial_institution_name_1', $custom['financial_institution_name_1']);
+        $bankName = $custom['financial_institution_name_1'];
+        // 末尾の「銀行」「金庫」「農協」を除去
+        $bankName = preg_replace('/(銀行|金庫|農協)$/', '', $bankName);
+        $this->drawTextByKey($pdf, 'financial_institution_name_1', $bankName);
       }
 
       // 金融機関種別（金融機関名１サークル）
@@ -2447,7 +2453,10 @@ class AcupunctureBenefitPdfService
       // 金融機関名2
       if (isset($custom['financial_institution_name_2'])) {
         $pdf->SetFontSize($this->coord('financial_institution_name_2', 'fontSize'));
-        $this->drawTextByKey($pdf, 'financial_institution_name_2', $custom['financial_institution_name_2']);
+        $branchName = $custom['financial_institution_name_2'];
+        // 末尾の「本店」「支店」「出張所」を除去
+        $branchName = preg_replace('/(本店|支店|出張所)$/', '', $branchName);
+        $this->drawTextByKey($pdf, 'financial_institution_name_2', $branchName);
       }
 
       // 支店種別（ラジオグループ）
