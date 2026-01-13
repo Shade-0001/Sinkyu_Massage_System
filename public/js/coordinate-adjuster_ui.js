@@ -407,18 +407,42 @@ function renderSingleFieldHTML(key, field) {
       ${field.fontSize !== undefined ? `
       <div class="coordinate-input">
         <label>フォントサイズ:</label>
-        <input type="number" step="1" value="${field.fontSize}"
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'fontSize', -0.5)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'fontSize', -0.5)"
+                ontouchend="stopLongPress()">−</button>
+        <input type="number" step="0.5" value="${field.fontSize}"
                onchange="updateCoordinate('${key}', 'fontSize', this.value)"
                class="form-control form-control-sm" style="width: 80px;" data-property="fontSize">
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'fontSize', 0.5)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'fontSize', 0.5)"
+                ontouchend="stopLongPress()">+</button>
       </div>
       ` : ''}
 
       ${field.letterSpacing !== undefined ? `
       <div class="coordinate-input">
         <label>文字間隔:</label>
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'letterSpacing', -0.1)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'letterSpacing', -0.1)"
+                ontouchend="stopLongPress()">−</button>
         <input type="number" step="0.1" value="${field.letterSpacing}"
                onchange="updateCoordinate('${key}', 'letterSpacing', this.value)"
                class="form-control form-control-sm" style="width: 80px;" data-property="letterSpacing">
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'letterSpacing', 0.1)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'letterSpacing', 0.1)"
+                ontouchend="stopLongPress()">+</button>
       </div>
       ` : ''}
 

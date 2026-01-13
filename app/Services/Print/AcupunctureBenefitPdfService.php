@@ -2160,13 +2160,15 @@ class AcupunctureBenefitPdfService
     // サンプル施術実績（月の1日、5日、10日、15日、20日、25日）
     $treatmentDays = $custom['treatment_days'] ?? 15;
     $abstractText = $custom['abstract'] ?? '特記事項なし';
+    // therapy_content_id を付与してエラー回避＆描画対象判定を可能にする
+    // 11:はり, 12:きゅう, 14:電気針, 15:電気温灸器, 16:電気光線器具
     $records = collect([
-      (object)['date' => $serviceYearMonth . '-01', 'therapy_category' => 1, 'abstract' => $abstractText],
-      (object)['date' => $serviceYearMonth . '-05', 'therapy_category' => 1, 'abstract' => $abstractText],
-      (object)['date' => $serviceYearMonth . '-10', 'therapy_category' => 2, 'abstract' => $abstractText],
-      (object)['date' => $serviceYearMonth . '-15', 'therapy_category' => 1, 'abstract' => $abstractText],
-      (object)['date' => $serviceYearMonth . '-20', 'therapy_category' => 2, 'abstract' => $abstractText],
-      (object)['date' => $serviceYearMonth . '-25', 'therapy_category' => 1, 'abstract' => $abstractText],
+      (object)['date' => $serviceYearMonth . '-01', 'therapy_category' => 1, 'therapy_content_id' => 11, 'abstract' => $abstractText],
+      (object)['date' => $serviceYearMonth . '-05', 'therapy_category' => 1, 'therapy_content_id' => 11, 'abstract' => $abstractText],
+      (object)['date' => $serviceYearMonth . '-10', 'therapy_category' => 2, 'therapy_content_id' => 12, 'abstract' => $abstractText],
+      (object)['date' => $serviceYearMonth . '-15', 'therapy_category' => 1, 'therapy_content_id' => 14, 'abstract' => $abstractText],
+      (object)['date' => $serviceYearMonth . '-20', 'therapy_category' => 2, 'therapy_content_id' => 15, 'abstract' => $abstractText],
+      (object)['date' => $serviceYearMonth . '-25', 'therapy_category' => 1, 'therapy_content_id' => 16, 'abstract' => $abstractText],
     ]);
 
     // サンプル施術所情報

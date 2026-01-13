@@ -235,33 +235,7 @@ const sampleDataFieldMapping = {
   'medical_institution_location_type_1': { field: 'medical_institution_location_type', label: '医療機関所在地区分', type: 'select', options: ['1', '2'], optionLabels: ['区郡市府県庁所在地', '出張所等指定都市所在地域'] },
   'medical_institution_location_type_2': { field: 'medical_institution_location_type', label: '医療機関所在地区分', type: 'select', options: ['1', '2'], optionLabels: ['区郡市府県庁所在地', '出張所等指定都市所在地域'] },
 
-  // === 17. 振込口座情報（旧番号、カテゴリとしては支払機関欄に統合） ===
-  'bank_name': { field: 'bank_name', label: '銀行名', type: 'text' },
-  'branch_name': { field: 'branch_name', label: '支店名', type: 'text' },
-  'account_type': { field: 'account_type', label: '口座種別', type: 'select', options: ['普通', '当座'] },
-  'account_number': { field: 'account_number', label: '口座番号', type: 'text' },
-  'account_holder': { field: 'account_holder', label: '口座名義', type: 'text' },
-
   // === 18. 支払機関欄 ===
-  'payment_method_transfer': { field: 'payment_method', label: '支払区分', type: 'select', options: ['振込', '銀行送金', '郵便局送金', '当座払'], optionLabels: ['振込', '銀行送金', '郵便局送金', '当座払'] },
-  'payment_method_bank': { field: 'payment_method', label: '支払区分', type: 'select', options: ['振込', '銀行送金', '郵便局送金', '当座払'], optionLabels: ['振込', '銀行送金', '郵便局送金', '当座払'] },
-  'payment_method_post': { field: 'payment_method', label: '支払区分', type: 'select', options: ['振込', '銀行送金', '郵便局送金', '当座払'], optionLabels: ['振込', '銀行送金', '郵便局送金', '当座払'] },
-  'payment_method_checking': { field: 'payment_method', label: '支払区分', type: 'select', options: ['振込', '銀行送金', '郵便局送金', '当座払'], optionLabels: ['振込', '銀行送金', '郵便局送金', '当座払'] },
-  'deposit_type_normal': { field: 'deposit_type', label: '預金の種類', type: 'select', options: ['普通', '当座', '通知'], optionLabels: ['普通', '当座', '通知'] },
-  'deposit_type_checking': { field: 'deposit_type', label: '預金の種類', type: 'select', options: ['普通', '当座', '通知'], optionLabels: ['普通', '当座', '通知'] },
-  'deposit_type_notice': { field: 'deposit_type', label: '預金の種類', type: 'select', options: ['普通', '当座', '通知'], optionLabels: ['普通', '当座', '通知'] },
-  'financial_institution_type_bank': { field: 'financial_institution_type', label: '金融機関種類', type: 'select', options: ['銀行', '金庫', '農協'], optionLabels: ['銀行', '金庫', '農協'] },
-  'financial_institution_type_credit': { field: 'financial_institution_type', label: '金融機関種類', type: 'select', options: ['銀行', '金庫', '農協'], optionLabels: ['銀行', '金庫', '農協'] },
-  'financial_institution_type_coop': { field: 'financial_institution_type', label: '金融機関種類', type: 'select', options: ['銀行', '金庫', '農協'], optionLabels: ['銀行', '金庫', '農協'] },
-  'financial_institution_name': { field: 'financial_institution_name', label: '金融機関名', type: 'text' },
-  'branch_type_head': { field: 'branch_type', label: '本店支店出張所', type: 'select', options: ['本店', '支店', '出張所'], optionLabels: ['本店', '支店', '出張所'] },
-  'branch_type_branch': { field: 'branch_type', label: '本店支店出張所', type: 'select', options: ['本店', '支店', '出張所'], optionLabels: ['本店', '支店', '出張所'] },
-  'branch_type_office': { field: 'branch_type', label: '本店支店出張所', type: 'select', options: ['本店', '支店', '出張所'], optionLabels: ['本店', '支店', '出張所'] },
-  'branch_name': { field: 'branch_name', label: '支店名', type: 'text' },
-  'account_number': { field: 'account_number', label: '口座番号', type: 'text' },
-  'account_holder': { field: 'account_holder', label: '口座名義', type: 'text' },
-
-
   // 支払区分（ラジオグループ）
   'payment_category_furikomi': { field: 'payment_category', label: '支払区分', type: 'select', options: ['振込', '銀行送金', '郵便局送金', '当地払'], ellipseWidth: 6, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'payment_category', optionLabel: '振込' },
   'payment_category_bank_transfer': { field: 'payment_category', label: '支払区分', type: 'select', options: ['振込', '銀行送金', '郵便局送金', '当地払'], ellipseWidth: 8, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'payment_category', optionLabel: '銀行送金' },

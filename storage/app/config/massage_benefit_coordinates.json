@@ -1402,10 +1402,10 @@
         "type": "text"
     },
     "payment_category_furikomi": {
-        "ellipseX": 29.5,
-        "ellipseY": 227,
-        "ellipseWidth": 11,
-        "ellipseHeight": 2.5,
+        "ellipseX": 29,
+        "ellipseY": 228.5,
+        "ellipseWidth": 10,
+        "ellipseHeight": 3,
         "lineWidth": 0.5,
         "x": 10,
         "y": 195,
@@ -1419,9 +1419,9 @@
     },
     "payment_category_bank_transfer": {
         "ellipseX": 58,
-        "ellipseY": 227,
+        "ellipseY": 228,
         "ellipseWidth": 12,
-        "ellipseHeight": 2.5,
+        "ellipseHeight": 3,
         "lineWidth": 0.5,
         "x": 25,
         "y": 195,
@@ -1435,8 +1435,8 @@
     },
     "payment_category_post_transfer": {
         "ellipseX": 32,
-        "ellipseY": 230.5,
-        "ellipseWidth": 13,
+        "ellipseY": 231.5,
+        "ellipseWidth": 14,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "x": 43,
@@ -1451,7 +1451,7 @@
     },
     "payment_category_local_payment": {
         "ellipseX": 57,
-        "ellipseY": 230.5,
+        "ellipseY": 231.5,
         "ellipseWidth": 13,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
@@ -1466,8 +1466,8 @@
         "optionLabel": "当地払"
     },
     "deposit_type_ordinary": {
-        "ellipseX": 81.5,
-        "ellipseY": 227,
+        "ellipseX": 82,
+        "ellipseY": 228,
         "ellipseWidth": 9,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
@@ -1483,7 +1483,7 @@
     },
     "deposit_type_current": {
         "ellipseX": 101,
-        "ellipseY": 227,
+        "ellipseY": 228,
         "ellipseWidth": 9,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
@@ -1499,7 +1499,7 @@
     },
     "deposit_type_notice": {
         "ellipseX": 81.5,
-        "ellipseY": 230.5,
+        "ellipseY": 231.5,
         "ellipseWidth": 9,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
@@ -1515,7 +1515,7 @@
     },
     "deposit_type_betsudan": {
         "ellipseX": 101.5,
-        "ellipseY": 230.5,
+        "ellipseY": 231.5,
         "ellipseWidth": 9,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
@@ -1530,9 +1530,9 @@
         "optionLabel": "別段"
     },
     "financial_institution_name_1": {
-        "x": 29,
-        "y": 226,
-        "fontSize": 10,
+        "x": 32,
+        "y": 99,
+        "fontSize": 80,
         "letterSpacing": 0,
         "label": "金融機関名1",
         "textAlign": "center",
@@ -1645,7 +1645,7 @@
     },
     "bank_account_holder_kana": {
         "x": -40,
-        "y": 233.5,
+        "y": 234.5,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "口座名義",
@@ -1792,6 +1792,16 @@
         "letterSpacing": -0.1,
         "label": "電話番号",
         "textAlign": "left",
+        "type": "text"
+    },
+    "branch_name": {
+        "x": 17.5,
+        "y": 23.5,
+        "fontSize": 125,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "field": "branch_name",
+        "label": "支店名",
         "type": "text"
     }
 }
