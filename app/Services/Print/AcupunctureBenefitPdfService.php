@@ -1901,16 +1901,24 @@ class AcupunctureBenefitPdfService
    */
   protected function fillServiceDates(Fpdi $pdf, $records): void
   {
-    $letterSpacing = $this->coord('calendar_start', 'letterSpacing') ?? 0;
-    $cellWidth = $this->coord('calendar_start', 'cellWidth');
-    $circleRadius = $this->coord('calendar_start', 'circleRadius') ?? 1.2;
-    $innerRadius = $this->coord('calendar_start', 'doubleCircleInnerRadius') ?? 0.4;
+    $letterSpacing = 0; // 追加間隔（現在は使用しない）
+    $cellWidth = $this->coord('treatment_days', 'circleSpacing') ?? 6.45; // 円の間隔
+    $circleRadius = $this->coord('treatment_days', 'circleRadius') ?? 1.2;
+    $innerRadius = $this->coord('treatment_days', 'doubleCircleInnerRadius') ?? 0.4;
+    
+    // はり･きゅう版：therapy_content_id 11-16のみ描画
+    $acupunctureContentIds = [11, 12, 13, 14, 15, 16];
     
     foreach ($records as $record) {
+      // 施術内容がはり･きゅう関連でない場合はスキップ
+      if (!in_array($record->therapy_content_id, $acupunctureContentIds)) {
+        continue;
+      }
+      
       $day = (int)date('d', strtotime($record->date));
 
-      $x = $this->coord('calendar_start', 'x') + ($day - 1) * ($cellWidth + $letterSpacing);
-      $y = $this->coord('calendar_start', 'y');
+      $x = $this->coord('treatment_days', 'x') + ($day - 1) * ($cellWidth + $letterSpacing);
+      $y = $this->coord('treatment_days', 'y');
 
       // therapy_category: 1=通院（○）、2=往療（◎）
       if ($record->therapy_category == 2) {
@@ -2015,8 +2023,20 @@ class AcupunctureBenefitPdfService
    */
   protected function drawTextByKey(Fpdi $pdf, string $key, string $text): void
   {
+    // キーが存在しない場合は何もしない
+    if (!$this->hasCoord($key)) {
+      \Log::warning("描画スキップ: キーが存在しない", ['key' => $key, 'text' => $text]);
+      return;
+    }
+
     $x = $this->coord($key, 'x');
     $y = $this->coord($key, 'y');
+    
+    // デバッグ：座標0,0付近の描画を検出
+    if ($x < 5 && $y < 5) {
+      \Log::warning("座標0,0付近の描画検出", ['key' => $key, 'x' => $x, 'y' => $y, 'text' => $text]);
+    }
+    
     $letterSpacing = $this->coordinates[$key]['letterSpacing'] ?? 0;
     $textAlign = $this->coordinates[$key]['textAlign'] ?? 'left';
     $alignmentWidth = $this->coordinates[$key]['alignmentWidth'] ?? 0;
@@ -2044,6 +2064,11 @@ class AcupunctureBenefitPdfService
    */
   protected function drawEllipseByKey(Fpdi $pdf, string $key): void
   {
+    // キーが存在しない場合は何もしない
+    if (!$this->hasCoord($key)) {
+      return;
+    }
+
     // ellipseX/ellipseYがある場合はそれを優先、なければx/yを使用
     $x = $this->coordinates[$key]['ellipseX'] ?? $this->coord($key, 'x');
     $y = $this->coordinates[$key]['ellipseY'] ?? $this->coord($key, 'y');

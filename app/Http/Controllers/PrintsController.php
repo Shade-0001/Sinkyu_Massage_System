@@ -185,6 +185,17 @@ class PrintsController extends Controller
     if (file_exists($configPath)) {
       $json = file_get_contents($configPath);
       $coordinates = json_decode($json, true);
+      
+      // デバッグ：x=0,y=0のフィールドをチェック
+      $zeroFields = [];
+      foreach ($coordinates as $key => $value) {
+        if (isset($value['x']) && isset($value['y']) && $value['x'] === 0 && $value['y'] === 0) {
+          $zeroFields[] = $key;
+        }
+      }
+      if (!empty($zeroFields)) {
+        \Log::warning('getCoordinates: x=0,y=0のフィールドが存在', ['count' => count($zeroFields), 'fields' => $zeroFields]);
+      }
 
       return response()->json([
         'success' => true,
@@ -212,7 +223,22 @@ class PrintsController extends Controller
       $configFileName = $pdfType === 'therapy_benefit_massage' ? 'massage_benefit_coordinates.json' : 'acupuncture_benefit_coordinates.json';
       $configPath = storage_path('app/config/' . $configFileName);
 
-      file_put_contents($configPath, json_encode($coordinates, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+      // x=0, y=0のフィールドを除外（不要なフィールドを保存しない）
+      $filteredCoordinates = [];
+      $removedCount = 0;
+      foreach ($coordinates as $key => $value) {
+        if (isset($value['x']) && isset($value['y']) && $value['x'] === 0 && $value['y'] === 0) {
+          $removedCount++;
+          continue; // x=0, y=0のフィールドはスキップ
+        }
+        $filteredCoordinates[$key] = $value;
+      }
+      
+      if ($removedCount > 0) {
+        \Log::info("saveCoordinates: x=0,y=0フィールドを除外", ['removed_count' => $removedCount]);
+      }
+
+      file_put_contents($configPath, json_encode($filteredCoordinates, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
       return response()->json([
         'success' => true,
@@ -246,7 +272,25 @@ class PrintsController extends Controller
       // 一時的に座標設定を更新
       $coordinates = $request->input('coordinates');
       $originalCoordinates = file_get_contents($configPath);
-
+      
+      // x=0, y=0のフィールドを除外（描画されないようにする）
+      $filteredCoordinates = [];
+      $removedCount = 0;
+      foreach ($coordinates as $k => $v) {
+        if (isset($v['x']) && isset($v['y']) && $v['x'] === 0 && $v['y'] === 0) {
+          $removedCount++;
+          continue; // x=0, y=0のフィールドはスキップ
+        }
+        $filteredCoordinates[$k] = $v;
+      }
+      
+      if ($removedCount > 0) {
+        \Log::info("PreviewPdf: x=0,y=0フィールドを除外", ['removed_count' => $removedCount]);
+      }
+      
+      // フィルタ後の座標を使用
+      $coordinates = $filteredCoordinates;
+      
       // デバッグ：isSelectedが含まれているかチェック
       $hasIsSelected = false;
       foreach ($coordinates as $k => $v) {

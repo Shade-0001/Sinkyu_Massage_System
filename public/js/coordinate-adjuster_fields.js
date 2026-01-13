@@ -73,7 +73,7 @@ const sampleDataFieldMapping = {
   'treatment_end_day': { field: 'treatment_end_day', label: '日', type: 'number', compositeGroup: 'treatment_end_date', compositeLabel: '施術期間（終了）' },
 
   // === 9. 実日数・請求区分・傷病名・転帰 ===
-  'treatment_days': { field: 'treatment_days', label: '実日数', type: 'number' },
+  'treatment_day_count': { field: 'treatment_days', label: '実日数', type: 'number' },
   'bill_category_new': { field: 'bill_category', label: '請求区分', type: 'select', options: ['新規', '継続'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'bill_category', optionLabel: '新規' },
   'bill_category_continued': { field: 'bill_category', label: '請求区分', type: 'select', options: ['新規', '継続'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'bill_category', optionLabel: '継続' },
 
@@ -96,41 +96,9 @@ const sampleDataFieldMapping = {
   'condition': { field: 'condition', label: '発病負傷の原因･経過', type: 'text' },
   'abstract': { field: 'abstract', label: '摘要', type: 'text', width: 180, lineHeight: 5 },
 
-  // 施術月
+  // === 10. 施術月・施術日 ===
   'treatment_month': { field: 'treatment_month', label: '施術月', type: 'number' },
-
-  // === 10. 施術日カレンダー（1-31日） ===
-  'treatment_day_1': { field: 'treatment_day_1', label: '施術日1日', type: 'text' },
-  'treatment_day_2': { field: 'treatment_day_2', label: '施術日2日', type: 'text' },
-  'treatment_day_3': { field: 'treatment_day_3', label: '施術日3日', type: 'text' },
-  'treatment_day_4': { field: 'treatment_day_4', label: '施術日4日', type: 'text' },
-  'treatment_day_5': { field: 'treatment_day_5', label: '施術日5日', type: 'text' },
-  'treatment_day_6': { field: 'treatment_day_6', label: '施術日6日', type: 'text' },
-  'treatment_day_7': { field: 'treatment_day_7', label: '施術日7日', type: 'text' },
-  'treatment_day_8': { field: 'treatment_day_8', label: '施術日8日', type: 'text' },
-  'treatment_day_9': { field: 'treatment_day_9', label: '施術日9日', type: 'text' },
-  'treatment_day_10': { field: 'treatment_day_10', label: '施術日10日', type: 'text' },
-  'treatment_day_11': { field: 'treatment_day_11', label: '施術日11日', type: 'text' },
-  'treatment_day_12': { field: 'treatment_day_12', label: '施術日12日', type: 'text' },
-  'treatment_day_13': { field: 'treatment_day_13', label: '施術日13日', type: 'text' },
-  'treatment_day_14': { field: 'treatment_day_14', label: '施術日14日', type: 'text' },
-  'treatment_day_15': { field: 'treatment_day_15', label: '施術日15日', type: 'text' },
-  'treatment_day_16': { field: 'treatment_day_16', label: '施術日16日', type: 'text' },
-  'treatment_day_17': { field: 'treatment_day_17', label: '施術日17日', type: 'text' },
-  'treatment_day_18': { field: 'treatment_day_18', label: '施術日18日', type: 'text' },
-  'treatment_day_19': { field: 'treatment_day_19', label: '施術日19日', type: 'text' },
-  'treatment_day_20': { field: 'treatment_day_20', label: '施術日20日', type: 'text' },
-  'treatment_day_21': { field: 'treatment_day_21', label: '施術日21日', type: 'text' },
-  'treatment_day_22': { field: 'treatment_day_22', label: '施術日22日', type: 'text' },
-  'treatment_day_23': { field: 'treatment_day_23', label: '施術日23日', type: 'text' },
-  'treatment_day_24': { field: 'treatment_day_24', label: '施術日24日', type: 'text' },
-  'treatment_day_25': { field: 'treatment_day_25', label: '施術日25日', type: 'text' },
-  'treatment_day_26': { field: 'treatment_day_26', label: '施術日26日', type: 'text' },
-  'treatment_day_27': { field: 'treatment_day_27', label: '施術日27日', type: 'text' },
-  'treatment_day_28': { field: 'treatment_day_28', label: '施術日28日', type: 'text' },
-  'treatment_day_29': { field: 'treatment_day_29', label: '施術日29日', type: 'text' },
-  'treatment_day_30': { field: 'treatment_day_30', label: '施術日30日', type: 'text' },
-  'treatment_day_31': { field: 'treatment_day_31', label: '施術日31日', type: 'text' },
+  'treatment_days': { field: 'treatment_days', label: '施術日', type: 'calendar', circleRadius: 1.2, doubleCircleInnerRadius: 0.4, circleSpacing: 6.45 },
 
   // === 11. 施術料金（鍼灸） ===
   'fee_hari_unit': { field: 'fee_hari_unit', label: '単価', type: 'number', compositeGroup: 'fee_hari', compositeLabel: 'はり料金' },

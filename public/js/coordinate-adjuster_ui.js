@@ -476,6 +476,69 @@ function renderSingleFieldHTML(key, field) {
       </div>
       ` : ''}
 
+      ${field.circleRadius !== undefined ? `
+      <div class="coordinate-input">
+        <label>円のサイズ:</label>
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'circleRadius', -0.1)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'circleRadius', -0.1)"
+                ontouchend="stopLongPress()">−</button>
+        <input type="number" step="0.1" value="${field.circleRadius}"
+               onchange="updateCoordinate('${key}', 'circleRadius', this.value)"
+               class="form-control form-control-sm" style="width: 80px;" data-property="circleRadius">
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'circleRadius', 0.1)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'circleRadius', 0.1)"
+                ontouchend="stopLongPress()">+</button>
+      </div>
+      ` : ''}
+
+      ${field.doubleCircleInnerRadius !== undefined ? `
+      <div class="coordinate-input">
+        <label>二重丸の内円のサイズ:</label>
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'doubleCircleInnerRadius', -0.1)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'doubleCircleInnerRadius', -0.1)"
+                ontouchend="stopLongPress()">−</button>
+        <input type="number" step="0.1" value="${field.doubleCircleInnerRadius}"
+               onchange="updateCoordinate('${key}', 'doubleCircleInnerRadius', this.value)"
+               class="form-control form-control-sm" style="width: 80px;" data-property="doubleCircleInnerRadius">
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'doubleCircleInnerRadius', 0.1)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'doubleCircleInnerRadius', 0.1)"
+                ontouchend="stopLongPress()">+</button>
+      </div>
+      ` : ''}
+
+      ${field.circleSpacing !== undefined ? `
+      <div class="coordinate-input">
+        <label>円の間隔:</label>
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'circleSpacing', -0.1)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'circleSpacing', -0.1)"
+                ontouchend="stopLongPress()">−</button>
+        <input type="number" step="0.1" value="${field.circleSpacing}"
+               onchange="updateCoordinate('${key}', 'circleSpacing', this.value)"
+               class="form-control form-control-sm" style="width: 80px;" data-property="circleSpacing">
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'circleSpacing', 0.1)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'circleSpacing', 0.1)"
+                ontouchend="stopLongPress()">+</button>
+      </div>
+      ` : ''}
+
       ${(() => {
         const sampleDataHtml = getSampleDataInput(key);
         return sampleDataHtml || '';
@@ -1223,8 +1286,8 @@ function updateRadioGroupSelection(groupName, selectedKey) {
     detailsDiv.appendChild(lsDiv);
   }
 
-  // 円半径（楕円を使用している場合は表示しない）
-  if (selectedField.circleRadius !== undefined && selectedField.ellipseWidth === undefined && selectedField.ellipseHeight === undefined) {
+  // 円半径（楕円を使用している場合、またはcalendarタイプの場合は表示しない）
+  if (selectedField.circleRadius !== undefined && selectedField.ellipseWidth === undefined && selectedField.ellipseHeight === undefined && selectedField.type !== 'calendar') {
     const crDiv = document.createElement('div');
     crDiv.className = 'coordinate-input';
     crDiv.innerHTML = `<label>○半径:</label>`;
@@ -1353,6 +1416,138 @@ function updateRadioGroupSelection(groupName, selectedKey) {
     ehDiv.appendChild(ehInput);
     ehDiv.appendChild(ehBtnPlus);
     detailsDiv.appendChild(ehDiv);
+  }
+
+  // 円のサイズ（calendarタイプ用）
+  if (selectedField.type === 'calendar' && selectedField.circleRadius !== undefined) {
+    const crDiv = document.createElement('div');
+    crDiv.className = 'coordinate-input';
+    crDiv.innerHTML = `<label>円のサイズ:</label>`;
+    
+    const crBtnMinus = document.createElement('button');
+    crBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+    crBtnMinus.innerHTML = '−';
+    crBtnMinus.addEventListener('mousedown', () => startLongPress(selectedKey, 'circleRadius', -0.1));
+    crBtnMinus.addEventListener('mouseup', stopLongPress);
+    crBtnMinus.addEventListener('mouseleave', stopLongPress);
+    crBtnMinus.addEventListener('touchstart', () => startLongPress(selectedKey, 'circleRadius', -0.1));
+    crBtnMinus.addEventListener('touchend', stopLongPress);
+    
+    const crInput = document.createElement('input');
+    crInput.type = 'number';
+    crInput.step = '0.1';
+    crInput.value = selectedField.circleRadius || 1.2;
+    crInput.className = 'form-control form-control-sm';
+    crInput.style.width = '80px';
+    crInput.style.display = 'inline-block';
+    crInput.setAttribute('data-property', 'circleRadius');
+    crInput.style.marginLeft = '5px';
+    crInput.style.marginRight = '5px';
+    crInput.addEventListener('change', function() {
+      updateCoordinate(selectedKey, 'circleRadius', this.value);
+    });
+    
+    const crBtnPlus = document.createElement('button');
+    crBtnPlus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+    crBtnPlus.innerHTML = '+';
+    crBtnPlus.addEventListener('mousedown', () => startLongPress(selectedKey, 'circleRadius', 0.1));
+    crBtnPlus.addEventListener('mouseup', stopLongPress);
+    crBtnPlus.addEventListener('mouseleave', stopLongPress);
+    crBtnPlus.addEventListener('touchstart', () => startLongPress(selectedKey, 'circleRadius', 0.1));
+    crBtnPlus.addEventListener('touchend', stopLongPress);
+    
+    crDiv.appendChild(crBtnMinus);
+    crDiv.appendChild(crInput);
+    crDiv.appendChild(crBtnPlus);
+    detailsDiv.appendChild(crDiv);
+  }
+
+  // 二重丸の内円のサイズ（calendarタイプ用）
+  if (selectedField.type === 'calendar' && selectedField.doubleCircleInnerRadius !== undefined) {
+    const dcirDiv = document.createElement('div');
+    dcirDiv.className = 'coordinate-input';
+    dcirDiv.innerHTML = `<label>二重丸の内円のサイズ:</label>`;
+    
+    const dcirBtnMinus = document.createElement('button');
+    dcirBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+    dcirBtnMinus.innerHTML = '−';
+    dcirBtnMinus.addEventListener('mousedown', () => startLongPress(selectedKey, 'doubleCircleInnerRadius', -0.1));
+    dcirBtnMinus.addEventListener('mouseup', stopLongPress);
+    dcirBtnMinus.addEventListener('mouseleave', stopLongPress);
+    dcirBtnMinus.addEventListener('touchstart', () => startLongPress(selectedKey, 'doubleCircleInnerRadius', -0.1));
+    dcirBtnMinus.addEventListener('touchend', stopLongPress);
+    
+    const dcirInput = document.createElement('input');
+    dcirInput.type = 'number';
+    dcirInput.step = '0.1';
+    dcirInput.value = selectedField.doubleCircleInnerRadius || 0.4;
+    dcirInput.className = 'form-control form-control-sm';
+    dcirInput.style.width = '80px';
+    dcirInput.style.display = 'inline-block';
+    dcirInput.setAttribute('data-property', 'doubleCircleInnerRadius');
+    dcirInput.style.marginLeft = '5px';
+    dcirInput.style.marginRight = '5px';
+    dcirInput.addEventListener('change', function() {
+      updateCoordinate(selectedKey, 'doubleCircleInnerRadius', this.value);
+    });
+    
+    const dcirBtnPlus = document.createElement('button');
+    dcirBtnPlus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+    dcirBtnPlus.innerHTML = '+';
+    dcirBtnPlus.addEventListener('mousedown', () => startLongPress(selectedKey, 'doubleCircleInnerRadius', 0.1));
+    dcirBtnPlus.addEventListener('mouseup', stopLongPress);
+    dcirBtnPlus.addEventListener('mouseleave', stopLongPress);
+    dcirBtnPlus.addEventListener('touchstart', () => startLongPress(selectedKey, 'doubleCircleInnerRadius', 0.1));
+    dcirBtnPlus.addEventListener('touchend', stopLongPress);
+    
+    dcirDiv.appendChild(dcirBtnMinus);
+    dcirDiv.appendChild(dcirInput);
+    dcirDiv.appendChild(dcirBtnPlus);
+    detailsDiv.appendChild(dcirDiv);
+  }
+
+  // 円の間隔（calendarタイプ用）
+  if (selectedField.type === 'calendar' && selectedField.circleSpacing !== undefined) {
+    const cwDiv = document.createElement('div');
+    cwDiv.className = 'coordinate-input';
+    cwDiv.innerHTML = `<label>円の間隔:</label>`;
+    
+    const cwBtnMinus = document.createElement('button');
+    cwBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+    cwBtnMinus.innerHTML = '−';
+    cwBtnMinus.addEventListener('mousedown', () => startLongPress(selectedKey, 'circleSpacing', -0.1));
+    cwBtnMinus.addEventListener('mouseup', stopLongPress);
+    cwBtnMinus.addEventListener('mouseleave', stopLongPress);
+    cwBtnMinus.addEventListener('touchstart', () => startLongPress(selectedKey, 'circleSpacing', -0.1));
+    cwBtnMinus.addEventListener('touchend', stopLongPress);
+    
+    const cwInput = document.createElement('input');
+    cwInput.type = 'number';
+    cwInput.step = '0.1';
+    cwInput.value = selectedField.circleSpacing || 6.45;
+    cwInput.className = 'form-control form-control-sm';
+    cwInput.style.width = '80px';
+    cwInput.style.display = 'inline-block';
+    cwInput.setAttribute('data-property', 'circleSpacing');
+    cwInput.style.marginLeft = '5px';
+    cwInput.style.marginRight = '5px';
+    cwInput.addEventListener('change', function() {
+      updateCoordinate(selectedKey, 'circleSpacing', this.value);
+    });
+    
+    const cwBtnPlus = document.createElement('button');
+    cwBtnPlus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+    cwBtnPlus.innerHTML = '+';
+    cwBtnPlus.addEventListener('mousedown', () => startLongPress(selectedKey, 'circleSpacing', 0.1));
+    cwBtnPlus.addEventListener('mouseup', stopLongPress);
+    cwBtnPlus.addEventListener('mouseleave', stopLongPress);
+    cwBtnPlus.addEventListener('touchstart', () => startLongPress(selectedKey, 'circleSpacing', 0.1));
+    cwBtnPlus.addEventListener('touchend', stopLongPress);
+    
+    cwDiv.appendChild(cwBtnMinus);
+    cwDiv.appendChild(cwInput);
+    cwDiv.appendChild(cwBtnPlus);
+    detailsDiv.appendChild(cwDiv);
   }
 
   fieldsContainer.appendChild(detailsDiv);

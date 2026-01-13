@@ -522,7 +522,119 @@ class MassageBenefitPdfService
 
     // === 施術料金 ===
     if ($this->sampleDataMode && $this->customSampleData) {
-      // はり
+      // マッサージ料金（躯幹）
+      if ($this->hasCoord('fee_massage_trunk_unit')) {
+        $pdf->SetFontSize($this->coord('fee_massage_trunk_unit', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_massage_trunk_unit', $this->customSampleData['fee_massage_trunk_unit'] ?? '');
+      }
+      if ($this->hasCoord('fee_massage_trunk_count')) {
+        $pdf->SetFontSize($this->coord('fee_massage_trunk_count', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_massage_trunk_count', $this->customSampleData['fee_massage_trunk_count'] ?? '');
+      }
+      if ($this->hasCoord('fee_massage_trunk_total')) {
+        $pdf->SetFontSize($this->coord('fee_massage_trunk_total', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_massage_trunk_total', $this->customSampleData['fee_massage_trunk_total'] ?? '');
+      }
+
+      // マッサージ料金（右上肢）
+      if ($this->hasCoord('fee_massage_upper_limb_r_unit')) {
+        $pdf->SetFontSize($this->coord('fee_massage_upper_limb_r_unit', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_massage_upper_limb_r_unit', $this->customSampleData['fee_massage_upper_limb_r_unit'] ?? '');
+      }
+      if ($this->hasCoord('fee_massage_upper_limb_r_count')) {
+        $pdf->SetFontSize($this->coord('fee_massage_upper_limb_r_count', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_massage_upper_limb_r_count', $this->customSampleData['fee_massage_upper_limb_r_count'] ?? '');
+      }
+      if ($this->hasCoord('fee_massage_upper_limb_r_total')) {
+        $pdf->SetFontSize($this->coord('fee_massage_upper_limb_r_total', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_massage_upper_limb_r_total', $this->customSampleData['fee_massage_upper_limb_r_total'] ?? '');
+      }
+
+      // マッサージ料金（左上肢）
+      if ($this->hasCoord('fee_massage_upper_limb_l_unit')) {
+        $pdf->SetFontSize($this->coord('fee_massage_upper_limb_l_unit', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_massage_upper_limb_l_unit', $this->customSampleData['fee_massage_upper_limb_l_unit'] ?? '');
+      }
+      if ($this->hasCoord('fee_massage_upper_limb_l_count')) {
+        $pdf->SetFontSize($this->coord('fee_massage_upper_limb_l_count', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_massage_upper_limb_l_count', $this->customSampleData['fee_massage_upper_limb_l_count'] ?? '');
+      }
+      if ($this->hasCoord('fee_massage_upper_limb_l_total')) {
+        $pdf->SetFontSize($this->coord('fee_massage_upper_limb_l_total', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_massage_upper_limb_l_total', $this->customSampleData['fee_massage_upper_limb_l_total'] ?? '');
+      }
+
+      // マッサージ料金（右下肢）
+      if ($this->hasCoord('fee_massage_lower_limb_r_unit')) {
+        $pdf->SetFontSize($this->coord('fee_massage_lower_limb_r_unit', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_massage_lower_limb_r_unit', $this->customSampleData['fee_massage_lower_limb_r_unit'] ?? '');
+      }
+      if ($this->hasCoord('fee_massage_lower_limb_r_count')) {
+        $pdf->SetFontSize($this->coord('fee_massage_lower_limb_r_count', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_massage_lower_limb_r_count', $this->customSampleData['fee_massage_lower_limb_r_count'] ?? '');
+      }
+      if ($this->hasCoord('fee_massage_lower_limb_r_total')) {
+        $pdf->SetFontSize($this->coord('fee_massage_lower_limb_r_total', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_massage_lower_limb_r_total', $this->customSampleData['fee_massage_lower_limb_r_total'] ?? '');
+      }
+
+      // マッサージ料金（左下肢）
+      if ($this->hasCoord('fee_massage_lower_limb_l_unit')) {
+        $pdf->SetFontSize($this->coord('fee_massage_lower_limb_l_unit', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_massage_lower_limb_l_unit', $this->customSampleData['fee_massage_lower_limb_l_unit'] ?? '');
+      }
+      if ($this->hasCoord('fee_massage_lower_limb_l_count')) {
+        $pdf->SetFontSize($this->coord('fee_massage_lower_limb_l_count', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_massage_lower_limb_l_count', $this->customSampleData['fee_massage_lower_limb_l_count'] ?? '');
+      }
+      if ($this->hasCoord('fee_massage_lower_limb_l_total')) {
+        $pdf->SetFontSize($this->coord('fee_massage_lower_limb_l_total', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_massage_lower_limb_l_total', $this->customSampleData['fee_massage_lower_limb_l_total'] ?? '');
+      }
+
+      // 変形徒手矯正術
+      if ($this->hasCoord('fee_manual_correction_unit')) {
+        $pdf->SetFontSize($this->coord('fee_manual_correction_unit', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_manual_correction_unit', $this->customSampleData['fee_manual_correction_unit'] ?? '');
+      }
+      if ($this->hasCoord('fee_manual_correction_count')) {
+        $pdf->SetFontSize($this->coord('fee_manual_correction_count', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_manual_correction_count', $this->customSampleData['fee_manual_correction_count'] ?? '');
+      }
+      if ($this->hasCoord('fee_manual_correction_total')) {
+        $pdf->SetFontSize($this->coord('fee_manual_correction_total', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_manual_correction_total', $this->customSampleData['fee_manual_correction_total'] ?? '');
+      }
+
+      // 温罨法
+      if ($this->hasCoord('fee_fomentation_unit')) {
+        $pdf->SetFontSize($this->coord('fee_fomentation_unit', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_fomentation_unit', $this->customSampleData['fee_fomentation_unit'] ?? '');
+      }
+      if ($this->hasCoord('fee_fomentation_count')) {
+        $pdf->SetFontSize($this->coord('fee_fomentation_count', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_fomentation_count', $this->customSampleData['fee_fomentation_count'] ?? '');
+      }
+      if ($this->hasCoord('fee_fomentation_total')) {
+        $pdf->SetFontSize($this->coord('fee_fomentation_total', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_fomentation_total', $this->customSampleData['fee_fomentation_total'] ?? '');
+      }
+
+      // 温罨法・電光線器具
+      if ($this->hasCoord('fee_fomentation_electric_light_unit')) {
+        $pdf->SetFontSize($this->coord('fee_fomentation_electric_light_unit', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_fomentation_electric_light_unit', $this->customSampleData['fee_fomentation_electric_light_unit'] ?? '');
+      }
+      if ($this->hasCoord('fee_fomentation_electric_light_count')) {
+        $pdf->SetFontSize($this->coord('fee_fomentation_electric_light_count', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_fomentation_electric_light_count', $this->customSampleData['fee_fomentation_electric_light_count'] ?? '');
+      }
+      if ($this->hasCoord('fee_fomentation_electric_light_total')) {
+        $pdf->SetFontSize($this->coord('fee_fomentation_electric_light_total', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_fomentation_electric_light_total', $this->customSampleData['fee_fomentation_electric_light_total'] ?? '');
+      }
+
+      // はり（後方互換用・通常マッサージでは使用しない）
       if ($this->hasCoord('fee_hari_unit')) {
         $pdf->SetFontSize($this->coord('fee_hari_unit', 'fontSize'));
         $this->drawTextByKey($pdf, 'fee_hari_unit', $this->customSampleData['fee_hari_unit'] ?? '');
@@ -536,7 +648,7 @@ class MassageBenefitPdfService
         $this->drawTextByKey($pdf, 'fee_hari_total', $this->customSampleData['fee_hari_total'] ?? '');
       }
 
-      // きゅう
+      // きゅう（後方互換用・通常マッサージでは使用しない）
       if ($this->hasCoord('fee_kyu_unit')) {
         $pdf->SetFontSize($this->coord('fee_kyu_unit', 'fontSize'));
         $this->drawTextByKey($pdf, 'fee_kyu_unit', $this->customSampleData['fee_kyu_unit'] ?? '');
@@ -550,7 +662,7 @@ class MassageBenefitPdfService
         $this->drawTextByKey($pdf, 'fee_kyu_total', $this->customSampleData['fee_kyu_total'] ?? '');
       }
 
-      // はり・きゅう併用
+      // はり・きゅう併用（後方互換用・通常マッサージでは使用しない）
       if ($this->hasCoord('fee_hari_kyu_unit')) {
         $pdf->SetFontSize($this->coord('fee_hari_kyu_unit', 'fontSize'));
         $this->drawTextByKey($pdf, 'fee_hari_kyu_unit', $this->customSampleData['fee_hari_kyu_unit'] ?? '');
@@ -564,7 +676,7 @@ class MassageBenefitPdfService
         $this->drawTextByKey($pdf, 'fee_hari_kyu_total', $this->customSampleData['fee_hari_kyu_total'] ?? '');
       }
 
-      // 電療料
+      // 電療料（後方互換用・通常マッサージでは使用しない）
       if ($this->hasCoord('fee_electric_unit')) {
         $pdf->SetFontSize($this->coord('fee_electric_unit', 'fontSize'));
         $this->drawTextByKey($pdf, 'fee_electric_unit', $this->customSampleData['fee_electric_unit'] ?? '');
@@ -852,16 +964,24 @@ class MassageBenefitPdfService
    */
   protected function fillServiceDates(Fpdi $pdf, $records): void
   {
-    $letterSpacing = $this->coord('calendar_start', 'letterSpacing') ?? 0;
-    $cellWidth = $this->coord('calendar_start', 'cellWidth');
-    $circleRadius = $this->coord('calendar_start', 'circleRadius') ?? 1.2;
-    $innerRadius = $this->coord('calendar_start', 'doubleCircleInnerRadius') ?? 0.4;
+    $letterSpacing = 0; // 追加間隔（現在は使用しない）
+    $cellWidth = $this->coord('treatment_days', 'circleSpacing') ?? 6.45; // 円の間隔
+    $circleRadius = $this->coord('treatment_days', 'circleRadius') ?? 1.2;
+    $innerRadius = $this->coord('treatment_days', 'doubleCircleInnerRadius') ?? 0.4;
+
+    // あんま･マッサージ版：therapy_content_id 18-21のみ描画
+    $massageContentIds = [18, 19, 20, 21];
 
     foreach ($records as $record) {
+      // 施術内容があんま･マッサージ関連でない場合はスキップ
+      if (!in_array($record->therapy_content_id, $massageContentIds)) {
+        continue;
+      }
+      
       $day = (int)date('d', strtotime($record->date));
 
-      $x = $this->coord('calendar_start', 'x') + ($day - 1) * ($cellWidth + $letterSpacing);
-      $y = $this->coord('calendar_start', 'y');
+      $x = $this->coord('treatment_days', 'x') + ($day - 1) * ($cellWidth + $letterSpacing);
+      $y = $this->coord('treatment_days', 'y');
 
       if ($record->therapy_category == 2) {
         $pdf->SetDrawColor(0, 0, 0);
@@ -878,8 +998,20 @@ class MassageBenefitPdfService
 
   protected function drawTextByKey(Fpdi $pdf, string $key, string $text): void
   {
+    // キーが存在しない場合は何もしない
+    if (!$this->hasCoord($key)) {
+      \Log::warning("描画スキップ: キーが存在しない", ['key' => $key, 'text' => $text]);
+      return;
+    }
+
     $x = $this->coord($key, 'x');
     $y = $this->coord($key, 'y');
+    
+    // デバッグ：座標0,0付近の描画を検出
+    if ($x < 5 && $y < 5) {
+      \Log::warning("座標0,0付近の描画検出", ['key' => $key, 'x' => $x, 'y' => $y, 'text' => $text]);
+    }
+    
     $letterSpacing = $this->coordinates[$key]['letterSpacing'] ?? 0;
     $textAlign = $this->coordinates[$key]['textAlign'] ?? 'left';
     $alignmentWidth = $this->coordinates[$key]['alignmentWidth'] ?? 0;
@@ -905,6 +1037,11 @@ class MassageBenefitPdfService
    */
   protected function drawEllipseByKey(Fpdi $pdf, string $key): void
   {
+    // キーが存在しない場合は何もしない
+    if (!$this->hasCoord($key)) {
+      return;
+    }
+
     $x = $this->coord($key, 'x');
     $y = $this->coord($key, 'y');
     $ellipseWidth = $this->coordinates[$key]['ellipseWidth'] ?? 2.5;
@@ -1004,12 +1141,12 @@ class MassageBenefitPdfService
     // サンプル施術実績（月の2日、7日、12日、17日、22日、27日）
     $treatmentDays = $custom['treatment_days'] ?? 15;
     $records = collect([
-      (object)['date' => $serviceYearMonth . '-02', 'therapy_category' => 1],
-      (object)['date' => $serviceYearMonth . '-07', 'therapy_category' => 1],
-      (object)['date' => $serviceYearMonth . '-12', 'therapy_category' => 2],
-      (object)['date' => $serviceYearMonth . '-17', 'therapy_category' => 1],
-      (object)['date' => $serviceYearMonth . '-22', 'therapy_category' => 2],
-      (object)['date' => $serviceYearMonth . '-27', 'therapy_category' => 1],
+      (object)['date' => $serviceYearMonth . '-02', 'therapy_category' => 1, 'therapy_content_id' => 18],
+      (object)['date' => $serviceYearMonth . '-07', 'therapy_category' => 1, 'therapy_content_id' => 18],
+      (object)['date' => $serviceYearMonth . '-12', 'therapy_category' => 2, 'therapy_content_id' => 19],
+      (object)['date' => $serviceYearMonth . '-17', 'therapy_category' => 1, 'therapy_content_id' => 18],
+      (object)['date' => $serviceYearMonth . '-22', 'therapy_category' => 2, 'therapy_content_id' => 19],
+      (object)['date' => $serviceYearMonth . '-27', 'therapy_category' => 1, 'therapy_content_id' => 18],
     ]);
 
     // サンプル施術所情報
