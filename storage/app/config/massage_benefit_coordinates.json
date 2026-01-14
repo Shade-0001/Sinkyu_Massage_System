@@ -304,22 +304,22 @@
         "type": "select"
     },
     "birthday_era_reiwa": {
-        "x": 66,
+        "x": 68,
         "y": 73.5,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "元号",
         "radioGroup": "birthday_era",
         "optionLabel": "令和",
-        "ellipseWidth": 2.5,
-        "ellipseHeight": 2.5,
+        "ellipseWidth": 2,
+        "ellipseHeight": 2,
         "lineWidth": 0.5,
         "type": "select",
         "compositeGroup": "birthday_full_date",
         "compositeLabel": "生年月日"
     },
     "birthday_era_heisei": {
-        "x": 60.5,
+        "x": 63,
         "y": 73.5,
         "fontSize": 10,
         "letterSpacing": 0,
@@ -334,7 +334,7 @@
         "compositeLabel": "生年月日"
     },
     "birthday_era_showa": {
-        "x": 54.5,
+        "x": 58,
         "y": 73.5,
         "fontSize": 10,
         "letterSpacing": 0,
@@ -349,7 +349,7 @@
         "compositeLabel": "生年月日"
     },
     "birthday_era_taisho": {
-        "x": 49,
+        "x": 53,
         "y": 73.5,
         "fontSize": 10,
         "letterSpacing": 0,
@@ -364,7 +364,7 @@
         "compositeLabel": "生年月日"
     },
     "birthday_era_meiji": {
-        "x": 43.5,
+        "x": 48,
         "y": 73.5,
         "fontSize": 10,
         "letterSpacing": 0,
@@ -379,7 +379,7 @@
         "compositeLabel": "生年月日"
     },
     "birthday_year": {
-        "x": -35,
+        "x": -34,
         "y": 71.5,
         "fontSize": 10,
         "letterSpacing": 0,
@@ -390,7 +390,7 @@
         "compositeLabel": "生年月日"
     },
     "birthday_month": {
-        "x": -26.5,
+        "x": -26,
         "y": 71.5,
         "fontSize": 10,
         "letterSpacing": 0,
@@ -401,7 +401,7 @@
         "compositeLabel": "生年月日"
     },
     "birthday_day": {
-        "x": -18,
+        "x": -18.5,
         "y": 71.5,
         "fontSize": 10,
         "letterSpacing": 0,
@@ -487,6 +487,15 @@
         "field": "treatment_days",
         "label": "施術日"
     },
+    "treatment_day_count": {
+        "x": 38,
+        "y": 83.5,
+        "fontSize": 11,
+        "letterSpacing": 0,
+        "label": "実日数",
+        "textAlign": "center",
+        "type": "number"
+    },
     "calendar_start": {
         "x": 44,
         "y": 174.5,
@@ -499,7 +508,7 @@
     },
     "clinic_date_year": {
         "x": -72,
-        "y": 188,
+        "y": 189.5,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "年",
@@ -510,7 +519,7 @@
     },
     "clinic_date_month": {
         "x": -61.5,
-        "y": 188,
+        "y": 189.5,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "月",
@@ -521,7 +530,7 @@
     },
     "clinic_date_day": {
         "x": -49.5,
-        "y": 188,
+        "y": 189.5,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "日",
@@ -532,7 +541,7 @@
     },
     "therapist_registration_number": {
         "x": -55,
-        "y": 197.5,
+        "y": 198.5,
         "fontSize": 10,
         "letterSpacing": 0.2,
         "label": "施術者登録番号",
@@ -541,7 +550,7 @@
     },
     "clinic_postal_code": {
         "x": 123,
-        "y": 185,
+        "y": 186,
         "fontSize": 9,
         "letterSpacing": 0,
         "label": "施術所郵便番号",
@@ -550,7 +559,7 @@
     },
     "clinic_address": {
         "x": 123,
-        "y": 189,
+        "y": 190,
         "fontSize": 9,
         "letterSpacing": 0,
         "label": "施術所所在地",
@@ -559,7 +568,7 @@
     },
     "clinic_name": {
         "x": 123,
-        "y": 193.5,
+        "y": 194.5,
         "fontSize": 9,
         "letterSpacing": 0,
         "label": "施術所名称",
@@ -568,7 +577,7 @@
     },
     "clinic_manager": {
         "x": 123,
-        "y": 198.5,
+        "y": 199.5,
         "fontSize": 9,
         "letterSpacing": 0,
         "label": "施術管理者氏名",
@@ -577,7 +586,7 @@
     },
     "clinic_phone": {
         "x": 173.5,
-        "y": 198.5,
+        "y": 200,
         "fontSize": 8.5,
         "letterSpacing": -0.1,
         "label": "電話番号",
@@ -1118,14 +1127,14 @@
         "type": "select"
     },
     "outcome_continued": {
-        "x": 159.5,
-        "y": 98,
+        "x": 160.5,
+        "y": 96.5,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "転帰",
         "textAlign": "left",
-        "ellipseWidth": 5,
-        "ellipseHeight": 3,
+        "ellipseWidth": 4.5,
+        "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "outcome",
         "optionLabel": "継続",
@@ -1133,41 +1142,41 @@
     },
     "outcome_cured": {
         "x": 169.5,
-        "y": 98,
+        "y": 96.5,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "転帰",
         "textAlign": "left",
-        "ellipseWidth": 5,
-        "ellipseHeight": 3,
+        "ellipseWidth": 4.5,
+        "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "outcome",
         "optionLabel": "治癒",
         "type": "select"
     },
     "outcome_discontinued": {
-        "x": 179,
-        "y": 98,
+        "x": 178,
+        "y": 96.5,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "転帰",
         "textAlign": "left",
-        "ellipseWidth": 5,
-        "ellipseHeight": 3,
+        "ellipseWidth": 4.5,
+        "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "outcome",
         "optionLabel": "中止",
         "type": "select"
     },
     "outcome_transferred": {
-        "x": 188,
-        "y": 98,
+        "x": 186.5,
+        "y": 96.5,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "転帰",
         "textAlign": "left",
-        "ellipseWidth": 5,
-        "ellipseHeight": 3,
+        "ellipseWidth": 4.5,
+        "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "outcome",
         "optionLabel": "転医",
@@ -1175,7 +1184,7 @@
     },
     "health_center_registration_1": {
         "x": 153.5,
-        "y": 182,
+        "y": 183.5,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "保健所登録区分",
@@ -1190,7 +1199,7 @@
     },
     "health_center_registration_2": {
         "x": 176,
-        "y": 182,
+        "y": 183.5,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "保健所登録区分",
@@ -1214,8 +1223,19 @@
         "lineHeight": 5,
         "type": "text"
     },
+    "first_treatment_era": {
+        "x": -78,
+        "y": 83.5,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "label": "元号",
+        "textAlign": "center",
+        "type": "text",
+        "compositeGroup": "first_treatment_date",
+        "compositeLabel": "初療年月日"
+    },
     "first_treatment_year": {
-        "x": -73.5,
+        "x": -71,
         "y": 84,
         "fontSize": 9,
         "label": "年",
@@ -1226,7 +1246,7 @@
         "compositeLabel": "初療年月日"
     },
     "first_treatment_month": {
-        "x": -65.5,
+        "x": -62.5,
         "y": 84,
         "fontSize": 9,
         "label": "月",
@@ -1237,7 +1257,7 @@
         "compositeLabel": "初療年月日"
     },
     "first_treatment_day": {
-        "x": -57.5,
+        "x": -55,
         "y": 84,
         "fontSize": 9,
         "label": "日",
@@ -1352,7 +1372,7 @@
     },
     "treatment_month": {
         "x": -70.5,
-        "y": 171.5,
+        "y": 172,
         "fontSize": 12,
         "letterSpacing": 0,
         "label": "施術月",
@@ -1531,8 +1551,8 @@
     },
     "financial_institution_name_1": {
         "x": 32,
-        "y": 99,
-        "fontSize": 80,
+        "y": 226,
+        "fontSize": 10,
         "letterSpacing": 0,
         "label": "金融機関名1",
         "textAlign": "center",
@@ -1540,7 +1560,7 @@
     },
     "financial_institution_type_bank": {
         "ellipseX": 160.5,
-        "ellipseY": 223.5,
+        "ellipseY": 224.5,
         "ellipseWidth": 4.5,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
@@ -1556,7 +1576,7 @@
     },
     "financial_institution_type_kinko": {
         "ellipseX": 160.5,
-        "ellipseY": 227,
+        "ellipseY": 228,
         "ellipseWidth": 4.5,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
@@ -1572,7 +1592,7 @@
     },
     "financial_institution_type_nokyo": {
         "ellipseX": 160.5,
-        "ellipseY": 230.5,
+        "ellipseY": 231.5,
         "ellipseWidth": 4.5,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
@@ -1597,7 +1617,7 @@
     },
     "branch_type_honten": {
         "ellipseX": 191,
-        "ellipseY": 223.5,
+        "ellipseY": 224.5,
         "ellipseWidth": 4.5,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
@@ -1613,7 +1633,7 @@
     },
     "branch_type_shiten": {
         "ellipseX": 191,
-        "ellipseY": 227,
+        "ellipseY": 228,
         "ellipseWidth": 4.5,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
@@ -1629,7 +1649,7 @@
     },
     "branch_type_shucchoujo": {
         "ellipseX": 189.5,
-        "ellipseY": 230.5,
+        "ellipseY": 231.5,
         "ellipseWidth": 6,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,

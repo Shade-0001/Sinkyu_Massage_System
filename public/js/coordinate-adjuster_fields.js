@@ -60,7 +60,7 @@ const sampleDataFieldMapping = {
   'birthday_day': { field: 'birthday_day', label: '日', type: 'text', compositeGroup: 'birthday_full_date', compositeLabel: '生年月日' },
 
   // === 8. 初療年月日・施術期間 ===
-  'treatment_start_date': { field: 'treatment_start_date', label: '初療年月日', type: 'date' },
+  'first_treatment_era': { field: 'first_treatment_era', label: '元号', type: 'text', compositeGroup: 'first_treatment_date', compositeLabel: '初療年月日' },
   'first_treatment_year': { field: 'first_treatment_year', label: '年', type: 'number', compositeGroup: 'first_treatment_date', compositeLabel: '初療年月日' },
   'first_treatment_month': { field: 'first_treatment_month', label: '月', type: 'number', compositeGroup: 'first_treatment_date', compositeLabel: '初療年月日' },
   'first_treatment_day': { field: 'first_treatment_day', label: '日', type: 'number', compositeGroup: 'first_treatment_date', compositeLabel: '初療年月日' },

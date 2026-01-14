@@ -390,22 +390,17 @@ function previewPdf() {
   loadingBadge.style.display = 'inline-block';
   overlay.style.display = 'flex';
 
-  // プレビュー用の座標データを作成（isSelectedフラグは常に除外）
+  // プレビュー用の座標データを作成（サンプルデータモード時はisSelectedフラグを含める）
   const coordinatesForPreview = {};
   Object.keys(coordinates).forEach(key => {
     coordinatesForPreview[key] = {};
     Object.keys(coordinates[key]).forEach(prop => {
-      if (prop !== 'isSelected') {
+      // サンプルデータモード時はisSelectedを含め、通常モード時は除外
+      if (showSampleData || prop !== 'isSelected') {
         coordinatesForPreview[key][prop] = coordinates[key][prop];
       }
     });
   });
-
-  // デバッグ：isSelectedが除外されているか確認
-  const hasIsSelected = Object.keys(coordinatesForPreview).some(key => 
-    coordinatesForPreview[key].hasOwnProperty('isSelected')
-  );
-  console.log('PreviewPDF: isSelected除外チェック', { hasIsSelected, sampleCount: Object.keys(coordinatesForPreview).length });
 
   const requestBody = {
     coordinates: coordinatesForPreview,

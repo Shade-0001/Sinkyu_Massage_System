@@ -694,7 +694,11 @@ function updateCompositeGroupSelection(groupName, selectedKey) {
   yDiv.appendChild(yBtnDown);
   detailsDiv.appendChild(yDiv);
 
-  // フォントサイズ
+  // サークルフィールドかどうかを判定
+  const isShapeOnly = selectedField.ellipseX !== undefined || selectedField.ellipseY !== undefined || selectedField.circleRadius !== undefined;
+
+  // フォントサイズ（サークルフィールドでは非表示）
+  if (!isShapeOnly && selectedField.fontSize !== undefined) {
   const fsDiv = document.createElement('div');
   fsDiv.className = 'coordinate-input';
   fsDiv.innerHTML = `<label>フォントサイズ:</label>`;
@@ -735,8 +739,10 @@ function updateCompositeGroupSelection(groupName, selectedKey) {
   fsDiv.appendChild(fsInput);
   fsDiv.appendChild(fsBtnPlus);
   detailsDiv.appendChild(fsDiv);
+  }
 
-  // 文字間隔
+  // 文字間隔（サークルフィールドでは非表示）
+  if (!isShapeOnly && selectedField.letterSpacing !== undefined) {
   const lsDiv = document.createElement('div');
   lsDiv.className = 'coordinate-input';
   lsDiv.innerHTML = `<label>文字間隔:</label>`;
@@ -777,8 +783,10 @@ function updateCompositeGroupSelection(groupName, selectedKey) {
   lsDiv.appendChild(lsInput);
   lsDiv.appendChild(lsBtnPlus);
   detailsDiv.appendChild(lsDiv);
+  }
 
-  // テキスト配置
+  // テキスト配置（サークルフィールドでは非表示）
+  if (!isShapeOnly && selectedField.textAlign !== undefined) {
   const taDiv = document.createElement('div');
   taDiv.className = 'coordinate-input';
   taDiv.innerHTML = `<label>テキスト配置:</label>`;
@@ -814,9 +822,10 @@ function updateCompositeGroupSelection(groupName, selectedKey) {
   taBtnGroup.appendChild(taRight);
   taDiv.appendChild(taBtnGroup);
   detailsDiv.appendChild(taDiv);
+  }
 
   // 折り返し幅（複数行テキストの場合）
-  if (selectedField.width !== undefined) {
+  if (!isShapeOnly && selectedField.width !== undefined) {
     const wDiv = document.createElement('div');
     wDiv.className = 'coordinate-input';
     wDiv.innerHTML = `<label>折り返し幅:</label>`;
@@ -860,7 +869,7 @@ function updateCompositeGroupSelection(groupName, selectedKey) {
   }
 
   // 行間（複数行テキストの場合）
-  if (selectedField.lineHeight !== undefined) {
+  if (!isShapeOnly && selectedField.lineHeight !== undefined) {
     const lhDiv = document.createElement('div');
     lhDiv.className = 'coordinate-input';
     lhDiv.innerHTML = `<label>行間:</label>`;
@@ -903,11 +912,11 @@ function updateCompositeGroupSelection(groupName, selectedKey) {
     detailsDiv.appendChild(lhDiv);
   }
 
-  // 楽円設定（radioGroupの場合のみ）
+  // 楕円設定
   if (selectedField.ellipseWidth !== undefined) {
     const ewDiv = document.createElement('div');
     ewDiv.className = 'coordinate-input';
-    ewDiv.innerHTML = `<label>楽円幅:</label>`;
+    ewDiv.innerHTML = `<label>楕円幅:</label>`;
     
     const ewBtnMinus = document.createElement('button');
     ewBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
@@ -950,7 +959,7 @@ function updateCompositeGroupSelection(groupName, selectedKey) {
   if (selectedField.ellipseHeight !== undefined) {
     const ehDiv = document.createElement('div');
     ehDiv.className = 'coordinate-input';
-    ehDiv.innerHTML = `<label>楽円高さ:</label>`;
+    ehDiv.innerHTML = `<label>楕円高さ:</label>`;
     
     const ehBtnMinus = document.createElement('button');
     ehBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
@@ -1219,11 +1228,11 @@ function updateRadioGroupSelection(groupName, selectedKey) {
     detailsDiv.appendChild(yDiv);
   }
 
-  // 楕円・円のみのフィールドかどうかを判定
-  const isShapeOnly = selectedField.ellipseWidth !== undefined || selectedField.ellipseHeight !== undefined || selectedField.circleRadius !== undefined;
+  // サークルフィールドかどうかを判定（ellipseX/ellipseYがあればサークル）
+  const isShapeOnly = selectedField.ellipseX !== undefined || selectedField.ellipseY !== undefined || selectedField.circleRadius !== undefined;
 
-  // フォントサイズ（楕円・円のみのフィールドでは非表示）
-  if (!isShapeOnly) {
+  // フォントサイズ（サークルフィールドでは非表示）
+  if (!isShapeOnly && selectedField.fontSize !== undefined) {
     const fsDiv = document.createElement('div');
     fsDiv.className = 'coordinate-input';
     fsDiv.innerHTML = `<label>フォントサイズ:</label>`;
@@ -1266,8 +1275,8 @@ function updateRadioGroupSelection(groupName, selectedKey) {
     detailsDiv.appendChild(fsDiv);
   }
 
-  // 文字間隔（楕円・円のみのフィールドでは非表示）
-  if (!isShapeOnly) {
+  // 文字間隔（サークルフィールドでは非表示）
+  if (!isShapeOnly && selectedField.letterSpacing !== undefined) {
     const lsDiv = document.createElement('div');
     lsDiv.className = 'coordinate-input';
     lsDiv.innerHTML = `<label>文字間隔:</label>`;

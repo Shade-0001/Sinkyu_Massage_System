@@ -485,6 +485,10 @@ class MassageBenefitPdfService
           $birthdayEraKey = 'birthday_era_heisei';
         } elseif (isset($this->coordinates['birthday_era_showa']['isSelected']) && $this->coordinates['birthday_era_showa']['isSelected']) {
           $birthdayEraKey = 'birthday_era_showa';
+        } elseif (isset($this->coordinates['birthday_era_taisho']['isSelected']) && $this->coordinates['birthday_era_taisho']['isSelected']) {
+          $birthdayEraKey = 'birthday_era_taisho';
+        } elseif (isset($this->coordinates['birthday_era_meiji']['isSelected']) && $this->coordinates['birthday_era_meiji']['isSelected']) {
+          $birthdayEraKey = 'birthday_era_meiji';
         }
 
         if ($birthdayEraKey) {
@@ -498,6 +502,10 @@ class MassageBenefitPdfService
           $this->drawEllipseByKey($pdf, 'birthday_era_heisei');
         } elseif ($birthJapaneseYear['era'] === '昭和') {
           $this->drawEllipseByKey($pdf, 'birthday_era_showa');
+        } elseif ($birthJapaneseYear['era'] === '大正') {
+          $this->drawEllipseByKey($pdf, 'birthday_era_taisho');
+        } elseif ($birthJapaneseYear['era'] === '明治') {
+          $this->drawEllipseByKey($pdf, 'birthday_era_meiji');
         }
       }
 
@@ -732,6 +740,11 @@ class MassageBenefitPdfService
 
     // === 初療年月日 ===
     if ($this->sampleDataMode && isset($this->customSampleData['first_treatment_year'])) {
+      // サンプルデータモード：元号
+      if ($this->hasCoord('first_treatment_era') && isset($this->customSampleData['first_treatment_era'])) {
+        $pdf->SetFontSize($this->coord('first_treatment_era', 'fontSize'));
+        $this->drawTextByKey($pdf, 'first_treatment_era', (string)$this->customSampleData['first_treatment_era']);
+      }
       if ($this->hasCoord('first_treatment_year')) {
         $pdf->SetFontSize($this->coord('first_treatment_year', 'fontSize'));
         $this->drawTextByKey($pdf, 'first_treatment_year', (string)$this->customSampleData['first_treatment_year']);
@@ -749,6 +762,12 @@ class MassageBenefitPdfService
       [$firstYear, $firstMonth, $firstDay] = explode('-', $consent->first_care_date);
       $firstJapaneseYear = $this->convertToJapaneseYear((int)$firstYear, (int)$firstMonth);
       
+      // 実データモード：元号（1文字目のみ）
+      if ($this->hasCoord('first_treatment_era')) {
+        $pdf->SetFontSize($this->coord('first_treatment_era', 'fontSize'));
+        $eraFirstChar = mb_substr($firstJapaneseYear['era'], 0, 1);
+        $this->drawTextByKey($pdf, 'first_treatment_era', $eraFirstChar);
+      }
       if ($this->hasCoord('first_treatment_year')) {
         $pdf->SetFontSize($this->coord('first_treatment_year', 'fontSize'));
         $this->drawTextByKey($pdf, 'first_treatment_year', (string)$firstJapaneseYear['year']);
@@ -1250,17 +1269,13 @@ class MassageBenefitPdfService
         $this->drawEllipseByKey($pdf, 'financial_institution_type_bank');
       } elseif (isset($this->coordinates['financial_institution_type_kinko']['isSelected']) && $this->coordinates['financial_institution_type_kinko']['isSelected']) {
         $this->drawEllipseByKey($pdf, 'financial_institution_type_kinko');
-      } elseif (isset($this->coordinates['financial_institution_type_credit']['isSelected']) && $this->coordinates['financial_institution_type_credit']['isSelected']) {
-        $this->drawEllipseByKey($pdf, 'financial_institution_type_credit');
       } elseif (isset($this->coordinates['financial_institution_type_nokyo']['isSelected']) && $this->coordinates['financial_institution_type_nokyo']['isSelected']) {
         $this->drawEllipseByKey($pdf, 'financial_institution_type_nokyo');
-      } elseif (isset($this->coordinates['financial_institution_type_coop']['isSelected']) && $this->coordinates['financial_institution_type_coop']['isSelected']) {
-        $this->drawEllipseByKey($pdf, 'financial_institution_type_coop');
       } elseif (isset($this->customSampleData['financial_institution_type'])) {
         $fiTypeMap = [
           '銀行' => 'financial_institution_type_bank',
           '金庫' => 'financial_institution_type_kinko',
-          '農協' => 'financial_institution_type_coop',
+          '農協' => 'financial_institution_type_nokyo',
         ];
         $key = $fiTypeMap[$this->customSampleData['financial_institution_type']] ?? null;
         if ($key) {
@@ -1283,19 +1298,15 @@ class MassageBenefitPdfService
 
     // 支店種別（本店、支店、出張所）
     if ($this->sampleDataMode) {
-      if (isset($this->coordinates['branch_type_head']['isSelected']) && $this->coordinates['branch_type_head']['isSelected']) {
-        $this->drawEllipseByKey($pdf, 'branch_type_head');
+      if (isset($this->coordinates['branch_type_honten']['isSelected']) && $this->coordinates['branch_type_honten']['isSelected']) {
+        $this->drawEllipseByKey($pdf, 'branch_type_honten');
       } elseif (isset($this->coordinates['branch_type_shiten']['isSelected']) && $this->coordinates['branch_type_shiten']['isSelected']) {
         $this->drawEllipseByKey($pdf, 'branch_type_shiten');
-      } elseif (isset($this->coordinates['branch_type_branch']['isSelected']) && $this->coordinates['branch_type_branch']['isSelected']) {
-        $this->drawEllipseByKey($pdf, 'branch_type_branch');
       } elseif (isset($this->coordinates['branch_type_shucchoujo']['isSelected']) && $this->coordinates['branch_type_shucchoujo']['isSelected']) {
         $this->drawEllipseByKey($pdf, 'branch_type_shucchoujo');
-      } elseif (isset($this->coordinates['branch_type_office']['isSelected']) && $this->coordinates['branch_type_office']['isSelected']) {
-        $this->drawEllipseByKey($pdf, 'branch_type_office');
       } elseif (isset($this->customSampleData['branch_type'])) {
         $branchTypeMap = [
-          '本店' => 'branch_type_head',
+          '本店' => 'branch_type_honten',
           '支店' => 'branch_type_shiten',
           '出張所' => 'branch_type_shucchoujo',
         ];
@@ -1423,7 +1434,9 @@ class MassageBenefitPdfService
         $clinicPostalCode = $this->sampleDataMode && isset($this->customSampleData['clinic_postal_code'])
           ? $this->customSampleData['clinic_postal_code']
           : ($clinicInfo->postal_code ?? '');
-        $this->drawTextByKey($pdf, 'clinic_postal_code', (string)$clinicPostalCode);
+        // ハイフンの前後に半角スペースを追加
+        $formattedPostalCode = preg_replace('/(\d{3})-?(\d{4})/', '$1 - $2', (string)$clinicPostalCode);
+        $this->drawTextByKey($pdf, 'clinic_postal_code', '〒 ' . $formattedPostalCode);
       }
 
       // 施術所住所

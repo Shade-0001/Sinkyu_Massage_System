@@ -1477,14 +1477,14 @@ class AcupunctureBenefitPdfService
 
     // 支払区分
     $paymentMethodKey = null;
-    if (isset($this->coordinates['payment_method_transfer']['isSelected']) && $this->coordinates['payment_method_transfer']['isSelected']) {
-      $paymentMethodKey = 'payment_method_transfer';
-    } elseif (isset($this->coordinates['payment_method_bank']['isSelected']) && $this->coordinates['payment_method_bank']['isSelected']) {
-      $paymentMethodKey = 'payment_method_bank';
-    } elseif (isset($this->coordinates['payment_method_post']['isSelected']) && $this->coordinates['payment_method_post']['isSelected']) {
-      $paymentMethodKey = 'payment_method_post';
-    } elseif (isset($this->coordinates['payment_method_checking']['isSelected']) && $this->coordinates['payment_method_checking']['isSelected']) {
-      $paymentMethodKey = 'payment_method_checking';
+    if (isset($this->coordinates['payment_category_furikomi']['isSelected']) && $this->coordinates['payment_category_furikomi']['isSelected']) {
+      $paymentMethodKey = 'payment_category_furikomi';
+    } elseif (isset($this->coordinates['payment_category_bank_transfer']['isSelected']) && $this->coordinates['payment_category_bank_transfer']['isSelected']) {
+      $paymentMethodKey = 'payment_category_bank_transfer';
+    } elseif (isset($this->coordinates['payment_category_post_transfer']['isSelected']) && $this->coordinates['payment_category_post_transfer']['isSelected']) {
+      $paymentMethodKey = 'payment_category_post_transfer';
+    } elseif (isset($this->coordinates['payment_category_local_payment']['isSelected']) && $this->coordinates['payment_category_local_payment']['isSelected']) {
+      $paymentMethodKey = 'payment_category_local_payment';
     }
 
     if ($paymentMethodKey) {
@@ -1493,12 +1493,14 @@ class AcupunctureBenefitPdfService
 
     // 預金の種類
     $depositTypeKey = null;
-    if (isset($this->coordinates['deposit_type_normal']['isSelected']) && $this->coordinates['deposit_type_normal']['isSelected']) {
-      $depositTypeKey = 'deposit_type_normal';
-    } elseif (isset($this->coordinates['deposit_type_checking']['isSelected']) && $this->coordinates['deposit_type_checking']['isSelected']) {
-      $depositTypeKey = 'deposit_type_checking';
+    if (isset($this->coordinates['deposit_type_ordinary']['isSelected']) && $this->coordinates['deposit_type_ordinary']['isSelected']) {
+      $depositTypeKey = 'deposit_type_ordinary';
+    } elseif (isset($this->coordinates['deposit_type_current']['isSelected']) && $this->coordinates['deposit_type_current']['isSelected']) {
+      $depositTypeKey = 'deposit_type_current';
     } elseif (isset($this->coordinates['deposit_type_notice']['isSelected']) && $this->coordinates['deposit_type_notice']['isSelected']) {
       $depositTypeKey = 'deposit_type_notice';
+    } elseif (isset($this->coordinates['deposit_type_betsudan']['isSelected']) && $this->coordinates['deposit_type_betsudan']['isSelected']) {
+      $depositTypeKey = 'deposit_type_betsudan';
     }
 
     if ($depositTypeKey) {
@@ -1509,10 +1511,10 @@ class AcupunctureBenefitPdfService
     $financialInstitutionTypeKey = null;
     if (isset($this->coordinates['financial_institution_type_bank']['isSelected']) && $this->coordinates['financial_institution_type_bank']['isSelected']) {
       $financialInstitutionTypeKey = 'financial_institution_type_bank';
-    } elseif (isset($this->coordinates['financial_institution_type_credit']['isSelected']) && $this->coordinates['financial_institution_type_credit']['isSelected']) {
-      $financialInstitutionTypeKey = 'financial_institution_type_credit';
-    } elseif (isset($this->coordinates['financial_institution_type_coop']['isSelected']) && $this->coordinates['financial_institution_type_coop']['isSelected']) {
-      $financialInstitutionTypeKey = 'financial_institution_type_coop';
+    } elseif (isset($this->coordinates['financial_institution_type_kinko']['isSelected']) && $this->coordinates['financial_institution_type_kinko']['isSelected']) {
+      $financialInstitutionTypeKey = 'financial_institution_type_kinko';
+    } elseif (isset($this->coordinates['financial_institution_type_nokyo']['isSelected']) && $this->coordinates['financial_institution_type_nokyo']['isSelected']) {
+      $financialInstitutionTypeKey = 'financial_institution_type_nokyo';
     }
 
     if ($financialInstitutionTypeKey) {
@@ -1521,12 +1523,12 @@ class AcupunctureBenefitPdfService
 
     // 本店支店出張所
     $branchTypeKey = null;
-    if (isset($this->coordinates['branch_type_head']['isSelected']) && $this->coordinates['branch_type_head']['isSelected']) {
-      $branchTypeKey = 'branch_type_head';
-    } elseif (isset($this->coordinates['branch_type_branch']['isSelected']) && $this->coordinates['branch_type_branch']['isSelected']) {
-      $branchTypeKey = 'branch_type_branch';
-    } elseif (isset($this->coordinates['branch_type_office']['isSelected']) && $this->coordinates['branch_type_office']['isSelected']) {
-      $branchTypeKey = 'branch_type_office';
+    if (isset($this->coordinates['branch_type_honten']['isSelected']) && $this->coordinates['branch_type_honten']['isSelected']) {
+      $branchTypeKey = 'branch_type_honten';
+    } elseif (isset($this->coordinates['branch_type_shiten']['isSelected']) && $this->coordinates['branch_type_shiten']['isSelected']) {
+      $branchTypeKey = 'branch_type_shiten';
+    } elseif (isset($this->coordinates['branch_type_shucchoujo']['isSelected']) && $this->coordinates['branch_type_shucchoujo']['isSelected']) {
+      $branchTypeKey = 'branch_type_shucchoujo';
     }
 
     if ($branchTypeKey) {
