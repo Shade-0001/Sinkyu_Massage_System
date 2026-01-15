@@ -608,7 +608,8 @@
         "fontSize": 9,
         "letterSpacing": 0,
         "label": "代理人郵便番号",
-        "type": "text"
+        "type": "postal_code",
+        "postalCodeGap": 2
     },
     "agent_address": {
         "x": 136,
@@ -1028,39 +1029,6 @@
         "type": "number",
         "compositeGroup": "fee_housecall_additional",
         "compositeLabel": "往療4km超料金"
-    },
-    "fee_previous_payment_unit": {
-        "x": -5,
-        "y": 145,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "label": "単価",
-        "textAlign": "center",
-        "type": "number",
-        "compositeGroup": "fee_previous_payment",
-        "compositeLabel": "施術報告書交付料"
-    },
-    "fee_previous_payment_count": {
-        "x": 16.5,
-        "y": 145,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "label": "回数",
-        "textAlign": "center",
-        "type": "number",
-        "compositeGroup": "fee_previous_payment",
-        "compositeLabel": "施術報告書交付料"
-    },
-    "fee_previous_payment_total": {
-        "x": 36,
-        "y": 145,
-        "fontSize": 9,
-        "letterSpacing": 0,
-        "label": "合計",
-        "textAlign": "center",
-        "type": "number",
-        "compositeGroup": "fee_previous_payment",
-        "compositeLabel": "施術報告書交付料"
     },
     "fee_subtotal": {
         "x": 15,

@@ -143,7 +143,6 @@ class MassageBenefitPdfService
       ->first();
 
     if (!$clinicUser) {
-      \Log::error('利用者情報が見つかりません', ['clinic_user_id' => $clinicUserId]);
       return null;
     }
 
@@ -167,9 +166,7 @@ class MassageBenefitPdfService
       )
       ->first();
 
-    if (!$insurance) {
-      \Log::warning('保険情報が見つかりません', ['clinic_user_id' => $clinicUserId]);
-    }
+
 
     // あんま・マッサージ同意書情報取得
     $consent = DB::table('consents_massage')
@@ -190,8 +187,20 @@ class MassageBenefitPdfService
       )
       ->first();
 
-    if (!$consent) {
-      \Log::warning('あんま・マッサージ同意書情報が見つかりません', ['clinic_user_id' => $clinicUserId]);
+
+
+    // 同意医師情報取得
+    $doctor = null;
+    if ($consent && $consent->consenting_doctor_name) {
+      // スペース（半角・全角）で分割して姓名を取得
+      $nameParts = preg_split('/[\s　]+/u', trim($consent->consenting_doctor_name), 2);
+      
+      if (count($nameParts) === 2) {
+        $doctor = DB::table('doctors')
+          ->where('last_name', $nameParts[0])
+          ->where('first_name', $nameParts[1])
+          ->first();
+      }
     }
 
     // 施術実績取得（対象年月）
@@ -201,33 +210,24 @@ class MassageBenefitPdfService
       ->orderBy('date')
       ->get();
 
-    if ($records->isEmpty()) {
-      \Log::warning('施術実績が見つかりません', [
-        'clinic_user_id' => $clinicUserId,
-        'service_year_month' => $serviceYearMonth,
-      ]);
-    }
+
 
     // 施術所情報取得
     $clinicInfo = DB::table('clinic_info')->first();
 
-    if (!$clinicInfo) {
-      \Log::error('施術所情報が見つかりません');
-    }
 
     // 施術料金データ取得（最新のデータ）
     $treatmentFees = DB::table('treatment_fees')
       ->orderBy('created_at', 'desc')
       ->first();
 
-    if (!$treatmentFees) {
-      \Log::warning('施術料金データが見つかりません');
-    }
+
 
     return [
       'clinic_user' => $clinicUser,
       'insurance' => $insurance,
       'consent' => $consent,
+      'doctor' => $doctor,
       'records' => $records,
       'clinic_info' => $clinicInfo,
       'treatment_fees' => $treatmentFees,
@@ -277,20 +277,14 @@ class MassageBenefitPdfService
     $clinicUser = $data['clinic_user'];
     $insurance = $data['insurance'];
     $consent = $data['consent'];
+    $doctor = $data['doctor'] ?? null;
     $records = $data['records'];
     $clinicInfo = $data['clinic_info'];
 
-    // デバッグ:データソース情報をログ出力
-    \Log::info('=== PDF描画開始 ===' . ($this->sampleDataMode ? ' [サンプルデータモード]' : ' [ノーマルモード]'), [
-      'sample_data_mode' => $this->sampleDataMode,
-      'has_clinic_user' => !empty($clinicUser),
-      'has_insurance' => !empty($insurance),
-      'has_consent' => !empty($consent),
-      'records_count' => $records->count(),
-      'has_clinic_info' => !empty($clinicInfo),
-      'service_year_month' => $data['service_year_month'],
-      'custom_sample_data_keys' => $this->sampleDataMode && $this->customSampleData ? array_keys($this->customSampleData) : []
-    ]);
+    // === 療養を受けた者の氏名 ===
+    $fullName = ($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? '');
+
+
 
     // サービス提供年月を分解
     [$year, $month] = explode('-', $data['service_year_month']);
@@ -642,50 +636,43 @@ class MassageBenefitPdfService
       $pdf->SetFontSize(10);
     }
 
-    // === 傷病名（施術内容欄のチェックボックス） ===
-    // サンプルデータ表示モードの場合はisSelectedフラグを使用
+    // === 傷病名・症状（施術内容欄） ===
+    // マッサージ版はサークルではなくテキストフィールド
     if ($this->sampleDataMode) {
-      // isSelectedフラグをチェック
-      for ($i = 1; $i <= 7; $i++) {
-        $key = 'illness_name_' . $i;
-        if (isset($this->coordinates[$key]['isSelected']) && $this->coordinates[$key]['isSelected']) {
-          $this->drawEllipseByKey($pdf, $key);
-          break; // 1つだけ選択
-        }
+      if (isset($this->customSampleData['illness_name_symptom']) && $this->hasCoord('illness_name_symptom')) {
+        $pdf->SetFontSize($this->coord('illness_name_symptom', 'fontSize'));
+        $this->drawTextByKey($pdf, 'illness_name_symptom', (string)$this->customSampleData['illness_name_symptom']);
+        $pdf->SetFontSize(10);
       }
     } elseif ($consent) {
-      // 実データモード：consents_massageの症状フラグから判定
-      // is_symptom_1: 神経痛
-      // is_symptom_2: リウマチ（symtom_2_addendumに追記）
-      // is_symptom_3: その他（symtom_3_addendumに追記）
-
+      // 実データモード：consents_massageの症状フラグからテキストを生成
+      $symptomTexts = [];
+      
       if (isset($consent->is_symptom_1) && $consent->is_symptom_1) {
-        // 神経痛
-        $this->drawEllipseByKey($pdf, 'illness_name_1');
+        $symptomTexts[] = '神経痛';
       }
-
+      
       if (isset($consent->is_symptom_2) && $consent->is_symptom_2) {
-        // リウマチ
-        $this->drawEllipseByKey($pdf, 'illness_name_2');
-
-        // 追記があれば表示
+        $text = 'リウマチ';
         if (isset($consent->symtom_2_addendum) && $consent->symtom_2_addendum) {
-          $pdf->SetFontSize($this->coord('illness_name_other_text', 'fontSize'));
-          $this->drawTextByKey($pdf, 'illness_name_other_text', (string)$consent->symtom_2_addendum);
-          $pdf->SetFontSize(10);
+          $text .= '（' . $consent->symtom_2_addendum . '）';
         }
+        $symptomTexts[] = $text;
       }
-
+      
       if (isset($consent->is_symptom_3) && $consent->is_symptom_3) {
-        // その他
-        $this->drawEllipseByKey($pdf, 'illness_name_7');
-
-        // 追記があれば表示
+        $text = 'その他';
         if (isset($consent->symtom_3_addendum) && $consent->symtom_3_addendum) {
-          $pdf->SetFontSize($this->coord('illness_name_other_text', 'fontSize'));
-          $this->drawTextByKey($pdf, 'illness_name_other_text', (string)$consent->symtom_3_addendum);
-          $pdf->SetFontSize(10);
+          $text .= '（' . $consent->symtom_3_addendum . '）';
         }
+        $symptomTexts[] = $text;
+      }
+      
+      if (!empty($symptomTexts) && $this->hasCoord('illness_name_symptom')) {
+        $symptomText = implode('、', $symptomTexts);
+        $pdf->SetFontSize($this->coord('illness_name_symptom', 'fontSize'));
+        $this->drawTextByKey($pdf, 'illness_name_symptom', $symptomText);
+        $pdf->SetFontSize(10);
       }
     }
 
@@ -997,11 +984,11 @@ class MassageBenefitPdfService
         $pdf->SetFontSize(10);
       }
     } else {
-      $therapist = DB::table('therapists')->first();
-      if ($therapist && isset($therapist->registration_number)) {
-        if ($this->hasCoord('therapist_registration_number') && $therapist->registration_number) {
+      // ノーマルモード：clinic_info.license_massage_numberを使用
+      if ($clinicInfo && isset($clinicInfo->license_massage_number)) {
+        if ($this->hasCoord('therapist_registration_number') && $clinicInfo->license_massage_number) {
           $pdf->SetFontSize($this->coord('therapist_registration_number', 'fontSize'));
-          $this->drawTextByKey($pdf, 'therapist_registration_number', (string)$therapist->registration_number);
+          $this->drawTextByKey($pdf, 'therapist_registration_number', (string)$clinicInfo->license_massage_number);
           $pdf->SetFontSize(10);
         }
       }
@@ -1020,12 +1007,19 @@ class MassageBenefitPdfService
           $this->drawEllipseByKey($pdf, 'health_center_registration_2');
         }
       }
+    } elseif ($clinicInfo && isset($clinicInfo->health_center_registerd_location)) {
+      // ノーマルモード：clinic_info.health_center_registerd_locationを参照
+      if ($clinicInfo->health_center_registerd_location === '施術所所在地' && $this->hasCoord('health_center_registration_1')) {
+        $this->drawEllipseByKey($pdf, 'health_center_registration_1');
+      } elseif ($clinicInfo->health_center_registerd_location === '出張専門施術者住所地' && $this->hasCoord('health_center_registration_2')) {
+        $this->drawEllipseByKey($pdf, 'health_center_registration_2');
+      }
     }
 
     // === 同意記録欄 ===
     // 医師氏名
-    if ($this->sampleDataMode && isset($this->customSampleData['consent_record_doctor_name'])) {
-      if ($this->hasCoord('consent_record_doctor_name') && $this->customSampleData['consent_record_doctor_name']) {
+    if ($this->sampleDataMode) {
+      if (isset($this->customSampleData['consent_record_doctor_name']) && $this->hasCoord('consent_record_doctor_name') && $this->customSampleData['consent_record_doctor_name']) {
         $pdf->SetFontSize($this->coord('consent_record_doctor_name', 'fontSize'));
         $this->drawTextByKey($pdf, 'consent_record_doctor_name', (string)$this->customSampleData['consent_record_doctor_name']);
         $pdf->SetFontSize(10);
@@ -1038,21 +1032,62 @@ class MassageBenefitPdfService
       }
     }
 
+    // 同意医師郵便番号
+    if ($this->sampleDataMode) {
+      if (isset($this->customSampleData['consent_record_doctor_postal_code']) && $this->hasCoord('consent_record_doctor_postal_code') && $this->customSampleData['consent_record_doctor_postal_code']) {
+        $postalCode = (string)$this->customSampleData['consent_record_doctor_postal_code'];
+        // ハイフンなしの場合はXXX-XXXXフォーマットに変換
+        if (strlen($postalCode) === 7 && strpos($postalCode, '-') === false) {
+          $postalCode = substr($postalCode, 0, 3) . '-' . substr($postalCode, 3);
+        }
+        $pdf->SetFontSize($this->coord('consent_record_doctor_postal_code', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_doctor_postal_code', $postalCode);
+      }
+    } else {
+      if ($doctor && $this->hasCoord('consent_record_doctor_postal_code') && isset($doctor->postal_code)) {
+        $postalCode = $doctor->postal_code;
+        // ハイフンなしの場合はXXX-XXXXフォーマットに変換
+        if (strlen($postalCode) === 7 && strpos($postalCode, '-') === false) {
+          $postalCode = substr($postalCode, 0, 3) . '-' . substr($postalCode, 3);
+        }
+        $pdf->SetFontSize($this->coord('consent_record_doctor_postal_code', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_doctor_postal_code', (string)$postalCode);
+      }
+    }
+
+    // 同意医師住所
+    if ($this->sampleDataMode) {
+      if (isset($this->customSampleData['consent_record_doctor_address']) && $this->hasCoord('consent_record_doctor_address') && $this->customSampleData['consent_record_doctor_address']) {
+        $pdf->SetFontSize($this->coord('consent_record_doctor_address', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_doctor_address', (string)$this->customSampleData['consent_record_doctor_address']);
+      }
+    } else {
+      if ($doctor && $this->hasCoord('consent_record_doctor_address')) {
+        $doctorAddress = ($doctor->address_1 ?? '') . ($doctor->address_2 ?? '') . ($doctor->address_3 ?? '');
+        if ($doctorAddress) {
+          $pdf->SetFontSize($this->coord('consent_record_doctor_address', 'fontSize'));
+          $this->drawTextByKey($pdf, 'consent_record_doctor_address', (string)$doctorAddress);
+        }
+      }
+    }
+
     // 同意年月日
-    if ($this->sampleDataMode && isset($this->customSampleData['consent_record_date_year'])) {
-      if ($this->hasCoord('consent_record_date_year')) {
+    if ($this->sampleDataMode) {
+      if (isset($this->customSampleData['consent_record_date_year']) && $this->hasCoord('consent_record_date_year')) {
         $pdf->SetFontSize($this->coord('consent_record_date_year', 'fontSize'));
         $this->drawTextByKey($pdf, 'consent_record_date_year', (string)$this->customSampleData['consent_record_date_year']);
+        $pdf->SetFontSize(10);
       }
-      if ($this->hasCoord('consent_record_date_month')) {
+      if (isset($this->customSampleData['consent_record_date_month']) && $this->hasCoord('consent_record_date_month')) {
         $pdf->SetFontSize($this->coord('consent_record_date_month', 'fontSize'));
         $this->drawTextByKey($pdf, 'consent_record_date_month', (string)$this->customSampleData['consent_record_date_month']);
+        $pdf->SetFontSize(10);
       }
-      if ($this->hasCoord('consent_record_date_day')) {
+      if (isset($this->customSampleData['consent_record_date_day']) && $this->hasCoord('consent_record_date_day')) {
         $pdf->SetFontSize($this->coord('consent_record_date_day', 'fontSize'));
         $this->drawTextByKey($pdf, 'consent_record_date_day', (string)$this->customSampleData['consent_record_date_day']);
+        $pdf->SetFontSize(10);
       }
-      $pdf->SetFontSize(10);
     } elseif ($consent && isset($consent->consenting_date)) {
       [$consentYear, $consentMonth, $consentDay] = explode('-', $consent->consenting_date);
       $consentJapaneseYear = $this->convertToJapaneseYear((int)$consentYear, (int)$consentMonth);
@@ -1060,21 +1095,23 @@ class MassageBenefitPdfService
       if ($this->hasCoord('consent_record_date_year')) {
         $pdf->SetFontSize($this->coord('consent_record_date_year', 'fontSize'));
         $this->drawTextByKey($pdf, 'consent_record_date_year', (string)$consentJapaneseYear['year']);
+        $pdf->SetFontSize(10);
       }
       if ($this->hasCoord('consent_record_date_month')) {
         $pdf->SetFontSize($this->coord('consent_record_date_month', 'fontSize'));
         $this->drawTextByKey($pdf, 'consent_record_date_month', (string)(int)$consentMonth);
+        $pdf->SetFontSize(10);
       }
       if ($this->hasCoord('consent_record_date_day')) {
         $pdf->SetFontSize($this->coord('consent_record_date_day', 'fontSize'));
         $this->drawTextByKey($pdf, 'consent_record_date_day', (string)(int)$consentDay);
+        $pdf->SetFontSize(10);
       }
-      $pdf->SetFontSize(10);
     }
 
     // 同意記録の傷病名（illness_nameを使用）
-    if ($this->sampleDataMode && isset($this->customSampleData['consent_record_illness_name'])) {
-      if ($this->hasCoord('consent_record_illness_name') && $this->customSampleData['consent_record_illness_name']) {
+    if ($this->sampleDataMode) {
+      if (isset($this->customSampleData['consent_record_illness_name']) && $this->hasCoord('consent_record_illness_name') && $this->customSampleData['consent_record_illness_name']) {
         $pdf->SetFontSize($this->coord('consent_record_illness_name', 'fontSize'));
         $this->drawTextByKey($pdf, 'consent_record_illness_name', (string)$this->customSampleData['consent_record_illness_name']);
         $pdf->SetFontSize(10);
@@ -1087,18 +1124,29 @@ class MassageBenefitPdfService
       }
     }
 
-    // 要加療期間（therapy_periodを使用）
-    if ($this->sampleDataMode && isset($this->customSampleData['required_treatment_period'])) {
-      if ($this->hasCoord('required_treatment_period') && $this->customSampleData['required_treatment_period']) {
+    // 要加療期間
+    if ($this->sampleDataMode) {
+      if (isset($this->customSampleData['required_treatment_period']) && $this->hasCoord('required_treatment_period') && $this->customSampleData['required_treatment_period']) {
         $pdf->SetFontSize($this->coord('required_treatment_period', 'fontSize'));
         $this->drawTextByKey($pdf, 'required_treatment_period', (string)$this->customSampleData['required_treatment_period']);
-        $pdf->SetFontSize(10);
       }
-    } elseif ($consent && isset($consent->therapy_period)) {
-      if ($this->hasCoord('required_treatment_period') && $consent->therapy_period) {
-        $pdf->SetFontSize($this->coord('required_treatment_period', 'fontSize'));
-        $this->drawTextByKey($pdf, 'required_treatment_period', (string)$consent->therapy_period);
-        $pdf->SetFontSize(10);
+    } else {
+      if ($this->hasCoord('required_treatment_period')) {
+        $therapyPeriodText = '';
+
+        // therapy_period_end_dateをYYYY/MM/DD形式で表示
+        if (isset($consent->therapy_period_end_date)) {
+          $endDate = new \DateTime($consent->therapy_period_end_date);
+          $therapyPeriodText = $endDate->format('Y/m/d');
+        } elseif (isset($consent->therapy_period) && $consent->therapy_period) {
+          // フォールバック: therapy_periodフィールドがある場合はそのまま使用
+          $therapyPeriodText = $consent->therapy_period;
+        }
+
+        if ($therapyPeriodText) {
+          $pdf->SetFontSize($this->coord('required_treatment_period', 'fontSize'));
+          $this->drawTextByKey($pdf, 'required_treatment_period', (string)$therapyPeriodText);
+        }
       }
     }
 
@@ -1154,10 +1202,7 @@ class MassageBenefitPdfService
     }
 
     // === 支払機関欄 ===
-    \Log::info('支払機関欄描画', [
-      'sample_data_mode' => $this->sampleDataMode,
-      'has_clinic_info' => !empty($clinicInfo)
-    ]);
+
     
     // 支払区分（振込、銀行送金、郵便局送金、当地払）
     if ($this->sampleDataMode) {
@@ -1384,15 +1429,110 @@ class MassageBenefitPdfService
         $this->drawTextByKey($pdf, 'signature_date_day', (string)$this->customSampleData['signature_date_day']);
       }
       $pdf->SetFontSize(10);
+    } elseif (!$this->sampleDataMode && $this->hasCoord('signature_date_year')) {
+      // 実データモード：委任年月日は提出年月日と同じ値を使用
+      $submissionParts = explode('-', $submissionDate);
+      $submissionJapaneseYear = $this->convertToJapaneseYear((int)$submissionParts[0], (int)$submissionParts[1]);
+
+      $pdf->SetFontSize($this->coord('signature_date_year', 'fontSize'));
+      $this->drawTextByKey($pdf, 'signature_date_year', (string)$submissionJapaneseYear['year']);
+
+      if ($this->hasCoord('signature_date_month')) {
+        $pdf->SetFontSize($this->coord('signature_date_month', 'fontSize'));
+        $this->drawTextByKey($pdf, 'signature_date_month', (string)(int)$submissionParts[1]);
+      }
+
+      if ($this->hasCoord('signature_date_day')) {
+        $pdf->SetFontSize($this->coord('signature_date_day', 'fontSize'));
+        $this->drawTextByKey($pdf, 'signature_date_day', (string)(int)$submissionParts[2]);
+      }
+
+      $pdf->SetFontSize(10);
     }
 
-    // 代理人郵便番号・住所・氏名（既に上で実装済み、agent_postal_code, agent_address, agent_name）
+    // 申請者郵便番号（委任）
+    if ($this->sampleDataMode) {
+      if ($this->hasCoord('signature_applicant_postal_code') && isset($this->customSampleData['signature_applicant_postal_code'])) {
+        $postalCode = $this->customSampleData['signature_applicant_postal_code'];
+        if ($postalCode) {
+          // ハイフンなしの7桁数字にフォーマット（ハイフン除去）
+          $postalCode = preg_replace('/[^0-9]/', '', $postalCode);
+          
+          $pdf->SetFontSize($this->coord('signature_applicant_postal_code', 'fontSize'));
+          
+          // postalCodeGap がある場合は分割描画
+          if (strlen($postalCode) === 7 && isset($this->coordinates['signature_applicant_postal_code']['postalCodeGap'])) {
+            $part1 = substr($postalCode, 0, 3);  // 前半3桁
+            $part2 = substr($postalCode, 3, 4);  // 後半4桁
+            $gap = $this->coordinates['signature_applicant_postal_code']['postalCodeGap'];
+            
+            $y = $this->coord('signature_applicant_postal_code', 'y');
+            $fontSize = $this->coord('signature_applicant_postal_code', 'fontSize');
+            $x1 = $this->coord('signature_applicant_postal_code', 'x');
+            $x2 = $x1 + $gap;
+            
+            $pdf->SetXY($x1, $y);
+            $pdf->Cell(0, 0, '〒 ' . $part1, 0, 0, 'L');
+            $pdf->SetXY($x2, $y);
+            $pdf->Cell(0, 0, '- ' . $part2, 0, 0, 'L');
+          } else {
+            // postalCodeGap がない場合は従来の形式
+            if (strlen($postalCode) === 7) {
+              $postalCode = '〒 ' . substr($postalCode, 0, 3) . ' - ' . substr($postalCode, 3, 4);
+            }
+            $this->drawTextByKey($pdf, 'signature_applicant_postal_code', $postalCode);
+          }
+          
+          $pdf->SetFontSize(10);
+        }
+      }
+    } elseif (isset($clinicUser) && !empty($clinicUser->postal_code)) {
+      if ($this->hasCoord('signature_applicant_postal_code')) {
+        $postalCode = $clinicUser->postal_code;
+        // ハイフンなしの7桁数字にフォーマット（ハイフン除去）
+        $postalCode = preg_replace('/[^0-9]/', '', $postalCode);
+        
+        $pdf->SetFontSize($this->coord('signature_applicant_postal_code', 'fontSize'));
+        
+        // postalCodeGap がある場合は分割描画
+        if (strlen($postalCode) === 7 && isset($this->coordinates['signature_applicant_postal_code']['postalCodeGap'])) {
+          $part1 = substr($postalCode, 0, 3);  // 前半3桁
+          $part2 = substr($postalCode, 3, 4);  // 後半4桁
+          $gap = $this->coordinates['signature_applicant_postal_code']['postalCodeGap'];
+          
+          $y = $this->coord('signature_applicant_postal_code', 'y');
+          $fontSize = $this->coord('signature_applicant_postal_code', 'fontSize');
+          $x1 = $this->coord('signature_applicant_postal_code', 'x');
+          $x2 = $x1 + $gap;
+          
+          $pdf->SetXY($x1, $y);
+          $pdf->Cell(0, 0, '〒 ' . $part1, 0, 0, 'L');
+          $pdf->SetXY($x2, $y);
+          $pdf->Cell(0, 0, '- ' . $part2, 0, 0, 'L');
+        } else {
+          // postalCodeGap がない場合は従来の形式
+          if (strlen($postalCode) === 7) {
+            $postalCode = '〒 ' . substr($postalCode, 0, 3) . ' - ' . substr($postalCode, 3, 4);
+          }
+          $this->drawTextByKey($pdf, 'signature_applicant_postal_code', $postalCode);
+        }
+        
+        $pdf->SetFontSize(10);
+      }
+    }
 
-    // 一時保険者名称
-    if ($this->sampleDataMode && isset($this->customSampleData['temporary_insurer_name'])) {
-      if ($this->hasCoord('temporary_insurer_name') && $this->customSampleData['temporary_insurer_name']) {
-        $pdf->SetFontSize($this->coord('temporary_insurer_name', 'fontSize'));
-        $this->drawTextByKey($pdf, 'temporary_insurer_name', (string)$this->customSampleData['temporary_insurer_name']);
+    // 委任申請者住所
+    if ($this->sampleDataMode && isset($this->customSampleData['signature_applicant_address'])) {
+      if ($this->hasCoord('signature_applicant_address') && $this->customSampleData['signature_applicant_address']) {
+        $pdf->SetFontSize($this->coord('signature_applicant_address', 'fontSize'));
+        $this->drawTextByKey($pdf, 'signature_applicant_address', (string)$this->customSampleData['signature_applicant_address']);
+        $pdf->SetFontSize(10);
+      }
+    } elseif (isset($clinicUser)) {
+      $applicantAddress = ($clinicUser->address_1 ?? '') . ($clinicUser->address_2 ?? '') . ($clinicUser->address_3 ?? '');
+      if ($this->hasCoord('signature_applicant_address') && $applicantAddress) {
+        $pdf->SetFontSize($this->coord('signature_applicant_address', 'fontSize'));
+        $this->drawTextByKey($pdf, 'signature_applicant_address', (string)$applicantAddress);
         $pdf->SetFontSize(10);
       }
     }
@@ -1485,55 +1625,172 @@ class MassageBenefitPdfService
     }
 
     // === 申請者情報 ===
-    if ($this->hasCoord('applicant_postal_code') || $this->hasCoord('applicant_address') || $this->hasCoord('applicant_name')) {
-      $applicantPostalCode = $this->customSampleData['applicant_postal_code'] ?? '';
-      $applicantAddress = $this->customSampleData['applicant_address'] ?? '';
-      $applicantName = $this->customSampleData['applicant_name'] ?? '';
+    if ($this->sampleDataMode) {
+      if ($this->hasCoord('applicant_postal_code') || $this->hasCoord('applicant_address') || $this->hasCoord('applicant_name')) {
+        $applicantPostalCode = $this->customSampleData['applicant_postal_code'] ?? '';
+        $applicantAddress = $this->customSampleData['applicant_address'] ?? '';
+        $applicantName = $this->customSampleData['applicant_name'] ?? '';
 
-      if ($this->hasCoord('applicant_postal_code') && $applicantPostalCode) {
+        if ($this->hasCoord('applicant_postal_code') && $applicantPostalCode) {
+          $pdf->SetFontSize($this->coord('applicant_postal_code', 'fontSize'));
+          
+          // postalCodeGap がある場合は分割描画
+          if (isset($this->coordinates['applicant_postal_code']['postalCodeGap'])) {
+            // ハイフンなしの7桁数字にフォーマット
+            $postalCode = preg_replace('/[^0-9]/', '', $applicantPostalCode);
+            if (strlen($postalCode) === 7) {
+              $part1 = substr($postalCode, 0, 3);  // 前半3桁
+              $part2 = substr($postalCode, 3, 4);  // 後半4桁
+              $gap = $this->coordinates['applicant_postal_code']['postalCodeGap'];
+              
+              $y = $this->coord('applicant_postal_code', 'y');
+              $fontSize = $this->coord('applicant_postal_code', 'fontSize');
+              $x1 = $this->coord('applicant_postal_code', 'x');
+              $x2 = $x1 + $gap;
+              
+              $pdf->SetXY($x1, $y);
+              $pdf->Cell(0, 0, $part1, 0, 0, 'L');
+              $pdf->SetXY($x2, $y);
+              $pdf->Cell(0, 0, $part2, 0, 0, 'L');
+            } else {
+              $this->drawTextByKey($pdf, 'applicant_postal_code', (string)$applicantPostalCode);
+            }
+          } else {
+            $this->drawTextByKey($pdf, 'applicant_postal_code', (string)$applicantPostalCode);
+          }
+        }
+
+        if ($this->hasCoord('applicant_address') && $applicantAddress) {
+          $pdf->SetFontSize($this->coord('applicant_address', 'fontSize'));
+          $this->drawTextByKey($pdf, 'applicant_address', (string)$applicantAddress);
+        }
+
+        if ($this->hasCoord('applicant_name') && $applicantName) {
+          $pdf->SetFontSize($this->coord('applicant_name', 'fontSize'));
+          $this->drawTextByKey($pdf, 'applicant_name', (string)$applicantName);
+        }
+
+        $pdf->SetFontSize(10);
+      }
+    } else {
+      // ノーマルモード：clinic_user情報を使用
+      if ($this->hasCoord('applicant_postal_code') && !empty($clinicUser->postal_code)) {
         $pdf->SetFontSize($this->coord('applicant_postal_code', 'fontSize'));
-        $this->drawTextByKey($pdf, 'applicant_postal_code', (string)$applicantPostalCode);
+        
+        // postalCodeGap がある場合は分割描画
+        if (isset($this->coordinates['applicant_postal_code']['postalCodeGap'])) {
+          $postalCode = preg_replace('/[^0-9]/', '', $clinicUser->postal_code);
+          if (strlen($postalCode) === 7) {
+            $part1 = substr($postalCode, 0, 3);
+            $part2 = substr($postalCode, 3, 4);
+            $gap = $this->coordinates['applicant_postal_code']['postalCodeGap'];
+            
+            $y = $this->coord('applicant_postal_code', 'y');
+            $x1 = $this->coord('applicant_postal_code', 'x');
+            $x2 = $x1 + $gap;
+            
+            $pdf->SetXY($x1, $y);
+            $pdf->Cell(0, 0, $part1, 0, 0, 'L');
+            $pdf->SetXY($x2, $y);
+            $pdf->Cell(0, 0, $part2, 0, 0, 'L');
+          } else {
+            $this->drawTextByKey($pdf, 'applicant_postal_code', (string)$clinicUser->postal_code);
+          }
+        } else {
+          $this->drawTextByKey($pdf, 'applicant_postal_code', (string)$clinicUser->postal_code);
+        }
       }
 
-      if ($this->hasCoord('applicant_address') && $applicantAddress) {
-        $pdf->SetFontSize($this->coord('applicant_address', 'fontSize'));
-        $this->drawTextByKey($pdf, 'applicant_address', (string)$applicantAddress);
+      if ($this->hasCoord('applicant_address')) {
+        $applicantAddress = ($clinicUser->address_1 ?? '') . ($clinicUser->address_2 ?? '') . ($clinicUser->address_3 ?? '');
+        if ($applicantAddress) {
+          $pdf->SetFontSize($this->coord('applicant_address', 'fontSize'));
+          $this->drawTextByKey($pdf, 'applicant_address', (string)$applicantAddress);
+        }
       }
 
-      if ($this->hasCoord('applicant_name') && $applicantName) {
-        $pdf->SetFontSize($this->coord('applicant_name', 'fontSize'));
-        $this->drawTextByKey($pdf, 'applicant_name', (string)$applicantName);
+      if ($this->hasCoord('applicant_name')) {
+        $applicantName = ($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? '');
+        if (trim($applicantName)) {
+          $pdf->SetFontSize($this->coord('applicant_name', 'fontSize'));
+          $this->drawTextByKey($pdf, 'applicant_name', (string)$applicantName);
+        }
       }
 
       $pdf->SetFontSize(10);
     }
 
     // === 代理人情報 ===
-    if ($this->hasCoord('agent_postal_code') || $this->hasCoord('agent_address') || $this->hasCoord('agent_name')) {
-      $agentPostalCode = $this->customSampleData['agent_postal_code'] ?? '';
-      $agentAddress = $this->customSampleData['agent_address'] ?? '';
-      $agentName = $this->customSampleData['agent_name'] ?? '';
+    if ($this->sampleDataMode) {
+      if ($this->hasCoord('agent_postal_code') || $this->hasCoord('agent_address') || $this->hasCoord('agent_name')) {
+        $agentPostalCode = $this->customSampleData['agent_postal_code'] ?? '';
+        $agentAddress = $this->customSampleData['agent_address'] ?? '';
+        $agentName = $this->customSampleData['agent_name'] ?? '';
 
-      if ($this->hasCoord('agent_postal_code') && $agentPostalCode) {
+        if ($this->hasCoord('agent_postal_code') && $agentPostalCode) {
+          // ハイフンなしの7桁数字にフォーマット（ハイフン除去）
+          $agentPostalCode = preg_replace('/[^0-9]/', '', $agentPostalCode);
+          
+          $pdf->SetFontSize($this->coord('agent_postal_code', 'fontSize'));
+          
+          // postalCodeGap がある場合は分割描画
+          if (strlen($agentPostalCode) === 7 && isset($this->coordinates['agent_postal_code']['postalCodeGap'])) {
+            $part1 = substr($agentPostalCode, 0, 3);  // 前半3桁
+            $part2 = substr($agentPostalCode, 3, 4);  // 後半4桁
+            $gap = $this->coordinates['agent_postal_code']['postalCodeGap'];
+            
+            $y = $this->coord('agent_postal_code', 'y');
+            $fontSize = $this->coord('agent_postal_code', 'fontSize');
+            $x1 = $this->coord('agent_postal_code', 'x');
+            $x2 = $x1 + $gap;
+            
+            $pdf->SetXY($x1, $y);
+            $pdf->Cell(0, 0, '〒 ' . $part1, 0, 0, 'L');
+            $pdf->SetXY($x2, $y);
+            $pdf->Cell(0, 0, '- ' . $part2, 0, 0, 'L');
+          } else {
+            // postalCodeGap がない場合は従来の形式
+            if (strlen($agentPostalCode) === 7) {
+              $agentPostalCode = '〒 ' . substr($agentPostalCode, 0, 3) . ' - ' . substr($agentPostalCode, 3, 4);
+            }
+            $this->drawTextByKey($pdf, 'agent_postal_code', $agentPostalCode);
+          }
+        }
+
+        if ($this->hasCoord('agent_address') && $agentAddress) {
+          $pdf->SetFontSize($this->coord('agent_address', 'fontSize'));
+          $this->drawTextByKey($pdf, 'agent_address', (string)$agentAddress);
+        }
+
+        if ($this->hasCoord('agent_name') && $agentName) {
+          $pdf->SetFontSize($this->coord('agent_name', 'fontSize'));
+          $this->drawTextByKey($pdf, 'agent_name', (string)$agentName);
+        }
+
+        $pdf->SetFontSize(10);
+      }
+    }
+    // 実データモード：代理人情報はclinic_infoテーブルを参照
+    elseif (!$this->sampleDataMode && $clinicInfo) {
+      if ($this->hasCoord('agent_postal_code') && isset($clinicInfo->postal_code)) {
         $pdf->SetFontSize($this->coord('agent_postal_code', 'fontSize'));
-        $this->drawTextByKey($pdf, 'agent_postal_code', (string)$agentPostalCode);
+        $this->drawTextByKey($pdf, 'agent_postal_code', (string)$clinicInfo->postal_code);
       }
 
-      if ($this->hasCoord('agent_address') && $agentAddress) {
+      if ($this->hasCoord('agent_address') && isset($clinicInfo->address_1)) {
+        $agentAddress = ($clinicInfo->address_1 ?? '') . ($clinicInfo->address_2 ?? '') . ($clinicInfo->address_3 ?? '');
         $pdf->SetFontSize($this->coord('agent_address', 'fontSize'));
         $this->drawTextByKey($pdf, 'agent_address', (string)$agentAddress);
       }
 
-      if ($this->hasCoord('agent_name') && $agentName) {
+      if ($this->hasCoord('agent_name') && isset($clinicInfo->clinic_name)) {
         $pdf->SetFontSize($this->coord('agent_name', 'fontSize'));
-        $this->drawTextByKey($pdf, 'agent_name', (string)$agentName);
+        $this->drawTextByKey($pdf, 'agent_name', (string)$clinicInfo->clinic_name);
       }
-
-      $pdf->SetFontSize(10);
     }
 
     // === 支払機関情報 ===
-    if ($this->hasCoord('payment_institution_date_year')) {
+    if ($this->sampleDataMode) {
       $today = date('Y-m-d');
       $todayParts = explode('-', $today);
       $todayJapaneseYear = $this->convertToJapaneseYear((int)$todayParts[0], (int)$todayParts[1]);
@@ -1584,9 +1841,12 @@ class MassageBenefitPdfService
       $pdf->SetFontSize(10);
     }
 
-    // === 被保険者情報 ===
+    // === 被保険者情報（委任申請者氏名） ===
     if ($this->hasCoord('temporary_insurer_name')) {
-      $tempInsurerName = $this->customSampleData['temporary_insurer_name'] ?? '';
+      // サンプルデータモード時は専用の値を使用、実データモードでは申請者氏名と同じデータを参照
+      $tempInsurerName = $this->sampleDataMode 
+        ? ($this->customSampleData['temporary_insurer_name'] ?? '')
+        : $fullName;
 
       if ($tempInsurerName) {
         $pdf->SetFontSize($this->coord('temporary_insurer_name', 'fontSize'));
@@ -1687,7 +1947,6 @@ class MassageBenefitPdfService
   {
     // キーが存在しない場合は何もしない
     if (!$this->hasCoord($key)) {
-      \Log::warning("描画スキップ: キーが存在しない", ['key' => $key, 'text' => $text]);
       return;
     }
 
@@ -1735,7 +1994,6 @@ class MassageBenefitPdfService
   {
     // キーが存在しない場合は何もしない
     if (!$this->hasCoord($key)) {
-      \Log::warning("楕円描画スキップ: キーが存在しない", ['key' => $key]);
       return;
     }
 

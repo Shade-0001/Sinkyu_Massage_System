@@ -146,9 +146,6 @@ const sampleDataFieldMapping = {
   'fee_housecall_additional_unit': { field: 'fee_housecall_additional_unit', label: '単価', type: 'number', compositeGroup: 'fee_housecall_additional', compositeLabel: '往療4km超料金' },
   'fee_housecall_additional_count': { field: 'fee_housecall_additional_count', label: '回数', type: 'number', compositeGroup: 'fee_housecall_additional', compositeLabel: '往療4km超料金' },
   'fee_housecall_additional_total': { field: 'fee_housecall_additional_total', label: '合計', type: 'number', compositeGroup: 'fee_housecall_additional', compositeLabel: '往療4km超料金' },
-  'fee_previous_payment_unit': { field: 'fee_previous_payment_unit', label: '単価', type: 'number', compositeGroup: 'fee_previous_payment', compositeLabel: '施術報告書交付料' },
-  'fee_previous_payment_count': { field: 'fee_previous_payment_count', label: '回数', type: 'number', compositeGroup: 'fee_previous_payment', compositeLabel: '施術報告書交付料' },
-  'fee_previous_payment_total': { field: 'fee_previous_payment_total', label: '合計', type: 'number', compositeGroup: 'fee_previous_payment', compositeLabel: '施術報告書交付料' },
   'fee_initial_examination_hari': { field: 'fee_initial_examination', label: '初検料（サークル）', type: 'select', options: ['はり', 'きゅう', 'はり･きゅう併用'], ellipseWidth: 6, ellipseHeight: 3, lineWidth: 0.5, radioGroup: 'fee_initial_examination', optionLabel: 'はり' },
   'fee_initial_examination_kyu': { field: 'fee_initial_examination', label: '初検料（サークル）', type: 'select', options: ['はり', 'きゅう', 'はり･きゅう併用'], ellipseWidth: 6, ellipseHeight: 3, lineWidth: 0.5, radioGroup: 'fee_initial_examination', optionLabel: 'きゅう' },
   'fee_initial_examination_combined': { field: 'fee_initial_examination', label: '初検料（サークル）', type: 'select', options: ['はり', 'きゅう', 'はり･きゅう併用'], ellipseWidth: 6, ellipseHeight: 3, lineWidth: 0.5, radioGroup: 'fee_initial_examination', optionLabel: 'はり･きゅう併用' },
@@ -223,9 +220,6 @@ const sampleDataFieldMapping = {
   'consent_year': { field: 'consent_year', label: '同意年', type: 'number' },
   'consent_month': { field: 'consent_month', label: '同意月', type: 'number' },
   'consent_day': { field: 'consent_day', label: '同意日', type: 'number' },
-  'consent_date_year': { field: 'consent_date_year', label: '年', type: 'number', compositeGroup: 'consent_date', compositeLabel: '同意年月日' },
-  'consent_date_month': { field: 'consent_date_month', label: '月', type: 'number', compositeGroup: 'consent_date', compositeLabel: '同意年月日' },
-  'consent_date_day': { field: 'consent_date_day', label: '日', type: 'number', compositeGroup: 'consent_date', compositeLabel: '同意年月日' },
   'consent_doctor_name': { field: 'consent_doctor_name', label: '同意書医師氏名', type: 'text' },
   'consent_illness_name': { field: 'consent_illness_name', label: '同意書傷病名', type: 'text' },
   'therapy_period': { field: 'therapy_period', label: '要加療期間', type: 'text' },
@@ -265,13 +259,13 @@ const sampleDataFieldMapping = {
   'submission_date_day': { field: 'submission_date_day', label: '日', type: 'number', compositeGroup: 'submission_date', compositeLabel: '申請年月日' },
 
   // === 19. 委任欄 ===
-  'agent_postal_code': { field: 'agent_postal_code', label: '代理人郵便番号', type: 'text' },
+  'agent_postal_code': { field: 'agent_postal_code', label: '代理人郵便番号', type: 'postal_code', postalCodeGap: 2 },
   'agent_address': { field: 'agent_address', label: '代理人住所', type: 'text' },
   'agent_name': { field: 'agent_name', label: '代理人氏名', type: 'text' },
   'temporary_insurer_name': { field: 'temporary_insurer_name', label: '委任申請者氏名', type: 'text' },
   'signature_date_year': { field: 'signature_date_year', label: '年', type: 'number', compositeGroup: 'signature_date', compositeLabel: '委任年月日' },
   'signature_date_month': { field: 'signature_date_month', label: '月', type: 'number', compositeGroup: 'signature_date', compositeLabel: '委任年月日' },
   'signature_date_day': { field: 'signature_date_day', label: '日', type: 'number', compositeGroup: 'signature_date', compositeLabel: '委任年月日' },
-  'signature_applicant_postal_code': { field: 'signature_applicant_postal_code', label: '申請者郵便番号（委任）', type: 'text' },
+  'signature_applicant_postal_code': { field: 'signature_applicant_postal_code', label: '申請者郵便番号（委任）', type: 'postal_code', postalCodeGap: 2 },
   'signature_applicant_address': { field: 'signature_applicant_address', label: '委任申請者住所', type: 'text' }
 };

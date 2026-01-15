@@ -446,6 +446,27 @@ function renderSingleFieldHTML(key, field) {
       </div>
       ` : ''}
 
+      ${field.postalCodeGap !== undefined ? `
+      <div class="coordinate-input">
+        <label>郵便番号間隔:</label>
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'postalCodeGap', -0.5)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'postalCodeGap', -0.5)"
+                ontouchend="stopLongPress()">−</button>
+        <input type="number" step="0.5" value="${field.postalCodeGap || 2}"
+               onchange="updateCoordinate('${key}', 'postalCodeGap', this.value)"
+               class="form-control form-control-sm" style="width: 80px;" data-property="postalCodeGap">
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'postalCodeGap', 0.5)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'postalCodeGap', 0.5)"
+                ontouchend="stopLongPress()">+</button>
+      </div>
+      ` : ''}
+
       ${field.textAlign !== undefined ? `
       <div class="coordinate-input">
         <label>配置:</label>
@@ -785,6 +806,50 @@ function updateCompositeGroupSelection(groupName, selectedKey) {
   detailsDiv.appendChild(lsDiv);
   }
 
+  // 郵便番号間隔（postal_codeタイプのフィールド）
+  if (!isShapeOnly && selectedField.postalCodeGap !== undefined) {
+  const pgDiv = document.createElement('div');
+  pgDiv.className = 'coordinate-input';
+  pgDiv.innerHTML = `<label>郵便番号間隔:</label>`;
+  
+  const pgBtnMinus = document.createElement('button');
+  pgBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+  pgBtnMinus.innerHTML = '−';
+  pgBtnMinus.addEventListener('mousedown', () => startLongPress(selectedKey, 'postalCodeGap', -0.5));
+  pgBtnMinus.addEventListener('mouseup', stopLongPress);
+  pgBtnMinus.addEventListener('mouseleave', stopLongPress);
+  pgBtnMinus.addEventListener('touchstart', () => startLongPress(selectedKey, 'postalCodeGap', -0.5));
+  pgBtnMinus.addEventListener('touchend', stopLongPress);
+  
+  const pgInput = document.createElement('input');
+  pgInput.type = 'number';
+  pgInput.step = '0.5';
+  pgInput.value = selectedField.postalCodeGap || 2;
+  pgInput.className = 'form-control form-control-sm';
+  pgInput.style.width = '80px';
+  pgInput.style.display = 'inline-block';
+  pgInput.style.marginLeft = '5px';
+  pgInput.style.marginRight = '5px';
+  pgInput.setAttribute('data-property', 'postalCodeGap');
+  pgInput.addEventListener('change', function() {
+    updateCoordinate(selectedKey, 'postalCodeGap', this.value);
+  });
+  
+  const pgBtnPlus = document.createElement('button');
+  pgBtnPlus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+  pgBtnPlus.innerHTML = '+';
+  pgBtnPlus.addEventListener('mousedown', () => startLongPress(selectedKey, 'postalCodeGap', 0.5));
+  pgBtnPlus.addEventListener('mouseup', stopLongPress);
+  pgBtnPlus.addEventListener('mouseleave', stopLongPress);
+  pgBtnPlus.addEventListener('touchstart', () => startLongPress(selectedKey, 'postalCodeGap', 0.5));
+  pgBtnPlus.addEventListener('touchend', stopLongPress);
+  
+  pgDiv.appendChild(pgBtnMinus);
+  pgDiv.appendChild(pgInput);
+  pgDiv.appendChild(pgBtnPlus);
+  detailsDiv.appendChild(pgDiv);
+  }
+
   // テキスト配置（サークルフィールドでは非表示）
   if (!isShapeOnly && selectedField.textAlign !== undefined) {
   const taDiv = document.createElement('div');
@@ -999,8 +1064,9 @@ function updateCompositeGroupSelection(groupName, selectedKey) {
     detailsDiv.appendChild(ehDiv);
   }
 
-  // サンプルデータ入力（楽円フィールド以外）
-  const isEllipseField = selectedField.ellipseWidth !== undefined || selectedField.ellipseHeight !== undefined;
+  // サンプルデータ入力（楕円フィールド以外）
+  const isEllipseField = (selectedField.ellipseWidth !== undefined && selectedField.ellipseWidth !== null) || 
+                          (selectedField.ellipseHeight !== undefined && selectedField.ellipseHeight !== null);
   if (!isEllipseField) {
     const sampleDataHtml = getSampleDataInput(selectedKey);
     if (sampleDataHtml) {
