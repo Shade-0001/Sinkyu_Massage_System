@@ -144,6 +144,9 @@ class PrintsController extends Controller
     // PDFタイプをクエリパラメータから取得（デフォルト: therapy_benefit_acupuncture）
     $pdfType = $request->query('pdf_type', 'therapy_benefit_acupuncture');
 
+    // 利用者IDをクエリパラメータから取得
+    $selectedClinicUserId = $request->query('clinic_user_id', null);
+
     // PDFタイプ名を設定
     $pdfTypeName = $pdfType === 'therapy_benefit_massage' ? 'あんま・マッサージ療養費支給申請書' : 'はり・きゅう療養費支給申請書';
 
@@ -166,7 +169,7 @@ class PrintsController extends Controller
       ->orderBy('created_at', 'desc')
       ->first();
 
-    return view('prints.coordinate_adjuster', compact('clinicUsers', 'pdfType', 'pdfTypeName', 'masterData', 'treatmentFees'));
+    return view('prints.coordinate_adjuster', compact('clinicUsers', 'pdfType', 'pdfTypeName', 'masterData', 'treatmentFees', 'selectedClinicUserId'));
   }
 
   /**

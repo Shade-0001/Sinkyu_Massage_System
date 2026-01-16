@@ -58,6 +58,7 @@ const fieldCategoriesTherapyBenefitAcupuncture = {
     "treatment_end_month": "treatment_content",
     "treatment_end_day": "treatment_content",
     "treatment_days": "treatment_content",
+    "treatment_day_count": "treatment_content",
     "bill_category_new": "treatment_content",
     "bill_category_continued": "treatment_content",
     "illness_name_1": "treatment_content",

@@ -772,10 +772,16 @@ class MassageBenefitPdfService
 
     // === 実日数 ===
     if ($this->hasCoord('treatment_day_count')) {
-      $dayCount = $this->sampleDataMode && isset($this->customSampleData['treatment_days'])
-        ? $this->customSampleData['treatment_days']
-        : $records->count();
-      
+      if ($this->sampleDataMode && isset($this->customSampleData['treatment_days'])) {
+        $dayCount = $this->customSampleData['treatment_days'];
+      } else {
+        // マッサージ関連の施術（therapy_content_id: 18-21）のみカウント
+        $massageContentIds = [18, 19, 20, 21];
+        $dayCount = $records->filter(function ($record) use ($massageContentIds) {
+          return in_array($record->therapy_content_id ?? null, $massageContentIds);
+        })->count();
+      }
+
       $pdf->SetFontSize($this->coord('treatment_day_count', 'fontSize'));
       $this->drawTextByKey($pdf, 'treatment_day_count', (string)$dayCount);
       $pdf->SetFontSize(10);
@@ -919,33 +925,26 @@ class MassageBenefitPdfService
     $this->fillServiceDates($pdf, $records);
 
     // === 摘要 ===
+    $abstractText = 'なし'; // デフォルト値
+
     if ($this->sampleDataMode && isset($this->customSampleData['abstract']) && $this->customSampleData['abstract']) {
       // サンプルデータモード
+      $abstractText = (string)$this->customSampleData['abstract'];
       \Log::info('摘要描画 [サンプルデータモード]', [
         'has_coord' => $this->hasCoord('abstract'),
-        'text_length' => mb_strlen($this->customSampleData['abstract'])
+        'text_length' => mb_strlen($abstractText)
       ]);
-      
-      if ($this->hasCoord('abstract')) {
-        $pdf->SetFontSize($this->coord('abstract', 'fontSize'));
-        [$x, $y] = [$this->coord('abstract', 'x'), $this->coord('abstract', 'y')];
-        $width = $this->coord('abstract', 'width') ?? 180;
-        $lineHeight = $this->coordinates['abstract']['lineHeight'] ?? 5;
-        $pdf->SetXY($x, $y);
-        $pdf->MultiCell($width, $lineHeight, (string)$this->customSampleData['abstract'], 0, 'L', false, 1);
-        $pdf->SetFontSize(10);
-      }
     } elseif ($records->isNotEmpty()) {
       // 通常モード:全レコードの摘要を結合（重複排除）
       $abstracts = $records->pluck('abstract')->filter()->unique()->toArray();
-      
+
       \Log::info('摘要描画 [ノーマルモード]', [
         'records_count' => $records->count(),
         'abstracts_count' => count($abstracts),
         'has_coord' => $this->hasCoord('abstract'),
         'abstracts_preview' => !empty($abstracts) ? mb_substr(implode('/', $abstracts), 0, 100) : null
       ]);
-      
+
       if (!empty($abstracts)) {
         // 「。」で区切る（前後に既に「。」がある場合は重複しないように）
         $abstractText = '';
@@ -960,20 +959,21 @@ class MassageBenefitPdfService
           }
           $abstractText .= $abstract;
         }
-        
-        if ($this->hasCoord('abstract')) {
-          $x = $this->coord('abstract', 'x');
-          $y = $this->coord('abstract', 'y');
-          $fontSize = $this->coord('abstract', 'fontSize');
-          $width = $this->coordinates['abstract']['width'] ?? 180;
-          $lineHeight = $this->coordinates['abstract']['lineHeight'] ?? 5;
-
-          $pdf->SetFontSize($fontSize);
-          $pdf->SetXY($x, $y);
-          $pdf->MultiCell($width, $lineHeight, $abstractText, 0, 'L', false, 1);
-          $pdf->SetFontSize(10);
-        }
       }
+    }
+
+    // 摘要を描画
+    if ($this->hasCoord('abstract')) {
+      $x = $this->coord('abstract', 'x');
+      $y = $this->coord('abstract', 'y');
+      $fontSize = $this->coord('abstract', 'fontSize');
+      $width = $this->coordinates['abstract']['width'] ?? 180;
+      $lineHeight = $this->coordinates['abstract']['lineHeight'] ?? 5;
+
+      $pdf->SetFontSize($fontSize);
+      $pdf->SetXY($x, $y);
+      $pdf->MultiCell($width, $lineHeight, $abstractText, 0, 'L', false, 1);
+      $pdf->SetFontSize(10);
     }
 
     // === 施術者登録番号 ===
@@ -1035,23 +1035,59 @@ class MassageBenefitPdfService
     // 同意医師郵便番号
     if ($this->sampleDataMode) {
       if (isset($this->customSampleData['consent_record_doctor_postal_code']) && $this->hasCoord('consent_record_doctor_postal_code') && $this->customSampleData['consent_record_doctor_postal_code']) {
-        $postalCode = (string)$this->customSampleData['consent_record_doctor_postal_code'];
-        // ハイフンなしの場合はXXX-XXXXフォーマットに変換
-        if (strlen($postalCode) === 7 && strpos($postalCode, '-') === false) {
-          $postalCode = substr($postalCode, 0, 3) . '-' . substr($postalCode, 3);
-        }
+        $postalCode = preg_replace('/[^0-9]/', '', $this->customSampleData['consent_record_doctor_postal_code']);
+
         $pdf->SetFontSize($this->coord('consent_record_doctor_postal_code', 'fontSize'));
-        $this->drawTextByKey($pdf, 'consent_record_doctor_postal_code', $postalCode);
+
+        // postalCodeGap がある場合は分割描画
+        if (strlen($postalCode) === 7 && isset($this->coordinates['consent_record_doctor_postal_code']['postalCodeGap'])) {
+          $part1 = substr($postalCode, 0, 3);  // 前半3桁
+          $part2 = substr($postalCode, 3, 4);  // 後半4桁
+          $gap = $this->coordinates['consent_record_doctor_postal_code']['postalCodeGap'];
+
+          $y = $this->coord('consent_record_doctor_postal_code', 'y');
+          $x1 = $this->coord('consent_record_doctor_postal_code', 'x');
+          $x2 = $x1 + $gap;
+
+          $pdf->SetXY($x1, $y);
+          $pdf->Cell(0, 0, '〒 ' . $part1, 0, 0, 'L');
+          $pdf->SetXY($x2, $y);
+          $pdf->Cell(0, 0, '- ' . $part2, 0, 0, 'L');
+        } else {
+          // postalCodeGap がない場合は従来の形式
+          if (strlen($postalCode) === 7) {
+            $postalCode = '〒 ' . substr($postalCode, 0, 3) . ' - ' . substr($postalCode, 3, 4);
+          }
+          $this->drawTextByKey($pdf, 'consent_record_doctor_postal_code', $postalCode);
+        }
       }
     } else {
       if ($doctor && $this->hasCoord('consent_record_doctor_postal_code') && isset($doctor->postal_code)) {
-        $postalCode = $doctor->postal_code;
-        // ハイフンなしの場合はXXX-XXXXフォーマットに変換
-        if (strlen($postalCode) === 7 && strpos($postalCode, '-') === false) {
-          $postalCode = substr($postalCode, 0, 3) . '-' . substr($postalCode, 3);
-        }
+        $postalCode = preg_replace('/[^0-9]/', '', $doctor->postal_code);
+
         $pdf->SetFontSize($this->coord('consent_record_doctor_postal_code', 'fontSize'));
-        $this->drawTextByKey($pdf, 'consent_record_doctor_postal_code', (string)$postalCode);
+
+        // postalCodeGap がある場合は分割描画
+        if (strlen($postalCode) === 7 && isset($this->coordinates['consent_record_doctor_postal_code']['postalCodeGap'])) {
+          $part1 = substr($postalCode, 0, 3);  // 前半3桁
+          $part2 = substr($postalCode, 3, 4);  // 後半4桁
+          $gap = $this->coordinates['consent_record_doctor_postal_code']['postalCodeGap'];
+
+          $y = $this->coord('consent_record_doctor_postal_code', 'y');
+          $x1 = $this->coord('consent_record_doctor_postal_code', 'x');
+          $x2 = $x1 + $gap;
+
+          $pdf->SetXY($x1, $y);
+          $pdf->Cell(0, 0, '〒 ' . $part1, 0, 0, 'L');
+          $pdf->SetXY($x2, $y);
+          $pdf->Cell(0, 0, '- ' . $part2, 0, 0, 'L');
+        } else {
+          // postalCodeGap がない場合は従来の形式
+          if (strlen($postalCode) === 7) {
+            $postalCode = '〒 ' . substr($postalCode, 0, 3) . ' - ' . substr($postalCode, 3, 4);
+          }
+          $this->drawTextByKey($pdf, 'consent_record_doctor_postal_code', $postalCode);
+        }
       }
     }
 
@@ -1272,10 +1308,13 @@ class MassageBenefitPdfService
     }
 
     // 金融機関情報
-    if ($this->sampleDataMode && isset($this->customSampleData['financial_institution_name1'])) {
-      if ($this->hasCoord('financial_institution_name_1') && $this->customSampleData['financial_institution_name1']) {
+    if ($this->sampleDataMode && isset($this->customSampleData['financial_institution_name_1'])) {
+      if ($this->hasCoord('financial_institution_name_1') && $this->customSampleData['financial_institution_name_1']) {
         $pdf->SetFontSize($this->coord('financial_institution_name_1', 'fontSize'));
-        $this->drawTextByKey($pdf, 'financial_institution_name_1', (string)$this->customSampleData['financial_institution_name1']);
+        $bankName = (string)$this->customSampleData['financial_institution_name_1'];
+        // 末尾の「銀行」「金庫」「農協」を除去
+        $bankName = preg_replace('/(銀行|金庫|農協)$/', '', $bankName);
+        $this->drawTextByKey($pdf, 'financial_institution_name_1', $bankName);
         $pdf->SetFontSize(10);
       }
     } elseif (!$this->sampleDataMode && $clinicInfo && isset($clinicInfo->bank_name)) {
@@ -1290,10 +1329,13 @@ class MassageBenefitPdfService
       }
     }
 
-    if ($this->sampleDataMode && isset($this->customSampleData['financial_institution_name2'])) {
-      if ($this->hasCoord('financial_institution_name_2') && $this->customSampleData['financial_institution_name2']) {
+    if ($this->sampleDataMode && isset($this->customSampleData['financial_institution_name_2'])) {
+      if ($this->hasCoord('financial_institution_name_2') && $this->customSampleData['financial_institution_name_2']) {
         $pdf->SetFontSize($this->coord('financial_institution_name_2', 'fontSize'));
-        $this->drawTextByKey($pdf, 'financial_institution_name_2', (string)$this->customSampleData['financial_institution_name2']);
+        $branchName = (string)$this->customSampleData['financial_institution_name_2'];
+        // 末尾の「本店」「支店」「出張所」を除去
+        $branchName = preg_replace('/(本店|支店|出張所)$/', '', $branchName);
+        $this->drawTextByKey($pdf, 'financial_institution_name_2', $branchName);
         $pdf->SetFontSize(10);
       }
     } elseif (!$this->sampleDataMode && $clinicInfo && isset($clinicInfo->bank_branch_name)) {
@@ -1773,19 +1815,47 @@ class MassageBenefitPdfService
     // 実データモード：代理人情報はclinic_infoテーブルを参照
     elseif (!$this->sampleDataMode && $clinicInfo) {
       if ($this->hasCoord('agent_postal_code') && isset($clinicInfo->postal_code)) {
+        $agentPostalCode = preg_replace('/[^0-9]/', '', $clinicInfo->postal_code);
+        
         $pdf->SetFontSize($this->coord('agent_postal_code', 'fontSize'));
-        $this->drawTextByKey($pdf, 'agent_postal_code', (string)$clinicInfo->postal_code);
+        
+        // postalCodeGap がある場合は分割描画
+        if (strlen($agentPostalCode) === 7 && isset($this->coordinates['agent_postal_code']['postalCodeGap'])) {
+          $part1 = substr($agentPostalCode, 0, 3);  // 前半3桁
+          $part2 = substr($agentPostalCode, 3, 4);  // 後半4桁
+          $gap = $this->coordinates['agent_postal_code']['postalCodeGap'];
+          
+          $y = $this->coord('agent_postal_code', 'y');
+          $fontSize = $this->coord('agent_postal_code', 'fontSize');
+          $x1 = $this->coord('agent_postal_code', 'x');
+          $x2 = $x1 + $gap;
+          
+          $pdf->SetXY($x1, $y);
+          $pdf->Cell(0, 0, '〒 ' . $part1, 0, 0, 'L');
+          $pdf->SetXY($x2, $y);
+          $pdf->Cell(0, 0, '- ' . $part2, 0, 0, 'L');
+        } else {
+          // postalCodeGap がない場合は従来の形式
+          if (strlen($agentPostalCode) === 7) {
+            $agentPostalCode = '〒 ' . substr($agentPostalCode, 0, 3) . ' - ' . substr($agentPostalCode, 3, 4);
+          }
+          $this->drawTextByKey($pdf, 'agent_postal_code', $agentPostalCode);
+        }
+        
+        $pdf->SetFontSize(10);
       }
 
       if ($this->hasCoord('agent_address') && isset($clinicInfo->address_1)) {
         $agentAddress = ($clinicInfo->address_1 ?? '') . ($clinicInfo->address_2 ?? '') . ($clinicInfo->address_3 ?? '');
         $pdf->SetFontSize($this->coord('agent_address', 'fontSize'));
         $this->drawTextByKey($pdf, 'agent_address', (string)$agentAddress);
+        $pdf->SetFontSize(10);
       }
 
       if ($this->hasCoord('agent_name') && isset($clinicInfo->clinic_name)) {
         $pdf->SetFontSize($this->coord('agent_name', 'fontSize'));
         $this->drawTextByKey($pdf, 'agent_name', (string)$clinicInfo->clinic_name);
+        $pdf->SetFontSize(10);
       }
     }
 
@@ -2126,10 +2196,18 @@ class MassageBenefitPdfService
       'phone' => $custom['clinic_phone'] ?? '03-9876-5432',
     ];
 
+    // サンプル同意医師情報
+    $doctor = (object)[
+      'name' => $custom['doctor_name'] ?? '田中医師',
+      'postal_code' => $custom['consent_record_doctor_postal_code'] ?? '1600001',
+      'address' => $custom['consent_record_doctor_address'] ?? '東京都新宿区新宿1-1-1',
+    ];
+
     return [
       'clinic_user' => $clinicUser,
       'insurance' => $insurance,
       'consent' => $consent,
+      'doctor' => $doctor,
       'records' => $records,
       'clinic_info' => $clinicInfo,
       'service_year_month' => $serviceYearMonth,
@@ -2348,10 +2426,244 @@ class MassageBenefitPdfService
       'treatment_fees_id' => $treatmentFees->id ?? null
     ]);
 
-    // 通常モード:施術実績から料金を計算（簡易版 - 実際のビジネスロジックに応じて調整が必要）
-    // TODO: 実際の料金計算ロジックを実装
-    // 現状はプレースホルダーとして基本料金を表示
-    
+    // 通常モード:施術実績から料金を計算
+    $therapyTypeCounts = [];
+    $bodypartCounts = []; // 部位ごとのカウント
+    $isFirstTreatment = false;
+
+    \Log::info('=== ノーマルモード：料金計算開始 ===', [
+      'records_count' => $records->count(),
+      'has_treatment_fees' => !empty($treatmentFees)
+    ]);
+
+    // 施術実績を集計
+    foreach ($records as $index => $record) {
+      $therapyContentId = $record->therapy_content_id ?? null;
+
+      // 初検かどうかを判定（最初のレコードのみ）
+      if ($index === 0) {
+        $isFirstTreatment = true;
+      }
+
+      // 施術内容ごとにカウント
+      if ($therapyContentId) {
+        if (!isset($therapyTypeCounts[$therapyContentId])) {
+          $therapyTypeCounts[$therapyContentId] = 0;
+        }
+        $therapyTypeCounts[$therapyContentId]++;
+
+        // therapy_content_id = 18 (マッサージ)の場合、部位情報を取得
+        if ($therapyContentId == 18) {
+          $bodyparts = DB::table('bodyparts-records')
+            ->where('records_id', $record->id)
+            ->pluck('therapy_type_bodyparts_id');
+
+          foreach ($bodyparts as $bodypartId) {
+            if (!isset($bodypartCounts[$bodypartId])) {
+              $bodypartCounts[$bodypartId] = 0;
+            }
+            $bodypartCounts[$bodypartId]++;
+          }
+        }
+      }
+    }
+
+    \Log::info('施術内容集計結果', [
+      'therapy_type_counts' => $therapyTypeCounts,
+      'bodypart_counts' => $bodypartCounts,
+      'is_first_treatment' => $isFirstTreatment
+    ]);
+
+    $totalFee = 0;
+
+    // マッサージ料金（躯幹）bodypart_id: 1
+    $count = $bodypartCounts[1] ?? 0;
+    $feeKey = $isFirstTreatment ? 'massage_trunk_first' : 'massage_trunk_normal';
+    $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
+    $total = $unitPrice * $count;
+
+    \Log::info('マッサージ料金（躯幹）描画', [
+      'bodypart_id' => 1,
+      'count' => $count,
+      'fee_key' => $feeKey,
+      'unit_price' => $unitPrice,
+      'total' => $total,
+      'has_coord' => $this->hasCoord('fee_massage_trunk_unit')
+    ]);
+
+    if ($this->hasCoord('fee_massage_trunk_unit')) {
+      $pdf->SetFontSize($this->coord('fee_massage_trunk_unit', 'fontSize'));
+      $this->drawTextByKey($pdf, 'fee_massage_trunk_unit', (string)$unitPrice);
+      $this->drawTextByKey($pdf, 'fee_massage_trunk_count', (string)$count);
+      $this->drawTextByKey($pdf, 'fee_massage_trunk_total', (string)$total);
+      $totalFee += $total;
+    }
+
+    // マッサージ料金（右上肢）bodypart_id: 2
+    $count = $bodypartCounts[2] ?? 0;
+    $feeKey = $isFirstTreatment ? 'massage_upper_limb_r_first' : 'massage_upper_limb_r_normal';
+    $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
+    $total = $unitPrice * $count;
+
+    if ($this->hasCoord('fee_massage_upper_limb_r_unit')) {
+      $pdf->SetFontSize($this->coord('fee_massage_upper_limb_r_unit', 'fontSize'));
+      $this->drawTextByKey($pdf, 'fee_massage_upper_limb_r_unit', (string)$unitPrice);
+      $this->drawTextByKey($pdf, 'fee_massage_upper_limb_r_count', (string)$count);
+      $this->drawTextByKey($pdf, 'fee_massage_upper_limb_r_total', (string)$total);
+      $totalFee += $total;
+    }
+
+    // マッサージ料金（左上肢）bodypart_id: 3
+    $count = $bodypartCounts[3] ?? 0;
+    $feeKey = $isFirstTreatment ? 'massage_upper_limb_l_first' : 'massage_upper_limb_l_normal';
+    $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
+    $total = $unitPrice * $count;
+
+    if ($this->hasCoord('fee_massage_upper_limb_l_unit')) {
+      $pdf->SetFontSize($this->coord('fee_massage_upper_limb_l_unit', 'fontSize'));
+      $this->drawTextByKey($pdf, 'fee_massage_upper_limb_l_unit', (string)$unitPrice);
+      $this->drawTextByKey($pdf, 'fee_massage_upper_limb_l_count', (string)$count);
+      $this->drawTextByKey($pdf, 'fee_massage_upper_limb_l_total', (string)$total);
+      $totalFee += $total;
+    }
+
+    // マッサージ料金（右下肢）bodypart_id: 4
+    $count = $bodypartCounts[4] ?? 0;
+    $feeKey = $isFirstTreatment ? 'massage_lower_limb_r_first' : 'massage_lower_limb_r_normal';
+    $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
+    $total = $unitPrice * $count;
+
+    if ($this->hasCoord('fee_massage_lower_limb_r_unit')) {
+      $pdf->SetFontSize($this->coord('fee_massage_lower_limb_r_unit', 'fontSize'));
+      $this->drawTextByKey($pdf, 'fee_massage_lower_limb_r_unit', (string)$unitPrice);
+      $this->drawTextByKey($pdf, 'fee_massage_lower_limb_r_count', (string)$count);
+      $this->drawTextByKey($pdf, 'fee_massage_lower_limb_r_total', (string)$total);
+      $totalFee += $total;
+    }
+
+    // マッサージ料金（左下肢）bodypart_id: 5
+    $count = $bodypartCounts[5] ?? 0;
+    $feeKey = $isFirstTreatment ? 'massage_lower_limb_l_first' : 'massage_lower_limb_l_normal';
+    $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
+    $total = $unitPrice * $count;
+
+    if ($this->hasCoord('fee_massage_lower_limb_l_unit')) {
+      $pdf->SetFontSize($this->coord('fee_massage_lower_limb_l_unit', 'fontSize'));
+      $this->drawTextByKey($pdf, 'fee_massage_lower_limb_l_unit', (string)$unitPrice);
+      $this->drawTextByKey($pdf, 'fee_massage_lower_limb_l_count', (string)$count);
+      $this->drawTextByKey($pdf, 'fee_massage_lower_limb_l_total', (string)$total);
+      $totalFee += $total;
+    }
+
+    // 変形徒手矯正術 therapy_content_id: 19
+    $count = $therapyTypeCounts[19] ?? 0;
+    $feeKey = $isFirstTreatment ? 'manual_correction_first' : 'manual_correction_normal';
+    $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
+    $total = $unitPrice * $count;
+
+    if ($this->hasCoord('fee_manual_correction_unit')) {
+      $pdf->SetFontSize($this->coord('fee_manual_correction_unit', 'fontSize'));
+      $this->drawTextByKey($pdf, 'fee_manual_correction_unit', (string)$unitPrice);
+      $this->drawTextByKey($pdf, 'fee_manual_correction_count', (string)$count);
+      $this->drawTextByKey($pdf, 'fee_manual_correction_total', (string)$total);
+      $totalFee += $total;
+    }
+
+    // 温罨法 therapy_content_id: 20
+    $count = $therapyTypeCounts[20] ?? 0;
+    $feeKey = $isFirstTreatment ? 'fomentation_first' : 'fomentation_normal';
+    $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
+    $total = $unitPrice * $count;
+
+    if ($this->hasCoord('fee_fomentation_unit')) {
+      $pdf->SetFontSize($this->coord('fee_fomentation_unit', 'fontSize'));
+      $this->drawTextByKey($pdf, 'fee_fomentation_unit', (string)$unitPrice);
+      $this->drawTextByKey($pdf, 'fee_fomentation_count', (string)$count);
+      $this->drawTextByKey($pdf, 'fee_fomentation_total', (string)$total);
+      $totalFee += $total;
+    }
+
+    // 温罨法・電光線器具 therapy_content_id: 21
+    $count = $therapyTypeCounts[21] ?? 0;
+    $feeKey = $isFirstTreatment ? 'fomentation_and_elec_ray_first' : 'fomentation_and_elec_ray_normal';
+    $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
+    $total = $unitPrice * $count;
+
+    if ($this->hasCoord('fee_fomentation_electric_light_unit')) {
+      $pdf->SetFontSize($this->coord('fee_fomentation_electric_light_unit', 'fontSize'));
+      $this->drawTextByKey($pdf, 'fee_fomentation_electric_light_unit', (string)$unitPrice);
+      $this->drawTextByKey($pdf, 'fee_fomentation_electric_light_count', (string)$count);
+      $this->drawTextByKey($pdf, 'fee_fomentation_electric_light_total', (string)$total);
+      $totalFee += $total;
+    }
+
+    // 往療料4km以下（マッサージ関連の施術のみカウント、0 < housecall_distance <= 4）
+    $massageContentIds = [18, 19, 20, 21];
+    $housecallCount = 0;
+    foreach ($records as $record) {
+      $distance = $record->housecall_distance ?? 0;
+      if ($distance > 0 && $distance <= 4 && in_array($record->therapy_content_id ?? null, $massageContentIds)) {
+        $housecallCount++;
+      }
+    }
+
+    $feeKey = $isFirstTreatment ? 'housecall_max_2km_first' : 'housecall_max_2km_normal';
+    $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
+    $total = $unitPrice * $housecallCount;
+
+    if ($this->hasCoord('fee_housecall_unit')) {
+      $pdf->SetFontSize($this->coord('fee_housecall_unit', 'fontSize'));
+      $this->drawTextByKey($pdf, 'fee_housecall_unit', (string)$unitPrice);
+      $this->drawTextByKey($pdf, 'fee_housecall_count', (string)$housecallCount);
+      $this->drawTextByKey($pdf, 'fee_housecall_total', (string)$total);
+      $totalFee += $total;
+    }
+
+    // 往療料4km超（マッサージ関連の施術のみカウント、housecall_distance > 4で判定）
+    $housecallAdditionalCount = 0;
+    foreach ($records as $record) {
+      if (isset($record->housecall_distance) && $record->housecall_distance > 4 && in_array($record->therapy_content_id ?? null, $massageContentIds)) {
+        $housecallAdditionalCount++;
+      }
+    }
+
+    $feeKey = $isFirstTreatment ? 'housecall_additional_max_4km_first' : 'housecall_additional_max_4km_normal';
+    $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
+    $total = $unitPrice * $housecallAdditionalCount;
+
+    if ($this->hasCoord('fee_housecall_additional_unit')) {
+      $pdf->SetFontSize($this->coord('fee_housecall_additional_unit', 'fontSize'));
+      $this->drawTextByKey($pdf, 'fee_housecall_additional_unit', (string)$unitPrice);
+      $this->drawTextByKey($pdf, 'fee_housecall_additional_count', (string)$housecallAdditionalCount);
+      $this->drawTextByKey($pdf, 'fee_housecall_additional_total', (string)$total);
+      $totalFee += $total;
+    }
+
+    // 合計
+    if ($this->hasCoord('fee_subtotal')) {
+      $pdf->SetFontSize($this->coord('fee_subtotal', 'fontSize'));
+      $this->drawTextByKey($pdf, 'fee_subtotal', (string)$totalFee);
+    }
+
+    // 一部負担金計算
+    $burdenRatio = 0;
+    if (isset($insurance->expenses_borne_ratio)) {
+      $burdenRatio = (int)$insurance->expenses_borne_ratio;
+    }
+    $partialPayment = (int)floor($totalFee * $burdenRatio / 100);
+
+    if ($this->hasCoord('fee_partial_payment')) {
+      $pdf->SetFontSize($this->coord('fee_partial_payment', 'fontSize'));
+      $this->drawTextByKey($pdf, 'fee_partial_payment', (string)$partialPayment);
+    }
+
+    // 請求額
+    $claimAmount = $totalFee - $partialPayment;
+    if ($this->hasCoord('fee_total_claim')) {
+      $pdf->SetFontSize($this->coord('fee_total_claim', 'fontSize'));
+      $this->drawTextByKey($pdf, 'fee_total_claim', (string)$claimAmount);
+    }
+
     $pdf->SetFontSize(10);
   }
 }

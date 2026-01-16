@@ -487,6 +487,15 @@
         "field": "treatment_days",
         "label": "施術日"
     },
+    "treatment_day_count": {
+        "x": 38,
+        "y": 83.5,
+        "fontSize": 11,
+        "letterSpacing": 0,
+        "label": "実日数",
+        "textAlign": "center",
+        "type": "number"
+    },
     "calendar_start": {
         "x": 44,
         "y": 174.5,

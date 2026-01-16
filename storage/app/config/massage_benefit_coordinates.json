@@ -618,7 +618,8 @@
         "letterSpacing": 0,
         "label": "代理人郵便番号",
         "type": "postal_code",
-        "postalCodeGap": 2
+        "postalCodeGap": 11,
+        "lastX": 147
     },
     "agent_address": {
         "x": 136,
@@ -650,21 +651,6 @@
         "fontSize": 9,
         "letterSpacing": 0,
         "label": "支払機関住所"
-    },
-    "payment_institution_name": {
-        "x": 46.5,
-        "y": 121,
-        "fontSize": 204,
-        "letterSpacing": 0,
-        "label": "支払機関名称"
-    },
-    "payment_institution_phone": {
-        "x": 140,
-        "y": 183,
-        "fontSize": 111,
-        "letterSpacing": 0,
-        "label": "支払機関電話番号",
-        "textAlign": "left"
     },
     "temporary_insurer_name": {
         "x": -34,
@@ -1575,10 +1561,8 @@
         "label": "同意医師郵便番号（同意記録）",
         "textAlign": "left",
         "type": "postal_code",
-        "firstX": -158,
-        "lastX": -156,
-        "firstY": 246,
-        "lastY": 246
+        "postalCodeGap": 11,
+        "lastX": -147
     },
     "consent_record_doctor_address": {
         "x": -158,
@@ -1694,7 +1678,7 @@
     "branch_name": {
         "x": 17.5,
         "y": 23.5,
-        "fontSize": 125,
+        "fontSize": 9,
         "letterSpacing": 0,
         "textAlign": "center",
         "field": "branch_name",
@@ -2002,7 +1986,7 @@
     "consent_date_year": {
         "x": 26.5,
         "y": 8,
-        "fontSize": 98.5,
+        "fontSize": 9,
         "letterSpacing": 0,
         "textAlign": "center",
         "field": "consent_date_year",

@@ -914,6 +914,23 @@ class AcupunctureBenefitPdfService
       $pdf->SetFontSize(10);
     }
 
+    // === 実日数（施術内容欄） ===
+    if ($this->hasCoord('treatment_day_count')) {
+      if ($this->sampleDataMode && isset($this->customSampleData['treatment_days'])) {
+        $dayCount = $this->customSampleData['treatment_days'];
+      } else {
+        // はり・きゅう関連の施術（therapy_content_id: 11-16）のみカウント
+        $acupunctureContentIds = [11, 12, 13, 14, 15, 16];
+        $dayCount = $records->filter(function ($record) use ($acupunctureContentIds) {
+          return in_array($record->therapy_content_id ?? null, $acupunctureContentIds);
+        })->count();
+      }
+
+      $pdf->SetFontSize($this->coord('treatment_day_count', 'fontSize'));
+      $this->drawTextByKey($pdf, 'treatment_day_count', (string)$dayCount);
+      $pdf->SetFontSize(10);
+    }
+
     // === 請求区分（新規・継続） ===
     $billCategoryKey = null;
 
@@ -1043,6 +1060,8 @@ class AcupunctureBenefitPdfService
     $this->fillServiceDates($pdf, $records);
 
     // === 摘要 ===
+    $abstractText = 'なし'; // デフォルト値
+
     if ($records->isNotEmpty()) {
       // 全レコードの摘要を結合（重複排除）
       $abstracts = $records->pluck('abstract')->filter()->unique()->toArray();
@@ -1060,17 +1079,20 @@ class AcupunctureBenefitPdfService
           }
           $abstractText .= $abstract;
         }
-        
-        $x = $this->coord('abstract', 'x');
-        $y = $this->coord('abstract', 'y');
-        $fontSize = $this->coord('abstract', 'fontSize');
-        $width = $this->coordinates['abstract']['width'] ?? 180; // デフォルト180mm
-        $lineHeight = $this->coordinates['abstract']['lineHeight'] ?? 5; // デフォルト5mm
-
-        $pdf->SetFontSize($fontSize);
-        $pdf->SetXY($x, $y);
-        $pdf->MultiCell($width, $lineHeight, $abstractText, 0, 'L', false, 1);
       }
+    }
+
+    // 摘要を描画
+    if ($this->hasCoord('abstract')) {
+      $x = $this->coord('abstract', 'x');
+      $y = $this->coord('abstract', 'y');
+      $fontSize = $this->coord('abstract', 'fontSize');
+      $width = $this->coordinates['abstract']['width'] ?? 180; // デフォルト180mm
+      $lineHeight = $this->coordinates['abstract']['lineHeight'] ?? 5; // デフォルト5mm
+
+      $pdf->SetFontSize($fontSize);
+      $pdf->SetXY($x, $y);
+      $pdf->MultiCell($width, $lineHeight, $abstractText, 0, 'L', false, 1);
     }
 
     // === 施術所情報 ===
@@ -2617,54 +2639,44 @@ class AcupunctureBenefitPdfService
     $totalFee = 0;
 
     // はり料金（therapy_content_id: 11=はり のみ、13は含めない）
-    if (isset($therapyTypeCounts[11])) {
-      $hariCount = $therapyTypeCounts[11];
-      $feeKey = $isFirstTreatment ? 'hari_first' : 'hari_normal';
-      $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
-      $total = $unitPrice * $hariCount;
+    $hariCount = $therapyTypeCounts[11] ?? 0;
+    $feeKey = $isFirstTreatment ? 'hari_first' : 'hari_normal';
+    $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
+    $total = $unitPrice * $hariCount;
 
-      if ($hariCount > 0 && isset($this->coordinates['fee_hari_unit'])) {
-        $pdf->SetFontSize($this->coord('fee_hari_unit', 'fontSize'));
-        $this->drawTextByKey($pdf, 'fee_hari_unit', (string)$unitPrice);
-        $this->drawTextByKey($pdf, 'fee_hari_count', (string)$hariCount);
-        $this->drawTextByKey($pdf, 'fee_hari_total', (string)$total);
-        $totalFee += $total;
-      }
+    if (isset($this->coordinates['fee_hari_unit'])) {
+      $pdf->SetFontSize($this->coord('fee_hari_unit', 'fontSize'));
+      $this->drawTextByKey($pdf, 'fee_hari_unit', (string)$unitPrice);
+      $this->drawTextByKey($pdf, 'fee_hari_count', (string)$hariCount);
+      $this->drawTextByKey($pdf, 'fee_hari_total', (string)$total);
+      $totalFee += $total;
     }
 
     // きゅう料金（therapy_content_id: 12=きゅう のみ、13は含めない）
-    if (isset($therapyTypeCounts[12])) {
-      $kyuCount = $therapyTypeCounts[12];
-      $feeKey = $isFirstTreatment ? 'kyu_first' : 'kyu_normal';
-      $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
-      $total = $unitPrice * $kyuCount;
+    $kyuCount = $therapyTypeCounts[12] ?? 0;
+    $feeKey = $isFirstTreatment ? 'kyu_first' : 'kyu_normal';
+    $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
+    $total = $unitPrice * $kyuCount;
 
-      if ($kyuCount > 0 && isset($this->coordinates['fee_kyu_unit'])) {
-        $pdf->SetFontSize($this->coord('fee_kyu_unit', 'fontSize'));
-        $this->drawTextByKey($pdf, 'fee_kyu_unit', (string)$unitPrice);
-        $this->drawTextByKey($pdf, 'fee_kyu_count', (string)$kyuCount);
-        $this->drawTextByKey($pdf, 'fee_kyu_total', (string)$total);
-        $totalFee += $total;
-      }
+    if (isset($this->coordinates['fee_kyu_unit'])) {
+      $pdf->SetFontSize($this->coord('fee_kyu_unit', 'fontSize'));
+      $this->drawTextByKey($pdf, 'fee_kyu_unit', (string)$unitPrice);
+      $this->drawTextByKey($pdf, 'fee_kyu_count', (string)$kyuCount);
+      $this->drawTextByKey($pdf, 'fee_kyu_total', (string)$total);
+      $totalFee += $total;
     }
 
-    // 往療料金（recordsのhousecall_distanceから判定）
-    $housecallCount = 0;
-    foreach ($records as $record) {
-      if (isset($record->housecall_distance) && $record->housecall_distance > 0) {
-        $housecallCount++;
-      }
-    }
+    // はり・きゅう併用料金（therapy_content_id: 13）
+    $combinedCount = $therapyTypeCounts[13] ?? 0;
+    $feeKey = $isFirstTreatment ? 'hari_and_kyu_first' : 'hari_and_kyu_normal';
+    $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
+    $total = $unitPrice * $combinedCount;
 
-    if ($housecallCount > 0 && isset($this->coordinates['fee_housecall_unit'])) {
-      $feeKey = $isFirstTreatment ? 'housecall_max_2km_first' : 'housecall_max_2km_normal';
-      $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
-      $total = $unitPrice * $housecallCount;
-
-      $pdf->SetFontSize($this->coord('fee_housecall_unit', 'fontSize'));
-      $this->drawTextByKey($pdf, 'fee_housecall_unit', (string)$unitPrice);
-      $this->drawTextByKey($pdf, 'fee_housecall_count', (string)$housecallCount);
-      $this->drawTextByKey($pdf, 'fee_housecall_total', (string)$total);
+    if (isset($this->coordinates['fee_hari_kyu_unit'])) {
+      $pdf->SetFontSize($this->coord('fee_hari_kyu_unit', 'fontSize'));
+      $this->drawTextByKey($pdf, 'fee_hari_kyu_unit', (string)$unitPrice);
+      $this->drawTextByKey($pdf, 'fee_hari_kyu_count', (string)$combinedCount);
+      $this->drawTextByKey($pdf, 'fee_hari_kyu_total', (string)$total);
       $totalFee += $total;
     }
 
@@ -2681,9 +2693,9 @@ class AcupunctureBenefitPdfService
     $electricTypes = [];
     if (isset($therapyTypeCounts[14]) && $therapyTypeCounts[14] > 0) $electricTypes[] = 14;
     if (isset($therapyTypeCounts[15]) && $therapyTypeCounts[15] > 0) $electricTypes[] = 15;
-    if ((isset($therapyTypeCounts[16]) && $therapyTypeCounts[16] > 0) || 
+    if ((isset($therapyTypeCounts[16]) && $therapyTypeCounts[16] > 0) ||
         (isset($therapyTypeCounts[17]) && $therapyTypeCounts[17] > 0)) $electricTypes[] = 16;
-    
+
     $multipleElectricTypes = count($electricTypes) > 1;
 
     foreach ($therapyContentMap as $contentId => $fieldKey) {
@@ -2692,86 +2704,76 @@ class AcupunctureBenefitPdfService
       }
     }
 
-    // 複数種類の電療料がある場合は料金を描画しない（手書き用）
+    // 電療料（複数種類がない場合のみ描画、複数の場合は手書き用に空欄）
+    // 電気針（はり+電気針）: 14、電気温灸器（きゅう+電気温灸器）: 15、電気光線器具: 16/17
+    $electricCount = 0;
+    $electricUnitPrice = 0;
     if (!$multipleElectricTypes) {
-      // 電気針（はり+電気針）
-      if (isset($therapyTypeCounts[14]) && isset($this->coordinates['fee_electric_unit'])) {
+      if (isset($therapyTypeCounts[14]) && $therapyTypeCounts[14] > 0) {
         $electricCount = $therapyTypeCounts[14];
         $feeKey = $isFirstTreatment ? 'hari_and_elec_needle_first' : 'hari_and_elec_needle_normal';
-        $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
-        $total = $unitPrice * $electricCount;
-
-        if ($total > 0) {
-          $pdf->SetFontSize($this->coord('fee_electric_unit', 'fontSize'));
-          $this->drawTextByKey($pdf, 'fee_electric_unit', (string)$unitPrice);
-          $this->drawTextByKey($pdf, 'fee_electric_count', (string)$electricCount);
-          $this->drawTextByKey($pdf, 'fee_electric_total', (string)$total);
-          $totalFee += $total;
-        }
-      }
-
-      // 電気温灸器（きゅう+電気温灸器）
-      if (isset($therapyTypeCounts[15]) && isset($this->coordinates['fee_electric_unit'])) {
+        $electricUnitPrice = (int)($treatmentFees->$feeKey ?? 0);
+      } elseif (isset($therapyTypeCounts[15]) && $therapyTypeCounts[15] > 0) {
         $electricCount = $therapyTypeCounts[15];
         $feeKey = $isFirstTreatment ? 'kyu_and_elec_moxa_heater_first' : 'kyu_and_elec_moxa_heater_normal';
-        $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
-        $total = $unitPrice * $electricCount;
-
-        if ($total > 0) {
-          $pdf->SetFontSize($this->coord('fee_electric_unit', 'fontSize'));
-          $this->drawTextByKey($pdf, 'fee_electric_unit', (string)$unitPrice);
-          $this->drawTextByKey($pdf, 'fee_electric_count', (string)$electricCount);
-          $this->drawTextByKey($pdf, 'fee_electric_total', (string)$total);
-          $totalFee += $total;
-        }
-      }
-
-      // 電気光線器具（温罨法+電気光線器具）
-      if ((isset($therapyTypeCounts[16]) || isset($therapyTypeCounts[17])) && isset($this->coordinates['fee_electric_unit'])) {
+        $electricUnitPrice = (int)($treatmentFees->$feeKey ?? 0);
+      } elseif ((isset($therapyTypeCounts[16]) && $therapyTypeCounts[16] > 0) ||
+                (isset($therapyTypeCounts[17]) && $therapyTypeCounts[17] > 0)) {
         $electricCount = ($therapyTypeCounts[16] ?? 0) + ($therapyTypeCounts[17] ?? 0);
         $feeKey = $isFirstTreatment ? 'fomentation_and_elec_ray_first' : 'fomentation_and_elec_ray_normal';
-        $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
-        $total = $unitPrice * $electricCount;
+        $electricUnitPrice = (int)($treatmentFees->$feeKey ?? 0);
+      }
+    }
+    // 電療料がない場合は単価のみ設定（デフォルトは電気針の料金）
+    if ($electricCount === 0 && $electricUnitPrice === 0) {
+      $feeKey = $isFirstTreatment ? 'hari_and_elec_needle_first' : 'hari_and_elec_needle_normal';
+      $electricUnitPrice = (int)($treatmentFees->$feeKey ?? 0);
+    }
+    $electricTotal = $electricUnitPrice * $electricCount;
 
-        if ($total > 0) {
-          $pdf->SetFontSize($this->coord('fee_electric_unit', 'fontSize'));
-          $this->drawTextByKey($pdf, 'fee_electric_unit', (string)$unitPrice);
-          $this->drawTextByKey($pdf, 'fee_electric_count', (string)$electricCount);
-          $this->drawTextByKey($pdf, 'fee_electric_total', (string)$total);
-          $totalFee += $total;
-        }
+    if (isset($this->coordinates['fee_electric_unit'])) {
+      $pdf->SetFontSize($this->coord('fee_electric_unit', 'fontSize'));
+      $this->drawTextByKey($pdf, 'fee_electric_unit', (string)$electricUnitPrice);
+      $this->drawTextByKey($pdf, 'fee_electric_count', (string)$electricCount);
+      $this->drawTextByKey($pdf, 'fee_electric_total', (string)$electricTotal);
+      $totalFee += $electricTotal;
+    }
+
+    // 往療料金4km以下（recordsのhousecall_distanceから判定、はり・きゅう関連の施術のみカウント、0 < distance <= 4）
+    $acupunctureContentIds = [11, 12, 13, 14, 15, 16];
+    $housecallCount = 0;
+    foreach ($records as $record) {
+      $distance = $record->housecall_distance ?? 0;
+      if ($distance > 0 && $distance <= 4 && in_array($record->therapy_content_id ?? null, $acupunctureContentIds)) {
+        $housecallCount++;
       }
     }
 
-    // はり・きゅう併用料金（therapy_content_id: 13）
-    if (isset($therapyTypeCounts[13]) && isset($this->coordinates['fee_hari_kyu_unit'])) {
-      $combinedCount = $therapyTypeCounts[13];
-      $feeKey = $isFirstTreatment ? 'hari_and_kyu_first' : 'hari_and_kyu_normal';
-      $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
-      $total = $unitPrice * $combinedCount;
+    $feeKey = $isFirstTreatment ? 'housecall_max_2km_first' : 'housecall_max_2km_normal';
+    $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
+    $total = $unitPrice * $housecallCount;
 
-      if ($total > 0) {
-        $pdf->SetFontSize($this->coord('fee_hari_kyu_unit', 'fontSize'));
-        $this->drawTextByKey($pdf, 'fee_hari_kyu_unit', (string)$unitPrice);
-        $this->drawTextByKey($pdf, 'fee_hari_kyu_count', (string)$combinedCount);
-        $this->drawTextByKey($pdf, 'fee_hari_kyu_total', (string)$total);
-        $totalFee += $total;
-      }
+    if (isset($this->coordinates['fee_housecall_unit'])) {
+      $pdf->SetFontSize($this->coord('fee_housecall_unit', 'fontSize'));
+      $this->drawTextByKey($pdf, 'fee_housecall_unit', (string)$unitPrice);
+      $this->drawTextByKey($pdf, 'fee_housecall_count', (string)$housecallCount);
+      $this->drawTextByKey($pdf, 'fee_housecall_total', (string)$total);
+      $totalFee += $total;
     }
 
-    // 往療料（4km超）
+    // 往療料（4km超、はり・きゅう関連の施術のみカウント）
     $housecallAdditionalCount = 0;
     foreach ($records as $record) {
-      if (isset($record->housecall_distance) && $record->housecall_distance > 4) {
+      if (isset($record->housecall_distance) && $record->housecall_distance > 4 && in_array($record->therapy_content_id ?? null, $acupunctureContentIds)) {
         $housecallAdditionalCount++;
       }
     }
 
-    if ($housecallAdditionalCount > 0 && isset($this->coordinates['fee_housecall_additional_unit'])) {
-      $feeKey = $isFirstTreatment ? 'housecall_additional_max_4km_first' : 'housecall_additional_max_4km_normal';
-      $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
-      $total = $unitPrice * $housecallAdditionalCount;
+    $feeKey = $isFirstTreatment ? 'housecall_additional_max_4km_first' : 'housecall_additional_max_4km_normal';
+    $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
+    $total = $unitPrice * $housecallAdditionalCount;
 
+    if (isset($this->coordinates['fee_housecall_additional_unit'])) {
       $pdf->SetFontSize($this->coord('fee_housecall_additional_unit', 'fontSize'));
       $this->drawTextByKey($pdf, 'fee_housecall_additional_unit', (string)$unitPrice);
       $this->drawTextByKey($pdf, 'fee_housecall_additional_count', (string)$housecallAdditionalCount);

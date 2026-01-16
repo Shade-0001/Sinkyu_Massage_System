@@ -24,7 +24,7 @@
             <label for="clinic-user-select" class="form-label mb-2">プレビュー利用者</label>
             <select id="clinic-user-select" class="form-control">
               @foreach($clinicUsers as $user)
-                <option value="{{ $user->id }}">
+                <option value="{{ $user->id }}" {{ ($selectedClinicUserId && $selectedClinicUserId == $user->id) ? 'selected' : '' }}>
                   {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
                 </option>
               @endforeach

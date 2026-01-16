@@ -24,8 +24,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // グローバル変数を更新
     currentPdfType = newPdfType;
     window.coordinateAdjusterData.currentPdfType = newPdfType;
-    // ページをリロードして新しいPDFタイプを適用
-    window.location.href = '/prints/coordinate-adjuster?pdf_type=' + newPdfType;
+    // 現在選択中の利用者IDを取得
+    const clinicUserSelect = document.getElementById('clinic-user-select');
+    const clinicUserId = clinicUserSelect ? clinicUserSelect.value : '';
+    // ページをリロードして新しいPDFタイプを適用（利用者IDも保持）
+    let url = '/prints/coordinate-adjuster?pdf_type=' + newPdfType;
+    if (clinicUserId) {
+      url += '&clinic_user_id=' + clinicUserId;
+    }
+    window.location.href = url;
   });
   document.getElementById('show-sample-data').addEventListener('change', function() {
     const isChecked = this.checked;
