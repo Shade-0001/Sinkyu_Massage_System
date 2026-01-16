@@ -1,3 +1,34 @@
+{{--
+  PDFレイアウト調整ツール
+
+  【アーキテクチャ概要】
+  このツールは複数のPDFタイプ（療養費支給申請書、施術料金領収書など）の座標調整を
+  一元的に管理するためのシステム。
+
+  【ファイル構成】
+  storage/app/config/
+    - pdf_types.json              : PDFタイプのマスター定義（名前、座標ファイル、テンプレート、サービスクラス）
+    - *_coordinates.json          : 各PDFタイプの座標設定
+
+  storage/app/templates/
+    - *.pdf                       : PDFテンプレートファイル
+
+  app/Http/Controllers/
+    - PrintsController.php        : PDFタイプ設定を一元管理し、座標取得/保存/プレビューを処理
+
+  app/Services/Print/
+    - *PdfService.php             : 各PDFタイプのPDF生成サービス
+
+  public/js/
+    - coordinate-adjuster_*.js    : 座標調整ツールのJS（カテゴリ、データ、フィールド、UI、コア）
+
+  【新しいPDFタイプを追加する手順】
+  1. storage/app/config/pdf_types.json に新しいタイプのエントリを追加
+  2. storage/app/config/ に座標設定JSONファイルを作成
+  3. storage/app/templates/ にPDFテンプレートを配置
+  4. app/Services/Print/ にPDF生成サービスクラスを作成
+  5. （必要に応じて）coordinate-adjuster_ui.js の shouldIncludeField 関数にフィルタリング条件を追加
+--}}
 <x-app-layout>
 <div class="container-fluid mt-4">
   <h4 class="mb-4">PDFレイアウト調整ツール｜{{ $pdfTypeName }}</h4>
@@ -10,13 +41,13 @@
           <h5 class="mb-0">フィールド設定</h5>
         </div>
         <div class="card-body p-0" style="max-height: 80vh; overflow-y: auto;">
-          <!-- PDFタイプ選択 -->
+          <!-- PDFタイプ選択（pdf_types.jsonから動的生成） -->
           <div class="p-3 border-bottom bg-light">
             <label for="pdf-type-select" class="form-label mb-2">PDFタイプ</label>
             <select id="pdf-type-select" class="form-control">
-              <option value="therapy_benefit_acupuncture" {{ $pdfType === 'therapy_benefit_acupuncture' ? 'selected' : '' }}>はり･きゅう療養費支給申請書</option>
-              <option value="therapy_benefit_massage" {{ $pdfType === 'therapy_benefit_massage' ? 'selected' : '' }}>あんま･マッサージ療養費支給申請書</option>
-              <option value="treatment_receipt" {{ $pdfType === 'treatment_receipt' ? 'selected' : '' }}>施術料金領収書</option>
+              @foreach($pdfTypes as $typeKey => $typeConfig)
+                <option value="{{ $typeKey }}" {{ $pdfType === $typeKey ? 'selected' : '' }}>{{ $typeConfig['name'] }}</option>
+              @endforeach
             </select>
           </div>
 
@@ -86,6 +117,7 @@
 // PHP変数をJavaScriptに渡す
 window.coordinateAdjusterData = {
   currentPdfType: '{{ $pdfType }}',
+  pdfTypes: @json($pdfTypes),
   masterData: {
     genders: @json($masterData['genders']),
     relationships: @json($masterData['relationships']),
