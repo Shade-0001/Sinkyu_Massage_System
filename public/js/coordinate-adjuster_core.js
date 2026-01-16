@@ -126,8 +126,8 @@ function loadCoordinates() {
         originalCoordinates = JSON.parse(JSON.stringify(coordinates));
         resetRadioGroupsToDefault();
         renderFieldSettings();
-        // プレビューはautoPreview()に任せる（重複防止のため直接呼び出しを削除）
-        // previewPdf();
+        // 初期ロード時にプレビューを表示
+        previewPdf();
       } else {
         alert('座標データの読み込みに失敗しました');
       }

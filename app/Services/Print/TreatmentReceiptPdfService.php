@@ -86,8 +86,13 @@ class TreatmentReceiptPdfService
       throw new \Exception('テンプレートファイルが見つかりません: ' . $templatePath);
     }
 
-    $pdf->setSourceFile($templatePath);
-    $tplId = $pdf->importPage(1);
+    try {
+      $pdf->setSourceFile($templatePath);
+      $tplId = $pdf->importPage(1);
+    } catch (\Exception $e) {
+      // PDF形式がサポートされていない場合（例：PDF 1.5以上）
+      throw new \Exception('PDFテンプレートの読み込みに失敗しました。PDF 1.4形式に変換してください。エラー: ' . $e->getMessage());
+    }
 
     // テンプレートのみ表示（1ページ）
     $pdf->AddPage();
