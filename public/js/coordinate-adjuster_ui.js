@@ -34,7 +34,11 @@ function renderFieldSettings() {
 
   // PDFタイプ別にフィールドをフィルタリングする関数
   function shouldIncludeField(key, pdfType) {
-    if (pdfType === 'therapy_benefit_acupuncture') {
+    if (pdfType === 'treatment_receipt') {
+      // 施術料金領収書は専用のフィールド定義を使用（現在は空）
+      // coordinatesに存在するフィールドのみ表示
+      return coordinates.hasOwnProperty(key);
+    } else if (pdfType === 'therapy_benefit_acupuncture') {
       // 鍼灸用PDFではマッサージ専用フィールドを除外
       const massageOnlyFields = [
         'illness_name_symptom',

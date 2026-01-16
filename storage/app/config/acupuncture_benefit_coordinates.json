@@ -769,7 +769,7 @@
     "illness_name_other_text": {
         "x": 23,
         "y": 96,
-        "fontSize": 9,
+        "fontSize": 8.5,
         "letterSpacing": 0,
         "label": "傷病名（その他の内容）",
         "textAlign": "center",

@@ -148,7 +148,12 @@ class PrintsController extends Controller
     $selectedClinicUserId = $request->query('clinic_user_id', null);
 
     // PDFタイプ名を設定
-    $pdfTypeName = $pdfType === 'therapy_benefit_massage' ? 'あんま・マッサージ療養費支給申請書' : 'はり・きゅう療養費支給申請書';
+    $pdfTypeNames = [
+      'therapy_benefit_acupuncture' => 'はり・きゅう療養費支給申請書',
+      'therapy_benefit_massage' => 'あんま・マッサージ療養費支給申請書',
+      'treatment_receipt' => '施術料金領収書',
+    ];
+    $pdfTypeName = $pdfTypeNames[$pdfType] ?? 'はり・きゅう療養費支給申請書';
 
     // 利用者一覧を取得
     $clinicUsers = DB::table('clinic_users')
@@ -182,7 +187,12 @@ class PrintsController extends Controller
   {
     // PDFタイプをクエリパラメータから取得（デフォルト: therapy_benefit_acupuncture）
     $pdfType = $request->query('pdf_type', 'therapy_benefit_acupuncture');
-    $configFileName = $pdfType === 'therapy_benefit_massage' ? 'massage_benefit_coordinates.json' : 'acupuncture_benefit_coordinates.json';
+    $configFileNames = [
+      'therapy_benefit_acupuncture' => 'acupuncture_benefit_coordinates.json',
+      'therapy_benefit_massage' => 'massage_benefit_coordinates.json',
+      'treatment_receipt' => 'treatment_receipt_coordinates.json',
+    ];
+    $configFileName = $configFileNames[$pdfType] ?? 'acupuncture_benefit_coordinates.json';
     $configPath = storage_path('app/config/' . $configFileName);
 
     if (file_exists($configPath)) {
@@ -223,7 +233,12 @@ class PrintsController extends Controller
     try {
       $coordinates = $request->input('coordinates');
       $pdfType = $request->input('pdf_type', 'therapy_benefit_acupuncture');
-      $configFileName = $pdfType === 'therapy_benefit_massage' ? 'massage_benefit_coordinates.json' : 'acupuncture_benefit_coordinates.json';
+      $configFileNames = [
+        'therapy_benefit_acupuncture' => 'acupuncture_benefit_coordinates.json',
+        'therapy_benefit_massage' => 'massage_benefit_coordinates.json',
+        'treatment_receipt' => 'treatment_receipt_coordinates.json',
+      ];
+      $configFileName = $configFileNames[$pdfType] ?? 'acupuncture_benefit_coordinates.json';
       $configPath = storage_path('app/config/' . $configFileName);
 
       // x=0, y=0のフィールドを除外（不要なフィールドを保存しない）
@@ -269,7 +284,12 @@ class PrintsController extends Controller
 
       // PDFタイプを取得
       $pdfType = $request->input('pdf_type', 'therapy_benefit_acupuncture');
-      $configFileName = $pdfType === 'therapy_benefit_massage' ? 'massage_benefit_coordinates.json' : 'acupuncture_benefit_coordinates.json';
+      $configFileNames = [
+        'therapy_benefit_acupuncture' => 'acupuncture_benefit_coordinates.json',
+        'therapy_benefit_massage' => 'massage_benefit_coordinates.json',
+        'treatment_receipt' => 'treatment_receipt_coordinates.json',
+      ];
+      $configFileName = $configFileNames[$pdfType] ?? 'acupuncture_benefit_coordinates.json';
       $configPath = storage_path("app/config/{$configFileName}");
 
       // 一時的に座標設定を更新
@@ -344,6 +364,8 @@ class PrintsController extends Controller
       // PDFタイプに応じてサービスを選択
       if ($pdfType === 'therapy_benefit_massage') {
         $service = new \App\Services\Print\MassageBenefitPdfService();
+      } elseif ($pdfType === 'treatment_receipt') {
+        $service = new \App\Services\Print\TreatmentReceiptPdfService();
       } else {
         $service = new AcupunctureBenefitPdfService();
       }

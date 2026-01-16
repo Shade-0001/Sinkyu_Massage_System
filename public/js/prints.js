@@ -1,6 +1,35 @@
 // public/js/prints.js
 
 /**
+ * 複数選択リストでクリックによるトグル選択を有効化
+ * @param {string} selectId - select要素のID
+ */
+function enableClickToggleSelect(selectId) {
+  const select = document.getElementById(selectId);
+  if (!select) return;
+
+  select.addEventListener('mousedown', function(e) {
+    if (e.target.tagName === 'OPTION') {
+      e.preventDefault();
+      const option = e.target;
+      option.selected = !option.selected;
+
+      // changeイベントを発火させる
+      select.dispatchEvent(new Event('change', { bubbles: true }));
+
+      // フォーカスを維持
+      select.focus();
+    }
+  });
+}
+
+// ページ読み込み時に利用者選択リストのトグル機能を有効化
+document.addEventListener('DOMContentLoaded', function() {
+  enableClickToggleSelect('clinic_user_ids');
+  enableClickToggleSelect('massage_clinic_user_ids');
+});
+
+/**
  * はり・きゅう療養費支給申請書モーダルを開く
  */
 function openAcupunctureBenefitModal() {

@@ -248,7 +248,7 @@ class MassageBenefitPdfService
     $pdf->AddPage();
 
     // テンプレートPDF読み込み
-    $templatePath = storage_path('app/templates/massage_benefit_form.pdf');
+    $templatePath = storage_path('app/templates/療養費支給申請書（マッサージ）.pdf');
 
     if (file_exists($templatePath)) {
       $pageCount = $pdf->setSourceFile($templatePath);
@@ -1203,10 +1203,10 @@ class MassageBenefitPdfService
       }
       $pdf->SetFontSize(10);
     } else {
-      $today = date('Y-m-d');
-      [$subYear, $subMonth, $subDay] = explode('-', $today);
+      // モーダルから渡された提出年月日を使用
+      [$subYear, $subMonth, $subDay] = explode('-', $submissionDate);
       $subJapaneseYear = $this->convertToJapaneseYear((int)$subYear, (int)$subMonth);
-      
+
       if ($this->hasCoord('submission_date_year')) {
         $pdf->SetFontSize($this->coord('submission_date_year', 'fontSize'));
         $this->drawTextByKey($pdf, 'submission_date_year', (string)$subJapaneseYear['year']);

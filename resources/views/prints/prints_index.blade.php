@@ -104,7 +104,7 @@
                   </option>
                 @endforeach
               </select>
-              <div class="form-text">複数選択可（Ctrlキー + クリック）</div>
+              <div class="form-text">複数選択可（クリックで選択/解除）</div>
             </div>
 
             <!-- 提出年月日 -->
@@ -161,7 +161,7 @@
                   </option>
                 @endforeach
               </select>
-              <div class="form-text">複数選択可（Ctrlキー + クリック）</div>
+              <div class="form-text">複数選択可（クリックで選択/解除）</div>
             </div>
 
             <!-- 提出年月日 -->

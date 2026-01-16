@@ -16,6 +16,7 @@
             <select id="pdf-type-select" class="form-control">
               <option value="therapy_benefit_acupuncture" {{ $pdfType === 'therapy_benefit_acupuncture' ? 'selected' : '' }}>はり･きゅう療養費支給申請書</option>
               <option value="therapy_benefit_massage" {{ $pdfType === 'therapy_benefit_massage' ? 'selected' : '' }}>あんま･マッサージ療養費支給申請書</option>
+              <option value="treatment_receipt" {{ $pdfType === 'treatment_receipt' ? 'selected' : '' }}>施術料金領収書</option>
             </select>
           </div>
 
