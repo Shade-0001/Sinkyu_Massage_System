@@ -19,6 +19,7 @@ class Record extends Model
     'therapy_days',
     'consent_expiry',
     'therapy_content_id',
+    'self_fee_id',
     'bill_category_id',
     'therapist_id',
     'abstract',

@@ -14,7 +14,7 @@
 
   <h3>はり・きゅう関連</h3>
   <button type="button" class="btn btn-primary" onclick="openAcupunctureBenefitModal()">療養費支給申請書</button>
-  <button>施術料金領収書</button>
+  <button type="button" class="btn btn-primary" onclick="openTreatmentReceiptModal('acupuncture')">施術料金領収書</button>
   <button>医療助成費支給申請書</button>
   <button>後期高齢者医療療養費支給申請書</button>
   <button>同意書依頼状 (サンプル版)</button>
@@ -28,7 +28,7 @@
 
   <h3>あんま・マッサージ関連</h3>
   <button type="button" class="btn btn-primary" onclick="openMassageBenefitModal()">療養費支給申請書</button>
-  <button>施術料金領収書</button>
+  <button type="button" class="btn btn-primary" onclick="openTreatmentReceiptModal('massage')">施術料金領収書</button>
   <button>医療助成費支給申請書</button>
   <button>後期高齢者医療療養費支給申請書</button>
   <button>同意書依頼状 (サンプル版)</button>
@@ -104,7 +104,7 @@
                   </option>
                 @endforeach
               </select>
-              <div class="form-text">複数選択可（クリックで選択/解除）</div>
+              <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
             </div>
 
             <!-- 提出年月日 -->
@@ -117,6 +117,78 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
           <button type="button" class="btn btn-primary" onclick="submitAcupunctureBenefit()">印刷</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 施術料金領収書モーダル（はり・きゅう / あんま・マッサージ共通） -->
+  <div class="modal fade" id="treatmentReceiptModal" tabindex="-1" aria-labelledby="treatmentReceiptModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="treatmentReceiptModalLabel">施術料金領収書 出力設定</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="treatmentReceiptForm" method="POST">
+            @csrf
+            <input type="hidden" id="receipt_type" name="receipt_type" value="">
+
+            <!-- サービス提供年月 -->
+            <div class="mb-3">
+              <label for="receipt_service_year_month" class="form-label">サービス提供年月 <span class="text-danger">*</span></label>
+              <select class="form-select" id="receipt_service_year_month" name="service_year_month" required>
+                <option value="">選択してください</option>
+                @php
+                  $currentDate = now();
+                  for ($i = 0; $i < 24; $i++) {
+                    $date = $currentDate->copy()->subMonths($i);
+                    $value = $date->format('Y-m');
+                    $display = $date->format('Y年m月');
+                    echo "<option value=\"{$value}\">{$display}</option>";
+                  }
+                @endphp
+              </select>
+            </div>
+
+            <!-- 利用者選択 -->
+            <div class="mb-3">
+              <label for="receipt_clinic_user_ids" class="form-label">利用者 <span class="text-danger">*</span></label>
+              <select class="form-select" id="receipt_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
+                @foreach($clinicUsers as $user)
+                  <option value="{{ $user->id }}">
+                    {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
+                  </option>
+                @endforeach
+              </select>
+              <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
+            </div>
+
+            <!-- 施術報告書交付料 -->
+            <div class="mb-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="report_fee" name="report_fee" value="1">
+                <label class="form-check-label" for="report_fee">交付料あり</label>
+              </div>
+            </div>
+
+            <!-- 備考 -->
+            <div class="mb-3">
+              <label for="receipt_remarks" class="form-label">備考</label>
+              <textarea class="form-control" id="receipt_remarks" name="remarks" rows="3"></textarea>
+            </div>
+
+            <!-- 提出年月日 -->
+            <div class="mb-3">
+              <label for="receipt_submission_date" class="form-label">提出年月日 <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" id="receipt_submission_date" name="submission_date" value="{{ now()->format('Y-m-d') }}" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-primary" onclick="submitTreatmentReceipt()">印刷</button>
         </div>
       </div>
     </div>
@@ -161,7 +233,7 @@
                   </option>
                 @endforeach
               </select>
-              <div class="form-text">複数選択可（クリックで選択/解除）</div>
+              <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
             </div>
 
             <!-- 提出年月日 -->
@@ -186,6 +258,12 @@
         .modal { z-index: 2000; }
         .modal-backdrop { z-index: 1990; }
         .modal .modal-content { background-color: #fff; }
+        /* 利用者選択リストのスクロールアニメーションを無効化 */
+        #clinic_user_ids,
+        #massage_clinic_user_ids,
+        #receipt_clinic_user_ids {
+          scroll-behavior: auto;
+        }
       </style>
     @endpush
     <script src="{{ asset('js/prints.js') }}"></script>

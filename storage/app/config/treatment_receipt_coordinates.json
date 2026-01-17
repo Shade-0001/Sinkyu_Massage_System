@@ -1,1 +1,368 @@
-[]
+{
+    "title_year_month": {
+        "x": 50,
+        "y": 20,
+        "fontSize": 12,
+        "letterSpacing": 0,
+        "label": "元号年月",
+        "textAlign": "center",
+        "type": "text"
+    },
+    "document_type": {
+        "x": 100,
+        "y": 30,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "書類区分",
+        "textAlign": "center",
+        "type": "text"
+    },
+    "patient_name": {
+        "x": 50,
+        "y": 45,
+        "fontSize": 12,
+        "letterSpacing": 0,
+        "label": "利用者氏名",
+        "textAlign": "center",
+        "type": "text"
+    },
+    "patient_gender_male": {
+        "x": 100,
+        "y": 45,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "性別",
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "gender",
+        "optionLabel": "男",
+        "type": "select"
+    },
+    "patient_gender_female": {
+        "x": 110,
+        "y": 45,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "性別",
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "gender",
+        "optionLabel": "女",
+        "type": "select"
+    },
+    "patient_age": {
+        "x": 130,
+        "y": 45,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "年齢",
+        "textAlign": "center",
+        "type": "number"
+    },
+    "illness_name": {
+        "x": 50,
+        "y": 55,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "病名",
+        "textAlign": "left",
+        "type": "text"
+    },
+    "onset_date": {
+        "x": 50,
+        "y": 65,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "発病・負傷年月日",
+        "textAlign": "center",
+        "type": "text"
+    },
+    "consent_date": {
+        "x": 120,
+        "y": 65,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "保険医同意年月日",
+        "textAlign": "center",
+        "type": "text"
+    },
+    "treatment_start_date": {
+        "x": 50,
+        "y": 75,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "施術開始年月日",
+        "textAlign": "center",
+        "type": "text"
+    },
+    "treatment_end_date": {
+        "x": 120,
+        "y": 75,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "施術終了年月日",
+        "textAlign": "center",
+        "type": "text"
+    },
+    "bill_category_new": {
+        "x": 50,
+        "y": 85,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "請求区分",
+        "ellipseWidth": 6.5,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "radioGroup": "bill_category",
+        "optionLabel": "新規",
+        "type": "select"
+    },
+    "bill_category_continued": {
+        "x": 70,
+        "y": 85,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "請求区分",
+        "ellipseWidth": 6.5,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "radioGroup": "bill_category",
+        "optionLabel": "継続",
+        "type": "select"
+    },
+    "outcome_continued": {
+        "x": 100,
+        "y": 85,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "転帰",
+        "ellipseWidth": 5,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "radioGroup": "outcome",
+        "optionLabel": "継続",
+        "type": "select"
+    },
+    "outcome_cured": {
+        "x": 115,
+        "y": 85,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "転帰",
+        "ellipseWidth": 5,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "radioGroup": "outcome",
+        "optionLabel": "治癒",
+        "type": "select"
+    },
+    "outcome_discontinued": {
+        "x": 130,
+        "y": 85,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "転帰",
+        "ellipseWidth": 5,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "radioGroup": "outcome",
+        "optionLabel": "中止",
+        "type": "select"
+    },
+    "outcome_transferred": {
+        "x": 145,
+        "y": 85,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "転帰",
+        "ellipseWidth": 5,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "radioGroup": "outcome",
+        "optionLabel": "転医",
+        "type": "select"
+    },
+    "therapy_types": {
+        "x": 30,
+        "y": 100,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "label": "施術の種類",
+        "textAlign": "left",
+        "type": "text"
+    },
+    "therapy_types_spacing": {
+        "x": 0,
+        "y": 5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "間隔（垂直方向）",
+        "textAlign": "left",
+        "type": "number"
+    },
+    "therapy_counts": {
+        "x": 80,
+        "y": 100,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "label": "回数",
+        "textAlign": "center",
+        "type": "number"
+    },
+    "therapy_unit_prices": {
+        "x": 110,
+        "y": 100,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "label": "１回の料金",
+        "textAlign": "right",
+        "type": "number"
+    },
+    "therapy_totals": {
+        "x": 150,
+        "y": 100,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "label": "計",
+        "textAlign": "right",
+        "type": "number"
+    },
+    "therapy_period_start": {
+        "x": 170,
+        "y": 100,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "label": "施術を行った期間（開始）",
+        "textAlign": "center",
+        "type": "text"
+    },
+    "therapy_period_end": {
+        "x": 190,
+        "y": 100,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "label": "施術を行った期間（終了）",
+        "textAlign": "center",
+        "type": "text"
+    },
+    "insurance_total": {
+        "x": 150,
+        "y": 180,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "保険対象合計金額",
+        "textAlign": "right",
+        "type": "number"
+    },
+    "self_pay_total": {
+        "x": 150,
+        "y": 190,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "自費対象合計金額",
+        "textAlign": "right",
+        "type": "number"
+    },
+    "copayment_amount": {
+        "x": 150,
+        "y": 200,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "一部負担金額",
+        "textAlign": "right",
+        "type": "number"
+    },
+    "treatment_month": {
+        "x": 30,
+        "y": 215,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "施術月",
+        "textAlign": "center",
+        "type": "number"
+    },
+    "treatment_days": {
+        "x": 50,
+        "y": 215,
+        "type": "calendar",
+        "circleRadius": 2.6,
+        "doubleCircleInnerRadius": 1.9,
+        "circleSpacing": 4.91,
+        "field": "treatment_days",
+        "label": "施術日"
+    },
+    "copayment_ratio": {
+        "x": 30,
+        "y": 240,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "負担割合",
+        "textAlign": "center",
+        "type": "number"
+    },
+    "receipt_amount": {
+        "x": 100,
+        "y": 240,
+        "fontSize": 12,
+        "letterSpacing": 0,
+        "label": "領収金額",
+        "textAlign": "right",
+        "type": "number"
+    },
+    "creation_date": {
+        "x": 50,
+        "y": 255,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "作成年月日",
+        "textAlign": "center",
+        "type": "text"
+    },
+    "clinic_postal_code": {
+        "x": 120,
+        "y": 255,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "label": "作成者郵便番号",
+        "textAlign": "left",
+        "type": "text"
+    },
+    "clinic_address": {
+        "x": 120,
+        "y": 262,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "label": "作成者住所",
+        "textAlign": "left",
+        "type": "text"
+    },
+    "clinic_name": {
+        "x": 120,
+        "y": 269,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "label": "作成者名称",
+        "textAlign": "left",
+        "type": "text"
+    },
+    "clinic_manager": {
+        "x": 120,
+        "y": 276,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "label": "作成者氏名",
+        "textAlign": "left",
+        "type": "text"
+    },
+    "clinic_phone": {
+        "x": 120,
+        "y": 283,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "label": "作成者電話番号",
+        "textAlign": "left",
+        "type": "text"
+    }
+}

@@ -28,6 +28,21 @@ class RecordRequest extends FormRequest
         'consent_expiry' => null,
       ]);
     }
+
+    // 自費施術の場合、insurance_categoryが空文字列ならnullに変換
+    if ($this->isSelfFeeSelected() && $this->insurance_category === '') {
+      $this->merge([
+        'insurance_category' => null,
+      ]);
+    }
+  }
+
+  /**
+   * 自費施術が選択されているかチェック
+   */
+  protected function isSelfFeeSelected(): bool
+  {
+    return str_starts_with($this->therapy_content_id ?? '', 'self_');
   }
 
   /**
@@ -68,11 +83,24 @@ class RecordRequest extends FormRequest
       }],
       'therapy_type' => 'required|in:1,2',
       'therapy_category' => 'required|in:1,2',
-      'insurance_category' => 'required|integer',
+      'insurance_category' => $this->isSelfFeeSelected() ? 'nullable|integer' : 'required|integer',
       'housecall_distance' => 'nullable|array',
       'housecall_distance.*' => 'nullable|numeric|min:0',
       'consent_expiry' => 'nullable|date_format:Y/m/d',
-      'therapy_content_id' => 'required|integer|exists:therapy_contents,id',
+      'therapy_content_id' => ['required', function ($attribute, $value, $fail) {
+        // 自費施術の場合（self_で始まる）
+        if (str_starts_with($value, 'self_')) {
+          $selfFeeId = (int) str_replace('self_', '', $value);
+          if (!DB::table('self_fees')->where('id', $selfFeeId)->exists()) {
+            $fail('指定された自費施術が存在しません。');
+          }
+        } else {
+          // 通常の施術内容の場合
+          if (!is_numeric($value) || !DB::table('therapy_contents')->where('id', $value)->exists()) {
+            $fail('指定された施術内容が存在しません。');
+          }
+        }
+      }],
       'bill_category_id' => 'required|integer|exists:bill_categories,id',
       'therapist_id' => 'required|integer|exists:therapists,id',
       'bodyparts' => 'nullable|array',

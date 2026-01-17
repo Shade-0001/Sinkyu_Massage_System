@@ -79,7 +79,7 @@
           @enderror
           <div class="vr ms-2 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
           <div>
-            <label><input type="radio" name="therapy_type" value="1" id="therapy_type_acupuncture" {{ old('therapy_type') == '1' ? 'checked' : '' }} data-tooltip="先に日付を選択してください">はり･きゅう</label>
+            <label><input type="radio" name="therapy_type" value="1" id="therapy_type_acupuncture" {{ old('therapy_type', '1') == '1' ? 'checked' : '' }} data-tooltip="先に日付を選択してください">はり･きゅう</label>
             <label class="ms-3"><input type="radio" name="therapy_type" value="2" id="therapy_type_massage" {{ old('therapy_type') == '2' ? 'checked' : '' }} data-tooltip="先に日付を選択してください">あんま･マッサージ</label>
           </div>
         </div>
@@ -150,6 +150,9 @@
             <option value="">╌╌╌</option>
             @foreach($therapyContents as $content)
               <option value="{{ $content->id }}" data-therapy-type="{{ $content->therapy_type }}" {{ old('therapy_content_id') == $content->id ? 'selected' : '' }}>{{ $content->therapy_content }}</option>
+            @endforeach
+            @foreach($selfFees as $selfFee)
+              <option value="self_{{ $selfFee->id }}" data-therapy-type="self" {{ old('therapy_content_id') == 'self_'.$selfFee->id ? 'selected' : '' }}>{{ $selfFee->self_fee_name }}</option>
             @endforeach
           </select>
 
@@ -300,7 +303,7 @@
                     </form>
                   </td>
                   <td rowspan="3" class="align-middle">
-                    {{ $record->therapy_content ?? '未設定' }}<br>
+                    {{ $record->therapy_content ?? $record->self_fee_name ?? '未設定' }}<br>
                     {{ $record->therapist_name ?? '未設定' }}<br>
                     {{ $record->start_time ? date('H:i', strtotime($record->start_time)) : '--:--' }} ~ {{ $record->end_time ? date('H:i', strtotime($record->end_time)) : '--:--' }}
                   </td>

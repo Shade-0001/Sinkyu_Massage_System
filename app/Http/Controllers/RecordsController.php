@@ -124,21 +124,24 @@ class RecordsController extends Controller
 
       $records = DB::table('records')
         ->leftJoin('therapy_contents', 'records.therapy_content_id', '=', 'therapy_contents.id')
+        ->leftJoin('self_fees', 'records.self_fee_id', '=', 'self_fees.id')
         ->leftJoin('therapists', 'records.therapist_id', '=', 'therapists.id')
         ->where('records.clinic_user_id', $selectedUserId)
         ->whereBetween('records.date', [$startDate, $endDate])
         ->select(
           'records.*',
           'therapy_contents.therapy_content',
+          'self_fees.self_fee_name',
           DB::raw("CONCAT(therapists.last_name, '\u{2000}', therapists.first_name) as therapist_name")
         )
         ->orderBy('records.created_at', 'desc')
         ->get()
         ->groupBy(function($record) {
-          // 施術内容、施術者、時刻が同じレコードをグループ化
+          // 施術内容、施術者、時刻が同じレコードをグループ化（自費施術も考慮）
           return sprintf(
-            '%s_%s_%s_%s',
+            '%s_%s_%s_%s_%s',
             $record->therapy_content_id,
+            $record->self_fee_id,
             $record->therapist_id,
             $record->start_time,
             $record->end_time
@@ -166,6 +169,12 @@ class RecordsController extends Controller
       ->orderBy('id')
       ->get();
 
+    // 自費施術リストを取得（created_atが古い順）
+    $selfFees = DB::table('self_fees')
+      ->select('id', 'self_fee_name')
+      ->orderBy('created_at', 'asc')
+      ->get();
+
     // 請求区分リストを取得
     $billCategories = DB::table('bill_categories')
       ->select('id', 'bill_category')
@@ -185,6 +194,7 @@ class RecordsController extends Controller
       'hasRecentRecords' => $hasRecentRecords,
       'therapists' => $therapists,
       'therapyContents' => $therapyContents,
+      'selfFees' => $selfFees,
       'billCategories' => $billCategories,
       'records' => $records,
       'selectedYear' => $selectedYear,
@@ -219,6 +229,14 @@ class RecordsController extends Controller
       \Log::info('[DEBUG RecordsController::store] 往療距離配列:', $housecallDistances);
       \Log::info('[DEBUG RecordsController::store] 往療距離配列の要素数:', ['count' => count($housecallDistances)]);
 
+      // 自費施術かどうかを判定
+      $therapyContentId = $validated['therapy_content_id'];
+      $selfFeeId = null;
+      if (str_starts_with($therapyContentId, 'self_')) {
+        $selfFeeId = (int) str_replace('self_', '', $therapyContentId);
+        $therapyContentId = null;
+      }
+
       // 選択された日付ごとにレコードを作成
       foreach ($housecallDistances as $date => $distance) {
         // デバッグログ：各日付のレコード作成前
@@ -239,7 +257,8 @@ class RecordsController extends Controller
           'housecall_distance' => $validated['therapy_category'] == 2 ? $distance : null,
           'therapy_days' => count($housecallDistances),
           'consent_expiry' => $validated['consent_expiry'] ?? null,
-          'therapy_content_id' => $validated['therapy_content_id'],
+          'therapy_content_id' => $therapyContentId,
+          'self_fee_id' => $selfFeeId,
           'bill_category_id' => $validated['bill_category_id'],
           'therapist_id' => $validated['therapist_id'],
           'abstract' => $validated['abstract'] ?? null,

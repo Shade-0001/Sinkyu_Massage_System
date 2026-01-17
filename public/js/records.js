@@ -287,7 +287,8 @@ function filterTherapyContents(therapyType) {
     }
 
     const optionTherapyType = option.getAttribute('data-therapy-type');
-    if (optionTherapyType === therapyType) {
+    // 自費施術(self)は常に表示、それ以外は施術種類が一致する場合のみ表示
+    if (optionTherapyType === 'self' || optionTherapyType === therapyType) {
       option.style.display = '';
     } else {
       option.style.display = 'none';
@@ -476,8 +477,51 @@ function setupFormEventListeners() {
     });
   });
 
+  // 施術内容の変更イベント（自費施術選択時は保険区分を無選択・選択不可に）
+  const therapyContentSelect = document.getElementById('therapy_content_id');
+  if (therapyContentSelect) {
+    therapyContentSelect.addEventListener('change', function() {
+      updateInsuranceCategoryState();
+    });
+  }
+
   // 時刻選択パネルの初期化
   initializeTimePickers();
+}
+
+// 保険区分の状態を更新（自費施術選択時は無選択・選択不可）
+function updateInsuranceCategoryState() {
+  const therapyContentSelect = document.getElementById('therapy_content_id');
+  const insuranceCategorySelect = document.querySelector('select[name="insurance_category"]');
+
+  if (!therapyContentSelect || !insuranceCategorySelect) return;
+
+  const selectedOption = therapyContentSelect.options[therapyContentSelect.selectedIndex];
+  const therapyType = selectedOption ? selectedOption.getAttribute('data-therapy-type') : null;
+
+  if (therapyType === 'self') {
+    // 自費施術が選択された場合、保険区分を無選択・選択不可に
+    insuranceCategorySelect.value = '';
+    insuranceCategorySelect.disabled = true;
+    updateTooltipText(insuranceCategorySelect, '自費施術には保険が適用されません');
+  } else {
+    // 自費施術以外の場合、保険区分を選択可能に
+    insuranceCategorySelect.disabled = false;
+    updateTooltipText(insuranceCategorySelect, '先に日付を選択してください');
+  }
+}
+
+// ツールチップのテキストを更新
+function updateTooltipText(element, newText) {
+  element.setAttribute('data-tooltip', newText);
+  // 既存のツールチップ要素があれば更新
+  const tooltipId = element.getAttribute('data-tooltip-id');
+  if (tooltipId) {
+    const tooltip = document.getElementById(tooltipId);
+    if (tooltip) {
+      tooltip.textContent = newText;
+    }
+  }
 }
 
 
@@ -789,6 +833,7 @@ function initializeIndexPage() {
     restoreOldInput();
     updateConsentExpiryDisplay(); // 初期状態で同意有効期限を表示
     updateRecordFieldsState(); // 初期状態で実績フィールドの状態を更新
+    updateInsuranceCategoryState(); // 初期状態で保険区分の状態を更新
 
     // スケジュール画面から開始日時が渡された場合、カレンダーと時刻を設定
     console.log('[DEBUG records.js] startDate:', window.recordsConfig.startDate);
@@ -851,6 +896,7 @@ function initializeEditPage() {
   restoreOriginalDates();
   updateConsentExpiryDisplay(); // 初期状態で同意有効期限を表示
   updateRecordFieldsState(); // 初期状態で実績フィールドの状態を更新
+  updateInsuranceCategoryState(); // 初期状態で保険区分の状態を更新
 }
 
 

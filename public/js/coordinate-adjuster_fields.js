@@ -267,5 +267,27 @@ const sampleDataFieldMapping = {
   'signature_date_month': { field: 'signature_date_month', label: '月', type: 'number', compositeGroup: 'signature_date', compositeLabel: '委任年月日' },
   'signature_date_day': { field: 'signature_date_day', label: '日', type: 'number', compositeGroup: 'signature_date', compositeLabel: '委任年月日' },
   'signature_applicant_postal_code': { field: 'signature_applicant_postal_code', label: '申請者郵便番号（委任）', type: 'postal_code', postalCodeGap: 2 },
-  'signature_applicant_address': { field: 'signature_applicant_address', label: '委任申請者住所', type: 'text' }
+  'signature_applicant_address': { field: 'signature_applicant_address', label: '委任申請者住所', type: 'text' },
+
+  // ========== 施術料金領収書専用フィールド ==========
+  'title_year_month': { field: 'title_year_month', label: '元号年月', type: 'text' },
+  'document_type': { field: 'document_type', label: '書類区分', type: 'text' },
+  'patient_age': { field: 'patient_age', label: '年齢', type: 'number' },
+  'onset_date': { field: 'onset_date', label: '発病・負傷年月日', type: 'text' },
+  'consent_date': { field: 'consent_date', label: '保険医同意年月日', type: 'text' },
+  'treatment_start_date': { field: 'treatment_start_date', label: '施術開始年月日', type: 'text' },
+  'treatment_end_date': { field: 'treatment_end_date', label: '施術終了年月日', type: 'text' },
+  'therapy_types': { field: 'therapy_types', label: '施術の種類', type: 'text' },
+  'therapy_types_spacing': { field: 'therapy_types_spacing', label: '間隔（垂直方向）', type: 'number' },
+  'therapy_counts': { field: 'therapy_counts', label: '回数', type: 'number' },
+  'therapy_unit_prices': { field: 'therapy_unit_prices', label: '１回の料金', type: 'number' },
+  'therapy_totals': { field: 'therapy_totals', label: '計', type: 'number' },
+  'therapy_period_start': { field: 'therapy_period_start', label: '施術を行った期間（開始）', type: 'text' },
+  'therapy_period_end': { field: 'therapy_period_end', label: '施術を行った期間（終了）', type: 'text' },
+  'insurance_total': { field: 'insurance_total', label: '保険対象合計金額', type: 'number' },
+  'self_pay_total': { field: 'self_pay_total', label: '自費対象合計金額', type: 'number' },
+  'copayment_amount': { field: 'copayment_amount', label: '一部負担金額', type: 'number' },
+  'copayment_ratio': { field: 'copayment_ratio', label: '負担割合', type: 'number' },
+  'receipt_amount': { field: 'receipt_amount', label: '領収金額', type: 'number' },
+  'creation_date': { field: 'creation_date', label: '作成年月日', type: 'text' }
 };
