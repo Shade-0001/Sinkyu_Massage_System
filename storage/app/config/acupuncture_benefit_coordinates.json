@@ -44,8 +44,6 @@
     "insurance_type_1_shakoku": {
         "x": 132.5,
         "y": 20,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "保険種別１",
         "type": "select",
         "ellipseWidth": 5.5,
@@ -57,8 +55,6 @@
     "insurance_type_1_kouhi": {
         "x": 132.5,
         "y": 25.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "保険種別１",
         "type": "select",
         "ellipseWidth": 5.5,
@@ -70,8 +66,6 @@
     "insurance_type_1_kouki": {
         "x": 143,
         "y": 20,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "保険種別１",
         "type": "select",
         "ellipseWidth": 5.5,
@@ -83,8 +77,6 @@
     "insurance_type_1_taishoku": {
         "x": 143,
         "y": 25.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "保険種別１",
         "type": "select",
         "ellipseWidth": 5.5,
@@ -96,8 +88,6 @@
     "insurance_type_3_hongai": {
         "x": 154,
         "y": 19,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "保険種別３",
         "type": "select",
         "ellipseWidth": 5,
@@ -109,8 +99,6 @@
     "insurance_type_3_sangai": {
         "x": 154,
         "y": 22.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "保険種別３",
         "type": "select",
         "ellipseWidth": 5,
@@ -122,8 +110,6 @@
     "insurance_type_3_kagai": {
         "x": 154,
         "y": 25.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "保険種別３",
         "type": "select",
         "ellipseWidth": 5,
@@ -135,8 +121,6 @@
     "insurance_type_3_kougai9": {
         "x": 165,
         "y": 20.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "保険種別３",
         "type": "select",
         "ellipseWidth": 6,
@@ -148,8 +132,6 @@
     "insurance_type_3_kougai8": {
         "x": 165,
         "y": 24,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "保険種別３",
         "type": "select",
         "ellipseWidth": 6,
@@ -161,8 +143,6 @@
     "expenses_borne_ratio_10": {
         "x": 48,
         "y": 159.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "一部負担金（サークル）",
         "type": "select",
         "ellipseWidth": 6,
@@ -174,8 +154,6 @@
     "expenses_borne_ratio_20": {
         "x": 62,
         "y": 159.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "一部負担金（サークル）",
         "type": "select",
         "ellipseWidth": 6,
@@ -187,8 +165,6 @@
     "expenses_borne_ratio_30": {
         "x": 76.5,
         "y": 159.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "一部負担金（サークル）",
         "type": "select",
         "ellipseWidth": 6,
@@ -280,8 +256,6 @@
     "patient_gender_male": {
         "x": 94.5,
         "y": 62,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "性別",
         "ellipseWidth": 2.5,
         "ellipseHeight": 2.5,
@@ -293,8 +267,6 @@
     "patient_gender_female": {
         "x": 94.5,
         "y": 67,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "性別",
         "ellipseWidth": 2.5,
         "ellipseHeight": 2.5,
@@ -306,8 +278,6 @@
     "birthday_era_reiwa": {
         "x": 66,
         "y": 73.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "元号",
         "radioGroup": "birthday_era",
         "optionLabel": "令和",
@@ -321,8 +291,6 @@
     "birthday_era_heisei": {
         "x": 60.5,
         "y": 73.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "元号",
         "radioGroup": "birthday_era",
         "optionLabel": "平成",
@@ -336,8 +304,6 @@
     "birthday_era_showa": {
         "x": 54.5,
         "y": 73.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "元号",
         "radioGroup": "birthday_era",
         "optionLabel": "昭和",
@@ -351,8 +317,6 @@
     "birthday_era_taisho": {
         "x": 49,
         "y": 73.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "元号",
         "ellipseWidth": 2.5,
         "ellipseHeight": 2.5,
@@ -366,8 +330,6 @@
     "birthday_era_meiji": {
         "x": 43.5,
         "y": 73.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "元号",
         "ellipseWidth": 2.5,
         "ellipseHeight": 2.5,
@@ -678,8 +640,6 @@
     "illness_name_1": {
         "x": 52.5,
         "y": 92.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "傷病名",
         "radioGroup": "illness_name",
         "optionLabel": "神経痛",
@@ -691,8 +651,6 @@
     "illness_name_2": {
         "x": 77,
         "y": 92.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "傷病名",
         "radioGroup": "illness_name",
         "optionLabel": "リウマチ",
@@ -704,8 +662,6 @@
     "illness_name_3": {
         "x": 109,
         "y": 92.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "傷病名",
         "radioGroup": "illness_name",
         "optionLabel": "頸腕症候群",
@@ -717,8 +673,6 @@
     "illness_name_4": {
         "x": 133.5,
         "y": 92.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "傷病名",
         "radioGroup": "illness_name",
         "optionLabel": "五十肩",
@@ -730,8 +684,6 @@
     "illness_name_5": {
         "x": 52.5,
         "y": 98,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "傷病名",
         "radioGroup": "illness_name",
         "optionLabel": "腰痛症",
@@ -743,8 +695,6 @@
     "illness_name_6": {
         "x": 81.5,
         "y": 98,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "傷病名",
         "radioGroup": "illness_name",
         "optionLabel": "頸椎捻挫後遺症",
@@ -756,8 +706,6 @@
     "illness_name_7": {
         "x": 106,
         "y": 98,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "傷病名",
         "radioGroup": "illness_name",
         "optionLabel": "その他",
@@ -1078,7 +1026,7 @@
         "lineWidth": 0.5,
         "radioGroup": "bill_category",
         "optionLabel": "新規",
-        "type": "select"
+        "type": "text"
     },
     "bill_category_continued": {
         "x": 183.5,
@@ -1092,7 +1040,7 @@
         "lineWidth": 0.5,
         "radioGroup": "bill_category",
         "optionLabel": "継続",
-        "type": "select"
+        "type": "text"
     },
     "outcome_continued": {
         "x": 159.5,
@@ -1106,7 +1054,7 @@
         "lineWidth": 0.5,
         "radioGroup": "outcome",
         "optionLabel": "継続",
-        "type": "select"
+        "type": "text"
     },
     "outcome_cured": {
         "x": 169.5,
@@ -1120,7 +1068,7 @@
         "lineWidth": 0.5,
         "radioGroup": "outcome",
         "optionLabel": "治癒",
-        "type": "select"
+        "type": "text"
     },
     "outcome_discontinued": {
         "x": 179,
@@ -1134,7 +1082,7 @@
         "lineWidth": 0.5,
         "radioGroup": "outcome",
         "optionLabel": "中止",
-        "type": "select"
+        "type": "text"
     },
     "outcome_transferred": {
         "x": 188,
@@ -1148,13 +1096,11 @@
         "lineWidth": 0.5,
         "radioGroup": "outcome",
         "optionLabel": "転医",
-        "type": "select"
+        "type": "text"
     },
     "health_center_registration_1": {
         "x": 153.5,
         "y": 182,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "保健所登録区分",
         "textAlign": "left",
         "circleRadius": 1.2,
@@ -1168,8 +1114,6 @@
     "health_center_registration_2": {
         "x": 176,
         "y": 182,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "保健所登録区分",
         "textAlign": "left",
         "circleRadius": 1.2,
@@ -1291,8 +1235,6 @@
     "work_scope_type_1": {
         "x": 124,
         "y": 73.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "業務上･外･第三者行為の有無",
         "ellipseWidth": 10,
         "ellipseHeight": 3,
@@ -1304,8 +1246,6 @@
     "work_scope_type_2": {
         "x": 150,
         "y": 73.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "業務上･外･第三者行為の有無",
         "ellipseWidth": 18,
         "ellipseHeight": 3,
@@ -1317,8 +1257,6 @@
     "work_scope_type_3": {
         "x": 177.5,
         "y": 73.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
         "label": "業務上･外･第三者行為の有無",
         "ellipseWidth": 10,
         "ellipseHeight": 3,
@@ -1386,8 +1324,6 @@
         "lineWidth": 0.5,
         "x": 10,
         "y": 195,
-        "fontSize": 9,
-        "letterSpacing": 0,
         "label": "支払区分",
         "textAlign": "center",
         "type": "select",
@@ -1402,8 +1338,6 @@
         "lineWidth": 0.5,
         "x": 25,
         "y": 195,
-        "fontSize": 9,
-        "letterSpacing": 0,
         "label": "支払区分",
         "textAlign": "center",
         "type": "select",
@@ -1418,8 +1352,6 @@
         "lineWidth": 0.5,
         "x": 43,
         "y": 195,
-        "fontSize": 9,
-        "letterSpacing": 0,
         "label": "支払区分",
         "textAlign": "center",
         "type": "select",
@@ -1434,8 +1366,6 @@
         "lineWidth": 0.5,
         "x": 63,
         "y": 195,
-        "fontSize": 9,
-        "letterSpacing": 0,
         "label": "支払区分",
         "textAlign": "center",
         "type": "select",
@@ -1450,8 +1380,6 @@
         "lineWidth": 0.5,
         "x": 10,
         "y": 200,
-        "fontSize": 9,
-        "letterSpacing": 0,
         "label": "預金種別",
         "textAlign": "center",
         "type": "select",
@@ -1466,8 +1394,6 @@
         "lineWidth": 0.5,
         "x": 20,
         "y": 200,
-        "fontSize": 9,
-        "letterSpacing": 0,
         "label": "預金種別",
         "textAlign": "center",
         "type": "select",
@@ -1482,8 +1408,6 @@
         "lineWidth": 0.5,
         "x": 30,
         "y": 200,
-        "fontSize": 9,
-        "letterSpacing": 0,
         "label": "預金種別",
         "textAlign": "center",
         "type": "select",
@@ -1498,8 +1422,6 @@
         "lineWidth": 0.5,
         "x": 40,
         "y": 200,
-        "fontSize": 9,
-        "letterSpacing": 0,
         "label": "預金種別",
         "textAlign": "center",
         "type": "select",
@@ -1523,8 +1445,6 @@
         "lineWidth": 0.5,
         "x": 35,
         "y": 205,
-        "fontSize": 9,
-        "letterSpacing": 0,
         "label": "金融機関名１（サークル）",
         "textAlign": "center",
         "type": "select",
@@ -1539,8 +1459,6 @@
         "lineWidth": 0.5,
         "x": 45,
         "y": 205,
-        "fontSize": 9,
-        "letterSpacing": 0,
         "label": "金融機関名１（サークル）",
         "textAlign": "center",
         "type": "select",
@@ -1555,8 +1473,6 @@
         "lineWidth": 0.5,
         "x": 55,
         "y": 205,
-        "fontSize": 9,
-        "letterSpacing": 0,
         "label": "金融機関名１（サークル）",
         "textAlign": "center",
         "type": "select",
@@ -1580,8 +1496,6 @@
         "lineWidth": 0.5,
         "x": 90,
         "y": 205,
-        "fontSize": 9,
-        "letterSpacing": 0,
         "label": "金融機関名２（サークル）",
         "textAlign": "center",
         "type": "select",
@@ -1596,8 +1510,6 @@
         "lineWidth": 0.5,
         "x": 100,
         "y": 205,
-        "fontSize": 9,
-        "letterSpacing": 0,
         "label": "金融機関名２（サークル）",
         "textAlign": "center",
         "type": "select",
@@ -1612,8 +1524,6 @@
         "lineWidth": 0.5,
         "x": 110,
         "y": 205,
-        "fontSize": 9,
-        "letterSpacing": 0,
         "label": "金融機関名２（サークル）",
         "textAlign": "center",
         "type": "select",

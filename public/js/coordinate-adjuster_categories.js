@@ -420,12 +420,28 @@ const categoryOrderTherapyBenefitMassage = [
     "signature"
 ];
 
+// フィールドカテゴリマッピング（施術料金領収書用）- カテゴライズなし
+const fieldCategoriesTreatmentReceipt = {};
+
+// カテゴリ順序（施術料金領収書用）- カテゴライズなし
+const categoryOrderTreatmentReceipt = [];
+
 // PDFタイプに応じたfieldCategoriesを取得
 function getFieldCategories(pdfType) {
-  return pdfType === 'therapy_benefit_massage' ? fieldCategoriesTherapyBenefitMassage : fieldCategoriesTherapyBenefitAcupuncture;
+  if (pdfType === 'therapy_benefit_massage') {
+    return fieldCategoriesTherapyBenefitMassage;
+  } else if (pdfType === 'treatment_receipt') {
+    return fieldCategoriesTreatmentReceipt;
+  }
+  return fieldCategoriesTherapyBenefitAcupuncture;
 }
 
 // PDFタイプに応じたcategoryOrderを取得
 function getCategoryOrder(pdfType) {
-  return pdfType === 'therapy_benefit_massage' ? categoryOrderTherapyBenefitMassage : categoryOrderTherapyBenefitAcupuncture;
+  if (pdfType === 'therapy_benefit_massage') {
+    return categoryOrderTherapyBenefitMassage;
+  } else if (pdfType === 'treatment_receipt') {
+    return categoryOrderTreatmentReceipt;
+  }
+  return categoryOrderTherapyBenefitAcupuncture;
 }

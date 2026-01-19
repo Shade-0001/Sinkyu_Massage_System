@@ -4,212 +4,233 @@
         "y": 16,
         "fontSize": 12,
         "letterSpacing": 0,
+        "label": "元号年月",
         "textAlign": "left",
         "type": "text",
-        "label": "元号年月"
+        "sampleText": "令和7年 1月分"
     },
     "document_type": {
         "x": 197,
         "y": 16,
         "fontSize": 12,
         "letterSpacing": 0,
+        "label": "書類区分",
         "textAlign": "right",
         "type": "text",
-        "label": "書類区分"
+        "sampleText": "（はり・きゅう用）"
     },
     "patient_name": {
-        "x": 104,
+        "x": 103,
         "y": 24.5,
         "fontSize": 17,
         "letterSpacing": 0,
+        "label": "氏名（姓名）",
         "textAlign": "center",
         "type": "text",
-        "label": "氏名（姓名）"
+        "sampleText": "山田　太郎"
     },
     "patient_gender_male": {
         "x": 188.5,
         "y": 25.5,
+        "label": "性別",
         "ellipseWidth": 3,
         "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "gender",
         "optionLabel": "男",
-        "type": "select",
-        "label": "性別"
+        "type": "select"
     },
     "patient_gender_female": {
         "x": 196.5,
         "y": 25.5,
+        "label": "性別",
         "ellipseWidth": 3,
         "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "gender",
         "optionLabel": "女",
-        "type": "select",
-        "label": "性別"
+        "type": "select"
     },
     "patient_age": {
         "x": 189.5,
         "y": 28.5,
         "fontSize": 10,
         "letterSpacing": 0,
+        "label": "年齢",
         "textAlign": "center",
         "type": "number",
-        "label": "年齢"
+        "sampleText": "75"
     },
     "illness_name": {
         "x": 118,
         "y": 38,
         "fontSize": 15,
         "letterSpacing": 0,
+        "label": "傷病名",
         "textAlign": "center",
         "type": "text",
-        "label": "傷病名"
+        "sampleText": "腰痛症"
     },
     "onset_date": {
         "x": 118,
         "y": 51,
         "fontSize": 11,
         "letterSpacing": 0,
+        "label": "発病年月日",
         "textAlign": "center",
         "type": "text",
-        "label": "発病年月日"
+        "sampleText": "令和6年 1月 15日"
     },
     "consent_date": {
         "x": 105,
         "y": 59.5,
         "fontSize": 11,
         "letterSpacing": 0,
+        "label": "同意年月日",
         "textAlign": "center",
         "type": "text",
-        "label": "同意年月日"
+        "sampleText": "令和6年 1月 20日"
     },
     "treatment_start_date": {
         "x": 105,
         "y": 68,
         "fontSize": 11,
         "letterSpacing": 0,
+        "label": "施術開始日",
         "textAlign": "center",
         "type": "text",
-        "label": "施術開始日"
+        "sampleText": "令和6年 1月 25日"
     },
     "treatment_end_date": {
         "x": 105,
         "y": 77,
         "fontSize": 11,
         "letterSpacing": 0,
+        "label": "施術終了日",
         "textAlign": "center",
         "type": "text",
-        "label": "施術終了日"
+        "sampleText": "令和7年 1月 20日"
     },
     "bill_category": {
         "x": 180.5,
         "y": 61.5,
+        "label": "請求区分",
         "type": "text",
         "fontSize": 13,
         "letterSpacing": 2,
         "textAlign": "center",
-        "label": "請求区分"
+        "sampleText": "新規"
     },
     "outcome": {
         "x": 180.5,
         "y": 74.5,
+        "label": "転帰",
         "type": "text",
         "fontSize": 13,
         "letterSpacing": 2,
         "textAlign": "center",
-        "label": "転帰"
+        "sampleText": "継続"
     },
     "therapy_types": {
-        "x": 34.5,
-        "y": 89.5,
+        "x": 30,
+        "y": 100,
         "fontSize": 9,
         "letterSpacing": 0,
-        "textAlign": "center",
+        "label": "施術内容種別",
+        "textAlign": "left",
         "type": "text",
-        "verticalSpacing": 5.1,
-        "label": "施術の種類"
+        "verticalSpacing": 5,
+        "sampleText": "はり"
     },
     "therapy_counts": {
-        "x": 63.5,
+        "x": 80,
         "y": 100,
         "fontSize": 9,
         "letterSpacing": 0,
+        "label": "施術回数",
         "textAlign": "center",
         "type": "number",
-        "label": "施術回数"
+        "sampleText": "5"
     },
     "therapy_unit_prices": {
-        "x": 85,
+        "x": 110,
         "y": 100,
         "fontSize": 9,
         "letterSpacing": 0,
-        "textAlign": "center",
+        "label": "単価",
+        "textAlign": "right",
         "type": "number",
-        "label": "単価"
+        "sampleText": "1,610"
     },
     "therapy_totals": {
-        "x": 117.5,
+        "x": 150,
         "y": 100,
         "fontSize": 9,
         "letterSpacing": 0,
-        "textAlign": "center",
+        "label": "金額",
+        "textAlign": "right",
         "type": "number",
-        "label": "計"
+        "sampleText": "8,050"
     },
     "therapy_period_start": {
-        "x": 153,
+        "x": 170,
         "y": 100,
         "fontSize": 9,
         "letterSpacing": 0,
+        "label": "施術期間開始",
         "textAlign": "center",
         "type": "text",
-        "label": "施術期間（開始）"
+        "sampleText": "1月1日"
     },
     "therapy_period_end": {
-        "x": 185,
+        "x": 190,
         "y": 100,
         "fontSize": 9,
         "letterSpacing": 0,
+        "label": "施術期間終了",
         "textAlign": "center",
         "type": "text",
-        "label": "施術期間（終了）"
+        "sampleText": "1月20日"
     },
     "insurance_total": {
         "x": 150,
         "y": 180,
         "fontSize": 10,
         "letterSpacing": 0,
+        "label": "保険請求額合計",
         "textAlign": "right",
         "type": "number",
-        "label": "保険請求額合計"
+        "sampleText": "8,050"
     },
     "self_pay_total": {
         "x": 150,
         "y": 190,
         "fontSize": 10,
         "letterSpacing": 0,
+        "label": "自費対象合計金額",
         "textAlign": "right",
         "type": "number",
-        "label": "自費対象合計金額"
+        "sampleText": "0"
     },
     "copayment_amount": {
         "x": 150,
         "y": 200,
         "fontSize": 10,
         "letterSpacing": 0,
+        "label": "一部負担金",
         "textAlign": "right",
         "type": "number",
-        "label": "一部負担金"
+        "sampleText": "810"
     },
     "treatment_month": {
         "x": 30,
         "y": 215,
         "fontSize": 10,
         "letterSpacing": 0,
+        "label": "施術月",
         "textAlign": "center",
         "type": "number",
-        "label": "施術月"
+        "sampleText": "1"
     },
     "treatment_days": {
         "x": 50,
@@ -226,71 +247,79 @@
         "y": 240,
         "fontSize": 10,
         "letterSpacing": 0,
+        "label": "負担割合",
         "textAlign": "center",
         "type": "number",
-        "label": "負担割合"
+        "sampleText": "1"
     },
     "receipt_amount": {
         "x": 100,
         "y": 240,
         "fontSize": 12,
         "letterSpacing": 0,
+        "label": "領収金額",
         "textAlign": "right",
         "type": "number",
-        "label": "領収金額"
+        "sampleText": "810"
     },
     "creation_date": {
         "x": 50,
         "y": 255,
         "fontSize": 10,
         "letterSpacing": 0,
+        "label": "作成年月日",
         "textAlign": "center",
         "type": "text",
-        "label": "作成年月日"
+        "sampleText": "令和7年1月19日"
     },
     "clinic_postal_code": {
         "x": 120,
         "y": 255,
         "fontSize": 9,
         "letterSpacing": 0,
+        "label": "郵便番号",
         "textAlign": "left",
         "type": "text",
-        "label": "郵便番号"
+        "sampleText": "〒 123 - 4567"
     },
     "clinic_address": {
         "x": 120,
         "y": 262,
         "fontSize": 9,
         "letterSpacing": 0,
+        "label": "住所",
         "textAlign": "left",
         "type": "text",
-        "label": "住所"
+        "sampleText": "東京都千代田区丸の内1-1-1"
     },
     "clinic_name": {
         "x": 120,
         "y": 269,
         "fontSize": 9,
         "letterSpacing": 0,
+        "label": "治療院名",
         "textAlign": "left",
         "type": "text",
-        "label": "治療院名"
+        "sampleText": "サンプル治療院"
     },
     "clinic_manager": {
         "x": 120,
         "y": 276,
         "fontSize": 9,
         "letterSpacing": 0,
+        "label": "施術管理者",
         "textAlign": "left",
         "type": "text",
-        "label": "施術管理者"
+        "sampleText": "鈴木　一郎"
     },
     "clinic_phone": {
         "x": 120,
         "y": 283,
         "fontSize": 9,
         "letterSpacing": 0,
+        "label": "電話番号",
         "textAlign": "left",
         "type": "text",
-        "label": "電話番号"
+        "sampleText": "03-1234-5678"
     }
 }

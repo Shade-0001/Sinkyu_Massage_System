@@ -118,6 +118,74 @@ class PrintsController extends Controller
   }
 
   /**
+   * 施術料金領収書PDF出力
+   *
+   * @param Request $request
+   * @param \App\Services\Print\TreatmentReceiptPdfService $service
+   * @param string $filename
+   * @return \Illuminate\Http\Response
+   */
+  public function treatmentReceipt(Request $request, \App\Services\Print\TreatmentReceiptPdfService $service, string $filename)
+  {
+    try {
+      $validated = $request->validate([
+        'clinic_user_ids' => 'required|array',
+        'clinic_user_ids.*' => 'exists:clinic_users,id',
+        'service_year_month' => 'required|date_format:Y-m',
+        'submission_date' => 'required|date',
+        'receipt_type' => 'required|in:acupuncture,massage',
+        'include_report_fee' => 'sometimes|boolean',
+      ]);
+
+      $receiptType = $validated['receipt_type'];
+      $typeName = $receiptType === 'acupuncture' ? '施術料金領収書（はり・きゅう）' : '施術料金領収書（あんま・マッサージ）';
+
+      \Log::info("{$typeName}PDF生成開始", [
+        'clinic_user_ids' => $validated['clinic_user_ids'],
+        'service_year_month' => $validated['service_year_month'],
+        'submission_date' => $validated['submission_date'],
+        'receipt_type' => $receiptType,
+        'include_report_fee' => $validated['include_report_fee'] ?? false,
+      ]);
+
+      // サービスに施術タイプを設定
+      $service->setReceiptType($receiptType);
+
+      // 施術報告書交付料フラグを設定
+      if (!empty($validated['include_report_fee'])) {
+        $service->setIncludeReportFee(true);
+      }
+
+      $pdfBinary = $service->generate(
+        $validated['clinic_user_ids'],
+        $validated['service_year_month'],
+        $validated['submission_date']
+      );
+
+      \Log::info("{$typeName}PDF生成完了", ['size' => strlen($pdfBinary)]);
+
+      return response($pdfBinary, 200, [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'inline',
+      ]);
+    } catch (\Exception $e) {
+      \Log::error("施術料金領収書PDF生成エラー", [
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+        'trace' => $e->getTraceAsString(),
+      ]);
+
+      return response()->json([
+        'error' => 'PDF生成に失敗しました',
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+      ], 500);
+    }
+  }
+
+  /**
    * PDF生成の共通処理
    *
    * @param Request $request

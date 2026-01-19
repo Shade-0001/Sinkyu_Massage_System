@@ -13,7 +13,7 @@ function enableClickToggleSelect(selectId) {
   let dragSelectMode = null; // true: 選択モード, false: 解除モード
   let longPressTimer = null;
   let isLongPress = false;
-  const LONG_PRESS_DURATION = 100; // 長押し判定時間(ms)
+  const LONG_PRESS_DURATION = 0; // 長押し判定時間(ms)
 
   select.addEventListener('mousedown', function(e) {
     if (e.target.tagName === 'OPTION') {

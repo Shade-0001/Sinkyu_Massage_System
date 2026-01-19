@@ -6,6 +6,9 @@ function renderFieldSettings() {
   // 現在のPDFタイプを取得
   const currentPdfType = window.coordinateAdjusterData?.currentPdfType || 'therapy_benefit_acupuncture';
   
+  // PDFタイプに応じたフィールドマッピングを取得
+  const sampleDataFieldMapping = getSampleDataFieldMapping();
+  
   // PDFタイプに応じたカテゴリ定義を取得
   const fieldCategories = getFieldCategories(currentPdfType);
   const categoryOrder = getCategoryOrder(currentPdfType);
@@ -15,15 +18,58 @@ function renderFieldSettings() {
   const processedCompositeGroups = new Set();
   const processedKeys = new Set();
 
-  // sampleDataFieldMappingの順序でフィールドを処理（coordinatesに存在しなくても表示）
-  const orderedKeys = Object.keys(sampleDataFieldMapping);
+  // 施術料金領収書用のフィールド順序（指示通りの順序）
+  const treatmentReceiptFieldOrder = [
+    'title_year_month',           // 1. 元号年月
+    'document_type',              // 2. 書類区分
+    'patient_name',               // 3. 利用者氏名
+    'patient_gender_male',        // 4. 性別（男）
+    'patient_gender_female',      // 4. 性別（女）
+    'patient_age',                // 5. 年齢
+    'illness_name',               // 6. 病名
+    'onset_date',                 // 7. 発病・負傷年月日
+    'consent_date',               // 8. 保険医同意年月日
+    'treatment_start_date',       // 9. 施術開始年月日
+    'treatment_end_date',         // 10. 施術終了年月日
+    'bill_category',              // 11. 請求区分
+    'outcome',                    // 12. 転帰
+    'therapy_types',              // 13. 施術の種類（verticalSpacing属性で間隔調整）
+    'therapy_counts',             // 14. 回数
+    'therapy_unit_prices',        // 15. １回の料金
+    'therapy_totals',             // 16. 計
+    'therapy_period_start',       // 17. 施術を行った期間（開始）
+    'therapy_period_end',         // 18. 施術を行った期間（終了）
+    'insurance_total',            // 19. 保険対象合計金額
+    'self_pay_total',             // 20. 自費対象合計金額
+    'copayment_amount',           // 21. 一部負担金額
+    'treatment_month',            // 22. 施術月
+    'treatment_days',             // 23. 施術日
+    'copayment_ratio',            // 24. 負担割合
+    'receipt_amount',             // 25. 領収金額
+    'creation_date',              // 26. 作成年月日
+    'clinic_postal_code',         // 27. 作成者郵便番号
+    'clinic_address',             // 28. 作成者住所
+    'clinic_name',                // 29. 作成者名称
+    'clinic_manager',             // 30. 作成者氏名
+    'clinic_phone'                // 31. 作成者電話番号
+  ];
 
-  // coordinatesに存在するが、sampleDataFieldMappingにないキーも追加
-  Object.keys(coordinates).forEach(key => {
-    if (!orderedKeys.includes(key)) {
-      orderedKeys.push(key);
-    }
-  });
+  // PDFタイプに応じてフィールド順序を決定
+  let orderedKeys;
+  if (currentPdfType === 'treatment_receipt') {
+    // 施術料金領収書は専用の順序を使用
+    orderedKeys = treatmentReceiptFieldOrder.filter(key => coordinates.hasOwnProperty(key));
+  } else {
+    // その他はsampleDataFieldMappingの順序を使用
+    const fieldMapping = getSampleDataFieldMapping();
+    orderedKeys = Object.keys(fieldMapping);
+    // coordinatesに存在するが、sampleDataFieldMappingにないキーも追加
+    Object.keys(coordinates).forEach(key => {
+      if (!orderedKeys.includes(key)) {
+        orderedKeys.push(key);
+      }
+    });
+  }
 
   // カテゴリごとにフィールドをグループ化
   const categorizedFields = {};
@@ -117,14 +163,19 @@ function renderFieldSettings() {
       let field = coordinates[key];
       // coordinatesに存在しない場合はsampleDataFieldMappingから作成
       if (!field && sampleDataFieldMapping[key]) {
+        const mappingField = sampleDataFieldMapping[key];
+        const isEllipseField = mappingField.radioGroup !== undefined && (mappingField.ellipseWidth !== undefined || mappingField.ellipseHeight !== undefined);
         field = {
           x: 0,
           y: 0,
-          fontSize: 10,
-          letterSpacing: 0,
           textAlign: 'left',
           ...sampleDataFieldMapping[key]
         };
+        // 楕円フィールド以外にはfontSizeとletterSpacingを設定
+        if (!isEllipseField) {
+          field.fontSize = 10;
+          field.letterSpacing = 0;
+        }
         coordinates[key] = field;
       }
       if (!field) return;
@@ -278,9 +329,170 @@ function renderFieldSettings() {
     });
   });
 
-  // 未分類フィールドがあれば最後に追加
+  // 未分類フィールドがあれば最後に追加（カテゴライズなしのPDFタイプ用）
   if (categorizedFields['uncategorized'] && categorizedFields['uncategorized'].length > 0) {
-    // 同様の処理...
+    const uncategorizedFields = categorizedFields['uncategorized'];
+
+    // カテゴリが存在しない場合（施術料金領収書など）は直接フィールドを追加
+    if (categoryOrder.length === 0) {
+      // カテゴリヘッダーなしで直接フィールドを表示
+      uncategorizedFields.forEach(key => {
+        if (processedKeys.has(key)) return;
+
+        let field = coordinates[key];
+        if (!field && sampleDataFieldMapping[key]) {
+          const mappingField = sampleDataFieldMapping[key];
+          const isEllipseField = mappingField.radioGroup !== undefined && (mappingField.ellipseWidth !== undefined || mappingField.ellipseHeight !== undefined);
+          field = {
+            x: 0,
+            y: 0,
+            textAlign: 'left',
+            ...sampleDataFieldMapping[key]
+          };
+          // 楕円フィールド以外にはfontSizeとletterSpacingを設定
+          if (!isEllipseField) {
+            field.fontSize = 10;
+            field.letterSpacing = 0;
+          }
+          coordinates[key] = field;
+        }
+        if (!field) return;
+
+        // compositeGroupの処理
+        if (field.compositeGroup && !processedCompositeGroups.has(field.compositeGroup)) {
+          processedCompositeGroups.add(field.compositeGroup);
+
+          const groupFields = Object.entries(coordinates)
+            .filter(([k, v]) => v.compositeGroup === field.compositeGroup)
+            .sort((a, b) => {
+              const indexA = orderedKeys.indexOf(a[0]);
+              const indexB = orderedKeys.indexOf(b[0]);
+              return indexA - indexB;
+            });
+
+          groupFields.forEach(([k]) => processedKeys.add(k));
+
+          const firstKey = groupFields[0][0];
+          let selectedKey = firstKey;
+
+          const div = document.createElement('div');
+          div.className = 'field-group';
+          div.setAttribute('data-composite-group', field.compositeGroup);
+
+          const mapping = sampleDataFieldMapping[firstKey];
+          const groupLabel = mapping?.compositeLabel || field.compositeGroup;
+
+          const options = groupFields.map(([k, v]) => {
+            const m = sampleDataFieldMapping[k];
+            return `<option value="${k}" ${selectedKey === k ? 'selected' : ''}>${m?.label || k}</option>`;
+          }).join('');
+
+          div.innerHTML = `
+            <h6 class="field-header" onclick="toggleField('${field.compositeGroup}')" style="cursor: pointer; user-select: none;">
+              <span class="toggle-icon" id="toggle-${field.compositeGroup}">▶</span> ${groupLabel}
+            </h6>
+
+            <div class="field-controls" id="controls-${field.compositeGroup}">
+              <div class="coordinate-input">
+                <label>選択:</label>
+                <select onchange="updateCompositeGroupSelection('${field.compositeGroup}', this.value)"
+                        class="form-control form-control-sm"
+                        style="width: auto; display: inline-block; margin-left: 10px;">
+                  ${options}
+                </select>
+              </div>
+
+              <div id="compositegroup-fields-${field.compositeGroup}">
+              </div>
+            </div>
+          `;
+
+          container.appendChild(div);
+          updateCompositeGroupSelection(field.compositeGroup, selectedKey);
+          return;
+        }
+
+        if (field.compositeGroup) {
+          return;
+        }
+
+        // radioGroupの処理
+        if (field.radioGroup && !processedGroups.has(field.radioGroup)) {
+          processedGroups.add(field.radioGroup);
+
+          const groupFields = Object.entries(coordinates)
+            .filter(([k, v]) => v.radioGroup === field.radioGroup)
+            .sort((a, b) => {
+              const indexA = orderedKeys.indexOf(a[0]);
+              const indexB = orderedKeys.indexOf(b[0]);
+              if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+
+              const numA = parseInt(a[0].match(/\d+$/)?.[0] || 0);
+              const numB = parseInt(b[0].match(/\d+$/)?.[0] || 0);
+              return numA - numB;
+            });
+
+          groupFields.forEach(([k]) => processedKeys.add(k));
+
+          const firstField = groupFields[0][1];
+          const firstKey = groupFields[0][0];
+
+          let selectedKey = firstKey;
+          for (const [k, v] of groupFields) {
+            if (v.isSelected) {
+              selectedKey = k;
+              break;
+            }
+          }
+
+          const div = document.createElement('div');
+          div.className = 'field-group';
+          div.setAttribute('data-radio-group', field.radioGroup);
+
+          const groupLabel = field.label || field.radioGroup;
+
+          const options = groupFields.map(([k, v]) => {
+            return `<option value="${k}" ${selectedKey === k ? 'selected' : ''}>${v.optionLabel || v.label}</option>`;
+          }).join('');
+
+          div.innerHTML = `
+            <h6 class="field-header" onclick="toggleField('${field.radioGroup}')" style="cursor: pointer; user-select: none;">
+              <span class="toggle-icon" id="toggle-${field.radioGroup}">▶</span> ${groupLabel}
+            </h6>
+
+            <div class="field-controls" id="controls-${field.radioGroup}">
+              <div class="coordinate-input">
+                <label>選択:</label>
+                <select onchange="updateRadioGroupSelection('${field.radioGroup}', this.value)"
+                        class="form-control form-control-sm"
+                        style="width: auto; display: inline-block; margin-left: 10px;">
+                  ${options}
+                </select>
+              </div>
+
+              <div id="radiogroup-fields-${field.radioGroup}">
+              </div>
+            </div>
+          `;
+
+          container.appendChild(div);
+          updateRadioGroupSelection(field.radioGroup, selectedKey);
+          return;
+        }
+
+        if (field.radioGroup) {
+          return;
+        }
+
+        // 通常フィールドの処理
+        processedKeys.add(key);
+
+        const div = document.createElement('div');
+        div.className = 'field-group';
+        div.innerHTML = renderSingleFieldHTML(key, field);
+        container.appendChild(div);
+      });
+    }
   }
 }
 
@@ -408,7 +620,7 @@ function renderSingleFieldHTML(key, field) {
       </div>
       ` : ''}
 
-      ${field.fontSize !== undefined ? `
+      ${field.fontSize !== undefined && !(field.ellipseWidth || field.ellipseHeight || field.lineWidth) ? `
       <div class="coordinate-input">
         <label>フォントサイズ:</label>
         <button class="btn btn-sm btn-outline-secondary btn-adjust"
@@ -429,7 +641,7 @@ function renderSingleFieldHTML(key, field) {
       </div>
       ` : ''}
 
-      ${field.letterSpacing !== undefined ? `
+      ${field.letterSpacing !== undefined && !(field.ellipseWidth || field.ellipseHeight || field.lineWidth) ? `
       <div class="coordinate-input">
         <label>文字間隔:</label>
         <button class="btn btn-sm btn-outline-secondary btn-adjust"
@@ -588,9 +800,46 @@ function renderSingleFieldHTML(key, field) {
       </div>
       ` : ''}
 
+      ${field.verticalSpacing !== undefined ? `
+      <div class="coordinate-input">
+        <label>間隔（垂直方向）:</label>
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'verticalSpacing', -0.5)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'verticalSpacing', -0.5)"
+                ontouchend="stopLongPress()">−</button>
+        <input type="number" step="0.5" value="${field.verticalSpacing}"
+               onchange="updateCoordinate('${key}', 'verticalSpacing', this.value)"
+               class="form-control form-control-sm" style="width: 80px;" data-property="verticalSpacing">
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'verticalSpacing', 0.5)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'verticalSpacing', 0.5)"
+                ontouchend="stopLongPress()">+</button>
+      </div>
+      ` : ''}
+
       ${(() => {
+        // 既存のsampleDataFieldMappingによる入力欄
         const sampleDataHtml = getSampleDataInput(key);
-        return sampleDataHtml || '';
+        if (sampleDataHtml) return sampleDataHtml;
+
+        // 座標設定自体にsampleTextがある場合（施術料金領収書等）
+        const showSampleData = document.getElementById('show-sample-data')?.checked;
+        if (showSampleData && field.sampleText !== undefined) {
+          return `
+            <div class="coordinate-input">
+              <label>サンプルテキスト:</label>
+              <input type="text"
+                     value="${field.sampleText || ''}"
+                     onchange="updateCoordinate('${key}', 'sampleText', this.value)"
+                     class="form-control form-control-sm">
+            </div>
+          `;
+        }
+        return '';
       })()}
     </div>
   `;
@@ -1665,7 +1914,8 @@ function getSampleDataInput(key) {
   const showSampleData = document.getElementById('show-sample-data')?.checked;
   if (!showSampleData) return '';
 
-  const mapping = sampleDataFieldMapping[key];
+  const fieldMapping = getSampleDataFieldMapping();
+  const mapping = fieldMapping[key];
   if (!mapping) return '';
 
   let inputHtml = '';
@@ -1700,7 +1950,7 @@ function getSampleDataInput(key) {
 
       inputHtml += `
         <div class="coordinate-input">
-          <label>サンプル${labelPrefix}（${fieldLabel}）:</label>
+          <label>サンプルテキスト（${fieldLabel}）:</label>
           <input type="text"
                  value="${currentValue}"
                  onchange="updateSampleData('${fieldName}', this.value)"
@@ -1714,11 +1964,13 @@ function getSampleDataInput(key) {
 
   const currentValue = customSampleData[mapping.field] || '';
 
-  if (mapping.type === 'text' || mapping.type === 'number') {
+  if (mapping.type === 'text' || mapping.type === 'number' || mapping.type === 'conditional_text') {
+    const inputType = mapping.type === 'number' ? 'number' : 'text';
+    const labelSuffix = mapping.type === 'conditional_text' ? ` (${mapping.condition}の場合表示)` : '';
     inputHtml = `
       <div class="coordinate-input">
-        <label>サンプル${mapping.label}:</label>
-        <input type="${mapping.type}"
+        <label>サンプルテキスト${labelSuffix}:</label>
+        <input type="${inputType}"
                value="${currentValue}"
                onchange="updateSampleData('${mapping.field}', this.value)"
                class="form-control form-control-sm">
@@ -1727,7 +1979,7 @@ function getSampleDataInput(key) {
   } else if (mapping.type === 'date') {
     inputHtml = `
       <div class="coordinate-input">
-        <label>サンプル${mapping.label}:</label>
+        <label>サンプルテキスト:</label>
         <input type="text"
                value="${currentValue}"
                onchange="updateSampleData('${mapping.field}', this.value)"
@@ -1759,7 +2011,7 @@ function getSampleDataInput(key) {
 
     inputHtml = `
       <div class="coordinate-input">
-        <label>サンプル${mapping.label}:</label>
+        <label>サンプルテキスト:</label>
         <select onchange="updateSampleData('${mapping.field}', this.value)"
                 class="form-control form-control-sm">
           ${options}
@@ -1769,7 +2021,7 @@ function getSampleDataInput(key) {
   } else if (mapping.type === 'postal_code') {
     inputHtml = `
       <div class="coordinate-input">
-        <label>サンプル${mapping.label}:</label>
+        <label>サンプルテキスト:</label>
         <input type="text"
                value="${currentValue}"
                onchange="updateSampleData('${mapping.field}', this.value)"

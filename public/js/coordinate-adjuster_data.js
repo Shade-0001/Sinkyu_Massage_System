@@ -50,7 +50,6 @@ let customSampleData = {
   medical_institution: '〇〇病院',
   doctor_address: '東京都新宿区〇〇1-2-3',
   medical_institution_location_type: '1',
-  consent_date: '',
   consent_year: '',
   consent_month: '',
   consent_day: '',
@@ -89,7 +88,6 @@ let customSampleData = {
   agent_address: '東京都千代田区〇〇2-3-4',
   agent_name: '田中 花子',
   temporary_insurer_name: '田中 太郎',
-  treatment_start_date: '',
   treatment_period: '',
   treatment_days: '15',  treatment_day_count: '15',  clinic_postal_code: '1500001',
   clinic_name: '〇〇鍼灸マッサージ院',
@@ -226,5 +224,55 @@ let customSampleData = {
   // 申請者郵便番号（委任）
   signature_applicant_postal_code: '100-0005',
   // 委任申請者住所
-  signature_applicant_address: '東京都千代田区丸の内1-1-1'
+  signature_applicant_address: '東京都千代田区丸の内1-1-1',
+  // === 施術料金領収書用 日付フィールド（フォーマット済み） ===
+  // 元号年月
+  title_year_month: '令和 7年 12月分',
+  // 発病年月日
+  onset_date: '令和 00年 00月 00日',
+  // 同意年月日
+  consent_date: '令和 11年 11月 11日',
+  // 施術開始日
+  treatment_start_date: '令和 22年 22月 22日',
+  // 施術終了日
+  treatment_end_date: '令和 33年 33月 33日',
+  // 施術期間開始
+  therapy_period_start: '令和 7年 12月 1日',
+  // 施術期間終了
+  therapy_period_end: '令和 7年 12月 31日',
+  // 作成年月日
+  creation_date: '令和 7年 12月 31日'
 };
+
+// サンプルデータ取得関数（combine対応）
+function getSampleValue(key) {
+  const fieldMapping = getSampleDataFieldMapping();
+  const mapping = fieldMapping[key];
+
+  if (!mapping) {
+    return customSampleData[key];
+  }
+
+  // type: 'select'のフィールドは値を返さない（isSelectedフラグで楕円描画を制御するため）
+  if (mapping.type === 'select') {
+    return undefined;
+  }
+
+  // type: 'conditional_text'は条件が一致する場合のみ値を返す
+  if (mapping.type === 'conditional_text') {
+    const fieldValue = customSampleData[mapping.field];
+    if (fieldValue === mapping.condition) {
+      return fieldValue;
+    }
+    return undefined;
+  }
+
+  // combine属性がある場合は複数フィールドを結合
+  if (mapping.combine && Array.isArray(mapping.combine)) {
+    const values = mapping.combine.map(field => customSampleData[field] || '').filter(v => v);
+    return values.join('　'); // 全角スペースで結合
+  }
+
+  // 通常は単一フィールド
+  return customSampleData[mapping.field] || customSampleData[key];
+}

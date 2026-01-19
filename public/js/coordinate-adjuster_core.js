@@ -9,6 +9,14 @@ const csrfToken = coordinateAdjusterData.csrfToken;
 let coordinates = {};
 let originalCoordinates = {};
 
+// PDFタイプに応じたフィールドマッピングを取得
+function getSampleDataFieldMapping() {
+  if (currentPdfType === 'treatment_receipt') {
+    return sampleDataFieldMappingTreatmentReceipt;
+  }
+  return sampleDataFieldMapping;
+}
+
 // 初期化
 document.addEventListener('DOMContentLoaded', function() {
   loadCoordinates();
@@ -75,9 +83,10 @@ function loadCoordinates() {
         coordinates = data.coordinates;
 
         // フィールド定義のデフォルト値をマージ
-        Object.keys(sampleDataFieldMapping).forEach(key => {
+        const fieldMapping = getSampleDataFieldMapping();
+        Object.keys(fieldMapping).forEach(key => {
           if (coordinates[key]) {
-            const definition = sampleDataFieldMapping[key];
+            const definition = fieldMapping[key];
             // ellipseWidth, ellipseHeight, circleRadius, lineWidth などのデフォルト値を設定
             if (definition.ellipseWidth !== undefined && coordinates[key].ellipseWidth === undefined) {
               coordinates[key].ellipseWidth = definition.ellipseWidth;
@@ -120,6 +129,11 @@ function loadCoordinates() {
             if (definition.compositeLabel !== undefined) {
               coordinates[key].compositeLabel = definition.compositeLabel;
             }
+            // 楕円フィールドからfontSizeとletterSpacingを削除
+            if (definition.ellipseWidth !== undefined || definition.ellipseHeight !== undefined || definition.lineWidth !== undefined) {
+              delete coordinates[key].fontSize;
+              delete coordinates[key].letterSpacing;
+            }
           }
         });
 
@@ -140,15 +154,16 @@ function loadCoordinates() {
 
 // 座標更新
 function updateCoordinate(key, property, value) {
-  // テキスト配置の場合は文字列、その他は数値に変換
-  if (property === 'textAlign') {
+  // 文字列プロパティの場合はそのまま、その他は数値に変換
+  if (property === 'textAlign' || property === 'sampleText') {
     coordinates[key][property] = value;
   } else {
     coordinates[key][property] = parseFloat(value);
   }
 
   // postal_codeタイプの場合、x/y/postalCodeGap変更時にfirstX/firstY/lastXも同期
-  const mapping = sampleDataFieldMapping[key];
+  const fieldMapping = getSampleDataFieldMapping();
+  const mapping = fieldMapping[key];
   if (mapping && mapping.type === 'postal_code') {
     if (property === 'x') {
       coordinates[key]['firstX'] = parseFloat(value);
@@ -210,7 +225,8 @@ function adjustValue(key, property, delta) {
   coordinates[key][property] = newValue;
 
   // postal_codeタイプの場合、x/y/postalCodeGap変更時にfirstX/firstY/lastXも同期
-  const mapping = sampleDataFieldMapping[key];
+  const fieldMapping = getSampleDataFieldMapping();
+  const mapping = fieldMapping[key];
   if (mapping && mapping.type === 'postal_code') {
     if (property === 'x') {
       coordinates[key]['firstX'] = newValue;
@@ -418,7 +434,15 @@ function previewPdf() {
 
   // カスタムサンプルデータがある場合は追加
   if (showSampleData && customSampleData) {
-    requestBody.custom_sample_data = customSampleData;
+    // combine属性があるフィールドの値を変換
+    const processedSampleData = {};
+    Object.keys(coordinates).forEach(key => {
+      const value = getSampleValue(key);
+      if (value !== undefined && value !== null && value !== '') {
+        processedSampleData[key] = value;
+      }
+    });
+    requestBody.custom_sample_data = processedSampleData;
   }
 
   fetch('/prints/preview-pdf', {

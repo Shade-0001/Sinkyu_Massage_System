@@ -74,8 +74,8 @@ const sampleDataFieldMapping = {
 
   // === 9. 実日数・請求区分・傷病名・転帰 ===
   'treatment_day_count': { field: 'treatment_days', label: '実日数', type: 'number' },
-  'bill_category_new': { field: 'bill_category', label: '請求区分', type: 'select', options: ['新規', '継続'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'bill_category', optionLabel: '新規' },
-  'bill_category_continued': { field: 'bill_category', label: '請求区分', type: 'select', options: ['新規', '継続'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'bill_category', optionLabel: '継続' },
+  'bill_category_new': { field: 'bill_category', label: '請求区分', type: 'text' },
+  'bill_category_continued': { field: 'bill_category', label: '請求区分', type: 'text' },
 
   // === 9-2. 傷病名・症状（マッサージ用） ===
   'illness_name_symptom': { field: 'illness_name_symptom', label: '傷病名・症状', type: 'text' },
@@ -89,10 +89,10 @@ const sampleDataFieldMapping = {
   'illness_name_7': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: 'その他' },
   'illness_name_other_text': { field: 'illness_name_other_text', label: '傷病名（その他の内容）', type: 'text' },
 
-  'outcome_continued': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'outcome', optionLabel: '継続' },
-  'outcome_cured': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'outcome', optionLabel: '治癒' },
-  'outcome_discontinued': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'outcome', optionLabel: '中止' },
-  'outcome_transferred': { field: 'outcome', label: '転帰', type: 'select', options: ['継続', '治癒', '中止', '転医'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'outcome', optionLabel: '転医' },
+  'outcome_continued': { field: 'outcome', label: '転帰', type: 'text' },
+  'outcome_cured': { field: 'outcome', label: '転帰', type: 'text' },
+  'outcome_discontinued': { field: 'outcome', label: '転帰', type: 'text' },
+  'outcome_transferred': { field: 'outcome', label: '転帰', type: 'text' },
   'condition': { field: 'condition', label: '発病負傷の原因･経過', type: 'text' },
   'abstract': { field: 'abstract', label: '摘要', type: 'text', width: 180, lineHeight: 5 },
 
@@ -269,25 +269,86 @@ const sampleDataFieldMapping = {
   'signature_applicant_postal_code': { field: 'signature_applicant_postal_code', label: '申請者郵便番号（委任）', type: 'postal_code', postalCodeGap: 2 },
   'signature_applicant_address': { field: 'signature_applicant_address', label: '委任申請者住所', type: 'text' },
 
-  // ========== 施術料金領収書専用フィールド ==========
+  // ========== 施術料金領収書専用フィールド（指示順） ==========
+  // 1. 元号年月
+  'title_year_month': { field: 'title_year_month', label: '元号年月', type: 'text' },
+  // 2. 書類区分
+  'document_type': { field: 'document_type', label: '書類区分', type: 'text' },
+  // 3. 利用者氏名 → patient_name（既存）
+  // 4. 性別 → patient_gender_male/female（既存）
+  // 5. 年齢
+  'patient_age': { field: 'patient_age', label: '年齢', type: 'number' },
+  // 6. 病名 → illness_name（既存）
+  // 7. 発病・負傷年月日
+  'onset_date': { field: 'onset_date', label: '発病・負傷年月日', type: 'text' },
+  // 8. 保険医同意年月日
+  'consent_date': { field: 'consent_date', label: '保険医同意年月日', type: 'text' },
+  // 9. 施術開始年月日
+  'treatment_start_date': { field: 'treatment_start_date', label: '施術開始年月日', type: 'text' },
+  // 10. 施術終了年月日
+  'treatment_end_date': { field: 'treatment_end_date', label: '施術終了年月日', type: 'text' },
+  // 11. 請求区分 → bill_category_new/continued（既存）
+  // 12. 転帰 → outcome_*（既存）
+  // 13. 施術の種類
+  'therapy_types': { field: 'therapy_types', label: '施術の種類', type: 'text' },
+  // 14. 回数
+  'therapy_counts': { field: 'therapy_counts', label: '回数', type: 'number' },
+  // 15. １回の料金
+  'therapy_unit_prices': { field: 'therapy_unit_prices', label: '１回の料金', type: 'number' },
+  // 16. 計
+  'therapy_totals': { field: 'therapy_totals', label: '計', type: 'number' },
+  // 17. 施術を行った期間（開始）
+  'therapy_period_start': { field: 'therapy_period_start', label: '施術を行った期間（開始）', type: 'text' },
+  // 18. 施術を行った期間（終了）
+  'therapy_period_end': { field: 'therapy_period_end', label: '施術を行った期間（終了）', type: 'text' },
+  // 19. 保険対象合計金額
+  'insurance_total': { field: 'insurance_total', label: '保険対象合計金額', type: 'number' },
+  // 20. 自費対象合計金額
+  'self_pay_total': { field: 'self_pay_total', label: '自費対象合計金額', type: 'number' },
+  // 21. 一部負担金額
+  'copayment_amount': { field: 'copayment_amount', label: '一部負担金額', type: 'number' },
+  // 22. 施術月 → treatment_month（既存）
+  // 23. 施術日 → treatment_days（既存）
+  // 24. 負担割合
+  'copayment_ratio': { field: 'copayment_ratio', label: '負担割合', type: 'number' },
+  // 25. 領収金額
+  'receipt_amount': { field: 'receipt_amount', label: '領収金額', type: 'number' },
+  // 26. 作成年月日
+  'creation_date': { field: 'creation_date', label: '作成年月日', type: 'text' }
+  // 27-31. 作成者情報 → clinic_*（既存）
+};
+
+// 施術料金領収書用のフィールドマッピング
+const sampleDataFieldMappingTreatmentReceipt = {
   'title_year_month': { field: 'title_year_month', label: '元号年月', type: 'text' },
   'document_type': { field: 'document_type', label: '書類区分', type: 'text' },
+  'patient_name': { field: 'last_name', label: '氏名（姓名）', type: 'text', combine: ['last_name', 'first_name'] },
+  'patient_gender_male': { field: 'gender', label: '性別', type: 'select', radioGroup: 'gender', optionLabel: '男', ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5 },
+  'patient_gender_female': { field: 'gender', label: '性別', type: 'select', radioGroup: 'gender', optionLabel: '女', ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5 },
   'patient_age': { field: 'patient_age', label: '年齢', type: 'number' },
-  'onset_date': { field: 'onset_date', label: '発病・負傷年月日', type: 'text' },
-  'consent_date': { field: 'consent_date', label: '保険医同意年月日', type: 'text' },
-  'treatment_start_date': { field: 'treatment_start_date', label: '施術開始年月日', type: 'text' },
-  'treatment_end_date': { field: 'treatment_end_date', label: '施術終了年月日', type: 'text' },
+  'illness_name': { field: 'consent_illness_name', label: '傷病名', type: 'text' },
+  'onset_date': { field: 'onset_date', label: '発病年月日', type: 'text' },
+  'consent_date': { field: 'consent_date', label: '同意年月日', type: 'text' },
+  'treatment_start_date': { field: 'treatment_start_date', label: '施術開始日', type: 'text' },
+  'treatment_end_date': { field: 'treatment_end_date', label: '施術終了日', type: 'text' },
+  'bill_category': { field: 'bill_category', label: '請求区分', type: 'text' },
+  'outcome': { field: 'outcome', label: '転帰', type: 'text' },
   'therapy_types': { field: 'therapy_types', label: '施術の種類', type: 'text' },
-  'therapy_types_spacing': { field: 'therapy_types_spacing', label: '間隔（垂直方向）', type: 'number' },
-  'therapy_counts': { field: 'therapy_counts', label: '回数', type: 'number' },
-  'therapy_unit_prices': { field: 'therapy_unit_prices', label: '１回の料金', type: 'number' },
+  'therapy_counts': { field: 'therapy_counts', label: '施術回数', type: 'number' },
+  'therapy_unit_prices': { field: 'therapy_unit_prices', label: '単価', type: 'number' },
   'therapy_totals': { field: 'therapy_totals', label: '計', type: 'number' },
-  'therapy_period_start': { field: 'therapy_period_start', label: '施術を行った期間（開始）', type: 'text' },
-  'therapy_period_end': { field: 'therapy_period_end', label: '施術を行った期間（終了）', type: 'text' },
-  'insurance_total': { field: 'insurance_total', label: '保険対象合計金額', type: 'number' },
-  'self_pay_total': { field: 'self_pay_total', label: '自費対象合計金額', type: 'number' },
-  'copayment_amount': { field: 'copayment_amount', label: '一部負担金額', type: 'number' },
+  'therapy_period_start': { field: 'therapy_period_start', label: '施術期間（開始）', type: 'text' },
+  'therapy_period_end': { field: 'therapy_period_end', label: '施術期間（終了）', type: 'text' },
+  'treatment_days': { field: 'treatment_days', label: '施術日', type: 'calendar' },
+  'insurance_total': { field: 'insurance_total', label: '保険請求額合計', type: 'number' },
+  'copayment_amount': { field: 'copayment_amount', label: '一部負担金', type: 'number' },
+  'treatment_month': { field: 'treatment_month', label: '施術月', type: 'number' },
   'copayment_ratio': { field: 'copayment_ratio', label: '負担割合', type: 'number' },
   'receipt_amount': { field: 'receipt_amount', label: '領収金額', type: 'number' },
-  'creation_date': { field: 'creation_date', label: '作成年月日', type: 'text' }
+  'creation_date': { field: 'creation_date', label: '作成年月日', type: 'text' },
+  'clinic_postal_code': { field: 'clinic_postal_code', label: '郵便番号', type: 'text' },
+  'clinic_address': { field: 'clinic_address', label: '住所', type: 'text' },
+  'clinic_name': { field: 'clinic_name', label: '治療院名', type: 'text' },
+  'clinic_manager': { field: 'clinic_manager', label: '施術管理者', type: 'text' },
+  'clinic_phone': { field: 'clinic_phone', label: '電話番号', type: 'text' }
 };
