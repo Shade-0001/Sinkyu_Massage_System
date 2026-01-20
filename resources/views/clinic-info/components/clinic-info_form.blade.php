@@ -4,7 +4,7 @@
   @csrf
 
   <div class="mb-3">
-    <label class="fw-semibold" for="clinic_name">事業所名</label>
+    <label class="fw-semibold" for="clinic_name">事業所名称</label>
     @error('clinic_name')
       <span class="text-danger ms-2">{{ $message }}</span>
     @enderror

@@ -313,8 +313,8 @@ const sampleDataFieldMapping = {
   'copayment_ratio': { field: 'copayment_ratio', label: '負担割合', type: 'number' },
   // 25. 領収金額
   'receipt_amount': { field: 'receipt_amount', label: '領収金額', type: 'number' },
-  // 26. 作成年月日
-  'creation_date': { field: 'creation_date', label: '作成年月日', type: 'text' }
+  // 26. 提出年月日
+  'creation_date': { field: 'creation_date', label: '提出年月日', type: 'text' }
   // 27-31. 作成者情報 → clinic_*（既存）
 };
 
@@ -346,10 +346,10 @@ const sampleDataFieldMappingTreatmentReceipt = {
   'copayment_ratio': { field: 'copayment_ratio', label: '負担割合', type: 'number' },
   'remarks': { field: 'remarks', label: '備考', type: 'text' },
   'receipt_amount': { field: 'receipt_amount', label: '領収金額', type: 'number' },
-  'creation_date': { field: 'creation_date', label: '作成年月日', type: 'text' },
+  'creation_date': { field: 'creation_date', label: '提出年月日', type: 'text' },
   'clinic_postal_code': { field: 'clinic_postal_code', label: '郵便番号', type: 'text' },
   'clinic_address': { field: 'clinic_address', label: '住所', type: 'text' },
-  'clinic_name': { field: 'clinic_name', label: '治療院名', type: 'text' },
+  'clinic_name': { field: 'clinic_name', label: '事業所名称', type: 'text' },
   'clinic_manager': { field: 'clinic_manager', label: '代表者氏名', type: 'text' },
   'clinic_phone': { field: 'clinic_phone', label: '電話番号', type: 'text' }
 };

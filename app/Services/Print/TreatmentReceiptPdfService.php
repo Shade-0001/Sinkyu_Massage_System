@@ -96,9 +96,10 @@ class TreatmentReceiptPdfService
    * @param array $clinicUserIds 利用者ID配列
    * @param string $serviceYearMonth サービス提供年月（Y-m形式）
    * @param string $submissionDate 提出日（Y-m-d形式）
+   * @param string $remarks 備考
    * @return string PDFバイナリ
    */
-  public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate): string
+  public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate, string $remarks = ''): string
   {
     $pdf = new Fpdi('P', 'mm', 'A4', true, 'UTF-8', false);
     $pdf->SetAutoPageBreak(false);
@@ -135,7 +136,7 @@ class TreatmentReceiptPdfService
           $this->renderSampleTexts($pdf);
         } else {
           $data = $this->fetchData($clinicUserId, $serviceYearMonth);
-          $this->renderFields($pdf, $data, $serviceYearMonth);
+          $this->renderFields($pdf, $data, $serviceYearMonth, $submissionDate, $remarks);
         }
       }
     }
@@ -166,8 +167,8 @@ class TreatmentReceiptPdfService
     // 同意書情報（はり・きゅう or マッサージ）
     $consentTable = $this->receiptType === 'acupuncture' ? 'consents_acupuncture' : 'consents_massage';
     $illnessTable = $this->receiptType === 'acupuncture' ? 'illnesses_acupuncture' : 'illnesses_massage';
-    $illnessIdColumn = $this->receiptType === 'acupuncture' ? 'illness_name_acupuncture_id' : 'illness_name_massage_id';
-    $illnessNameColumn = $this->receiptType === 'acupuncture' ? 'illness_name_acupuncture' : 'illness_name_massage';
+    $illnessIdColumn = $this->receiptType === 'acupuncture' ? 'illness_name_acupuncture_id' : 'injury_and_illness_name_id';
+    $illnessNameColumn = $this->receiptType === 'acupuncture' ? 'illness_name_acupuncture' : 'illness_name';
 
     $consent = DB::table($consentTable)
       ->leftJoin('bill_categories', $consentTable . '.bill_category_id', '=', 'bill_categories.id')
@@ -220,7 +221,7 @@ class TreatmentReceiptPdfService
   /**
    * フィールド描画
    */
-  protected function renderFields(Fpdi $pdf, array $data, string $serviceYearMonth): void
+  protected function renderFields(Fpdi $pdf, array $data, string $serviceYearMonth, string $submissionDate, string $remarks = ''): void
   {
     $clinicUser = $data['clinicUser'];
     $insurance = $data['insurance'];
@@ -267,20 +268,20 @@ class TreatmentReceiptPdfService
       $this->drawText($pdf, 'illness_name', $consent->illness_name ?? '');
 
       // 7. 発病・負傷年月日
-      if (!empty($consent->onset_date)) {
-        $onsetDateFormatted = $this->formatJapaneseDate($consent->onset_date);
+      if (!empty($consent->onset_and_injury_date)) {
+        $onsetDateFormatted = $this->formatJapaneseDate($consent->onset_and_injury_date);
         $this->drawText($pdf, 'onset_date', $onsetDateFormatted);
       }
 
       // 8. 保険医同意年月日
-      if (!empty($consent->consent_date)) {
-        $consentDateFormatted = $this->formatJapaneseDate($consent->consent_date);
+      if (!empty($consent->consenting_date)) {
+        $consentDateFormatted = $this->formatJapaneseDate($consent->consenting_date);
         $this->drawText($pdf, 'consent_date', $consentDateFormatted);
       }
 
       // 9. 施術開始年月日
-      if (!empty($consent->first_treatment_date)) {
-        $startDateFormatted = $this->formatJapaneseDate($consent->first_treatment_date);
+      if (!empty($consent->first_care_date)) {
+        $startDateFormatted = $this->formatJapaneseDate($consent->first_care_date);
         $this->drawText($pdf, 'treatment_start_date', $startDateFormatted);
       }
 
@@ -314,8 +315,13 @@ class TreatmentReceiptPdfService
       $this->drawText($pdf, 'copayment_ratio', $ratioId);
     }
 
-    // 26. 作成年月日
-    $creationDate = $this->formatJapaneseDate(date('Y-m-d'));
+    // 25. 備考
+    if (!empty($remarks)) {
+      $this->drawText($pdf, 'remarks', $remarks);
+    }
+
+    // 26. 提出年月日
+    $creationDate = $this->formatJapaneseDate($submissionDate);
     $this->drawText($pdf, 'creation_date', $creationDate);
 
     // 27-31. 作成者情報
@@ -323,7 +329,12 @@ class TreatmentReceiptPdfService
       // 郵便番号
       $postalCode = $clinicInfo->postal_code ?? '';
       if (!empty($postalCode)) {
-        $formattedPostal = '〒 ' . substr($postalCode, 0, 3) . ' - ' . substr($postalCode, 3);
+        // ハイフンが含まれていない場合のみフォーマット
+        if (strpos($postalCode, '-') === false) {
+          $formattedPostal = '〒 ' . substr($postalCode, 0, 3) . ' - ' . substr($postalCode, 3);
+        } else {
+          $formattedPostal = '〒 ' . $postalCode;
+        }
         $this->drawText($pdf, 'clinic_postal_code', $formattedPostal);
       }
 
@@ -334,11 +345,14 @@ class TreatmentReceiptPdfService
       // 名称
       $this->drawText($pdf, 'clinic_name', $clinicInfo->clinic_name ?? '');
 
-      // 氏名
-      $this->drawText($pdf, 'clinic_manager', $clinicInfo->manager_name ?? '');
+      // 代表者氏名（姓名を半角スペース2つ区切りで連結）
+      $ownerName = trim(($clinicInfo->owner_last_name ?? '') . '  ' . ($clinicInfo->owner_first_name ?? ''));
+      $this->drawText($pdf, 'clinic_manager', $ownerName);
 
       // 電話番号
-      $this->drawText($pdf, 'clinic_phone', $clinicInfo->phone ?? '');
+      $phone = $clinicInfo->phone ?? '';
+      $formattedPhone = $this->formatPhoneNumber($phone);
+      $this->drawText($pdf, 'clinic_phone', $formattedPhone);
     }
   }
 
@@ -410,6 +424,56 @@ class TreatmentReceiptPdfService
       $rowIndex++;
     }
 
+    // 施術タイプに応じたtherapy_type（1=はり・きゅう、2=あんま・マッサージ）
+    $therapyType = $this->receiptType === 'acupuncture' ? 1 : 2;
+
+    // 自費施術の集計（モードに応じてフィルタリング）
+    $selfFeeRecords = $records->filter(function ($record) use ($therapyType) {
+      return !empty($record->self_fee_id) && $record->therapy_type == $therapyType;
+    });
+
+    // 自費施術IDごとにグループ化して集計
+    $selfFeeGroups = $selfFeeRecords->groupBy('self_fee_id');
+
+    foreach ($selfFeeGroups as $selfFeeId => $groupRecords) {
+      // 自費施術マスタから情報を取得
+      $selfFee = DB::table('self_fees')->where('id', $selfFeeId)->first();
+
+      if (!$selfFee) {
+        continue;
+      }
+
+      $count = $groupRecords->count();
+      $unitPrice = (int)$selfFee->amount;
+      $total = $count * $unitPrice;
+      $selfPayTotal += $total;
+
+      $y = $baseY + ($rowIndex * $verticalSpacing);
+
+      // 施術の種類
+      $pdf->SetFont('kozgopromedium', '', $fontSize);
+      $this->drawTextAt($pdf, $this->coord('therapy_types', 'x'), $y, $selfFee->self_fee_name, $this->coord('therapy_types', 'textAlign') ?? 'left');
+
+      // 回数
+      $this->drawTextAt($pdf, $this->coord('therapy_counts', 'x'), $y, $count, $this->coord('therapy_counts', 'textAlign') ?? 'left');
+
+      // １回の料金
+      $this->drawTextAt($pdf, $this->coord('therapy_unit_prices', 'x'), $y, number_format($unitPrice), $this->coord('therapy_unit_prices', 'textAlign') ?? 'left');
+
+      // 計
+      $this->drawTextAt($pdf, $this->coord('therapy_totals', 'x'), $y, number_format($total), $this->coord('therapy_totals', 'textAlign') ?? 'left');
+
+      // 施術を行った期間（開始・終了）
+      $firstDate = $groupRecords->first();
+      $lastDate = $groupRecords->last();
+      $periodStart = date('n月j日', strtotime($firstDate->date));
+      $periodEnd = date('n月j日', strtotime($lastDate->date));
+      $this->drawTextAt($pdf, $this->coord('therapy_period_start', 'x'), $y, $periodStart, $this->coord('therapy_period_start', 'textAlign') ?? 'left');
+      $this->drawTextAt($pdf, $this->coord('therapy_period_end', 'x'), $y, $periodEnd, $this->coord('therapy_period_end', 'textAlign') ?? 'left');
+
+      $rowIndex++;
+    }
+
     // 施術報告書交付料
     if ($this->includeReportFee) {
       $y = $baseY + ($rowIndex * $verticalSpacing);
@@ -425,6 +489,8 @@ class TreatmentReceiptPdfService
       $this->drawTextAt($pdf, $this->coord('therapy_unit_prices', 'x'), $y, number_format($reportFeeUnitPrice), $this->coord('therapy_unit_prices', 'textAlign') ?? 'left');
       $this->drawTextAt($pdf, $this->coord('therapy_totals', 'x'), $y, number_format($reportFeeTotal), $this->coord('therapy_totals', 'textAlign') ?? 'left');
       // 施術報告書交付料の期間は空欄
+
+      $rowIndex++;
     }
 
     // 19. 保険対象合計金額
@@ -498,7 +564,7 @@ class TreatmentReceiptPdfService
       13 => 'hari_and_kyu_normal',            // はり・きゅう併用
       14 => 'hari_and_elec_needle_normal',    // はり＋電療（電気針）
       15 => 'kyu_and_elec_moxa_heater_normal', // きゅう＋電療（電気温灸器）
-      16 => 'fomentation_and_elec_ray_normal', // 電療（電気光線器具）
+      16 => 'hari_and_kyu_elec_ray_normal',   // 電療（電気光線器具）
       18 => 'massage_trunk_normal',           // マッサージ（体幹）
       19 => 'manual_correction_normal',       // 変形徒手矯正術
       20 => 'fomentation_normal',             // 温罨法
@@ -535,10 +601,55 @@ class TreatmentReceiptPdfService
     $fontSize = $this->coord($key, 'fontSize') ?? 10;
     $textAlign = $this->coord($key, 'textAlign') ?? 'left';
     $letterSpacing = $this->coord($key, 'letterSpacing') ?? 0;
+    $maxCharsPerLine = $this->coord($key, 'maxCharsPerLine');
 
     $pdf->SetFont('kozgopromedium', '', $fontSize);
 
     $text = (string)$value;
+
+    // maxCharsPerLineが設定されている場合は折り返し処理
+    if ($maxCharsPerLine && mb_strlen($text) > $maxCharsPerLine) {
+      $lines = [];
+      $currentLine = '';
+      $chars = preg_split('//u', $text, -1, PREG_SPLIT_NO_EMPTY);
+
+      foreach ($chars as $char) {
+        if (mb_strlen($currentLine) >= $maxCharsPerLine) {
+          $lines[] = $currentLine;
+          $currentLine = $char;
+        } else {
+          $currentLine .= $char;
+        }
+      }
+      if ($currentLine !== '') {
+        $lines[] = $currentLine;
+      }
+
+      // 複数行を描画（テキスト全体の中央がY座標になるように調整）
+      $lineHeight = $fontSize * 0.4; // 行間隔（フォントサイズの40%）
+      $totalLines = count($lines);
+      $totalHeight = ($totalLines - 1) * $lineHeight; // 全体の高さ
+      $startY = $y - ($totalHeight / 2); // 中央揃えのための開始Y座標
+
+      foreach ($lines as $index => $line) {
+        $currentY = $startY + ($index * $lineHeight);
+
+        if ($letterSpacing > 0) {
+          $this->drawTextWithSpacing($pdf, $x, $currentY, $line, (float)$letterSpacing, $textAlign);
+        } else {
+          $currentX = $x;
+          if ($textAlign === 'center') {
+            $textWidth = $pdf->GetStringWidth($line);
+            $currentX = $x - ($textWidth / 2);
+          } elseif ($textAlign === 'right') {
+            $textWidth = $pdf->GetStringWidth($line);
+            $currentX = $x - $textWidth;
+          }
+          $pdf->Text($currentX, $currentY, $line);
+        }
+      }
+      return;
+    }
 
     // letterSpacingがある場合は文字間隔付き描画
     if ($letterSpacing > 0) {
@@ -758,6 +869,11 @@ class TreatmentReceiptPdfService
       if (isset($this->customSampleData[$key])) {
         $value = $this->customSampleData[$key];
 
+        // clinic_phoneの場合は電話番号フォーマットを適用
+        if ($key === 'clinic_phone') {
+          $value = $this->formatPhoneNumber($value);
+        }
+
         // therapy関連フィールドの場合、Y座標をtherapy_typesから計算
         if (in_array($key, $therapyRelatedKeys) && $therapyTypesBaseY !== null) {
           // 元のY座標を一時保存
@@ -828,5 +944,38 @@ class TreatmentReceiptPdfService
         $pdf->Ellipse($x, $y, $circleRadius, $circleRadius, 0, 0, 360, 'D');
       }
     }
+  }
+
+  /**
+   * 電話番号フォーマット
+   */
+  protected function formatPhoneNumber(string $phone): string
+  {
+    // ハイフンや空白を除去して数字のみにする
+    $digitsOnly = preg_replace('/[^0-9]/', '', $phone);
+
+    if (empty($digitsOnly)) {
+      return '';
+    }
+
+    // 10桁の場合
+    if (strlen($digitsOnly) === 10) {
+      // 市外局番が03の場合: 2桁 - 4桁 - 4桁
+      if (substr($digitsOnly, 0, 2) === '03') {
+        return substr($digitsOnly, 0, 2) . ' - ' . substr($digitsOnly, 2, 4) . ' - ' . substr($digitsOnly, 6);
+      }
+      // 市外局番が03以外の場合: 3桁 - 3桁 - 4桁
+      else {
+        return substr($digitsOnly, 0, 3) . ' - ' . substr($digitsOnly, 3, 3) . ' - ' . substr($digitsOnly, 6);
+      }
+    }
+
+    // 11桁の場合: 3桁 - 4桁 - 4桁
+    if (strlen($digitsOnly) === 11) {
+      return substr($digitsOnly, 0, 3) . ' - ' . substr($digitsOnly, 3, 4) . ' - ' . substr($digitsOnly, 7);
+    }
+
+    // その他の桁数はそのまま返す
+    return $phone;
   }
 }

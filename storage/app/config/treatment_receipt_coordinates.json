@@ -256,7 +256,7 @@
         "letterSpacing": 0,
         "textAlign": "center",
         "type": "text",
-        "label": "作成年月日"
+        "label": "提出年月日"
     },
     "clinic_postal_code": {
         "x": 78,
@@ -283,7 +283,7 @@
         "letterSpacing": 0,
         "textAlign": "left",
         "type": "text",
-        "label": "治療院名"
+        "label": "事業所名称"
     },
     "clinic_manager": {
         "x": 78,

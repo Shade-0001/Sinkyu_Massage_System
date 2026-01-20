@@ -42,8 +42,8 @@
     </tr>
     <tr>
       <td>電療料（電気光線器具）</td>
-      <td><input type="number" name="hari_and_kyu_elec_first" value="{{ old('hari_and_kyu_elec_first', $item->hari_and_kyu_elec_first ?? '') }}" min="0" required></td>
-      <td><input type="number" name="hari_and_kyu_elec_normal" value="{{ old('hari_and_kyu_elec_normal', $item->hari_and_kyu_elec_normal ?? '') }}" min="0" required></td>
+      <td><input type="number" name="hari_and_kyu_elec_ray_first" value="{{ old('hari_and_kyu_elec_ray_first', $item->hari_and_kyu_elec_ray_first ?? '') }}" min="0" required></td>
+      <td><input type="number" name="hari_and_kyu_elec_ray_normal" value="{{ old('hari_and_kyu_elec_ray_normal', $item->hari_and_kyu_elec_ray_normal ?? '') }}" min="0" required></td>
     </tr>
   </tbody>
 </table>
