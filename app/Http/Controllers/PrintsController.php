@@ -135,6 +135,7 @@ class PrintsController extends Controller
         'submission_date' => 'required|date',
         'receipt_type' => 'required|in:acupuncture,massage',
         'include_report_fee' => 'sometimes|boolean',
+        'remarks' => 'nullable|string',
       ]);
 
       $receiptType = $validated['receipt_type'];
@@ -159,7 +160,8 @@ class PrintsController extends Controller
       $pdfBinary = $service->generate(
         $validated['clinic_user_ids'],
         $validated['service_year_month'],
-        $validated['submission_date']
+        $validated['submission_date'],
+        $validated['remarks'] ?? ''
       );
 
       \Log::info("{$typeName}PDF生成完了", ['size' => strlen($pdfBinary)]);
@@ -459,7 +461,8 @@ class PrintsController extends Controller
       $pdfBinary = $service->generate(
         $clinicUsers,
         date('Y-m'),
-        date('Y-m-d')
+        date('Y-m-d'),
+        ''
       );
 
       // 元の設定に戻す

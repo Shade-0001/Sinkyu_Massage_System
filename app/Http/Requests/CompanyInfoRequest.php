@@ -22,7 +22,8 @@ class CompanyInfoRequest extends FormRequest
   {
     return [
       'clinic_name' => 'nullable|max:255',
-      'owner_name' => 'nullable|max:255',
+      'owner_last_name' => 'nullable|max:255',
+      'owner_first_name' => 'nullable|max:255',
       'owner_birthday' => 'nullable|date',
       'postal_code' => 'nullable|max:8',
       'address_1' => 'nullable|max:255',
@@ -73,7 +74,8 @@ class CompanyInfoRequest extends FormRequest
   {
     return [
       'clinic_name.max' => '事業所名は255文字以内で入力してください。',
-      'owner_name.max' => '代表者名は255文字以内で入力してください。',
+      'owner_last_name.max' => '代表者氏名（姓）は255文字以内で入力してください。',
+      'owner_first_name.max' => '代表者氏名（名）は255文字以内で入力してください。',
       'email.email' => '正しいメールアドレス形式で入力してください。',
       'email.max' => 'メールアドレスは255文字以内で入力してください。',
     ];

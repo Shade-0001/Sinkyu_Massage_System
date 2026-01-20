@@ -13,12 +13,23 @@
   </div>
 
   <div class="mb-3">
-    <label class="fw-semibold" for="owner_name">代表者名</label>
-    @error('owner_name')
+    <label class="fw-semibold">代表者氏名</label>
+    <br>
+    <label for="owner_last_name" class="small fw-medium">姓</label>
+    @error('owner_last_name')
       <span class="text-danger ms-2">{{ $message }}</span>
     @enderror
     <br>
-    <input type="text" id="owner_name" name="owner_name" value="{{ old('owner_name', $companyInfo->owner_name ?? '') }}">
+    <input type="text" id="owner_last_name" name="owner_last_name" value="{{ old('owner_last_name', $companyInfo->owner_last_name ?? '') }}">
+  </div>
+
+  <div class="mb-3">
+    <label for="owner_first_name" class="small fw-medium">名</label>
+    @error('owner_first_name')
+      <span class="text-danger ms-2">{{ $message }}</span>
+    @enderror
+    <br>
+    <input type="text" id="owner_first_name" name="owner_first_name" value="{{ old('owner_first_name', $companyInfo->owner_first_name ?? '') }}">
   </div>
 
   <div class="mb-3">

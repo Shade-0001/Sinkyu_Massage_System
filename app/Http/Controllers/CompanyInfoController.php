@@ -87,7 +87,8 @@ class CompanyInfoController extends Controller
       // 更新処理
       DB::table('clinic_info')->update([
         'clinic_name' => $data['clinic_name'] ?? null,
-        'owner_name' => $data['owner_name'] ?? null,
+        'owner_last_name' => $data['owner_last_name'] ?? null,
+        'owner_first_name' => $data['owner_first_name'] ?? null,
         'owner_birthday' => $data['owner_birthday'] ?? null,
         'postal_code' => $data['postal_code'] ?? null,
         'address_1' => $data['address_1'] ?? null,
@@ -136,7 +137,8 @@ class CompanyInfoController extends Controller
       // 新規登録処理
       DB::table('clinic_info')->insert([
         'clinic_name' => $data['clinic_name'] ?? null,
-        'owner_name' => $data['owner_name'] ?? null,
+        'owner_last_name' => $data['owner_last_name'] ?? null,
+        'owner_first_name' => $data['owner_first_name'] ?? null,
         'owner_birthday' => $data['owner_birthday'] ?? null,
         'postal_code' => $data['postal_code'] ?? null,
         'address_1' => $data['address_1'] ?? null,
@@ -210,7 +212,8 @@ class CompanyInfoController extends Controller
   {
     return [
       'clinic_name' => '事業所名',
-      'owner_name' => '代表者名',
+      'owner_last_name' => '代表者氏名（姓）',
+      'owner_first_name' => '代表者氏名（名）',
       'owner_birthday' => '代表者生年月日',
       'postal_code' => '郵便番号',
       'address_1' => '都道府県',

@@ -168,8 +168,8 @@
             <!-- 施術報告書交付料 -->
             <div class="mb-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="report_fee" name="report_fee" value="1">
-                <label class="form-check-label" for="report_fee">交付料あり</label>
+                <input class="form-check-input" type="checkbox" id="report_fee" name="include_report_fee" value="1">
+                <label class="form-check-label" for="report_fee">施術報告書交付料あり</label>
               </div>
             </div>
 

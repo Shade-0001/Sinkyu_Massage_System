@@ -45,13 +45,14 @@ function renderFieldSettings() {
     'treatment_month',            // 22. 施術月
     'treatment_days',             // 23. 施術日
     'copayment_ratio',            // 24. 負担割合
-    'receipt_amount',             // 25. 領収金額
-    'creation_date',              // 26. 作成年月日
-    'clinic_postal_code',         // 27. 作成者郵便番号
-    'clinic_address',             // 28. 作成者住所
-    'clinic_name',                // 29. 作成者名称
-    'clinic_manager',             // 30. 作成者氏名
-    'clinic_phone'                // 31. 作成者電話番号
+    'remarks',                    // 25. 備考
+    'receipt_amount',             // 26. 領収金額
+    'creation_date',              // 27. 作成年月日
+    'clinic_postal_code',         // 28. 作成者郵便番号
+    'clinic_address',             // 29. 作成者住所
+    'clinic_name',                // 30. 作成者名称
+    'clinic_manager',             // 31. 作成者氏名
+    'clinic_phone'                // 32. 作成者電話番号
   ];
 
   // PDFタイプに応じてフィールド順序を決定
@@ -662,6 +663,27 @@ function renderSingleFieldHTML(key, field) {
       </div>
       ` : ''}
 
+      ${field.maxCharsPerLine !== undefined ? `
+      <div class="coordinate-input">
+        <label>1行あたり文字数:</label>
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'maxCharsPerLine', -1)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'maxCharsPerLine', -1)"
+                ontouchend="stopLongPress()">−</button>
+        <input type="number" step="1" value="${field.maxCharsPerLine}"
+               onchange="updateCoordinate('${key}', 'maxCharsPerLine', this.value)"
+               class="form-control form-control-sm" style="width: 80px;" data-property="maxCharsPerLine">
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'maxCharsPerLine', 1)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'maxCharsPerLine', 1)"
+                ontouchend="stopLongPress()">+</button>
+      </div>
+      ` : ''}
+
       ${field.postalCodeGap !== undefined ? `
       <div class="coordinate-input">
         <label>郵便番号間隔:</label>
@@ -1057,6 +1079,50 @@ function updateCompositeGroupSelection(groupName, selectedKey) {
   lsDiv.appendChild(lsInput);
   lsDiv.appendChild(lsBtnPlus);
   detailsDiv.appendChild(lsDiv);
+  }
+
+  // 1行あたり文字数
+  if (!isShapeOnly && selectedField.maxCharsPerLine !== undefined) {
+  const mcplDiv = document.createElement('div');
+  mcplDiv.className = 'coordinate-input';
+  mcplDiv.innerHTML = `<label>1行あたり文字数:</label>`;
+
+  const mcplBtnMinus = document.createElement('button');
+  mcplBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+  mcplBtnMinus.innerHTML = '−';
+  mcplBtnMinus.addEventListener('mousedown', () => startLongPress(selectedKey, 'maxCharsPerLine', -1));
+  mcplBtnMinus.addEventListener('mouseup', stopLongPress);
+  mcplBtnMinus.addEventListener('mouseleave', stopLongPress);
+  mcplBtnMinus.addEventListener('touchstart', () => startLongPress(selectedKey, 'maxCharsPerLine', -1));
+  mcplBtnMinus.addEventListener('touchend', stopLongPress);
+
+  const mcplInput = document.createElement('input');
+  mcplInput.type = 'number';
+  mcplInput.step = '1';
+  mcplInput.value = selectedField.maxCharsPerLine || 50;
+  mcplInput.className = 'form-control form-control-sm';
+  mcplInput.style.width = '80px';
+  mcplInput.style.display = 'inline-block';
+  mcplInput.style.marginLeft = '5px';
+  mcplInput.style.marginRight = '5px';
+  mcplInput.setAttribute('data-property', 'maxCharsPerLine');
+  mcplInput.addEventListener('change', function() {
+    updateCoordinate(selectedKey, 'maxCharsPerLine', this.value);
+  });
+
+  const mcplBtnPlus = document.createElement('button');
+  mcplBtnPlus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+  mcplBtnPlus.innerHTML = '+';
+  mcplBtnPlus.addEventListener('mousedown', () => startLongPress(selectedKey, 'maxCharsPerLine', 1));
+  mcplBtnPlus.addEventListener('mouseup', stopLongPress);
+  mcplBtnPlus.addEventListener('mouseleave', stopLongPress);
+  mcplBtnPlus.addEventListener('touchstart', () => startLongPress(selectedKey, 'maxCharsPerLine', 1));
+  mcplBtnPlus.addEventListener('touchend', stopLongPress);
+
+  mcplDiv.appendChild(mcplBtnMinus);
+  mcplDiv.appendChild(mcplInput);
+  mcplDiv.appendChild(mcplBtnPlus);
+  detailsDiv.appendChild(mcplDiv);
   }
 
   // 郵便番号間隔（postal_codeタイプのフィールド）
@@ -1636,6 +1702,50 @@ function updateRadioGroupSelection(groupName, selectedKey) {
     lsDiv.appendChild(lsInput);
     lsDiv.appendChild(lsBtnPlus);
     detailsDiv.appendChild(lsDiv);
+  }
+
+  // 1行あたり文字数
+  if (!isShapeOnly && selectedField.maxCharsPerLine !== undefined) {
+    const mcplDiv = document.createElement('div');
+    mcplDiv.className = 'coordinate-input';
+    mcplDiv.innerHTML = `<label>1行あたり文字数:</label>`;
+
+  const mcplBtnMinus = document.createElement('button');
+  mcplBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+  mcplBtnMinus.innerHTML = '−';
+  mcplBtnMinus.addEventListener('mousedown', () => startLongPress(selectedKey, 'maxCharsPerLine', -1));
+  mcplBtnMinus.addEventListener('mouseup', stopLongPress);
+  mcplBtnMinus.addEventListener('mouseleave', stopLongPress);
+  mcplBtnMinus.addEventListener('touchstart', () => startLongPress(selectedKey, 'maxCharsPerLine', -1));
+  mcplBtnMinus.addEventListener('touchend', stopLongPress);
+
+  const mcplInput = document.createElement('input');
+  mcplInput.type = 'number';
+  mcplInput.step = '1';
+  mcplInput.value = selectedField.maxCharsPerLine || 50;
+  mcplInput.className = 'form-control form-control-sm';
+  mcplInput.style.width = '80px';
+  mcplInput.style.display = 'inline-block';
+  mcplInput.style.marginLeft = '5px';
+  mcplInput.setAttribute('data-property', 'maxCharsPerLine');
+  mcplInput.style.marginRight = '5px';
+  mcplInput.addEventListener('change', function() {
+    updateCoordinate(selectedKey, 'maxCharsPerLine', this.value);
+  });
+
+  const mcplBtnPlus = document.createElement('button');
+  mcplBtnPlus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+  mcplBtnPlus.innerHTML = '+';
+  mcplBtnPlus.addEventListener('mousedown', () => startLongPress(selectedKey, 'maxCharsPerLine', 1));
+  mcplBtnPlus.addEventListener('mouseup', stopLongPress);
+  mcplBtnPlus.addEventListener('mouseleave', stopLongPress);
+  mcplBtnPlus.addEventListener('touchstart', () => startLongPress(selectedKey, 'maxCharsPerLine', 1));
+  mcplBtnPlus.addEventListener('touchend', stopLongPress);
+
+    mcplDiv.appendChild(mcplBtnMinus);
+    mcplDiv.appendChild(mcplInput);
+    mcplDiv.appendChild(mcplBtnPlus);
+    detailsDiv.appendChild(mcplDiv);
   }
 
   // 円半径（楕円を使用している場合、またはcalendarタイプの場合は表示しない）

@@ -740,11 +740,38 @@ class TreatmentReceiptPdfService
    */
   protected function renderSampleTexts(Fpdi $pdf): void
   {
+    // therapy_types関連のY座標計算用変数
+    $therapyTypesBaseY = $this->coord('therapy_types', 'y');
+    $verticalSpacing = $this->coord('therapy_types', 'verticalSpacing') ?? 5;
+
+    // therapy関連フィールドのキー一覧
+    $therapyRelatedKeys = [
+      'therapy_counts',
+      'therapy_unit_prices',
+      'therapy_totals',
+      'therapy_period_start',
+      'therapy_period_end'
+    ];
+
     foreach ($this->coordinates as $key => $field) {
       // customSampleDataに値がある場合はそれを使用
       if (isset($this->customSampleData[$key])) {
         $value = $this->customSampleData[$key];
-        $this->drawText($pdf, $key, $value);
+
+        // therapy関連フィールドの場合、Y座標をtherapy_typesから計算
+        if (in_array($key, $therapyRelatedKeys) && $therapyTypesBaseY !== null) {
+          // 元のY座標を一時保存
+          $originalY = $this->coordinates[$key]['y'] ?? null;
+          // therapy_typesと同じY座標を使用（verticalSpacingは行ごとに適用されるため、サンプルでは0行目として扱う）
+          $this->coordinates[$key]['y'] = $therapyTypesBaseY;
+          $this->drawText($pdf, $key, $value);
+          // 元のY座標を復元
+          if ($originalY !== null) {
+            $this->coordinates[$key]['y'] = $originalY;
+          }
+        } else {
+          $this->drawText($pdf, $key, $value);
+        }
       }
 
       // type=selectのフィールドは楕円を描画（isSelectedがtrueの場合）

@@ -344,11 +344,12 @@ const sampleDataFieldMappingTreatmentReceipt = {
   'copayment_amount': { field: 'copayment_amount', label: '一部負担金', type: 'number' },
   'treatment_month': { field: 'treatment_month', label: '施術月', type: 'number' },
   'copayment_ratio': { field: 'copayment_ratio', label: '負担割合', type: 'number' },
+  'remarks': { field: 'remarks', label: '備考', type: 'text' },
   'receipt_amount': { field: 'receipt_amount', label: '領収金額', type: 'number' },
   'creation_date': { field: 'creation_date', label: '作成年月日', type: 'text' },
   'clinic_postal_code': { field: 'clinic_postal_code', label: '郵便番号', type: 'text' },
   'clinic_address': { field: 'clinic_address', label: '住所', type: 'text' },
   'clinic_name': { field: 'clinic_name', label: '治療院名', type: 'text' },
-  'clinic_manager': { field: 'clinic_manager', label: '施術管理者', type: 'text' },
+  'clinic_manager': { field: 'clinic_manager', label: '代表者氏名', type: 'text' },
   'clinic_phone': { field: 'clinic_phone', label: '電話番号', type: 'text' }
 };
