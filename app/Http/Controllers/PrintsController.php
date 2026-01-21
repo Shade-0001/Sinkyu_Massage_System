@@ -188,6 +188,58 @@ class PrintsController extends Controller
   }
 
   /**
+   * 施術料金一覧表（保険扱い）PDF出力
+   *
+   * @param Request $request
+   * @param \App\Services\Print\TreatmentFeeListPdfService $service
+   * @param string $filename
+   * @return \Illuminate\Http\Response
+   */
+  public function treatmentFeeList(Request $request, \App\Services\Print\TreatmentFeeListPdfService $service, string $filename)
+  {
+    try {
+      $validated = $request->validate([
+        'service_year_month' => 'required|date_format:Y-m',
+        'receipt_type' => 'required|in:acupuncture,massage',
+      ]);
+
+      $receiptType = $validated['receipt_type'];
+      $typeName = $receiptType === 'acupuncture' ? '施術料金一覧表（保険扱い）はり・きゅう' : '施術料金一覧表（保険扱い）あんま・マッサージ';
+
+      \Log::info("{$typeName}PDF生成開始", [
+        'service_year_month' => $validated['service_year_month'],
+        'receipt_type' => $receiptType,
+      ]);
+
+      // サービスに施術タイプを設定
+      $service->setReceiptType($receiptType);
+
+      $pdfBinary = $service->generate($validated['service_year_month']);
+
+      \Log::info("{$typeName}PDF生成完了", ['size' => strlen($pdfBinary)]);
+
+      return response($pdfBinary, 200, [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'inline',
+      ]);
+    } catch (\Exception $e) {
+      \Log::error("施術料金一覧表（保険扱い）PDF生成エラー", [
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+        'trace' => $e->getTraceAsString(),
+      ]);
+
+      return response()->json([
+        'error' => 'PDF生成に失敗しました',
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+      ], 500);
+    }
+  }
+
+  /**
    * PDF生成の共通処理
    *
    * @param Request $request

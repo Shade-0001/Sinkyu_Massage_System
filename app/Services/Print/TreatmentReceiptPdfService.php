@@ -108,7 +108,7 @@ class TreatmentReceiptPdfService
     $pdf->setPrintFooter(false);
 
     // テンプレートPDFを読み込み
-    $templatePath = storage_path('app/templates/施術料金領収書.pdf');
+    $templatePath = storage_path('app/templates/acupuncture_and_massage/施術料金領収書.pdf');
 
     if (!file_exists($templatePath)) {
       throw new \Exception('テンプレートファイルが見つかりません: ' . $templatePath);

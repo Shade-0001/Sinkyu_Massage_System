@@ -3,4 +3,6 @@
 !config/**
 !private/
 !public/
+!templates/
+!templates/**
 !.gitignore

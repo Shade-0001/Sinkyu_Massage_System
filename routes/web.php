@@ -260,6 +260,7 @@ Route::middleware('auth')->group(function () {
   Route::post('/prints/acupuncture-benefit/{filename}', [PrintsController::class, 'acupunctureBenefit'])->name('prints.acupuncture-benefit');
   Route::post('/prints/massage-benefit/{filename}', [PrintsController::class, 'massageBenefit'])->name('prints.massage-benefit');
   Route::post('/prints/treatment-receipt/{filename}', [PrintsController::class, 'treatmentReceipt'])->name('prints.treatment-receipt');
+  Route::post('/prints/treatment-fee-list/{filename}', [PrintsController::class, 'treatmentFeeList'])->name('prints.treatment-fee-list');
 
   // PDFレイアウト調整ツール
   Route::get('/prints/coordinate-adjuster', [PrintsController::class, 'coordinateAdjuster'])->name('prints.coordinate-adjuster');

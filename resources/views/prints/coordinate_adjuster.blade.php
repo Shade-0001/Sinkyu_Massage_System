@@ -11,7 +11,9 @@
     - *_coordinates.json          : 各PDFタイプの座標設定
 
   storage/app/templates/
-    - *.pdf                       : PDFテンプレートファイル
+    - acupuncture_and_massage/    : 鍼灸・マッサージ関連のPDFテンプレート
+    - others_1/                   : その他のPDFテンプレート1
+    - others_2/                   : その他のPDFテンプレート2
 
   app/Http/Controllers/
     - PrintsController.php        : PDFタイプ設定を一元管理し、座標取得/保存/プレビューを処理
@@ -25,7 +27,7 @@
   【新しいPDFタイプを追加する手順】
   1. storage/app/config/pdf_types.json に新しいタイプのエントリを追加
   2. storage/app/config/ に座標設定JSONファイルを作成
-  3. storage/app/templates/ にPDFテンプレートを配置
+  3. storage/app/templates/ の適切なサブフォルダにPDFテンプレートを配置
   4. app/Services/Print/ にPDF生成サービスクラスを作成
   5. （必要に応じて）coordinate-adjuster_ui.js の shouldIncludeField 関数にフィルタリング条件を追加
 --}}

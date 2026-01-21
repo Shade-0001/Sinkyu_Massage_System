@@ -344,3 +344,84 @@ function submitTreatmentReceipt() {
     }
   }, 100);
 }
+
+/**
+ * 施術料金一覧表（保険扱い）モーダルを開く
+ * @param {string} type - 'acupuncture'（はり・きゅう）または 'massage'（あんま・マッサージ）
+ */
+function openTreatmentFeeListModal(type) {
+  const modalElement = document.getElementById('treatmentFeeListModal');
+  if (!modalElement) return;
+
+  // フォームをリセット
+  resetFormToDefault('treatmentFeeListForm');
+
+  // タイプを設定
+  const feeListType = document.getElementById('fee_list_type');
+  if (feeListType) {
+    feeListType.value = type;
+  }
+
+  // モーダルタイトルを更新
+  const modalTitle = document.getElementById('treatmentFeeListModalLabel');
+  if (modalTitle) {
+    if (type === 'acupuncture') {
+      modalTitle.textContent = 'はり・きゅう 施術料金一覧表（保険扱い） 出力設定';
+    } else {
+      modalTitle.textContent = 'あんま・マッサージ 施術料金一覧表（保険扱い） 出力設定';
+    }
+  }
+
+  // モーダルをbodyに追加（必要な場合）
+  if (modalElement.parentElement !== document.body) {
+    document.body.appendChild(modalElement);
+  }
+
+  // Bootstrapモーダルインスタンスを取得または作成
+  const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
+  modalInstance.show();
+}
+
+/**
+ * 施術料金一覧表（保険扱い）PDF出力
+ */
+function submitTreatmentFeeList() {
+  const form = document.getElementById('treatmentFeeListForm');
+
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
+  const feeListType = document.getElementById('fee_list_type').value;
+
+  // 現在日時からファイル名を生成
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  const typeName = feeListType === 'acupuncture' ? 'はり・きゅう' : 'あんま・マッサージ';
+  const filename = `${typeName}施術料金一覧表（保険扱い）_${year}-${month}-${day}_${hours}-${minutes}-${seconds}.pdf`;
+
+  // フォームのアクションURLにファイル名を含める
+  form.action = `/prints/treatment-fee-list/${encodeURIComponent(filename)}`;
+
+  // フォームを新しいタブで送信
+  form.target = '_blank';
+  form.submit();
+
+  // モーダルを閉じる
+  setTimeout(() => {
+    const modalElement = document.getElementById('treatmentFeeListModal');
+    if (modalElement) {
+      const modalInstance = bootstrap.Modal.getInstance(modalElement);
+      if (modalInstance) {
+        modalInstance.hide();
+      }
+    }
+  }, 100);
+}

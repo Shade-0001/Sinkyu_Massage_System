@@ -293,7 +293,7 @@ class AcupunctureBenefitPdfService
     $pdf->AddPage();
 
     // テンプレートPDF読み込み
-    $templatePath = storage_path('app/templates/療養費支給申請書（はり・きゅう）.pdf');
+    $templatePath = storage_path('app/templates/acupuncture_and_massage/療養費支給申請書（はり・きゅう）.pdf');
 
     if (file_exists($templatePath)) {
       $pageCount = $pdf->setSourceFile($templatePath);
