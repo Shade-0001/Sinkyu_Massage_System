@@ -70,7 +70,20 @@ class PrintsController extends Controller
     $config = $this->getPdfTypeConfig($pdfType);
     $serviceClass = $config['serviceClass'] ?? 'AcupunctureBenefitPdfService';
     $fullClassName = "\\App\\Services\\Print\\{$serviceClass}";
-    return new $fullClassName();
+    $service = new $fullClassName();
+
+    // 座標ファイルパスとテンプレートファイルパスを設定
+    if (method_exists($service, 'setCoordinatesPath') && isset($config['coordinatesFile'])) {
+      $coordinatesPath = storage_path('app/config/' . $config['coordinatesFile']);
+      $service->setCoordinatesPath($coordinatesPath);
+    }
+
+    if (method_exists($service, 'setTemplatePath') && isset($config['templateFile'])) {
+      $templatePath = storage_path('app/templates/acupuncture_and_massage/' . $config['templateFile']);
+      $service->setTemplatePath($templatePath);
+    }
+
+    return $service;
   }
 
   /**
@@ -172,6 +185,77 @@ class PrintsController extends Controller
       ]);
     } catch (\Exception $e) {
       \Log::error("施術料金領収書PDF生成エラー", [
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+        'trace' => $e->getTraceAsString(),
+      ]);
+
+      return response()->json([
+        'error' => 'PDF生成に失敗しました',
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+      ], 500);
+    }
+  }
+
+  /**
+   * 医療助成費支給申請書PDF出力
+   *
+   * @param Request $request
+   * @param string $filename
+   * @return \Illuminate\Http\Response
+   */
+  public function medicalAssistance(Request $request, string $filename)
+  {
+    try {
+      $validated = $request->validate([
+        'clinic_user_ids' => 'required|array',
+        'clinic_user_ids.*' => 'exists:clinic_users,id',
+        'service_year_month' => 'required|date_format:Y-m',
+        'assistance_type' => 'required|in:acupuncture,massage',
+        'signature_option' => 'required|in:user_signature_blank,user_address_signature_blank',
+        'submission_month' => 'required|date_format:Y-m',
+      ]);
+
+      $assistanceType = $validated['assistance_type'];
+      $typeName = $assistanceType === 'acupuncture' ? '医療助成費支給申請書（はり･きゅう）' : '医療助成費支給申請書（あんま･マッサージ）';
+
+      \Log::info("{$typeName}PDF生成開始", [
+        'clinic_user_ids' => $validated['clinic_user_ids'],
+        'service_year_month' => $validated['service_year_month'],
+        'assistance_type' => $assistanceType,
+        'signature_option' => $validated['signature_option'],
+        'submission_month' => $validated['submission_month'],
+      ]);
+
+      // サービスクラスを取得
+      $serviceClass = $assistanceType === 'acupuncture'
+        ? \App\Services\Print\AcupunctureBenefitPdfService::class
+        : \App\Services\Print\MassageBenefitPdfService::class;
+
+      $service = new $serviceClass();
+
+      // 署名オプションを設定
+      if (method_exists($service, 'setSignatureOption')) {
+        $service->setSignatureOption($validated['signature_option']);
+      }
+
+      $pdfBinary = $service->generate(
+        $validated['clinic_user_ids'],
+        $validated['service_year_month'],
+        $validated['submission_month'] . '-01'
+      );
+
+      \Log::info("{$typeName}PDF生成完了", ['size' => strlen($pdfBinary)]);
+
+      return response($pdfBinary, 200, [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'inline',
+      ]);
+    } catch (\Exception $e) {
+      \Log::error("医療助成費支給申請書PDF生成エラー", [
         'message' => $e->getMessage(),
         'file' => $e->getFile(),
         'line' => $e->getLine(),

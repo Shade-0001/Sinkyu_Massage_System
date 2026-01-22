@@ -27,6 +27,16 @@ class MassageBenefitPdfService
   protected $customSampleData = null;
 
   /**
+   * 座標ファイルパス（カスタム）
+   */
+  protected $customCoordinatesPath = null;
+
+  /**
+   * テンプレートファイルパス（カスタム）
+   */
+  protected $customTemplatePath = null;
+
+  /**
    * コンストラクタ
    */
   public function __construct()
@@ -51,11 +61,28 @@ class MassageBenefitPdfService
   }
 
   /**
+   * 座標ファイルパスを設定
+   */
+  public function setCoordinatesPath(string $path): void
+  {
+    $this->customCoordinatesPath = $path;
+    $this->loadCoordinates();
+  }
+
+  /**
+   * テンプレートファイルパスを設定
+   */
+  public function setTemplatePath(string $path): void
+  {
+    $this->customTemplatePath = $path;
+  }
+
+  /**
    * 座標設定を読み込む
    */
   protected function loadCoordinates(): void
   {
-    $configPath = storage_path('app/config/massage_benefit_coordinates.json');
+    $configPath = $this->customCoordinatesPath ?? storage_path('app/config/massage_benefit_coordinates.json');
 
     if (file_exists($configPath)) {
       $json = file_get_contents($configPath);
@@ -248,7 +275,7 @@ class MassageBenefitPdfService
     $pdf->AddPage();
 
     // テンプレートPDF読み込み
-    $templatePath = storage_path('app/templates/acupuncture_and_massage/療養費支給申請書（マッサージ）.pdf');
+    $templatePath = $this->customTemplatePath ?? storage_path('app/templates/acupuncture_and_massage/療養費支給申請書（マッサージ）.pdf');
 
     if (file_exists($templatePath)) {
       $pageCount = $pdf->setSourceFile($templatePath);

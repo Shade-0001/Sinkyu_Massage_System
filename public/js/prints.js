@@ -104,6 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
   enableClickToggleSelect('clinic_user_ids');
   enableClickToggleSelect('massage_clinic_user_ids');
   enableClickToggleSelect('receipt_clinic_user_ids');
+  enableClickToggleSelect('medical_assistance_clinic_user_ids');
 });
 
 /**
@@ -124,6 +125,27 @@ function resetFormToDefault(formId) {
       option.selected = false;
     });
   });
+}
+
+/**
+ * 利用者選択の全選択/全解除をトグル
+ * @param {string} selectId - select要素のID
+ */
+function toggleSelectAll(selectId) {
+  const select = document.getElementById(selectId);
+  if (!select) return;
+
+  const options = Array.from(select.options);
+  const selectedCount = options.filter(opt => opt.selected).length;
+  const allSelected = selectedCount === options.length;
+
+  // 全て選択されている場合は全解除、そうでなければ全選択
+  options.forEach(option => {
+    option.selected = !allSelected;
+  });
+
+  // changeイベントを発火
+  select.dispatchEvent(new Event('change', { bubbles: true }));
 }
 
 /**
@@ -417,6 +439,96 @@ function submitTreatmentFeeList() {
   // モーダルを閉じる
   setTimeout(() => {
     const modalElement = document.getElementById('treatmentFeeListModal');
+    if (modalElement) {
+      const modalInstance = bootstrap.Modal.getInstance(modalElement);
+      if (modalInstance) {
+        modalInstance.hide();
+      }
+    }
+  }, 100);
+}
+
+/**
+ * 医療助成費支給申請書モーダルを開く
+ * @param {string} type - 'acupuncture'（はり・きゅう）または 'massage'（あんま・マッサージ）
+ */
+function openMedicalAssistanceModal(type) {
+  const modalElement = document.getElementById('medicalAssistanceModal');
+  if (!modalElement) return;
+
+  // フォームをリセット
+  resetFormToDefault('medicalAssistanceForm');
+
+  // タイプを設定
+  const assistanceType = document.getElementById('medical_assistance_type');
+  if (assistanceType) {
+    assistanceType.value = type;
+  }
+
+  // モーダルタイトルを更新
+  const modalTitle = document.getElementById('medicalAssistanceModalLabel');
+  if (modalTitle) {
+    if (type === 'acupuncture') {
+      modalTitle.textContent = 'はり・きゅう医療助成費支給申請書 出力設定';
+    } else {
+      modalTitle.textContent = 'あんま・マッサージ医療助成費支給申請書 出力設定';
+    }
+  }
+
+  // 提出年月を今月に設定
+  const submissionMonth = document.getElementById('medical_assistance_submission_month');
+  if (submissionMonth) {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    submissionMonth.value = `${year}-${month}`;
+  }
+
+  // モーダルをbodyに追加（必要な場合）
+  if (modalElement.parentElement !== document.body) {
+    document.body.appendChild(modalElement);
+  }
+
+  // Bootstrapモーダルインスタンスを取得または作成
+  const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
+  modalInstance.show();
+}
+
+/**
+ * 医療助成費支給申請書PDF出力
+ */
+function submitMedicalAssistance() {
+  const form = document.getElementById('medicalAssistanceForm');
+
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
+  const assistanceType = document.getElementById('medical_assistance_type').value;
+
+  // 現在日時からファイル名を生成
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  const typeName = assistanceType === 'acupuncture' ? 'はり・きゅう' : 'あんま・マッサージ';
+  const filename = `${typeName}医療助成費支給申請書_${year}-${month}-${day}_${hours}-${minutes}-${seconds}.pdf`;
+
+  // フォームのアクションURLにファイル名を含める
+  form.action = `/prints/medical-assistance/${encodeURIComponent(filename)}`;
+
+  // フォームを新しいタブで送信
+  form.target = '_blank';
+  form.submit();
+
+  // モーダルを閉じる
+  setTimeout(() => {
+    const modalElement = document.getElementById('medicalAssistanceModal');
     if (modalElement) {
       const modalInstance = bootstrap.Modal.getInstance(modalElement);
       if (modalInstance) {

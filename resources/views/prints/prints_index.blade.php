@@ -15,7 +15,7 @@
   <h3>はり・きゅう関連</h3>
   <button type="button" class="btn btn-primary" onclick="openAcupunctureBenefitModal()">療養費支給申請書</button>
   <button type="button" class="btn btn-primary" onclick="openTreatmentReceiptModal('acupuncture')">施術料金領収書</button>
-  <button>医療助成費支給申請書</button>
+  <button type="button" class="btn btn-primary" onclick="openMedicalAssistanceModal('acupuncture')">医療助成費支給申請書</button>
   <button>後期高齢者医療療養費支給申請書</button>
   <button>同意書依頼状 (サンプル版)</button>
   <button>同意書依頼状 (医師指定)</button>
@@ -29,7 +29,7 @@
   <h3>あんま・マッサージ関連</h3>
   <button type="button" class="btn btn-primary" onclick="openMassageBenefitModal()">療養費支給申請書</button>
   <button type="button" class="btn btn-primary" onclick="openTreatmentReceiptModal('massage')">施術料金領収書</button>
-  <button>医療助成費支給申請書</button>
+  <button type="button" class="btn btn-primary" onclick="openMedicalAssistanceModal('massage')">医療助成費支給申請書</button>
   <button>後期高齢者医療療養費支給申請書</button>
   <button>同意書依頼状 (サンプル版)</button>
   <button>同意書依頼状 (医師指定)</button>
@@ -88,7 +88,8 @@
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
                     $display = $date->format('Y年m月');
-                    echo "<option value=\"{$value}\">{$display}</option>";
+                    $selected = ($i === 0) ? 'selected' : '';
+                    echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
                 @endphp
               </select>
@@ -96,7 +97,10 @@
 
             <!-- 利用者選択 -->
             <div class="mb-3">
-              <label for="clinic_user_ids" class="form-label">利用者 <span class="text-danger">*</span></label>
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <label for="clinic_user_ids" class="form-label mb-0">利用者 <span class="text-danger">*</span></label>
+                <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('clinic_user_ids')">全て選択 / 解除</button>
+              </div>
               <select class="form-select" id="clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
                   <option value="{{ $user->id }}">
@@ -146,7 +150,8 @@
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
                     $display = $date->format('Y年m月');
-                    echo "<option value=\"{$value}\">{$display}</option>";
+                    $selected = ($i === 0) ? 'selected' : '';
+                    echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
                 @endphp
               </select>
@@ -154,7 +159,10 @@
 
             <!-- 利用者選択 -->
             <div class="mb-3">
-              <label for="receipt_clinic_user_ids" class="form-label">利用者 <span class="text-danger">*</span></label>
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <label for="receipt_clinic_user_ids" class="form-label mb-0">利用者 <span class="text-danger">*</span></label>
+                <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('receipt_clinic_user_ids')">全て選択 / 解除</button>
+              </div>
               <select class="form-select" id="receipt_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
                   <option value="{{ $user->id }}">
@@ -217,7 +225,8 @@
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
                     $display = $date->format('Y年m月');
-                    echo "<option value=\"{$value}\">{$display}</option>";
+                    $selected = ($i === 0) ? 'selected' : '';
+                    echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
                 @endphp
               </select>
@@ -225,7 +234,10 @@
 
             <!-- 利用者選択 -->
             <div class="mb-3">
-              <label for="massage_clinic_user_ids" class="form-label">利用者 <span class="text-danger">*</span></label>
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <label for="massage_clinic_user_ids" class="form-label mb-0">利用者 <span class="text-danger">*</span></label>
+                <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('massage_clinic_user_ids')">全て選択 / 解除</button>
+              </div>
               <select class="form-select" id="massage_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
                   <option value="{{ $user->id }}">
@@ -246,6 +258,85 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
           <button type="button" class="btn btn-primary" onclick="submitMassageBenefit()">印刷</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 医療助成費支給申請書モーダル（はり・きゅう / あんま・マッサージ共通） -->
+  <div class="modal fade" id="medicalAssistanceModal" tabindex="-1" aria-labelledby="medicalAssistanceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="medicalAssistanceModalLabel">医療助成費支給申請書 出力設定</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="medicalAssistanceForm" method="POST">
+            @csrf
+            <input type="hidden" id="medical_assistance_type" name="assistance_type" value="">
+
+            <!-- サービス提供年月 -->
+            <div class="mb-3">
+              <label for="medical_assistance_service_year_month" class="form-label">サービス提供年月 <span class="text-danger">*</span></label>
+              <select class="form-select" id="medical_assistance_service_year_month" name="service_year_month" required>
+                <option value="">選択してください</option>
+                @php
+                  $currentDate = now();
+                  for ($i = 0; $i < 24; $i++) {
+                    $date = $currentDate->copy()->subMonths($i);
+                    $value = $date->format('Y-m');
+                    $display = $date->format('Y年m月');
+                    $selected = ($i === 0) ? 'selected' : '';
+                    echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
+                  }
+                @endphp
+              </select>
+            </div>
+
+            <!-- 利用者選択 -->
+            <div class="mb-3">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <label for="medical_assistance_clinic_user_ids" class="form-label mb-0">利用者 <span class="text-danger">*</span></label>
+                <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('medical_assistance_clinic_user_ids')">全て選択 / 解除</button>
+              </div>
+              <select class="form-select" id="medical_assistance_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
+                @foreach($clinicUsers as $user)
+                  <option value="{{ $user->id }}">
+                    {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
+                  </option>
+                @endforeach
+              </select>
+              <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
+            </div>
+
+            <!-- オプション -->
+            <div class="mb-3">
+              <label class="form-label">オプション <span class="text-danger">*</span></label>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="signature_option" id="signature_option_1" value="user_signature_blank" required>
+                <label class="form-check-label" for="signature_option_1">
+                  利用者署名欄空白
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="signature_option" id="signature_option_2" value="user_address_signature_blank" required>
+                <label class="form-check-label" for="signature_option_2">
+                  利用者住所・署名欄空白
+                </label>
+              </div>
+            </div>
+
+            <!-- 提出年月 -->
+            <div class="mb-3">
+              <label for="medical_assistance_submission_month" class="form-label">提出年月 <span class="text-danger">*</span></label>
+              <input type="month" class="form-control" id="medical_assistance_submission_month" name="submission_month" value="{{ now()->format('Y-m') }}" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-primary" onclick="submitMedicalAssistance()">印刷</button>
         </div>
       </div>
     </div>
@@ -300,7 +391,8 @@
         /* 利用者選択リストのスクロールアニメーションを無効化 */
         #clinic_user_ids,
         #massage_clinic_user_ids,
-        #receipt_clinic_user_ids {
+        #receipt_clinic_user_ids,
+        #medical_assistance_clinic_user_ids {
           scroll-behavior: auto;
         }
       </style>

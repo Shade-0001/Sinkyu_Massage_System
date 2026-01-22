@@ -1,13 +1,13 @@
 {
   "therapy_benefit_acupuncture": {
-    "name": "はり・きゅう療養費支給申請書",
+    "name": "療養費支給申請書（はり・きゅう）",
     "coordinatesFile": "acupuncture_benefit_coordinates.json",
     "templateFile": "療養費支給申請書（はり・きゅう）.pdf",
     "serviceClass": "AcupunctureBenefitPdfService",
     "fieldsFile": "therapy_benefit_acupuncture.js"
   },
   "therapy_benefit_massage": {
-    "name": "あんま・マッサージ療養費支給申請書",
+    "name": "療養費支給申請書（マッサージ）",
     "coordinatesFile": "massage_benefit_coordinates.json",
     "templateFile": "療養費支給申請書（マッサージ）.pdf",
     "serviceClass": "MassageBenefitPdfService",
@@ -19,5 +19,19 @@
     "templateFile": "施術料金領収書.pdf",
     "serviceClass": "TreatmentReceiptPdfService",
     "fieldsFile": "treatment_receipt.js"
+  },
+  "medical_assistance_acupuncture": {
+    "name": "医療助成費支給申請書（はり･きゅう）",
+    "coordinatesFile": "medical_assistance_acupuncture_coordinates.json",
+    "templateFile": "医療助成費支給申請書（はり･きゅう）.pdf",
+    "serviceClass": "AcupunctureBenefitPdfService",
+    "fieldsFile": "therapy_benefit_acupuncture.js"
+  },
+  "medical_assistance_massage": {
+    "name": "医療助成費支給申請書（あんま･マッサージ）",
+    "coordinatesFile": "medical_assistance_massage_coordinates.json",
+    "templateFile": "医療助成費支給申請書（あんま･マッサージ）.pdf",
+    "serviceClass": "MassageBenefitPdfService",
+    "fieldsFile": "therapy_benefit_massage.js"
   }
 }

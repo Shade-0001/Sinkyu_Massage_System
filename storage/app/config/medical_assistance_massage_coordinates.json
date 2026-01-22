@@ -1,89 +1,12 @@
 {
-    "title_year_era": {
-        "x": -8,
-        "y": 5.5,
-        "fontSize": 7,
+    "title_year_month": {
+        "x": 16,
+        "y": 16,
+        "fontSize": 12,
         "letterSpacing": 0,
-        "label": "元号",
-        "textAlign": "center",
-        "type": "select",
-        "compositeGroup": "title_date",
-        "compositeLabel": "タイトル年月"
-    },
-    "title_year_number": {
-        "x": -8,
-        "y": 8,
-        "fontSize": 8,
-        "letterSpacing": 0,
-        "label": "年",
-        "textAlign": "center",
-        "type": "number",
-        "compositeGroup": "title_date",
-        "compositeLabel": "タイトル年月"
-    },
-    "title_month": {
-        "x": 0,
-        "y": 7,
-        "fontSize": 9.5,
-        "letterSpacing": 0,
-        "label": "月",
-        "type": "number",
-        "compositeGroup": "title_date",
-        "compositeLabel": "タイトル年月",
-        "textAlign": "center"
-    },
-    "institution_code": {
-        "x": 119,
-        "y": 11,
-        "fontSize": 10.5,
-        "letterSpacing": 0.2,
-        "label": "機関コード",
-        "textAlign": "center",
-        "type": "text"
-    },
-    "insurance_type_1_shakoku": {
-        "x": 132.5,
-        "y": 20,
-        "label": "保険種別１",
-        "type": "select",
-        "ellipseWidth": 5.5,
-        "ellipseHeight": 3,
-        "lineWidth": 0.5,
-        "radioGroup": "insurance_type_1",
-        "optionLabel": "社･国･組"
-    },
-    "insurance_type_1_kouhi": {
-        "x": 132.5,
-        "y": 25.5,
-        "label": "保険種別１",
-        "type": "select",
-        "ellipseWidth": 5.5,
-        "ellipseHeight": 3,
-        "lineWidth": 0.5,
-        "radioGroup": "insurance_type_1",
-        "optionLabel": "公費"
-    },
-    "insurance_type_1_kouki": {
-        "x": 143,
-        "y": 20,
-        "label": "保険種別１",
-        "type": "select",
-        "ellipseWidth": 5.5,
-        "ellipseHeight": 3,
-        "lineWidth": 0.5,
-        "radioGroup": "insurance_type_1",
-        "optionLabel": "後期"
-    },
-    "insurance_type_1_taishoku": {
-        "x": 143,
-        "y": 25.5,
-        "label": "保険種別１",
-        "type": "select",
-        "ellipseWidth": 5.5,
-        "ellipseHeight": 3,
-        "lineWidth": 0.5,
-        "radioGroup": "insurance_type_1",
-        "optionLabel": "退職"
+        "textAlign": "left",
+        "type": "text",
+        "label": "元号年月"
     },
     "insurance_type_3_hongai": {
         "x": 154,
@@ -186,27 +109,9 @@
         "y": 48,
         "fontSize": 12,
         "letterSpacing": 0,
-        "label": "被保険者証記号番号",
+        "label": "被保険者記号番号",
         "type": "text",
         "textAlign": "center"
-    },
-    "public_funds_payer_number": {
-        "x": 46.5,
-        "y": 16.5,
-        "fontSize": 15,
-        "letterSpacing": 4.1,
-        "label": "公費負担者番号",
-        "textAlign": "left",
-        "type": "text"
-    },
-    "public_funds_recipient_number": {
-        "x": 46.5,
-        "y": 22.5,
-        "fontSize": 15,
-        "letterSpacing": 4.1,
-        "label": "公費受給者番号",
-        "textAlign": "left",
-        "type": "text"
     },
     "locality_code": {
         "x": 46.5,
@@ -501,12 +406,21 @@
         "compositeGroup": "clinic_date",
         "compositeLabel": "施術証明年月日"
     },
-    "therapist_registration_number": {
+    "license_hari_number": {
         "x": -55,
         "y": 198.5,
         "fontSize": 10,
         "letterSpacing": 0.2,
-        "label": "施術者登録番号",
+        "label": "免許番号（はり師）",
+        "textAlign": "center",
+        "type": "text"
+    },
+    "license_kyu_number": {
+        "x": -55,
+        "y": 203.5,
+        "fontSize": 10,
+        "letterSpacing": 0.2,
+        "label": "免許番号（きゅう師）",
         "textAlign": "center",
         "type": "text"
     },
@@ -1227,16 +1141,7 @@
         "compositeGroup": "submission_date",
         "compositeLabel": "申請年月日"
     },
-    "insurer_name": {
-        "x": -130,
-        "y": 217.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "label": "申請先名称",
-        "textAlign": "right",
-        "type": "text"
-    },
-    "payment_category_furikomi": {
+    "payment_category_account_transfer": {
         "ellipseX": 29,
         "ellipseY": 228.5,
         "ellipseWidth": 10,
@@ -1248,9 +1153,9 @@
         "textAlign": "center",
         "type": "select",
         "radioGroup": "payment_category",
-        "optionLabel": "振込"
+        "optionLabel": "口座振替"
     },
-    "payment_category_bank_transfer": {
+    "payment_category_counter_payment": {
         "ellipseX": 58,
         "ellipseY": 228,
         "ellipseWidth": 12,
@@ -1262,35 +1167,7 @@
         "textAlign": "center",
         "type": "select",
         "radioGroup": "payment_category",
-        "optionLabel": "銀行送金"
-    },
-    "payment_category_post_transfer": {
-        "ellipseX": 32,
-        "ellipseY": 231.5,
-        "ellipseWidth": 14,
-        "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
-        "x": 43,
-        "y": 195,
-        "label": "支払区分",
-        "textAlign": "center",
-        "type": "select",
-        "radioGroup": "payment_category",
-        "optionLabel": "郵便局送金"
-    },
-    "payment_category_local_payment": {
-        "ellipseX": 57,
-        "ellipseY": 231.5,
-        "ellipseWidth": 13,
-        "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
-        "x": 63,
-        "y": 195,
-        "label": "支払区分",
-        "textAlign": "center",
-        "type": "select",
-        "radioGroup": "payment_category",
-        "optionLabel": "当地払"
+        "optionLabel": "窓口払"
     },
     "deposit_type_ordinary": {
         "ellipseX": 82,
@@ -1320,7 +1197,7 @@
         "radioGroup": "deposit_type",
         "optionLabel": "当座"
     },
-    "deposit_type_notice": {
+    "deposit_type_savings": {
         "ellipseX": 81.5,
         "ellipseY": 231.5,
         "ellipseWidth": 9,
@@ -1332,9 +1209,9 @@
         "textAlign": "center",
         "type": "select",
         "radioGroup": "deposit_type",
-        "optionLabel": "通知"
+        "optionLabel": "貯蓄"
     },
-    "deposit_type_betsudan": {
+    "deposit_type_other": {
         "ellipseX": 101.5,
         "ellipseY": 231.5,
         "ellipseWidth": 9,
@@ -1346,109 +1223,16 @@
         "textAlign": "center",
         "type": "select",
         "radioGroup": "deposit_type",
-        "optionLabel": "別段"
+        "optionLabel": "その他"
     },
-    "financial_institution_name_1": {
+    "financial_institution_name": {
         "x": 32,
         "y": 226,
         "fontSize": 10,
         "letterSpacing": 0,
-        "label": "金融機関名1",
+        "label": "金融機関名",
         "textAlign": "center",
         "type": "text"
-    },
-    "financial_institution_type_bank": {
-        "ellipseX": 160.5,
-        "ellipseY": 224.5,
-        "ellipseWidth": 4.5,
-        "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
-        "x": 35,
-        "y": 205,
-        "label": "金融機関名１（サークル）",
-        "textAlign": "center",
-        "type": "select",
-        "radioGroup": "financial_institution_type",
-        "optionLabel": "銀行"
-    },
-    "financial_institution_type_kinko": {
-        "ellipseX": 160.5,
-        "ellipseY": 228,
-        "ellipseWidth": 4.5,
-        "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
-        "x": 45,
-        "y": 205,
-        "label": "金融機関名１（サークル）",
-        "textAlign": "center",
-        "type": "select",
-        "radioGroup": "financial_institution_type",
-        "optionLabel": "金庫"
-    },
-    "financial_institution_type_nokyo": {
-        "ellipseX": 160.5,
-        "ellipseY": 231.5,
-        "ellipseWidth": 4.5,
-        "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
-        "x": 55,
-        "y": 205,
-        "label": "金融機関名１（サークル）",
-        "textAlign": "center",
-        "type": "select",
-        "radioGroup": "financial_institution_type",
-        "optionLabel": "農協"
-    },
-    "financial_institution_name_2": {
-        "x": 69,
-        "y": 225.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "label": "金融機関名2",
-        "textAlign": "center",
-        "type": "text"
-    },
-    "branch_type_honten": {
-        "ellipseX": 191,
-        "ellipseY": 224.5,
-        "ellipseWidth": 4.5,
-        "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
-        "x": 90,
-        "y": 205,
-        "label": "金融機関名２（サークル）",
-        "textAlign": "center",
-        "type": "select",
-        "radioGroup": "branch_type",
-        "optionLabel": "本店"
-    },
-    "branch_type_shiten": {
-        "ellipseX": 191,
-        "ellipseY": 228,
-        "ellipseWidth": 4.5,
-        "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
-        "x": 100,
-        "y": 205,
-        "label": "金融機関名２（サークル）",
-        "textAlign": "center",
-        "type": "select",
-        "radioGroup": "branch_type",
-        "optionLabel": "支店"
-    },
-    "branch_type_shucchoujo": {
-        "ellipseX": 189.5,
-        "ellipseY": 231.5,
-        "ellipseWidth": 6,
-        "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
-        "x": 110,
-        "y": 205,
-        "label": "金融機関名２（サークル）",
-        "textAlign": "center",
-        "type": "select",
-        "radioGroup": "branch_type",
-        "optionLabel": "出張所"
     },
     "bank_account_holder_kana": {
         "x": -40,

@@ -1,89 +1,186 @@
 {
-    "title_year_era": {
-        "x": -8,
-        "y": 5.5,
-        "fontSize": 7,
+    "title_year_month": {
+        "x": 16,
+        "y": 16,
+        "fontSize": 12,
         "letterSpacing": 0,
-        "label": "元号",
-        "textAlign": "center",
-        "type": "select",
-        "compositeGroup": "title_date",
-        "compositeLabel": "タイトル年月"
+        "textAlign": "left",
+        "type": "text",
+        "label": "元号年月"
     },
-    "title_year_number": {
-        "x": -8,
-        "y": 8,
-        "fontSize": 8,
+    "insurance_symbol": {
+        "x": -52,
+        "y": 48,
+        "fontSize": 12,
         "letterSpacing": 0,
-        "label": "年",
-        "textAlign": "center",
-        "type": "number",
-        "compositeGroup": "title_date",
-        "compositeLabel": "タイトル年月"
-    },
-    "title_month": {
-        "x": 0,
-        "y": 7,
-        "fontSize": 9.5,
-        "letterSpacing": 0,
-        "label": "月",
-        "type": "number",
-        "compositeGroup": "title_date",
-        "compositeLabel": "タイトル年月",
+        "label": "被保険者証記号番号",
+        "type": "text",
         "textAlign": "center"
     },
-    "institution_code": {
-        "x": 119,
-        "y": 11,
-        "fontSize": 10.5,
-        "letterSpacing": 0.2,
-        "label": "機関コード",
+    "patient_name_kana": {
+        "x": -34,
+        "y": 53.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "氏名カナ（姓名）",
         "textAlign": "center",
         "type": "text"
     },
-    "insurance_type_1_shakoku": {
-        "x": 132.5,
-        "y": 20,
-        "label": "保険種別１",
-        "type": "select",
-        "ellipseWidth": 5.5,
-        "ellipseHeight": 3,
-        "lineWidth": 0.5,
-        "radioGroup": "insurance_type_1",
-        "optionLabel": "社･国･組"
+    "patient_name": {
+        "x": -38,
+        "y": 60.5,
+        "fontSize": 18,
+        "letterSpacing": 0,
+        "label": "氏名（姓名）",
+        "textAlign": "center",
+        "type": "text"
     },
-    "insurance_type_1_kouhi": {
-        "x": 132.5,
-        "y": 25.5,
-        "label": "保険種別１",
-        "type": "select",
-        "ellipseWidth": 5.5,
-        "ellipseHeight": 3,
+    "patient_gender_male": {
+        "x": 94.5,
+        "y": 62,
+        "label": "性別",
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
         "lineWidth": 0.5,
-        "radioGroup": "insurance_type_1",
-        "optionLabel": "公費"
+        "radioGroup": "gender",
+        "optionLabel": "男",
+        "type": "select"
     },
-    "insurance_type_1_kouki": {
-        "x": 143,
-        "y": 20,
-        "label": "保険種別１",
-        "type": "select",
-        "ellipseWidth": 5.5,
-        "ellipseHeight": 3,
+    "patient_gender_female": {
+        "x": 94.5,
+        "y": 67,
+        "label": "性別",
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
         "lineWidth": 0.5,
-        "radioGroup": "insurance_type_1",
-        "optionLabel": "後期"
+        "radioGroup": "gender",
+        "optionLabel": "女",
+        "type": "select"
     },
-    "insurance_type_1_taishoku": {
-        "x": 143,
-        "y": 25.5,
-        "label": "保険種別１",
-        "type": "select",
-        "ellipseWidth": 5.5,
-        "ellipseHeight": 3,
+    "birthday_era_reiwa": {
+        "x": 66,
+        "y": 73.5,
+        "label": "元号",
+        "radioGroup": "birthday_era",
+        "optionLabel": "令和",
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
         "lineWidth": 0.5,
-        "radioGroup": "insurance_type_1",
-        "optionLabel": "退職"
+        "type": "select",
+        "compositeGroup": "birthday_full_date",
+        "compositeLabel": "生年月日"
+    },
+    "birthday_era_heisei": {
+        "x": 60.5,
+        "y": 73.5,
+        "label": "元号",
+        "radioGroup": "birthday_era",
+        "optionLabel": "平成",
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "type": "select",
+        "compositeGroup": "birthday_full_date",
+        "compositeLabel": "生年月日"
+    },
+    "birthday_era_showa": {
+        "x": 54.5,
+        "y": 73.5,
+        "label": "元号",
+        "radioGroup": "birthday_era",
+        "optionLabel": "昭和",
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "type": "select",
+        "compositeGroup": "birthday_full_date",
+        "compositeLabel": "生年月日"
+    },
+    "birthday_era_taisho": {
+        "x": 49,
+        "y": 73.5,
+        "label": "元号",
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "birthday_era",
+        "optionLabel": "大正",
+        "type": "select",
+        "compositeGroup": "birthday_full_date",
+        "compositeLabel": "生年月日"
+    },
+    "birthday_era_meiji": {
+        "x": 43.5,
+        "y": 73.5,
+        "label": "元号",
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "birthday_era",
+        "optionLabel": "明治",
+        "type": "select",
+        "compositeGroup": "birthday_full_date",
+        "compositeLabel": "生年月日"
+    },
+    "birthday_year": {
+        "x": -35,
+        "y": 71.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "年",
+        "textAlign": "center",
+        "type": "text",
+        "compositeGroup": "birthday_full_date",
+        "compositeLabel": "生年月日"
+    },
+    "birthday_month": {
+        "x": -26.5,
+        "y": 71.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "月",
+        "textAlign": "center",
+        "type": "text",
+        "compositeGroup": "birthday_full_date",
+        "compositeLabel": "生年月日"
+    },
+    "birthday_day": {
+        "x": -18,
+        "y": 71.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "日",
+        "textAlign": "center",
+        "type": "text",
+        "compositeGroup": "birthday_full_date",
+        "compositeLabel": "生年月日"
+    },
+    "patient_relationship": {
+        "x": 0.5,
+        "y": 65,
+        "fontSize": 11,
+        "letterSpacing": 0,
+        "label": "続柄",
+        "textAlign": "center",
+        "type": "select"
+    },
+    "insured_person_name": {
+        "x": -38,
+        "y": 40,
+        "fontSize": 18,
+        "letterSpacing": 0,
+        "label": "被保険者氏名",
+        "textAlign": "center",
+        "type": "text"
+    },
+    "condition": {
+        "x": 49,
+        "y": 59,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "label": "発病負傷の原因･経過",
+        "textAlign": "center",
+        "type": "text"
     },
     "insurance_type_3_hongai": {
         "x": 154,
@@ -141,34 +238,34 @@
         "optionLabel": "高外８"
     },
     "expenses_borne_ratio_10": {
-        "x": 39,
-        "y": 162.5,
+        "x": 48,
+        "y": 159.5,
         "label": "一部負担金（サークル）",
         "type": "select",
-        "ellipseWidth": 3,
-        "ellipseHeight": 2,
+        "ellipseWidth": 6,
+        "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "expenses_borne_ratio",
         "optionLabel": "１割"
     },
     "expenses_borne_ratio_20": {
-        "x": 44.5,
-        "y": 162.5,
+        "x": 62,
+        "y": 159.5,
         "label": "一部負担金（サークル）",
         "type": "select",
-        "ellipseWidth": 3,
-        "ellipseHeight": 2,
+        "ellipseWidth": 6,
+        "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "expenses_borne_ratio",
         "optionLabel": "２割"
     },
     "expenses_borne_ratio_30": {
-        "x": 50,
-        "y": 162.5,
+        "x": 76.5,
+        "y": 159.5,
         "label": "一部負担金（サークル）",
         "type": "select",
-        "ellipseWidth": 3,
-        "ellipseHeight": 2,
+        "ellipseWidth": 6,
+        "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "expenses_borne_ratio",
         "optionLabel": "３割"
@@ -179,33 +276,6 @@
         "fontSize": 15,
         "letterSpacing": 4.1,
         "label": "保険者番号",
-        "type": "text"
-    },
-    "insurance_symbol": {
-        "x": -52,
-        "y": 48,
-        "fontSize": 12,
-        "letterSpacing": 0,
-        "label": "被保険者証記号番号",
-        "type": "text",
-        "textAlign": "center"
-    },
-    "public_funds_payer_number": {
-        "x": 46.5,
-        "y": 16.5,
-        "fontSize": 15,
-        "letterSpacing": 4.1,
-        "label": "公費負担者番号",
-        "textAlign": "left",
-        "type": "text"
-    },
-    "public_funds_recipient_number": {
-        "x": 46.5,
-        "y": 22.5,
-        "fontSize": 15,
-        "letterSpacing": 4.1,
-        "label": "公費受給者番号",
-        "textAlign": "left",
         "type": "text"
     },
     "locality_code": {
@@ -225,153 +295,6 @@
         "label": "受給者番号",
         "textAlign": "left",
         "type": "text"
-    },
-    "patient_name_kana": {
-        "x": -34,
-        "y": 53.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "label": "氏名カナ（姓名）",
-        "textAlign": "center",
-        "type": "text"
-    },
-    "patient_name": {
-        "x": -38,
-        "y": 60.5,
-        "fontSize": 18,
-        "letterSpacing": 0,
-        "label": "氏名（姓名）",
-        "textAlign": "center",
-        "type": "text"
-    },
-    "patient_relationship": {
-        "x": 0.5,
-        "y": 65,
-        "fontSize": 11,
-        "letterSpacing": 0,
-        "label": "続柄",
-        "textAlign": "center",
-        "type": "select"
-    },
-    "patient_gender_male": {
-        "x": 94.5,
-        "y": 62,
-        "label": "性別",
-        "ellipseWidth": 2.5,
-        "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
-        "radioGroup": "gender",
-        "optionLabel": "男",
-        "type": "select"
-    },
-    "patient_gender_female": {
-        "x": 94.5,
-        "y": 67,
-        "label": "性別",
-        "ellipseWidth": 2.5,
-        "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
-        "radioGroup": "gender",
-        "optionLabel": "女",
-        "type": "select"
-    },
-    "birthday_era_reiwa": {
-        "x": 68,
-        "y": 73.5,
-        "label": "元号",
-        "radioGroup": "birthday_era",
-        "optionLabel": "令和",
-        "ellipseWidth": 2,
-        "ellipseHeight": 2,
-        "lineWidth": 0.5,
-        "type": "select",
-        "compositeGroup": "birthday_full_date",
-        "compositeLabel": "生年月日"
-    },
-    "birthday_era_heisei": {
-        "x": 63,
-        "y": 73.5,
-        "label": "元号",
-        "radioGroup": "birthday_era",
-        "optionLabel": "平成",
-        "ellipseWidth": 2.5,
-        "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
-        "type": "select",
-        "compositeGroup": "birthday_full_date",
-        "compositeLabel": "生年月日"
-    },
-    "birthday_era_showa": {
-        "x": 58,
-        "y": 73.5,
-        "label": "元号",
-        "radioGroup": "birthday_era",
-        "optionLabel": "昭和",
-        "ellipseWidth": 2.5,
-        "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
-        "type": "select",
-        "compositeGroup": "birthday_full_date",
-        "compositeLabel": "生年月日"
-    },
-    "birthday_era_taisho": {
-        "x": 53,
-        "y": 73.5,
-        "label": "元号",
-        "ellipseWidth": 2.5,
-        "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
-        "radioGroup": "birthday_era",
-        "optionLabel": "大正",
-        "type": "select",
-        "compositeGroup": "birthday_full_date",
-        "compositeLabel": "生年月日"
-    },
-    "birthday_era_meiji": {
-        "x": 48,
-        "y": 73.5,
-        "label": "元号",
-        "ellipseWidth": 2.5,
-        "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
-        "radioGroup": "birthday_era",
-        "optionLabel": "明治",
-        "type": "select",
-        "compositeGroup": "birthday_full_date",
-        "compositeLabel": "生年月日"
-    },
-    "birthday_year": {
-        "x": -34,
-        "y": 71.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "label": "年",
-        "textAlign": "center",
-        "type": "text",
-        "compositeGroup": "birthday_full_date",
-        "compositeLabel": "生年月日"
-    },
-    "birthday_month": {
-        "x": -26,
-        "y": 71.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "label": "月",
-        "textAlign": "center",
-        "type": "text",
-        "compositeGroup": "birthday_full_date",
-        "compositeLabel": "生年月日"
-    },
-    "birthday_day": {
-        "x": -18.5,
-        "y": 71.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "label": "日",
-        "textAlign": "center",
-        "type": "text",
-        "compositeGroup": "birthday_full_date",
-        "compositeLabel": "生年月日"
     },
     "treatment_start_year": {
         "x": -29.5,
@@ -441,7 +364,7 @@
     },
     "treatment_days": {
         "x": 44,
-        "y": 175.6,
+        "y": 174.4,
         "type": "calendar",
         "circleRadius": 2.6,
         "doubleCircleInnerRadius": 1.9,
@@ -470,7 +393,7 @@
     },
     "clinic_date_year": {
         "x": -72,
-        "y": 189.5,
+        "y": 188,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "年",
@@ -481,7 +404,7 @@
     },
     "clinic_date_month": {
         "x": -61.5,
-        "y": 189.5,
+        "y": 188,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "月",
@@ -492,7 +415,7 @@
     },
     "clinic_date_day": {
         "x": -49.5,
-        "y": 189.5,
+        "y": 188,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "日",
@@ -501,18 +424,27 @@
         "compositeGroup": "clinic_date",
         "compositeLabel": "施術証明年月日"
     },
-    "therapist_registration_number": {
+    "license_hari_number": {
         "x": -55,
-        "y": 198.5,
+        "y": 197.5,
         "fontSize": 10,
         "letterSpacing": 0.2,
-        "label": "施術者登録番号",
+        "label": "免許番号（はり師）",
+        "textAlign": "center",
+        "type": "text"
+    },
+    "license_kyu_number": {
+        "x": -55,
+        "y": 202.5,
+        "fontSize": 10,
+        "letterSpacing": 0.2,
+        "label": "免許番号（きゅう師）",
         "textAlign": "center",
         "type": "text"
     },
     "clinic_postal_code": {
         "x": 123,
-        "y": 186,
+        "y": 185,
         "fontSize": 9,
         "letterSpacing": 0,
         "label": "施術所郵便番号",
@@ -521,7 +453,7 @@
     },
     "clinic_address": {
         "x": 123,
-        "y": 190,
+        "y": 189,
         "fontSize": 9,
         "letterSpacing": 0,
         "label": "施術所所在地",
@@ -530,7 +462,7 @@
     },
     "clinic_name": {
         "x": 123,
-        "y": 194.5,
+        "y": 193.5,
         "fontSize": 9,
         "letterSpacing": 0,
         "label": "施術所名称",
@@ -539,7 +471,7 @@
     },
     "clinic_manager": {
         "x": 123,
-        "y": 199.5,
+        "y": 198.5,
         "fontSize": 9,
         "letterSpacing": 0,
         "label": "施術管理者氏名",
@@ -548,7 +480,7 @@
     },
     "clinic_phone": {
         "x": 173.5,
-        "y": 200,
+        "y": 198.5,
         "fontSize": 8.5,
         "letterSpacing": -0.1,
         "label": "電話番号",
@@ -557,7 +489,7 @@
     },
     "applicant_address": {
         "x": 122,
-        "y": 211.5,
+        "y": 210,
         "fontSize": 9,
         "letterSpacing": 0,
         "label": "申請者住所",
@@ -566,7 +498,7 @@
     },
     "applicant_name": {
         "x": 122,
-        "y": 218,
+        "y": 216.5,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "申請者氏名",
@@ -580,8 +512,7 @@
         "letterSpacing": 0,
         "label": "代理人郵便番号",
         "type": "postal_code",
-        "postalCodeGap": 11,
-        "lastX": 147
+        "postalCodeGap": 2
     },
     "agent_address": {
         "x": 136,
@@ -614,6 +545,21 @@
         "letterSpacing": 0,
         "label": "支払機関住所"
     },
+    "payment_institution_name": {
+        "x": 46.5,
+        "y": 121,
+        "fontSize": 204,
+        "letterSpacing": 0,
+        "label": "支払機関名称"
+    },
+    "payment_institution_phone": {
+        "x": 140,
+        "y": 183,
+        "fontSize": 111,
+        "letterSpacing": 0,
+        "label": "支払機関電話番号",
+        "textAlign": "left"
+    },
     "temporary_insurer_name": {
         "x": -34,
         "y": 274,
@@ -623,10 +569,87 @@
         "type": "text",
         "textAlign": "center"
     },
+    "illness_name_1": {
+        "x": 52.5,
+        "y": 92.5,
+        "label": "傷病名",
+        "radioGroup": "illness_name",
+        "optionLabel": "神経痛",
+        "ellipseWidth": 9,
+        "ellipseHeight": 3.5,
+        "lineWidth": 0.5,
+        "type": "select"
+    },
+    "illness_name_2": {
+        "x": 77,
+        "y": 92.5,
+        "label": "傷病名",
+        "radioGroup": "illness_name",
+        "optionLabel": "リウマチ",
+        "ellipseWidth": 11,
+        "ellipseHeight": 3.5,
+        "lineWidth": 0.5,
+        "type": "select"
+    },
+    "illness_name_3": {
+        "x": 109,
+        "y": 92.5,
+        "label": "傷病名",
+        "radioGroup": "illness_name",
+        "optionLabel": "頸腕症候群",
+        "ellipseWidth": 12,
+        "ellipseHeight": 3.5,
+        "lineWidth": 0.5,
+        "type": "select"
+    },
+    "illness_name_4": {
+        "x": 133.5,
+        "y": 92.5,
+        "label": "傷病名",
+        "radioGroup": "illness_name",
+        "optionLabel": "五十肩",
+        "ellipseWidth": 9.5,
+        "ellipseHeight": 3.5,
+        "lineWidth": 0.5,
+        "type": "select"
+    },
+    "illness_name_5": {
+        "x": 52.5,
+        "y": 98,
+        "label": "傷病名",
+        "radioGroup": "illness_name",
+        "optionLabel": "腰痛症",
+        "ellipseWidth": 9.5,
+        "ellipseHeight": 3.5,
+        "lineWidth": 0.5,
+        "type": "select"
+    },
+    "illness_name_6": {
+        "x": 81.5,
+        "y": 98,
+        "label": "傷病名",
+        "radioGroup": "illness_name",
+        "optionLabel": "頸椎捻挫後遺症",
+        "ellipseWidth": 15.5,
+        "ellipseHeight": 3.5,
+        "lineWidth": 0.5,
+        "type": "select"
+    },
+    "illness_name_7": {
+        "x": 106,
+        "y": 98,
+        "label": "傷病名",
+        "radioGroup": "illness_name",
+        "optionLabel": "その他",
+        "ellipseWidth": 9,
+        "ellipseHeight": 3.5,
+        "lineWidth": 0.5,
+        "type": "select"
+    },
     "illness_name_other_text": {
         "x": 23,
         "y": 96,
-        "fontSize": 9,
+        "fontSize": 8.5,
         "letterSpacing": 0,
         "label": "傷病名（その他の内容）",
         "textAlign": "center",
@@ -831,8 +854,8 @@
         "compositeLabel": "電療料"
     },
     "fee_housecall_unit": {
-        "x": -30,
-        "y": 138.5,
+        "x": -5,
+        "y": 133,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "単価",
@@ -842,8 +865,8 @@
         "compositeLabel": "往療料"
     },
     "fee_housecall_count": {
-        "x": 1,
-        "y": 138.5,
+        "x": 16.5,
+        "y": 133,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "回数",
@@ -853,9 +876,9 @@
         "compositeLabel": "往療料"
     },
     "fee_housecall_total": {
-        "x": 29.5,
-        "y": 138.5,
-        "fontSize": 10,
+        "x": 36,
+        "y": 133,
+        "fontSize": 9,
         "letterSpacing": 0,
         "label": "合計",
         "textAlign": "center",
@@ -864,8 +887,8 @@
         "compositeLabel": "往療料"
     },
     "fee_housecall_additional_unit": {
-        "x": -30,
-        "y": 143.5,
+        "x": -5,
+        "y": 139,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "単価",
@@ -875,8 +898,8 @@
         "compositeLabel": "往療4km超料金"
     },
     "fee_housecall_additional_count": {
-        "x": 1,
-        "y": 143.5,
+        "x": 16.5,
+        "y": 139,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "回数",
@@ -886,9 +909,9 @@
         "compositeLabel": "往療4km超料金"
     },
     "fee_housecall_additional_total": {
-        "x": 29.5,
-        "y": 143.5,
-        "fontSize": 10,
+        "x": 36,
+        "y": 139,
+        "fontSize": 9,
         "letterSpacing": 0,
         "label": "合計",
         "textAlign": "center",
@@ -897,8 +920,8 @@
         "compositeLabel": "往療4km超料金"
     },
     "fee_subtotal": {
-        "x": 0,
-        "y": 155.5,
+        "x": 15,
+        "y": 151.5,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "合計",
@@ -906,8 +929,8 @@
         "type": "number"
     },
     "fee_partial_payment": {
-        "x": 0,
-        "y": 160.5,
+        "x": 15,
+        "y": 157.5,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "一部負担金",
@@ -915,8 +938,8 @@
         "type": "number"
     },
     "fee_total_claim": {
-        "x": 0,
-        "y": 165.5,
+        "x": 15,
+        "y": 163.5,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "請求額",
@@ -952,14 +975,14 @@
         "type": "text"
     },
     "outcome_continued": {
-        "x": 160.5,
-        "y": 96.5,
+        "x": 159.5,
+        "y": 98,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "転帰",
         "textAlign": "left",
-        "ellipseWidth": 4.5,
-        "ellipseHeight": 2.5,
+        "ellipseWidth": 5,
+        "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "outcome",
         "optionLabel": "継続",
@@ -967,41 +990,41 @@
     },
     "outcome_cured": {
         "x": 169.5,
-        "y": 96.5,
+        "y": 98,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "転帰",
         "textAlign": "left",
-        "ellipseWidth": 4.5,
-        "ellipseHeight": 2.5,
+        "ellipseWidth": 5,
+        "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "outcome",
         "optionLabel": "治癒",
         "type": "text"
     },
     "outcome_discontinued": {
-        "x": 178,
-        "y": 96.5,
+        "x": 179,
+        "y": 98,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "転帰",
         "textAlign": "left",
-        "ellipseWidth": 4.5,
-        "ellipseHeight": 2.5,
+        "ellipseWidth": 5,
+        "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "outcome",
         "optionLabel": "中止",
         "type": "text"
     },
     "outcome_transferred": {
-        "x": 186.5,
-        "y": 96.5,
+        "x": 188,
+        "y": 98,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "転帰",
         "textAlign": "left",
-        "ellipseWidth": 4.5,
-        "ellipseHeight": 2.5,
+        "ellipseWidth": 5,
+        "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "outcome",
         "optionLabel": "転医",
@@ -1009,7 +1032,7 @@
     },
     "health_center_registration_1": {
         "x": 153.5,
-        "y": 183.5,
+        "y": 182,
         "label": "保健所登録区分",
         "textAlign": "left",
         "circleRadius": 1.2,
@@ -1022,7 +1045,7 @@
     },
     "health_center_registration_2": {
         "x": 176,
-        "y": 183.5,
+        "y": 182,
         "label": "保健所登録区分",
         "textAlign": "left",
         "circleRadius": 1.2,
@@ -1044,19 +1067,8 @@
         "lineHeight": 5,
         "type": "text"
     },
-    "first_treatment_era": {
-        "x": -78,
-        "y": 83.5,
-        "fontSize": 9,
-        "letterSpacing": 0,
-        "label": "元号",
-        "textAlign": "center",
-        "type": "text",
-        "compositeGroup": "first_treatment_date",
-        "compositeLabel": "初療年月日"
-    },
     "first_treatment_year": {
-        "x": -71,
+        "x": -73.5,
         "y": 84,
         "fontSize": 9,
         "label": "年",
@@ -1067,7 +1079,7 @@
         "compositeLabel": "初療年月日"
     },
     "first_treatment_month": {
-        "x": -62.5,
+        "x": -65.5,
         "y": 84,
         "fontSize": 9,
         "label": "月",
@@ -1078,7 +1090,7 @@
         "compositeLabel": "初療年月日"
     },
     "first_treatment_day": {
-        "x": -55,
+        "x": -57.5,
         "y": 84,
         "fontSize": 9,
         "label": "日",
@@ -1090,25 +1102,16 @@
     },
     "applicant_postal_code": {
         "x": 129,
-        "y": 205.5,
+        "y": 204,
         "fontSize": 10,
         "firstX": 129,
-        "firstY": 205.5,
+        "firstY": 204,
         "lastX": 141,
-        "lastY": 205.5,
+        "lastY": 204,
         "postalCodeGap": 12,
         "label": "申請者郵便番号",
         "type": "postal_code",
         "textAlign": "left"
-    },
-    "condition": {
-        "x": 49,
-        "y": 59,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "label": "発病負傷の原因･経過",
-        "textAlign": "center",
-        "type": "text"
     },
     "onset_date_year": {
         "x": 1,
@@ -1187,7 +1190,7 @@
     },
     "treatment_month": {
         "x": -70.5,
-        "y": 172,
+        "y": 171.5,
         "fontSize": 12,
         "letterSpacing": 0,
         "label": "施術月",
@@ -1196,7 +1199,7 @@
     },
     "submission_date_year": {
         "x": -72.5,
-        "y": 209,
+        "y": 208,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "年",
@@ -1207,7 +1210,7 @@
     },
     "submission_date_month": {
         "x": -61,
-        "y": 209,
+        "y": 208,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "月",
@@ -1218,7 +1221,7 @@
     },
     "submission_date_day": {
         "x": -49.5,
-        "y": 209,
+        "y": 208,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "日",
@@ -1227,20 +1230,11 @@
         "compositeGroup": "submission_date",
         "compositeLabel": "申請年月日"
     },
-    "insurer_name": {
-        "x": -130,
-        "y": 217.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "label": "申請先名称",
-        "textAlign": "right",
-        "type": "text"
-    },
-    "payment_category_furikomi": {
-        "ellipseX": 29,
-        "ellipseY": 228.5,
-        "ellipseWidth": 10,
-        "ellipseHeight": 3,
+    "payment_category_account_transfer": {
+        "ellipseX": 29.5,
+        "ellipseY": 227,
+        "ellipseWidth": 11,
+        "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "x": 10,
         "y": 195,
@@ -1248,13 +1242,13 @@
         "textAlign": "center",
         "type": "select",
         "radioGroup": "payment_category",
-        "optionLabel": "振込"
+        "optionLabel": "口座振替"
     },
-    "payment_category_bank_transfer": {
+    "payment_category_counter_payment": {
         "ellipseX": 58,
-        "ellipseY": 228,
+        "ellipseY": 227,
         "ellipseWidth": 12,
-        "ellipseHeight": 3,
+        "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "x": 25,
         "y": 195,
@@ -1262,39 +1256,11 @@
         "textAlign": "center",
         "type": "select",
         "radioGroup": "payment_category",
-        "optionLabel": "銀行送金"
-    },
-    "payment_category_post_transfer": {
-        "ellipseX": 32,
-        "ellipseY": 231.5,
-        "ellipseWidth": 14,
-        "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
-        "x": 43,
-        "y": 195,
-        "label": "支払区分",
-        "textAlign": "center",
-        "type": "select",
-        "radioGroup": "payment_category",
-        "optionLabel": "郵便局送金"
-    },
-    "payment_category_local_payment": {
-        "ellipseX": 57,
-        "ellipseY": 231.5,
-        "ellipseWidth": 13,
-        "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
-        "x": 63,
-        "y": 195,
-        "label": "支払区分",
-        "textAlign": "center",
-        "type": "select",
-        "radioGroup": "payment_category",
-        "optionLabel": "当地払"
+        "optionLabel": "窓口払"
     },
     "deposit_type_ordinary": {
-        "ellipseX": 82,
-        "ellipseY": 228,
+        "ellipseX": 81.5,
+        "ellipseY": 227,
         "ellipseWidth": 9,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
@@ -1308,7 +1274,7 @@
     },
     "deposit_type_current": {
         "ellipseX": 101,
-        "ellipseY": 228,
+        "ellipseY": 227,
         "ellipseWidth": 9,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
@@ -1320,9 +1286,9 @@
         "radioGroup": "deposit_type",
         "optionLabel": "当座"
     },
-    "deposit_type_notice": {
+    "deposit_type_savings": {
         "ellipseX": 81.5,
-        "ellipseY": 231.5,
+        "ellipseY": 230.5,
         "ellipseWidth": 9,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
@@ -1332,11 +1298,11 @@
         "textAlign": "center",
         "type": "select",
         "radioGroup": "deposit_type",
-        "optionLabel": "通知"
+        "optionLabel": "貯蓄"
     },
-    "deposit_type_betsudan": {
+    "deposit_type_other": {
         "ellipseX": 101.5,
-        "ellipseY": 231.5,
+        "ellipseY": 230.5,
         "ellipseWidth": 9,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
@@ -1346,113 +1312,20 @@
         "textAlign": "center",
         "type": "select",
         "radioGroup": "deposit_type",
-        "optionLabel": "別段"
+        "optionLabel": "その他"
     },
-    "financial_institution_name_1": {
-        "x": 32,
+    "financial_institution_name": {
+        "x": 29,
         "y": 226,
         "fontSize": 10,
         "letterSpacing": 0,
-        "label": "金融機関名1",
+        "label": "金融機関名",
         "textAlign": "center",
         "type": "text"
-    },
-    "financial_institution_type_bank": {
-        "ellipseX": 160.5,
-        "ellipseY": 224.5,
-        "ellipseWidth": 4.5,
-        "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
-        "x": 35,
-        "y": 205,
-        "label": "金融機関名１（サークル）",
-        "textAlign": "center",
-        "type": "select",
-        "radioGroup": "financial_institution_type",
-        "optionLabel": "銀行"
-    },
-    "financial_institution_type_kinko": {
-        "ellipseX": 160.5,
-        "ellipseY": 228,
-        "ellipseWidth": 4.5,
-        "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
-        "x": 45,
-        "y": 205,
-        "label": "金融機関名１（サークル）",
-        "textAlign": "center",
-        "type": "select",
-        "radioGroup": "financial_institution_type",
-        "optionLabel": "金庫"
-    },
-    "financial_institution_type_nokyo": {
-        "ellipseX": 160.5,
-        "ellipseY": 231.5,
-        "ellipseWidth": 4.5,
-        "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
-        "x": 55,
-        "y": 205,
-        "label": "金融機関名１（サークル）",
-        "textAlign": "center",
-        "type": "select",
-        "radioGroup": "financial_institution_type",
-        "optionLabel": "農協"
-    },
-    "financial_institution_name_2": {
-        "x": 69,
-        "y": 225.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "label": "金融機関名2",
-        "textAlign": "center",
-        "type": "text"
-    },
-    "branch_type_honten": {
-        "ellipseX": 191,
-        "ellipseY": 224.5,
-        "ellipseWidth": 4.5,
-        "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
-        "x": 90,
-        "y": 205,
-        "label": "金融機関名２（サークル）",
-        "textAlign": "center",
-        "type": "select",
-        "radioGroup": "branch_type",
-        "optionLabel": "本店"
-    },
-    "branch_type_shiten": {
-        "ellipseX": 191,
-        "ellipseY": 228,
-        "ellipseWidth": 4.5,
-        "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
-        "x": 100,
-        "y": 205,
-        "label": "金融機関名２（サークル）",
-        "textAlign": "center",
-        "type": "select",
-        "radioGroup": "branch_type",
-        "optionLabel": "支店"
-    },
-    "branch_type_shucchoujo": {
-        "ellipseX": 189.5,
-        "ellipseY": 231.5,
-        "ellipseWidth": 6,
-        "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
-        "x": 110,
-        "y": 205,
-        "label": "金融機関名２（サークル）",
-        "textAlign": "center",
-        "type": "select",
-        "radioGroup": "branch_type",
-        "optionLabel": "出張所"
     },
     "bank_account_holder_kana": {
         "x": -40,
-        "y": 234.5,
+        "y": 233.5,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "口座名義",
@@ -1461,7 +1334,7 @@
     },
     "bank_account_number": {
         "x": 111,
-        "y": 233.5,
+        "y": 232.5,
         "fontSize": 15,
         "letterSpacing": 2.9,
         "label": "口座番号",
@@ -1478,28 +1351,30 @@
         "type": "text"
     },
     "consent_record_doctor_postal_code": {
-        "x": -158,
-        "y": 246,
+        "x": -155,
+        "y": 245,
         "fontSize": 9,
         "letterSpacing": 0,
         "label": "同意医師郵便番号（同意記録）",
         "textAlign": "left",
         "type": "postal_code",
-        "postalCodeGap": 11,
-        "lastX": -147
+        "firstX": -155,
+        "lastX": -153,
+        "firstY": 245,
+        "lastY": 245
     },
     "consent_record_doctor_address": {
-        "x": -158,
-        "y": 250.5,
+        "x": -30,
+        "y": 249,
         "fontSize": 9,
         "letterSpacing": 0,
         "label": "同意医師住所（同意記録）",
-        "textAlign": "left",
+        "textAlign": "center",
         "type": "text"
     },
     "consent_record_date_year": {
         "x": 9.5,
-        "y": 248,
+        "y": 247,
         "fontSize": 9,
         "letterSpacing": 0,
         "label": "年",
@@ -1510,7 +1385,7 @@
     },
     "consent_record_date_month": {
         "x": 17,
-        "y": 248,
+        "y": 247,
         "fontSize": 9,
         "letterSpacing": 0,
         "label": "月",
@@ -1521,7 +1396,7 @@
     },
     "consent_record_date_day": {
         "x": 24,
-        "y": 248,
+        "y": 247,
         "fontSize": 9,
         "letterSpacing": 0,
         "label": "日",
@@ -1532,7 +1407,7 @@
     },
     "consent_record_illness_name": {
         "x": 50.5,
-        "y": 248,
+        "y": 247,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "傷病名（同意記録）",
@@ -1541,7 +1416,7 @@
     },
     "required_treatment_period": {
         "x": 79,
-        "y": 248,
+        "y": 247,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "要加療期間",
@@ -1592,355 +1467,11 @@
     },
     "patient_phone": {
         "x": 173.5,
-        "y": 218.5,
+        "y": 217.2,
         "fontSize": 8,
         "letterSpacing": -0.1,
         "label": "電話番号",
         "textAlign": "left",
         "type": "text"
-    },
-    "branch_name": {
-        "x": 17.5,
-        "y": 23.5,
-        "fontSize": 9,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "branch_name",
-        "label": "支店名",
-        "type": "text"
-    },
-    "fee_massage_trunk_unit": {
-        "x": -25.5,
-        "y": 99,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_massage_trunk_unit",
-        "label": "単価",
-        "type": "number",
-        "compositeGroup": "fee_massage_trunk",
-        "compositeLabel": "マッサージ料金｜躯幹"
-    },
-    "fee_massage_upper_limb_r_unit": {
-        "x": -25.5,
-        "y": 104,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_massage_upper_limb_r_unit",
-        "label": "単価",
-        "type": "number",
-        "compositeGroup": "fee_massage_upper_limb_r",
-        "compositeLabel": "マッサージ料金｜右上肢"
-    },
-    "fee_massage_upper_limb_l_unit": {
-        "x": -25.5,
-        "y": 109,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_massage_upper_limb_l_unit",
-        "label": "単価",
-        "type": "number",
-        "compositeGroup": "fee_massage_upper_limb_l",
-        "compositeLabel": "マッサージ料金｜左上肢"
-    },
-    "fee_massage_lower_limb_r_unit": {
-        "x": -25.5,
-        "y": 114,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_massage_lower_limb_r_unit",
-        "label": "単価",
-        "type": "number",
-        "compositeGroup": "fee_massage_lower_limb_r",
-        "compositeLabel": "マッサージ料金｜右下肢"
-    },
-    "fee_massage_lower_limb_l_unit": {
-        "x": -25.5,
-        "y": 119,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_massage_lower_limb_l_unit",
-        "label": "単価",
-        "type": "number",
-        "compositeGroup": "fee_massage_lower_limb_l",
-        "compositeLabel": "マッサージ料金｜左下肢"
-    },
-    "fee_manual_correction_unit": {
-        "x": -30,
-        "y": 123.7,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_manual_correction_unit",
-        "label": "単価",
-        "type": "number",
-        "compositeGroup": "fee_manual_correction",
-        "compositeLabel": "変形徒手矯正術"
-    },
-    "fee_manual_correction_count": {
-        "x": 7,
-        "y": 123.7,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_manual_correction_count",
-        "label": "回数",
-        "type": "number",
-        "compositeGroup": "fee_manual_correction",
-        "compositeLabel": "変形徒手矯正術"
-    },
-    "fee_manual_correction_total": {
-        "x": 29.5,
-        "y": 123.7,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_manual_correction_total",
-        "label": "合計",
-        "type": "number",
-        "compositeGroup": "fee_manual_correction",
-        "compositeLabel": "変形徒手矯正術"
-    },
-    "fee_fomentation_unit": {
-        "x": -30,
-        "y": 128.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_fomentation_unit",
-        "label": "単価",
-        "type": "number",
-        "compositeGroup": "fee_fomentation",
-        "compositeLabel": "温罨法"
-    },
-    "fee_fomentation_count": {
-        "x": 1,
-        "y": 128.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_fomentation_count",
-        "label": "回数",
-        "type": "number",
-        "compositeGroup": "fee_fomentation",
-        "compositeLabel": "温罨法"
-    },
-    "fee_fomentation_total": {
-        "x": 29.5,
-        "y": 128.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_fomentation_total",
-        "label": "合計",
-        "type": "number",
-        "compositeGroup": "fee_fomentation",
-        "compositeLabel": "温罨法"
-    },
-    "fee_fomentation_electric_light_unit": {
-        "x": -30,
-        "y": 133.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_fomentation_electric_light_unit",
-        "label": "単価",
-        "type": "number",
-        "compositeGroup": "fee_fomentation_electric_light",
-        "compositeLabel": "温罨法・電光線器具"
-    },
-    "fee_fomentation_electric_light_count": {
-        "x": 1,
-        "y": 133.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_fomentation_electric_light_count",
-        "label": "回数",
-        "type": "number",
-        "compositeGroup": "fee_fomentation_electric_light",
-        "compositeLabel": "温罨法・電光線器具"
-    },
-    "fee_fomentation_electric_light_total": {
-        "x": 29.5,
-        "y": 133.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_fomentation_electric_light_total",
-        "label": "合計",
-        "type": "number",
-        "compositeGroup": "fee_fomentation_electric_light",
-        "compositeLabel": "温罨法・電光線器具"
-    },
-    "illness_name_symptom": {
-        "x": 0,
-        "y": 92,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "illness_name_symptom",
-        "label": "傷病名・症状",
-        "type": "text"
-    },
-    "fee_massage_trunk_count": {
-        "x": 1,
-        "y": 99,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_massage_trunk_count",
-        "label": "回数",
-        "type": "number",
-        "compositeGroup": "fee_massage_trunk",
-        "compositeLabel": "マッサージ料金｜躯幹"
-    },
-    "fee_massage_trunk_total": {
-        "x": 29.5,
-        "y": 99,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_massage_trunk_total",
-        "label": "合計",
-        "type": "number",
-        "compositeGroup": "fee_massage_trunk",
-        "compositeLabel": "マッサージ料金｜躯幹"
-    },
-    "fee_massage_upper_limb_r_count": {
-        "x": 1,
-        "y": 104,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_massage_upper_limb_r_count",
-        "label": "回数",
-        "type": "number",
-        "compositeGroup": "fee_massage_upper_limb_r",
-        "compositeLabel": "マッサージ料金｜右上肢"
-    },
-    "fee_massage_upper_limb_r_total": {
-        "x": 29.5,
-        "y": 104,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_massage_upper_limb_r_total",
-        "label": "合計",
-        "type": "number",
-        "compositeGroup": "fee_massage_upper_limb_r",
-        "compositeLabel": "マッサージ料金｜右上肢"
-    },
-    "fee_massage_upper_limb_l_count": {
-        "x": 1,
-        "y": 109,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_massage_upper_limb_l_count",
-        "label": "回数",
-        "type": "number",
-        "compositeGroup": "fee_massage_upper_limb_l",
-        "compositeLabel": "マッサージ料金｜左上肢"
-    },
-    "fee_massage_upper_limb_l_total": {
-        "x": 29.5,
-        "y": 109,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_massage_upper_limb_l_total",
-        "label": "合計",
-        "type": "number",
-        "compositeGroup": "fee_massage_upper_limb_l",
-        "compositeLabel": "マッサージ料金｜左上肢"
-    },
-    "fee_massage_lower_limb_r_count": {
-        "x": 1,
-        "y": 114,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_massage_lower_limb_r_count",
-        "label": "回数",
-        "type": "number",
-        "compositeGroup": "fee_massage_lower_limb_r",
-        "compositeLabel": "マッサージ料金｜右下肢"
-    },
-    "fee_massage_lower_limb_r_total": {
-        "x": 29.5,
-        "y": 114,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_massage_lower_limb_r_total",
-        "label": "合計",
-        "type": "number",
-        "compositeGroup": "fee_massage_lower_limb_r",
-        "compositeLabel": "マッサージ料金｜右下肢"
-    },
-    "fee_massage_lower_limb_l_count": {
-        "x": 1,
-        "y": 119,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_massage_lower_limb_l_count",
-        "label": "回数",
-        "type": "number",
-        "compositeGroup": "fee_massage_lower_limb_l",
-        "compositeLabel": "マッサージ料金｜左下肢"
-    },
-    "fee_massage_lower_limb_l_total": {
-        "x": 29.5,
-        "y": 119,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_massage_lower_limb_l_total",
-        "label": "合計",
-        "type": "number",
-        "compositeGroup": "fee_massage_lower_limb_l",
-        "compositeLabel": "マッサージ料金｜左下肢"
-    },
-    "consent_date_year": {
-        "x": 26.5,
-        "y": 8,
-        "fontSize": 9,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "consent_date_year",
-        "label": "年",
-        "type": "number",
-        "compositeGroup": "consent_date",
-        "compositeLabel": "同意年月日"
-    },
-    "signature_applicant_postal_code": {
-        "x": 48,
-        "y": 263,
-        "fontSize": 9,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "signature_applicant_postal_code",
-        "label": "申請者郵便番号（委任）",
-        "type": "postal_code",
-        "postalCodeGap": 11,
-        "lastX": 59
-    },
-    "consent_date_month": {
-        "x": 0,
-        "y": 1,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "field": "consent_date_month",
-        "label": "月",
-        "type": "number",
-        "compositeGroup": "consent_date",
-        "compositeLabel": "同意年月日"
     }
 }
