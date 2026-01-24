@@ -947,15 +947,12 @@
         "type": "number"
     },
     "bill_category_new": {
-        "x": 164.5,
+        "x": 168,
         "y": 86,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "請求区分",
         "textAlign": "left",
-        "ellipseWidth": 6.5,
-        "ellipseHeight": 3,
-        "lineWidth": 0.5,
         "radioGroup": "bill_category",
         "optionLabel": "新規",
         "type": "text"
@@ -967,9 +964,6 @@
         "letterSpacing": 0,
         "label": "請求区分",
         "textAlign": "left",
-        "ellipseWidth": 6.5,
-        "ellipseHeight": 3,
-        "lineWidth": 0.5,
         "radioGroup": "bill_category",
         "optionLabel": "継続",
         "type": "text"
@@ -981,9 +975,6 @@
         "letterSpacing": 0,
         "label": "転帰",
         "textAlign": "left",
-        "ellipseWidth": 5,
-        "ellipseHeight": 3,
-        "lineWidth": 0.5,
         "radioGroup": "outcome",
         "optionLabel": "継続",
         "type": "text"
@@ -995,9 +986,6 @@
         "letterSpacing": 0,
         "label": "転帰",
         "textAlign": "left",
-        "ellipseWidth": 5,
-        "ellipseHeight": 3,
-        "lineWidth": 0.5,
         "radioGroup": "outcome",
         "optionLabel": "治癒",
         "type": "text"
@@ -1009,9 +997,6 @@
         "letterSpacing": 0,
         "label": "転帰",
         "textAlign": "left",
-        "ellipseWidth": 5,
-        "ellipseHeight": 3,
-        "lineWidth": 0.5,
         "radioGroup": "outcome",
         "optionLabel": "中止",
         "type": "text"
@@ -1023,9 +1008,6 @@
         "letterSpacing": 0,
         "label": "転帰",
         "textAlign": "left",
-        "ellipseWidth": 5,
-        "ellipseHeight": 3,
-        "lineWidth": 0.5,
         "radioGroup": "outcome",
         "optionLabel": "転医",
         "type": "text"

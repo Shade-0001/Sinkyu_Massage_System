@@ -230,10 +230,10 @@ class PrintsController extends Controller
         'submission_month' => $validated['submission_month'],
       ]);
 
-      // サービスクラスを取得
+      // 医療助成費専用のサービスクラスを取得
       $serviceClass = $assistanceType === 'acupuncture'
-        ? \App\Services\Print\AcupunctureBenefitPdfService::class
-        : \App\Services\Print\MassageBenefitPdfService::class;
+        ? \App\Services\Print\MedicalAssistanceAcupuncturePdfService::class
+        : \App\Services\Print\MedicalAssistanceMassagePdfService::class;
 
       $service = new $serviceClass();
 
