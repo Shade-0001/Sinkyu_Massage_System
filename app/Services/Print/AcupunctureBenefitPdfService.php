@@ -673,45 +673,36 @@ class AcupunctureBenefitPdfService
     }
 
     // === 発病又は負傷年月日 ===
-    if ($this->sampleDataMode && $this->customSampleData) {
-      // サンプルデータモード：customSampleDataから取得
-      $onsetYear = $this->customSampleData['onset_date_year'] ?? '';
-      $onsetMonth = $this->customSampleData['onset_date_month'] ?? '';
-      $onsetDay = $this->customSampleData['onset_date_day'] ?? '';
+    if ($this->hasCoord('onset_date')) {
+      if ($this->sampleDataMode && $this->customSampleData) {
+        // サンプルデータモード：統合フィールド形式で描画
+        $onsetDate = $this->customSampleData['onset_date'] ?? '';
 
-      if ($onsetYear) {
-        $pdf->SetFontSize($this->coord('onset_date_year', 'fontSize'));
-        $this->drawTextByKey($pdf, 'onset_date_year', (string)$onsetYear);
+        if ($onsetDate) {
+          $pdf->SetFontSize($this->coord('onset_date', 'fontSize'));
+          $this->drawTextByKey($pdf, 'onset_date', $onsetDate);
+        }
+
+        $pdf->SetFontSize(10);
+      } elseif ($consent && isset($consent->onset_and_injury_date) && $consent->onset_and_injury_date) {
+        // 通常モード：実データから元号付き日付形式で描画
+        [$onsetYear, $onsetMonth, $onsetDay] = explode('-', $consent->onset_and_injury_date);
+        $onsetJapaneseYear = $this->convertToJapaneseYear((int)$onsetYear, (int)$onsetMonth);
+
+        $formattedDate = sprintf(
+          '%s%d年 %d月 %d日',
+          $onsetJapaneseYear['era'],
+          $onsetJapaneseYear['year'],
+          (int)$onsetMonth,
+          (int)$onsetDay
+        );
+
+        $pdf->SetFontSize($this->coord('onset_date', 'fontSize'));
+        $this->drawTextByKey($pdf, 'onset_date', $formattedDate);
+
+        $pdf->SetFontSize(10);
       }
-
-      if ($onsetMonth) {
-        $pdf->SetFontSize($this->coord('onset_date_month', 'fontSize'));
-        $this->drawTextByKey($pdf, 'onset_date_month', (string)$onsetMonth);
-      }
-
-      if ($onsetDay) {
-        $pdf->SetFontSize($this->coord('onset_date_day', 'fontSize'));
-        $this->drawTextByKey($pdf, 'onset_date_day', (string)$onsetDay);
-      }
-
-      $pdf->SetFontSize(10);
-    } elseif ($consent && isset($consent->onset_and_injury_date) && $consent->onset_and_injury_date) {
-      // 通常モード：実データから取得
-      [$onsetYear, $onsetMonth, $onsetDay] = explode('-', $consent->onset_and_injury_date);
-      $onsetJapaneseYear = $this->convertToJapaneseYear((int)$onsetYear, (int)$onsetMonth);
-
-      $pdf->SetFontSize($this->coord('onset_date_year', 'fontSize'));
-      $this->drawTextByKey($pdf, 'onset_date_year', (string)$onsetJapaneseYear['year']);
-
-      $pdf->SetFontSize($this->coord('onset_date_month', 'fontSize'));
-      $this->drawTextByKey($pdf, 'onset_date_month', (string)(int)$onsetMonth);
-
-      $pdf->SetFontSize($this->coord('onset_date_day', 'fontSize'));
-      $this->drawTextByKey($pdf, 'onset_date_day', (string)(int)$onsetDay);
-
-      $pdf->SetFontSize(10);
     }
-
     // === 傷病名（発病又は負傷年月日の隣） ===
     if ($this->sampleDataMode && $this->customSampleData) {
       // サンプルデータモード：customSampleDataから取得

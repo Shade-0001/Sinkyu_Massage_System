@@ -35,7 +35,8 @@
         "radioGroup": "gender",
         "optionLabel": "男",
         "type": "select",
-        "label": "性別"
+        "label": "性別",
+        "isSelected": true
     },
     "patient_gender_female": {
         "x": 196.3,
@@ -46,7 +47,8 @@
         "radioGroup": "gender",
         "optionLabel": "女",
         "type": "select",
-        "label": "性別"
+        "label": "性別",
+        "isSelected": false
     },
     "patient_age": {
         "x": 189.5,

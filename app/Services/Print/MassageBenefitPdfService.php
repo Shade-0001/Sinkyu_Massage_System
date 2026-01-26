@@ -586,44 +586,24 @@ class MassageBenefitPdfService
     // === 施術期間 ===
     if ($this->sampleDataMode && isset($this->customSampleData['treatment_start_year'])) {
       // サンプルデータモード：customSampleDataから取得
-      $startYear = $this->customSampleData['treatment_start_year'] ?? '';
-      $startMonth = $this->customSampleData['treatment_start_month'] ?? '';
-      $startDay = $this->customSampleData['treatment_start_day'] ?? '';
-      $endYear = $this->customSampleData['treatment_end_year'] ?? '';
-      $endMonth = $this->customSampleData['treatment_end_month'] ?? '';
-      $endDay = $this->customSampleData['treatment_end_day'] ?? '';
       $treatmentDays = $this->customSampleData['treatment_days'] ?? '';
 
       // 自：開始日
-      if ($startYear && $this->hasCoord('treatment_start_year')) {
-        $pdf->SetFontSize($this->coord('treatment_start_year', 'fontSize'));
-        $this->drawTextByKey($pdf, 'treatment_start_year', (string)$startYear);
-      }
-
-      if ($startMonth && $this->hasCoord('treatment_start_month')) {
-        $pdf->SetFontSize($this->coord('treatment_start_month', 'fontSize'));
-        $this->drawTextByKey($pdf, 'treatment_start_month', (string)$startMonth);
-      }
-
-      if ($startDay && $this->hasCoord('treatment_start_day')) {
-        $pdf->SetFontSize($this->coord('treatment_start_day', 'fontSize'));
-        $this->drawTextByKey($pdf, 'treatment_start_day', (string)$startDay);
+      if ($this->hasCoord('treatment_start_date')) {
+        $startDate = $this->customSampleData['treatment_start_date'] ?? '';
+        if ($startDate) {
+          $pdf->SetFontSize($this->coord('treatment_start_date', 'fontSize'));
+          $this->drawTextByKey($pdf, 'treatment_start_date', $startDate);
+        }
       }
 
       // 至：終了日
-      if ($endYear && $this->hasCoord('treatment_end_year')) {
-        $pdf->SetFontSize($this->coord('treatment_end_year', 'fontSize'));
-        $this->drawTextByKey($pdf, 'treatment_end_year', (string)$endYear);
-      }
-
-      if ($endMonth && $this->hasCoord('treatment_end_month')) {
-        $pdf->SetFontSize($this->coord('treatment_end_month', 'fontSize'));
-        $this->drawTextByKey($pdf, 'treatment_end_month', (string)$endMonth);
-      }
-
-      if ($endDay && $this->hasCoord('treatment_end_day')) {
-        $pdf->SetFontSize($this->coord('treatment_end_day', 'fontSize'));
-        $this->drawTextByKey($pdf, 'treatment_end_day', (string)$endDay);
+      if ($this->hasCoord('treatment_end_date')) {
+        $endDate = $this->customSampleData['treatment_end_date'] ?? '';
+        if ($endDate) {
+          $pdf->SetFontSize($this->coord('treatment_end_date', 'fontSize'));
+          $this->drawTextByKey($pdf, 'treatment_end_date', $endDate);
+        }
       }
 
       // 実日数
@@ -644,19 +624,19 @@ class MassageBenefitPdfService
       $startJapaneseYear = $this->convertToJapaneseYear((int)$startYear, (int)$startMonth);
       $endJapaneseYear = $this->convertToJapaneseYear((int)$endYear, (int)$endMonth);
 
-      $pdf->SetFontSize($this->coord('treatment_start_year', 'fontSize'));
-      $this->drawTextByKey($pdf, 'treatment_start_year', (string)$startJapaneseYear['year']);
-      $pdf->SetFontSize($this->coord('treatment_start_month', 'fontSize'));
-      $this->drawTextByKey($pdf, 'treatment_start_month', (string)(int)$startMonth);
-      $pdf->SetFontSize($this->coord('treatment_start_day', 'fontSize'));
-      $this->drawTextByKey($pdf, 'treatment_start_day', (string)(int)$startDay);
+      // 自：開始日
+      if ($this->hasCoord('treatment_start_date')) {
+        $formattedStartDate = sprintf('%s%d年 %d月 %d日', $startJapaneseYear['era'], $startJapaneseYear['year'], (int)$startMonth, (int)$startDay);
+        $pdf->SetFontSize($this->coord('treatment_start_date', 'fontSize'));
+        $this->drawTextByKey($pdf, 'treatment_start_date', $formattedStartDate);
+      }
 
-      $pdf->SetFontSize($this->coord('treatment_end_year', 'fontSize'));
-      $this->drawTextByKey($pdf, 'treatment_end_year', (string)$endJapaneseYear['year']);
-      $pdf->SetFontSize($this->coord('treatment_end_month', 'fontSize'));
-      $this->drawTextByKey($pdf, 'treatment_end_month', (string)(int)$endMonth);
-      $pdf->SetFontSize($this->coord('treatment_end_day', 'fontSize'));
-      $this->drawTextByKey($pdf, 'treatment_end_day', (string)(int)$endDay);
+      // 至：終了日
+      if ($this->hasCoord('treatment_end_date')) {
+        $formattedEndDate = sprintf('%s%d年 %d月 %d日', $endJapaneseYear['era'], $endJapaneseYear['year'], (int)$endMonth, (int)$endDay);
+        $pdf->SetFontSize($this->coord('treatment_end_date', 'fontSize'));
+        $this->drawTextByKey($pdf, 'treatment_end_date', $formattedEndDate);
+      }
 
       $pdf->SetFontSize($this->coord('treatment_days', 'fontSize'));
       $this->drawTextByKey($pdf, 'treatment_days', (string)$records->count());
@@ -753,48 +733,22 @@ class MassageBenefitPdfService
     }
 
     // === 初療年月日 ===
-    if ($this->sampleDataMode && isset($this->customSampleData['first_treatment_year'])) {
-      // サンプルデータモード：元号
-      if ($this->hasCoord('first_treatment_era') && isset($this->customSampleData['first_treatment_era'])) {
-        $pdf->SetFontSize($this->coord('first_treatment_era', 'fontSize'));
-        $this->drawTextByKey($pdf, 'first_treatment_era', (string)$this->customSampleData['first_treatment_era']);
+    if ($this->hasCoord('first_treatment_date')) {
+      if ($this->sampleDataMode && $this->customSampleData) {
+        // サンプルデータモード：customSampleDataから取得
+        $firstTreatmentDate = $this->customSampleData['first_treatment_date'] ?? '';
+        if ($firstTreatmentDate) {
+          $pdf->SetFontSize($this->coord('first_treatment_date', 'fontSize'));
+          $this->drawTextByKey($pdf, 'first_treatment_date', $firstTreatmentDate);
+        }
+      } elseif ($consent && isset($consent->first_care_date)) {
+        // 通常モード：実データから取得
+        [$firstYear, $firstMonth, $firstDay] = explode('-', $consent->first_care_date);
+        $firstJapaneseYear = $this->convertToJapaneseYear((int)$firstYear, (int)$firstMonth);
+        $formattedDate = sprintf('%s%d年 %d月 %d日', $firstJapaneseYear['era'], $firstJapaneseYear['year'], (int)$firstMonth, (int)$firstDay);
+        $pdf->SetFontSize($this->coord('first_treatment_date', 'fontSize'));
+        $this->drawTextByKey($pdf, 'first_treatment_date', $formattedDate);
       }
-      if ($this->hasCoord('first_treatment_year')) {
-        $pdf->SetFontSize($this->coord('first_treatment_year', 'fontSize'));
-        $this->drawTextByKey($pdf, 'first_treatment_year', (string)$this->customSampleData['first_treatment_year']);
-      }
-      if ($this->hasCoord('first_treatment_month')) {
-        $pdf->SetFontSize($this->coord('first_treatment_month', 'fontSize'));
-        $this->drawTextByKey($pdf, 'first_treatment_month', (string)$this->customSampleData['first_treatment_month']);
-      }
-      if ($this->hasCoord('first_treatment_day')) {
-        $pdf->SetFontSize($this->coord('first_treatment_day', 'fontSize'));
-        $this->drawTextByKey($pdf, 'first_treatment_day', (string)$this->customSampleData['first_treatment_day']);
-      }
-      $pdf->SetFontSize(10);
-    } elseif ($consent && isset($consent->first_care_date)) {
-      [$firstYear, $firstMonth, $firstDay] = explode('-', $consent->first_care_date);
-      $firstJapaneseYear = $this->convertToJapaneseYear((int)$firstYear, (int)$firstMonth);
-      
-      // 実データモード：元号（1文字目のみ）
-      if ($this->hasCoord('first_treatment_era')) {
-        $pdf->SetFontSize($this->coord('first_treatment_era', 'fontSize'));
-        $eraFirstChar = mb_substr($firstJapaneseYear['era'], 0, 1);
-        $this->drawTextByKey($pdf, 'first_treatment_era', $eraFirstChar);
-      }
-      if ($this->hasCoord('first_treatment_year')) {
-        $pdf->SetFontSize($this->coord('first_treatment_year', 'fontSize'));
-        $this->drawTextByKey($pdf, 'first_treatment_year', (string)$firstJapaneseYear['year']);
-      }
-      if ($this->hasCoord('first_treatment_month')) {
-        $pdf->SetFontSize($this->coord('first_treatment_month', 'fontSize'));
-        $this->drawTextByKey($pdf, 'first_treatment_month', (string)(int)$firstMonth);
-      }
-      if ($this->hasCoord('first_treatment_day')) {
-        $pdf->SetFontSize($this->coord('first_treatment_day', 'fontSize'));
-        $this->drawTextByKey($pdf, 'first_treatment_day', (string)(int)$firstDay);
-      }
-      $pdf->SetFontSize(10);
     }
 
     // === 実日数 ===

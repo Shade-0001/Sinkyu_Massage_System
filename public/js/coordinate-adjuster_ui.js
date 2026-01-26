@@ -162,23 +162,6 @@ function renderFieldSettings() {
       if (processedKeys.has(key)) return;
 
       let field = coordinates[key];
-      // coordinatesに存在しない場合はsampleDataFieldMappingから作成
-      if (!field && sampleDataFieldMapping[key]) {
-        const mappingField = sampleDataFieldMapping[key];
-        const isEllipseField = mappingField.radioGroup !== undefined && (mappingField.ellipseWidth !== undefined || mappingField.ellipseHeight !== undefined);
-        field = {
-          x: 0,
-          y: 0,
-          textAlign: 'left',
-          ...sampleDataFieldMapping[key]
-        };
-        // 楕円フィールド以外にはfontSizeとletterSpacingを設定
-        if (!isEllipseField) {
-          field.fontSize = 10;
-          field.letterSpacing = 0;
-        }
-        coordinates[key] = field;
-      }
       if (!field) return;
 
       // compositeGroupの処理
@@ -186,12 +169,24 @@ function renderFieldSettings() {
         processedCompositeGroups.add(field.compositeGroup);
 
         const groupFields = Object.entries(coordinates)
-          .filter(([k, v]) => v.compositeGroup === field.compositeGroup)
+          .filter(([k, v]) => {
+            if (v.compositeGroup !== field.compositeGroup) return false;
+            // hidden属性を持つフィールドは除外
+            const mapping = sampleDataFieldMapping[k];
+            if (mapping?.hidden) return false;
+            return true;
+          })
           .sort((a, b) => {
             const indexA = orderedKeys.indexOf(a[0]);
             const indexB = orderedKeys.indexOf(b[0]);
             return indexA - indexB;
           });
+
+        // groupFieldsが空の場合はスキップ
+        if (groupFields.length === 0) {
+          console.warn(`compositeGroup "${field.compositeGroup}" のフィールドが見つかりません`);
+          return;
+        }
 
         groupFields.forEach(([k]) => processedKeys.add(k));
 
@@ -364,7 +359,13 @@ function renderFieldSettings() {
           processedCompositeGroups.add(field.compositeGroup);
 
           const groupFields = Object.entries(coordinates)
-            .filter(([k, v]) => v.compositeGroup === field.compositeGroup)
+            .filter(([k, v]) => {
+              if (v.compositeGroup !== field.compositeGroup) return false;
+              // hidden属性を持つフィールドは除外
+              const mapping = sampleDataFieldMapping[k];
+              if (mapping?.hidden) return false;
+              return true;
+            })
             .sort((a, b) => {
               const indexA = orderedKeys.indexOf(a[0]);
               const indexB = orderedKeys.indexOf(b[0]);
@@ -2072,17 +2073,30 @@ function getSampleDataInput(key) {
     return inputHtml;
   }
 
-  const currentValue = customSampleData[mapping.field] || '';
+  // combine属性がある場合は結合した値を表示
+  let currentValue;
+  if (mapping.combine && Array.isArray(mapping.combine)) {
+    const values = mapping.combine.map(field => customSampleData[field] || '').filter(v => v);
+    currentValue = values.join(' '); // 半角スペースで結合
+  } else {
+    currentValue = customSampleData[mapping.field] || '';
+  }
 
   if (mapping.type === 'text' || mapping.type === 'number' || mapping.type === 'conditional_text') {
     const inputType = mapping.type === 'number' ? 'number' : 'text';
     const labelSuffix = mapping.type === 'conditional_text' ? ` (${mapping.condition}の場合表示)` : '';
+
+    // combine属性がある場合は専用の更新関数を使用
+    const onchangeHandler = (mapping.combine && Array.isArray(mapping.combine))
+      ? `updateCombinedSampleData(${JSON.stringify(mapping.combine)}, this.value)`
+      : `updateSampleData('${mapping.field}', this.value)`;
+
     inputHtml = `
       <div class="coordinate-input">
         <label>サンプルテキスト${labelSuffix}:</label>
         <input type="${inputType}"
                value="${currentValue}"
-               onchange="updateSampleData('${mapping.field}', this.value)"
+               onchange="${onchangeHandler}"
                class="form-control form-control-sm">
       </div>
     `;

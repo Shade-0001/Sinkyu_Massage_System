@@ -16,6 +16,7 @@ let customSampleData = {
   first_kana: 'タロウ',
   gender: '男',
   birthdate: '1955-03-15',
+  birthday_era: '昭和',
   birthday_year: '30',
   birthday_month: '3',
   birthday_day: '15',
@@ -26,22 +27,26 @@ let customSampleData = {
   insurance_type_3: '本外',
   expenses_borne_ratio: '３割',
   insurer_number: '12345678',
-  insurance_symbol: 'ABC123',
-  insurance_symbol_kigou: '12345',
-  insurance_symbol_bangou: '67890',
+  insurance_symbol_code: '12345',
+  insurance_symbol_number: '67890',
   insurance_number: '9876543210',
   relationship: '本人',
   // 発病負傷年月日
+  onset_date: '令和7年 11月 15日',
   onset_date_year: '7',
   onset_date_month: '11',
   onset_date_day: '15',
-  onset_illness_name: '腰痛症',
-  // 初療・施術期間  first_treatment_era: '令和',  first_treatment_year: '7',
+  // 初療・施術期間
+  first_treatment_date: '令和7年 11月 20日',
+  first_treatment_era: '令和',
+  first_treatment_year: '7',
   first_treatment_month: '11',
   first_treatment_day: '20',
+  treatment_start_date: '令和7年 12月 1日',
   treatment_start_year: '7',
   treatment_start_month: '12',
   treatment_start_day: '1',
+  treatment_end_date: '令和7年 12月 31日',
   treatment_end_year: '7',
   treatment_end_month: '12',
   treatment_end_day: '31',
@@ -226,16 +231,6 @@ let customSampleData = {
   // 委任申請者住所
   signature_applicant_address: '東京都千代田区丸の内1-1-1',
   // === 施術料金領収書用 日付フィールド（フォーマット済み） ===
-  // 元号年月
-  title_year_month: '令和 7年 12月分',
-  // 発病年月日
-  onset_date: '令和 00年 00月 00日',
-  // 同意年月日
-  consent_date: '令和 11年 11月 11日',
-  // 施術開始日
-  treatment_start_date: '令和 22年 22月 22日',
-  // 施術終了日
-  treatment_end_date: '令和 33年 33月 33日',
   // 施術期間開始
   therapy_period_start: '令和 7年 12月 1日',
   // 施術期間終了
@@ -270,6 +265,12 @@ function getSampleValue(key) {
   // combine属性がある場合は複数フィールドを結合
   if (mapping.combine && Array.isArray(mapping.combine)) {
     const values = mapping.combine.map(field => customSampleData[field] || '').filter(v => v);
+
+    // birthday_full_dateの場合は特別な形式（例: "30年 3月 15日"）
+    if (key === 'birthday_full_date' && values.length === 3) {
+      return values[0] + '年 ' + values[1] + '月 ' + values[2] + '日';
+    }
+
     return values.join('　'); // 全角スペースで結合
   }
 

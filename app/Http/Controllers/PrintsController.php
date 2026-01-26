@@ -586,8 +586,12 @@ class PrintsController extends Controller
         $customSampleData = $request->input('custom_sample_data');
         \Log::info('カスタムサンプルデータ受信チェック', [
           'exists' => !empty($customSampleData),
-          'fee_hari_unit' => $customSampleData['fee_hari_unit'] ?? 'なし',
-          'fee_kyu_unit' => $customSampleData['fee_kyu_unit'] ?? 'なし',
+          'last_name' => $customSampleData['last_name'] ?? 'なし',
+          'first_name' => $customSampleData['first_name'] ?? 'なし',
+          'last_kana' => $customSampleData['last_kana'] ?? 'なし',
+          'first_kana' => $customSampleData['first_kana'] ?? 'なし',
+          'insurance_symbol_code' => $customSampleData['insurance_symbol_code'] ?? 'なし',
+          'insurance_symbol_number' => $customSampleData['insurance_symbol_number'] ?? 'なし',
         ]);
         if ($customSampleData && method_exists($service, 'setCustomSampleData')) {
           $service->setCustomSampleData($customSampleData);

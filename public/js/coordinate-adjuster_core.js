@@ -81,62 +81,36 @@ function loadCoordinates() {
     .then(data => {
       if (data.success) {
         coordinates = data.coordinates;
-
-        // フィールド定義のデフォルト値をマージ
+        console.log('座標読み込み完了（JSON）:', Object.keys(coordinates).length, 'フィールド');
+        
+        // フィールド定義から新規フィールドを追加（既存フィールドは保持）
         const fieldMapping = getSampleDataFieldMapping();
+        let newFieldCount = 0;
         Object.keys(fieldMapping).forEach(key => {
-          if (coordinates[key]) {
-            const definition = fieldMapping[key];
-            // ellipseWidth, ellipseHeight, circleRadius, lineWidth などのデフォルト値を設定
-            if (definition.ellipseWidth !== undefined && coordinates[key].ellipseWidth === undefined) {
-              coordinates[key].ellipseWidth = definition.ellipseWidth;
-            }
-            if (definition.ellipseHeight !== undefined && coordinates[key].ellipseHeight === undefined) {
-              coordinates[key].ellipseHeight = definition.ellipseHeight;
-            }
-            if (definition.circleRadius !== undefined && coordinates[key].circleRadius === undefined) {
-              coordinates[key].circleRadius = definition.circleRadius;
-            }
-            if (definition.lineWidth !== undefined && coordinates[key].lineWidth === undefined) {
-              coordinates[key].lineWidth = definition.lineWidth;
-            }
-            if (definition.width !== undefined && coordinates[key].width === undefined) {
-              coordinates[key].width = definition.width;
-            }
-            if (definition.lineHeight !== undefined && coordinates[key].lineHeight === undefined) {
-              coordinates[key].lineHeight = definition.lineHeight;
-            }
-            // radioGroup, optionLabel, label, type などのメタデータをマージ
-            if (definition.radioGroup !== undefined) {
-              coordinates[key].radioGroup = definition.radioGroup;
-            }
-            if (definition.optionLabel !== undefined) {
-              coordinates[key].optionLabel = definition.optionLabel;
-            }
-            if (definition.label !== undefined) {
-              coordinates[key].label = definition.label;
-            }
-            if (definition.type !== undefined) {
-              coordinates[key].type = definition.type;
-            }
-            if (definition.postalCodeGap !== undefined && coordinates[key].postalCodeGap === undefined) {
-              coordinates[key].postalCodeGap = definition.postalCodeGap;
-            }
-            // compositeGroup, compositeLabelをマージ
-            if (definition.compositeGroup !== undefined) {
-              coordinates[key].compositeGroup = definition.compositeGroup;
-            }
-            if (definition.compositeLabel !== undefined) {
-              coordinates[key].compositeLabel = definition.compositeLabel;
-            }
-            // 楕円フィールドからfontSizeとletterSpacingを削除
-            if (definition.ellipseWidth !== undefined || definition.ellipseHeight !== undefined || definition.lineWidth !== undefined) {
-              delete coordinates[key].fontSize;
-              delete coordinates[key].letterSpacing;
+          const definition = fieldMapping[key];
+          
+          // coordinatesに存在しない場合のみ新規作成
+          if (!coordinates[key]) {
+            newFieldCount++;
+            const isEllipseField = definition.radioGroup !== undefined && 
+                                    (definition.ellipseWidth !== undefined || definition.ellipseHeight !== undefined);
+            coordinates[key] = {
+              x: 0,
+              y: 0,
+              textAlign: 'left',
+              ...definition
+            };
+            // 楕円フィールド以外にはfontSizeとletterSpacingを設定
+            if (!isEllipseField) {
+              coordinates[key].fontSize = 10;
+              coordinates[key].letterSpacing = 0;
             }
           }
+          // 既存フィールドには何もしない（JSONの値をそのまま保持）
         });
 
+        console.log(`新規フィールド追加: ${newFieldCount}件、合計: ${Object.keys(coordinates).length}フィールド`);
+        
         originalCoordinates = JSON.parse(JSON.stringify(coordinates));
         resetRadioGroupsToDefault();
         renderFieldSettings();
@@ -328,16 +302,8 @@ function saveCoordinates(isAuto = false) {
     saveIndicator.style.display = 'inline-block';
   }
 
-  // isSelectedフラグを除外した座標データを作成
-  const coordinatesToSave = {};
-  Object.keys(coordinates).forEach(key => {
-    coordinatesToSave[key] = {};
-    Object.keys(coordinates[key]).forEach(prop => {
-      if (prop !== 'isSelected') {
-        coordinatesToSave[key][prop] = coordinates[key][prop];
-      }
-    });
-  });
+  // 座標データをそのまま保存（isSelectedフラグも含む）
+  const coordinatesToSave = JSON.parse(JSON.stringify(coordinates));
 
   fetch('/prints/save-coordinates', {
     method: 'POST',
@@ -436,12 +402,22 @@ function previewPdf() {
   if (showSampleData && customSampleData) {
     // combine属性があるフィールドの値を変換
     const processedSampleData = {};
+
+    // 座標JSONに定義されているキーの値を取得
     Object.keys(coordinates).forEach(key => {
       const value = getSampleValue(key);
       if (value !== undefined && value !== null && value !== '') {
         processedSampleData[key] = value;
       }
     });
+
+    // customSampleDataに含まれる全てのキーも追加（combine属性で分割された個別フィールドを含む）
+    Object.keys(customSampleData).forEach(key => {
+      if (customSampleData[key] !== undefined && customSampleData[key] !== null && customSampleData[key] !== '') {
+        processedSampleData[key] = customSampleData[key];
+      }
+    });
+
     requestBody.custom_sample_data = processedSampleData;
   }
 
@@ -524,6 +500,28 @@ function loadCustomSampleData() {
 // サンプルデータを更新
 function updateSampleData(field, value) {
   customSampleData[field] = value;
+
+  // localStorageに保存
+  const storageKey = 'customSampleData_' + currentPdfType;
+  localStorage.setItem(storageKey, JSON.stringify(customSampleData));
+
+  // プレビューを自動更新
+  autoPreview();
+}
+
+// 結合フィールド（combine属性あり）のサンプルデータを更新
+function updateCombinedSampleData(combineFields, value) {
+  console.log('updateCombinedSampleData called', { combineFields, value });
+
+  // スペースで分割（全角・半角両対応）
+  const parts = value.split(/[\s　]+/).filter(p => p);
+  console.log('Split parts:', parts);
+
+  // 分割した値を各フィールドに割り当て
+  combineFields.forEach((field, index) => {
+    customSampleData[field] = parts[index] || '';
+    console.log(`Set ${field} = ${parts[index] || ''}`);
+  });
 
   // localStorageに保存
   const storageKey = 'customSampleData_' + currentPdfType;

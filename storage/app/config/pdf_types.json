@@ -24,14 +24,14 @@
     "name": "医療助成費支給申請書（はり･きゅう）",
     "coordinatesFile": "medical_assistance_acupuncture_coordinates.json",
     "templateFile": "医療助成費支給申請書（はり･きゅう）.pdf",
-    "serviceClass": "AcupunctureBenefitPdfService",
+    "serviceClass": "MedicalAssistanceAcupuncturePdfService",
     "fieldsFile": "therapy_benefit_acupuncture.js"
   },
   "medical_assistance_massage": {
     "name": "医療助成費支給申請書（あんま･マッサージ）",
     "coordinatesFile": "medical_assistance_massage_coordinates.json",
     "templateFile": "医療助成費支給申請書（あんま･マッサージ）.pdf",
-    "serviceClass": "MassageBenefitPdfService",
+    "serviceClass": "MedicalAssistanceMassagePdfService",
     "fieldsFile": "therapy_benefit_massage.js"
   }
 }

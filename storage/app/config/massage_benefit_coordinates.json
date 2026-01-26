@@ -50,7 +50,8 @@
         "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "insurance_type_1",
-        "optionLabel": "社･国･組"
+        "optionLabel": "社･国･組",
+        "isSelected": true
     },
     "insurance_type_1_kouhi": {
         "x": 132.5,
@@ -61,7 +62,8 @@
         "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "insurance_type_1",
-        "optionLabel": "公費"
+        "optionLabel": "公費",
+        "isSelected": false
     },
     "insurance_type_1_kouki": {
         "x": 143,
@@ -72,7 +74,8 @@
         "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "insurance_type_1",
-        "optionLabel": "後期"
+        "optionLabel": "後期",
+        "isSelected": false
     },
     "insurance_type_1_taishoku": {
         "x": 143,
@@ -83,7 +86,8 @@
         "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "insurance_type_1",
-        "optionLabel": "退職"
+        "optionLabel": "退職",
+        "isSelected": false
     },
     "insurance_type_3_hongai": {
         "x": 154,
@@ -94,7 +98,8 @@
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "insurance_type_3",
-        "optionLabel": "本外"
+        "optionLabel": "本外",
+        "isSelected": true
     },
     "insurance_type_3_sangai": {
         "x": 154,
@@ -105,7 +110,8 @@
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "insurance_type_3",
-        "optionLabel": "三外"
+        "optionLabel": "三外",
+        "isSelected": false
     },
     "insurance_type_3_kagai": {
         "x": 154,
@@ -116,7 +122,8 @@
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "insurance_type_3",
-        "optionLabel": "家外"
+        "optionLabel": "家外",
+        "isSelected": false
     },
     "insurance_type_3_kougai9": {
         "x": 165,
@@ -127,7 +134,8 @@
         "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "insurance_type_3",
-        "optionLabel": "高外９"
+        "optionLabel": "高外９",
+        "isSelected": false
     },
     "insurance_type_3_kougai8": {
         "x": 165,
@@ -138,7 +146,8 @@
         "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "insurance_type_3",
-        "optionLabel": "高外８"
+        "optionLabel": "高外８",
+        "isSelected": false
     },
     "expenses_borne_ratio_10": {
         "x": 39,
@@ -149,7 +158,8 @@
         "ellipseHeight": 2,
         "lineWidth": 0.5,
         "radioGroup": "expenses_borne_ratio",
-        "optionLabel": "１割"
+        "optionLabel": "１割",
+        "isSelected": true
     },
     "expenses_borne_ratio_20": {
         "x": 44.5,
@@ -160,7 +170,8 @@
         "ellipseHeight": 2,
         "lineWidth": 0.5,
         "radioGroup": "expenses_borne_ratio",
-        "optionLabel": "２割"
+        "optionLabel": "２割",
+        "isSelected": false
     },
     "expenses_borne_ratio_30": {
         "x": 50,
@@ -171,7 +182,8 @@
         "ellipseHeight": 2,
         "lineWidth": 0.5,
         "radioGroup": "expenses_borne_ratio",
-        "optionLabel": "３割"
+        "optionLabel": "３割",
+        "isSelected": false
     },
     "insurer_number": {
         "x": 138.5,
@@ -262,7 +274,8 @@
         "lineWidth": 0.5,
         "radioGroup": "gender",
         "optionLabel": "男",
-        "type": "select"
+        "type": "select",
+        "isSelected": true
     },
     "patient_gender_female": {
         "x": 94.5,
@@ -273,7 +286,8 @@
         "lineWidth": 0.5,
         "radioGroup": "gender",
         "optionLabel": "女",
-        "type": "select"
+        "type": "select",
+        "isSelected": false
     },
     "birthday_era_reiwa": {
         "x": 68,
@@ -286,7 +300,8 @@
         "lineWidth": 0.5,
         "type": "select",
         "compositeGroup": "birthday_full_date",
-        "compositeLabel": "生年月日"
+        "compositeLabel": "生年月日",
+        "isSelected": false
     },
     "birthday_era_heisei": {
         "x": 63,
@@ -299,7 +314,8 @@
         "lineWidth": 0.5,
         "type": "select",
         "compositeGroup": "birthday_full_date",
-        "compositeLabel": "生年月日"
+        "compositeLabel": "生年月日",
+        "isSelected": false
     },
     "birthday_era_showa": {
         "x": 58,
@@ -312,7 +328,8 @@
         "lineWidth": 0.5,
         "type": "select",
         "compositeGroup": "birthday_full_date",
-        "compositeLabel": "生年月日"
+        "compositeLabel": "生年月日",
+        "isSelected": false
     },
     "birthday_era_taisho": {
         "x": 53,
@@ -325,7 +342,8 @@
         "optionLabel": "大正",
         "type": "select",
         "compositeGroup": "birthday_full_date",
-        "compositeLabel": "生年月日"
+        "compositeLabel": "生年月日",
+        "isSelected": false
     },
     "birthday_era_meiji": {
         "x": 48,
@@ -338,7 +356,8 @@
         "optionLabel": "明治",
         "type": "select",
         "compositeGroup": "birthday_full_date",
-        "compositeLabel": "生年月日"
+        "compositeLabel": "生年月日",
+        "isSelected": true
     },
     "birthday_year": {
         "x": -34,
@@ -381,7 +400,7 @@
         "label": "年",
         "textAlign": "center",
         "type": "number",
-        "compositeGroup": "treatment_start_date",
+        "compositeGroup": "treatment_start_date_composite",
         "compositeLabel": "施術期間（開始）"
     },
     "treatment_start_month": {
@@ -392,7 +411,7 @@
         "label": "月",
         "textAlign": "center",
         "type": "number",
-        "compositeGroup": "treatment_start_date",
+        "compositeGroup": "treatment_start_date_composite",
         "compositeLabel": "施術期間（開始）"
     },
     "treatment_start_day": {
@@ -403,7 +422,7 @@
         "label": "日",
         "textAlign": "center",
         "type": "number",
-        "compositeGroup": "treatment_start_date",
+        "compositeGroup": "treatment_start_date_composite",
         "compositeLabel": "施術期間（開始）"
     },
     "treatment_end_year": {
@@ -414,7 +433,7 @@
         "label": "年",
         "textAlign": "center",
         "type": "number",
-        "compositeGroup": "treatment_end_date",
+        "compositeGroup": "treatment_end_date_composite",
         "compositeLabel": "施術期間（終了）"
     },
     "treatment_end_month": {
@@ -425,7 +444,7 @@
         "label": "月",
         "textAlign": "center",
         "type": "number",
-        "compositeGroup": "treatment_end_date",
+        "compositeGroup": "treatment_end_date_composite",
         "compositeLabel": "施術期間（終了）"
     },
     "treatment_end_day": {
@@ -436,7 +455,7 @@
         "label": "日",
         "textAlign": "center",
         "type": "number",
-        "compositeGroup": "treatment_end_date",
+        "compositeGroup": "treatment_end_date_composite",
         "compositeLabel": "施術期間（終了）"
     },
     "treatment_days": {
@@ -641,7 +660,8 @@
         "label": "初検料（サークル）",
         "type": "select",
         "radioGroup": "fee_initial_examination",
-        "optionLabel": "はり"
+        "optionLabel": "はり",
+        "isSelected": true
     },
     "fee_initial_examination_kyu": {
         "ellipseX": 44.5,
@@ -652,7 +672,8 @@
         "label": "初検料（サークル）",
         "type": "select",
         "radioGroup": "fee_initial_examination",
-        "optionLabel": "きゅう"
+        "optionLabel": "きゅう",
+        "isSelected": false
     },
     "fee_initial_examination_combined": {
         "ellipseX": 63,
@@ -663,7 +684,8 @@
         "label": "初検料（サークル）",
         "type": "select",
         "radioGroup": "fee_initial_examination",
-        "optionLabel": "はり･きゅう併用"
+        "optionLabel": "はり･きゅう併用",
+        "isSelected": false
     },
     "fee_initial_examination_amount": {
         "label": "初検料",
@@ -935,7 +957,8 @@
         "lineWidth": 0.5,
         "radioGroup": "bill_category",
         "optionLabel": "新規",
-        "type": "text"
+        "type": "text",
+        "isSelected": true
     },
     "bill_category_continued": {
         "x": 183.5,
@@ -949,7 +972,8 @@
         "lineWidth": 0.5,
         "radioGroup": "bill_category",
         "optionLabel": "継続",
-        "type": "text"
+        "type": "text",
+        "isSelected": false
     },
     "outcome_continued": {
         "x": 160.5,
@@ -963,7 +987,8 @@
         "lineWidth": 0.5,
         "radioGroup": "outcome",
         "optionLabel": "継続",
-        "type": "text"
+        "type": "text",
+        "isSelected": true
     },
     "outcome_cured": {
         "x": 169.5,
@@ -977,7 +1002,8 @@
         "lineWidth": 0.5,
         "radioGroup": "outcome",
         "optionLabel": "治癒",
-        "type": "text"
+        "type": "text",
+        "isSelected": false
     },
     "outcome_discontinued": {
         "x": 178,
@@ -991,7 +1017,8 @@
         "lineWidth": 0.5,
         "radioGroup": "outcome",
         "optionLabel": "中止",
-        "type": "text"
+        "type": "text",
+        "isSelected": false
     },
     "outcome_transferred": {
         "x": 186.5,
@@ -1005,7 +1032,8 @@
         "lineWidth": 0.5,
         "radioGroup": "outcome",
         "optionLabel": "転医",
-        "type": "text"
+        "type": "text",
+        "isSelected": false
     },
     "health_center_registration_1": {
         "x": 153.5,
@@ -1018,7 +1046,8 @@
         "ellipseHeight": 2.5,
         "radioGroup": "health_center_registration",
         "optionLabel": "施術所所在地",
-        "type": "select"
+        "type": "select",
+        "isSelected": true
     },
     "health_center_registration_2": {
         "x": 176,
@@ -1031,7 +1060,8 @@
         "ellipseHeight": 2.5,
         "radioGroup": "health_center_registration",
         "optionLabel": "出張専門施術者住所地",
-        "type": "select"
+        "type": "select",
+        "isSelected": false
     },
     "abstract": {
         "x": 155,
@@ -1052,7 +1082,7 @@
         "label": "元号",
         "textAlign": "center",
         "type": "text",
-        "compositeGroup": "first_treatment_date",
+        "compositeGroup": "first_treatment_date_composite",
         "compositeLabel": "初療年月日"
     },
     "first_treatment_year": {
@@ -1063,7 +1093,7 @@
         "textAlign": "center",
         "letterSpacing": -0.1,
         "type": "number",
-        "compositeGroup": "first_treatment_date",
+        "compositeGroup": "first_treatment_date_composite",
         "compositeLabel": "初療年月日"
     },
     "first_treatment_month": {
@@ -1074,7 +1104,7 @@
         "textAlign": "center",
         "letterSpacing": -0.1,
         "type": "number",
-        "compositeGroup": "first_treatment_date",
+        "compositeGroup": "first_treatment_date_composite",
         "compositeLabel": "初療年月日"
     },
     "first_treatment_day": {
@@ -1085,7 +1115,7 @@
         "textAlign": "center",
         "letterSpacing": -0.1,
         "type": "number",
-        "compositeGroup": "first_treatment_date",
+        "compositeGroup": "first_treatment_date_composite",
         "compositeLabel": "初療年月日"
     },
     "applicant_postal_code": {
@@ -1118,7 +1148,7 @@
         "label": "年",
         "textAlign": "center",
         "type": "number",
-        "compositeGroup": "onset_date",
+        "compositeGroup": "onset_date_composite",
         "compositeLabel": "発病負傷年月日"
     },
     "onset_date_month": {
@@ -1129,7 +1159,7 @@
         "label": "月",
         "textAlign": "center",
         "type": "number",
-        "compositeGroup": "onset_date",
+        "compositeGroup": "onset_date_composite",
         "compositeLabel": "発病負傷年月日"
     },
     "onset_date_day": {
@@ -1140,7 +1170,7 @@
         "label": "日",
         "textAlign": "center",
         "type": "number",
-        "compositeGroup": "onset_date",
+        "compositeGroup": "onset_date_composite",
         "compositeLabel": "発病負傷年月日"
     },
     "onset_illness_name": {
@@ -1161,7 +1191,8 @@
         "lineWidth": 0.5,
         "radioGroup": "work_scope_type",
         "optionLabel": "業務上",
-        "type": "select"
+        "type": "select",
+        "isSelected": true
     },
     "work_scope_type_2": {
         "x": 150,
@@ -1172,7 +1203,8 @@
         "lineWidth": 0.5,
         "radioGroup": "work_scope_type",
         "optionLabel": "第三者行為",
-        "type": "select"
+        "type": "select",
+        "isSelected": false
     },
     "work_scope_type_3": {
         "x": 177.5,
@@ -1183,7 +1215,8 @@
         "lineWidth": 0.5,
         "radioGroup": "work_scope_type",
         "optionLabel": "その他",
-        "type": "select"
+        "type": "select",
+        "isSelected": false
     },
     "treatment_month": {
         "x": -70.5,
@@ -1248,7 +1281,8 @@
         "textAlign": "center",
         "type": "select",
         "radioGroup": "payment_category",
-        "optionLabel": "振込"
+        "optionLabel": "振込",
+        "isSelected": true
     },
     "payment_category_bank_transfer": {
         "ellipseX": 58,
@@ -1262,7 +1296,8 @@
         "textAlign": "center",
         "type": "select",
         "radioGroup": "payment_category",
-        "optionLabel": "銀行送金"
+        "optionLabel": "銀行送金",
+        "isSelected": false
     },
     "payment_category_post_transfer": {
         "ellipseX": 32,
@@ -1276,7 +1311,8 @@
         "textAlign": "center",
         "type": "select",
         "radioGroup": "payment_category",
-        "optionLabel": "郵便局送金"
+        "optionLabel": "郵便局送金",
+        "isSelected": false
     },
     "payment_category_local_payment": {
         "ellipseX": 57,
@@ -1290,7 +1326,8 @@
         "textAlign": "center",
         "type": "select",
         "radioGroup": "payment_category",
-        "optionLabel": "当地払"
+        "optionLabel": "当地払",
+        "isSelected": false
     },
     "deposit_type_ordinary": {
         "ellipseX": 82,
@@ -1304,7 +1341,8 @@
         "textAlign": "center",
         "type": "select",
         "radioGroup": "deposit_type",
-        "optionLabel": "普通"
+        "optionLabel": "普通",
+        "isSelected": true
     },
     "deposit_type_current": {
         "ellipseX": 101,
@@ -1318,7 +1356,8 @@
         "textAlign": "center",
         "type": "select",
         "radioGroup": "deposit_type",
-        "optionLabel": "当座"
+        "optionLabel": "当座",
+        "isSelected": false
     },
     "deposit_type_notice": {
         "ellipseX": 81.5,
@@ -1332,7 +1371,8 @@
         "textAlign": "center",
         "type": "select",
         "radioGroup": "deposit_type",
-        "optionLabel": "通知"
+        "optionLabel": "通知",
+        "isSelected": false
     },
     "deposit_type_betsudan": {
         "ellipseX": 101.5,
@@ -1346,7 +1386,8 @@
         "textAlign": "center",
         "type": "select",
         "radioGroup": "deposit_type",
-        "optionLabel": "別段"
+        "optionLabel": "別段",
+        "isSelected": false
     },
     "financial_institution_name_1": {
         "x": 32,
@@ -1369,7 +1410,8 @@
         "textAlign": "center",
         "type": "select",
         "radioGroup": "financial_institution_type",
-        "optionLabel": "銀行"
+        "optionLabel": "銀行",
+        "isSelected": true
     },
     "financial_institution_type_kinko": {
         "ellipseX": 160.5,
@@ -1383,7 +1425,8 @@
         "textAlign": "center",
         "type": "select",
         "radioGroup": "financial_institution_type",
-        "optionLabel": "金庫"
+        "optionLabel": "金庫",
+        "isSelected": false
     },
     "financial_institution_type_nokyo": {
         "ellipseX": 160.5,
@@ -1397,7 +1440,8 @@
         "textAlign": "center",
         "type": "select",
         "radioGroup": "financial_institution_type",
-        "optionLabel": "農協"
+        "optionLabel": "農協",
+        "isSelected": false
     },
     "financial_institution_name_2": {
         "x": 69,
@@ -1420,7 +1464,8 @@
         "textAlign": "center",
         "type": "select",
         "radioGroup": "branch_type",
-        "optionLabel": "本店"
+        "optionLabel": "本店",
+        "isSelected": true
     },
     "branch_type_shiten": {
         "ellipseX": 191,
@@ -1434,7 +1479,8 @@
         "textAlign": "center",
         "type": "select",
         "radioGroup": "branch_type",
-        "optionLabel": "支店"
+        "optionLabel": "支店",
+        "isSelected": false
     },
     "branch_type_shucchoujo": {
         "ellipseX": 189.5,
@@ -1448,7 +1494,8 @@
         "textAlign": "center",
         "type": "select",
         "radioGroup": "branch_type",
-        "optionLabel": "出張所"
+        "optionLabel": "出張所",
+        "isSelected": false
     },
     "bank_account_holder_kana": {
         "x": -40,

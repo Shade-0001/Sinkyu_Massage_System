@@ -409,14 +409,26 @@ class MedicalAssistanceAcupuncturePdfService
     }
 
     // === 区市町村番号（6桁） ===
-    if ($insurance && isset($insurance->locality_code) && $insurance->locality_code) {
+    if ($this->sampleDataMode && isset($this->customSampleData['locality_code'])) {
+      if ($this->customSampleData['locality_code']) {
+        $pdf->SetFontSize($this->coord('locality_code', 'fontSize'));
+        $this->fillBoxesByKey($pdf, 'locality_code', $this->customSampleData['locality_code'], 6, 5.6);
+        $pdf->SetFontSize(10);
+      }
+    } elseif ($insurance && isset($insurance->locality_code) && $insurance->locality_code) {
       $pdf->SetFontSize($this->coord('locality_code', 'fontSize'));
       $this->fillBoxesByKey($pdf, 'locality_code', $insurance->locality_code, 6, 5.6);
       $pdf->SetFontSize(10);
     }
 
     // === 受給者番号（区市町村番号と種類の下） ===
-    if ($insurance && isset($insurance->recipient_code) && $insurance->recipient_code) {
+    if ($this->sampleDataMode && isset($this->customSampleData['recipient_number'])) {
+      if ($this->customSampleData['recipient_number']) {
+        $pdf->SetFontSize($this->coord('recipient_number', 'fontSize'));
+        $this->fillBoxesByKey($pdf, 'recipient_number', $this->customSampleData['recipient_number'], 6, 5.6);
+        $pdf->SetFontSize(10);
+      }
+    } elseif ($insurance && isset($insurance->recipient_code) && $insurance->recipient_code) {
       $pdf->SetFontSize($this->coord('recipient_number', 'fontSize'));
       $this->fillBoxesByKey($pdf, 'recipient_number', $insurance->recipient_code, 6, 5.6);
       $pdf->SetFontSize(10);
@@ -439,7 +451,21 @@ class MedicalAssistanceAcupuncturePdfService
     }
 
     // === 保険種別３ ===
-    if ($insurance && isset($insurance->insurance_type_3)) {
+    $insuranceType3Key = null;
+
+    // isSelectedフラグをチェック（サンプルデータの場合）
+    if (isset($this->coordinates['insurance_type_3_hongai']['isSelected']) && $this->coordinates['insurance_type_3_hongai']['isSelected']) {
+      $insuranceType3Key = 'insurance_type_3_hongai';
+    } elseif (isset($this->coordinates['insurance_type_3_sangai']['isSelected']) && $this->coordinates['insurance_type_3_sangai']['isSelected']) {
+      $insuranceType3Key = 'insurance_type_3_sangai';
+    } elseif (isset($this->coordinates['insurance_type_3_kagai']['isSelected']) && $this->coordinates['insurance_type_3_kagai']['isSelected']) {
+      $insuranceType3Key = 'insurance_type_3_kagai';
+    } elseif (isset($this->coordinates['insurance_type_3_kougai9']['isSelected']) && $this->coordinates['insurance_type_3_kougai9']['isSelected']) {
+      $insuranceType3Key = 'insurance_type_3_kougai9';
+    } elseif (isset($this->coordinates['insurance_type_3_kougai8']['isSelected']) && $this->coordinates['insurance_type_3_kougai8']['isSelected']) {
+      $insuranceType3Key = 'insurance_type_3_kougai8';
+    } elseif ($insurance && isset($insurance->insurance_type_3)) {
+      // 通常モード：保険データから取得
       $insuranceType3Map = [
         '本外' => 'insurance_type_3_hongai',
         '三外' => 'insurance_type_3_sangai',
@@ -447,10 +473,11 @@ class MedicalAssistanceAcupuncturePdfService
         '高外９' => 'insurance_type_3_kougai9',
         '高外８' => 'insurance_type_3_kougai8',
       ];
-      $key = $insuranceType3Map[$insurance->insurance_type_3] ?? null;
-      if ($key) {
-        $this->drawEllipseByKey($pdf, $key);
-      }
+      $insuranceType3Key = $insuranceType3Map[$insurance->insurance_type_3] ?? null;
+    }
+
+    if ($insuranceType3Key) {
+      $this->drawEllipseByKey($pdf, $insuranceType3Key);
     }
 
     // === 一部負担金（楕円） ===
@@ -498,35 +525,50 @@ class MedicalAssistanceAcupuncturePdfService
       \Log::warning('保険者番号が設定されていません', ['insurance' => $insurance]);
     }
 
-    // === 被保険者証記号番号 ===
+    // === 被保険者証記号・番号 ===
     // 保険種別1によって表示形式が異なる
-    // 社・国・組(ID:1): 記号(code_number) + 番号(account_number)
-    // 公費(ID:2), 後期(ID:3), 退職(ID:4): 被保険者番号(insured_number)のみ
+    // 社・国・組(ID:1): 記号(code_number)と番号(account_number)を別々のフィールドに表示
+    // 公費(ID:2), 後期(ID:3), 退職(ID:4): 被保険者番号(insured_number)を番号フィールドに表示
     if ($insurance) {
       $insuranceType1Id = $insurance->insurance_type_1_id ?? null;
-      $displayText = '';
 
       if ($insuranceType1Id == 1) {
-        // 社・国・組の場合: 記号・番号形式
+        // 社・国・組の場合: 記号と番号を別々のフィールドに表示
         $symbol = $insurance->code_number ?? '';
         $number = $insurance->account_number ?? '';
-        if ($symbol || $number) {
-          $displayText = trim(($symbol ?: '') . ($symbol && $number ? '　' : '') . ($number ?: ''));
+
+        if ($symbol) {
+          $pdf->SetFontSize($this->coord('insurance_symbol_code', 'fontSize'));
+          $this->drawTextByKey($pdf, 'insurance_symbol_code', (string)$symbol);
+          $pdf->SetFontSize(10);
+        }
+
+        if ($number) {
+          $pdf->SetFontSize($this->coord('insurance_symbol_number', 'fontSize'));
+          $this->drawTextByKey($pdf, 'insurance_symbol_number', (string)$number);
+          $pdf->SetFontSize(10);
+        }
+
+        if (!$symbol && !$number) {
+          \Log::warning('被保険者記号・番号が設定されていません', [
+            'insurance_type_1_id' => $insuranceType1Id,
+            'insurance' => $insurance
+          ]);
         }
       } else {
-        // 公費・後期・退職の場合: 被保険者番号のみ
-        $displayText = $insurance->insured_number ?? '';
-      }
+        // 公費・後期・退職の場合: 被保険者番号を番号フィールドに表示
+        $insuredNumber = $insurance->insured_number ?? '';
 
-      if ($displayText) {
-        $pdf->SetFontSize($this->coord('insurance_symbol', 'fontSize'));
-        $this->drawTextByKey($pdf, 'insurance_symbol', (string)$displayText);
-        $pdf->SetFontSize(10);
-      } else {
-        \Log::warning('被保険者証記号番号が設定されていません', [
-          'insurance_type_1_id' => $insuranceType1Id,
-          'insurance' => $insurance
-        ]);
+        if ($insuredNumber) {
+          $pdf->SetFontSize($this->coord('insurance_symbol_number', 'fontSize'));
+          $this->drawTextByKey($pdf, 'insurance_symbol_number', (string)$insuredNumber);
+          $pdf->SetFontSize(10);
+        } else {
+          \Log::warning('被保険者番号が設定されていません', [
+            'insurance_type_1_id' => $insuranceType1Id,
+            'insurance' => $insurance
+          ]);
+        }
       }
     } else {
       \Log::warning('保険情報がありません');
@@ -593,29 +635,30 @@ class MedicalAssistanceAcupuncturePdfService
       $birthDay = $this->customSampleData['birthday_day'] ?? null;
 
       // isSelectedフラグまたはcustomSampleDataから元号を取得
+      $birthdayEra = null;
       $birthdayEraKey = null;
-      if (isset($this->coordinates['birthday_era_reiwa']['isSelected']) && $this->coordinates['birthday_era_reiwa']['isSelected']) {
-        $birthdayEraKey = 'birthday_era_reiwa';
-      } elseif (isset($this->coordinates['birthday_era_heisei']['isSelected']) && $this->coordinates['birthday_era_heisei']['isSelected']) {
+      if (isset($this->coordinates['birthday_era_heisei']['isSelected']) && $this->coordinates['birthday_era_heisei']['isSelected']) {
         $birthdayEraKey = 'birthday_era_heisei';
+        $birthdayEra = '平成';
       } elseif (isset($this->coordinates['birthday_era_showa']['isSelected']) && $this->coordinates['birthday_era_showa']['isSelected']) {
         $birthdayEraKey = 'birthday_era_showa';
+        $birthdayEra = '昭和';
       } elseif (isset($this->coordinates['birthday_era_taisho']['isSelected']) && $this->coordinates['birthday_era_taisho']['isSelected']) {
         $birthdayEraKey = 'birthday_era_taisho';
+        $birthdayEra = '大正';
       } elseif (isset($this->coordinates['birthday_era_meiji']['isSelected']) && $this->coordinates['birthday_era_meiji']['isSelected']) {
         $birthdayEraKey = 'birthday_era_meiji';
+        $birthdayEra = '明治';
       } elseif (isset($this->customSampleData['birthday_era'])) {
         // customSampleDataから元号を取得
-        $era = $this->customSampleData['birthday_era'];
-        if ($era === '令和') {
-          $birthdayEraKey = 'birthday_era_reiwa';
-        } elseif ($era === '平成') {
+        $birthdayEra = $this->customSampleData['birthday_era'];
+        if ($birthdayEra === '平成') {
           $birthdayEraKey = 'birthday_era_heisei';
-        } elseif ($era === '昭和') {
+        } elseif ($birthdayEra === '昭和') {
           $birthdayEraKey = 'birthday_era_showa';
-        } elseif ($era === '大正') {
+        } elseif ($birthdayEra === '大正') {
           $birthdayEraKey = 'birthday_era_taisho';
-        } elseif ($era === '明治') {
+        } elseif ($birthdayEra === '明治') {
           $birthdayEraKey = 'birthday_era_meiji';
         }
       }
@@ -624,31 +667,25 @@ class MedicalAssistanceAcupuncturePdfService
         $this->drawEllipseByKey($pdf, $birthdayEraKey);
       }
 
-      if ($birthYear) {
-        $pdf->SetFontSize($this->coord('birthday_year', 'fontSize'));
-        $this->drawTextByKey($pdf, 'birthday_year', (string)$birthYear);
+      // 生年月日を結合して描画（例: "令和 6年 3月 15日" または "30年 3月 15日"）
+      if ($birthYear && $birthMonth && $birthDay) {
+        $fullDate = '';
+        if ($birthdayEra === '令和') {
+          $fullDate = '令和 ' . $birthYear . '年 ' . (int)$birthMonth . '月 ' . (int)$birthDay . '日';
+        } else {
+          $fullDate = $birthYear . '年 ' . (int)$birthMonth . '月 ' . (int)$birthDay . '日';
+        }
+        $pdf->SetFontSize($this->coord('birthday_full_date', 'fontSize'));
+        $this->drawTextByKey($pdf, 'birthday_full_date', $fullDate);
+        $pdf->SetFontSize(10);
       }
-
-      if ($birthMonth) {
-        $pdf->SetFontSize($this->coord('birthday_month', 'fontSize'));
-        $this->drawTextByKey($pdf, 'birthday_month', (string)(int)$birthMonth);
-      }
-
-      if ($birthDay) {
-        $pdf->SetFontSize($this->coord('birthday_day', 'fontSize'));
-        $this->drawTextByKey($pdf, 'birthday_day', (string)(int)$birthDay);
-      }
-
-      $pdf->SetFontSize(10);
     } elseif (isset($clinicUser->birthday)) {
       // 通常モード：実データから取得
       [$birthYear, $birthMonth, $birthDay] = explode('-', $clinicUser->birthday);
       $birthJapaneseYear = $this->convertToJapaneseYear((int)$birthYear, (int)$birthMonth);
 
-      // 実データから判定
-      if ($birthJapaneseYear['era'] === '令和') {
-        $this->drawEllipseByKey($pdf, 'birthday_era_reiwa');
-      } elseif ($birthJapaneseYear['era'] === '平成') {
+      // 実データから判定（令和は除外）
+      if ($birthJapaneseYear['era'] === '平成') {
         $this->drawEllipseByKey($pdf, 'birthday_era_heisei');
       } elseif ($birthJapaneseYear['era'] === '昭和') {
         $this->drawEllipseByKey($pdf, 'birthday_era_showa');
@@ -658,58 +695,49 @@ class MedicalAssistanceAcupuncturePdfService
         $this->drawEllipseByKey($pdf, 'birthday_era_meiji');
       }
 
-      $pdf->SetFontSize($this->coord('birthday_year', 'fontSize'));
-      $this->drawTextByKey($pdf, 'birthday_year', (string)$birthJapaneseYear['year']);
-
-      $pdf->SetFontSize($this->coord('birthday_month', 'fontSize'));
-      $this->drawTextByKey($pdf, 'birthday_month', (string)(int)$birthMonth);
-
-      $pdf->SetFontSize($this->coord('birthday_day', 'fontSize'));
-      $this->drawTextByKey($pdf, 'birthday_day', (string)(int)$birthDay);
-
+      // 生年月日を結合して描画（例: "令和 6年 3月 15日" または "30年 3月 15日"）
+      if ($birthJapaneseYear['era'] === '令和') {
+        $fullDate = '令和 ' . $birthJapaneseYear['year'] . '年 ' . (int)$birthMonth . '月 ' . (int)$birthDay . '日';
+      } else {
+        $fullDate = $birthJapaneseYear['year'] . '年 ' . (int)$birthMonth . '月 ' . (int)$birthDay . '日';
+      }
+      $pdf->SetFontSize($this->coord('birthday_full_date', 'fontSize'));
+      $this->drawTextByKey($pdf, 'birthday_full_date', $fullDate);
       $pdf->SetFontSize(10);
     } else {
       \Log::warning('生年月日が設定されていません', ['clinic_user' => $clinicUser]);
     }
 
     // === 発病又は負傷年月日 ===
-    if ($this->sampleDataMode && $this->customSampleData) {
-      // サンプルデータモード：customSampleDataから取得
-      $onsetYear = $this->customSampleData['onset_date_year'] ?? '';
-      $onsetMonth = $this->customSampleData['onset_date_month'] ?? '';
-      $onsetDay = $this->customSampleData['onset_date_day'] ?? '';
+    if ($this->hasCoord('onset_date')) {
+      if ($this->sampleDataMode && $this->customSampleData) {
+        // サンプルデータモード：統合フィールド形式で描画
+        $onsetDate = $this->customSampleData['onset_date'] ?? '';
 
-      if ($onsetYear) {
-        $pdf->SetFontSize($this->coord('onset_date_year', 'fontSize'));
-        $this->drawTextByKey($pdf, 'onset_date_year', (string)$onsetYear);
+        if ($onsetDate) {
+          $pdf->SetFontSize($this->coord('onset_date', 'fontSize'));
+          $this->drawTextByKey($pdf, 'onset_date', $onsetDate);
+        }
+
+        $pdf->SetFontSize(10);
+      } elseif ($consent && isset($consent->onset_and_injury_date) && $consent->onset_and_injury_date) {
+        // 通常モード：実データから元号付き日付形式で描画
+        [$onsetYear, $onsetMonth, $onsetDay] = explode('-', $consent->onset_and_injury_date);
+        $onsetJapaneseYear = $this->convertToJapaneseYear((int)$onsetYear, (int)$onsetMonth);
+
+        $formattedDate = sprintf(
+          '%s%d年 %d月 %d日',
+          $onsetJapaneseYear['era'],
+          $onsetJapaneseYear['year'],
+          (int)$onsetMonth,
+          (int)$onsetDay
+        );
+
+        $pdf->SetFontSize($this->coord('onset_date', 'fontSize'));
+        $this->drawTextByKey($pdf, 'onset_date', $formattedDate);
+
+        $pdf->SetFontSize(10);
       }
-
-      if ($onsetMonth) {
-        $pdf->SetFontSize($this->coord('onset_date_month', 'fontSize'));
-        $this->drawTextByKey($pdf, 'onset_date_month', (string)$onsetMonth);
-      }
-
-      if ($onsetDay) {
-        $pdf->SetFontSize($this->coord('onset_date_day', 'fontSize'));
-        $this->drawTextByKey($pdf, 'onset_date_day', (string)$onsetDay);
-      }
-
-      $pdf->SetFontSize(10);
-    } elseif ($consent && isset($consent->onset_and_injury_date) && $consent->onset_and_injury_date) {
-      // 通常モード：実データから取得
-      [$onsetYear, $onsetMonth, $onsetDay] = explode('-', $consent->onset_and_injury_date);
-      $onsetJapaneseYear = $this->convertToJapaneseYear((int)$onsetYear, (int)$onsetMonth);
-
-      $pdf->SetFontSize($this->coord('onset_date_year', 'fontSize'));
-      $this->drawTextByKey($pdf, 'onset_date_year', (string)$onsetJapaneseYear['year']);
-
-      $pdf->SetFontSize($this->coord('onset_date_month', 'fontSize'));
-      $this->drawTextByKey($pdf, 'onset_date_month', (string)(int)$onsetMonth);
-
-      $pdf->SetFontSize($this->coord('onset_date_day', 'fontSize'));
-      $this->drawTextByKey($pdf, 'onset_date_day', (string)(int)$onsetDay);
-
-      $pdf->SetFontSize(10);
     }
 
     // === 傷病名（発病又は負傷年月日の隣） ===
@@ -751,18 +779,13 @@ class MedicalAssistanceAcupuncturePdfService
     // === 発病負傷の原因･経過 ===
     if ($this->sampleDataMode && $this->customSampleData) {
       // サンプルデータモード：customSampleDataから取得
-      $conditionId = $this->customSampleData['condition'] ?? '';
+      $conditionText = $this->customSampleData['condition'] ?? '';
 
-      if ($conditionId) {
-        // IDから名称を取得
-        $condition = \App\Models\Condition::find($conditionId);
-        $conditionName = $condition ? $condition->condition_name : '';
-        
-        if ($conditionName) {
-          $pdf->SetFontSize($this->coord('condition', 'fontSize'));
-          $this->drawTextByKey($pdf, 'condition', $conditionName);
-          $pdf->SetFontSize(10);
-        }
+      if ($conditionText) {
+        // サンプルデータモードではテキストをそのまま使用
+        $pdf->SetFontSize($this->coord('condition', 'fontSize'));
+        $this->drawTextByKey($pdf, 'condition', (string)$conditionText);
+        $pdf->SetFontSize(10);
       }
     } elseif ($consent && isset($consent->condition) && $consent->condition) {
       // 通常モード：実データから取得
@@ -813,132 +836,108 @@ class MedicalAssistanceAcupuncturePdfService
     }
 
     // === 初療年月日 ===
-    if ($this->sampleDataMode && $this->customSampleData) {
-      // サンプルデータモード：customSampleDataから取得
-      $firstYear = $this->customSampleData['first_treatment_year'] ?? '';
-      $firstMonth = $this->customSampleData['first_treatment_month'] ?? '';
-      $firstDay = $this->customSampleData['first_treatment_day'] ?? '';
+    if ($this->hasCoord('first_treatment_date')) {
+      if ($this->sampleDataMode && $this->customSampleData) {
+        // サンプルデータモード：統合フィールド形式で描画
+        $firstTreatmentDate = $this->customSampleData['first_treatment_date'] ?? '';
 
-      if ($firstYear) {
-        $pdf->SetFontSize($this->coord('first_treatment_year', 'fontSize'));
-        $this->drawTextByKey($pdf, 'first_treatment_year', (string)$firstYear);
+        if ($firstTreatmentDate) {
+          $pdf->SetFontSize($this->coord('first_treatment_date', 'fontSize'));
+          $this->drawTextByKey($pdf, 'first_treatment_date', $firstTreatmentDate);
+        }
+
+        $pdf->SetFontSize(10);
+      } elseif ($records->isNotEmpty()) {
+        // 通常モード：実データから元号付き日付形式で描画
+        $firstRecord = $records->first();
+        [$firstYear, $firstMonth, $firstDay] = explode('-', $firstRecord->date);
+        $firstJapaneseYear = $this->convertToJapaneseYear((int)$firstYear, (int)$firstMonth);
+
+        $formattedDate = sprintf(
+          '%s%d年 %d月 %d日',
+          $firstJapaneseYear['era'],
+          $firstJapaneseYear['year'],
+          (int)$firstMonth,
+          (int)$firstDay
+        );
+
+        $pdf->SetFontSize($this->coord('first_treatment_date', 'fontSize'));
+        $this->drawTextByKey($pdf, 'first_treatment_date', $formattedDate);
+
+        $pdf->SetFontSize(10);
       }
-
-      if ($firstMonth) {
-        $pdf->SetFontSize($this->coord('first_treatment_month', 'fontSize'));
-        $this->drawTextByKey($pdf, 'first_treatment_month', (string)$firstMonth);
-      }
-
-      if ($firstDay) {
-        $pdf->SetFontSize($this->coord('first_treatment_day', 'fontSize'));
-        $this->drawTextByKey($pdf, 'first_treatment_day', (string)$firstDay);
-      }
-
-      $pdf->SetFontSize(10);
-    } elseif ($records->isNotEmpty()) {
-      // 通常モード：実データから取得
-      $firstRecord = $records->first();
-      [$firstYear, $firstMonth, $firstDay] = explode('-', $firstRecord->date);
-      $firstJapaneseYear = $this->convertToJapaneseYear((int)$firstYear, (int)$firstMonth);
-
-      $pdf->SetFontSize($this->coord('first_treatment_year', 'fontSize'));
-      $this->drawTextByKey($pdf, 'first_treatment_year', (string)$firstJapaneseYear['year']);
-
-      $pdf->SetFontSize($this->coord('first_treatment_month', 'fontSize'));
-      $this->drawTextByKey($pdf, 'first_treatment_month', (string)(int)$firstMonth);
-
-      $pdf->SetFontSize($this->coord('first_treatment_day', 'fontSize'));
-      $this->drawTextByKey($pdf, 'first_treatment_day', (string)(int)$firstDay);
-
-      $pdf->SetFontSize(10);
     }
 
     // === 施術期間 ===
-    if ($this->sampleDataMode && $this->customSampleData) {
-      // サンプルデータモード：customSampleDataから取得
-      $startYear = $this->customSampleData['treatment_start_year'] ?? '';
-      $startMonth = $this->customSampleData['treatment_start_month'] ?? '';
-      $startDay = $this->customSampleData['treatment_start_day'] ?? '';
-      $endYear = $this->customSampleData['treatment_end_year'] ?? '';
-      $endMonth = $this->customSampleData['treatment_end_month'] ?? '';
-      $endDay = $this->customSampleData['treatment_end_day'] ?? '';
-      $treatmentDays = $this->customSampleData['treatment_days'] ?? '';
+    if ($this->hasCoord('treatment_start_date') && $this->hasCoord('treatment_end_date')) {
+      if ($this->sampleDataMode && $this->customSampleData) {
+        // サンプルデータモード：統合フィールド形式で描画
+        $treatmentStartDate = $this->customSampleData['treatment_start_date'] ?? '';
+        $treatmentEndDate = $this->customSampleData['treatment_end_date'] ?? '';
+        $treatmentDays = $this->customSampleData['treatment_days'] ?? '';
 
-      // 自：開始日
-      if ($startYear) {
-        $pdf->SetFontSize($this->coord('treatment_start_year', 'fontSize'));
-        $this->drawTextByKey($pdf, 'treatment_start_year', (string)$startYear);
+        // 自：開始日
+        if ($treatmentStartDate) {
+          $pdf->SetFontSize($this->coord('treatment_start_date', 'fontSize'));
+          $this->drawTextByKey($pdf, 'treatment_start_date', $treatmentStartDate);
+        }
+
+        // 至：終了日
+        if ($treatmentEndDate) {
+          $pdf->SetFontSize($this->coord('treatment_end_date', 'fontSize'));
+          $this->drawTextByKey($pdf, 'treatment_end_date', $treatmentEndDate);
+        }
+
+        // 実日数
+        if ($treatmentDays && $this->hasCoord('treatment_days')) {
+          $pdf->SetFontSize($this->coord('treatment_days', 'fontSize'));
+          $this->drawTextByKey($pdf, 'treatment_days', (string)$treatmentDays);
+        }
+
+        $pdf->SetFontSize(10);
+      } elseif ($records->isNotEmpty()) {
+        // 通常モード：実データから元号付き日付形式で描画
+        $firstDate = $records->first()->date;
+        $lastDate = $records->last()->date;
+
+        [$startYear, $startMonth, $startDay] = explode('-', $firstDate);
+        [$endYear, $endMonth, $endDay] = explode('-', $lastDate);
+
+        $startJapaneseYear = $this->convertToJapaneseYear((int)$startYear, (int)$startMonth);
+        $endJapaneseYear = $this->convertToJapaneseYear((int)$endYear, (int)$endMonth);
+
+        // 自：開始日
+        $formattedStartDate = sprintf(
+          '%s%d年 %d月 %d日',
+          $startJapaneseYear['era'],
+          $startJapaneseYear['year'],
+          (int)$startMonth,
+          (int)$startDay
+        );
+
+        $pdf->SetFontSize($this->coord('treatment_start_date', 'fontSize'));
+        $this->drawTextByKey($pdf, 'treatment_start_date', $formattedStartDate);
+
+        // 至：終了日
+        $formattedEndDate = sprintf(
+          '%s%d年 %d月 %d日',
+          $endJapaneseYear['era'],
+          $endJapaneseYear['year'],
+          (int)$endMonth,
+          (int)$endDay
+        );
+
+        $pdf->SetFontSize($this->coord('treatment_end_date', 'fontSize'));
+        $this->drawTextByKey($pdf, 'treatment_end_date', $formattedEndDate);
+
+        // 実日数
+        if ($this->hasCoord('treatment_days')) {
+          $pdf->SetFontSize($this->coord('treatment_days', 'fontSize'));
+          $this->drawTextByKey($pdf, 'treatment_days', (string)$records->count());
+        }
+
+        $pdf->SetFontSize(10);
       }
-
-      if ($startMonth) {
-        $pdf->SetFontSize($this->coord('treatment_start_month', 'fontSize'));
-        $this->drawTextByKey($pdf, 'treatment_start_month', (string)$startMonth);
-      }
-
-      if ($startDay) {
-        $pdf->SetFontSize($this->coord('treatment_start_day', 'fontSize'));
-        $this->drawTextByKey($pdf, 'treatment_start_day', (string)$startDay);
-      }
-
-      // 至：終了日
-      if ($endYear) {
-        $pdf->SetFontSize($this->coord('treatment_end_year', 'fontSize'));
-        $this->drawTextByKey($pdf, 'treatment_end_year', (string)$endYear);
-      }
-
-      if ($endMonth) {
-        $pdf->SetFontSize($this->coord('treatment_end_month', 'fontSize'));
-        $this->drawTextByKey($pdf, 'treatment_end_month', (string)$endMonth);
-      }
-
-      if ($endDay) {
-        $pdf->SetFontSize($this->coord('treatment_end_day', 'fontSize'));
-        $this->drawTextByKey($pdf, 'treatment_end_day', (string)$endDay);
-      }
-
-      // 実日数
-      if ($treatmentDays) {
-        $pdf->SetFontSize($this->coord('treatment_days', 'fontSize'));
-        $this->drawTextByKey($pdf, 'treatment_days', (string)$treatmentDays);
-      }
-
-      $pdf->SetFontSize(10);
-    } elseif ($records->isNotEmpty()) {
-      // 通常モード：実データから取得
-      $firstDate = $records->first()->date;
-      $lastDate = $records->last()->date;
-
-      [$startYear, $startMonth, $startDay] = explode('-', $firstDate);
-      [$endYear, $endMonth, $endDay] = explode('-', $lastDate);
-
-      $startJapaneseYear = $this->convertToJapaneseYear((int)$startYear, (int)$startMonth);
-      $endJapaneseYear = $this->convertToJapaneseYear((int)$endYear, (int)$endMonth);
-
-      // 自：開始日
-      $pdf->SetFontSize($this->coord('treatment_start_year', 'fontSize'));
-      $this->drawTextByKey($pdf, 'treatment_start_year', (string)$startJapaneseYear['year']);
-
-      $pdf->SetFontSize($this->coord('treatment_start_month', 'fontSize'));
-      $this->drawTextByKey($pdf, 'treatment_start_month', (string)(int)$startMonth);
-
-      $pdf->SetFontSize($this->coord('treatment_start_day', 'fontSize'));
-      $this->drawTextByKey($pdf, 'treatment_start_day', (string)(int)$startDay);
-
-      // 至：終了日
-      $pdf->SetFontSize($this->coord('treatment_end_year', 'fontSize'));
-      $this->drawTextByKey($pdf, 'treatment_end_year', (string)$endJapaneseYear['year']);
-
-      $pdf->SetFontSize($this->coord('treatment_end_month', 'fontSize'));
-      $this->drawTextByKey($pdf, 'treatment_end_month', (string)(int)$endMonth);
-
-      $pdf->SetFontSize($this->coord('treatment_end_day', 'fontSize'));
-      $this->drawTextByKey($pdf, 'treatment_end_day', (string)(int)$endDay);
-
-      // 実日数
-      $pdf->SetFontSize($this->coord('treatment_days', 'fontSize'));
-      $this->drawTextByKey($pdf, 'treatment_days', (string)$records->count());
-
-      $pdf->SetFontSize(10);
     }
 
     // === 実日数（施術内容欄） ===
@@ -2188,6 +2187,14 @@ class MedicalAssistanceAcupuncturePdfService
     // カスタムサンプルデータがあればそれを優先的に使用
     $custom = $this->customSampleData;
 
+    \Log::info('getSampleData実行', [
+      'custom_exists' => !empty($custom),
+      'last_name' => $custom['last_name'] ?? 'なし',
+      'first_name' => $custom['first_name'] ?? 'なし',
+      'last_kana' => $custom['last_kana'] ?? 'なし',
+      'first_kana' => $custom['first_kana'] ?? 'なし',
+    ]);
+
     // サンプル利用者情報
     $clinicUser = (object)[
       'id' => 999,
@@ -2211,8 +2218,8 @@ class MedicalAssistanceAcupuncturePdfService
       'insurance_type_1' => $custom['insurance_type_1'] ?? '社･国･組',
       'insurance_type_3' => $custom['insurance_type_3'] ?? '本外',
       'expenses_borne_ratio' => $custom['expenses_borne_ratio'] ?? '３割',
-      'code_number' => $custom['insurance_symbol_kigou'] ?? '12345',
-      'account_number' => $custom['insurance_symbol_bangou'] ?? '67890',
+      'code_number' => $custom['insurance_symbol_code'] ?? '12345',
+      'account_number' => $custom['insurance_symbol_number'] ?? '67890',
       'insured_number' => $custom['insurance_number'] ?? '1234567890',
       'relationship' => $custom['relationship'] ?? '本人',
       'public_funds_payer_code' => '12345678',

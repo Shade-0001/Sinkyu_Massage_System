@@ -25,6 +25,7 @@ use App\Http\Controllers\UserSearchController;
 use App\Http\Controllers\TherapyPeriodController;
 use App\Http\Controllers\DepositsController;
 use App\Http\Controllers\PrintsController;
+use App\Http\Controllers\PdfLayoutEditorController;
 
 Route::get('/', fn() => redirect()->route('login'));
 
@@ -268,6 +269,12 @@ Route::middleware('auth')->group(function () {
   Route::get('/prints/get-coordinates', [PrintsController::class, 'getCoordinates'])->name('prints.get-coordinates');
   Route::post('/prints/save-coordinates', [PrintsController::class, 'saveCoordinates'])->name('prints.save-coordinates');
   Route::post('/prints/preview-pdf', [PrintsController::class, 'previewPdf'])->name('prints.preview-pdf');
+
+  // PDFレイアウトエディター（新規ドラッグ&ドロップ版）
+  Route::get('/pdf-layout-editor', [PdfLayoutEditorController::class, 'index'])->name('pdf-layout-editor.index');
+  Route::post('/pdf-layout-editor/coordinates', [PdfLayoutEditorController::class, 'getCoordinates'])->name('pdf-layout-editor.coordinates');
+  Route::post('/pdf-layout-editor/save', [PdfLayoutEditorController::class, 'saveCoordinates'])->name('pdf-layout-editor.save');
+  Route::post('/pdf-layout-editor/pdf-image', [PdfLayoutEditorController::class, 'getPdfImage'])->name('pdf-layout-editor.pdf-image');
 });
 
 require __DIR__.'/auth.php';
