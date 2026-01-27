@@ -355,16 +355,85 @@ function renderFieldSettings() {
       }
 
 
-      // 通常フィールドの処理
-      processedKeys.add(key);
+      // 医療助成費支給申請書のtreatment_daysフィールドの場合、個別調整UIに置き換え
+      if ((currentPdfType === 'medical_assistance_acupuncture' || currentPdfType === 'medical_assistance_massage') &&
+          key === 'treatment_days') {
+        processedKeys.add(key);
 
-      const div = document.createElement('div');
-      div.className = 'field-group';
+        const selectDiv = document.createElement('div');
+        selectDiv.className = 'field-group';
 
-      // フィールドの詳細HTMLを生成（既存のロジックを使用）
-      div.innerHTML = renderSingleFieldHTML(key, field);
+        // サンプルデータ表示モードの場合は1-31全て、
+        // ノーマルモードの場合は利用者の実際の施術記録から日付を取得
+        let treatmentDaysArray = [];
+        const showSampleData = document.getElementById('show-sample-data')?.checked;
 
-      categoryContent.appendChild(div);
+        if (showSampleData) {
+          // サンプルデータモード: 1から31まで全て表示
+          treatmentDaysArray = Array.from({length: 31}, (_, i) => i + 1);
+        } else {
+          // ノーマルモード: 利用者の実際の施術記録から取得（loadTreatmentDaysで設定）
+          treatmentDaysArray = window.currentTreatmentDays || [];
+        }
+
+        console.log('[施術日セレクトボックス] サンプルモード:', showSampleData, '日付数:', treatmentDaysArray.length, '日付:', treatmentDaysArray);
+
+        let selectHtml = `
+          <h6 class="field-header" onclick="toggleField('treatment_days_individual')" style="cursor: pointer; user-select: none;">
+            <span class="toggle-icon" id="toggle-treatment_days_individual">▶</span> 施術日（個別調整）
+          </h6>
+          <div class="field-controls" id="controls-treatment_days_individual">
+            <div style="margin-bottom: 10px;">
+              <label>日付を選択:</label>
+              <select id="treatment-day-selector" class="form-control form-control-sm" style="width: auto; display: inline-block; margin-left: 10px;">`;
+
+        if (treatmentDaysArray.length === 0) {
+          selectHtml += `<option value="">-- データなし（利用者を選択してください） --</option>`;
+        } else {
+          selectHtml += `<option value="">-- 日付を選択 --</option>`;
+          treatmentDaysArray.forEach(day => {
+            selectHtml += `<option value="${day}">${day}日</option>`;
+          });
+        }
+
+        selectHtml += `
+              </select>
+            </div>
+            <div id="selected-day-controls" style="display: none;">
+              <!-- 選択された日付の調整コントロールがここに表示される -->
+            </div>
+          </div>
+        `;
+
+        selectDiv.innerHTML = selectHtml;
+        categoryContent.appendChild(selectDiv);
+
+        // セレクトボックスの変更イベントを設定
+        setTimeout(() => {
+          const selector = document.getElementById('treatment-day-selector');
+          if (selector) {
+            selector.addEventListener('change', function() {
+              const day = this.value;
+              if (day) {
+                showTreatmentDayControls(day);
+              } else {
+                document.getElementById('selected-day-controls').style.display = 'none';
+              }
+            });
+          }
+        }, 0);
+      } else {
+        // 通常フィールドの処理
+        processedKeys.add(key);
+
+        const div = document.createElement('div');
+        div.className = 'field-group';
+
+        // フィールドの詳細HTMLを生成（既存のロジックを使用）
+        div.innerHTML = renderSingleFieldHTML(key, field);
+
+        categoryContent.appendChild(div);
+      }
     });
   });
 
@@ -2352,4 +2421,133 @@ function displayTreatmentFees() {
 
   html += '</div>';
   container.innerHTML = html;
+}
+
+// 選択された施術日の調整コントロールを表示
+function showTreatmentDayControls(day) {
+  const fieldKey = `treatment_days_${day}`;
+  const field = coordinates[fieldKey];
+
+  const controlsDiv = document.getElementById('selected-day-controls');
+  if (!controlsDiv) return;
+
+  if (!field) {
+    // フィールドが存在しない場合、新規作成
+    const baseField = coordinates['treatment_days'];
+    if (!baseField) {
+      controlsDiv.innerHTML = '<p style="color: red;">エラー: 基準となるtreatment_daysフィールドが見つかりません</p>';
+      controlsDiv.style.display = 'block';
+      return;
+    }
+
+    // 新しいフィールドを作成
+    const circleSpacing = baseField.circleSpacing || 3.9;
+    const newField = {
+      x: baseField.x + (day - 1) * circleSpacing,
+      y: baseField.y,
+      type: 'treatment_day_circle',
+      circleRadius: baseField.circleRadius || 2,
+      doubleCircleInnerRadius: baseField.doubleCircleInnerRadius || 0.8,
+      dayNumber: parseInt(day),
+      field: fieldKey,
+      label: `施術日（${day}日）`
+    };
+
+    coordinates[fieldKey] = newField;
+  }
+
+  const selectedField = coordinates[fieldKey];
+
+  let html = `
+    <div style="margin-bottom: 10px; padding: 8px; background-color: #f0f8ff; border-radius: 3px;">
+      <strong>${day}日の楕円調整</strong>
+    </div>
+
+    <!-- X座標 -->
+    <div class="coordinate-input">
+      <label>X座標:</label>
+      <button class="btn btn-sm btn-outline-secondary btn-adjust"
+              onmousedown="startLongPress('${fieldKey}', 'x', -0.5)"
+              onmouseup="stopLongPress()"
+              onmouseleave="stopLongPress()"
+              ontouchstart="startLongPress('${fieldKey}', 'x', -0.5)"
+              ontouchend="stopLongPress()">←</button>
+      <input type="number" step="0.1" value="${selectedField.x}"
+             data-property="x"
+             onchange="updateCoordinate('${fieldKey}', 'x', this.value)"
+             class="form-control form-control-sm">
+      <button class="btn btn-sm btn-outline-secondary btn-adjust"
+              onmousedown="startLongPress('${fieldKey}', 'x', 0.5)"
+              onmouseup="stopLongPress()"
+              onmouseleave="stopLongPress()"
+              ontouchstart="startLongPress('${fieldKey}', 'x', 0.5)"
+              ontouchend="stopLongPress()">→</button>
+    </div>
+
+    <!-- Y座標 -->
+    <div class="coordinate-input">
+      <label>Y座標:</label>
+      <button class="btn btn-sm btn-outline-secondary btn-adjust"
+              onmousedown="startLongPress('${fieldKey}', 'y', -0.5)"
+              onmouseup="stopLongPress()"
+              onmouseleave="stopLongPress()"
+              ontouchstart="startLongPress('${fieldKey}', 'y', -0.5)"
+              ontouchend="stopLongPress()">↑</button>
+      <input type="number" step="0.1" value="${selectedField.y}"
+             data-property="y"
+             onchange="updateCoordinate('${fieldKey}', 'y', this.value)"
+             class="form-control form-control-sm">
+      <button class="btn btn-sm btn-outline-secondary btn-adjust"
+              onmousedown="startLongPress('${fieldKey}', 'y', 0.5)"
+              onmouseup="stopLongPress()"
+              onmouseleave="stopLongPress()"
+              ontouchstart="startLongPress('${fieldKey}', 'y', 0.5)"
+              ontouchend="stopLongPress()">↓</button>
+    </div>
+
+    <!-- 円のサイズ -->
+    <div class="coordinate-input">
+      <label>円のサイズ:</label>
+      <button class="btn btn-sm btn-outline-secondary btn-adjust"
+              onmousedown="startLongPress('${fieldKey}', 'circleRadius', -0.1)"
+              onmouseup="stopLongPress()"
+              onmouseleave="stopLongPress()"
+              ontouchstart="startLongPress('${fieldKey}', 'circleRadius', -0.1)"
+              ontouchend="stopLongPress()">−</button>
+      <input type="number" step="0.1" value="${selectedField.circleRadius}"
+             data-property="circleRadius"
+             onchange="updateCoordinate('${fieldKey}', 'circleRadius', this.value)"
+             class="form-control form-control-sm">
+      <button class="btn btn-sm btn-outline-secondary btn-adjust"
+              onmousedown="startLongPress('${fieldKey}', 'circleRadius', 0.1)"
+              onmouseup="stopLongPress()"
+              onmouseleave="stopLongPress()"
+              ontouchstart="startLongPress('${fieldKey}', 'circleRadius', 0.1)"
+              ontouchend="stopLongPress()">+</button>
+    </div>
+
+    <!-- 二重丸の内円のサイズ -->
+    <div class="coordinate-input">
+      <label>二重丸の内円のサイズ:</label>
+      <button class="btn btn-sm btn-outline-secondary btn-adjust"
+              onmousedown="startLongPress('${fieldKey}', 'doubleCircleInnerRadius', -0.1)"
+              onmouseup="stopLongPress()"
+              onmouseleave="stopLongPress()"
+              ontouchstart="startLongPress('${fieldKey}', 'doubleCircleInnerRadius', -0.1)"
+              ontouchend="stopLongPress()">−</button>
+      <input type="number" step="0.1" value="${selectedField.doubleCircleInnerRadius}"
+             data-property="doubleCircleInnerRadius"
+             onchange="updateCoordinate('${fieldKey}', 'doubleCircleInnerRadius', this.value)"
+             class="form-control form-control-sm">
+      <button class="btn btn-sm btn-outline-secondary btn-adjust"
+              onmousedown="startLongPress('${fieldKey}', 'doubleCircleInnerRadius', 0.1)"
+              onmouseup="stopLongPress()"
+              onmouseleave="stopLongPress()"
+              ontouchstart="startLongPress('${fieldKey}', 'doubleCircleInnerRadius', 0.1)"
+              ontouchend="stopLongPress()">+</button>
+    </div>
+  `;
+
+  controlsDiv.innerHTML = html;
+  controlsDiv.style.display = 'block';
 }

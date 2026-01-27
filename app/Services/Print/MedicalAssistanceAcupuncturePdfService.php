@@ -1900,10 +1900,12 @@ class MedicalAssistanceAcupuncturePdfService
    */
   protected function fillServiceDates(Fpdi $pdf, $records): void
   {
-    $letterSpacing = 0; // 追加間隔（現在は使用しない）
-    $cellWidth = $this->coord('treatment_days', 'circleSpacing') ?? 6.45; // 円の間隔
-    $circleRadius = $this->coord('treatment_days', 'circleRadius') ?? 1.2;
-    $innerRadius = $this->coord('treatment_days', 'doubleCircleInnerRadius') ?? 0.4;
+    // デフォルト値（個別フィールドが存在しない場合のフォールバック）
+    $defaultCellWidth = $this->coord('treatment_days', 'circleSpacing') ?? 6.45;
+    $defaultCircleRadius = $this->coord('treatment_days', 'circleRadius') ?? 1.2;
+    $defaultInnerRadius = $this->coord('treatment_days', 'doubleCircleInnerRadius') ?? 0.4;
+    $defaultX = $this->coord('treatment_days', 'x');
+    $defaultY = $this->coord('treatment_days', 'y');
     
     // はり･きゅう版：therapy_content_id 11-16のみ描画
     $acupunctureContentIds = [11, 12, 13, 14, 15, 16];
@@ -1915,9 +1917,21 @@ class MedicalAssistanceAcupuncturePdfService
       }
       
       $day = (int)date('d', strtotime($record->date));
+      $fieldKey = "treatment_days_{$day}";
 
-      $x = $this->coord('treatment_days', 'x') + ($day - 1) * ($cellWidth + $letterSpacing);
-      $y = $this->coord('treatment_days', 'y');
+      // 個別フィールドが存在する場合はそれを使用、なければデフォルト座標から計算
+      if ($this->hasCoord($fieldKey)) {
+        $x = $this->coord($fieldKey, 'x');
+        $y = $this->coord($fieldKey, 'y');
+        $circleRadius = $this->coord($fieldKey, 'circleRadius') ?? $defaultCircleRadius;
+        $innerRadius = $this->coord($fieldKey, 'doubleCircleInnerRadius') ?? $defaultInnerRadius;
+      } else {
+        // フォールバック: 古い計算方式
+        $x = $defaultX + ($day - 1) * $defaultCellWidth;
+        $y = $defaultY;
+        $circleRadius = $defaultCircleRadius;
+        $innerRadius = $defaultInnerRadius;
+      }
 
       // therapy_category: 1=通院（○）、2=往療（◎）
       if ($record->therapy_category == 2) {

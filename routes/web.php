@@ -268,6 +268,7 @@ Route::middleware('auth')->group(function () {
   Route::get('/prints/get-coordinates', [PrintsController::class, 'getCoordinates'])->name('prints.get-coordinates');
   Route::post('/prints/save-coordinates', [PrintsController::class, 'saveCoordinates'])->name('prints.save-coordinates');
   Route::post('/prints/preview-pdf', [PrintsController::class, 'previewPdf'])->name('prints.preview-pdf');
+  Route::get('/prints/get-treatment-days', [PrintsController::class, 'getTreatmentDays'])->name('prints.get-treatment-days');
 });
 
 require __DIR__.'/auth.php';

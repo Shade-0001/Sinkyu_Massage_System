@@ -94,7 +94,10 @@ let customSampleData = {
   agent_name: '田中 花子',
   temporary_insurer_name: '田中 太郎',
   treatment_period: '',
-  treatment_days: '15',  treatment_day_count: '15',  clinic_postal_code: '1500001',
+  treatment_days: '15',
+  treatment_day_count: '15',
+  treatment_days_array: [1, 5, 10, 15, 20, 25],  // 医療助成費支給申請書用の施術日配列
+  clinic_postal_code: '1500001',
   clinic_name: '〇〇鍼灸マッサージ院',
   clinic_address: '東京都渋谷区〇〇1-2-3',
   clinic_manager: '田中 一郎',

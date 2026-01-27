@@ -625,4 +625,81 @@ class PrintsController extends Controller
       ], 500);
     }
   }
+
+  /**
+   * 利用者の施術日一覧を取得
+   *
+   * @param Request $request
+   * @return \Illuminate\Http\JsonResponse
+   */
+  public function getTreatmentDays(Request $request)
+  {
+    try {
+      $clinicUserId = $request->query('clinic_user_id');
+      $serviceYearMonth = $request->query('service_year_month', date('Y-m'));
+      $pdfType = $request->query('pdf_type', 'medical_assistance_acupuncture');
+
+      if (!$clinicUserId) {
+        return response()->json([
+          'success' => false,
+          'message' => '利用者IDが指定されていません',
+          'treatment_days' => [],
+        ]);
+      }
+
+      // PDFタイプに応じて対象の施術内容IDを決定
+      $therapyContentIds = [];
+      if ($pdfType === 'medical_assistance_acupuncture') {
+        // はり･きゅう: therapy_content_id 11-16
+        $therapyContentIds = [11, 12, 13, 14, 15, 16];
+      } elseif ($pdfType === 'medical_assistance_massage') {
+        // あんま･マッサージ: therapy_content_id 1-10
+        $therapyContentIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+      }
+
+      if (empty($therapyContentIds)) {
+        return response()->json([
+          'success' => false,
+          'message' => '対応していないPDFタイプです',
+          'treatment_days' => [],
+        ]);
+      }
+
+      // 指定月の施術記録から日付を取得
+      $records = \DB::table('records')
+        ->where('clinic_user_id', $clinicUserId)
+        ->whereYear('date', '=', date('Y', strtotime($serviceYearMonth)))
+        ->whereMonth('date', '=', date('m', strtotime($serviceYearMonth)))
+        ->whereIn('therapy_content_id', $therapyContentIds)
+        ->orderBy('date')
+        ->pluck('date');
+
+      // 日付から日（1-31）を抽出してユニークな配列にする
+      $treatmentDays = $records
+        ->map(function($date) {
+          return (int)date('d', strtotime($date));
+        })
+        ->unique()
+        ->sort()
+        ->values()
+        ->toArray();
+
+      return response()->json([
+        'success' => true,
+        'treatment_days' => $treatmentDays,
+      ]);
+    } catch (\Exception $e) {
+      \Log::error('施術日取得エラー', [
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+      ]);
+
+      return response()->json([
+        'success' => false,
+        'message' => '施術日の取得に失敗しました',
+        'treatment_days' => [],
+      ], 500);
+    }
+  }
 }

@@ -19,12 +19,17 @@ function getSampleDataFieldMapping() {
 
 // 初期化
 document.addEventListener('DOMContentLoaded', function() {
+  // 施術日の初期化（非同期読み込み前の初期値）
+  window.currentTreatmentDays = [];
+
   loadCoordinates();
   loadCustomSampleData();
   displayTreatmentFees();
+  loadTreatmentDays(); // 施術日を読み込む（非同期）
 
   // イベントリスナー
   document.getElementById('clinic-user-select').addEventListener('change', function() {
+    loadTreatmentDays(); // 利用者変更時に施術日を再読み込み
     previewPdf();
   });
   document.getElementById('pdf-type-select').addEventListener('change', function() {
@@ -231,6 +236,10 @@ function adjustValue(key, property, delta) {
   if (!controls && compositeGroupName) {
     // compositeGroupの場合
     controls = document.getElementById('compositegroup-fields-' + compositeGroupName);
+  }
+  // 施術日（個別調整）の場合
+  if (!controls && key.startsWith('treatment_days_')) {
+    controls = document.getElementById('selected-day-controls');
   }
 
   if (controls) {
@@ -457,6 +466,46 @@ function previewPdf() {
       
       // 実行中フラグをクリア
       previewPdfInProgress = false;
+    });
+}
+
+// 利用者の施術日を取得
+function loadTreatmentDays() {
+  const clinicUserSelect = document.getElementById('clinic-user-select');
+  const clinicUserId = clinicUserSelect ? clinicUserSelect.value : null;
+  const showSampleData = document.getElementById('show-sample-data')?.checked;
+
+  // サンプルモード時は取得不要
+  if (showSampleData) {
+    window.currentTreatmentDays = Array.from({length: 31}, (_, i) => i + 1);
+    return;
+  }
+
+  // 利用者が選択されていない場合は空配列
+  if (!clinicUserId) {
+    window.currentTreatmentDays = [];
+    return;
+  }
+
+  // 施術日を取得
+  const serviceYearMonth = new Date().toISOString().slice(0, 7); // YYYY-MM
+  fetch(`/prints/get-treatment-days?clinic_user_id=${clinicUserId}&service_year_month=${serviceYearMonth}&pdf_type=${currentPdfType}`)
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        window.currentTreatmentDays = data.treatment_days || [];
+        console.log('[施術日取得] 利用者ID:', clinicUserId, '施術日:', window.currentTreatmentDays);
+
+        // 施術日セレクトボックスが既に表示されている場合は更新
+        renderFieldSettings();
+      } else {
+        console.warn('[施術日取得] 失敗:', data.message);
+        window.currentTreatmentDays = [];
+      }
+    })
+    .catch(error => {
+      console.error('[施術日取得] エラー:', error);
+      window.currentTreatmentDays = [];
     });
 }
 
