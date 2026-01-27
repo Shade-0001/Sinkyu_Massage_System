@@ -1277,6 +1277,62 @@ class MedicalAssistanceAcupuncturePdfService
       $pdf->SetFontSize(10);
     }
 
+    // === 施術期間（開始） ===
+    if ($this->hasCoord('therapy_period_start')) {
+      if ($this->sampleDataMode && isset($this->customSampleData['therapy_period_start'])) {
+        // サンプルデータモード
+        $therapyPeriodStart = $this->customSampleData['therapy_period_start'];
+        $pdf->SetFontSize($this->coord('therapy_period_start', 'fontSize'));
+        $this->drawTextByKey($pdf, 'therapy_period_start', (string)$therapyPeriodStart);
+        $pdf->SetFontSize(10);
+      } elseif ($records->isNotEmpty()) {
+        // 通常モード：実データから元号付き日付形式で描画
+        $firstDate = $records->first()->date;
+        [$startYear, $startMonth, $startDay] = explode('-', $firstDate);
+        $startJapaneseYear = $this->convertToJapaneseYear((int)$startYear, (int)$startMonth);
+
+        $formattedStartDate = sprintf(
+          '%s%d年 %d月 %d日',
+          $startJapaneseYear['era'],
+          $startJapaneseYear['year'],
+          (int)$startMonth,
+          (int)$startDay
+        );
+
+        $pdf->SetFontSize($this->coord('therapy_period_start', 'fontSize'));
+        $this->drawTextByKey($pdf, 'therapy_period_start', $formattedStartDate);
+        $pdf->SetFontSize(10);
+      }
+    }
+
+    // === 施術期間（終了） ===
+    if ($this->hasCoord('therapy_period_end')) {
+      if ($this->sampleDataMode && isset($this->customSampleData['therapy_period_end'])) {
+        // サンプルデータモード
+        $therapyPeriodEnd = $this->customSampleData['therapy_period_end'];
+        $pdf->SetFontSize($this->coord('therapy_period_end', 'fontSize'));
+        $this->drawTextByKey($pdf, 'therapy_period_end', (string)$therapyPeriodEnd);
+        $pdf->SetFontSize(10);
+      } elseif ($records->isNotEmpty()) {
+        // 通常モード：実データから元号付き日付形式で描画
+        $lastDate = $records->last()->date;
+        [$endYear, $endMonth, $endDay] = explode('-', $lastDate);
+        $endJapaneseYear = $this->convertToJapaneseYear((int)$endYear, (int)$endMonth);
+
+        $formattedEndDate = sprintf(
+          '%s%d年 %d月 %d日',
+          $endJapaneseYear['era'],
+          $endJapaneseYear['year'],
+          (int)$endMonth,
+          (int)$endDay
+        );
+
+        $pdf->SetFontSize($this->coord('therapy_period_end', 'fontSize'));
+        $this->drawTextByKey($pdf, 'therapy_period_end', $formattedEndDate);
+        $pdf->SetFontSize(10);
+      }
+    }
+
     // === 申請欄：提出年月日 ===
     if ($this->sampleDataMode && isset($this->customSampleData['submission_date_year'])) {
       // サンプルデータモード：customSampleDataを使用

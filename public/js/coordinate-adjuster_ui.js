@@ -171,9 +171,52 @@ function renderFieldSettings() {
         const groupFields = Object.entries(coordinates)
           .filter(([k, v]) => {
             if (v.compositeGroup !== field.compositeGroup) return false;
-            // hidden属性を持つフィールドは除外
+            // hidden属性を持つフィールドは除外（ただし特定のPDFタイプ・グループでは例外）
             const mapping = sampleDataFieldMapping[k];
-            if (mapping?.hidden) return false;
+            if (mapping?.hidden) {
+              // therapy_benefit_acupunctureの初療年月日・施術期間グループでは年月日のみ表示
+              if (currentPdfType === 'therapy_benefit_acupuncture' &&
+                  (field.compositeGroup === 'first_treatment_date_composite' ||
+                   field.compositeGroup === 'treatment_start_date_composite' ||
+                   field.compositeGroup === 'treatment_end_date_composite')) {
+                // 年月日フィールドのみ表示
+                if (k.endsWith('_year') || k.endsWith('_month') || k.endsWith('_day')) {
+                  return true;
+                }
+                return false;
+              }
+              // therapy_benefit_massageの初療年月日グループでは元号・年月日を表示、施術期間は年月日のみ
+              if (currentPdfType === 'therapy_benefit_massage') {
+                if (field.compositeGroup === 'first_treatment_date_composite') {
+                  // 初療年月日: 元号・年月日フィールドを表示（first_treatment_dateは除外）
+                  if (k === 'first_treatment_era' ||
+                      (k.startsWith('first_treatment_') && (k.endsWith('_year') || k.endsWith('_month') || k.endsWith('_day')))) {
+                    return true;
+                  }
+                  return false;
+                }
+                if (field.compositeGroup === 'treatment_start_date_composite' || field.compositeGroup === 'treatment_end_date_composite') {
+                  // 施術期間: 年月日フィールドのみ表示（*_dateは除外）
+                  if ((k.startsWith('treatment_start_') || k.startsWith('treatment_end_')) &&
+                      (k.endsWith('_year') || k.endsWith('_month') || k.endsWith('_day'))) {
+                    return true;
+                  }
+                  return false;
+                }
+              }
+              // medical_assistance_*の初療年月日・施術期間グループでは日付フィールドのみ表示
+              if ((currentPdfType === 'medical_assistance_acupuncture' || currentPdfType === 'medical_assistance_massage') &&
+                  (field.compositeGroup === 'first_treatment_date_composite' ||
+                   field.compositeGroup === 'treatment_start_date_composite' ||
+                   field.compositeGroup === 'treatment_end_date_composite')) {
+                // 日付フィールド（*_date）のみ表示
+                if (k === 'first_treatment_date' || k === 'treatment_start_date' || k === 'treatment_end_date') {
+                  return true;
+                }
+                return false;
+              }
+              return false;
+            }
             return true;
           })
           .sort((a, b) => {

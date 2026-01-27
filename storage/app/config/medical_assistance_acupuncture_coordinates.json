@@ -69,9 +69,9 @@
         "label": "傷病名"
     },
     "onset_date": {
-        "x": 118,
-        "y": 51,
-        "fontSize": 11,
+        "x": 68.5,
+        "y": 75,
+        "fontSize": 9,
         "letterSpacing": 0,
         "textAlign": "center",
         "type": "text",
@@ -162,22 +162,22 @@
         "label": "計"
     },
     "therapy_period_start": {
-        "x": 153,
-        "y": 100,
-        "fontSize": 9,
+        "x": -26.5,
+        "y": 64,
+        "fontSize": 8.5,
         "letterSpacing": 0,
         "textAlign": "center",
         "type": "text",
-        "label": "施術を行った期間（開始）"
+        "label": "施術期間（開始）"
     },
     "therapy_period_end": {
-        "x": 185,
-        "y": 100,
-        "fontSize": 9,
+        "x": 13,
+        "y": 64,
+        "fontSize": 8.5,
         "letterSpacing": 0,
         "textAlign": "center",
         "type": "text",
-        "label": "施術を行った期間（終了）"
+        "label": "施術期間（終了）"
     },
     "insurance_total": {
         "x": 74,
@@ -207,21 +207,21 @@
         "label": "一部負担金額"
     },
     "treatment_month": {
-        "x": 33.5,
-        "y": 183,
-        "fontSize": 16,
+        "x": -66,
+        "y": 155,
+        "fontSize": 14,
         "letterSpacing": 0,
         "textAlign": "center",
         "type": "number",
         "label": "施術月"
     },
     "treatment_days": {
-        "x": 45.1,
-        "y": 189,
+        "x": 50.6,
+        "y": 158.5,
         "type": "calendar",
-        "circleRadius": 1.5,
-        "doubleCircleInnerRadius": 0.8,
-        "circleSpacing": 5.08,
+        "circleRadius": 1.7,
+        "doubleCircleInnerRadius": 1.2,
+        "circleSpacing": 4.1,
         "field": "treatment_days",
         "label": "施術日"
     },

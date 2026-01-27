@@ -394,7 +394,7 @@
     },
     "treatment_start_year": {
         "x": -29.5,
-        "y": 84,
+        "y": 83.7,
         "fontSize": 9,
         "letterSpacing": -0.1,
         "label": "年",
@@ -405,7 +405,7 @@
     },
     "treatment_start_month": {
         "x": -22.5,
-        "y": 84,
+        "y": 83.7,
         "fontSize": 9,
         "letterSpacing": -0.1,
         "label": "月",
@@ -416,7 +416,7 @@
     },
     "treatment_start_day": {
         "x": -15,
-        "y": 84,
+        "y": 83.7,
         "fontSize": 9,
         "letterSpacing": -0.1,
         "label": "日",
@@ -427,7 +427,7 @@
     },
     "treatment_end_year": {
         "x": 6.5,
-        "y": 84,
+        "y": 83.7,
         "fontSize": 9,
         "letterSpacing": -0.1,
         "label": "年",
@@ -438,7 +438,7 @@
     },
     "treatment_end_month": {
         "x": 13.5,
-        "y": 84,
+        "y": 83.7,
         "fontSize": 9,
         "letterSpacing": -0.1,
         "label": "月",
@@ -449,7 +449,7 @@
     },
     "treatment_end_day": {
         "x": 21,
-        "y": 84,
+        "y": 83.7,
         "fontSize": 9,
         "letterSpacing": -0.1,
         "label": "日",
@@ -1076,9 +1076,9 @@
         "maxCharsPerLine": 10
     },
     "first_treatment_era": {
-        "x": -78,
-        "y": 83.5,
-        "fontSize": 9,
+        "x": -78.2,
+        "y": 83.7,
+        "fontSize": 8,
         "letterSpacing": 0,
         "label": "元号",
         "textAlign": "center",
@@ -1088,7 +1088,7 @@
     },
     "first_treatment_year": {
         "x": -71,
-        "y": 84,
+        "y": 83.7,
         "fontSize": 9,
         "label": "年",
         "textAlign": "center",
@@ -1099,7 +1099,7 @@
     },
     "first_treatment_month": {
         "x": -62.5,
-        "y": 84,
+        "y": 83.7,
         "fontSize": 9,
         "label": "月",
         "textAlign": "center",
@@ -1110,7 +1110,7 @@
     },
     "first_treatment_day": {
         "x": -55,
-        "y": 84,
+        "y": 83.7,
         "fontSize": 9,
         "label": "日",
         "textAlign": "center",
