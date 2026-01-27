@@ -1,10 +1,10 @@
 {
     "title_year_month": {
-        "x": 16,
-        "y": 16,
+        "x": 11,
+        "y": 18,
         "fontSize": 12,
         "letterSpacing": 0,
-        "textAlign": "left",
+        "textAlign": "center",
         "type": "text",
         "label": "元号年月"
     },
@@ -18,8 +18,8 @@
         "label": "書類区分"
     },
     "patient_name": {
-        "x": 104,
-        "y": 24.5,
+        "x": -46.5,
+        "y": 43.5,
         "fontSize": 16,
         "letterSpacing": 0,
         "textAlign": "center",
@@ -27,8 +27,8 @@
         "label": "氏名（姓名）"
     },
     "patient_gender_male": {
-        "x": 188.7,
-        "y": 25.5,
+        "x": 84.5,
+        "y": 45.5,
         "ellipseWidth": 2.5,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
@@ -39,8 +39,8 @@
         "isSelected": true
     },
     "patient_gender_female": {
-        "x": 196.3,
-        "y": 25.5,
+        "x": 84.5,
+        "y": 49.5,
         "ellipseWidth": 2.5,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
@@ -327,18 +327,310 @@
     },
     "insurance_type_3_hongai": {
         "x": 189,
-        "y": 11,
+        "y": 7,
         "textAlign": "left",
         "field": "insurance_type_3",
         "label": "保険種別３",
         "type": "select",
         "masterKey": "insurance_types_3",
         "valueField": "insurance_type_3",
-        "ellipseWidth": 1.5,
-        "ellipseHeight": 1.5,
+        "ellipseWidth": 1,
+        "ellipseHeight": 1,
         "lineWidth": 0.5,
         "radioGroup": "insurance_type_3",
         "optionLabel": "本外",
         "isSelected": true
+    },
+    "insurance_type_3_sangai": {
+        "x": 189,
+        "y": 10.5,
+        "textAlign": "left",
+        "field": "insurance_type_3",
+        "label": "保険種別３",
+        "type": "select",
+        "masterKey": "insurance_types_3",
+        "valueField": "insurance_type_3",
+        "ellipseWidth": 1,
+        "ellipseHeight": 1,
+        "lineWidth": 0.5,
+        "radioGroup": "insurance_type_3",
+        "optionLabel": "三外",
+        "isSelected": false
+    },
+    "insurance_type_3_kagai": {
+        "x": 189,
+        "y": 14,
+        "textAlign": "left",
+        "field": "insurance_type_3",
+        "label": "保険種別３",
+        "type": "select",
+        "masterKey": "insurance_types_3",
+        "valueField": "insurance_type_3",
+        "ellipseWidth": 1,
+        "ellipseHeight": 1,
+        "lineWidth": 0.5,
+        "radioGroup": "insurance_type_3",
+        "optionLabel": "家外",
+        "isSelected": false
+    },
+    "insurance_type_3_kougai9": {
+        "x": 189,
+        "y": 18,
+        "textAlign": "left",
+        "field": "insurance_type_3",
+        "label": "保険種別３",
+        "type": "select",
+        "masterKey": "insurance_types_3",
+        "valueField": "insurance_type_3",
+        "ellipseWidth": 1,
+        "ellipseHeight": 1,
+        "lineWidth": 0.5,
+        "radioGroup": "insurance_type_3",
+        "optionLabel": "高外９",
+        "isSelected": false
+    },
+    "insurance_type_3_kougai8": {
+        "x": 189,
+        "y": 21.5,
+        "textAlign": "left",
+        "field": "insurance_type_3",
+        "label": "保険種別３",
+        "type": "select",
+        "masterKey": "insurance_types_3",
+        "valueField": "insurance_type_3",
+        "ellipseWidth": 1,
+        "ellipseHeight": 1,
+        "lineWidth": 0.5,
+        "radioGroup": "insurance_type_3",
+        "optionLabel": "高外８",
+        "isSelected": false
+    },
+    "insurer_number": {
+        "x": 140,
+        "y": 25,
+        "textAlign": "left",
+        "field": "insurer_number",
+        "label": "保険者番号",
+        "type": "text",
+        "fontSize": 14,
+        "letterSpacing": 4.1
+    },
+    "insurance_symbol_code": {
+        "x": 47.5,
+        "y": 32,
+        "textAlign": "center",
+        "field": "insurance_symbol_code",
+        "label": "被保険者記号",
+        "type": "text",
+        "fontSize": 13,
+        "letterSpacing": 0.5
+    },
+    "insurance_symbol_number": {
+        "x": 76,
+        "y": 32,
+        "textAlign": "center",
+        "field": "insurance_symbol_number",
+        "label": "被保険者番号",
+        "type": "text",
+        "fontSize": 13,
+        "letterSpacing": 0.5
+    },
+    "patient_name_kana": {
+        "x": -38,
+        "y": 38.2,
+        "textAlign": "center",
+        "field": "last_kana",
+        "label": "氏名カナ（姓名）",
+        "type": "text",
+        "combine": [
+            "last_kana",
+            "first_kana"
+        ],
+        "fontSize": 9.5,
+        "letterSpacing": 0
+    },
+    "patient_relationship": {
+        "x": 90.5,
+        "y": 47.5,
+        "textAlign": "left",
+        "field": "relationship",
+        "label": "続柄",
+        "type": "select",
+        "masterKey": "relationships",
+        "valueField": "relationship",
+        "fontSize": 13,
+        "letterSpacing": 0.5
+    },
+    "work_scope_type_1": {
+        "x": 158,
+        "y": 66,
+        "textAlign": "left",
+        "field": "work_scope_type",
+        "label": "業務上･外･第三者行為の有無",
+        "type": "select",
+        "options": [
+            "業務上",
+            "第三者行為",
+            "その他"
+        ],
+        "ellipseWidth": 6,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "work_scope_type",
+        "optionLabel": "業務上",
+        "isSelected": true
+    },
+    "work_scope_type_2": {
+        "x": 174,
+        "y": 66,
+        "textAlign": "left",
+        "field": "work_scope_type",
+        "label": "業務上･外･第三者行為の有無",
+        "type": "select",
+        "options": [
+            "業務上",
+            "第三者行為",
+            "その他"
+        ],
+        "ellipseWidth": 12,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "work_scope_type",
+        "optionLabel": "第三者行為",
+        "isSelected": false
+    },
+    "work_scope_type_3": {
+        "x": 190,
+        "y": 66,
+        "textAlign": "left",
+        "field": "work_scope_type",
+        "label": "業務上･外･第三者行為の有無",
+        "type": "select",
+        "options": [
+            "業務上",
+            "第三者行為",
+            "その他"
+        ],
+        "ellipseWidth": 6,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "work_scope_type",
+        "optionLabel": "その他",
+        "isSelected": false
+    },
+    "birthday_era_meiji": {
+        "x": 37,
+        "y": 55,
+        "textAlign": "left",
+        "field": "birthday_era",
+        "label": "元号",
+        "type": "select",
+        "options": [
+            "明治",
+            "大正",
+            "昭和",
+            "平成"
+        ],
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "birthday_era",
+        "optionLabel": "明治",
+        "compositeGroup": "birthday_full_date",
+        "compositeLabel": "生年月日",
+        "isSelected": true
+    },
+    "birthday_era_taisho": {
+        "x": 42.5,
+        "y": 55,
+        "textAlign": "left",
+        "field": "birthday_era",
+        "label": "元号",
+        "type": "select",
+        "options": [
+            "明治",
+            "大正",
+            "昭和",
+            "平成"
+        ],
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "birthday_era",
+        "optionLabel": "大正",
+        "compositeGroup": "birthday_full_date",
+        "compositeLabel": "生年月日",
+        "isSelected": false
+    },
+    "birthday_era_showa": {
+        "x": 48,
+        "y": 55,
+        "textAlign": "left",
+        "field": "birthday_era",
+        "label": "元号",
+        "type": "select",
+        "options": [
+            "明治",
+            "大正",
+            "昭和",
+            "平成"
+        ],
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "birthday_era",
+        "optionLabel": "昭和",
+        "compositeGroup": "birthday_full_date",
+        "compositeLabel": "生年月日",
+        "isSelected": false
+    },
+    "birthday_era_heisei": {
+        "x": 53.5,
+        "y": 55,
+        "textAlign": "left",
+        "field": "birthday_era",
+        "label": "元号",
+        "type": "select",
+        "options": [
+            "明治",
+            "大正",
+            "昭和",
+            "平成"
+        ],
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "birthday_era",
+        "optionLabel": "平成",
+        "compositeGroup": "birthday_full_date",
+        "compositeLabel": "生年月日",
+        "isSelected": false
+    },
+    "birthday_full_date": {
+        "x": -37.5,
+        "y": 52.5,
+        "textAlign": "center",
+        "field": "birthday_year",
+        "label": "年月日",
+        "type": "text",
+        "combine": [
+            "birthday_year",
+            "birthday_month",
+            "birthday_day"
+        ],
+        "compositeGroup": "birthday_full_date",
+        "compositeLabel": "生年月日",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "condition": {
+        "x": 44.5,
+        "y": 52.5,
+        "textAlign": "center",
+        "field": "condition",
+        "label": "発病負傷の原因･経過",
+        "type": "text",
+        "fontSize": 10,
+        "letterSpacing": 0
     }
 }
