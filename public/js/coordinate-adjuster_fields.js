@@ -73,10 +73,10 @@ const sampleDataFieldMapping = {
   'treatment_end_month': { field: 'treatment_end_month', label: '月', type: 'number', compositeGroup: 'treatment_end_date_composite', compositeLabel: '施術期間（終了）', hidden: true },
   'treatment_end_day': { field: 'treatment_end_day', label: '日', type: 'number', compositeGroup: 'treatment_end_date_composite', compositeLabel: '施術期間（終了）', hidden: true },
 
-  // === 9. 実日数・請求区分・傷病名・転帰 ===
+  // === 9. 実日数・請求区分・転帰 ===
   'treatment_day_count': { field: 'treatment_days', label: '実日数', type: 'number' },
-  'bill_category_new': { field: 'bill_category', label: '請求区分', type: 'text' },
-  'bill_category_continued': { field: 'bill_category', label: '請求区分', type: 'text' },
+  'bill_category': { field: 'bill_category', label: '請求区分', type: 'text' },
+  'outcome': { field: 'outcome', label: '転帰', type: 'text' },
 
   // === 9-2. 傷病名・症状（マッサージ用） ===
   'illness_name_symptom': { field: 'illness_name_symptom', label: '傷病名・症状', type: 'text' },
@@ -90,10 +90,6 @@ const sampleDataFieldMapping = {
   'illness_name_7': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: 'その他' },
   'illness_name_other_text': { field: 'illness_name_other_text', label: '傷病名（その他の内容）', type: 'text' },
 
-  'outcome_continued': { field: 'outcome', label: '転帰', type: 'text' },
-  'outcome_cured': { field: 'outcome', label: '転帰', type: 'text' },
-  'outcome_discontinued': { field: 'outcome', label: '転帰', type: 'text' },
-  'outcome_transferred': { field: 'outcome', label: '転帰', type: 'text' },
   'condition': { field: 'condition', label: '発病負傷の原因･経過', type: 'text' },
   'abstract': { field: 'abstract', label: '摘要', type: 'text', width: 180, lineHeight: 5 },
 

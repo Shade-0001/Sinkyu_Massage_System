@@ -131,9 +131,9 @@ window.coordinateAdjusterData = {
 };
 </script>
 <!-- 座標調整ツール：分割されたJSファイルを読み込み -->
-<script src="{{ asset('js/coordinate-adjuster_categories.js') }}"></script>
-<script src="{{ asset('js/coordinate-adjuster_data.js') }}"></script>
-<script src="{{ asset('js/coordinate-adjuster_fields.js') }}"></script>
-<script src="{{ asset('js/coordinate-adjuster_ui.js') }}"></script>
-<script src="{{ asset('js/coordinate-adjuster_core.js') }}"></script>
+<script src="{{ asset('js/coordinate-adjuster_categories.js') }}?v={{ time() }}"></script>
+<script src="{{ asset('js/coordinate-adjuster_data.js') }}?v={{ time() }}"></script>
+<script src="{{ asset('js/coordinate-adjuster_fields.js') }}?v={{ time() }}"></script>
+<script src="{{ asset('js/coordinate-adjuster_ui.js') }}?v={{ time() }}"></script>
+<script src="{{ asset('js/coordinate-adjuster_core.js') }}?v={{ time() }}"></script>
 </x-app-layout>

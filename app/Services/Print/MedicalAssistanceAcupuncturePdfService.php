@@ -947,101 +947,41 @@ class MedicalAssistanceAcupuncturePdfService
       $pdf->SetFontSize(10);
     }
 
-    // === 請求区分（新規・継続） ===
+    // === 請求区分 ===
     $billCategoryText = null;
-    $billCategoryKey = null;
 
-    // isSelectedフラグをチェック（サンプルデータの場合）
-    if (isset($this->coordinates['bill_category_new']['isSelected']) && $this->coordinates['bill_category_new']['isSelected']) {
-      $billCategoryKey = 'bill_category_new';
-      $billCategoryText = '新規';
-    } elseif (isset($this->coordinates['bill_category_continued']['isSelected']) && $this->coordinates['bill_category_continued']['isSelected']) {
-      $billCategoryKey = 'bill_category_continued';
-      $billCategoryText = '継続';
-    } elseif ($this->sampleDataMode && $this->customSampleData && isset($this->customSampleData['bill_category'])) {
-      // サンプルデータモード：customSampleDataから取得
-      $billCategory = $this->customSampleData['bill_category'];
-      if ($billCategory === '新規') {
-        $billCategoryKey = 'bill_category_new';
-        $billCategoryText = '新規';
-      } elseif ($billCategory === '継続') {
-        $billCategoryKey = 'bill_category_continued';
-        $billCategoryText = '継続';
-      }
+    if ($this->sampleDataMode && $this->customSampleData && isset($this->customSampleData['bill_category'])) {
+      // サンプルデータモード
+      $billCategoryText = $this->customSampleData['bill_category'];
     } elseif ($consent && isset($consent->bill_category) && $consent->bill_category) {
-      // 通常モード：実データから判定
-      if ($consent->bill_category === '新規') {
-        $billCategoryKey = 'bill_category_new';
-        $billCategoryText = '新規';
-      } elseif ($consent->bill_category === '継続') {
-        $billCategoryKey = 'bill_category_continued';
-        $billCategoryText = '継続';
-      }
+      // 通常モード
+      $billCategoryText = $consent->bill_category;
     }
 
     // テキストを描画
-    if ($billCategoryKey && $billCategoryText) {
-      \Log::info('【請求区分】テキスト描画', ['key' => $billCategoryKey, 'text' => $billCategoryText, 'method' => 'drawTextByKey']);
-      $pdf->SetFontSize($this->coord($billCategoryKey, 'fontSize'));
-      $this->drawTextByKey($pdf, $billCategoryKey, $billCategoryText);
+    if ($billCategoryText && isset($this->coordinates['bill_category'])) {
+      \Log::info('【請求区分】テキスト描画', ['key' => 'bill_category', 'text' => $billCategoryText, 'method' => 'drawTextByKey']);
+      $pdf->SetFontSize($this->coord('bill_category', 'fontSize'));
+      $this->drawTextByKey($pdf, 'bill_category', $billCategoryText);
       $pdf->SetFontSize(10);
     }
 
-    // === 転帰（継続・治癒・中止・転医） ===
-    $outcomeKey = null;
+    // === 転帰 ===
     $outcomeText = null;
 
-    // isSelected フラグをチェック（サンプルデータの場合）
-    if (isset($this->coordinates['outcome_continued']['isSelected']) && $this->coordinates['outcome_continued']['isSelected']) {
-      $outcomeKey = 'outcome_continued';
-      $outcomeText = '継続';
-    } elseif (isset($this->coordinates['outcome_cured']['isSelected']) && $this->coordinates['outcome_cured']['isSelected']) {
-      $outcomeKey = 'outcome_cured';
-      $outcomeText = '治癒';
-    } elseif (isset($this->coordinates['outcome_discontinued']['isSelected']) && $this->coordinates['outcome_discontinued']['isSelected']) {
-      $outcomeKey = 'outcome_discontinued';
-      $outcomeText = '中止';
-    } elseif (isset($this->coordinates['outcome_transferred']['isSelected']) && $this->coordinates['outcome_transferred']['isSelected']) {
-      $outcomeKey = 'outcome_transferred';
-      $outcomeText = '転医';
-    } elseif ($this->sampleDataMode && $this->customSampleData && isset($this->customSampleData['outcome'])) {
-      // サンプルデータモード：customSampleDataから取得
-      $outcome = $this->customSampleData['outcome'];
-      if ($outcome === '継続') {
-        $outcomeKey = 'outcome_continued';
-        $outcomeText = '継続';
-      } elseif ($outcome === '治癒') {
-        $outcomeKey = 'outcome_cured';
-        $outcomeText = '治癒';
-      } elseif ($outcome === '中止') {
-        $outcomeKey = 'outcome_discontinued';
-        $outcomeText = '中止';
-      } elseif ($outcome === '転医') {
-        $outcomeKey = 'outcome_transferred';
-        $outcomeText = '転医';
-      }
+    if ($this->sampleDataMode && $this->customSampleData && isset($this->customSampleData['outcome'])) {
+      // サンプルデータモード
+      $outcomeText = $this->customSampleData['outcome'];
     } elseif ($consent && isset($consent->outcome) && $consent->outcome) {
-      // 通常モード：実データから判定
-      if ($consent->outcome === '継続') {
-        $outcomeKey = 'outcome_continued';
-        $outcomeText = '継続';
-      } elseif ($consent->outcome === '治癒') {
-        $outcomeKey = 'outcome_cured';
-        $outcomeText = '治癒';
-      } elseif ($consent->outcome === '中止') {
-        $outcomeKey = 'outcome_discontinued';
-        $outcomeText = '中止';
-      } elseif ($consent->outcome === '転医') {
-        $outcomeKey = 'outcome_transferred';
-        $outcomeText = '転医';
-      }
+      // 通常モード
+      $outcomeText = $consent->outcome;
     }
 
     // テキストを描画
-    if ($outcomeKey && $outcomeText) {
-      \Log::info('【転帰】テキスト描画', ['key' => $outcomeKey, 'text' => $outcomeText, 'method' => 'drawTextByKey']);
-      $pdf->SetFontSize($this->coord($outcomeKey, 'fontSize'));
-      $this->drawTextByKey($pdf, $outcomeKey, $outcomeText);
+    if ($outcomeText && isset($this->coordinates['outcome'])) {
+      \Log::info('【転帰】テキスト描画', ['key' => 'outcome', 'text' => $outcomeText, 'method' => 'drawTextByKey']);
+      $pdf->SetFontSize($this->coord('outcome', 'fontSize'));
+      $this->drawTextByKey($pdf, 'outcome', $outcomeText);
       $pdf->SetFontSize(10);
     }
 
