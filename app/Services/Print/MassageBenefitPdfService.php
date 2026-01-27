@@ -909,26 +909,25 @@ class MassageBenefitPdfService
     $abstractText = 'なし'; // デフォルト値
 
     if ($this->sampleDataMode && isset($this->customSampleData['abstract']) && $this->customSampleData['abstract']) {
-      // サンプルデータモード
-      $abstractText = (string)$this->customSampleData['abstract'];
-      \Log::info('摘要描画 [サンプルデータモード]', [
-        'has_coord' => $this->hasCoord('abstract'),
-        'text_length' => mb_strlen($abstractText)
-      ]);
+      // サンプルデータモード：先頭に全角スペースを追加、末尾に"。"を追加
+      $abstractText = '　' . (string)$this->customSampleData['abstract'];
+      if (mb_substr($abstractText, -1) !== '。') {
+        $abstractText .= '。';
+      }
     } elseif ($records->isNotEmpty()) {
-      // 通常モード:全レコードの摘要を結合（重複排除）
-      $abstracts = $records->pluck('abstract')->filter()->unique()->toArray();
-
-      \Log::info('摘要描画 [ノーマルモード]', [
-        'records_count' => $records->count(),
-        'abstracts_count' => count($abstracts),
-        'has_coord' => $this->hasCoord('abstract'),
-        'abstracts_preview' => !empty($abstracts) ? mb_substr(implode('/', $abstracts), 0, 100) : null
-      ]);
+      // 通常モード：全レコードの摘要を結合（重複排除）
+      // filter()で空文字列を除外し、さらに"。"だけや空白文字だけの要素も除外
+      $abstracts = $records->pluck('abstract')
+        ->filter(function($abstract) {
+          return !empty(trim($abstract)) && trim($abstract) !== '。';
+        })
+        ->unique()
+        ->values() // インデックスを0から振り直す
+        ->toArray();
 
       if (!empty($abstracts)) {
-        // 「。」で区切る（前後に既に「。」がある場合は重複しないように）
-        $abstractText = '';
+        // "。"で区切る（前後に既に"。"がある場合は重複しないように）
+        $abstractText = '　'; // 先頭に全角スペースを挿入
         foreach ($abstracts as $i => $abstract) {
           if ($i > 0) {
             // 前の文字列の末尾と現在の文字列の先頭をチェック
@@ -940,20 +939,18 @@ class MassageBenefitPdfService
           }
           $abstractText .= $abstract;
         }
+        // 最後に"。"を追加（既に"。"で終わっている場合は追加しない）
+        if (mb_substr($abstractText, -1) !== '。') {
+          $abstractText .= '。';
+        }
       }
     }
 
     // 摘要を描画
     if ($this->hasCoord('abstract')) {
-      $x = $this->coord('abstract', 'x');
-      $y = $this->coord('abstract', 'y');
       $fontSize = $this->coord('abstract', 'fontSize');
-      $width = $this->coordinates['abstract']['width'] ?? 180;
-      $lineHeight = $this->coordinates['abstract']['lineHeight'] ?? 5;
-
       $pdf->SetFontSize($fontSize);
-      $pdf->SetXY($x, $y);
-      $pdf->MultiCell($width, $lineHeight, $abstractText, 0, 'L', false, 1);
+      $this->drawTextByKey($pdf, 'abstract', $abstractText);
       $pdf->SetFontSize(10);
     }
 
@@ -2003,12 +2000,12 @@ class MassageBenefitPdfService
 
     $x = $this->coord($key, 'x');
     $y = $this->coord($key, 'y');
-    
+
     // デバッグ：座標0,0付近の描画を検出
     if ($x < 5 && $y < 5) {
       \Log::warning("座標0,0付近の描画検出", ['key' => $key, 'x' => $x, 'y' => $y, 'text' => $text]);
     }
-    
+
     // デバッグ：描画成功ログ
     \Log::info("テキスト描画", [
       'key' => $key,
@@ -2017,13 +2014,56 @@ class MassageBenefitPdfService
       'text' => mb_strlen($text) > 50 ? mb_substr($text, 0, 50) . '...' : $text,
       'length' => mb_strlen($text)
     ]);
-    
+
     $letterSpacing = $this->coordinates[$key]['letterSpacing'] ?? 0;
     $textAlign = $this->coordinates[$key]['textAlign'] ?? 'left';
     $alignmentWidth = $this->coordinates[$key]['alignmentWidth'] ?? 0;
+    $maxCharsPerLine = $this->coordinates[$key]['maxCharsPerLine'] ?? null;
 
+    // alignmentWidth が指定されていない場合はPDFのページ幅を使用
     if ($alignmentWidth <= 0) {
       $alignmentWidth = $pdf->GetPageWidth();
+    }
+
+    // maxCharsPerLineが設定されている場合は折り返し処理
+    if ($maxCharsPerLine && mb_strlen($text) > $maxCharsPerLine) {
+      $lines = [];
+      $currentLine = '';
+      $chars = preg_split('//u', $text, -1, PREG_SPLIT_NO_EMPTY);
+
+      foreach ($chars as $char) {
+        if (mb_strlen($currentLine) >= $maxCharsPerLine) {
+          $lines[] = $currentLine;
+          $currentLine = $char;
+        } else {
+          $currentLine .= $char;
+        }
+      }
+      if ($currentLine !== '') {
+        $lines[] = $currentLine;
+      }
+
+      // 各行を描画
+      $lineHeight = $this->coordinates[$key]['lineHeight'] ?? 5;
+      foreach ($lines as $i => $line) {
+        $currentY = $y + ($i * $lineHeight);
+
+        if ($letterSpacing > 0) {
+          $this->drawTextWithSpacing($pdf, $x, $currentY, $line, (float)$letterSpacing, $textAlign, (float)$alignmentWidth);
+        } else {
+          // textAlignに応じてX座標を調整
+          $currentX = $x;
+          if ($textAlign === 'center') {
+            $textWidth = $pdf->GetStringWidth($line);
+            $currentX = $x - ($textWidth / 2);
+          } elseif ($textAlign === 'right') {
+            $textWidth = $pdf->GetStringWidth($line);
+            $currentX = $x - $textWidth;
+          }
+          $pdf->Text($currentX, $currentY, $line);
+        }
+      }
+      return;
     }
 
     if (empty($letterSpacing) && $textAlign === 'left') {

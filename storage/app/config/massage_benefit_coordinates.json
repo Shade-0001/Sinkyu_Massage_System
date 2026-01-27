@@ -1065,14 +1065,15 @@
     },
     "abstract": {
         "x": 155,
-        "y": 112,
+        "y": 110,
         "fontSize": 10,
         "letterSpacing": 0,
         "label": "摘要",
         "textAlign": "left",
         "width": 40,
         "lineHeight": 5,
-        "type": "text"
+        "type": "text",
+        "maxCharsPerLine": 10
     },
     "first_treatment_era": {
         "x": -78,

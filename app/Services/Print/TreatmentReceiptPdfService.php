@@ -317,7 +317,12 @@ class TreatmentReceiptPdfService
 
     // 25. 備考
     if (!empty($remarks)) {
-      $this->drawText($pdf, 'remarks', $remarks);
+      // 先頭に全角スペースを追加、末尾に"。"を追加
+      $remarksText = '　' . $remarks;
+      if (mb_substr($remarksText, -1) !== '。') {
+        $remarksText .= '。';
+      }
+      $this->drawText($pdf, 'remarks', $remarksText);
     }
 
     // 26. 提出年月日
@@ -872,6 +877,14 @@ class TreatmentReceiptPdfService
         // clinic_phoneの場合は電話番号フォーマットを適用
         if ($key === 'clinic_phone') {
           $value = $this->formatPhoneNumber($value);
+        }
+
+        // remarksの場合は先頭に全角スペースを追加、末尾に"。"を追加
+        if ($key === 'remarks' && !empty($value)) {
+          $value = '　' . $value;
+          if (mb_substr($value, -1) !== '。') {
+            $value .= '。';
+          }
         }
 
         // therapy関連フィールドの場合、Y座標をtherapy_typesから計算

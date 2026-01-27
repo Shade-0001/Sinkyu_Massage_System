@@ -1170,7 +1170,8 @@
         "textAlign": "left",
         "width": 40,
         "lineHeight": 5,
-        "type": "text"
+        "type": "text",
+        "maxCharsPerLine": 10
     },
     "first_treatment_year": {
         "x": -73.5,

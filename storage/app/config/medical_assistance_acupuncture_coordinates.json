@@ -892,15 +892,16 @@
         "letterSpacing": 0
     },
     "abstract": {
-        "x": 51.5,
-        "y": 96.5,
-        "textAlign": "center",
+        "x": 153.5,
+        "y": 109,
+        "textAlign": "left",
         "field": "abstract",
         "label": "摘要",
         "type": "text",
         "width": 180,
         "lineHeight": 5,
         "fontSize": 10,
-        "letterSpacing": 0
+        "letterSpacing": 0,
+        "maxCharsPerLine": 11
     }
 }
