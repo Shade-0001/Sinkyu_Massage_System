@@ -69,9 +69,9 @@
         "label": "傷病名"
     },
     "onset_date": {
-        "x": 118,
-        "y": 51,
-        "fontSize": 11,
+        "x": 68,
+        "y": 75,
+        "fontSize": 9,
         "letterSpacing": 0,
         "textAlign": "center",
         "type": "text",
@@ -85,24 +85,6 @@
         "textAlign": "center",
         "type": "text",
         "label": "保険医同意年月日"
-    },
-    "treatment_start_date": {
-        "x": 105,
-        "y": 68,
-        "fontSize": 11,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "type": "text",
-        "label": "施術開始年月日"
-    },
-    "treatment_end_date": {
-        "x": 105,
-        "y": 77,
-        "fontSize": 11,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "type": "text",
-        "label": "施術終了年月日"
     },
     "bill_category": {
         "x": 68,
@@ -162,22 +144,22 @@
         "label": "計"
     },
     "therapy_period_start": {
-        "x": 153,
-        "y": 100,
-        "fontSize": 9,
+        "x": -26.5,
+        "y": 64,
+        "fontSize": 9.5,
         "letterSpacing": 0,
         "textAlign": "center",
         "type": "text",
-        "label": "施術を行った期間（開始）"
+        "label": "施術期間（開始）"
     },
     "therapy_period_end": {
-        "x": 185,
-        "y": 100,
-        "fontSize": 9,
+        "x": 13,
+        "y": 64,
+        "fontSize": 9.5,
         "letterSpacing": 0,
         "textAlign": "center",
         "type": "text",
-        "label": "施術を行った期間（終了）"
+        "label": "施術期間（終了）"
     },
     "insurance_total": {
         "x": 74,
@@ -609,7 +591,7 @@
         "isSelected": false
     },
     "birthday_full_date": {
-        "x": -37.5,
+        "x": -38.5,
         "y": 52.5,
         "textAlign": "center",
         "field": "birthday_year",

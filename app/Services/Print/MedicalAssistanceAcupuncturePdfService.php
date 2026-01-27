@@ -858,77 +858,8 @@ class MedicalAssistanceAcupuncturePdfService
       }
     }
 
-    // === 施術期間 ===
-    if ($this->hasCoord('treatment_start_date') && $this->hasCoord('treatment_end_date')) {
-      if ($this->sampleDataMode && $this->customSampleData) {
-        // サンプルデータモード：統合フィールド形式で描画
-        $treatmentStartDate = $this->customSampleData['treatment_start_date'] ?? '';
-        $treatmentEndDate = $this->customSampleData['treatment_end_date'] ?? '';
-        $treatmentDays = $this->customSampleData['treatment_days'] ?? '';
-
-        // 自：開始日
-        if ($treatmentStartDate) {
-          $pdf->SetFontSize($this->coord('treatment_start_date', 'fontSize'));
-          $this->drawTextByKey($pdf, 'treatment_start_date', $treatmentStartDate);
-        }
-
-        // 至：終了日
-        if ($treatmentEndDate) {
-          $pdf->SetFontSize($this->coord('treatment_end_date', 'fontSize'));
-          $this->drawTextByKey($pdf, 'treatment_end_date', $treatmentEndDate);
-        }
-
-        // 実日数
-        if ($treatmentDays && $this->hasCoord('treatment_days')) {
-          $pdf->SetFontSize($this->coord('treatment_days', 'fontSize'));
-          $this->drawTextByKey($pdf, 'treatment_days', (string)$treatmentDays);
-        }
-
-        $pdf->SetFontSize(10);
-      } elseif ($records->isNotEmpty()) {
-        // 通常モード：実データから元号付き日付形式で描画
-        $firstDate = $records->first()->date;
-        $lastDate = $records->last()->date;
-
-        [$startYear, $startMonth, $startDay] = explode('-', $firstDate);
-        [$endYear, $endMonth, $endDay] = explode('-', $lastDate);
-
-        $startJapaneseYear = $this->convertToJapaneseYear((int)$startYear, (int)$startMonth);
-        $endJapaneseYear = $this->convertToJapaneseYear((int)$endYear, (int)$endMonth);
-
-        // 自：開始日
-        $formattedStartDate = sprintf(
-          '%s%d年 %d月 %d日',
-          $startJapaneseYear['era'],
-          $startJapaneseYear['year'],
-          (int)$startMonth,
-          (int)$startDay
-        );
-
-        $pdf->SetFontSize($this->coord('treatment_start_date', 'fontSize'));
-        $this->drawTextByKey($pdf, 'treatment_start_date', $formattedStartDate);
-
-        // 至：終了日
-        $formattedEndDate = sprintf(
-          '%s%d年 %d月 %d日',
-          $endJapaneseYear['era'],
-          $endJapaneseYear['year'],
-          (int)$endMonth,
-          (int)$endDay
-        );
-
-        $pdf->SetFontSize($this->coord('treatment_end_date', 'fontSize'));
-        $this->drawTextByKey($pdf, 'treatment_end_date', $formattedEndDate);
-
-        // 実日数
-        if ($this->hasCoord('treatment_days')) {
-          $pdf->SetFontSize($this->coord('treatment_days', 'fontSize'));
-          $this->drawTextByKey($pdf, 'treatment_days', (string)$records->count());
-        }
-
-        $pdf->SetFontSize(10);
-      }
-    }
+    // === 施術期間（treatment_start_date/treatment_end_dateは削除済み） ===
+    // therapy_period_start/therapy_period_endを使用
 
     // === 実日数（施術内容欄） ===
     if ($this->hasCoord('treatment_day_count')) {

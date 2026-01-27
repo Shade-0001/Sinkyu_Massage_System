@@ -294,10 +294,10 @@ const sampleDataFieldMapping = {
   'therapy_unit_prices': { field: 'therapy_unit_prices', label: '１回の料金', type: 'number' },
   // 16. 計
   'therapy_totals': { field: 'therapy_totals', label: '計', type: 'number' },
-  // 17. 施術を行った期間（開始）
-  'therapy_period_start': { field: 'therapy_period_start', label: '施術を行った期間（開始）', type: 'text' },
-  // 18. 施術を行った期間（終了）
-  'therapy_period_end': { field: 'therapy_period_end', label: '施術を行った期間（終了）', type: 'text' },
+  // 17. 施術期間（開始）
+  'therapy_period_start': { field: 'therapy_period_start', label: '施術期間（開始）', type: 'text' },
+  // 18. 施術期間（終了）
+  'therapy_period_end': { field: 'therapy_period_end', label: '施術期間（終了）', type: 'text' },
   // 19. 保険対象合計金額
   'insurance_total': { field: 'insurance_total', label: '保険対象合計金額', type: 'number' },
   // 20. 自費対象合計金額
