@@ -9,131 +9,14 @@ use Illuminate\Support\Facades\Storage;
 /**
  * はり・きゅう療養費支給申請書PDF生成サービス
  */
-class AcupunctureBenefitPdfService
+class AcupunctureBenefitPdfService extends BasePdfService
 {
   /**
-   * 座標設定
+   * デフォルト座標ファイルパスを取得
    */
-  protected $coordinates;
-
-  /**
-   * サンプルデータ表示モード
-   */
-  protected $sampleDataMode = false;
-
-  /**
-   * カスタムサンプルデータ
-   */
-  protected $customSampleData = null;
-
-  /**
-   * 座標ファイルパス（カスタム）
-   */
-  protected $customCoordinatesPath = null;
-
-  /**
-   * テンプレートファイルパス（カスタム）
-   */
-  protected $customTemplatePath = null;
-
-  /**
-   * コンストラクタ
-   */
-  public function __construct()
+  protected function getDefaultCoordinatesPath(): string
   {
-    $this->loadCoordinates();
-  }
-
-  /**
-   * サンプルデータ表示モードを設定
-   */
-  public function setSampleDataMode(bool $enabled): void
-  {
-    $this->sampleDataMode = $enabled;
-  }
-
-  /**
-   * カスタムサンプルデータを設定
-   */
-  public function setCustomSampleData(array $data): void
-  {
-    $this->customSampleData = $data;
-  }
-
-  /**
-   * 座標ファイルパスを設定
-   */
-  public function setCoordinatesPath(string $path): void
-  {
-    $this->customCoordinatesPath = $path;
-    $this->loadCoordinates();
-  }
-
-  /**
-   * テンプレートファイルパスを設定
-   */
-  public function setTemplatePath(string $path): void
-  {
-    $this->customTemplatePath = $path;
-  }
-
-  /**
-   * 座標設定を読み込む
-   */
-  protected function loadCoordinates(): void
-  {
-    $configPath = $this->customCoordinatesPath ?? storage_path('app/config/acupuncture_benefit_coordinates.json');
-
-    if (file_exists($configPath)) {
-      $json = file_get_contents($configPath);
-      $this->coordinates = json_decode($json, true);
-      
-      // ラジオグループの整合性を確保（複数の isSelected: true が残っていないか確認）
-      $this->ensureRadioGroupIntegrity();
-    } else {
-      // デフォルト座標（JSONファイルがない場合のフォールバック）
-      $this->coordinates = $this->getDefaultCoordinates();
-    }
-  }
-
-  /**
-   * ラジオグループの整合性を確保（各グループで最大1つだけ isSelected: true）
-   * サンプルデータモードがONの場合のみ、isSelectedがない場合に最初のフィールドを選択する
-   */
-  protected function ensureRadioGroupIntegrity(): void
-  {
-    $processedGroups = [];
-    
-    foreach ($this->coordinates as $key => $field) {
-      if (!isset($field['radioGroup'])) {
-        continue;
-      }
-      
-      $groupName = $field['radioGroup'];
-      
-      // グループ内で複数の isSelected: true がないか確認
-      if (!isset($processedGroups[$groupName])) {
-        $processedGroups[$groupName] = false;
-        
-        // グループ内のすべてのフィールドをチェック
-        $firstSelectedKey = null;
-        foreach ($this->coordinates as $k => $f) {
-          if (isset($f['radioGroup']) && $f['radioGroup'] === $groupName) {
-            if (isset($f['isSelected']) && $f['isSelected']) {
-              if ($firstSelectedKey === null) {
-                $firstSelectedKey = $k;
-              } else {
-                // 複数の isSelected: true がある場合は、2番目以降を false にする
-                $this->coordinates[$k]['isSelected'] = false;
-              }
-            }
-          }
-        }
-        
-        // グループ内に isSelected: true が1つもない場合は、isSelectedを設定しない
-        // （通常モードでは実データから値を取得するため）
-      }
-    }
+    return storage_path('app/config/acupuncture_benefit_coordinates.json');
   }
 
   /**
@@ -141,26 +24,12 @@ class AcupunctureBenefitPdfService
    */
   protected function getDefaultCoordinates(): array
   {
-    // JSONファイルと同じ構造でデフォルト値を返す
     $configPath = storage_path('app/config/acupuncture_benefit_coordinates.json');
-    $json = file_get_contents($configPath);
-    return json_decode($json, true);
-  }
-
-  /**
-   * 座標値を取得するヘルパーメソッド
-   */
-  protected function coord(string $key, string $property = 'x')
-  {
-    return $this->coordinates[$key][$property] ?? 0;
-  }
-
-  /**
-   * 座標が存在するかチェック
-   */
-  protected function hasCoord(string $key): bool
-  {
-    return isset($this->coordinates[$key]);
+    if (file_exists($configPath)) {
+      $json = file_get_contents($configPath);
+      return json_decode($json, true);
+    }
+    return [];
   }
 
   /**
@@ -1865,82 +1734,6 @@ class AcupunctureBenefitPdfService
    * @return void
    */
   /**
-   * ボックスに数字を均等配置（座標キーベース版・文字間隔とテキスト配置対応）
-   *
-   * @param Fpdi $pdf
-   * @param string $key 座標キー
-   * @param string $text テキスト
-   * @param int $boxCount ボックス数
-   * @param float $boxWidth ボックス幅
-   * @return void
-   */
-  protected function fillBoxesByKey(Fpdi $pdf, string $key, string $text, int $boxCount, float $boxWidth): void
-  {
-    $startX = $this->coord($key, 'x');
-    $y = $this->coord($key, 'y');
-    $letterSpacing = $this->coordinates[$key]['letterSpacing'] ?? 0;
-    $textAlign = $this->coordinates[$key]['textAlign'] ?? 'left';
-    
-    $this->fillBoxes($pdf, $startX, $y, $text, $boxCount, $boxWidth, (float)$letterSpacing, $textAlign);
-  }
-
-  /**
-   * ボックスに数字を均等配置（文字間隔オプション対応）
-   *
-   * @param Fpdi $pdf
-   * @param float $startX
-   * @param float $y
-   * @param string $text
-   * @param int $boxCount
-   * @param float $boxWidth
-   * @param float $letterSpacing (mm) 追加の文字間隔
-   * @param string $textAlign テキスト配置（left, center, right）
-   * @return void
-   */
-  protected function fillBoxes(Fpdi $pdf, float $startX, float $y, string $text, int $boxCount, float $boxWidth, float $letterSpacing = 0, string $textAlign = 'left'): void
-  {
-    // マルチバイトを安全に分割
-    $chars = preg_split('//u', (string)$text, -1, PREG_SPLIT_NO_EMPTY);
-
-    // テキスト配置で左揃え・文字間隔なしの場合は従来のボックス幅で配置
-    if ($letterSpacing == 0 && $textAlign === 'left') {
-      for ($i = 0; $i < min(count($chars), $boxCount); $i++) {
-        $x = $startX + ($i * $boxWidth);
-        $pdf->Text($x, $y, $chars[$i]);
-      }
-      return;
-    }
-
-    // 文字間隔またはテキスト配置がある場合
-    // 全幅を計算
-    $totalWidth = 0;
-    foreach ($chars as $char) {
-      $width = $pdf->GetStringWidth($char);
-      $totalWidth += $width + $letterSpacing;
-    }
-    if ($totalWidth > 0) {
-      $totalWidth -= $letterSpacing; // 最後の文字間隔は不要
-    }
-    
-    // 配置領域の幅（ボックス数 × ボックス幅）
-    $alignmentWidth = $boxCount * $boxWidth;
-    
-    // テキスト配置に基づいて開始位置を調整
-    $x = $startX;
-    if ($textAlign === 'center') {
-      $x = $startX + ($alignmentWidth - $totalWidth) / 2;
-    } elseif ($textAlign === 'right') {
-      $x = $startX + ($alignmentWidth - $totalWidth);
-    }
-
-    for ($i = 0; $i < min(count($chars), $boxCount); $i++) {
-      $pdf->Text($x, $y, $chars[$i]);
-      $width = $pdf->GetStringWidth($chars[$i]);
-      $x += $width + $letterSpacing;
-    }
-  }
-
-  /**
    * 施術日をカレンダーに記入
    *
    * @param Fpdi $pdf
@@ -2016,49 +1809,6 @@ class AcupunctureBenefitPdfService
     // テキスト色を戻す
     $pdf->SetTextColor(0, 0, 0);
     $pdf->SetFontSize(10);
-  }
-
-  /**
-   * 文字間隔を考慮したテキスト描画（内部ユーティリティ）
-   *
-   * @param Fpdi $pdf
-   * @param float $startX
-   * @param float $y
-   * @param string $text
-   * @param float $letterSpacing 追加の文字間隔（mm）
-   * @return void
-   */
-  protected function drawTextWithSpacing(Fpdi $pdf, float $startX, float $y, string $text, float $letterSpacing, string $textAlign = 'left', float $alignmentWidth = 0): void
-  {
-    // マルチバイト対応で1文字ずつに分割
-    $chars = preg_split('//u', (string)$text, -1, PREG_SPLIT_NO_EMPTY);
-    
-    // 全テキストの幅を計算
-    $totalWidth = 0;
-    foreach ($chars as $char) {
-      $width = $pdf->GetStringWidth($char);
-      $totalWidth += $width + $letterSpacing;
-    }
-    // 最後の文字間隔は不要
-    $totalWidth -= $letterSpacing;
-    
-    // テキスト配置に基づいて開始位置を調整
-    $x = $startX;
-    if ($textAlign === 'center' && $alignmentWidth > 0) {
-      // 中央揃え
-      $x = $startX + ($alignmentWidth - $totalWidth) / 2;
-    } elseif ($textAlign === 'right' && $alignmentWidth > 0) {
-      // 右揃え
-      $x = $startX + ($alignmentWidth - $totalWidth);
-    }
-    // 左揃え（textAlign === 'left'）はそのまま
-
-    foreach ($chars as $char) {
-      $pdf->Text($x, $y, $char);
-      // GetStringWidth は現在のフォントサイズ・フォントを考慮した幅を返す（単位はmm）
-      $width = $pdf->GetStringWidth($char);
-      $x += $width + $letterSpacing;
-    }
   }
 
   /**
@@ -2143,51 +1893,6 @@ class AcupunctureBenefitPdfService
 
 
     $this->drawTextWithSpacing($pdf, $x, $y, $text, (float)$letterSpacing, $textAlign, (float)$alignmentWidth);
-  }
-
-  /**
-   * 楕円をキーで描画
-   *
-   * @param Fpdi $pdf
-   * @param string $key
-   * @return void
-   */
-  protected function drawEllipseByKey(Fpdi $pdf, string $key): void
-  {
-    // キーが存在しない場合は何もしない
-    if (!$this->hasCoord($key)) {
-      return;
-    }
-
-    // ellipseX/ellipseYがある場合はそれを優先、なければx/yを使用
-    $x = $this->coordinates[$key]['ellipseX'] ?? $this->coord($key, 'x');
-    $y = $this->coordinates[$key]['ellipseY'] ?? $this->coord($key, 'y');
-    $ellipseWidth = $this->coordinates[$key]['ellipseWidth'] ?? 2.5;
-    $ellipseHeight = $this->coordinates[$key]['ellipseHeight'] ?? 2.5;
-    $lineWidth = $this->coordinates[$key]['lineWidth'] ?? 0.5;
-
-    $pdf->SetDrawColor(0, 0, 0);
-    $pdf->SetLineWidth($lineWidth);
-    $pdf->Ellipse($x, $y, $ellipseWidth, $ellipseHeight, 0, 0, 360, 'D');
-  }
-
-  /**
-   * 円をキーで描画
-   *
-   * @param Fpdi $pdf
-   * @param string $key
-   * @return void
-   */
-  protected function drawCircleByKey(Fpdi $pdf, string $key): void
-  {
-    $x = $this->coord($key, 'x');
-    $y = $this->coord($key, 'y');
-    $radius = $this->coordinates[$key]['circleRadius'] ?? 1.2;
-    $lineWidth = $this->coordinates[$key]['lineWidth'] ?? 0.5;
-
-    $pdf->SetDrawColor(0, 0, 0);
-    $pdf->SetLineWidth($lineWidth);
-    $pdf->Ellipse($x, $y, $radius, $radius, 0, 0, 360, 'D');
   }
 
   /**
@@ -2288,43 +1993,6 @@ class AcupunctureBenefitPdfService
       'treatment_fees' => $treatmentFees,
       'service_year_month' => $serviceYearMonth,
     ];
-  }
-
-  /**
-   * 西暦を和暦に変換
-   *
-   * @param int $year
-   * @param int $month
-   * @return array
-   */
-  protected function convertToJapaneseYear(int $year, int $month): array
-  {
-    if ($year >= 2019 && ($year > 2019 || $month >= 5)) {
-      return ['era' => '令和', 'year' => $year - 2018];
-    } elseif ($year >= 1989 && ($year > 1989 || $month >= 1)) {
-      return ['era' => '平成', 'year' => $year - 1988];
-    } elseif ($year >= 1926 && ($year > 1926 || $month >= 12)) {
-      return ['era' => '昭和', 'year' => $year - 1925];
-    } elseif ($year >= 1912 && ($year > 1912 || $month >= 7)) {
-      return ['era' => '大正', 'year' => $year - 1911];
-    } elseif ($year >= 1868) {
-      return ['era' => '明治', 'year' => $year - 1867];
-    }
-    return ['era' => '', 'year' => $year];
-  }
-
-  /**
-   * 日付を和暦形式に変換
-   *
-   * @param string $date YYYY-MM-DD形式
-   * @return string
-   */
-  protected function convertToJapaneseDate(string $date): string
-  {
-    [$year, $month, $day] = explode('-', $date);
-    $japaneseYear = $this->convertToJapaneseYear((int)$year, (int)$month);
-
-    return $japaneseYear['era'] . $japaneseYear['year'] . '年' . (int)$month . '月' . (int)$day . '日';
   }
 
   /**

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\RecordRequest;
 use App\Models\Record;
+use App\Services\ClinicInfoService;
+use App\Services\RecordService;
 
 /**
  * 実績データ管理コントローラー
@@ -18,6 +20,14 @@ use App\Models\Record;
  */
 class RecordsController extends Controller
 {
+  protected $clinicInfoService;
+  protected $recordService;
+
+  public function __construct(ClinicInfoService $clinicInfoService, RecordService $recordService)
+  {
+    $this->clinicInfoService = $clinicInfoService;
+    $this->recordService = $recordService;
+  }
   /**
    * 実績データ一覧を表示
    *
@@ -29,17 +39,8 @@ class RecordsController extends Controller
     // デバッグログ：リクエストパラメータ確認
     \Log::info('[DEBUG RecordsController::index] リクエストパラメータ:', $request->all());
 
-    // clinic_infoテーブルから定休日情報を取得
-    $clinicInfo = DB::table('clinic_info')->first();
-    $closedDays = [
-      'monday' => $clinicInfo->closed_day_monday ?? 0,
-      'tuesday' => $clinicInfo->closed_day_tuesday ?? 0,
-      'wednesday' => $clinicInfo->closed_day_wednesday ?? 0,
-      'thursday' => $clinicInfo->closed_day_thursday ?? 0,
-      'friday' => $clinicInfo->closed_day_friday ?? 0,
-      'saturday' => $clinicInfo->closed_day_saturday ?? 0,
-      'sunday' => $clinicInfo->closed_day_sunday ?? 0,
-    ];
+    // 定休日情報を取得
+    $closedDays = $this->clinicInfoService->getClosedDays();
 
     // 利用者リストを取得
     $clinicUsers = DB::table('clinic_users')
@@ -220,8 +221,6 @@ class RecordsController extends Controller
     \Log::info('[DEBUG RecordsController::store] バリデーション済みデータ:', $validated);
 
     try {
-      DB::beginTransaction();
-
       // 往療距離の配列を取得
       $housecallDistances = $request->input('housecall_distance', []);
 
@@ -229,109 +228,16 @@ class RecordsController extends Controller
       \Log::info('[DEBUG RecordsController::store] 往療距離配列:', $housecallDistances);
       \Log::info('[DEBUG RecordsController::store] 往療距離配列の要素数:', ['count' => count($housecallDistances)]);
 
-      // 自費施術かどうかを判定
-      $therapyContentId = $validated['therapy_content_id'];
-      $selfFeeId = null;
-      if (str_starts_with($therapyContentId, 'self_')) {
-        $selfFeeId = (int) str_replace('self_', '', $therapyContentId);
-        $therapyContentId = null;
-      }
+      // 複製オプションを取得
+      $duplicateOptions = [
+        'duplicate_massage' => $request->input('duplicate_massage'),
+        'duplicate_warm_compress' => $request->input('duplicate_warm_compress'),
+        'duplicate_warm_electric' => $request->input('duplicate_warm_electric'),
+        'duplicate_manual_correction' => $request->input('duplicate_manual_correction'),
+      ];
 
-      // 選択された日付ごとにレコードを作成
-      foreach ($housecallDistances as $date => $distance) {
-        // デバッグログ：各日付のレコード作成前
-        \Log::info('[DEBUG RecordsController::store] レコード作成中:', [
-          'date' => $date,
-          'distance' => $distance,
-        ]);
-
-        // recordsテーブルにデータを挿入
-        $record = Record::create([
-          'clinic_user_id' => $validated['clinic_user_id'],
-          'date' => $date,
-          'start_time' => $validated['start_time'],
-          'end_time' => $validated['end_time'],
-          'therapy_type' => $validated['therapy_type'],
-          'therapy_category' => $validated['therapy_category'],
-          'insurance_category' => $validated['insurance_category'] ?? null,
-          'housecall_distance' => $validated['therapy_category'] == 2 ? $distance : null,
-          'therapy_days' => count($housecallDistances),
-          'consent_expiry' => $validated['consent_expiry'] ?? null,
-          'therapy_content_id' => $therapyContentId,
-          'self_fee_id' => $selfFeeId,
-          'bill_category_id' => $validated['bill_category_id'],
-          'therapist_id' => $validated['therapist_id'],
-          'abstract' => $validated['abstract'] ?? null,
-        ]);
-        $recordId = $record->id;
-
-        // デバッグログ：レコード作成完了
-        \Log::info('[DEBUG RecordsController::store] レコード作成完了: recordId=' . $recordId);
-
-        // あんま･マッサージの場合、bodyparts-recordsテーブルに身体部位を保存
-        if ($validated['therapy_type'] == 2 && isset($validated['bodyparts'])) {
-          foreach ($validated['bodyparts'] as $bodypartId) {
-            DB::table('bodyparts-records')->insert([
-              'records_id' => $recordId,
-              'therapy_type_bodyparts_id' => $bodypartId,
-              'created_at' => now(),
-              'updated_at' => now(),
-            ]);
-          }
-        }
-
-        // 複製チェックボックスが選択されている場合、追加の施術内容を登録
-        if ($validated['therapy_type'] == 2) {
-          $duplicateContents = [];
-
-          if ($request->input('duplicate_massage') == 1) {
-            $duplicateContents[] = 7; // マッサージ
-          }
-          if ($request->input('duplicate_warm_compress') == 1) {
-            $duplicateContents[] = 9; // 温罨法
-          }
-          if ($request->input('duplicate_warm_electric') == 1) {
-            $duplicateContents[] = 10; // 温罨法・電気光線器具
-          }
-          if ($request->input('duplicate_manual_correction') == 1) {
-            $duplicateContents[] = 8; // 変形徒手矯正術
-          }
-
-          foreach ($duplicateContents as $contentId) {
-            $duplicateRecord = Record::create([
-              'clinic_user_id' => $validated['clinic_user_id'],
-              'date' => $date,
-              'start_time' => $validated['start_time'],
-              'end_time' => $validated['end_time'],
-              'therapy_type' => $validated['therapy_type'],
-              'therapy_category' => $validated['therapy_category'],
-              'insurance_category' => $validated['insurance_category'] ?? null,
-              'housecall_distance' => $validated['therapy_category'] == 2 ? $distance : null,
-              'therapy_days' => count($housecallDistances),
-              'consent_expiry' => $validated['consent_expiry'] ?? null,
-              'therapy_content_id' => $contentId,
-              'bill_category_id' => $validated['bill_category_id'],
-              'therapist_id' => $validated['therapist_id'],
-              'abstract' => $validated['abstract'] ?? null,
-            ]);
-            $duplicateRecordId = $duplicateRecord->id;
-
-            // 複製したレコードにも身体部位を保存
-            if (isset($validated['bodyparts'])) {
-              foreach ($validated['bodyparts'] as $bodypartId) {
-                DB::table('bodyparts-records')->insert([
-                  'records_id' => $duplicateRecordId,
-                  'therapy_type_bodyparts_id' => $bodypartId,
-                  'created_at' => now(),
-                  'updated_at' => now(),
-                ]);
-              }
-            }
-          }
-        }
-      }
-
-      DB::commit();
+      // RecordServiceを使用してレコードを作成
+      $this->recordService->createRecordsForDates($validated, $housecallDistances, $duplicateOptions);
 
       // デバッグログ：コミット完了
       \Log::info('[DEBUG RecordsController::store] トランザクションコミット完了');
@@ -351,7 +257,6 @@ class RecordsController extends Controller
       }
 
     } catch (\Exception $e) {
-      DB::rollBack();
       return redirect()
         ->back()
         ->withInput()
@@ -398,17 +303,8 @@ class RecordsController extends Controller
       $originalDistances[$rec->date] = $rec->housecall_distance;
     }
 
-    // clinic_infoテーブルから定休日情報を取得
-    $clinicInfo = DB::table('clinic_info')->first();
-    $closedDays = [
-      'monday' => $clinicInfo->closed_day_monday ?? 0,
-      'tuesday' => $clinicInfo->closed_day_tuesday ?? 0,
-      'wednesday' => $clinicInfo->closed_day_wednesday ?? 0,
-      'thursday' => $clinicInfo->closed_day_thursday ?? 0,
-      'friday' => $clinicInfo->closed_day_friday ?? 0,
-      'saturday' => $clinicInfo->closed_day_saturday ?? 0,
-      'sunday' => $clinicInfo->closed_day_sunday ?? 0,
-    ];
+    // 定休日情報を取得
+    $closedDays = $this->clinicInfoService->getClosedDays();
 
     // 保険情報を取得
     $insurances = DB::table('insurances')
@@ -490,132 +386,19 @@ class RecordsController extends Controller
     $validated = $request->validated();
 
     try {
-      DB::beginTransaction();
-
-      // 元のレコードを取得
-      $originalRecord = DB::table('records')->where('id', $id)->first();
-
-      if (!$originalRecord) {
-        return redirect()
-          ->route('records.index')
-          ->withErrors(['error' => '実績データが見つかりません。']);
-      }
-
-      // 同一グループの全レコードを削除（施術内容、施術者、時刻が同じもの）
-      $deletedRecords = DB::table('records')
-        ->where('clinic_user_id', $originalRecord->clinic_user_id)
-        ->where('therapy_content_id', $originalRecord->therapy_content_id)
-        ->where('therapist_id', $originalRecord->therapist_id)
-        ->where('start_time', $originalRecord->start_time)
-        ->where('end_time', $originalRecord->end_time)
-        ->get();
-
-      // 削除対象のレコードIDを取得
-      $deletedRecordIds = $deletedRecords->pluck('id')->toArray();
-
-      // 元の登録日時を保持（最も古いcreated_atを取得）
-      $originalCreatedAt = $deletedRecords->min('created_at');
-
-      // bodyparts-recordsテーブルから関連データを削除
-      DB::table('bodyparts-records')
-        ->whereIn('records_id', $deletedRecordIds)
-        ->delete();
-
-      // recordsテーブルから削除
-      Record::whereIn('id', $deletedRecordIds)->delete();
-
       // 往療距離の配列を取得
       $housecallDistances = $request->input('housecall_distance', []);
 
-      // 新しいレコードを作成
-      foreach ($housecallDistances as $date => $distance) {
-        // recordsテーブルにデータを挿入（元の登録日時を保持）
-        $record = new Record([
-          'clinic_user_id' => $validated['clinic_user_id'],
-          'date' => $date,
-          'start_time' => $validated['start_time'],
-          'end_time' => $validated['end_time'],
-          'therapy_type' => $validated['therapy_type'],
-          'therapy_category' => $validated['therapy_category'],
-          'insurance_category' => $validated['insurance_category'] ?? null,
-          'housecall_distance' => $validated['therapy_category'] == 2 ? $distance : null,
-          'therapy_days' => count($housecallDistances),
-          'consent_expiry' => $validated['consent_expiry'] ?? null,
-          'therapy_content_id' => $validated['therapy_content_id'],
-          'bill_category_id' => $validated['bill_category_id'],
-          'therapist_id' => $validated['therapist_id'],
-          'abstract' => $validated['abstract'] ?? null,
-        ]);
-        $record->created_at = $originalCreatedAt;
-        $record->save();
-        $recordId = $record->id;
+      // 複製オプションを取得
+      $duplicateOptions = [
+        'duplicate_massage' => $request->input('duplicate_massage'),
+        'duplicate_warm_compress' => $request->input('duplicate_warm_compress'),
+        'duplicate_warm_electric' => $request->input('duplicate_warm_electric'),
+        'duplicate_manual_correction' => $request->input('duplicate_manual_correction'),
+      ];
 
-        // あんま･マッサージの場合、bodyparts-recordsテーブルに身体部位を保存
-        if ($validated['therapy_type'] == 2 && isset($validated['bodyparts'])) {
-          foreach ($validated['bodyparts'] as $bodypartId) {
-            DB::table('bodyparts-records')->insert([
-              'records_id' => $recordId,
-              'therapy_type_bodyparts_id' => $bodypartId,
-              'created_at' => now(),
-              'updated_at' => now(),
-            ]);
-          }
-        }
-
-        // 複製チェックボックスが選択されている場合、追加の施術内容を登録
-        if ($validated['therapy_type'] == 2) {
-          $duplicateContents = [];
-
-          if ($request->input('duplicate_massage') == 1) {
-            $duplicateContents[] = 7; // マッサージ
-          }
-          if ($request->input('duplicate_warm_compress') == 1) {
-            $duplicateContents[] = 9; // 温罨法
-          }
-          if ($request->input('duplicate_warm_electric') == 1) {
-            $duplicateContents[] = 10; // 温罨法・電気光線器具
-          }
-          if ($request->input('duplicate_manual_correction') == 1) {
-            $duplicateContents[] = 8; // 変形徒手矯正術
-          }
-
-          foreach ($duplicateContents as $contentId) {
-            $duplicateRecord = new Record([
-              'clinic_user_id' => $validated['clinic_user_id'],
-              'date' => $date,
-              'start_time' => $validated['start_time'],
-              'end_time' => $validated['end_time'],
-              'therapy_type' => $validated['therapy_type'],
-              'therapy_category' => $validated['therapy_category'],
-              'insurance_category' => $validated['insurance_category'] ?? null,
-              'housecall_distance' => $validated['therapy_category'] == 2 ? $distance : null,
-              'therapy_days' => count($housecallDistances),
-              'consent_expiry' => $validated['consent_expiry'] ?? null,
-              'therapy_content_id' => $contentId,
-              'bill_category_id' => $validated['bill_category_id'],
-              'therapist_id' => $validated['therapist_id'],
-              'abstract' => $validated['abstract'] ?? null,
-            ]);
-            $duplicateRecord->created_at = $originalCreatedAt;
-            $duplicateRecord->save();
-            $duplicateRecordId = $duplicateRecord->id;
-
-            // 複製したレコードにも身体部位を保存
-            if (isset($validated['bodyparts'])) {
-              foreach ($validated['bodyparts'] as $bodypartId) {
-                DB::table('bodyparts-records')->insert([
-                  'records_id' => $duplicateRecordId,
-                  'therapy_type_bodyparts_id' => $bodypartId,
-                  'created_at' => now(),
-                  'updated_at' => now(),
-                ]);
-              }
-            }
-          }
-        }
-      }
-
-      DB::commit();
+      // RecordServiceを使用してレコードを更新
+      $this->recordService->updateRecordsForDates($id, $validated, $housecallDistances, $duplicateOptions);
 
       // fromパラメータがscheduleの場合はスケジュール画面に、それ以外は実績データ画面にリダイレクト
       if ($request->input('from') === 'schedule') {
@@ -629,7 +412,6 @@ class RecordsController extends Controller
       }
 
     } catch (\Exception $e) {
-      DB::rollBack();
       return redirect()
         ->back()
         ->withInput()
@@ -724,17 +506,8 @@ class RecordsController extends Controller
       $duplicatedDistances = $originalDistances;
     }
 
-    // clinic_infoテーブルから定休日情報を取得
-    $clinicInfo = DB::table('clinic_info')->first();
-    $closedDays = [
-      'monday' => $clinicInfo->closed_day_monday ?? 0,
-      'tuesday' => $clinicInfo->closed_day_tuesday ?? 0,
-      'wednesday' => $clinicInfo->closed_day_wednesday ?? 0,
-      'thursday' => $clinicInfo->closed_day_thursday ?? 0,
-      'friday' => $clinicInfo->closed_day_friday ?? 0,
-      'saturday' => $clinicInfo->closed_day_saturday ?? 0,
-      'sunday' => $clinicInfo->closed_day_sunday ?? 0,
-    ];
+    // 定休日情報を取得
+    $closedDays = $this->clinicInfoService->getClosedDays();
 
     // 保険情報を取得
     $insurances = DB::table('insurances')
@@ -815,103 +588,25 @@ class RecordsController extends Controller
     $validated = $request->validated();
 
     try {
-      DB::beginTransaction();
-
       // 往療距離の配列を取得
       $housecallDistances = $request->input('housecall_distance', []);
 
-      // 新しいレコードを作成
-      foreach ($housecallDistances as $date => $distance) {
-        // recordsテーブルにデータを挿入
-        $record = Record::create([
-          'clinic_user_id' => $validated['clinic_user_id'],
-          'date' => $date,
-          'start_time' => $validated['start_time'],
-          'end_time' => $validated['end_time'],
-          'therapy_type' => $validated['therapy_type'],
-          'therapy_category' => $validated['therapy_category'],
-          'insurance_category' => $validated['insurance_category'] ?? null,
-          'housecall_distance' => $validated['therapy_category'] == 2 ? $distance : null,
-          'therapy_days' => count($housecallDistances),
-          'consent_expiry' => $validated['consent_expiry'] ?? null,
-          'therapy_content_id' => $validated['therapy_content_id'],
-          'bill_category_id' => $validated['bill_category_id'],
-          'therapist_id' => $validated['therapist_id'],
-          'abstract' => $validated['abstract'] ?? null,
-        ]);
-        $recordId = $record->id;
+      // 複製オプションを取得
+      $duplicateOptions = [
+        'duplicate_massage' => $request->input('duplicate_massage'),
+        'duplicate_warm_compress' => $request->input('duplicate_warm_compress'),
+        'duplicate_warm_electric' => $request->input('duplicate_warm_electric'),
+        'duplicate_manual_correction' => $request->input('duplicate_manual_correction'),
+      ];
 
-        // あんま･マッサージの場合、bodyparts-recordsテーブルに身体部位を保存
-        if ($validated['therapy_type'] == 2 && isset($validated['bodyparts'])) {
-          foreach ($validated['bodyparts'] as $bodypartId) {
-            DB::table('bodyparts-records')->insert([
-              'records_id' => $recordId,
-              'therapy_type_bodyparts_id' => $bodypartId,
-              'created_at' => now(),
-              'updated_at' => now(),
-            ]);
-          }
-        }
-
-        // 複製チェックボックスが選択されている場合、追加の施術内容を登録
-        if ($validated['therapy_type'] == 2) {
-          $duplicateContents = [];
-
-          if ($request->input('duplicate_massage') == 1) {
-            $duplicateContents[] = 7; // マッサージ
-          }
-          if ($request->input('duplicate_warm_compress') == 1) {
-            $duplicateContents[] = 9; // 温罨法
-          }
-          if ($request->input('duplicate_warm_electric') == 1) {
-            $duplicateContents[] = 10; // 温罨法・電気光線器具
-          }
-          if ($request->input('duplicate_manual_correction') == 1) {
-            $duplicateContents[] = 8; // 変形徒手矯正術
-          }
-
-          foreach ($duplicateContents as $contentId) {
-            $duplicateRecord = Record::create([
-              'clinic_user_id' => $validated['clinic_user_id'],
-              'date' => $date,
-              'start_time' => $validated['start_time'],
-              'end_time' => $validated['end_time'],
-              'therapy_type' => $validated['therapy_type'],
-              'therapy_category' => $validated['therapy_category'],
-              'insurance_category' => $validated['insurance_category'] ?? null,
-              'housecall_distance' => $validated['therapy_category'] == 2 ? $distance : null,
-              'therapy_days' => count($housecallDistances),
-              'consent_expiry' => $validated['consent_expiry'] ?? null,
-              'therapy_content_id' => $contentId,
-              'bill_category_id' => $validated['bill_category_id'],
-              'therapist_id' => $validated['therapist_id'],
-              'abstract' => $validated['abstract'] ?? null,
-            ]);
-            $duplicateRecordId = $duplicateRecord->id;
-
-            // 複製したレコードにも身体部位を保存
-            if (isset($validated['bodyparts'])) {
-              foreach ($validated['bodyparts'] as $bodypartId) {
-                DB::table('bodyparts-records')->insert([
-                  'records_id' => $duplicateRecordId,
-                  'therapy_type_bodyparts_id' => $bodypartId,
-                  'created_at' => now(),
-                  'updated_at' => now(),
-                ]);
-              }
-            }
-          }
-        }
-      }
-
-      DB::commit();
+      // RecordServiceを使用してレコードを作成
+      $this->recordService->createRecordsForDates($validated, $housecallDistances, $duplicateOptions);
 
       return redirect()
         ->route('records.index', ['clinic_user_id' => $validated['clinic_user_id']])
         ->with('success', '実績データを複製しました。');
 
     } catch (\Exception $e) {
-      DB::rollBack();
       return redirect()
         ->back()
         ->withInput()

@@ -40,7 +40,8 @@
       "Bash(git -c core.quotepath=false commit -m \"$\\(cat <<''EOF''\n自費施術対応・施術料金領収書モーダル追加・UI改善\n\n## 主な変更内容\n\n### 自費施術機能追加\n- recordsテーブルにself_fee_idカラム追加（マイグレーション）\n- RecordsController: 自費施術の登録・表示に対応\n- RecordRequest: therapy_content_idの検証ロジック拡張（self_プレフィックス対応）\n- 施術内容選択時に自費施術を選択可能に（data-therapy-type=\"self\"）\n- 自費施術選択時は保険区分を無効化\n\n### 施術料金領収書機能追加\n- prints_index: 施術料金領収書モーダル追加（はり・きゅう/あんま・マッサージ共通）\n- prints.js: submitTreatmentReceipt関数追加\n- coordinate-adjuster_fields.js: 領収書専用フィールド追加\n- treatment_receipt_coordinates.json: 座標データ追加\n\n### UI改善\n- 複数選択リストに長押し+ドラッグ選択機能追加\n- スクロール位置維持の改善\n- モーダル開閉時のフォームリセット処理追加\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
       "Bash(python -m json.tool:*)",
       "Bash(ls:*)",
-      "Bash(git -c core.quotepath=false commit -m \"$\\(cat <<''EOF''\nrefactor: PDF施術期間フィールドを統合座標方式に移行\n\n- 旧フィールド（treatment_start_date/treatment_end_date）のレンダリングコードを削除\n- 新フィールド（therapy_period_start/therapy_period_end）の座標とラベルを調整\n- 初療年月日（onset_date）の配置を最適化\n- 施術期間の座標設定を統一\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
+      "Bash(git -c core.quotepath=false commit -m \"$\\(cat <<''EOF''\nrefactor: PDF施術期間フィールドを統合座標方式に移行\n\n- 旧フィールド（treatment_start_date/treatment_end_date）のレンダリングコードを削除\n- 新フィールド（therapy_period_start/therapy_period_end）の座標とラベルを調整\n- 初療年月日（onset_date）の配置を最適化\n- 施術期間の座標設定を統一\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(wc:*)"
     ],
     "deny": [],
     "ask": []
