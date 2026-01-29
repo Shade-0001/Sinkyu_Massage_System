@@ -42,7 +42,18 @@
       "Bash(ls:*)",
       "Bash(git -c core.quotepath=false commit -m \"$\\(cat <<''EOF''\nrefactor: PDF施術期間フィールドを統合座標方式に移行\n\n- 旧フィールド（treatment_start_date/treatment_end_date）のレンダリングコードを削除\n- 新フィールド（therapy_period_start/therapy_period_end）の座標とラベルを調整\n- 初療年月日（onset_date）の配置を最適化\n- 施術期間の座標設定を統一\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
       "Bash(wc:*)",
-      "Bash(bash \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\i--XAMPP-htdocs-Sinkyu-Massage_System\\\\d17fedae-d195-47c3-a6f6-2cd127672e44\\\\scratchpad\\\\replace_fillFormFields.sh\")"
+      "Bash(bash \"C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\i--XAMPP-htdocs-Sinkyu-Massage_System\\\\d17fedae-d195-47c3-a6f6-2cd127672e44\\\\scratchpad\\\\replace_fillFormFields.sh\")",
+      "Bash(if [ -d \"i:\\\\XAMPP\\\\htdocs\\\\Sinkyu_Massage_System\\\\app\\\\Services\\\\Print\\\\Traits\" ])",
+      "Bash(then echo \"EXISTS\")",
+      "Bash(else echo \"NOT_EXISTS\")",
+      "Bash(fi:*)",
+      "Bash(git restore:*)",
+      "Bash(for:*)",
+      "Bash(do echo \"Checking $file...\")",
+      "Bash(exit:*)",
+      "Bash(done)",
+      "Bash(do php -l \"$file\")",
+      "Bash(echo:*)"
     ],
     "deny": [],
     "ask": []
