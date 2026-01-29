@@ -2,6 +2,7 @@
 
 namespace App\Services\Print\Traits;
 
+use Illuminate\Support\Facades\DB;
 use setasign\Fpdi\Tcpdf\Fpdi;
 
 /**
@@ -13,10 +14,10 @@ trait MassageFormFieldsTrait
    * 施術期間セクションを埋める（開始日、終了日、実日数）
    *
    * @param Fpdi $pdf PDFオブジェクト
-   * @param array $records 施術記録
+   * @param \Illuminate\Support\Collection $records 施術記録
    * @param string $serviceYearMonth サービス提供年月
    */
-  private function fillTreatmentPeriodSection(Fpdi $pdf, array $records, string $serviceYearMonth): void
+  private function fillTreatmentPeriodSection(Fpdi $pdf, \Illuminate\Support\Collection $records, string $serviceYearMonth): void
   {
     // === 施術期間 ===
     if ($this->sampleDataMode && $this->customSampleData) {
@@ -308,7 +309,7 @@ trait MassageFormFieldsTrait
    * @param Fpdi $pdf PDFオブジェクト
    * @param array $records 施術記録
    */
-  private function fillTreatmentDayCountSection(Fpdi $pdf, array $records): void
+  private function fillTreatmentDayCountSection(Fpdi $pdf, \Illuminate\Support\Collection $records): void
   {
     // === 実日数 ===
     if ($this->hasCoord('treatment_day_count')) {
@@ -598,6 +599,53 @@ trait MassageFormFieldsTrait
       if ($key) {
         $this->drawEllipseByKey($pdf, $key);
       }
+    }
+
+    // === 給付割合（楕円） ===
+    $benefitRatioKey = null;
+
+    // isSelectedフラグをチェック（座標調整モードの場合）
+    if (isset($this->coordinates['benefit_ratio_80']['isSelected']) && $this->coordinates['benefit_ratio_80']['isSelected']) {
+      $benefitRatioKey = 'benefit_ratio_80';
+    } elseif (isset($this->coordinates['benefit_ratio_90']['isSelected']) && $this->coordinates['benefit_ratio_90']['isSelected']) {
+      $benefitRatioKey = 'benefit_ratio_90';
+    } elseif (isset($this->coordinates['benefit_ratio_100']['isSelected']) && $this->coordinates['benefit_ratio_100']['isSelected']) {
+      $benefitRatioKey = 'benefit_ratio_100';
+    } elseif ($insurance) {
+      // 保険種別１と保険種別３の組み合わせで給付割合を決定
+      $type1 = $insurance->insurance_type_1 ?? '';
+      $type3 = $insurance->insurance_type_3 ?? '';
+
+      // 社国 + 高外９ → 8割
+      if ($type1 === '社･国･組' && $type3 === '高外９') {
+        $benefitRatioKey = 'benefit_ratio_80';
+      }
+      // 社国 + 三外 → 8割
+      elseif ($type1 === '社･国･組' && $type3 === '三外') {
+        $benefitRatioKey = 'benefit_ratio_80';
+      }
+      // 退職 + 六外 → 8割（六外は現状定義されていないため、将来対応）
+      elseif ($type1 === '退職' && $type3 === '六外') {
+        $benefitRatioKey = 'benefit_ratio_80';
+      }
+      // 後高 + 高外９ → 9割
+      elseif ($type1 === '後期' && $type3 === '高外９') {
+        $benefitRatioKey = 'benefit_ratio_90';
+      }
+      // 上記に該当しない場合、expenses_borne_ratio_idから判定
+      elseif (isset($insurance->expenses_borne_ratio_id)) {
+        // expenses_borne_ratiosテーブル: id=1→1割負担（9割給付）, id=2→2割負担（8割給付）, id=3→3割負担（7割給付）
+        $ratioMap = [
+          1 => 'benefit_ratio_90',  // 1割負担 → 9割給付
+          2 => 'benefit_ratio_80',  // 2割負担 → 8割給付
+          // id=3（3割負担、7割給付）は給付割合フィールドなし
+        ];
+        $benefitRatioKey = $ratioMap[$insurance->expenses_borne_ratio_id] ?? null;
+      }
+    }
+
+    if ($benefitRatioKey) {
+      $this->drawEllipseByKey($pdf, $benefitRatioKey);
     }
 
     // === 一部負担金（楕円） ===
@@ -1221,7 +1269,7 @@ trait MassageFormFieldsTrait
    * @param Fpdi $pdf PDFオブジェクト
    * @param \Illuminate\Support\Collection $records 施術記録コレクション
    */
-  private function fillAbstractSection(Fpdi $pdf, $records): void
+  private function fillAbstractSection(Fpdi $pdf, \Illuminate\Support\Collection $records): void
   {
     // === 摘要 ===
     $abstractText = 'なし'; // デフォルト値

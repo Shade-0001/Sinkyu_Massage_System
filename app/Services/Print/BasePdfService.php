@@ -152,9 +152,9 @@ abstract class BasePdfService
   /**
    * 座標値を取得
    */
-  protected function coord(string $key, string $property = 'x')
+  protected function coord(string $key, string $property = 'x', $default = 0)
   {
-    return $this->coordinates[$key][$property] ?? 0;
+    return $this->coordinates[$key][$property] ?? $default;
   }
 
   /**
@@ -174,13 +174,27 @@ abstract class BasePdfService
       return;
     }
 
+    // 座標設定にletterSpacingが定義されている場合は、それを文字間の総間隔として使用
+    $configLetterSpacing = $this->coord($key, 'letterSpacing', null);
+    if ($configLetterSpacing !== null) {
+      // letterSpacingが定義されている場合は、それを総間隔として使用（boxWidthは無視）
+      $actualBoxWidth = $configLetterSpacing;
+      $additionalSpacing = 0;
+    } else {
+      // letterSpacingが未定義の場合は、従来通りboxWidthを使用
+      $actualBoxWidth = $boxWidth;
+      $additionalSpacing = 0;
+    }
+
     $this->fillBoxes(
       $pdf,
       $this->coord($key, 'x'),
       $this->coord($key, 'y'),
       $text,
       $boxCount,
-      $boxWidth
+      $actualBoxWidth,
+      $additionalSpacing,
+      $this->coord($key, 'textAlign', 'left')
     );
   }
 
@@ -193,26 +207,55 @@ abstract class BasePdfService
     $chars = mb_str_split($text);
     $charCount = count($chars);
 
-    // 配置開始位置を計算（右揃えの場合）
-    if ($textAlign === 'right') {
+    // 配置開始位置を計算
+    $currentX = $startX;
+
+    // boxWidthが0の場合（自動幅）のテキスト配置計算
+    if ($boxWidth == 0 && ($textAlign === 'right' || $textAlign === 'center')) {
+      // 文字列全体の幅を計算
+      $totalWidth = 0;
+      foreach ($chars as $index => $char) {
+        $totalWidth += $pdf->GetStringWidth($char);
+        if ($index < count($chars) - 1) {
+          $totalWidth += $letterSpacing;
+        }
+      }
+
+      // 配置位置を調整
+      if ($textAlign === 'right') {
+        $currentX = $startX - $totalWidth;
+      } elseif ($textAlign === 'center') {
+        $currentX = $startX - ($totalWidth / 2);
+      }
+    } elseif ($boxWidth > 0 && $textAlign === 'right') {
+      // 固定幅ボックスの場合の右揃え
       $offset = $boxCount - $charCount;
       $currentX = $startX + ($offset * $boxWidth);
-    } else {
-      $currentX = $startX;
+    } elseif ($boxWidth > 0 && $textAlign === 'center') {
+      // 固定幅ボックスの場合の中央揃え
+      $offset = ($boxCount - $charCount) / 2;
+      $currentX = $startX + ($offset * $boxWidth);
     }
 
     // 各文字をボックスに配置
     for ($i = 0; $i < min($charCount, $boxCount); $i++) {
       $char = $chars[$i];
 
-      // ボックスの中央に文字を配置
+      // 文字幅を取得
       $charWidth = $pdf->GetStringWidth($char);
-      $xOffset = ($boxWidth - $charWidth) / 2;
 
-      $pdf->SetXY($currentX + $xOffset, $y);
-      $pdf->Cell($charWidth, 0, $char, 0, 0, 'L', false);
-
-      $currentX += $boxWidth + $letterSpacing;
+      // boxWidthが0の場合は文字の実際の幅を使用（自動間隔調整）
+      if ($boxWidth == 0) {
+        $pdf->SetXY($currentX, $y);
+        $pdf->Cell($charWidth, 0, $char, 0, 0, 'L', false);
+        $currentX += $charWidth + $letterSpacing;
+      } else {
+        // ボックスの中央に文字を配置
+        $xOffset = ($boxWidth - $charWidth) / 2;
+        $pdf->SetXY($currentX + $xOffset, $y);
+        $pdf->Cell($charWidth, 0, $char, 0, 0, 'L', false);
+        $currentX += $boxWidth + $letterSpacing;
+      }
     }
   }
 
@@ -280,8 +323,9 @@ abstract class BasePdfService
 
     $x = $this->coord($key, 'x');
     $y = $this->coord($key, 'y');
-    $radiusX = $this->coord($key, 'radiusX') ?: 1;
-    $radiusY = $this->coord($key, 'radiusY') ?: 1;
+    // ellipseWidthとellipseHeightを使用（radiusXとradiusYは後方互換性のため維持）
+    $radiusX = $this->coord($key, 'ellipseWidth') ?: $this->coord($key, 'radiusX') ?: 1;
+    $radiusY = $this->coord($key, 'ellipseHeight') ?: $this->coord($key, 'radiusY') ?: 1;
 
     $pdf->Ellipse($x, $y, $radiusX, $radiusY, 0, 0, 360, 'D');
   }

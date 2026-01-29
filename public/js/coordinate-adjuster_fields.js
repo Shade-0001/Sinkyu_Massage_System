@@ -23,6 +23,9 @@ const sampleDataFieldMapping = {
   'insurance_type_3_kagai': { field: 'insurance_type_3', label: '保険種別３', type: 'select', masterKey: 'insurance_types_3', valueField: 'insurance_type_3', ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'insurance_type_3', optionLabel: '家外' },
   'insurance_type_3_kougai9': { field: 'insurance_type_3', label: '保険種別３', type: 'select', masterKey: 'insurance_types_3', valueField: 'insurance_type_3', ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'insurance_type_3', optionLabel: '高外９' },
   'insurance_type_3_kougai8': { field: 'insurance_type_3', label: '保険種別３', type: 'select', masterKey: 'insurance_types_3', valueField: 'insurance_type_3', ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'insurance_type_3', optionLabel: '高外８' },
+  'benefit_ratio_80': { field: 'benefit_ratio', label: '給付割合', type: 'select', options: ['8割', '9割', '10割'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'benefit_ratio', optionLabel: '8割' },
+  'benefit_ratio_90': { field: 'benefit_ratio', label: '給付割合', type: 'select', options: ['8割', '9割', '10割'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'benefit_ratio', optionLabel: '9割' },
+  'benefit_ratio_100': { field: 'benefit_ratio', label: '給付割合', type: 'select', options: ['8割', '9割', '10割'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'benefit_ratio', optionLabel: '10割' },
 
   // === 4. 保険者番号 ===
   'insurer_number': { field: 'insurer_number', label: '保険者番号', type: 'text' },
@@ -30,8 +33,7 @@ const sampleDataFieldMapping = {
   // === 5. 被保険者証記号・番号、発病年月日、傷病名 ===
   'insurance_symbol_code': { field: 'insurance_symbol_code', label: '被保険者記号', type: 'text' },
   'insurance_symbol_number': { field: 'insurance_symbol_number', label: '被保険者番号', type: 'text' },
-  'insurance_number': { field: 'insurance_number', label: '被保険者番号', type: 'text' },
-  'onset_date': { field: 'onset_date', label: '発病負傷年月日', type: 'text', compositeGroup: 'onset_date_composite', compositeLabel: '発病負傷年月日' },
+  'onset_date': { field: 'onset_date', label: '発病負傷年月日', type: 'text', compositeGroup: 'onset_date_composite', compositeLabel: '発病負傷年月日', hidden: true },
   'onset_date_year': { field: 'onset_date_year', label: '年', type: 'number', compositeGroup: 'onset_date_composite', compositeLabel: '発病負傷年月日', hidden: true },
   'onset_date_month': { field: 'onset_date_month', label: '月', type: 'number', compositeGroup: 'onset_date_composite', compositeLabel: '発病負傷年月日', hidden: true },
   'onset_date_day': { field: 'onset_date_day', label: '日', type: 'number', compositeGroup: 'onset_date_composite', compositeLabel: '発病負傷年月日', hidden: true },

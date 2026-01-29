@@ -2,6 +2,7 @@
 
 namespace App\Services\Print\Traits;
 
+use Illuminate\Support\Facades\DB;
 use setasign\Fpdi\Tcpdf\Fpdi;
 
 /**
@@ -462,11 +463,11 @@ trait MedicalAssistanceMassageFormFieldsTrait
   protected function fillPatientBasicInfo(Fpdi $pdf, $clinicUser, $insurance, string $fullName): void {}
   protected function fillPatientBirthday(Fpdi $pdf, $clinicUser): void {}
   protected function fillPatientAddressInfo(Fpdi $pdf, $clinicUser): void {}
-  protected function fillTreatmentPeriodSection(Fpdi $pdf, $records): void {}
+  protected function fillTreatmentPeriodSection(Fpdi $pdf, \Illuminate\Support\Collection $records): void {}
   protected function fillDiseaseAndSymptoms(Fpdi $pdf, $consent): void {}
   protected function fillOnsetInfo(Fpdi $pdf, $consent): void {}
-  protected function fillFirstTreatmentDate(Fpdi $pdf, $records): void {}
-  protected function fillTreatmentDayCount(Fpdi $pdf, $records): void {}
+  protected function fillFirstTreatmentDate(Fpdi $pdf, \Illuminate\Support\Collection $records): void {}
+  protected function fillTreatmentDayCount(Fpdi $pdf, \Illuminate\Support\Collection $records): void {}
   protected function fillBillCategorySection(Fpdi $pdf, $consent): void {}
   protected function fillOutcomeSection(Fpdi $pdf, $consent): void {}
   protected function fillWorkRelatedSection(Fpdi $pdf, $consent): void {}
@@ -474,14 +475,14 @@ trait MedicalAssistanceMassageFormFieldsTrait
   protected function fillTreatmentMonth(Fpdi $pdf, string $serviceYearMonth): void {}
   protected function fillDiseaseAndSymptomsMassage(Fpdi $pdf, $consent): void {}
   protected function fillDiseaseCheckboxes(Fpdi $pdf, $consent): void {}
-  protected function fillTreatmentDayCalendar(Fpdi $pdf, $records): void {}
-  protected function fillAbstractSection(Fpdi $pdf, $records): void {}
+  protected function fillTreatmentDayCalendar(Fpdi $pdf, \Illuminate\Support\Collection $records): void {}
+  protected function fillAbstractSection(Fpdi $pdf, \Illuminate\Support\Collection $records): void {}
   protected function fillTherapistSection(Fpdi $pdf, $consent): void {}
   protected function fillHealthOfficeRegistration(Fpdi $pdf, $consent): void {}
   protected function fillConsentRecordSection(Fpdi $pdf, $consent): void {}
   protected function fillApplicationSection(Fpdi $pdf, string $submissionDate): void {}
   protected function fillPaymentInstitutionSection(Fpdi $pdf, $clinicInfo): void {}
   protected function fillDelegationSection(Fpdi $pdf, $insurance, $doctor): void {}
-  protected function fillTreatmentFeeSection(Fpdi $pdf, $records, $insurance): void {}
+  protected function fillTreatmentFeeSection(Fpdi $pdf, \Illuminate\Support\Collection $records, $insurance): void {}
 
 }

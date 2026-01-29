@@ -5,10 +5,10 @@ let customSampleData = {
   title_year_number: '7',
   title_month: '12',
   // 公費・受給者情報
-  public_funds_payer_number: '',
-  public_funds_recipient_number: '',
-  locality_code: '',
-  recipient_number: '',
+  public_funds_payer_number: '12345678',
+  public_funds_recipient_number: '1234567',
+  locality_code: '123456',
+  recipient_number: '123456',
   // 患者情報
   last_name: '田中',
   first_name: '太郎',
@@ -25,6 +25,7 @@ let customSampleData = {
   // 保険種別情報
   insurance_type_1: '社･国･組',
   insurance_type_3: '本外',
+  benefit_ratio: '10割',
   expenses_borne_ratio: '３割',
   insurer_number: '12345678',
   insurance_symbol_code: '12345',
@@ -102,7 +103,7 @@ let customSampleData = {
   clinic_address: '東京都渋谷区〇〇1-2-3',
   clinic_manager: '田中 一郎',
   clinic_phone: '03-9876-5432',
-  institution_code: '1234567890',
+  institution_code: '1234567',
   health_center_registration: '施術所所在地',
   clinic_date_year: '7',
   clinic_date_month: '12',

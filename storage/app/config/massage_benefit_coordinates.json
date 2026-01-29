@@ -149,6 +149,42 @@
         "optionLabel": "高外８",
         "isSelected": false
     },
+    "benefit_ratio_80": {
+        "x": 177.5,
+        "y": 25.5,
+        "label": "給付割合",
+        "type": "select",
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "benefit_ratio",
+        "optionLabel": "8割",
+        "isSelected": true
+    },
+    "benefit_ratio_90": {
+        "x": 185,
+        "y": 25.5,
+        "label": "給付割合",
+        "type": "select",
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "benefit_ratio",
+        "optionLabel": "9割",
+        "isSelected": false
+    },
+    "benefit_ratio_100": {
+        "x": 192.5,
+        "y": 25.5,
+        "label": "給付割合",
+        "type": "select",
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "benefit_ratio",
+        "optionLabel": "10割",
+        "isSelected": false
+    },
     "expenses_borne_ratio_10": {
         "x": 39,
         "y": 162.5,

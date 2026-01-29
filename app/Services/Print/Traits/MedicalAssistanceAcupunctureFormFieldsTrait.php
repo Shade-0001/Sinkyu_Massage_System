@@ -2,6 +2,7 @@
 
 namespace App\Services\Print\Traits;
 
+use Illuminate\Support\Facades\DB;
 use setasign\Fpdi\Tcpdf\Fpdi;
 
 /**
@@ -43,13 +44,25 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
       \Log::warning('医療機関番号が設定されていません', ['clinic_info' => $clinicInfo]);
     }
     // === 公費負担者番号（8桁） ===
-    if ($insurance && isset($insurance->public_funds_payer_code) && $insurance->public_funds_payer_code) {
+    if ($this->sampleDataMode && isset($this->customSampleData['public_funds_payer_number'])) {
+      if ($this->customSampleData['public_funds_payer_number']) {
+        $pdf->SetFontSize($this->coord('public_funds_payer_number', 'fontSize'));
+        $this->fillBoxesByKey($pdf, 'public_funds_payer_number', (string)$this->customSampleData['public_funds_payer_number'], 8, 5.6);
+        $pdf->SetFontSize(10);
+      }
+    } elseif ($insurance && isset($insurance->public_funds_payer_code) && $insurance->public_funds_payer_code) {
       $pdf->SetFontSize($this->coord('public_funds_payer_number', 'fontSize'));
       $this->fillBoxesByKey($pdf, 'public_funds_payer_number', $insurance->public_funds_payer_code, 8, 5.6);
       $pdf->SetFontSize(10);
     }
     // === 公費受給者番号（7桁） ===
-    if ($insurance && isset($insurance->public_funds_recipient_code) && $insurance->public_funds_recipient_code) {
+    if ($this->sampleDataMode && isset($this->customSampleData['public_funds_recipient_number'])) {
+      if ($this->customSampleData['public_funds_recipient_number']) {
+        $pdf->SetFontSize($this->coord('public_funds_recipient_number', 'fontSize'));
+        $this->fillBoxesByKey($pdf, 'public_funds_recipient_number', (string)$this->customSampleData['public_funds_recipient_number'], 7, 5.6);
+        $pdf->SetFontSize(10);
+      }
+    } elseif ($insurance && isset($insurance->public_funds_recipient_code) && $insurance->public_funds_recipient_code) {
       $pdf->SetFontSize($this->coord('public_funds_recipient_number', 'fontSize'));
       $this->fillBoxesByKey($pdf, 'public_funds_recipient_number', $insurance->public_funds_recipient_code, 7, 5.6);
       $pdf->SetFontSize(10);
@@ -164,6 +177,32 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
       $pdf->SetFontSize(10);
     } else {
       \Log::warning('保険者番号が設定されていません', ['insurance' => $insurance]);
+    }
+
+    // === 被保険者記号 ===
+    if ($this->sampleDataMode && isset($this->customSampleData['insurance_symbol_code'])) {
+      if ($this->customSampleData['insurance_symbol_code']) {
+        $pdf->SetFontSize($this->coord('insurance_symbol_code', 'fontSize'));
+        $this->drawTextByKey($pdf, 'insurance_symbol_code', (string)$this->customSampleData['insurance_symbol_code']);
+        $pdf->SetFontSize(10);
+      }
+    } elseif ($insurance && isset($insurance->code_number) && $insurance->code_number) {
+      $pdf->SetFontSize($this->coord('insurance_symbol_code', 'fontSize'));
+      $this->drawTextByKey($pdf, 'insurance_symbol_code', (string)$insurance->code_number);
+      $pdf->SetFontSize(10);
+    }
+
+    // === 被保険者番号 ===
+    if ($this->sampleDataMode && isset($this->customSampleData['insurance_symbol_number'])) {
+      if ($this->customSampleData['insurance_symbol_number']) {
+        $pdf->SetFontSize($this->coord('insurance_symbol_number', 'fontSize'));
+        $this->drawTextByKey($pdf, 'insurance_symbol_number', (string)$this->customSampleData['insurance_symbol_number']);
+        $pdf->SetFontSize(10);
+      }
+    } elseif ($insurance && isset($insurance->account_number) && $insurance->account_number) {
+      $pdf->SetFontSize($this->coord('insurance_symbol_number', 'fontSize'));
+      $this->drawTextByKey($pdf, 'insurance_symbol_number', (string)$insurance->account_number);
+      $pdf->SetFontSize(10);
     }
   }
   // ============================================================
@@ -424,7 +463,7 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
   // ============================================================
   // fillFirstTreatmentDate (行 698-730)
   // ============================================================
-  protected function fillFirstTreatmentDate($pdf, $records): void
+  protected function fillFirstTreatmentDate($pdf, \Illuminate\Support\Collection $records): void
   {
     // === 初療年月日 ===
     if ($this->hasCoord('first_treatment_date')) {
@@ -457,7 +496,7 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
   // ============================================================
   // fillTreatmentDayCount (行 734-750)
   // ============================================================
-  protected function fillTreatmentDayCount($pdf, $records): void
+  protected function fillTreatmentDayCount($pdf, \Illuminate\Support\Collection $records): void
   {
     // === 実日数（施術内容欄） ===
     if ($this->hasCoord('treatment_day_count')) {
@@ -568,7 +607,7 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
   // ============================================================
   // fillAbstractSection (行 845-886)
   // ============================================================
-  protected function fillAbstractSection($pdf, $records): void
+  protected function fillAbstractSection($pdf, \Illuminate\Support\Collection $records): void
   {
     // === 摘要 ===
     $abstractText = 'なし'; // デフォルト値
@@ -795,6 +834,8 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
   // ============================================================
   protected function fillTreatmentPeriodFields($pdf, $data): void
   {
+    $records = $data['records'];
+
     // === 施術期間（開始） ===
     if ($this->hasCoord('therapy_period_start')) {
       if ($this->sampleDataMode && isset($this->customSampleData['therapy_period_start'])) {

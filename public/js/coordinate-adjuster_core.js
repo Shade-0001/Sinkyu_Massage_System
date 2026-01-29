@@ -427,6 +427,8 @@ function previewPdf() {
       }
     });
 
+    console.log('[previewPdf] 送信するサンプルデータ:', processedSampleData);
+    console.log('[previewPdf] public_funds_payer_number:', processedSampleData.public_funds_payer_number);
     requestBody.custom_sample_data = processedSampleData;
   }
 
@@ -513,15 +515,18 @@ function loadTreatmentDays() {
 function loadCustomSampleData() {
   const storageKey = 'customSampleData_' + currentPdfType;
   const stored = localStorage.getItem(storageKey);
+  console.log('[loadCustomSampleData] LocalStorageから読み込み:', storageKey, stored ? 'データあり' : 'データなし');
   if (stored) {
     try {
       const savedData = JSON.parse(stored);
+      console.log('[loadCustomSampleData] 保存データ:', savedData);
       // デフォルト値とマージ（空文字やnullの場合はデフォルト値を優先）
       Object.keys(savedData).forEach(key => {
         if (savedData[key] !== '' && savedData[key] !== null && savedData[key] !== undefined) {
           customSampleData[key] = savedData[key];
         }
       });
+      console.log('[loadCustomSampleData] マージ後のcustomSampleData.public_funds_payer_number:', customSampleData.public_funds_payer_number);
     } catch (e) {
       console.error('サンプルデータの読み込みエラー:', e);
     }
@@ -548,11 +553,13 @@ function loadCustomSampleData() {
 
 // サンプルデータを更新
 function updateSampleData(field, value) {
+  console.log('[updateSampleData] フィールド更新:', { field, value, before: customSampleData[field] });
   customSampleData[field] = value;
 
   // localStorageに保存
   const storageKey = 'customSampleData_' + currentPdfType;
   localStorage.setItem(storageKey, JSON.stringify(customSampleData));
+  console.log('[updateSampleData] LocalStorage保存完了:', storageKey);
 
   // プレビューを自動更新
   autoPreview();

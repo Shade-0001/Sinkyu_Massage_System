@@ -13,7 +13,7 @@
     "title_year_number": {
         "x": -3,
         "y": 8,
-        "fontSize": 8,
+        "fontSize": 9,
         "letterSpacing": 0,
         "label": "年",
         "textAlign": "center",
@@ -33,10 +33,10 @@
         "textAlign": "center"
     },
     "institution_code": {
-        "x": 119,
-        "y": 11,
-        "fontSize": 10.5,
-        "letterSpacing": 0.2,
+        "x": 139,
+        "y": 11.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
         "label": "機関コード",
         "textAlign": "center",
         "type": "text"
@@ -149,6 +149,42 @@
         "optionLabel": "高外８",
         "isSelected": false
     },
+    "benefit_ratio_80": {
+        "x": 178,
+        "y": 25.5,
+        "label": "給付割合",
+        "type": "select",
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "benefit_ratio",
+        "optionLabel": "8割",
+        "isSelected": true
+    },
+    "benefit_ratio_90": {
+        "x": 185,
+        "y": 25.5,
+        "label": "給付割合",
+        "type": "select",
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "benefit_ratio",
+        "optionLabel": "9割",
+        "isSelected": false
+    },
+    "benefit_ratio_100": {
+        "x": 192.5,
+        "y": 25.5,
+        "label": "給付割合",
+        "type": "select",
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "benefit_ratio",
+        "optionLabel": "10割",
+        "isSelected": false
+    },
     "expenses_borne_ratio_10": {
         "x": 48,
         "y": 159.5,
@@ -186,10 +222,10 @@
         "isSelected": false
     },
     "insurer_number": {
-        "x": 138.5,
+        "x": 136.5,
         "y": 35,
         "fontSize": 15,
-        "letterSpacing": 4.1,
+        "letterSpacing": 7.4,
         "label": "保険者番号",
         "type": "text"
     },
@@ -203,37 +239,37 @@
         "textAlign": "center"
     },
     "public_funds_payer_number": {
-        "x": 46.5,
+        "x": 44.5,
         "y": 16.5,
         "fontSize": 15,
-        "letterSpacing": 4.1,
+        "letterSpacing": 7.4,
         "label": "公費負担者番号",
         "textAlign": "left",
         "type": "text"
     },
     "public_funds_recipient_number": {
-        "x": 46.5,
+        "x": 44.5,
         "y": 22.5,
         "fontSize": 15,
-        "letterSpacing": 4.1,
+        "letterSpacing": 7.4,
         "label": "公費受給者番号",
         "textAlign": "left",
         "type": "text"
     },
     "locality_code": {
-        "x": 46.5,
+        "x": 44.5,
         "y": 29,
         "fontSize": 15,
-        "letterSpacing": 4.1,
+        "letterSpacing": 7.4,
         "label": "区市町村番号",
         "textAlign": "left",
         "type": "text"
     },
     "recipient_number": {
-        "x": 46.5,
+        "x": 44.5,
         "y": 35,
         "fontSize": 15,
-        "letterSpacing": 4.1,
+        "letterSpacing": 7.4,
         "label": "受給者番号",
         "textAlign": "left",
         "type": "text"
@@ -350,7 +386,7 @@
         "y": 73.5,
         "label": "元号",
         "ellipseWidth": 2.5,
-        "ellipseHeight": 2.5,
+        "ellipseHeight": 15,
         "lineWidth": 0.5,
         "radioGroup": "birthday_era",
         "optionLabel": "明治",
@@ -1272,10 +1308,10 @@
     },
     "work_scope_type_1": {
         "x": 124,
-        "y": 73.5,
+        "y": 5,
         "label": "業務上･外･第三者行為の有無",
         "ellipseWidth": 10,
-        "ellipseHeight": 3,
+        "ellipseHeight": 30,
         "lineWidth": 0.5,
         "radioGroup": "work_scope_type",
         "optionLabel": "業務上",
@@ -1735,5 +1771,25 @@
         "label": "電話番号",
         "textAlign": "left",
         "type": "text"
+    },
+    "insurance_symbol_code": {
+        "x": -67,
+        "y": 47.8,
+        "textAlign": "center",
+        "field": "insurance_symbol_code",
+        "label": "被保険者記号",
+        "type": "text",
+        "fontSize": 12,
+        "letterSpacing": 0
+    },
+    "insurance_symbol_number": {
+        "x": -39,
+        "y": 47.8,
+        "textAlign": "center",
+        "field": "insurance_symbol_number",
+        "label": "被保険者番号",
+        "type": "text",
+        "fontSize": 12,
+        "letterSpacing": 0
     }
 }
