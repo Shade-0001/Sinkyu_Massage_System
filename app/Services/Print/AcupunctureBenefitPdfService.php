@@ -241,6 +241,12 @@ class AcupunctureBenefitPdfService extends BasePdfService
     // 患者基本情報
     $this->fillPatientBasicInfo($pdf, $clinicUser, $insurance, $fullName);
 
+    // 患者生年月日
+    $this->fillPatientBirthday($pdf, $clinicUser);
+
+    // 業務上･外･第三者行為の有無
+    $this->fillWorkScopeType($pdf);
+
     // 発病・負傷情報
     $this->fillOnsetInfo($pdf, $consent);
 

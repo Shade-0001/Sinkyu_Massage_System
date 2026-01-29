@@ -53,7 +53,8 @@
       "Bash(exit:*)",
       "Bash(done)",
       "Bash(do php -l \"$file\")",
-      "Bash(echo:*)"
+      "Bash(echo:*)",
+      "Bash(python:*)"
     ],
     "deny": [],
     "ask": []

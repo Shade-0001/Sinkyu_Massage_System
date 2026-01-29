@@ -416,6 +416,40 @@ protected function fillPatientBirthday(Fpdi $pdf, $clinicUser): void
 }
 
 /**
+ * 業務上･外･第三者行為の有無
+ */
+protected function fillWorkScopeType(Fpdi $pdf): void
+{
+  // サンプルデータモードまたは座標設定からwork_scope_typeを取得
+  $workScopeTypeKey = null;
+
+  if ($this->sampleDataMode && isset($this->customSampleData['work_scope_type'])) {
+    // customSampleDataから判定
+    $workScopeType = $this->customSampleData['work_scope_type'];
+    if ($workScopeType === '業務上') {
+      $workScopeTypeKey = 'work_scope_type_1';
+    } elseif ($workScopeType === '第三者行為') {
+      $workScopeTypeKey = 'work_scope_type_2';
+    } elseif ($workScopeType === 'その他') {
+      $workScopeTypeKey = 'work_scope_type_3';
+    }
+  } else {
+    // isSelectedフラグから判定
+    if (isset($this->coordinates['work_scope_type_1']['isSelected']) && $this->coordinates['work_scope_type_1']['isSelected']) {
+      $workScopeTypeKey = 'work_scope_type_1';
+    } elseif (isset($this->coordinates['work_scope_type_2']['isSelected']) && $this->coordinates['work_scope_type_2']['isSelected']) {
+      $workScopeTypeKey = 'work_scope_type_2';
+    } elseif (isset($this->coordinates['work_scope_type_3']['isSelected']) && $this->coordinates['work_scope_type_3']['isSelected']) {
+      $workScopeTypeKey = 'work_scope_type_3';
+    }
+  }
+
+  if ($workScopeTypeKey) {
+    $this->drawEllipseByKey($pdf, $workScopeTypeKey);
+  }
+}
+
+/**
  * 発症情報
  */
 protected function fillOnsetInfo(Fpdi $pdf, $consent): void
@@ -493,19 +527,13 @@ protected function fillOnsetInfo(Fpdi $pdf, $consent): void
 
       // === 発病負傷の原因･経過 ===
       if ($this->sampleDataMode && $this->customSampleData) {
-        // サンプルデータモード：customSampleDataから取得
-        $conditionId = $this->customSampleData['condition'] ?? '';
+        // サンプルデータモード：customSampleDataから直接取得（文字列）
+        $conditionText = $this->customSampleData['condition'] ?? '';
 
-        if ($conditionId) {
-          // IDから名称を取得
-          $condition = \App\Models\Condition::find($conditionId);
-          $conditionName = $condition ? $condition->condition_name : '';
-
-          if ($conditionName) {
-            $pdf->SetFontSize($this->coord('condition', 'fontSize'));
-            $this->drawTextByKey($pdf, 'condition', $conditionName);
-            $pdf->SetFontSize(10);
-          }
+        if ($conditionText) {
+          $pdf->SetFontSize($this->coord('condition', 'fontSize'));
+          $this->drawTextByKey($pdf, 'condition', $conditionText);
+          $pdf->SetFontSize(10);
         }
       } elseif ($consent && isset($consent->condition) && $consent->condition) {
         // 通常モード：実データから取得
@@ -1603,9 +1631,11 @@ protected function fillRealDataModeFields(Fpdi $pdf, array $data, $insurance, $c
           $this->drawTextByKey($pdf, 'agent_address', (string)$agentAddress);
         }
 
-        if ($this->hasCoord('agent_name') && isset($clinicInfo->clinic_name)) {
+        // 代理人氏名: 開設者氏名（owner_last_name + owner_first_name）を使用
+        if ($this->hasCoord('agent_name') && isset($clinicInfo->owner_last_name) && isset($clinicInfo->owner_first_name)) {
+          $agentName = $clinicInfo->owner_last_name . ' ' . $clinicInfo->owner_first_name;
           $pdf->SetFontSize($this->coord('agent_name', 'fontSize'));
-          $this->drawTextByKey($pdf, 'agent_name', (string)$clinicInfo->clinic_name);
+          $this->drawTextByKey($pdf, 'agent_name', trim($agentName));
         }
       }
 

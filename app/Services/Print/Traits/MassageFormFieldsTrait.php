@@ -649,22 +649,67 @@ trait MassageFormFieldsTrait
     }
 
     // === 一部負担金（楕円） ===
-    if ($insurance && isset($insurance->expenses_borne_ratio)) {
-      // 表示ラベルを数値に変換（サンプルデータ対応）
-      $ratioValue = (string)$insurance->expenses_borne_ratio;
-      if ($ratioValue === '１割') $ratioValue = '10';
-      if ($ratioValue === '２割') $ratioValue = '20';
-      if ($ratioValue === '３割') $ratioValue = '30';
+    $expensesBorneRatioKey = null;
 
-      $expensesBorneRatioMap = [
-        '10' => 'expenses_borne_ratio_10',
-        '20' => 'expenses_borne_ratio_20',
-        '30' => 'expenses_borne_ratio_30',
-      ];
-      $key = $expensesBorneRatioMap[$ratioValue] ?? null;
-      if ($key) {
-        $this->drawEllipseByKey($pdf, $key);
+    \Log::info('[一部負担金] 処理開始', [
+      'expenses_borne_ratio_id' => $insurance->expenses_borne_ratio_id ?? 'なし',
+      'expenses_borne_ratio' => $insurance->expenses_borne_ratio ?? 'なし',
+      'sampleDataMode' => $this->sampleDataMode ?? false,
+      'isSelected_10' => isset($this->coordinates['expenses_borne_ratio_10']['isSelected']) ? $this->coordinates['expenses_borne_ratio_10']['isSelected'] : 'なし',
+      'isSelected_20' => isset($this->coordinates['expenses_borne_ratio_20']['isSelected']) ? $this->coordinates['expenses_borne_ratio_20']['isSelected'] : 'なし',
+      'isSelected_30' => isset($this->coordinates['expenses_borne_ratio_30']['isSelected']) ? $this->coordinates['expenses_borne_ratio_30']['isSelected'] : 'なし',
+    ]);
+
+    // 優先順位1: isSelectedフラグをチェック（座標調整UIでの選択状態）
+    if (isset($this->coordinates['expenses_borne_ratio_10']['isSelected']) && $this->coordinates['expenses_borne_ratio_10']['isSelected']) {
+      $expensesBorneRatioKey = 'expenses_borne_ratio_10';
+      \Log::info('[一部負担金] isSelectedフラグ（1割）を検出');
+    } elseif (isset($this->coordinates['expenses_borne_ratio_20']['isSelected']) && $this->coordinates['expenses_borne_ratio_20']['isSelected']) {
+      $expensesBorneRatioKey = 'expenses_borne_ratio_20';
+      \Log::info('[一部負担金] isSelectedフラグ（2割）を検出');
+    } elseif (isset($this->coordinates['expenses_borne_ratio_30']['isSelected']) && $this->coordinates['expenses_borne_ratio_30']['isSelected']) {
+      $expensesBorneRatioKey = 'expenses_borne_ratio_30';
+      \Log::info('[一部負担金] isSelectedフラグ（3割）を検出');
+    }
+    // 優先順位2: 保険データから取得（ノーマルモード）
+    elseif ($insurance) {
+      // expenses_borne_ratio_idが存在する場合（推奨）
+      if (isset($insurance->expenses_borne_ratio_id) && $insurance->expenses_borne_ratio_id) {
+        // expenses_borne_ratios: id=1→1割, id=2→2割, id=3→3割
+        $expensesBorneRatioIdMap = [
+          1 => 'expenses_borne_ratio_10',
+          2 => 'expenses_borne_ratio_20',
+          3 => 'expenses_borne_ratio_30',
+        ];
+        $expensesBorneRatioKey = $expensesBorneRatioIdMap[$insurance->expenses_borne_ratio_id] ?? null;
+        \Log::info('[一部負担金] expenses_borne_ratio_idから取得', ['id' => $insurance->expenses_borne_ratio_id, 'key' => $expensesBorneRatioKey]);
       }
+      // expenses_borne_ratioから判定（フォールバック：サンプルデータまたはJOINで取得された文字列）
+      elseif (isset($insurance->expenses_borne_ratio) && $insurance->expenses_borne_ratio) {
+        $ratioValue = (string)$insurance->expenses_borne_ratio;
+        \Log::info('[一部負担金] expenses_borne_ratioから取得', ['original' => $ratioValue]);
+
+        // 「１割」「1割」→10、「２割」「2割」→20、「３割」「3割」→30
+        if ($ratioValue === '１割' || $ratioValue === '1割') $ratioValue = '10';
+        elseif ($ratioValue === '２割' || $ratioValue === '2割') $ratioValue = '20';
+        elseif ($ratioValue === '３割' || $ratioValue === '3割') $ratioValue = '30';
+
+        $expensesBorneRatioMap = [
+          '10' => 'expenses_borne_ratio_10',
+          '20' => 'expenses_borne_ratio_20',
+          '30' => 'expenses_borne_ratio_30',
+        ];
+        $expensesBorneRatioKey = $expensesBorneRatioMap[$ratioValue] ?? null;
+        \Log::info('[一部負担金] 変換後', ['converted' => $ratioValue, 'key' => $expensesBorneRatioKey]);
+      }
+    }
+
+    // 楕円描画
+    if ($expensesBorneRatioKey) {
+      \Log::info('[一部負担金] 楕円描画実行', ['key' => $expensesBorneRatioKey]);
+      $this->drawEllipseByKey($pdf, $expensesBorneRatioKey);
+    } else {
+      \Log::warning('[一部負担金] 描画キーが決定されませんでした');
     }
 
     // === 保険者番号 ===
@@ -674,26 +719,30 @@ trait MassageFormFieldsTrait
       $pdf->SetFontSize(10);
     }
 
-    // === 被保険者証記号番号 ===
-    if ($insurance) {
-      $insuranceType1Id = $insurance->insurance_type_1_id ?? null;
-      $displayText = '';
-
-      if ($insuranceType1Id == 1) {
-        $symbol = $insurance->code_number ?? '';
-        $number = $insurance->account_number ?? '';
-        if ($symbol || $number) {
-          $displayText = trim(($symbol ?: '') . ($symbol && $number ? '・' : '') . ($number ?: ''));
-        }
-      } else {
-        $displayText = $insurance->insured_number ?? '';
-      }
-
-      if ($displayText) {
-        $pdf->SetFontSize($this->coord('insurance_symbol', 'fontSize'));
-        $this->drawTextByKey($pdf, 'insurance_symbol', (string)$displayText);
+    // === 被保険者記号 ===
+    if ($this->sampleDataMode && isset($this->customSampleData['insurance_symbol_code'])) {
+      if ($this->customSampleData['insurance_symbol_code']) {
+        $pdf->SetFontSize($this->coord('insurance_symbol_code', 'fontSize'));
+        $this->drawTextByKey($pdf, 'insurance_symbol_code', (string)$this->customSampleData['insurance_symbol_code']);
         $pdf->SetFontSize(10);
       }
+    } elseif ($insurance && isset($insurance->code_number) && $insurance->code_number) {
+      $pdf->SetFontSize($this->coord('insurance_symbol_code', 'fontSize'));
+      $this->drawTextByKey($pdf, 'insurance_symbol_code', (string)$insurance->code_number);
+      $pdf->SetFontSize(10);
+    }
+
+    // === 被保険者番号 ===
+    if ($this->sampleDataMode && isset($this->customSampleData['insurance_symbol_number'])) {
+      if ($this->customSampleData['insurance_symbol_number']) {
+        $pdf->SetFontSize($this->coord('insurance_symbol_number', 'fontSize'));
+        $this->drawTextByKey($pdf, 'insurance_symbol_number', (string)$this->customSampleData['insurance_symbol_number']);
+        $pdf->SetFontSize(10);
+      }
+    } elseif ($insurance && isset($insurance->account_number) && $insurance->account_number) {
+      $pdf->SetFontSize($this->coord('insurance_symbol_number', 'fontSize'));
+      $this->drawTextByKey($pdf, 'insurance_symbol_number', (string)$insurance->account_number);
+      $pdf->SetFontSize(10);
     }
   }
   /**
@@ -2214,11 +2263,14 @@ trait MassageFormFieldsTrait
         $pdf->SetFontSize(10);
       }
     } else {
-      $agentName = $clinicInfo->manager ?? '';
-      if ($this->hasCoord('agent_name') && $agentName) {
-        $pdf->SetFontSize($this->coord('agent_name', 'fontSize'));
-        $this->drawTextByKey($pdf, 'agent_name', (string)$agentName);
-        $pdf->SetFontSize(10);
+      // ノーマルモード: 開設者氏名（owner_last_name + owner_first_name）を使用
+      if (isset($clinicInfo->owner_last_name) && isset($clinicInfo->owner_first_name)) {
+        $agentName = $clinicInfo->owner_last_name . ' ' . $clinicInfo->owner_first_name;
+        if ($this->hasCoord('agent_name')) {
+          $pdf->SetFontSize($this->coord('agent_name', 'fontSize'));
+          $this->drawTextByKey($pdf, 'agent_name', trim($agentName));
+          $pdf->SetFontSize(10);
+        }
       }
     }
 
@@ -2230,12 +2282,9 @@ trait MassageFormFieldsTrait
         $pdf->SetFontSize(10);
       }
     } else {
-      $furigana = $clinicInfo->manager_furigana ?? '';
-      if ($this->hasCoord('agent_name_furigana') && $furigana) {
-        $pdf->SetFontSize($this->coord('agent_name_furigana', 'fontSize'));
-        $this->drawTextByKey($pdf, 'agent_name_furigana', (string)$furigana);
-        $pdf->SetFontSize(10);
-      }
+      // ノーマルモード: clinic_infoテーブルにはフリガナフィールドがないため、
+      // 代理人氏名フリガナは描画しない（座標調整UI用に座標のみ定義）
+      // 必要な場合は、将来的にclinic_infoテーブルにフリガナカラムを追加
     }
 
     // 代理人電話番号

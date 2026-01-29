@@ -1015,5 +1015,15 @@
         "dayNumber": 31,
         "field": "treatment_days_31",
         "label": "施術日（31日）"
+    },
+    "agent_name": {
+        "x": 0,
+        "y": 215.5,
+        "textAlign": "left",
+        "field": "agent_name",
+        "label": "代理人氏名",
+        "type": "text",
+        "fontSize": 32,
+        "letterSpacing": 0
     }
 }

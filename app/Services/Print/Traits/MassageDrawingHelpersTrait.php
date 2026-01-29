@@ -102,6 +102,7 @@ trait MassageDrawingHelpersTrait
   {
     // キーが存在しない場合は何もしない
     if (!$this->hasCoord($key)) {
+      \Log::warning("楕円描画スキップ：座標なし", ['key' => $key]);
       return;
     }
 
@@ -113,12 +114,13 @@ trait MassageDrawingHelpersTrait
     $lineWidth = $this->coordinates[$key]['lineWidth'] ?? 0.5;
 
     // デバッグ：楕円描画成功ログ
-    \Log::info("楕円描画", [
+    \Log::info("楕円描画実行", [
       'key' => $key,
       'x' => $x,
       'y' => $y,
       'width' => $ellipseWidth,
-      'height' => $ellipseHeight
+      'height' => $ellipseHeight,
+      'coordinates' => $this->coordinates[$key] ?? 'なし'
     ]);
 
     $pdf->SetDrawColor(0, 0, 0);

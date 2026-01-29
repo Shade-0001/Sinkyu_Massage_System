@@ -1343,9 +1343,11 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
         $pdf->SetFontSize($this->coord('agent_address', 'fontSize'));
         $this->drawTextByKey($pdf, 'agent_address', (string)$agentAddress);
       }
-      if ($this->hasCoord('agent_name') && isset($clinicInfo->clinic_name)) {
+      // 代理人氏名: 開設者氏名（owner_last_name + owner_first_name）を使用
+      if ($this->hasCoord('agent_name') && isset($clinicInfo->owner_last_name) && isset($clinicInfo->owner_first_name)) {
+        $agentName = $clinicInfo->owner_last_name . ' ' . $clinicInfo->owner_first_name;
         $pdf->SetFontSize($this->coord('agent_name', 'fontSize'));
-        $this->drawTextByKey($pdf, 'agent_name', (string)$clinicInfo->clinic_name);
+        $this->drawTextByKey($pdf, 'agent_name', trim($agentName));
       }
     }
     // === 委任欄（実データモード） ===

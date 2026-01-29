@@ -171,6 +171,16 @@ function renderFieldSettings() {
         const groupFields = Object.entries(coordinates)
           .filter(([k, v]) => {
             if (v.compositeGroup !== field.compositeGroup) return false;
+
+            // therapy_benefit_acupunctureのbirthday_full_dateグループでは親フィールドのみ除外
+            if (currentPdfType === 'therapy_benefit_acupuncture' && field.compositeGroup === 'birthday_full_date') {
+              // 親フィールドを除外
+              if (k === 'birthday_full_date') {
+                return false;
+              }
+              return true;
+            }
+
             // hidden属性を持つフィールドは除外（ただし特定のPDFタイプ・グループでは例外）
             const mapping = sampleDataFieldMapping[k];
             if (mapping?.hidden) {
@@ -248,7 +258,11 @@ function renderFieldSettings() {
         const options = groupFields.map(([k, v]) => {
           const mapping = sampleDataFieldMapping[k];
           let optionLabel = v.label;
-          if (mapping) {
+
+          // 座標ファイルのoptionLabelを最優先
+          if (v.optionLabel) {
+            optionLabel = v.optionLabel;
+          } else if (mapping) {
             if (mapping.optionLabel) {
               optionLabel = mapping.optionLabel;
             } else if (mapping.label) {
@@ -258,12 +272,11 @@ function renderFieldSettings() {
           return `<option value="${k}" ${selectedKey === k ? 'selected' : ''}>${optionLabel}</option>`;
         }).join('');
 
-        div.innerHTML = `
-          <h6 class="field-header" onclick="toggleField('${field.compositeGroup}')" style="cursor: pointer; user-select: none;">
-            <span class="toggle-icon" id="toggle-${field.compositeGroup}">▶</span> ${groupLabel}
-          </h6>
+        // サンプルモード判定
+        const showSampleData = document.getElementById('show-sample-data')?.checked;
 
-          <div class="field-controls" id="controls-${field.compositeGroup}">
+        // セレクトボックスHTMLを条件付きで生成
+        const selectorHtml = showSampleData ? `
             <div class="coordinate-input">
               <label>要素選択:</label>
               <select onchange="updateCompositeGroupSelection('${field.compositeGroup}', this.value)"
@@ -272,6 +285,15 @@ function renderFieldSettings() {
                 ${options}
               </select>
             </div>
+        ` : '';
+
+        div.innerHTML = `
+          <h6 class="field-header" onclick="toggleField('${field.compositeGroup}')" style="cursor: pointer; user-select: none;">
+            <span class="toggle-icon" id="toggle-${field.compositeGroup}">▶</span> ${groupLabel}
+          </h6>
+
+          <div class="field-controls" id="controls-${field.compositeGroup}">
+            ${selectorHtml}
 
             <div id="compositegroup-fields-${field.compositeGroup}">
               <!-- 選択された要素の詳細設定をここに表示 -->
@@ -327,12 +349,11 @@ function renderFieldSettings() {
           return `<option value="${k}" ${selectedKey === k ? 'selected' : ''}>${v.optionLabel || v.label}</option>`;
         }).join('');
 
-        div.innerHTML = `
-          <h6 class="field-header" onclick="toggleField('${field.radioGroup}')" style="cursor: pointer; user-select: none;">
-            <span class="toggle-icon" id="toggle-${field.radioGroup}">▶</span> ${groupLabel}
-          </h6>
+        // サンプルモード判定
+        const showSampleData = document.getElementById('show-sample-data')?.checked;
 
-          <div class="field-controls" id="controls-${field.radioGroup}">
+        // セレクトボックスHTMLを条件付きで生成
+        const selectorHtml = showSampleData ? `
             <div class="coordinate-input">
               <label>選択:</label>
               <select onchange="updateRadioGroupSelection('${field.radioGroup}', this.value)"
@@ -341,6 +362,15 @@ function renderFieldSettings() {
                 ${options}
               </select>
             </div>
+        ` : '';
+
+        div.innerHTML = `
+          <h6 class="field-header" onclick="toggleField('${field.radioGroup}')" style="cursor: pointer; user-select: none;">
+            <span class="toggle-icon" id="toggle-${field.radioGroup}">▶</span> ${groupLabel}
+          </h6>
+
+          <div class="field-controls" id="controls-${field.radioGroup}">
+            ${selectorHtml}
 
             <div id="radiogroup-fields-${field.radioGroup}">
               <!-- 選択されたオプションの詳細設定をここに表示 -->
@@ -1011,16 +1041,6 @@ function updateCompositeGroupSelection(groupName, selectedKey) {
   detailsDiv.style.borderTop = '1px solid #ddd';
   detailsDiv.style.marginTop = '10px';
   detailsDiv.style.paddingTop = '10px';
-
-  // 選択されたフィールドのマッピング情報を取得
-  const mapping = sampleDataFieldMapping[selectedKey];
-  const fieldLabel = mapping ? (mapping.optionLabel || mapping.label) : selectedField.label;
-
-  // フィールド名表示
-  const labelDiv = document.createElement('div');
-  labelDiv.style.marginBottom = '10px';
-  labelDiv.innerHTML = `<strong>調整対象: ${fieldLabel}</strong>`;
-  detailsDiv.appendChild(labelDiv);
 
   // X座標
   const xDiv = document.createElement('div');

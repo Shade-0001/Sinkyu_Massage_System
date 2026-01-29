@@ -56,6 +56,32 @@ trait AcupunctureDrawingHelpersTrait
   }
 
   /**
+   * 楕円を描画（ellipseX/ellipseY対応）
+   *
+   * @param Fpdi $pdf PDFオブジェクト
+   * @param string $key 座標キー
+   * @return void
+   */
+  protected function drawEllipseByKey(Fpdi $pdf, string $key): void
+  {
+    // キーが存在しない場合は何もしない
+    if (!$this->hasCoord($key)) {
+      return;
+    }
+
+    // ellipseX/ellipseY を優先、存在しない場合は x/y を使用
+    $x = $this->coordinates[$key]['ellipseX'] ?? $this->coordinates[$key]['x'] ?? 0;
+    $y = $this->coordinates[$key]['ellipseY'] ?? $this->coordinates[$key]['y'] ?? 0;
+    $ellipseWidth = $this->coordinates[$key]['ellipseWidth'] ?? 2.5;
+    $ellipseHeight = $this->coordinates[$key]['ellipseHeight'] ?? 2.5;
+    $lineWidth = $this->coordinates[$key]['lineWidth'] ?? 0.5;
+
+    $pdf->SetDrawColor(0, 0, 0);
+    $pdf->SetLineWidth($lineWidth);
+    $pdf->Ellipse($x, $y, $ellipseWidth, $ellipseHeight, 0, 0, 360, 'D');
+  }
+
+  /**
    * デバッグ用グリッド表示
    *
    * @param Fpdi $pdf PDFオブジェクト

@@ -41,8 +41,8 @@ trait MassageSampleDataTrait
       'insurance_type_1' => $custom['insurance_type_1'] ?? '社･国･組',
       'insurance_type_3' => $custom['insurance_type_3'] ?? '本外',
       'expenses_borne_ratio' => $custom['expenses_borne_ratio'] ?? '３割',
-      'code_number' => $custom['insurance_symbol'] ?? '54321',
-      'account_number' => '09876',
+      'code_number' => $custom['insurance_symbol_code'] ?? '12345',
+      'account_number' => $custom['insurance_symbol_number'] ?? '67890',
       'insured_number' => $custom['insurance_number'] ?? '0987654321',
       'relationship' => $custom['relationship'] ?? '本人',
     ];
