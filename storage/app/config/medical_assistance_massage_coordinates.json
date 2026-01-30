@@ -372,8 +372,8 @@
         "x": 44,
         "y": 175.6,
         "type": "calendar",
-        "circleRadius": 2.6,
-        "doubleCircleInnerRadius": 1.9,
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
         "circleSpacing": 4.91,
         "field": "treatment_days",
         "label": "施術日"

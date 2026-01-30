@@ -415,10 +415,37 @@ function renderFieldSettings() {
           <h6 class="field-header" onclick="toggleField('treatment_days_individual')" style="cursor: pointer; user-select: none;">
             <span class="toggle-icon" id="toggle-treatment_days_individual">▶</span> 施術日（個別調整）
           </h6>
-          <div class="field-controls" id="controls-treatment_days_individual">
+          <div class="field-controls" id="controls-treatment_days_individual">`;
+
+        // サンプルモード時のみ：楕円描画/非描画の切り替え用セレクトボックス
+        if (showSampleData) {
+          selectHtml += `
+            <div style="background-color: #f0f8ff; padding: 10px; border-radius: 4px; margin-bottom: 15px;">
+              <label style="font-weight: bold; margin-bottom: 5px; display: block;">楕円の描画/非描画切り替え:</label>
+              <div style="margin-bottom: 8px;">
+                <button class="btn btn-sm btn-primary" onclick="toggleAllTreatmentDays('treatment_days', true)">すべて選択</button>
+                <button class="btn btn-sm btn-secondary" onclick="toggleAllTreatmentDays('treatment_days', false)" style="margin-left: 5px;">すべて解除</button>
+              </div>
+              <select id="treatment-days-display-toggle" multiple size="10" class="form-control" style="width: 100%; font-size: 0.9em;" onchange="updateTreatmentDaysArrayFromSelector()">`;
+
+          treatmentDaysArray.forEach(day => {
+            const selected = customSampleData.treatment_days_array?.includes(day) ? 'selected' : '';
+            selectHtml += `<option value="${day}" ${selected}>${day}日</option>`;
+          });
+
+          selectHtml += `
+              </select>
+              <small class="text-muted" style="display: block; margin-top: 5px;">※選択された日のみ楕円が描画されます</small>
+            </div>`;
+        }
+
+        // 個別調整用ドロップダウン（常に表示）
+        selectHtml += `
             <div style="margin-bottom: 10px;">
-              <label>日付を選択:</label>
-              <select id="treatment-day-selector" class="form-control form-control-sm" style="width: auto; display: inline-block; margin-left: 10px;">`;
+              <label style="font-weight: bold;">楕円の個別調整:</label>
+              <div style="margin-top: 5px;">
+                <label>日付を選択:</label>
+                <select id="treatment-day-selector" class="form-control form-control-sm" style="width: auto; display: inline-block; margin-left: 10px;">`;
 
         if (treatmentDaysArray.length === 0) {
           selectHtml += `<option value="">-- データなし（利用者を選択してください） --</option>`;
@@ -430,7 +457,8 @@ function renderFieldSettings() {
         }
 
         selectHtml += `
-              </select>
+                </select>
+              </div>
             </div>
             <div id="selected-day-controls" style="display: none;">
               <!-- 選択された日付の調整コントロールがここに表示される -->
@@ -441,7 +469,7 @@ function renderFieldSettings() {
         selectDiv.innerHTML = selectHtml;
         categoryContent.appendChild(selectDiv);
 
-        // セレクトボックスの変更イベントを設定
+        // 個別調整用ドロップダウンの変更イベントを設定（常に）
         setTimeout(() => {
           const selector = document.getElementById('treatment-day-selector');
           if (selector) {
@@ -677,12 +705,38 @@ function toggleCategory(categoryId) {
 
 // 単一フィールドのHTML生成（既存のロジックから抽出）
 function renderSingleFieldHTML(key, field) {
+  // サンプルモード判定
+  const showSampleData = document.getElementById('show-sample-data')?.checked;
+
+  // calendar型フィールドの場合、サンプルモード時に日付選択UIを追加
+  // ※ medical_assistance系のPDFは専用UIで処理されるため、ここでは他のPDFタイプ用のフォールバック
+  let calendarSampleUI = '';
+  if (field.type === 'calendar' && showSampleData) {
+    calendarSampleUI = `
+    <div class="coordinate-input" style="background-color: #f0f8ff; padding: 10px; border-radius: 4px; margin-bottom: 10px;">
+      <label style="font-weight: bold; margin-bottom: 5px;">施術日選択（個別調整）:</label>
+      <div style="margin-bottom: 8px;">
+        <button class="btn btn-sm btn-primary" onclick="toggleAllTreatmentDays('${key}', true)">すべて選択</button>
+        <button class="btn btn-sm btn-secondary" onclick="toggleAllTreatmentDays('${key}', false)" style="margin-left: 5px;">すべて解除</button>
+      </div>
+      <select id="treatment-days-selector-${key}" multiple size="10" class="form-control" style="width: 100%; font-size: 0.9em;" onchange="updateTreatmentDaysArray('${key}')">
+        ${Array.from({length: 31}, (_, i) => {
+          const day = i + 1;
+          const selected = customSampleData.treatment_days_array?.includes(day) ? 'selected' : '';
+          return `<option value="${day}" ${selected}>${day}日</option>`;
+        }).join('')}
+      </select>
+    </div>
+  `;
+  }
+
   return `
     <h6 class="field-header" onclick="toggleField('${key}')" style="cursor: pointer; user-select: none;">
       <span class="toggle-icon" id="toggle-${key}">▶</span> ${field.label || key}
     </h6>
 
     <div class="field-controls" id="controls-${key}">
+      ${calendarSampleUI}
       ${field.ellipseX !== undefined ? `
       <div class="coordinate-input">
         <label>X座標:</label>
@@ -907,7 +961,7 @@ function renderSingleFieldHTML(key, field) {
 
       ${field.circleRadius !== undefined ? `
       <div class="coordinate-input">
-        <label>円のサイズ:</label>
+        <label>内円サイズ:</label>
         <button class="btn btn-sm btn-outline-secondary btn-adjust"
                 onmousedown="startLongPress('${key}', 'circleRadius', -0.1)"
                 onmouseup="stopLongPress()"
@@ -928,7 +982,7 @@ function renderSingleFieldHTML(key, field) {
 
       ${field.doubleCircleInnerRadius !== undefined ? `
       <div class="coordinate-input">
-        <label>二重丸の内円のサイズ:</label>
+        <label>外円サイズ:</label>
         <button class="btn btn-sm btn-outline-secondary btn-adjust"
                 onmousedown="startLongPress('${key}', 'doubleCircleInnerRadius', -0.1)"
                 onmouseup="stopLongPress()"
@@ -1902,7 +1956,7 @@ function updateRadioGroupSelection(groupName, selectedKey) {
     const crInput = document.createElement('input');
     crInput.type = 'number';
     crInput.step = '0.1';
-    crInput.value = selectedField.circleRadius || 1.2;
+    crInput.value = selectedField.circleRadius || 1.8;
     crInput.className = 'form-control form-control-sm';
     crInput.style.width = '80px';
     crInput.style.display = 'inline-block';
@@ -2016,11 +2070,11 @@ function updateRadioGroupSelection(groupName, selectedKey) {
     detailsDiv.appendChild(ehDiv);
   }
 
-  // 円のサイズ（calendarタイプ用）
+  // 内円サイズ（calendarタイプ用）
   if (selectedField.type === 'calendar' && selectedField.circleRadius !== undefined) {
     const crDiv = document.createElement('div');
     crDiv.className = 'coordinate-input';
-    crDiv.innerHTML = `<label>円のサイズ:</label>`;
+    crDiv.innerHTML = `<label>内円サイズ:</label>`;
     
     const crBtnMinus = document.createElement('button');
     crBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
@@ -2034,7 +2088,7 @@ function updateRadioGroupSelection(groupName, selectedKey) {
     const crInput = document.createElement('input');
     crInput.type = 'number';
     crInput.step = '0.1';
-    crInput.value = selectedField.circleRadius || 1.2;
+    crInput.value = selectedField.circleRadius || 1.8;
     crInput.className = 'form-control form-control-sm';
     crInput.style.width = '80px';
     crInput.style.display = 'inline-block';
@@ -2060,11 +2114,11 @@ function updateRadioGroupSelection(groupName, selectedKey) {
     detailsDiv.appendChild(crDiv);
   }
 
-  // 二重丸の内円のサイズ（calendarタイプ用）
+  // 外円サイズ（calendarタイプ用）
   if (selectedField.type === 'calendar' && selectedField.doubleCircleInnerRadius !== undefined) {
     const dcirDiv = document.createElement('div');
     dcirDiv.className = 'coordinate-input';
-    dcirDiv.innerHTML = `<label>二重丸の内円のサイズ:</label>`;
+    dcirDiv.innerHTML = `<label>外円サイズ:</label>`;
     
     const dcirBtnMinus = document.createElement('button');
     dcirBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
@@ -2078,7 +2132,7 @@ function updateRadioGroupSelection(groupName, selectedKey) {
     const dcirInput = document.createElement('input');
     dcirInput.type = 'number';
     dcirInput.step = '0.1';
-    dcirInput.value = selectedField.doubleCircleInnerRadius || 0.4;
+    dcirInput.value = selectedField.doubleCircleInnerRadius || 2.5;
     dcirInput.className = 'form-control form-control-sm';
     dcirInput.style.width = '80px';
     dcirInput.style.display = 'inline-block';
@@ -2470,7 +2524,7 @@ function showTreatmentDayControls(day) {
       y: baseField.y,
       type: 'treatment_day_circle',
       circleRadius: baseField.circleRadius || 2,
-      doubleCircleInnerRadius: baseField.doubleCircleInnerRadius || 0.8,
+      doubleCircleInnerRadius: baseField.doubleCircleInnerRadius || 2.5,
       dayNumber: parseInt(day),
       field: fieldKey,
       label: `施術日（${day}日）`
@@ -2528,9 +2582,9 @@ function showTreatmentDayControls(day) {
               ontouchend="stopLongPress()">↓</button>
     </div>
 
-    <!-- 円のサイズ -->
+    <!-- 内円サイズ -->
     <div class="coordinate-input">
-      <label>円のサイズ:</label>
+      <label>内円サイズ:</label>
       <button class="btn btn-sm btn-outline-secondary btn-adjust"
               onmousedown="startLongPress('${fieldKey}', 'circleRadius', -0.1)"
               onmouseup="stopLongPress()"
@@ -2549,9 +2603,9 @@ function showTreatmentDayControls(day) {
               ontouchend="stopLongPress()">+</button>
     </div>
 
-    <!-- 二重丸の内円のサイズ -->
+    <!-- 外円サイズ -->
     <div class="coordinate-input">
-      <label>二重丸の内円のサイズ:</label>
+      <label>外円サイズ:</label>
       <button class="btn btn-sm btn-outline-secondary btn-adjust"
               onmousedown="startLongPress('${fieldKey}', 'doubleCircleInnerRadius', -0.1)"
               onmouseup="stopLongPress()"
@@ -2573,4 +2627,62 @@ function showTreatmentDayControls(day) {
 
   controlsDiv.innerHTML = html;
   controlsDiv.style.display = 'block';
+}
+
+// 施術日セレクトボックスの全選択/全解除（描画/非描画切り替え用）
+function toggleAllTreatmentDays(fieldKey, selectAll) {
+  // medical_assistance用の描画切り替えセレクトボックス
+  let selector = document.getElementById('treatment-days-display-toggle');
+
+  // フォールバック：他のPDFタイプ用
+  if (!selector) {
+    selector = document.getElementById(`treatment-days-selector-${fieldKey}`);
+  }
+
+  if (!selector) return;
+
+  for (let i = 0; i < selector.options.length; i++) {
+    selector.options[i].selected = selectAll;
+  }
+
+  // 選択状態をcustomSampleDataに反映
+  const selectedDays = Array.from(selector.selectedOptions).map(opt => parseInt(opt.value));
+  customSampleData.treatment_days_array = selectedDays;
+
+  console.log('[toggleAllTreatmentDays] すべて選択/解除実行', {
+    selectAll: selectAll,
+    selectedDays: selectedDays
+  });
+
+  // プレビュー更新
+  previewPdf();
+}
+
+// セレクトボックスの選択状態をcustomSampleDataに反映（汎用版）
+function updateTreatmentDaysArray(fieldKey) {
+  const selector = document.getElementById(`treatment-days-selector-${fieldKey}`);
+  if (!selector) return;
+
+  const selectedDays = Array.from(selector.selectedOptions).map(opt => parseInt(opt.value));
+  customSampleData.treatment_days_array = selectedDays;
+}
+
+// 施術日セレクトボックスの選択状態をcustomSampleDataに反映してプレビュー更新（medical_assistance用）
+function updateTreatmentDaysArrayFromSelector() {
+  const selector = document.getElementById('treatment-days-display-toggle');
+  if (!selector) {
+    console.error('[updateTreatmentDaysArrayFromSelector] セレクトボックスが見つからない');
+    return;
+  }
+
+  const selectedDays = Array.from(selector.selectedOptions).map(opt => parseInt(opt.value));
+  customSampleData.treatment_days_array = selectedDays;
+
+  console.log('[updateTreatmentDaysArrayFromSelector] 選択状態更新', {
+    selectedDays: selectedDays,
+    customSampleData: customSampleData
+  });
+
+  // プレビュー更新
+  previewPdf();
 }

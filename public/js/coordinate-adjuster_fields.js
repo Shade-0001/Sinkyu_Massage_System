@@ -97,7 +97,7 @@ const sampleDataFieldMapping = {
 
   // === 10. 施術月・施術日 ===
   'treatment_month': { field: 'treatment_month', label: '施術月', type: 'number' },
-  'treatment_days': { field: 'treatment_days', label: '施術日', type: 'calendar', circleRadius: 1.2, doubleCircleInnerRadius: 0.4, circleSpacing: 6.45 },
+  'treatment_days': { field: 'treatment_days', label: '施術日', type: 'calendar', circleRadius: 1.8, doubleCircleInnerRadius: 2.5, circleSpacing: 6.45 },
 
   // === 11. 施術料金（鍼灸） ===
   'fee_hari_unit': { field: 'fee_hari_unit', label: '単価', type: 'number', compositeGroup: 'fee_hari', compositeLabel: 'はり料金' },

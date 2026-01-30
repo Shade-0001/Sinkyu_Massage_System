@@ -13,20 +13,61 @@ trait MedicalAssistanceAcupunctureDrawingHelpersTrait
   {
     // デフォルト値（個別フィールドが存在しない場合のフォールバック）
     $defaultCellWidth = $this->coord('treatment_days', 'circleSpacing') ?? 6.45;
-    $defaultCircleRadius = $this->coord('treatment_days', 'circleRadius') ?? 1.2;
-    $defaultInnerRadius = $this->coord('treatment_days', 'doubleCircleInnerRadius') ?? 0.4;
+    $defaultCircleRadius = $this->coord('treatment_days', 'circleRadius') ?? 1.8;
+    $defaultInnerRadius = $this->coord('treatment_days', 'doubleCircleInnerRadius') ?? 2.5;
     $defaultX = $this->coord('treatment_days', 'x');
     $defaultY = $this->coord('treatment_days', 'y');
-    
+
+    // サンプルデータモード時の処理
+    \Log::info('[fillServiceDates] デバッグ', [
+      'sampleDataMode' => $this->sampleDataMode,
+      'treatment_days_array_exists' => isset($this->customSampleData['treatment_days_array']),
+      'treatment_days_array' => $this->customSampleData['treatment_days_array'] ?? null,
+      'customSampleData_keys' => array_keys($this->customSampleData ?? [])
+    ]);
+
+    if ($this->sampleDataMode && isset($this->customSampleData['treatment_days_array'])) {
+      $treatmentDaysArray = $this->customSampleData['treatment_days_array'];
+
+      \Log::info('[fillServiceDates] サンプルモード楕円描画開始', [
+        'treatmentDaysArray' => $treatmentDaysArray
+      ]);
+
+      foreach ($treatmentDaysArray as $day) {
+        $fieldKey = "treatment_days_{$day}";
+
+        // 個別フィールドが存在する場合はそれを使用、なければデフォルト座標から計算
+        if ($this->hasCoord($fieldKey)) {
+          $x = $this->coord($fieldKey, 'x');
+          $y = $this->coord($fieldKey, 'y');
+          $circleRadius = $this->coord($fieldKey, 'circleRadius') ?? $defaultCircleRadius;
+          $innerRadius = $this->coord($fieldKey, 'doubleCircleInnerRadius') ?? $defaultInnerRadius;
+        } else {
+          // フォールバック: デフォルト座標から計算
+          $x = $defaultX + ($day - 1) * $defaultCellWidth;
+          $y = $defaultY;
+          $circleRadius = $defaultCircleRadius;
+          $innerRadius = $defaultInnerRadius;
+        }
+
+        // サンプルモードでは通院（単純な円）を描画
+        $pdf->SetDrawColor(0, 0, 0);
+        $pdf->SetLineWidth(0.2);
+        $pdf->Ellipse($x, $y, $circleRadius, $circleRadius, 0, 0, 360, 'D');
+      }
+
+      return;
+    }
+
     // はり･きゅう版：therapy_content_id 11-16のみ描画
     $acupunctureContentIds = [11, 12, 13, 14, 15, 16];
-    
+
     foreach ($records as $record) {
       // 施術内容がはり･きゅう関連でない場合はスキップ
       if (!in_array($record->therapy_content_id, $acupunctureContentIds)) {
         continue;
       }
-      
+
       $day = (int)date('d', strtotime($record->date));
       $fieldKey = "treatment_days_{$day}";
 

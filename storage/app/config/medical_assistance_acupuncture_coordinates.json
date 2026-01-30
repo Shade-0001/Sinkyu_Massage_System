@@ -201,68 +201,68 @@
         "x": 54.5,
         "y": 158.5,
         "type": "calendar",
-        "circleRadius": 2,
-        "doubleCircleInnerRadius": 0.8,
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
         "circleSpacing": 3.9,
         "field": "treatment_days",
         "label": "施術日"
     },
     "treatment_days_1": {
-        "x": 54.5,
+        "x": 55,
         "y": 158.5,
         "type": "treatment_day_circle",
-        "circleRadius": 2,
-        "doubleCircleInnerRadius": 0.8,
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
         "dayNumber": 1,
         "field": "treatment_days_1",
         "label": "施術日（1日）"
     },
     "treatment_days_5": {
-        "x": 70.1,
+        "x": 69.1,
         "y": 158.5,
         "type": "treatment_day_circle",
-        "circleRadius": 2,
-        "doubleCircleInnerRadius": 0.8,
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
         "dayNumber": 5,
         "field": "treatment_days_5",
         "label": "施術日（5日）"
     },
     "treatment_days_10": {
-        "x": 87.6,
+        "x": 87.7,
         "y": 158.5,
         "type": "treatment_day_circle",
-        "circleRadius": 2.5,
-        "doubleCircleInnerRadius": 0.8,
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
         "dayNumber": 10,
         "field": "treatment_days_10",
         "label": "施術日（10日）"
     },
     "treatment_days_15": {
-        "x": 109.1,
+        "x": 112.1,
         "y": 158.5,
         "type": "treatment_day_circle",
-        "circleRadius": 2,
-        "doubleCircleInnerRadius": 0.8,
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
         "dayNumber": 15,
         "field": "treatment_days_15",
         "label": "施術日（15日）"
     },
     "treatment_days_20": {
-        "x": 128.6,
+        "x": 136.6,
         "y": 158.5,
         "type": "treatment_day_circle",
-        "circleRadius": 2,
-        "doubleCircleInnerRadius": 0.8,
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
         "dayNumber": 20,
         "field": "treatment_days_20",
         "label": "施術日（20日）"
     },
     "treatment_days_25": {
-        "x": 148.1,
+        "x": 161.6,
         "y": 158.5,
         "type": "treatment_day_circle",
-        "circleRadius": 2,
-        "doubleCircleInnerRadius": 0.8,
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
         "dayNumber": 25,
         "field": "treatment_days_25",
         "label": "施術日（25日）"
@@ -350,24 +350,24 @@
         "label": "電話番号"
     },
     "locality_code": {
-        "x": 47.5,
+        "x": 45.2,
         "y": 25,
         "textAlign": "left",
         "field": "locality_code",
         "label": "区市町村番号",
         "type": "text",
         "fontSize": 14,
-        "letterSpacing": 4.1
+        "letterSpacing": 7.27
     },
     "recipient_number": {
-        "x": 47.5,
+        "x": 45.2,
         "y": 31.5,
         "textAlign": "left",
         "field": "recipient_number",
         "label": "受給者番号",
         "type": "text",
         "fontSize": 14,
-        "letterSpacing": 4.1
+        "letterSpacing": 7.27
     },
     "insurance_type_3_hongai": {
         "x": 189,
@@ -450,14 +450,14 @@
         "isSelected": false
     },
     "insurer_number": {
-        "x": 140,
+        "x": 137.5,
         "y": 25,
         "textAlign": "left",
         "field": "insurer_number",
         "label": "保険者番号",
         "type": "text",
         "fontSize": 14,
-        "letterSpacing": 4.1
+        "letterSpacing": 7.27
     },
     "insurance_symbol_code": {
         "x": 47.5,
@@ -950,8 +950,8 @@
         "x": 58.4,
         "y": 158.5,
         "type": "treatment_day_circle",
-        "circleRadius": 2.5,
-        "doubleCircleInnerRadius": 0.8,
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
         "dayNumber": 2,
         "field": "treatment_days_2",
         "label": "施術日（2日）"
@@ -960,8 +960,8 @@
         "x": 132,
         "y": 158.5,
         "type": "treatment_day_circle",
-        "circleRadius": 2.5,
-        "doubleCircleInnerRadius": 0.8,
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
         "dayNumber": 19,
         "field": "treatment_days_19",
         "label": "施術日（19日）"
@@ -970,8 +970,8 @@
         "x": 146.5,
         "y": 158.5,
         "type": "treatment_day_circle",
-        "circleRadius": 2.5,
-        "doubleCircleInnerRadius": 0.8,
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
         "dayNumber": 22,
         "field": "treatment_days_22",
         "label": "施術日（22日）"
@@ -980,8 +980,8 @@
         "x": 181.5,
         "y": 158.5,
         "type": "treatment_day_circle",
-        "circleRadius": 2.5,
-        "doubleCircleInnerRadius": 1.8,
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
         "dayNumber": 29,
         "field": "treatment_days_29",
         "label": "施術日（29日）"
@@ -990,8 +990,8 @@
         "x": 97.4,
         "y": 158.5,
         "type": "treatment_day_circle",
-        "circleRadius": 2.5,
-        "doubleCircleInnerRadius": 0.8,
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
         "dayNumber": 12,
         "field": "treatment_days_12",
         "label": "施術日（12日）"
@@ -1000,8 +1000,8 @@
         "x": 186.5,
         "y": 158.5,
         "type": "treatment_day_circle",
-        "circleRadius": 2.5,
-        "doubleCircleInnerRadius": 1.8,
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
         "dayNumber": 30,
         "field": "treatment_days_30",
         "label": "施術日（30日）"
@@ -1010,20 +1010,200 @@
         "x": 191,
         "y": 158.5,
         "type": "treatment_day_circle",
-        "circleRadius": 2.5,
-        "doubleCircleInnerRadius": 1.8,
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
         "dayNumber": 31,
         "field": "treatment_days_31",
         "label": "施術日（31日）"
     },
     "agent_name": {
-        "x": 0,
-        "y": 215.5,
+        "x": 61,
+        "y": 252,
         "textAlign": "left",
         "field": "agent_name",
         "label": "代理人氏名",
         "type": "text",
-        "fontSize": 32,
+        "fontSize": 10,
         "letterSpacing": 0
+    },
+    "treatment_days_3": {
+        "x": 62,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 3,
+        "field": "treatment_days_3",
+        "label": "施術日（3日）"
+    },
+    "treatment_days_4": {
+        "x": 65.7,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 4,
+        "field": "treatment_days_4",
+        "label": "施術日（4日）"
+    },
+    "treatment_days_6": {
+        "x": 72.5,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 6,
+        "field": "treatment_days_6",
+        "label": "施術日（6日）"
+    },
+    "treatment_days_28": {
+        "x": 176.3,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 28,
+        "field": "treatment_days_28",
+        "label": "施術日（28日）"
+    },
+    "treatment_days_27": {
+        "x": 171.4,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 27,
+        "field": "treatment_days_27",
+        "label": "施術日（27日）"
+    },
+    "treatment_days_26": {
+        "x": 166.5,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 26,
+        "field": "treatment_days_26",
+        "label": "施術日（26日）"
+    },
+    "treatment_days_24": {
+        "x": 156.7,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 24,
+        "field": "treatment_days_24",
+        "label": "施術日（24日）"
+    },
+    "treatment_days_23": {
+        "x": 151.8,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 23,
+        "field": "treatment_days_23",
+        "label": "施術日（23日）"
+    },
+    "treatment_days_21": {
+        "x": 141.5,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 21,
+        "field": "treatment_days_21",
+        "label": "施術日（21日）"
+    },
+    "treatment_days_18": {
+        "x": 127,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 18,
+        "field": "treatment_days_18",
+        "label": "施術日（18日）"
+    },
+    "treatment_days_17": {
+        "x": 122,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 17,
+        "field": "treatment_days_17",
+        "label": "施術日（17日）"
+    },
+    "treatment_days_16": {
+        "x": 117.5,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 16,
+        "field": "treatment_days_16",
+        "label": "施術日（16日）"
+    },
+    "treatment_days_14": {
+        "x": 107.2,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 14,
+        "field": "treatment_days_14",
+        "label": "施術日（14日）"
+    },
+    "treatment_days_13": {
+        "x": 102.3,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 13,
+        "field": "treatment_days_13",
+        "label": "施術日（13日）"
+    },
+    "treatment_days_11": {
+        "x": 92.5,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 11,
+        "field": "treatment_days_11",
+        "label": "施術日（11日）"
+    },
+    "treatment_days_7": {
+        "x": 75.9,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 7,
+        "field": "treatment_days_7",
+        "label": "施術日（7日）"
+    },
+    "treatment_days_8": {
+        "x": 79.8,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 8,
+        "field": "treatment_days_8",
+        "label": "施術日（8日）"
+    },
+    "treatment_days_9": {
+        "x": 83.2,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 9,
+        "field": "treatment_days_9",
+        "label": "施術日（9日）"
     }
 }

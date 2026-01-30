@@ -408,6 +408,19 @@ class PrintsController extends Controller
       ->orderBy('created_at', 'desc')
       ->first();
 
+    // 年月セレクトボックス用データ生成（過去12ヶ月 + 現在月 + 未来12ヶ月）
+    $yearMonths = [];
+    $currentYearMonth = date('Y-m');
+    for ($i = -12; $i <= 12; $i++) {
+      $ym = date('Y-m', strtotime("{$i} month"));
+      $year = date('Y', strtotime($ym));
+      $month = date('n', strtotime($ym));
+      $yearMonths[] = [
+        'value' => $ym,
+        'label' => "{$year}年 {$month}月"
+      ];
+    }
+
     return view('prints.coordinate_adjuster', compact(
       'clinicUsers',
       'pdfType',
@@ -415,7 +428,9 @@ class PrintsController extends Controller
       'pdfTypes',
       'masterData',
       'treatmentFees',
-      'selectedClinicUserId'
+      'selectedClinicUserId',
+      'yearMonths',
+      'currentYearMonth'
     ));
   }
 
@@ -562,6 +577,7 @@ class PrintsController extends Controller
       }
 
       $clinicUserId = $request->input('clinic_user_id');
+      $yearMonth = $request->input('year_month', date('Y-m'));
 
       if ($clinicUserId) {
         $clinicUsers = [(int)$clinicUserId];
@@ -600,8 +616,8 @@ class PrintsController extends Controller
 
       $pdfBinary = $service->generate(
         $clinicUsers,
-        date('Y-m'),
-        date('Y-m-d'),
+        $yearMonth,
+        $yearMonth . '-01',
         ''
       );
 

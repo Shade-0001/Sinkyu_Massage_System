@@ -32,6 +32,10 @@ document.addEventListener('DOMContentLoaded', function() {
     loadTreatmentDays(); // 利用者変更時に施術日を再読み込み
     previewPdf();
   });
+  document.getElementById('year-month-select').addEventListener('change', function() {
+    loadTreatmentDays(); // 年月変更時に施術日を再読み込み
+    previewPdf();
+  });
   document.getElementById('pdf-type-select').addEventListener('change', function() {
     const newPdfType = this.value;
     // グローバル変数を更新
@@ -382,6 +386,8 @@ function previewPdf() {
   const overlay = document.getElementById('preview-overlay');
   const clinicUserSelect = document.getElementById('clinic-user-select');
   const clinicUserId = clinicUserSelect ? clinicUserSelect.value : null;
+  const yearMonthSelect = document.getElementById('year-month-select');
+  const yearMonth = yearMonthSelect ? yearMonthSelect.value : null;
   const showSampleData = document.getElementById('show-sample-data').checked;
 
   // ローディング表示
@@ -403,6 +409,7 @@ function previewPdf() {
   const requestBody = {
     coordinates: coordinatesForPreview,
     clinic_user_id: clinicUserId,
+    year_month: yearMonth,
     pdf_type: currentPdfType,
     show_sample_data: showSampleData
   };
@@ -475,6 +482,8 @@ function previewPdf() {
 function loadTreatmentDays() {
   const clinicUserSelect = document.getElementById('clinic-user-select');
   const clinicUserId = clinicUserSelect ? clinicUserSelect.value : null;
+  const yearMonthSelect = document.getElementById('year-month-select');
+  const serviceYearMonth = yearMonthSelect ? yearMonthSelect.value : new Date().toISOString().slice(0, 7);
   const showSampleData = document.getElementById('show-sample-data')?.checked;
 
   // サンプルモード時は取得不要
@@ -490,7 +499,6 @@ function loadTreatmentDays() {
   }
 
   // 施術日を取得
-  const serviceYearMonth = new Date().toISOString().slice(0, 7); // YYYY-MM
   fetch(`/prints/get-treatment-days?clinic_user_id=${clinicUserId}&service_year_month=${serviceYearMonth}&pdf_type=${currentPdfType}`)
     .then(response => response.json())
     .then(data => {

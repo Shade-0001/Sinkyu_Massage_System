@@ -20,8 +20,8 @@ trait AcupunctureDrawingHelpersTrait
   {
     $letterSpacing = 0; // 追加間隔（現在は使用しない）
     $cellWidth = $this->coord('treatment_days', 'circleSpacing') ?? 6.45; // 円の間隔
-    $circleRadius = $this->coord('treatment_days', 'circleRadius') ?? 1.2;
-    $innerRadius = $this->coord('treatment_days', 'doubleCircleInnerRadius') ?? 0.4;
+    $circleRadius = $this->coord('treatment_days', 'circleRadius') ?? 1.8;
+    $innerRadius = $this->coord('treatment_days', 'doubleCircleInnerRadius') ?? 2.5;
 
     // はり･きゅう版：therapy_content_id 11-16のみ描画
     $acupunctureContentIds = [11, 12, 13, 14, 15, 16];

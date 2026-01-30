@@ -13,8 +13,25 @@ trait MedicalAssistanceMassageDrawingHelpersTrait
   {
     $letterSpacing = 0; // 追加間隔（現在は使用しない）
     $cellWidth = $this->coord('treatment_days', 'circleSpacing') ?? 6.45; // 円の間隔
-    $circleRadius = $this->coord('treatment_days', 'circleRadius') ?? 1.2;
-    $innerRadius = $this->coord('treatment_days', 'doubleCircleInnerRadius') ?? 0.4;
+    $circleRadius = $this->coord('treatment_days', 'circleRadius') ?? 1.8;
+    $innerRadius = $this->coord('treatment_days', 'doubleCircleInnerRadius') ?? 2.5;
+
+    // サンプルデータモード時の処理
+    if ($this->sampleDataMode && isset($this->customSampleData['treatment_days_array'])) {
+      $treatmentDaysArray = $this->customSampleData['treatment_days_array'];
+
+      foreach ($treatmentDaysArray as $day) {
+        $x = $this->coord('treatment_days', 'x') + ($day - 1) * ($cellWidth + $letterSpacing);
+        $y = $this->coord('treatment_days', 'y');
+
+        // サンプルモードでは通院（単純な円）を描画
+        $pdf->SetDrawColor(0, 0, 0);
+        $pdf->SetLineWidth(0.2);
+        $pdf->Ellipse($x, $y, $circleRadius, $circleRadius, 0, 0, 360, 'D');
+      }
+
+      return;
+    }
 
     // あんま･マッサージ版：therapy_content_id 18-21のみ描画
     $massageContentIds = [18, 19, 20, 21];
@@ -24,7 +41,7 @@ trait MedicalAssistanceMassageDrawingHelpersTrait
       if (!in_array($record->therapy_content_id, $massageContentIds)) {
         continue;
       }
-      
+
       $day = (int)date('d', strtotime($record->date));
 
       $x = $this->coord('treatment_days', 'x') + ($day - 1) * ($cellWidth + $letterSpacing);
