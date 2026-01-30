@@ -54,7 +54,8 @@
       "Bash(done)",
       "Bash(do php -l \"$file\")",
       "Bash(echo:*)",
-      "Bash(python:*)"
+      "Bash(python:*)",
+      "Bash(git -c core.quotepath=false commit -m \"$\\(cat <<''EOF''\nfeat: PDF座標調整機能に年月選択機能を追加し座標データを最適化\n\n- PrintsController: 年月セレクトボックス用データ生成機能を追加（過去12ヶ月～未来12ヶ月）\n- coordinate_adjuster.blade.php: 年月選択UIを追加し、プレビュー時に選択した年月を反映\n- coordinate-adjuster_*.js: 年月選択とフォーム制御のロジックを実装\n- 座標データ: 医療費助成申請書（鍼灸・マッサージ）の各フィールド座標を微調整\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
     ],
     "deny": [],
     "ask": []

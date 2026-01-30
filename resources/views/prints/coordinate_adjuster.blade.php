@@ -55,7 +55,7 @@
 
           <!-- 利用者選択 -->
           <div class="p-3 border-bottom bg-light">
-            <label for="clinic-user-select" class="form-label mb-2">利用者</label>
+            <label for="clinic-user-select" class="form-label mb-2">プレビュー利用者</label>
             <select id="clinic-user-select" class="form-control">
               @foreach($clinicUsers as $user)
                 <option value="{{ $user->id }}" {{ ($selectedClinicUserId && $selectedClinicUserId == $user->id) ? 'selected' : '' }}>
@@ -67,7 +67,7 @@
 
           <!-- 年月選択 -->
           <div class="p-3 border-bottom bg-light">
-            <label for="year-month-select" class="form-label mb-2">年月</label>
+            <label for="year-month-select" class="form-label mb-2">プレビュー年月</label>
             <select id="year-month-select" class="form-control">
               @foreach($yearMonths as $ym)
                 <option value="{{ $ym['value'] }}" {{ $ym['value'] === $currentYearMonth ? 'selected' : '' }}>

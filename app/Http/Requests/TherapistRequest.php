@@ -17,6 +17,31 @@ class TherapistRequest extends FormRequest
   }
 
   /**
+   * バリデーション前のデータ準備
+   */
+  protected function prepareForValidation()
+  {
+    // 空文字列をnullに変換（integer型フィールド）
+    $integerFields = [
+      'license_hari_code_number',
+      'license_kyu_code_number',
+      'license_massage_code_number',
+      'member_number',
+    ];
+
+    $data = [];
+    foreach ($integerFields as $field) {
+      if ($this->has($field) && $this->input($field) === '') {
+        $data[$field] = null;
+      }
+    }
+
+    if (!empty($data)) {
+      $this->merge($data);
+    }
+  }
+
+  /**
    * バリデーションルールを取得
    */
   public function rules(): array
@@ -34,14 +59,11 @@ class TherapistRequest extends FormRequest
       'cell_phone' => 'nullable|max:255',
       'fax' => 'nullable|max:255',
       'email' => 'nullable|email|max:255',
-      'license_hari_id' => 'nullable|integer',
-      'license_hari_number' => 'nullable|integer',
+      'license_hari_code_number' => 'nullable|integer',
       'license_hari_issued_date' => 'nullable|date',
-      'license_kyu_id' => 'nullable|integer',
-      'license_kyu_number' => 'nullable|integer',
+      'license_kyu_code_number' => 'nullable|integer',
       'license_kyu_issued_date' => 'nullable|date',
-      'license_massage_id' => 'nullable|integer',
-      'license_massage_number' => 'nullable|integer',
+      'license_massage_code_number' => 'nullable|integer',
       'license_massage_issued_date' => 'nullable|date',
       'member_number' => 'nullable|integer',
       'note' => 'nullable|max:255',

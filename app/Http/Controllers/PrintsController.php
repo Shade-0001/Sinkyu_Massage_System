@@ -408,13 +408,17 @@ class PrintsController extends Controller
       ->orderBy('created_at', 'desc')
       ->first();
 
-    // 年月セレクトボックス用データ生成（過去12ヶ月 + 現在月 + 未来12ヶ月）
+    // 年月セレクトボックス用データ生成（2020年1月～未来3ヶ月、降順）
     $yearMonths = [];
     $currentYearMonth = date('Y-m');
-    for ($i = -12; $i <= 12; $i++) {
-      $ym = date('Y-m', strtotime("{$i} month"));
-      $year = date('Y', strtotime($ym));
-      $month = date('n', strtotime($ym));
+    $endDate = strtotime('+3 months');
+    $startDate = strtotime('2020-01-01');
+
+    // 未来3ヶ月から2020年1月まで降順で生成
+    for ($date = $endDate; $date >= $startDate; $date = strtotime('-1 month', $date)) {
+      $ym = date('Y-m', $date);
+      $year = date('Y', $date);
+      $month = date('n', $date);
       $yearMonths[] = [
         'value' => $ym,
         'label' => "{$year}年 {$month}月"

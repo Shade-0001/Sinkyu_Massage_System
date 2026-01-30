@@ -125,21 +125,12 @@
   <h4>資格（はり）</h4>
 
   <div class="mb-3">
-    <label class="fw-semibold" for="license_hari_id">免許証記号番号</label>
-    @error('license_hari_id')
+    <label class="fw-semibold" for="license_hari_code_number">免許証記号番号</label>
+    @error('license_hari_code_number')
       <span class="text-danger ms-2">{{ $message }}</span>
     @enderror
     <br>
-    <input type="text" id="license_hari_id" name="license_hari_id" value="{{ old('license_hari_id', $therapist->license_hari_id ?? '') }}">
-  </div>
-
-  <div class="mb-3">
-    <label class="fw-semibold" for="license_hari_number">免許証番号</label>
-    @error('license_hari_number')
-      <span class="text-danger ms-2">{{ $message }}</span>
-    @enderror
-    <br>
-    <input type="text" id="license_hari_number" name="license_hari_number" value="{{ old('license_hari_number', $therapist->license_hari_number ?? '') }}">
+    <input type="number" id="license_hari_code_number" name="license_hari_code_number" @if(old('license_hari_code_number', $therapist->license_hari_code_number ?? null) !== null) value="{{ old('license_hari_code_number', $therapist->license_hari_code_number) }}" @endif>
   </div>
 
   <div class="mb-3">
@@ -156,21 +147,12 @@
   <h4>資格（きゅう）</h4>
 
   <div class="mb-3">
-    <label class="fw-semibold" for="license_kyu_id">免許証記号番号</label>
-    @error('license_kyu_id')
+    <label class="fw-semibold" for="license_kyu_code_number">免許証記号番号</label>
+    @error('license_kyu_code_number')
       <span class="text-danger ms-2">{{ $message }}</span>
     @enderror
     <br>
-    <input type="text" id="license_kyu_id" name="license_kyu_id" value="{{ old('license_kyu_id', $therapist->license_kyu_id ?? '') }}">
-  </div>
-
-  <div class="mb-3">
-    <label class="fw-semibold" for="license_kyu_number">免許証番号</label>
-    @error('license_kyu_number')
-      <span class="text-danger ms-2">{{ $message }}</span>
-    @enderror
-    <br>
-    <input type="text" id="license_kyu_number" name="license_kyu_number" value="{{ old('license_kyu_number', $therapist->license_kyu_number ?? '') }}">
+    <input type="number" id="license_kyu_code_number" name="license_kyu_code_number" @if(old('license_kyu_code_number', $therapist->license_kyu_code_number ?? null) !== null) value="{{ old('license_kyu_code_number', $therapist->license_kyu_code_number) }}" @endif>
   </div>
 
   <div class="mb-3">
@@ -187,21 +169,12 @@
   <h4>資格（あん摩・マッサージ）</h4>
 
   <div class="mb-3">
-    <label class="fw-semibold" for="license_massage_id">免許証記号番号</label>
-    @error('license_massage_id')
+    <label class="fw-semibold" for="license_massage_code_number">免許証記号番号</label>
+    @error('license_massage_code_number')
       <span class="text-danger ms-2">{{ $message }}</span>
     @enderror
     <br>
-    <input type="text" id="license_massage_id" name="license_massage_id" value="{{ old('license_massage_id', $therapist->license_massage_id ?? '') }}">
-  </div>
-
-  <div class="mb-3">
-    <label class="fw-semibold" for="license_massage_number">免許証番号</label>
-    @error('license_massage_number')
-      <span class="text-danger ms-2">{{ $message }}</span>
-    @enderror
-    <br>
-    <input type="text" id="license_massage_number" name="license_massage_number" value="{{ old('license_massage_number', $therapist->license_massage_number ?? '') }}">
+    <input type="number" id="license_massage_code_number" name="license_massage_code_number" @if(old('license_massage_code_number', $therapist->license_massage_code_number ?? null) !== null) value="{{ old('license_massage_code_number', $therapist->license_massage_code_number) }}" @endif>
   </div>
 
   <div class="mb-3">
@@ -221,7 +194,7 @@
       <span class="text-danger ms-2">{{ $message }}</span>
     @enderror
     <br>
-    <input type="number" id="member_number" name="member_number" value="{{ old('member_number', $therapist->member_number ?? '') }}">
+    <input type="number" id="member_number" name="member_number" @if(old('member_number', $therapist->member_number ?? null) !== null) value="{{ old('member_number', $therapist->member_number) }}" @endif>
   </div>
 
   <div class="mb-3">

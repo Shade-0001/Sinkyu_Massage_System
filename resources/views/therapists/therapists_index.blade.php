@@ -34,39 +34,30 @@
           {{ $therapist->last_name_kana }}{{ "\u{2000}" }}{{ $therapist->first_name_kana }}
         </td>
         <td>
-          @if(!empty($therapist->license_hari_id) || !empty($therapist->license_hari_number) || !empty($therapist->license_hari_issued_date))
+          @if(!empty($therapist->license_hari_code_number) || !empty($therapist->license_hari_issued_date))
             <strong>はり:</strong>
-            @if(!empty($therapist->license_hari_id))
-              {{ $therapist->license_hari_id }}-
-            @endif
-            {{ $therapist->license_hari_number }}
+            {{ $therapist->license_hari_code_number }}
             @if(!empty($therapist->license_hari_issued_date))
               （{{ \Carbon\Carbon::parse($therapist->license_hari_issued_date)->format('Y/n/j') }}）
             @endif
             <br>
           @endif
-          @if(!empty($therapist->license_kyu_id) || !empty($therapist->license_kyu_number) || !empty($therapist->license_kyu_issued_date))
+          @if(!empty($therapist->license_kyu_code_number) || !empty($therapist->license_kyu_issued_date))
             <strong>きゅう:</strong>
-            @if(!empty($therapist->license_kyu_id))
-              {{ $therapist->license_kyu_id }}-
-            @endif
-            {{ $therapist->license_kyu_number }}
+            {{ $therapist->license_kyu_code_number }}
             @if(!empty($therapist->license_kyu_issued_date))
               （{{ \Carbon\Carbon::parse($therapist->license_kyu_issued_date)->format('Y/n/j') }}）
             @endif
             <br>
           @endif
-          @if(!empty($therapist->license_massage_id) || !empty($therapist->license_massage_number) || !empty($therapist->license_massage_issued_date))
+          @if(!empty($therapist->license_massage_code_number) || !empty($therapist->license_massage_issued_date))
             <strong>あん摩・マッサージ:</strong>
-            @if(!empty($therapist->license_massage_id))
-              {{ $therapist->license_massage_id }}-
-            @endif
-            {{ $therapist->license_massage_number }}
+            {{ $therapist->license_massage_code_number }}
             @if(!empty($therapist->license_massage_issued_date))
               （{{ \Carbon\Carbon::parse($therapist->license_massage_issued_date)->format('Y/n/j') }}）
             @endif
           @endif
-          @if(empty($therapist->license_hari_id) && empty($therapist->license_hari_number) && empty($therapist->license_kyu_id) && empty($therapist->license_kyu_number) && empty($therapist->license_massage_id) && empty($therapist->license_massage_number))
+          @if(empty($therapist->license_hari_code_number) && empty($therapist->license_kyu_code_number) && empty($therapist->license_massage_code_number))
             -
           @endif
         </td>

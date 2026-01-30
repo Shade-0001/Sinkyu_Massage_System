@@ -753,6 +753,67 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
           $this->drawEllipseByKey($pdf, 'health_center_registration_2');
         }
       }
+
+      // 施術者情報を取得（ノーマルモード用）
+      $therapist = null;
+      if (!$this->sampleDataMode) {
+        $therapist = DB::table('therapists')->first();
+      }
+
+      // === 免許番号（はり師） ===
+      $licenseHariNumber = $this->sampleDataMode && isset($this->customSampleData['license_hari_number'])
+        ? $this->customSampleData['license_hari_number']
+        : ($therapist->license_hari_code_number ?? '');
+      if ($licenseHariNumber && isset($this->coordinates['license_hari_number'])) {
+        $pdf->SetFontSize($this->coord('license_hari_number', 'fontSize'));
+        $this->drawTextByKey($pdf, 'license_hari_number', (string)$licenseHariNumber);
+        $pdf->SetFontSize(10);
+      }
+      // === 免許番号（きゅう師） ===
+      $licenseKyuNumber = $this->sampleDataMode && isset($this->customSampleData['license_kyu_number'])
+        ? $this->customSampleData['license_kyu_number']
+        : ($therapist->license_kyu_code_number ?? '');
+      if ($licenseKyuNumber && isset($this->coordinates['license_kyu_number'])) {
+        $pdf->SetFontSize($this->coord('license_kyu_number', 'fontSize'));
+        $this->drawTextByKey($pdf, 'license_kyu_number', (string)$licenseKyuNumber);
+        $pdf->SetFontSize(10);
+      }
+      // === 施術者郵便番号 ===
+      $therapistPostalCode = $this->sampleDataMode && isset($this->customSampleData['therapist_postal_code'])
+        ? $this->customSampleData['therapist_postal_code']
+        : ($therapist->postal_code ?? '');
+      if ($therapistPostalCode && isset($this->coordinates['therapist_postal_code'])) {
+        $pdf->SetFontSize($this->coord('therapist_postal_code', 'fontSize'));
+        $this->drawTextByKey($pdf, 'therapist_postal_code', (string)$therapistPostalCode);
+        $pdf->SetFontSize(10);
+      }
+      // === 施術者住所 ===
+      $therapistAddress = $this->sampleDataMode && isset($this->customSampleData['therapist_address'])
+        ? $this->customSampleData['therapist_address']
+        : (($therapist->address_1 ?? '') . ($therapist->address_2 ?? '') . ($therapist->address_3 ?? ''));
+      if ($therapistAddress && isset($this->coordinates['therapist_address'])) {
+        $pdf->SetFontSize($this->coord('therapist_address', 'fontSize'));
+        $this->drawTextByKey($pdf, 'therapist_address', (string)$therapistAddress);
+        $pdf->SetFontSize(10);
+      }
+      // === 施術者氏名 ===
+      $therapistNameField = $this->sampleDataMode && isset($this->customSampleData['therapist_name'])
+        ? $this->customSampleData['therapist_name']
+        : (($therapist->last_name ?? '') . ' ' . ($therapist->first_name ?? ''));
+      if (trim($therapistNameField) && isset($this->coordinates['therapist_name'])) {
+        $pdf->SetFontSize($this->coord('therapist_name', 'fontSize'));
+        $this->drawTextByKey($pdf, 'therapist_name', (string)$therapistNameField);
+        $pdf->SetFontSize(10);
+      }
+      // === 施術者電話番号 ===
+      $therapistPhoneField = $this->sampleDataMode && isset($this->customSampleData['therapist_phone'])
+        ? $this->customSampleData['therapist_phone']
+        : ($therapist->phone ?? '');
+      if ($therapistPhoneField && isset($this->coordinates['therapist_phone'])) {
+        $pdf->SetFontSize($this->coord('therapist_phone', 'fontSize'));
+        $this->drawTextByKey($pdf, 'therapist_phone', (string)$therapistPhoneField);
+        $pdf->SetFontSize(10);
+      }
       // === 登録記号番号（施術者番号） ===
       $therapistNumber = $this->sampleDataMode && isset($this->customSampleData['therapist_registration_number'])
         ? $this->customSampleData['therapist_registration_number']
@@ -1017,6 +1078,12 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
   // ============================================================
   protected function fillPaymentInstitutionSection($pdf, $clinicInfo): void
   {
+    // clinic_infoテーブルから銀行口座情報を取得（ノーマルモード用）
+    $clinicInfoData = null;
+    if (!$this->sampleDataMode) {
+      $clinicInfoData = DB::table('clinic_info')->first();
+    }
+
     // === 支払機関情報 ===
     // 支払区分
     if ($this->hasCoord('payment_method')) {
@@ -1028,7 +1095,9 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
     }
     // 預金の種類
     if ($this->hasCoord('deposit_type')) {
-      $depositType = $this->customSampleData['deposit_type'] ?? '';
+      $depositType = $this->sampleDataMode && isset($this->customSampleData['deposit_type'])
+        ? $this->customSampleData['deposit_type']
+        : ($clinicInfoData->bank_account_type ?? '');
       if ($depositType) {
         $pdf->SetFontSize($this->coord('deposit_type', 'fontSize'));
         $this->drawTextByKey($pdf, 'deposit_type', $depositType);
@@ -1044,7 +1113,9 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
     }
     // 金融機関名（詳細）
     if ($this->hasCoord('financial_institution_name')) {
-      $financialInstitutionName = $this->customSampleData['financial_institution_name'] ?? '';
+      $financialInstitutionName = $this->sampleDataMode && isset($this->customSampleData['financial_institution_name'])
+        ? $this->customSampleData['financial_institution_name']
+        : ($clinicInfoData->bank_name ?? '') . ($clinicInfoData->bank_branch_name ?? '');
       if ($financialInstitutionName) {
         $pdf->SetFontSize($this->coord('financial_institution_name', 'fontSize'));
         $this->drawTextByKey($pdf, 'financial_institution_name', $financialInstitutionName);
@@ -1060,26 +1131,32 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
     }
     // 支店名
     if ($this->hasCoord('branch_name')) {
-      $branchName = $this->customSampleData['branch_name'] ?? '';
+      $branchName = $this->sampleDataMode && isset($this->customSampleData['branch_name'])
+        ? $this->customSampleData['branch_name']
+        : ($clinicInfoData->bank_branch_name ?? '');
       if ($branchName) {
         $pdf->SetFontSize($this->coord('branch_name', 'fontSize'));
         $this->drawTextByKey($pdf, 'branch_name', $branchName);
       }
     }
     // 口座番号
-    if ($this->hasCoord('account_number')) {
-      $accountNumber = $this->customSampleData['account_number'] ?? '';
+    if ($this->hasCoord('bank_account_number')) {
+      $accountNumber = $this->sampleDataMode && isset($this->customSampleData['account_number'])
+        ? $this->customSampleData['account_number']
+        : ($clinicInfoData->bank_account_number ?? '');
       if ($accountNumber) {
-        $pdf->SetFontSize($this->coord('account_number', 'fontSize'));
-        $this->drawTextByKey($pdf, 'account_number', $accountNumber);
+        $pdf->SetFontSize($this->coord('bank_account_number', 'fontSize'));
+        $this->drawTextByKey($pdf, 'bank_account_number', (string)$accountNumber);
       }
     }
-    // 口座名義
-    if ($this->hasCoord('account_holder')) {
-      $accountHolder = $this->customSampleData['account_holder'] ?? '';
+    // 口座名義（カナ）
+    if ($this->hasCoord('bank_account_holder_kana')) {
+      $accountHolder = $this->sampleDataMode && isset($this->customSampleData['account_holder'])
+        ? $this->customSampleData['account_holder']
+        : ($clinicInfoData->bank_account_name_kana ?? '');
       if ($accountHolder) {
-        $pdf->SetFontSize($this->coord('account_holder', 'fontSize'));
-        $this->drawTextByKey($pdf, 'account_holder', $accountHolder);
+        $pdf->SetFontSize($this->coord('bank_account_holder_kana', 'fontSize'));
+        $this->drawTextByKey($pdf, 'bank_account_holder_kana', (string)$accountHolder);
       }
     }
     $pdf->SetFontSize(10);

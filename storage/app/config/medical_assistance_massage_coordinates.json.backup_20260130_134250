@@ -372,8 +372,8 @@
         "x": 44,
         "y": 175.6,
         "type": "calendar",
-        "circleRadius": 1.8,
-        "doubleCircleInnerRadius": 2.5,
+        "circleRadius": 2.6,
+        "doubleCircleInnerRadius": 1.9,
         "circleSpacing": 4.91,
         "field": "treatment_days",
         "label": "施術日"
@@ -446,43 +446,6 @@
         "letterSpacing": 0.2,
         "label": "免許番号（きゅう師）",
         "textAlign": "center",
-        "type": "text"
-    },
-    "therapist_postal_code": {
-        "x": -55,
-        "y": 208.5,
-        "fontSize": 10,
-        "letterSpacing": 0.2,
-        "label": "施術者郵便番号",
-        "textAlign": "center",
-        "type": "postal_code",
-        "postalCodeGap": 2
-    },
-    "therapist_address": {
-        "x": -55,
-        "y": 213.5,
-        "fontSize": 10,
-        "letterSpacing": 0.2,
-        "label": "施術者住所",
-        "textAlign": "left",
-        "type": "text"
-    },
-    "therapist_name": {
-        "x": -55,
-        "y": 218.5,
-        "fontSize": 10,
-        "letterSpacing": 0.2,
-        "label": "施術者氏名",
-        "textAlign": "left",
-        "type": "text"
-    },
-    "therapist_phone": {
-        "x": -55,
-        "y": 223.5,
-        "fontSize": 10,
-        "letterSpacing": 0.2,
-        "label": "施術者電話番号",
-        "textAlign": "left",
         "type": "text"
     },
     "clinic_postal_code": {
