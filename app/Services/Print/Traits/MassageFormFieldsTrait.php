@@ -2068,59 +2068,58 @@ trait MassageFormFieldsTrait
     $pdf->SetFontSize(10);
 
     // 施術所郵便番号
-    if ($this->sampleDataMode && isset($this->customSampleData['clinic_postal_code'])) {
-      $this->fillBoxesByKey($pdf, 'clinic_postal_code', (string)$this->customSampleData['clinic_postal_code'], 7, 4.5);
-    } else {
-      $postalCode = $clinicInfo->postal_code ?? '';
-      $this->fillBoxesByKey($pdf, 'clinic_postal_code', (string)$postalCode, 7, 4.5);
+    if ($this->hasCoord('clinic_postal_code')) {
+      $pdf->SetFontSize($this->coord('clinic_postal_code', 'fontSize'));
+      $clinicPostalCode = $this->sampleDataMode && isset($this->customSampleData['clinic_postal_code'])
+        ? $this->customSampleData['clinic_postal_code']
+        : ($clinicInfo->postal_code ?? '');
+      // ハイフンを除去
+      $cleanPostalCode = str_replace('-', '', $clinicPostalCode);
+      // 7桁の数字を〒 XXX-XXXX形式にフォーマット
+      $formattedPostalCode = $clinicPostalCode;
+      if (preg_match('/^\d{7}$/', $cleanPostalCode)) {
+        $formattedPostalCode = '〒 ' . substr($cleanPostalCode, 0, 3) . '-' . substr($cleanPostalCode, 3, 4);
+      }
+      $this->drawTextByKey($pdf, 'clinic_postal_code', (string)$formattedPostalCode);
     }
 
     // 施術所住所
     if ($this->sampleDataMode && isset($this->customSampleData['clinic_address'])) {
-      if ($this->hasCoord('clinic_address') && $this->customSampleData['clinic_address']) {
-        $pdf->SetFontSize($this->coord('clinic_address', 'fontSize'));
-        $this->drawTextByKey($pdf, 'clinic_address', (string)$this->customSampleData['clinic_address']);
-        $pdf->SetFontSize(10);
-      }
+      $clinicAddress = $this->customSampleData['clinic_address'];
     } else {
-      $clinicAddress = ($clinicInfo->prefecture ?? '') . ($clinicInfo->city ?? '') . ($clinicInfo->address ?? '');
-      if ($this->hasCoord('clinic_address') && $clinicAddress) {
-        $pdf->SetFontSize($this->coord('clinic_address', 'fontSize'));
-        $this->drawTextByKey($pdf, 'clinic_address', (string)$clinicAddress);
-        $pdf->SetFontSize(10);
-      }
+      $clinicAddress = ($clinicInfo->address_1 ?? '') .
+                       ($clinicInfo->address_2 ?? '') .
+                       ($clinicInfo->address_3 ?? '');
+    }
+    if ($this->hasCoord('clinic_address')) {
+      $pdf->SetFontSize($this->coord('clinic_address', 'fontSize'));
+      $this->drawTextByKey($pdf, 'clinic_address', (string)$clinicAddress);
+      $pdf->SetFontSize(10);
     }
 
     // 施術所名
     if ($this->sampleDataMode && isset($this->customSampleData['clinic_name'])) {
-      if ($this->hasCoord('clinic_name') && $this->customSampleData['clinic_name']) {
-        $pdf->SetFontSize($this->coord('clinic_name', 'fontSize'));
-        $this->drawTextByKey($pdf, 'clinic_name', (string)$this->customSampleData['clinic_name']);
-        $pdf->SetFontSize(10);
-      }
+      $clinicName = $this->customSampleData['clinic_name'];
     } else {
-      $clinicName = $clinicInfo->name ?? '';
-      if ($this->hasCoord('clinic_name') && $clinicName) {
-        $pdf->SetFontSize($this->coord('clinic_name', 'fontSize'));
-        $this->drawTextByKey($pdf, 'clinic_name', (string)$clinicName);
-        $pdf->SetFontSize(10);
-      }
+      $clinicName = $clinicInfo->clinic_name ?? '';
+    }
+    if ($this->hasCoord('clinic_name')) {
+      $pdf->SetFontSize($this->coord('clinic_name', 'fontSize'));
+      $this->drawTextByKey($pdf, 'clinic_name', (string)$clinicName);
+      $pdf->SetFontSize(10);
     }
 
     // 開設者・管理者名
     if ($this->sampleDataMode && isset($this->customSampleData['clinic_manager'])) {
-      if ($this->hasCoord('clinic_manager') && $this->customSampleData['clinic_manager']) {
-        $pdf->SetFontSize($this->coord('clinic_manager', 'fontSize'));
-        $this->drawTextByKey($pdf, 'clinic_manager', (string)$this->customSampleData['clinic_manager']);
-        $pdf->SetFontSize(10);
-      }
+      $manager = $this->customSampleData['clinic_manager'];
     } else {
-      $manager = $clinicInfo->manager ?? '';
-      if ($this->hasCoord('clinic_manager') && $manager) {
-        $pdf->SetFontSize($this->coord('clinic_manager', 'fontSize'));
-        $this->drawTextByKey($pdf, 'clinic_manager', (string)$manager);
-        $pdf->SetFontSize(10);
-      }
+      $manager = ($clinicInfo->owner_last_name ?? '') . ' ' . ($clinicInfo->owner_first_name ?? '');
+      $manager = trim($manager);
+    }
+    if ($this->hasCoord('clinic_manager')) {
+      $pdf->SetFontSize($this->coord('clinic_manager', 'fontSize'));
+      $this->drawTextByKey($pdf, 'clinic_manager', (string)$manager);
+      $pdf->SetFontSize(10);
     }
 
     // 電話番号
@@ -2148,12 +2147,33 @@ trait MassageFormFieldsTrait
       return;
     }
 
-    // 申請者郵便番号
-    if ($this->sampleDataMode && isset($this->customSampleData['applicant_postal_code'])) {
-      $this->fillBoxesByKey($pdf, 'applicant_postal_code', (string)$this->customSampleData['applicant_postal_code'], 7, 4.5);
-    } else {
-      $postalCode = $clinicUser->postal_code ?? '';
-      $this->fillBoxesByKey($pdf, 'applicant_postal_code', (string)$postalCode, 7, 4.5);
+    // 申請者郵便番号（前半3桁・後半4桁に分割）
+    if ($this->hasCoord('applicant_postal_code')) {
+      $applicantPostalCode = $this->sampleDataMode && isset($this->customSampleData['applicant_postal_code'])
+        ? $this->customSampleData['applicant_postal_code']
+        : ($clinicUser->postal_code ?? '');
+
+      // ハイフンを削除して数字のみにする
+      $postalCodeNumbers = preg_replace('/[^0-9]/', '', $applicantPostalCode);
+      $firstPart = substr($postalCodeNumbers, 0, 3);
+      $lastPart = substr($postalCodeNumbers, 3, 4);
+
+      $fontSize = $this->coord('applicant_postal_code', 'fontSize');
+      $pdf->SetFontSize($fontSize);
+
+      // 前半3桁
+      $firstX = $this->coordinates['applicant_postal_code']['firstX'] ?? $this->coord('applicant_postal_code', 'x');
+      $firstY = $this->coordinates['applicant_postal_code']['firstY'] ?? $this->coord('applicant_postal_code', 'y');
+      $pdf->SetXY($firstX, $firstY);
+      $pdf->Cell(0, 0, $firstPart, 0, 0, 'L');
+
+      // 後半4桁
+      $lastX = $this->coordinates['applicant_postal_code']['lastX'] ?? ($firstX + ($this->coordinates['applicant_postal_code']['postalCodeGap'] ?? 2));
+      $lastY = $this->coordinates['applicant_postal_code']['lastY'] ?? $firstY;
+      $pdf->SetXY($lastX, $lastY);
+      $pdf->Cell(0, 0, $lastPart, 0, 0, 'L');
+
+      $pdf->SetFontSize(10);
     }
 
     // 申請者住所
@@ -2230,48 +2250,46 @@ trait MassageFormFieldsTrait
     }
 
     // 代理人郵便番号
-    if ($this->sampleDataMode && isset($this->customSampleData['agent_postal_code'])) {
-      $this->fillBoxesByKey($pdf, 'agent_postal_code', (string)$this->customSampleData['agent_postal_code'], 7, 4.5);
-    } else {
-      $postalCode = $clinicInfo->postal_code ?? '';
-      if ($this->hasCoord('agent_postal_code')) {
-        $this->fillBoxesByKey($pdf, 'agent_postal_code', (string)$postalCode, 7, 4.5);
+    if ($this->hasCoord('agent_postal_code')) {
+      $pdf->SetFontSize($this->coord('agent_postal_code', 'fontSize'));
+      $agentPostalCode = $this->sampleDataMode && isset($this->customSampleData['agent_postal_code'])
+        ? $this->customSampleData['agent_postal_code']
+        : ($clinicInfo->postal_code ?? '');
+      // ハイフンを除去
+      $cleanPostalCode = str_replace('-', '', $agentPostalCode);
+      // 7桁の数字を〒 XXX-XXXX形式にフォーマット
+      $formattedPostalCode = $agentPostalCode;
+      if (preg_match('/^\d{7}$/', $cleanPostalCode)) {
+        $formattedPostalCode = '〒 ' . substr($cleanPostalCode, 0, 3) . '-' . substr($cleanPostalCode, 3, 4);
       }
+      $this->drawTextByKey($pdf, 'agent_postal_code', (string)$formattedPostalCode);
     }
 
     // 代理人住所
     if ($this->sampleDataMode && isset($this->customSampleData['agent_address'])) {
-      if ($this->hasCoord('agent_address') && $this->customSampleData['agent_address']) {
-        $pdf->SetFontSize($this->coord('agent_address', 'fontSize'));
-        $this->drawTextByKey($pdf, 'agent_address', (string)$this->customSampleData['agent_address']);
-        $pdf->SetFontSize(10);
-      }
+      $agentAddress = $this->customSampleData['agent_address'];
     } else {
-      $agentAddress = ($clinicInfo->prefecture ?? '') . ($clinicInfo->city ?? '') . ($clinicInfo->address ?? '');
-      if ($this->hasCoord('agent_address') && $agentAddress) {
-        $pdf->SetFontSize($this->coord('agent_address', 'fontSize'));
-        $this->drawTextByKey($pdf, 'agent_address', (string)$agentAddress);
-        $pdf->SetFontSize(10);
-      }
+      $agentAddress = ($clinicInfo->address_1 ?? '') .
+                      ($clinicInfo->address_2 ?? '') .
+                      ($clinicInfo->address_3 ?? '');
+    }
+    if ($this->hasCoord('agent_address')) {
+      $pdf->SetFontSize($this->coord('agent_address', 'fontSize'));
+      $this->drawTextByKey($pdf, 'agent_address', (string)$agentAddress);
+      $pdf->SetFontSize(10);
     }
 
     // 代理人氏名
     if ($this->sampleDataMode && isset($this->customSampleData['agent_name'])) {
-      if ($this->hasCoord('agent_name') && $this->customSampleData['agent_name']) {
-        $pdf->SetFontSize($this->coord('agent_name', 'fontSize'));
-        $this->drawTextByKey($pdf, 'agent_name', (string)$this->customSampleData['agent_name']);
-        $pdf->SetFontSize(10);
-      }
+      $agentName = $this->customSampleData['agent_name'];
     } else {
-      // ノーマルモード: 開設者氏名（owner_last_name + owner_first_name）を使用
-      if (isset($clinicInfo->owner_last_name) && isset($clinicInfo->owner_first_name)) {
-        $agentName = $clinicInfo->owner_last_name . ' ' . $clinicInfo->owner_first_name;
-        if ($this->hasCoord('agent_name')) {
-          $pdf->SetFontSize($this->coord('agent_name', 'fontSize'));
-          $this->drawTextByKey($pdf, 'agent_name', trim($agentName));
-          $pdf->SetFontSize(10);
-        }
-      }
+      $agentName = ($clinicInfo->owner_last_name ?? '') . ' ' . ($clinicInfo->owner_first_name ?? '');
+      $agentName = trim($agentName);
+    }
+    if ($this->hasCoord('agent_name')) {
+      $pdf->SetFontSize($this->coord('agent_name', 'fontSize'));
+      $this->drawTextByKey($pdf, 'agent_name', (string)$agentName);
+      $pdf->SetFontSize(10);
     }
 
     // 代理人氏名（フリガナ）

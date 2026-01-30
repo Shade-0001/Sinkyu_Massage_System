@@ -1380,7 +1380,14 @@ trait MedicalAssistanceMassageFormFieldsTrait
         $clinicPostalCode = $this->sampleDataMode && isset($this->customSampleData['clinic_postal_code'])
           ? $this->customSampleData['clinic_postal_code']
           : ($clinicInfo->postal_code ?? '');
-        $this->drawTextByKey($pdf, 'clinic_postal_code', (string)$clinicPostalCode);
+        // ハイフンを除去
+        $cleanPostalCode = str_replace('-', '', $clinicPostalCode);
+        // 7桁の数字を〒 XXX-XXXX形式にフォーマット
+        $formattedPostalCode = $clinicPostalCode;
+        if (preg_match('/^\d{7}$/', $cleanPostalCode)) {
+          $formattedPostalCode = '〒 ' . substr($cleanPostalCode, 0, 3) . '-' . substr($cleanPostalCode, 3, 4);
+        }
+        $this->drawTextByKey($pdf, 'clinic_postal_code', (string)$formattedPostalCode);
       }
       // 施術所住所
       if ($this->sampleDataMode && isset($this->customSampleData['clinic_address'])) {

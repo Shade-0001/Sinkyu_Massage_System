@@ -599,7 +599,7 @@
         "y": 190,
         "fontSize": 9,
         "letterSpacing": 0,
-        "label": "施術所所在地",
+        "label": "施術所住所",
         "textAlign": "left",
         "type": "text"
     },

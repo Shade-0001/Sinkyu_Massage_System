@@ -185,7 +185,7 @@ const sampleDataFieldMapping = {
 
   // === 13. 施術所情報 ===
   'clinic_postal_code': { field: 'clinic_postal_code', label: '施術所郵便番号', type: 'text' },
-  'clinic_address': { field: 'clinic_address', label: '施術所所在地', type: 'text' },
+  'clinic_address': { field: 'clinic_address', label: '施術所住所', type: 'text' },
   'clinic_name': { field: 'clinic_name', label: '施術所名称', type: 'text' },
   'clinic_manager': { field: 'clinic_manager', label: '施術管理者氏名', type: 'text' },
   'clinic_phone': { field: 'clinic_phone', label: '電話番号', type: 'text' },
