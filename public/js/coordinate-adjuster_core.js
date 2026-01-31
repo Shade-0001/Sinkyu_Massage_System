@@ -91,17 +91,24 @@ function loadCoordinates() {
       if (data.success) {
         coordinates = data.coordinates;
         console.log('座標読み込み完了（JSON）:', Object.keys(coordinates).length, 'フィールド');
-        
+
         // フィールド定義から新規フィールドを追加（既存フィールドは保持）
+        // 現在のPDFタイプに関連するフィールドのみを追加
         const fieldMapping = getSampleDataFieldMapping();
+        const fieldCategories = getFieldCategories(currentPdfType);
         let newFieldCount = 0;
         Object.keys(fieldMapping).forEach(key => {
           const definition = fieldMapping[key];
-          
+
+          // 現在のPDFタイプに関連しないフィールドはスキップ
+          if (!fieldCategories.hasOwnProperty(key)) {
+            return;
+          }
+
           // coordinatesに存在しない場合のみ新規作成
           if (!coordinates[key]) {
             newFieldCount++;
-            const isEllipseField = definition.radioGroup !== undefined && 
+            const isEllipseField = definition.radioGroup !== undefined &&
                                     (definition.ellipseWidth !== undefined || definition.ellipseHeight !== undefined);
             coordinates[key] = {
               x: 0,

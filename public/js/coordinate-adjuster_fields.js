@@ -235,19 +235,27 @@ const sampleDataFieldMapping = {
   'medical_institution_location_type_2': { field: 'medical_institution_location_type', label: '医療機関所在地区分', type: 'select', options: ['1', '2'], optionLabels: ['区郡市府県庁所在地', '出張所等指定都市所在地域'] },
 
   // === 18. 支払機関欄 ===
-  // 支払区分（ラジオグループ）
+  // 支払区分（ラジオグループ）- 療養費支給申請書用
   'payment_category_furikomi': { field: 'payment_category', label: '支払区分', type: 'select', options: ['振込', '銀行送金', '郵便局送金', '当地払'], ellipseWidth: 6, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'payment_category', optionLabel: '振込' },
   'payment_category_bank_transfer': { field: 'payment_category', label: '支払区分', type: 'select', options: ['振込', '銀行送金', '郵便局送金', '当地払'], ellipseWidth: 8, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'payment_category', optionLabel: '銀行送金' },
   'payment_category_post_transfer': { field: 'payment_category', label: '支払区分', type: 'select', options: ['振込', '銀行送金', '郵便局送金', '当地払'], ellipseWidth: 10, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'payment_category', optionLabel: '郵便局送金' },
   'payment_category_local_payment': { field: 'payment_category', label: '支払区分', type: 'select', options: ['振込', '銀行送金', '郵便局送金', '当地払'], ellipseWidth: 8, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'payment_category', optionLabel: '当地払' },
+  // 支払区分（ラジオグループ）- 医療助成申請書用
+  'payment_category_account_transfer': { field: 'payment_category', label: '支払区分', type: 'select', options: ['口座振替', '窓口払'], ellipseWidth: 10, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'payment_category', optionLabel: '口座振替' },
+  'payment_category_counter_payment': { field: 'payment_category', label: '支払区分', type: 'select', options: ['口座振替', '窓口払'], ellipseWidth: 10, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'payment_category', optionLabel: '窓口払' },
 
-  // 預金種別（ラジオグループ）
-  'deposit_type_ordinary': { field: 'deposit_type', label: '預金種別', type: 'select', options: ['普通', '当座', '通知', '別段'], ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'deposit_type', optionLabel: '普通' },
-  'deposit_type_current': { field: 'deposit_type', label: '預金種別', type: 'select', options: ['普通', '当座', '通知', '別段'], ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'deposit_type', optionLabel: '当座' },
-  'deposit_type_notice': { field: 'deposit_type', label: '預金種別', type: 'select', options: ['普通', '当座', '通知', '別段'], ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'deposit_type', optionLabel: '通知' },
-  'deposit_type_betsudan': { field: 'deposit_type', label: '預金種別', type: 'select', options: ['普通', '当座', '通知', '別段'], ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'deposit_type', optionLabel: '別段' },
+  // 預金種別（ラジオグループ）- 共通（座標JSONのoptionsを使用）
+  'deposit_type_ordinary': { field: 'deposit_type', label: '預金種類', type: 'select', ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'deposit_type', optionLabel: '普通' },
+  'deposit_type_current': { field: 'deposit_type', label: '預金種類', type: 'select', ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'deposit_type', optionLabel: '当座' },
+  // 預金種別（ラジオグループ）- 療養費支給申請書専用
+  'deposit_type_notice': { field: 'deposit_type', label: '預金種類', type: 'select', options: ['普通', '当座', '通知', '別段'], ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'deposit_type', optionLabel: '通知' },
+  'deposit_type_betsudan': { field: 'deposit_type', label: '預金種類', type: 'select', options: ['普通', '当座', '通知', '別段'], ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'deposit_type', optionLabel: '別段' },
+  // 預金種別（ラジオグループ）- 医療助成申請書用
+  'deposit_type_savings': { field: 'deposit_type', label: '預金種類', type: 'select', options: ['普通', '当座', '貯蓄', 'その他'], ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'deposit_type', optionLabel: '貯蓄' },
+  'deposit_type_other': { field: 'deposit_type', label: '預金種類', type: 'select', options: ['普通', '当座', '貯蓄', 'その他'], ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'deposit_type', optionLabel: 'その他' },
 
   // 金融機関情報
+  'financial_institution_name': { field: 'financial_institution_name', label: '金融機関名', type: 'text' },
   'financial_institution_name_1': { field: 'financial_institution_name_1', label: '金融機関名1', type: 'text' },
   'financial_institution_type_bank': { field: 'financial_institution_type', label: '金融機関名１（サークル）', type: 'select', options: ['銀行', '金庫', '農協'], ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'financial_institution_type', optionLabel: '銀行' },
   'financial_institution_type_kinko': { field: 'financial_institution_type', label: '金融機関名１（サークル）', type: 'select', options: ['銀行', '金庫', '農協'], ellipseWidth: 5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'financial_institution_type', optionLabel: '金庫' },

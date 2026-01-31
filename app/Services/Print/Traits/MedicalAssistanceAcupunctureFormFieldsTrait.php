@@ -448,11 +448,12 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
       }
     } elseif ($consent && isset($consent->work_scope_type) && $consent->work_scope_type) {
       // 通常モード：実データから判定
-      if ($consent->work_scope_type === '業務上') {
+      $workScopeType = $consent->work_scope_type;
+      if ($workScopeType === '業務上') {
         $workScopeTypeKey = 'work_scope_type_1';
-      } elseif ($consent->work_scope_type === '第三者行為') {
+      } elseif (str_contains($workScopeType, '第三者行為')) {
         $workScopeTypeKey = 'work_scope_type_2';
-      } elseif ($consent->work_scope_type === 'その他') {
+      } elseif ($workScopeType === 'その他') {
         $workScopeTypeKey = 'work_scope_type_3';
       }
     }
@@ -784,7 +785,7 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
         : ($therapist->postal_code ?? '');
       if ($therapistPostalCode && isset($this->coordinates['therapist_postal_code'])) {
         $pdf->SetFontSize($this->coord('therapist_postal_code', 'fontSize'));
-        $this->drawTextByKey($pdf, 'therapist_postal_code', (string)$therapistPostalCode);
+        $this->drawTextByKey($pdf, 'therapist_postal_code', '〒 ' . (string)$therapistPostalCode);
         $pdf->SetFontSize(10);
       }
       // === 施術者住所 ===
@@ -993,20 +994,14 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
         : ($clinicUser->postal_code ?? '');
       // ハイフンを削除して数字のみにする
       $postalCodeNumbers = preg_replace('/[^0-9]/', '', $applicantPostalCode);
-      $firstPart = substr($postalCodeNumbers, 0, 3);
-      $lastPart = substr($postalCodeNumbers, 3, 4);
-      $fontSize = $this->coord('applicant_postal_code', 'fontSize');
-      $pdf->SetFontSize($fontSize);
-      // 前半3桁
-      $firstX = $this->coordinates['applicant_postal_code']['firstX'] ?? $this->coord('applicant_postal_code', 'x');
-      $firstY = $this->coordinates['applicant_postal_code']['firstY'] ?? $this->coord('applicant_postal_code', 'y');
-      $pdf->SetXY($firstX, $firstY);
-      $pdf->Cell(0, 0, $firstPart, 0, 0, 'L');
-      // 後半4桁
-      $lastX = $this->coordinates['applicant_postal_code']['lastX'] ?? ($firstX + ($this->coordinates['applicant_postal_code']['postalCodeGap'] ?? 2));
-      $lastY = $this->coordinates['applicant_postal_code']['lastY'] ?? $firstY;
-      $pdf->SetXY($lastX, $lastY);
-      $pdf->Cell(0, 0, $lastPart, 0, 0, 'L');
+      // 3桁-4桁の形式にフォーマット
+      if (strlen($postalCodeNumbers) === 7) {
+        $formattedPostalCode = substr($postalCodeNumbers, 0, 3) . '-' . substr($postalCodeNumbers, 3, 4);
+      } else {
+        $formattedPostalCode = $postalCodeNumbers;
+      }
+      $pdf->SetFontSize($this->coord('applicant_postal_code', 'fontSize'));
+      $this->drawTextByKey($pdf, 'applicant_postal_code', $formattedPostalCode);
       $pdf->SetFontSize(10);
     }
     // 申請者住所

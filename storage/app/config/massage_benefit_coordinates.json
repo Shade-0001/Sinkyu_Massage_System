@@ -1337,6 +1337,12 @@
         "label": "支払区分",
         "textAlign": "center",
         "type": "select",
+        "options": [
+            "振込",
+            "銀行送金",
+            "郵便局送金",
+            "当地払"
+        ],
         "radioGroup": "payment_category",
         "optionLabel": "振込",
         "isSelected": true
@@ -1352,6 +1358,12 @@
         "label": "支払区分",
         "textAlign": "center",
         "type": "select",
+        "options": [
+            "振込",
+            "銀行送金",
+            "郵便局送金",
+            "当地払"
+        ],
         "radioGroup": "payment_category",
         "optionLabel": "銀行送金",
         "isSelected": false
@@ -1367,6 +1379,12 @@
         "label": "支払区分",
         "textAlign": "center",
         "type": "select",
+        "options": [
+            "振込",
+            "銀行送金",
+            "郵便局送金",
+            "当地払"
+        ],
         "radioGroup": "payment_category",
         "optionLabel": "郵便局送金",
         "isSelected": false
@@ -1382,6 +1400,12 @@
         "label": "支払区分",
         "textAlign": "center",
         "type": "select",
+        "options": [
+            "振込",
+            "銀行送金",
+            "郵便局送金",
+            "当地払"
+        ],
         "radioGroup": "payment_category",
         "optionLabel": "当地払",
         "isSelected": false

@@ -58,6 +58,11 @@ class ConsentAcupuncture extends Model
     return $this->belongsTo(ClinicUser::class, 'clinic_user_id');
   }
 
+  public function workScopeType()
+  {
+    return $this->belongsTo(WorkScopeType::class, 'work_scope_type_id');
+  }
+
   // TODO: bodypartsとのリレーションは中間テーブル作成後に実装
   // 現状では consents_acupuncture 用の中間テーブルが存在しないため、
   // 必要に応じて bodyparts-consents_acupuncture テーブルを作成する必要がある

@@ -1209,6 +1209,10 @@
         "label": "支払区分",
         "textAlign": "center",
         "type": "select",
+        "options": [
+            "口座振替",
+            "窓口払"
+        ],
         "radioGroup": "payment_category",
         "optionLabel": "口座振替",
         "isSelected": true
@@ -1224,6 +1228,10 @@
         "label": "支払区分",
         "textAlign": "center",
         "type": "select",
+        "options": [
+            "口座振替",
+            "窓口払"
+        ],
         "radioGroup": "payment_category",
         "optionLabel": "窓口払",
         "isSelected": false
@@ -1236,7 +1244,7 @@
         "lineWidth": 0.5,
         "x": 10,
         "y": 200,
-        "label": "預金種別",
+        "label": "預金種類",
         "textAlign": "center",
         "type": "select",
         "radioGroup": "deposit_type",
@@ -1251,7 +1259,7 @@
         "lineWidth": 0.5,
         "x": 20,
         "y": 200,
-        "label": "預金種別",
+        "label": "預金種類",
         "textAlign": "center",
         "type": "select",
         "radioGroup": "deposit_type",
@@ -1266,7 +1274,7 @@
         "lineWidth": 0.5,
         "x": 30,
         "y": 200,
-        "label": "預金種別",
+        "label": "預金種類",
         "textAlign": "center",
         "type": "select",
         "radioGroup": "deposit_type",
@@ -1281,7 +1289,7 @@
         "lineWidth": 0.5,
         "x": 40,
         "y": 200,
-        "label": "預金種別",
+        "label": "預金種類",
         "textAlign": "center",
         "type": "select",
         "radioGroup": "deposit_type",

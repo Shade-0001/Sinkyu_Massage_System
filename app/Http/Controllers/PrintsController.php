@@ -387,6 +387,14 @@ class PrintsController extends Controller
     $pdfType = $request->query('pdf_type', 'therapy_benefit_acupuncture');
     $selectedClinicUserId = $request->query('clinic_user_id', null);
 
+    // pdf_typeが指定されていない場合は警告ログ
+    if (!$request->has('pdf_type')) {
+      \Log::warning('coordinateAdjuster: pdf_typeが指定されていないため、デフォルト値を使用', [
+        'default_pdf_type' => $pdfType,
+        'url' => $request->fullUrl()
+      ]);
+    }
+
     // PDFタイプ設定を取得
     $pdfTypes = $this->getPdfTypesConfig();
     $pdfTypeConfig = $this->getPdfTypeConfig($pdfType);
@@ -486,8 +494,27 @@ class PrintsController extends Controller
   {
     try {
       $coordinates = $request->input('coordinates');
-      $pdfType = $request->input('pdf_type', 'therapy_benefit_acupuncture');
+      $pdfType = $request->input('pdf_type');
+
+      // pdf_typeが指定されていない場合はエラー
+      if (empty($pdfType)) {
+        \Log::error('saveCoordinates: pdf_typeが指定されていません', [
+          'request' => $request->all()
+        ]);
+        return response()->json([
+          'success' => false,
+          'message' => 'PDFタイプが指定されていません',
+        ], 400);
+      }
+
       $configPath = $this->getCoordinatesPath($pdfType);
+
+      // 保存先ファイルパスをログに記録
+      \Log::info('saveCoordinates: 座標保存開始', [
+        'pdf_type' => $pdfType,
+        'config_path' => $configPath,
+        'coordinates_count' => count($coordinates)
+      ]);
 
       // x=0, y=0のフィールドを除外
       $filteredCoordinates = [];
@@ -506,11 +533,21 @@ class PrintsController extends Controller
 
       file_put_contents($configPath, json_encode($filteredCoordinates, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
+      \Log::info('saveCoordinates: 座標保存完了', [
+        'pdf_type' => $pdfType,
+        'saved_count' => count($filteredCoordinates)
+      ]);
+
       return response()->json([
         'success' => true,
         'message' => '座標設定を保存しました',
       ]);
     } catch (\Exception $e) {
+      \Log::error('saveCoordinates: 保存エラー', [
+        'error' => $e->getMessage(),
+        'pdf_type' => $request->input('pdf_type'),
+        'trace' => $e->getTraceAsString()
+      ]);
       return response()->json([
         'success' => false,
         'message' => '保存に失敗しました: ' . $e->getMessage(),
@@ -529,8 +566,25 @@ class PrintsController extends Controller
     try {
       \Log::info('PreviewPdf invoked', ['ip' => $request->ip(), 'has_coordinates' => $request->has('coordinates')]);
 
-      $pdfType = $request->input('pdf_type', 'therapy_benefit_acupuncture');
+      $pdfType = $request->input('pdf_type');
+
+      // pdf_typeが指定されていない場合はエラー
+      if (empty($pdfType)) {
+        \Log::error('previewPdf: pdf_typeが指定されていません', [
+          'request' => $request->all()
+        ]);
+        return response()->json([
+          'success' => false,
+          'message' => 'PDFタイプが指定されていません',
+        ], 400);
+      }
+
       $configPath = $this->getCoordinatesPath($pdfType);
+
+      \Log::info('previewPdf: PDF生成開始', [
+        'pdf_type' => $pdfType,
+        'config_path' => $configPath
+      ]);
 
       $coordinates = $request->input('coordinates');
       $originalCoordinates = file_get_contents($configPath);

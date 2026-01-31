@@ -418,28 +418,35 @@ protected function fillPatientBirthday(Fpdi $pdf, $clinicUser): void
 /**
  * 業務上･外･第三者行為の有無
  */
-protected function fillWorkScopeType(Fpdi $pdf): void
+protected function fillWorkScopeType(Fpdi $pdf, $consent = null): void
 {
-  // サンプルデータモードまたは座標設定からwork_scope_typeを取得
   $workScopeTypeKey = null;
 
-  if ($this->sampleDataMode && isset($this->customSampleData['work_scope_type'])) {
-    // customSampleDataから判定
+  // isSelectedフラグをチェック（座標調整モード用）
+  if (isset($this->coordinates['work_scope_type_1']['isSelected']) && $this->coordinates['work_scope_type_1']['isSelected']) {
+    $workScopeTypeKey = 'work_scope_type_1';
+  } elseif (isset($this->coordinates['work_scope_type_2']['isSelected']) && $this->coordinates['work_scope_type_2']['isSelected']) {
+    $workScopeTypeKey = 'work_scope_type_2';
+  } elseif (isset($this->coordinates['work_scope_type_3']['isSelected']) && $this->coordinates['work_scope_type_3']['isSelected']) {
+    $workScopeTypeKey = 'work_scope_type_3';
+  } elseif ($this->sampleDataMode && isset($this->customSampleData['work_scope_type'])) {
+    // サンプルデータモード：customSampleDataから判定
     $workScopeType = $this->customSampleData['work_scope_type'];
     if ($workScopeType === '業務上') {
       $workScopeTypeKey = 'work_scope_type_1';
-    } elseif ($workScopeType === '第三者行為') {
+    } elseif ($workScopeType === '第三者行為' || $workScopeType === '第三者行為である') {
       $workScopeTypeKey = 'work_scope_type_2';
     } elseif ($workScopeType === 'その他') {
       $workScopeTypeKey = 'work_scope_type_3';
     }
-  } else {
-    // isSelectedフラグから判定
-    if (isset($this->coordinates['work_scope_type_1']['isSelected']) && $this->coordinates['work_scope_type_1']['isSelected']) {
+  } elseif ($consent && isset($consent->work_scope_type)) {
+    // 通常モード：実データ（JOIN済み）から判定
+    $workScopeType = $consent->work_scope_type;
+    if ($workScopeType === '業務上') {
       $workScopeTypeKey = 'work_scope_type_1';
-    } elseif (isset($this->coordinates['work_scope_type_2']['isSelected']) && $this->coordinates['work_scope_type_2']['isSelected']) {
+    } elseif (str_contains($workScopeType, '第三者行為')) {
       $workScopeTypeKey = 'work_scope_type_2';
-    } elseif (isset($this->coordinates['work_scope_type_3']['isSelected']) && $this->coordinates['work_scope_type_3']['isSelected']) {
+    } elseif ($workScopeType === 'その他') {
       $workScopeTypeKey = 'work_scope_type_3';
     }
   }
