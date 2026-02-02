@@ -215,9 +215,9 @@
         "isSelected": true
     },
     "birthday_year": {
-        "x": -54,
-        "y": 76,
-        "fontSize": 20,
+        "x": -37.5,
+        "y": 52.5,
+        "fontSize": 10,
         "letterSpacing": 0,
         "textAlign": "center",
         "type": "text",
@@ -305,8 +305,8 @@
         "field": "treatment_days"
     },
     "treatment_day_count": {
-        "x": 38,
-        "y": 83.5,
+        "x": 34,
+        "y": 64,
         "fontSize": 11,
         "letterSpacing": 0,
         "textAlign": "center",
@@ -498,9 +498,9 @@
         "textAlign": "center"
     },
     "illness_name_other_text": {
-        "x": 23,
-        "y": 96,
-        "fontSize": 9,
+        "x": 28,
+        "y": 75,
+        "fontSize": 8,
         "letterSpacing": 0,
         "textAlign": "center",
         "type": "text"
@@ -1522,11 +1522,255 @@
         "letterSpacing": 0
     },
     "birthday_full_date": {
-        "x": -54,
-        "y": 76,
-        "fontSize": 20,
+        "x": -37.5,
+        "y": 52.5,
+        "fontSize": 10,
         "letterSpacing": 0,
         "textAlign": "center",
         "type": "text"
+    },
+    "bill_category": {
+        "x": 68,
+        "y": 86,
+        "textAlign": "center",
+        "field": "bill_category",
+        "label": "請求区分",
+        "type": "text",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "outcome": {
+        "x": 68,
+        "y": 96.5,
+        "textAlign": "center",
+        "field": "outcome",
+        "label": "転帰",
+        "type": "text",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "illness_name_1": {
+        "x": 46,
+        "y": 72.5,
+        "textAlign": "left",
+        "field": "illness_name",
+        "label": "傷病名",
+        "type": "select",
+        "options": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"
+        ],
+        "optionLabels": [
+            "神経痛",
+            "リウマチ",
+            "頸腕症候群",
+            "五十肩",
+            "腰痛症",
+            "頸椎捻挫後遺症",
+            "その他"
+        ],
+        "ellipseWidth": 8,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "illness_name",
+        "optionLabel": "神経痛",
+        "isSelected": false
+    },
+    "illness_name_2": {
+        "x": 65.5,
+        "y": 72.5,
+        "textAlign": "left",
+        "field": "illness_name",
+        "label": "傷病名",
+        "type": "select",
+        "options": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"
+        ],
+        "optionLabels": [
+            "神経痛",
+            "リウマチ",
+            "頸腕症候群",
+            "五十肩",
+            "腰痛症",
+            "頸椎捻挫後遺症",
+            "その他"
+        ],
+        "ellipseWidth": 10,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "illness_name",
+        "optionLabel": "リウマチ",
+        "isSelected": false
+    },
+    "illness_name_3": {
+        "x": 88.5,
+        "y": 72.5,
+        "textAlign": "left",
+        "field": "illness_name",
+        "label": "傷病名",
+        "type": "select",
+        "options": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"
+        ],
+        "optionLabels": [
+            "神経痛",
+            "リウマチ",
+            "頸腕症候群",
+            "五十肩",
+            "腰痛症",
+            "頸椎捻挫後遺症",
+            "その他"
+        ],
+        "ellipseWidth": 12,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "illness_name",
+        "optionLabel": "頸腕症候群",
+        "isSelected": false
+    },
+    "illness_name_4": {
+        "x": 46,
+        "y": 77,
+        "textAlign": "left",
+        "field": "illness_name",
+        "label": "傷病名",
+        "type": "select",
+        "options": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"
+        ],
+        "optionLabels": [
+            "神経痛",
+            "リウマチ",
+            "頸腕症候群",
+            "五十肩",
+            "腰痛症",
+            "頸椎捻挫後遺症",
+            "その他"
+        ],
+        "ellipseWidth": 8.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "illness_name",
+        "optionLabel": "五十肩",
+        "isSelected": false
+    },
+    "illness_name_5": {
+        "x": 64,
+        "y": 77,
+        "textAlign": "left",
+        "field": "illness_name",
+        "label": "傷病名",
+        "type": "select",
+        "options": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"
+        ],
+        "optionLabels": [
+            "神経痛",
+            "リウマチ",
+            "頸腕症候群",
+            "五十肩",
+            "腰痛症",
+            "頸椎捻挫後遺症",
+            "その他"
+        ],
+        "ellipseWidth": 8.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "illness_name",
+        "optionLabel": "腰痛症",
+        "isSelected": false
+    },
+    "illness_name_6": {
+        "x": 91,
+        "y": 77,
+        "textAlign": "left",
+        "field": "illness_name",
+        "label": "傷病名",
+        "type": "select",
+        "options": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"
+        ],
+        "optionLabels": [
+            "神経痛",
+            "リウマチ",
+            "頸腕症候群",
+            "五十肩",
+            "腰痛症",
+            "頸椎捻挫後遺症",
+            "その他"
+        ],
+        "ellipseWidth": 15,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "illness_name",
+        "optionLabel": "頸椎捻挫後遺症",
+        "isSelected": false
+    },
+    "illness_name_7": {
+        "x": 115,
+        "y": 77,
+        "textAlign": "left",
+        "field": "illness_name",
+        "label": "傷病名",
+        "type": "select",
+        "options": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"
+        ],
+        "optionLabels": [
+            "神経痛",
+            "リウマチ",
+            "頸腕症候群",
+            "五十肩",
+            "腰痛症",
+            "頸椎捻挫後遺症",
+            "その他"
+        ],
+        "ellipseWidth": 8.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "illness_name",
+        "optionLabel": "その他",
+        "isSelected": true
     }
 }
