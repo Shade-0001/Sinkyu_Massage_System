@@ -4,7 +4,7 @@
         "y": 16,
         "fontSize": 12,
         "letterSpacing": 0,
-        "textAlign": "left",
+        "textAlign": "center",
         "type": "text"
     },
     "insurance_type_3_hongai": {
@@ -904,8 +904,8 @@
         "textAlign": "left"
     },
     "condition": {
-        "x": 49,
-        "y": 59,
+        "x": 44.5,
+        "y": 52.5,
         "fontSize": 10,
         "letterSpacing": 0,
         "textAlign": "center",
