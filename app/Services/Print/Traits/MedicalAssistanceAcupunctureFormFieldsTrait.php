@@ -262,12 +262,26 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
   // ============================================================
   protected function fillPatientBirthday($pdf, $clinicUser): void
   {
+    \Log::info('[fillPatientBirthday] 開始', [
+      'sampleDataMode' => $this->sampleDataMode,
+      'hasCustomSampleData' => !empty($this->customSampleData),
+      'hasClinicUserBirthday' => isset($clinicUser->birthday),
+      'customSampleData_keys' => $this->customSampleData ? array_keys($this->customSampleData) : []
+    ]);
+
     // === 生年月日 ===
     if ($this->sampleDataMode && $this->customSampleData) {
       // サンプルデータモード：customSampleDataから取得
       $birthYear = $this->customSampleData['birthday_year'] ?? null;
       $birthMonth = $this->customSampleData['birthday_month'] ?? null;
       $birthDay = $this->customSampleData['birthday_day'] ?? null;
+
+      \Log::info('[fillPatientBirthday] サンプルモード - 生年月日取得', [
+        'birthYear' => $birthYear,
+        'birthMonth' => $birthMonth,
+        'birthDay' => $birthDay
+      ]);
+
       // isSelectedフラグまたはcustomSampleDataから元号を取得
       $birthdayEra = null;
       $birthdayEraKey = null;
@@ -307,11 +321,18 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
         } else {
           $fullDate = $birthYear . '年 ' . (int)$birthMonth . '月 ' . (int)$birthDay . '日';
         }
+        \Log::info('[fillPatientBirthday] サンプルモード - 描画テキスト生成', [
+          'fullDate' => $fullDate,
+          'birthdayEra' => $birthdayEra
+        ]);
         $pdf->SetFontSize($this->coord('birthday_full_date', 'fontSize'));
         $this->drawTextByKey($pdf, 'birthday_full_date', $fullDate);
         $pdf->SetFontSize(10);
       }
     } elseif (isset($clinicUser->birthday)) {
+      \Log::info('[fillPatientBirthday] 通常モード - clinicUser->birthday使用', [
+        'birthday' => $clinicUser->birthday
+      ]);
       // 通常モード：実データから取得
       [$birthYear, $birthMonth, $birthDay] = explode('-', $clinicUser->birthday);
       $birthJapaneseYear = $this->convertToJapaneseYear((int)$birthYear, (int)$birthMonth);
@@ -331,6 +352,10 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
       } else {
         $fullDate = $birthJapaneseYear['year'] . '年 ' . (int)$birthMonth . '月 ' . (int)$birthDay . '日';
       }
+      \Log::info('[fillPatientBirthday] 通常モード - 描画テキスト生成', [
+        'fullDate' => $fullDate,
+        'era' => $birthJapaneseYear['era']
+      ]);
       $pdf->SetFontSize($this->coord('birthday_full_date', 'fontSize'));
       $this->drawTextByKey($pdf, 'birthday_full_date', $fullDate);
       $pdf->SetFontSize(10);
