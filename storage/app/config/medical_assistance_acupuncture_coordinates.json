@@ -217,7 +217,7 @@
     "birthday_year": {
         "x": -34,
         "y": 71.5,
-        "fontSize": 15,
+        "fontSize": 20,
         "letterSpacing": 0,
         "textAlign": "center",
         "type": "text",
@@ -936,30 +936,30 @@
         "type": "text"
     },
     "work_scope_type_1": {
-        "x": 124,
-        "y": 73.5,
-        "ellipseWidth": 10,
-        "ellipseHeight": 3,
-        "lineWidth": 0.5,
-        "radioGroup": "work_scope_type",
-        "type": "select",
-        "isSelected": true
-    },
-    "work_scope_type_2": {
-        "x": 150,
-        "y": 73.5,
-        "ellipseWidth": 18,
-        "ellipseHeight": 3,
+        "x": 158,
+        "y": 66,
+        "ellipseWidth": 6,
+        "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "work_scope_type",
         "type": "select",
         "isSelected": false
     },
+    "work_scope_type_2": {
+        "x": 174,
+        "y": 66,
+        "ellipseWidth": 11.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "work_scope_type",
+        "type": "select",
+        "isSelected": true
+    },
     "work_scope_type_3": {
-        "x": 177.5,
-        "y": 73.5,
-        "ellipseWidth": 10,
-        "ellipseHeight": 3,
+        "x": 190,
+        "y": 66,
+        "ellipseWidth": 6,
+        "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "work_scope_type",
         "type": "select",
@@ -1510,5 +1510,23 @@
         "field": "consent_date_month",
         "type": "number",
         "compositeGroup": "consent_date"
+    },
+    "onset_date": {
+        "x": 67.5,
+        "y": 75,
+        "textAlign": "center",
+        "field": "onset_date",
+        "label": "発病・負傷年月日",
+        "type": "text",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "birthday_full_date": {
+        "x": 62,
+        "y": 55,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text"
     }
 }
