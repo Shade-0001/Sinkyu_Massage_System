@@ -253,22 +253,14 @@ function renderFieldSettings() {
         div.className = 'field-group';
         div.setAttribute('data-composite-group', field.compositeGroup);
 
-        const groupLabel = field.compositeLabel || field.compositeGroup;
+        // フィールド定義からcompositeLabelを取得（座標JSONからは取得しない）
+        const firstFieldMapping = sampleDataFieldMapping[firstKey];
+        const groupLabel = firstFieldMapping?.compositeLabel || field.compositeGroup;
 
         const options = groupFields.map(([k, v]) => {
           const mapping = sampleDataFieldMapping[k];
-          let optionLabel = v.label;
-
-          // 座標ファイルのoptionLabelを最優先
-          if (v.optionLabel) {
-            optionLabel = v.optionLabel;
-          } else if (mapping) {
-            if (mapping.optionLabel) {
-              optionLabel = mapping.optionLabel;
-            } else if (mapping.label) {
-              optionLabel = mapping.label;
-            }
-          }
+          // フィールド定義からのみoptionLabelを取得（座標JSONは使用しない）
+          const optionLabel = mapping?.optionLabel || mapping?.label || k;
           return `<option value="${k}" ${selectedKey === k ? 'selected' : ''}>${optionLabel}</option>`;
         }).join('');
 
@@ -343,10 +335,15 @@ function renderFieldSettings() {
         div.className = 'field-group';
         div.setAttribute('data-radio-group', field.radioGroup);
 
-        const groupLabel = field.label || field.radioGroup;
+        // フィールド定義からlabelを取得（座標JSONからは取得しない）
+        const firstFieldMapping = sampleDataFieldMapping[groupFields[0][0]];
+        const groupLabel = firstFieldMapping?.label || field.radioGroup;
 
         const options = groupFields.map(([k, v]) => {
-          return `<option value="${k}" ${selectedKey === k ? 'selected' : ''}>${v.optionLabel || v.label}</option>`;
+          const mapping = sampleDataFieldMapping[k];
+          // フィールド定義からのみoptionLabelを取得
+          const optionLabel = mapping?.optionLabel || mapping?.label || k;
+          return `<option value="${k}" ${selectedKey === k ? 'selected' : ''}>${optionLabel}</option>`;
         }).join('');
 
         // サンプルモード判定
@@ -624,10 +621,15 @@ function renderFieldSettings() {
           div.className = 'field-group';
           div.setAttribute('data-radio-group', field.radioGroup);
 
-          const groupLabel = field.label || field.radioGroup;
+          // フィールド定義からlabelを取得（座標JSONからは取得しない）
+          const firstFieldMapping = sampleDataFieldMapping[firstKey];
+          const groupLabel = firstFieldMapping?.label || field.radioGroup;
 
           const options = groupFields.map(([k, v]) => {
-            return `<option value="${k}" ${selectedKey === k ? 'selected' : ''}>${v.optionLabel || v.label}</option>`;
+            const mapping = sampleDataFieldMapping[k];
+            // フィールド定義からのみoptionLabelを取得
+            const optionLabel = mapping?.optionLabel || mapping?.label || k;
+            return `<option value="${k}" ${selectedKey === k ? 'selected' : ''}>${optionLabel}</option>`;
           }).join('');
 
           div.innerHTML = `
@@ -730,9 +732,13 @@ function renderSingleFieldHTML(key, field) {
   `;
   }
 
+  // フィールド定義からlabelを取得（座標JSONからは取得しない）
+  const mapping = getSampleDataFieldMapping()[key];
+  const fieldLabel = mapping?.label || key;
+
   return `
     <h6 class="field-header" onclick="toggleField('${key}')" style="cursor: pointer; user-select: none;">
-      <span class="toggle-icon" id="toggle-${key}">▶</span> ${field.label || key}
+      <span class="toggle-icon" id="toggle-${key}">▶</span> ${fieldLabel}
     </h6>
 
     <div class="field-controls" id="controls-${key}">

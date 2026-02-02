@@ -5,8 +5,7 @@
         "fontSize": 12,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "text",
-        "label": "元号年月"
+        "type": "text"
     },
     "document_type": {
         "x": 197,
@@ -14,8 +13,7 @@
         "fontSize": 12,
         "letterSpacing": 0,
         "textAlign": "right",
-        "type": "text",
-        "label": "書類区分"
+        "type": "text"
     },
     "patient_name": {
         "x": -46.5,
@@ -23,8 +21,7 @@
         "fontSize": 16,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "text",
-        "label": "氏名（姓名）"
+        "type": "text"
     },
     "patient_gender_male": {
         "x": 84.5,
@@ -33,9 +30,7 @@
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "gender",
-        "optionLabel": "男",
         "type": "select",
-        "label": "性別",
         "isSelected": true
     },
     "patient_gender_female": {
@@ -45,9 +40,7 @@
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "gender",
-        "optionLabel": "女",
         "type": "select",
-        "label": "性別",
         "isSelected": false
     },
     "patient_age": {
@@ -56,8 +49,7 @@
         "fontSize": 10,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "number",
-        "label": "年齢"
+        "type": "number"
     },
     "illness_name": {
         "x": 118,
@@ -65,8 +57,7 @@
         "fontSize": 14,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "text",
-        "label": "傷病名"
+        "type": "text"
     },
     "onset_date": {
         "x": 68,
@@ -74,8 +65,7 @@
         "fontSize": 9,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "text",
-        "label": "発病・負傷年月日"
+        "type": "text"
     },
     "consent_date": {
         "x": 105,
@@ -83,8 +73,7 @@
         "fontSize": 11,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "text",
-        "label": "保険医同意年月日"
+        "type": "text"
     },
     "bill_category": {
         "x": 68,
@@ -93,8 +82,7 @@
         "fontSize": 10,
         "letterSpacing": 2,
         "textAlign": "center",
-        "field": "bill_category",
-        "label": "請求区分"
+        "field": "bill_category"
     },
     "outcome": {
         "x": 68,
@@ -103,8 +91,7 @@
         "fontSize": 10,
         "letterSpacing": 2,
         "textAlign": "center",
-        "field": "outcome",
-        "label": "転帰"
+        "field": "outcome"
     },
     "therapy_types": {
         "x": 34.5,
@@ -113,8 +100,7 @@
         "letterSpacing": 0,
         "textAlign": "center",
         "type": "text",
-        "verticalSpacing": 5.1,
-        "label": "施術の種類"
+        "verticalSpacing": 5.1
     },
     "therapy_counts": {
         "x": 63.5,
@@ -122,8 +108,7 @@
         "fontSize": 9,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "number",
-        "label": "回数"
+        "type": "number"
     },
     "therapy_unit_prices": {
         "x": 85,
@@ -131,8 +116,7 @@
         "fontSize": 9,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "number",
-        "label": "１回の料金"
+        "type": "number"
     },
     "therapy_totals": {
         "x": 117.5,
@@ -140,8 +124,7 @@
         "fontSize": 9,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "number",
-        "label": "計"
+        "type": "number"
     },
     "therapy_period_start": {
         "x": -26.5,
@@ -149,8 +132,7 @@
         "fontSize": 9,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "text",
-        "label": "施術期間（開始）"
+        "type": "text"
     },
     "therapy_period_end": {
         "x": 13,
@@ -158,8 +140,7 @@
         "fontSize": 9,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "text",
-        "label": "施術期間（終了）"
+        "type": "text"
     },
     "insurance_total": {
         "x": 74,
@@ -167,8 +148,7 @@
         "fontSize": 14,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "number",
-        "label": "保険対象合計金額"
+        "type": "number"
     },
     "self_pay_total": {
         "x": 171,
@@ -176,8 +156,7 @@
         "fontSize": 14,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "number",
-        "label": "自費対象合計金額"
+        "type": "number"
     },
     "copayment_amount": {
         "x": 74,
@@ -185,8 +164,7 @@
         "fontSize": 14,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "number",
-        "label": "一部負担金額"
+        "type": "number"
     },
     "treatment_month": {
         "x": -66,
@@ -194,8 +172,7 @@
         "fontSize": 13,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "number",
-        "label": "施術月"
+        "type": "number"
     },
     "treatment_days": {
         "x": 54.5,
@@ -204,8 +181,7 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "circleSpacing": 3.9,
-        "field": "treatment_days",
-        "label": "施術日"
+        "field": "treatment_days"
     },
     "treatment_days_1": {
         "x": 55,
@@ -214,8 +190,7 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 1,
-        "field": "treatment_days_1",
-        "label": "施術日（1日）"
+        "field": "treatment_days_1"
     },
     "treatment_days_5": {
         "x": 69.1,
@@ -224,8 +199,7 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 5,
-        "field": "treatment_days_5",
-        "label": "施術日（5日）"
+        "field": "treatment_days_5"
     },
     "treatment_days_10": {
         "x": 87.7,
@@ -234,8 +208,7 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 10,
-        "field": "treatment_days_10",
-        "label": "施術日（10日）"
+        "field": "treatment_days_10"
     },
     "treatment_days_15": {
         "x": 112.1,
@@ -244,8 +217,7 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 15,
-        "field": "treatment_days_15",
-        "label": "施術日（15日）"
+        "field": "treatment_days_15"
     },
     "treatment_days_20": {
         "x": 136.6,
@@ -254,8 +226,7 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 20,
-        "field": "treatment_days_20",
-        "label": "施術日（20日）"
+        "field": "treatment_days_20"
     },
     "treatment_days_25": {
         "x": 161.6,
@@ -264,8 +235,7 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 25,
-        "field": "treatment_days_25",
-        "label": "施術日（25日）"
+        "field": "treatment_days_25"
     },
     "copayment_ratio": {
         "x": 64.5,
@@ -273,8 +243,7 @@
         "fontSize": 11,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "number",
-        "label": "負担割合"
+        "type": "number"
     },
     "remarks": {
         "x": 23,
@@ -283,7 +252,6 @@
         "letterSpacing": 0,
         "textAlign": "left",
         "type": "text",
-        "label": "備考",
         "maxCharsPerLine": 49
     },
     "receipt_amount": {
@@ -292,8 +260,7 @@
         "fontSize": 14,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "number",
-        "label": "領収金額"
+        "type": "number"
     },
     "creation_date": {
         "x": 38,
@@ -301,8 +268,7 @@
         "fontSize": 11,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "text",
-        "label": "提出年月日"
+        "type": "text"
     },
     "clinic_postal_code": {
         "x": 78,
@@ -310,8 +276,7 @@
         "fontSize": 11,
         "letterSpacing": 0.2,
         "textAlign": "left",
-        "type": "text",
-        "label": "施術所郵便番号"
+        "type": "text"
     },
     "clinic_address": {
         "x": 78,
@@ -319,8 +284,7 @@
         "fontSize": 11,
         "letterSpacing": 0,
         "textAlign": "left",
-        "type": "text",
-        "label": "施術所所在地"
+        "type": "text"
     },
     "clinic_name": {
         "x": 78,
@@ -328,8 +292,7 @@
         "fontSize": 11,
         "letterSpacing": 0,
         "textAlign": "left",
-        "type": "text",
-        "label": "施術所名称"
+        "type": "text"
     },
     "clinic_manager": {
         "x": 78,
@@ -337,8 +300,7 @@
         "fontSize": 11,
         "letterSpacing": 0,
         "textAlign": "left",
-        "type": "text",
-        "label": "施術管理者氏名"
+        "type": "text"
     },
     "clinic_phone": {
         "x": 165,
@@ -346,15 +308,13 @@
         "fontSize": 11,
         "letterSpacing": 0,
         "textAlign": "left",
-        "type": "text",
-        "label": "電話番号"
+        "type": "text"
     },
     "locality_code": {
         "x": 45.2,
         "y": 25,
         "textAlign": "left",
         "field": "locality_code",
-        "label": "区市町村番号",
         "type": "text",
         "fontSize": 14,
         "letterSpacing": 7.27
@@ -364,7 +324,6 @@
         "y": 31.5,
         "textAlign": "left",
         "field": "recipient_number",
-        "label": "受給者番号",
         "type": "text",
         "fontSize": 14,
         "letterSpacing": 7.27
@@ -374,7 +333,6 @@
         "y": 7,
         "textAlign": "left",
         "field": "insurance_type_3",
-        "label": "保険種別３",
         "type": "select",
         "masterKey": "insurance_types_3",
         "valueField": "insurance_type_3",
@@ -382,7 +340,6 @@
         "ellipseHeight": 1,
         "lineWidth": 0.5,
         "radioGroup": "insurance_type_3",
-        "optionLabel": "本外",
         "isSelected": true
     },
     "insurance_type_3_sangai": {
@@ -390,7 +347,6 @@
         "y": 10.5,
         "textAlign": "left",
         "field": "insurance_type_3",
-        "label": "保険種別３",
         "type": "select",
         "masterKey": "insurance_types_3",
         "valueField": "insurance_type_3",
@@ -398,7 +354,6 @@
         "ellipseHeight": 1,
         "lineWidth": 0.5,
         "radioGroup": "insurance_type_3",
-        "optionLabel": "三外",
         "isSelected": false
     },
     "insurance_type_3_kagai": {
@@ -406,7 +361,6 @@
         "y": 14,
         "textAlign": "left",
         "field": "insurance_type_3",
-        "label": "保険種別３",
         "type": "select",
         "masterKey": "insurance_types_3",
         "valueField": "insurance_type_3",
@@ -414,7 +368,6 @@
         "ellipseHeight": 1,
         "lineWidth": 0.5,
         "radioGroup": "insurance_type_3",
-        "optionLabel": "家外",
         "isSelected": false
     },
     "insurance_type_3_kougai9": {
@@ -422,7 +375,6 @@
         "y": 18,
         "textAlign": "left",
         "field": "insurance_type_3",
-        "label": "保険種別３",
         "type": "select",
         "masterKey": "insurance_types_3",
         "valueField": "insurance_type_3",
@@ -430,7 +382,6 @@
         "ellipseHeight": 1,
         "lineWidth": 0.5,
         "radioGroup": "insurance_type_3",
-        "optionLabel": "高外９",
         "isSelected": false
     },
     "insurance_type_3_kougai8": {
@@ -438,7 +389,6 @@
         "y": 21.5,
         "textAlign": "left",
         "field": "insurance_type_3",
-        "label": "保険種別３",
         "type": "select",
         "masterKey": "insurance_types_3",
         "valueField": "insurance_type_3",
@@ -446,7 +396,6 @@
         "ellipseHeight": 1,
         "lineWidth": 0.5,
         "radioGroup": "insurance_type_3",
-        "optionLabel": "高外８",
         "isSelected": false
     },
     "insurer_number": {
@@ -454,7 +403,6 @@
         "y": 25,
         "textAlign": "left",
         "field": "insurer_number",
-        "label": "保険者番号",
         "type": "text",
         "fontSize": 14,
         "letterSpacing": 7.27
@@ -464,7 +412,6 @@
         "y": 32,
         "textAlign": "center",
         "field": "insurance_symbol_code",
-        "label": "被保険者記号",
         "type": "text",
         "fontSize": 13,
         "letterSpacing": 0.5
@@ -474,7 +421,6 @@
         "y": 32,
         "textAlign": "center",
         "field": "insurance_symbol_number",
-        "label": "被保険者番号",
         "type": "text",
         "fontSize": 13,
         "letterSpacing": 0.5
@@ -484,7 +430,6 @@
         "y": 38.2,
         "textAlign": "center",
         "field": "last_kana",
-        "label": "氏名カナ（姓名）",
         "type": "text",
         "combine": [
             "last_kana",
@@ -498,7 +443,6 @@
         "y": 47.5,
         "textAlign": "left",
         "field": "relationship",
-        "label": "続柄",
         "type": "select",
         "masterKey": "relationships",
         "valueField": "relationship",
@@ -510,7 +454,6 @@
         "y": 66,
         "textAlign": "left",
         "field": "work_scope_type",
-        "label": "業務上･外･第三者行為の有無",
         "type": "select",
         "options": [
             "業務上",
@@ -521,7 +464,6 @@
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "work_scope_type",
-        "optionLabel": "業務上",
         "isSelected": true
     },
     "work_scope_type_2": {
@@ -529,7 +471,6 @@
         "y": 66,
         "textAlign": "left",
         "field": "work_scope_type",
-        "label": "業務上･外･第三者行為の有無",
         "type": "select",
         "options": [
             "業務上",
@@ -540,7 +481,6 @@
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "work_scope_type",
-        "optionLabel": "第三者行為",
         "isSelected": false
     },
     "work_scope_type_3": {
@@ -548,7 +488,6 @@
         "y": 66,
         "textAlign": "left",
         "field": "work_scope_type",
-        "label": "業務上･外･第三者行為の有無",
         "type": "select",
         "options": [
             "業務上",
@@ -559,7 +498,6 @@
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "work_scope_type",
-        "optionLabel": "その他",
         "isSelected": false
     },
     "birthday_era_meiji": {
@@ -567,7 +505,6 @@
         "y": 55,
         "textAlign": "left",
         "field": "birthday_era",
-        "label": "元号",
         "type": "select",
         "options": [
             "明治",
@@ -579,9 +516,7 @@
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "birthday_era",
-        "optionLabel": "明治",
         "compositeGroup": "birthday_full_date",
-        "compositeLabel": "生年月日",
         "isSelected": true
     },
     "birthday_era_taisho": {
@@ -589,7 +524,6 @@
         "y": 55,
         "textAlign": "left",
         "field": "birthday_era",
-        "label": "元号",
         "type": "select",
         "options": [
             "明治",
@@ -601,9 +535,7 @@
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "birthday_era",
-        "optionLabel": "大正",
         "compositeGroup": "birthday_full_date",
-        "compositeLabel": "生年月日",
         "isSelected": false
     },
     "birthday_era_showa": {
@@ -611,7 +543,6 @@
         "y": 55,
         "textAlign": "left",
         "field": "birthday_era",
-        "label": "元号",
         "type": "select",
         "options": [
             "明治",
@@ -623,9 +554,7 @@
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "birthday_era",
-        "optionLabel": "昭和",
         "compositeGroup": "birthday_full_date",
-        "compositeLabel": "生年月日",
         "isSelected": false
     },
     "birthday_era_heisei": {
@@ -633,7 +562,6 @@
         "y": 55,
         "textAlign": "left",
         "field": "birthday_era",
-        "label": "元号",
         "type": "select",
         "options": [
             "明治",
@@ -645,9 +573,7 @@
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "birthday_era",
-        "optionLabel": "平成",
         "compositeGroup": "birthday_full_date",
-        "compositeLabel": "生年月日",
         "isSelected": false
     },
     "birthday_full_date": {
@@ -655,7 +581,6 @@
         "y": 52.5,
         "textAlign": "center",
         "field": "birthday_year",
-        "label": "年月日",
         "type": "text",
         "combine": [
             "birthday_year",
@@ -663,7 +588,6 @@
             "birthday_day"
         ],
         "compositeGroup": "birthday_full_date",
-        "compositeLabel": "生年月日",
         "fontSize": 10,
         "letterSpacing": 0
     },
@@ -672,7 +596,6 @@
         "y": 52.5,
         "textAlign": "center",
         "field": "condition",
-        "label": "発病負傷の原因･経過",
         "type": "text",
         "fontSize": 10,
         "letterSpacing": 0
@@ -682,10 +605,8 @@
         "y": 64,
         "textAlign": "center",
         "field": "first_treatment_date",
-        "label": "初療年月日",
         "type": "text",
         "compositeGroup": "first_treatment_date_composite",
-        "compositeLabel": "初療年月日",
         "fontSize": 9,
         "letterSpacing": 0
     },
@@ -694,7 +615,6 @@
         "y": 64,
         "textAlign": "center",
         "field": "treatment_days",
-        "label": "実日数",
         "type": "number",
         "fontSize": 10,
         "letterSpacing": 0
@@ -704,7 +624,6 @@
         "y": 72.5,
         "textAlign": "left",
         "field": "illness_name",
-        "label": "傷病名",
         "type": "select",
         "options": [
             "1",
@@ -728,7 +647,6 @@
         "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "illness_name",
-        "optionLabel": "神経痛",
         "isSelected": true
     },
     "illness_name_2": {
@@ -736,7 +654,6 @@
         "y": 72.5,
         "textAlign": "left",
         "field": "illness_name",
-        "label": "傷病名",
         "type": "select",
         "options": [
             "1",
@@ -760,7 +677,6 @@
         "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "illness_name",
-        "optionLabel": "リウマチ",
         "isSelected": false
     },
     "illness_name_3": {
@@ -768,7 +684,6 @@
         "y": 72.5,
         "textAlign": "left",
         "field": "illness_name",
-        "label": "傷病名",
         "type": "select",
         "options": [
             "1",
@@ -792,7 +707,6 @@
         "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "illness_name",
-        "optionLabel": "頸腕症候群",
         "isSelected": false
     },
     "illness_name_4": {
@@ -800,7 +714,6 @@
         "y": 77,
         "textAlign": "left",
         "field": "illness_name",
-        "label": "傷病名",
         "type": "select",
         "options": [
             "1",
@@ -824,7 +737,6 @@
         "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "illness_name",
-        "optionLabel": "五十肩",
         "isSelected": false
     },
     "illness_name_5": {
@@ -832,7 +744,6 @@
         "y": 77,
         "textAlign": "left",
         "field": "illness_name",
-        "label": "傷病名",
         "type": "select",
         "options": [
             "1",
@@ -856,7 +767,6 @@
         "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "illness_name",
-        "optionLabel": "腰痛症",
         "isSelected": false
     },
     "illness_name_6": {
@@ -864,7 +774,6 @@
         "y": 77,
         "textAlign": "left",
         "field": "illness_name",
-        "label": "傷病名",
         "type": "select",
         "options": [
             "1",
@@ -888,7 +797,6 @@
         "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "illness_name",
-        "optionLabel": "頸椎捻挫後遺症",
         "isSelected": false
     },
     "illness_name_7": {
@@ -896,7 +804,6 @@
         "y": 77,
         "textAlign": "left",
         "field": "illness_name",
-        "label": "傷病名",
         "type": "select",
         "options": [
             "1",
@@ -920,7 +827,6 @@
         "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "illness_name",
-        "optionLabel": "その他",
         "isSelected": false
     },
     "illness_name_other_text": {
@@ -928,7 +834,6 @@
         "y": 75,
         "textAlign": "center",
         "field": "illness_name_other_text",
-        "label": "傷病名（その他の内容）",
         "type": "text",
         "fontSize": 8,
         "letterSpacing": 0
@@ -938,7 +843,6 @@
         "y": 109,
         "textAlign": "left",
         "field": "abstract",
-        "label": "摘要",
         "type": "text",
         "width": 180,
         "lineHeight": 5,
@@ -953,8 +857,7 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 2,
-        "field": "treatment_days_2",
-        "label": "施術日（2日）"
+        "field": "treatment_days_2"
     },
     "treatment_days_19": {
         "x": 132,
@@ -963,8 +866,7 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 19,
-        "field": "treatment_days_19",
-        "label": "施術日（19日）"
+        "field": "treatment_days_19"
     },
     "treatment_days_22": {
         "x": 146.5,
@@ -973,8 +875,7 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 22,
-        "field": "treatment_days_22",
-        "label": "施術日（22日）"
+        "field": "treatment_days_22"
     },
     "treatment_days_29": {
         "x": 181.5,
@@ -983,8 +884,7 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 29,
-        "field": "treatment_days_29",
-        "label": "施術日（29日）"
+        "field": "treatment_days_29"
     },
     "treatment_days_12": {
         "x": 97.4,
@@ -993,8 +893,7 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 12,
-        "field": "treatment_days_12",
-        "label": "施術日（12日）"
+        "field": "treatment_days_12"
     },
     "treatment_days_30": {
         "x": 186.5,
@@ -1003,8 +902,7 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 30,
-        "field": "treatment_days_30",
-        "label": "施術日（30日）"
+        "field": "treatment_days_30"
     },
     "treatment_days_31": {
         "x": 191,
@@ -1013,15 +911,13 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 31,
-        "field": "treatment_days_31",
-        "label": "施術日（31日）"
+        "field": "treatment_days_31"
     },
     "agent_name": {
         "x": 61,
         "y": 252,
         "textAlign": "left",
         "field": "agent_name",
-        "label": "代理人氏名",
         "type": "text",
         "fontSize": 10,
         "letterSpacing": 0
@@ -1033,8 +929,7 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 3,
-        "field": "treatment_days_3",
-        "label": "施術日（3日）"
+        "field": "treatment_days_3"
     },
     "treatment_days_4": {
         "x": 65.7,
@@ -1043,8 +938,7 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 4,
-        "field": "treatment_days_4",
-        "label": "施術日（4日）"
+        "field": "treatment_days_4"
     },
     "treatment_days_6": {
         "x": 72.5,
@@ -1053,8 +947,7 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 6,
-        "field": "treatment_days_6",
-        "label": "施術日（6日）"
+        "field": "treatment_days_6"
     },
     "treatment_days_28": {
         "x": 176.3,
@@ -1063,8 +956,7 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 28,
-        "field": "treatment_days_28",
-        "label": "施術日（28日）"
+        "field": "treatment_days_28"
     },
     "treatment_days_27": {
         "x": 171.4,
@@ -1073,8 +965,7 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 27,
-        "field": "treatment_days_27",
-        "label": "施術日（27日）"
+        "field": "treatment_days_27"
     },
     "treatment_days_26": {
         "x": 166.5,
@@ -1083,8 +974,7 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 26,
-        "field": "treatment_days_26",
-        "label": "施術日（26日）"
+        "field": "treatment_days_26"
     },
     "treatment_days_24": {
         "x": 156.7,
@@ -1093,8 +983,7 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 24,
-        "field": "treatment_days_24",
-        "label": "施術日（24日）"
+        "field": "treatment_days_24"
     },
     "treatment_days_23": {
         "x": 151.8,
@@ -1103,8 +992,7 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 23,
-        "field": "treatment_days_23",
-        "label": "施術日（23日）"
+        "field": "treatment_days_23"
     },
     "treatment_days_21": {
         "x": 141.5,
@@ -1113,8 +1001,7 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 21,
-        "field": "treatment_days_21",
-        "label": "施術日（21日）"
+        "field": "treatment_days_21"
     },
     "treatment_days_18": {
         "x": 127,
@@ -1123,8 +1010,7 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 18,
-        "field": "treatment_days_18",
-        "label": "施術日（18日）"
+        "field": "treatment_days_18"
     },
     "treatment_days_17": {
         "x": 122,
@@ -1133,8 +1019,7 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 17,
-        "field": "treatment_days_17",
-        "label": "施術日（17日）"
+        "field": "treatment_days_17"
     },
     "treatment_days_16": {
         "x": 117.5,
@@ -1143,8 +1028,7 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 16,
-        "field": "treatment_days_16",
-        "label": "施術日（16日）"
+        "field": "treatment_days_16"
     },
     "treatment_days_14": {
         "x": 107.2,
@@ -1153,8 +1037,7 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 14,
-        "field": "treatment_days_14",
-        "label": "施術日（14日）"
+        "field": "treatment_days_14"
     },
     "treatment_days_13": {
         "x": 102.3,
@@ -1163,8 +1046,7 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 13,
-        "field": "treatment_days_13",
-        "label": "施術日（13日）"
+        "field": "treatment_days_13"
     },
     "treatment_days_11": {
         "x": 92.5,
@@ -1173,8 +1055,7 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 11,
-        "field": "treatment_days_11",
-        "label": "施術日（11日）"
+        "field": "treatment_days_11"
     },
     "treatment_days_7": {
         "x": 75.9,
@@ -1183,8 +1064,7 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 7,
-        "field": "treatment_days_7",
-        "label": "施術日（7日）"
+        "field": "treatment_days_7"
     },
     "treatment_days_8": {
         "x": 79.8,
@@ -1193,8 +1073,7 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 8,
-        "field": "treatment_days_8",
-        "label": "施術日（8日）"
+        "field": "treatment_days_8"
     },
     "treatment_days_9": {
         "x": 83.2,
@@ -1203,15 +1082,13 @@
         "circleRadius": 1.8,
         "doubleCircleInnerRadius": 2.5,
         "dayNumber": 9,
-        "field": "treatment_days_9",
-        "label": "施術日（9日）"
+        "field": "treatment_days_9"
     },
     "agent_postal_code": {
         "x": 0.5,
         "y": 0,
         "textAlign": "left",
         "field": "agent_postal_code",
-        "label": "代理人郵便番号",
         "type": "postal_code",
         "postalCodeGap": 2,
         "fontSize": 10,
@@ -1224,7 +1101,6 @@
         "y": 167,
         "textAlign": "left",
         "field": "health_center_registration",
-        "label": "保健所登録区分",
         "type": "select",
         "options": [
             "施術所所在地",
@@ -1234,7 +1110,6 @@
         "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "health_center_registration",
-        "optionLabel": "施術所所在地",
         "isSelected": true
     },
     "health_center_registration_2": {
@@ -1242,7 +1117,6 @@
         "y": 167,
         "textAlign": "left",
         "field": "health_center_registration",
-        "label": "保健所登録区分",
         "type": "select",
         "options": [
             "施術所所在地",
@@ -1252,7 +1126,6 @@
         "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "health_center_registration",
-        "optionLabel": "出張専門施術者住所地",
         "isSelected": false
     },
     "license_hari_number": {
@@ -1260,7 +1133,6 @@
         "y": 173,
         "textAlign": "center",
         "field": "license_hari_number",
-        "label": "免許番号（はり師）",
         "type": "text",
         "fontSize": 10,
         "letterSpacing": 0
@@ -1270,7 +1142,6 @@
         "y": 179.5,
         "textAlign": "center",
         "field": "license_kyu_number",
-        "label": "免許番号（きゅう師）",
         "type": "text",
         "fontSize": 10,
         "letterSpacing": 0
@@ -1280,7 +1151,6 @@
         "y": 171,
         "textAlign": "left",
         "field": "therapist_postal_code",
-        "label": "施術者郵便番号",
         "type": "postal_code",
         "fontSize": 10,
         "letterSpacing": 0,
@@ -1295,7 +1165,6 @@
         "y": 175,
         "textAlign": "left",
         "field": "therapist_address",
-        "label": "施術者住所",
         "type": "text",
         "fontSize": 10,
         "letterSpacing": 0
@@ -1305,7 +1174,6 @@
         "y": 180,
         "textAlign": "left",
         "field": "therapist_name",
-        "label": "施術者氏名",
         "type": "text",
         "fontSize": 10,
         "letterSpacing": 0
@@ -1315,7 +1183,6 @@
         "y": 178.5,
         "textAlign": "left",
         "field": "therapist_phone",
-        "label": "施術者電話番号",
         "type": "text",
         "fontSize": 10,
         "letterSpacing": 0
@@ -1325,7 +1192,6 @@
         "y": 0,
         "textAlign": "left",
         "field": "deposit_type",
-        "label": "預金種類",
         "type": "select",
         "options": [
             "普通",
@@ -1339,7 +1205,6 @@
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "deposit_type",
-        "optionLabel": "普通",
         "fontSize": 10,
         "letterSpacing": 0,
         "isSelected": true
@@ -1349,7 +1214,6 @@
         "y": 0,
         "textAlign": "left",
         "field": "bank_account_holder_kana",
-        "label": "口座名義",
         "type": "text",
         "fontSize": 10,
         "letterSpacing": 0
@@ -1359,7 +1223,6 @@
         "y": 0,
         "textAlign": "left",
         "field": "bank_account_number",
-        "label": "口座番号",
         "type": "text",
         "fontSize": 10,
         "letterSpacing": 0
@@ -1369,7 +1232,6 @@
         "y": 0,
         "textAlign": "left",
         "field": "payment_category",
-        "label": "支払区分",
         "type": "select",
         "options": [
             "口座振替",
@@ -1381,7 +1243,6 @@
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "payment_category",
-        "optionLabel": "口座振替",
         "fontSize": 10,
         "letterSpacing": 0,
         "isSelected": true
@@ -1391,7 +1252,6 @@
         "y": 0,
         "textAlign": "left",
         "field": "payment_category",
-        "label": "支払区分",
         "type": "select",
         "options": [
             "口座振替",
@@ -1403,7 +1263,6 @@
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "payment_category",
-        "optionLabel": "窓口払",
         "fontSize": 10,
         "letterSpacing": 0,
         "isSelected": false
@@ -1413,7 +1272,6 @@
         "y": 0,
         "textAlign": "left",
         "field": "deposit_type",
-        "label": "預金種類",
         "type": "select",
         "options": [
             "普通",
@@ -1427,7 +1285,6 @@
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "deposit_type",
-        "optionLabel": "当座",
         "fontSize": 10,
         "letterSpacing": 0,
         "isSelected": false
@@ -1437,7 +1294,6 @@
         "y": 0,
         "textAlign": "left",
         "field": "deposit_type",
-        "label": "預金種類",
         "type": "select",
         "options": [
             "普通",
@@ -1451,7 +1307,6 @@
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "deposit_type",
-        "optionLabel": "貯蓄",
         "fontSize": 10,
         "letterSpacing": 0,
         "isSelected": false
@@ -1461,7 +1316,6 @@
         "y": 0,
         "textAlign": "left",
         "field": "deposit_type",
-        "label": "預金種類",
         "type": "select",
         "options": [
             "普通",
@@ -1475,7 +1329,6 @@
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "deposit_type",
-        "optionLabel": "その他",
         "fontSize": 10,
         "letterSpacing": 0,
         "isSelected": false
@@ -1485,7 +1338,6 @@
         "y": 0,
         "textAlign": "left",
         "field": "financial_institution_name",
-        "label": "金融機関名",
         "type": "text",
         "fontSize": 10,
         "letterSpacing": 0
@@ -1495,10 +1347,8 @@
         "y": 91.5,
         "textAlign": "center",
         "field": "fee_hari_unit",
-        "label": "単価",
         "type": "number",
         "compositeGroup": "fee_hari",
-        "compositeLabel": "はり",
         "fontSize": 10,
         "letterSpacing": 0
     },
@@ -1507,10 +1357,8 @@
         "y": 91.5,
         "textAlign": "center",
         "field": "fee_hari_count",
-        "label": "回数",
         "type": "number",
         "compositeGroup": "fee_hari",
-        "compositeLabel": "はり",
         "fontSize": 10,
         "letterSpacing": 0
     },
@@ -1519,10 +1367,8 @@
         "y": 91.5,
         "textAlign": "center",
         "field": "fee_hari_total",
-        "label": "合計",
         "type": "number",
         "compositeGroup": "fee_hari",
-        "compositeLabel": "はり",
         "fontSize": 10,
         "letterSpacing": 0
     },
@@ -1531,10 +1377,8 @@
         "y": 97,
         "textAlign": "center",
         "field": "fee_kyu_unit",
-        "label": "単価",
         "type": "number",
         "compositeGroup": "fee_kyu",
-        "compositeLabel": "はり（電気鍼併用）",
         "fontSize": 10,
         "letterSpacing": 0
     },
@@ -1543,10 +1387,8 @@
         "y": 97,
         "textAlign": "center",
         "field": "fee_kyu_count",
-        "label": "回数",
         "type": "number",
         "compositeGroup": "fee_kyu",
-        "compositeLabel": "はり（電気鍼併用）",
         "fontSize": 10,
         "letterSpacing": 0
     },
@@ -1555,10 +1397,8 @@
         "y": 97,
         "textAlign": "center",
         "field": "fee_kyu_total",
-        "label": "合計",
         "type": "number",
         "compositeGroup": "fee_kyu",
-        "compositeLabel": "はり（電気鍼併用）",
         "fontSize": 10,
         "letterSpacing": 0
     },
@@ -1567,10 +1407,8 @@
         "y": 102.5,
         "textAlign": "center",
         "field": "fee_hari_kyu_unit",
-        "label": "単価",
         "type": "number",
         "compositeGroup": "fee_hari_kyu",
-        "compositeLabel": "きゅう",
         "fontSize": 10,
         "letterSpacing": 0
     },
@@ -1579,10 +1417,8 @@
         "y": 102.5,
         "textAlign": "center",
         "field": "fee_hari_kyu_count",
-        "label": "回数",
         "type": "number",
         "compositeGroup": "fee_hari_kyu",
-        "compositeLabel": "きゅう",
         "fontSize": 10,
         "letterSpacing": 0
     },
@@ -1591,10 +1427,8 @@
         "y": 102.5,
         "textAlign": "center",
         "field": "fee_hari_kyu_total",
-        "label": "合計",
         "type": "number",
         "compositeGroup": "fee_hari_kyu",
-        "compositeLabel": "きゅう",
         "fontSize": 10,
         "letterSpacing": 0
     }

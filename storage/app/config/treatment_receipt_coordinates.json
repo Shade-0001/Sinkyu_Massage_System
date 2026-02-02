@@ -5,8 +5,7 @@
         "fontSize": 12,
         "letterSpacing": 0,
         "textAlign": "left",
-        "type": "text",
-        "label": "元号年月"
+        "type": "text"
     },
     "document_type": {
         "x": 197,
@@ -14,8 +13,7 @@
         "fontSize": 12,
         "letterSpacing": 0,
         "textAlign": "right",
-        "type": "text",
-        "label": "書類区分"
+        "type": "text"
     },
     "patient_name": {
         "x": 104,
@@ -23,8 +21,7 @@
         "fontSize": 16,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "text",
-        "label": "氏名（姓名）"
+        "type": "text"
     },
     "patient_gender_male": {
         "x": 188.7,
@@ -33,9 +30,7 @@
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "gender",
-        "optionLabel": "男",
         "type": "select",
-        "label": "性別",
         "isSelected": true
     },
     "patient_gender_female": {
@@ -45,9 +40,7 @@
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "gender",
-        "optionLabel": "女",
         "type": "select",
-        "label": "性別",
         "isSelected": false
     },
     "patient_age": {
@@ -56,8 +49,7 @@
         "fontSize": 10,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "number",
-        "label": "年齢"
+        "type": "number"
     },
     "illness_name": {
         "x": 118,
@@ -65,8 +57,7 @@
         "fontSize": 14,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "text",
-        "label": "傷病名"
+        "type": "text"
     },
     "onset_date": {
         "x": 118,
@@ -74,8 +65,7 @@
         "fontSize": 11,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "text",
-        "label": "発病年月日"
+        "type": "text"
     },
     "consent_date": {
         "x": 105,
@@ -83,8 +73,7 @@
         "fontSize": 11,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "text",
-        "label": "同意年月日"
+        "type": "text"
     },
     "treatment_start_date": {
         "x": 105,
@@ -92,8 +81,7 @@
         "fontSize": 11,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "text",
-        "label": "施術開始日"
+        "type": "text"
     },
     "treatment_end_date": {
         "x": 105,
@@ -101,8 +89,7 @@
         "fontSize": 11,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "text",
-        "label": "施術終了日"
+        "type": "text"
     },
     "bill_category": {
         "x": 180.5,
@@ -110,8 +97,7 @@
         "type": "text",
         "fontSize": 13,
         "letterSpacing": 2,
-        "textAlign": "center",
-        "label": "請求区分"
+        "textAlign": "center"
     },
     "outcome": {
         "x": 180.5,
@@ -119,8 +105,7 @@
         "type": "text",
         "fontSize": 13,
         "letterSpacing": 2,
-        "textAlign": "center",
-        "label": "転帰"
+        "textAlign": "center"
     },
     "therapy_types": {
         "x": 34.5,
@@ -129,8 +114,7 @@
         "letterSpacing": 0,
         "textAlign": "center",
         "type": "text",
-        "verticalSpacing": 5.1,
-        "label": "施術の種類"
+        "verticalSpacing": 5.1
     },
     "therapy_counts": {
         "x": 63.5,
@@ -138,8 +122,7 @@
         "fontSize": 9,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "number",
-        "label": "施術回数"
+        "type": "number"
     },
     "therapy_unit_prices": {
         "x": 85,
@@ -147,8 +130,7 @@
         "fontSize": 9,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "number",
-        "label": "単価"
+        "type": "number"
     },
     "therapy_totals": {
         "x": 117.5,
@@ -156,8 +138,7 @@
         "fontSize": 9,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "number",
-        "label": "計"
+        "type": "number"
     },
     "therapy_period_start": {
         "x": 153,
@@ -165,8 +146,7 @@
         "fontSize": 9,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "text",
-        "label": "施術期間（開始）"
+        "type": "text"
     },
     "therapy_period_end": {
         "x": 185,
@@ -174,8 +154,7 @@
         "fontSize": 9,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "text",
-        "label": "施術期間（終了）"
+        "type": "text"
     },
     "insurance_total": {
         "x": 74,
@@ -183,8 +162,7 @@
         "fontSize": 14,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "number",
-        "label": "保険請求額合計"
+        "type": "number"
     },
     "self_pay_total": {
         "x": 171,
@@ -192,8 +170,7 @@
         "fontSize": 14,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "number",
-        "label": "自費対象合計金額"
+        "type": "number"
     },
     "copayment_amount": {
         "x": 74,
@@ -201,8 +178,7 @@
         "fontSize": 14,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "number",
-        "label": "一部負担金"
+        "type": "number"
     },
     "treatment_month": {
         "x": 33.5,
@@ -210,8 +186,7 @@
         "fontSize": 16,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "number",
-        "label": "施術月"
+        "type": "number"
     },
     "treatment_days": {
         "x": 45.1,
@@ -220,8 +195,7 @@
         "circleRadius": 1.5,
         "doubleCircleInnerRadius": 0.8,
         "circleSpacing": 5.08,
-        "field": "treatment_days",
-        "label": "施術日"
+        "field": "treatment_days"
     },
     "copayment_ratio": {
         "x": 64.5,
@@ -229,8 +203,7 @@
         "fontSize": 11,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "number",
-        "label": "負担割合"
+        "type": "number"
     },
     "remarks": {
         "x": 23,
@@ -239,7 +212,6 @@
         "letterSpacing": 0,
         "textAlign": "left",
         "type": "text",
-        "label": "備考",
         "maxCharsPerLine": 49
     },
     "receipt_amount": {
@@ -248,8 +220,7 @@
         "fontSize": 14,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "number",
-        "label": "領収金額"
+        "type": "number"
     },
     "creation_date": {
         "x": 38,
@@ -257,8 +228,7 @@
         "fontSize": 11,
         "letterSpacing": 0,
         "textAlign": "center",
-        "type": "text",
-        "label": "提出年月日"
+        "type": "text"
     },
     "clinic_postal_code": {
         "x": 78,
@@ -266,8 +236,7 @@
         "fontSize": 11,
         "letterSpacing": 0.2,
         "textAlign": "left",
-        "type": "text",
-        "label": "郵便番号"
+        "type": "text"
     },
     "clinic_address": {
         "x": 78,
@@ -275,8 +244,7 @@
         "fontSize": 11,
         "letterSpacing": 0,
         "textAlign": "left",
-        "type": "text",
-        "label": "住所"
+        "type": "text"
     },
     "clinic_name": {
         "x": 78,
@@ -284,8 +252,7 @@
         "fontSize": 11,
         "letterSpacing": 0,
         "textAlign": "left",
-        "type": "text",
-        "label": "事業所名称"
+        "type": "text"
     },
     "clinic_manager": {
         "x": 78,
@@ -293,8 +260,7 @@
         "fontSize": 11,
         "letterSpacing": 0,
         "textAlign": "left",
-        "type": "text",
-        "label": "代表者氏名"
+        "type": "text"
     },
     "clinic_phone": {
         "x": 165,
@@ -302,7 +268,6 @@
         "fontSize": 11,
         "letterSpacing": 0,
         "textAlign": "left",
-        "type": "text",
-        "label": "電話番号"
+        "type": "text"
     }
 }
