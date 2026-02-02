@@ -215,8 +215,8 @@
         "isSelected": true
     },
     "birthday_year": {
-        "x": -34,
-        "y": 71.5,
+        "x": -54,
+        "y": 76,
         "fontSize": 20,
         "letterSpacing": 0,
         "textAlign": "center",
@@ -943,7 +943,7 @@
         "lineWidth": 0.5,
         "radioGroup": "work_scope_type",
         "type": "select",
-        "isSelected": false
+        "isSelected": true
     },
     "work_scope_type_2": {
         "x": 174,
@@ -953,7 +953,7 @@
         "lineWidth": 0.5,
         "radioGroup": "work_scope_type",
         "type": "select",
-        "isSelected": true
+        "isSelected": false
     },
     "work_scope_type_3": {
         "x": 190,
@@ -1522,9 +1522,9 @@
         "letterSpacing": 0
     },
     "birthday_full_date": {
-        "x": 62,
-        "y": 55,
-        "fontSize": 10,
+        "x": -54,
+        "y": 76,
+        "fontSize": 20,
         "letterSpacing": 0,
         "textAlign": "center",
         "type": "text"
