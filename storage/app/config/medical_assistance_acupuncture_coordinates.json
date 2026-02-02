@@ -1489,5 +1489,113 @@
         "type": "text",
         "fontSize": 10,
         "letterSpacing": 0
+    },
+    "fee_hari_unit": {
+        "x": -12,
+        "y": 91.5,
+        "textAlign": "center",
+        "field": "fee_hari_unit",
+        "label": "単価",
+        "type": "number",
+        "compositeGroup": "fee_hari",
+        "compositeLabel": "はり",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_hari_count": {
+        "x": 9,
+        "y": 91.5,
+        "textAlign": "center",
+        "field": "fee_hari_count",
+        "label": "回数",
+        "type": "number",
+        "compositeGroup": "fee_hari",
+        "compositeLabel": "はり",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_hari_total": {
+        "x": 31,
+        "y": 91.5,
+        "textAlign": "center",
+        "field": "fee_hari_total",
+        "label": "合計",
+        "type": "number",
+        "compositeGroup": "fee_hari",
+        "compositeLabel": "はり",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_kyu_unit": {
+        "x": -12,
+        "y": 97,
+        "textAlign": "center",
+        "field": "fee_kyu_unit",
+        "label": "単価",
+        "type": "number",
+        "compositeGroup": "fee_kyu",
+        "compositeLabel": "はり（電気鍼併用）",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_kyu_count": {
+        "x": 9,
+        "y": 97,
+        "textAlign": "center",
+        "field": "fee_kyu_count",
+        "label": "回数",
+        "type": "number",
+        "compositeGroup": "fee_kyu",
+        "compositeLabel": "はり（電気鍼併用）",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_kyu_total": {
+        "x": 31,
+        "y": 97,
+        "textAlign": "center",
+        "field": "fee_kyu_total",
+        "label": "合計",
+        "type": "number",
+        "compositeGroup": "fee_kyu",
+        "compositeLabel": "はり（電気鍼併用）",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_hari_kyu_unit": {
+        "x": -12,
+        "y": 102.5,
+        "textAlign": "center",
+        "field": "fee_hari_kyu_unit",
+        "label": "単価",
+        "type": "number",
+        "compositeGroup": "fee_hari_kyu",
+        "compositeLabel": "きゅう",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_hari_kyu_count": {
+        "x": 9,
+        "y": 102.5,
+        "textAlign": "center",
+        "field": "fee_hari_kyu_count",
+        "label": "回数",
+        "type": "number",
+        "compositeGroup": "fee_hari_kyu",
+        "compositeLabel": "きゅう",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_hari_kyu_total": {
+        "x": 31,
+        "y": 102.5,
+        "textAlign": "center",
+        "field": "fee_hari_kyu_total",
+        "label": "合計",
+        "type": "number",
+        "compositeGroup": "fee_hari_kyu",
+        "compositeLabel": "きゅう",
+        "fontSize": 10,
+        "letterSpacing": 0
     }
 }
