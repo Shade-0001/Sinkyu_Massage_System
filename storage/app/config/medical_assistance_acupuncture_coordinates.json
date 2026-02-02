@@ -1,7 +1,7 @@
 {
     "title_year_month": {
-        "x": 16,
-        "y": 16,
+        "x": 11.5,
+        "y": 18.5,
         "fontSize": 12,
         "letterSpacing": 0,
         "textAlign": "center",
@@ -170,17 +170,6 @@
         "type": "select",
         "isSelected": false
     },
-    "birthday_era_reiwa": {
-        "x": 68,
-        "y": 73.5,
-        "radioGroup": "birthday_era",
-        "ellipseWidth": 2,
-        "ellipseHeight": 2,
-        "lineWidth": 0.5,
-        "type": "select",
-        "compositeGroup": "birthday_full_date",
-        "isSelected": false
-    },
     "birthday_era_heisei": {
         "x": 53.5,
         "y": 55,
@@ -228,7 +217,7 @@
     "birthday_year": {
         "x": -34,
         "y": 71.5,
-        "fontSize": 10,
+        "fontSize": 15,
         "letterSpacing": 0,
         "textAlign": "center",
         "type": "text",
