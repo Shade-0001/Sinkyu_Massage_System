@@ -257,12 +257,17 @@ function renderFieldSettings() {
         const firstFieldMapping = sampleDataFieldMapping[firstKey];
         const groupLabel = firstFieldMapping?.compositeLabel || field.compositeGroup;
 
-        const options = groupFields.map(([k, v]) => {
-          const mapping = sampleDataFieldMapping[k];
-          // フィールド定義からのみoptionLabelを取得（座標JSONは使用しない）
-          const optionLabel = mapping?.optionLabel || mapping?.label || k;
-          return `<option value="${k}" ${selectedKey === k ? 'selected' : ''}>${optionLabel}</option>`;
-        }).join('');
+        const options = groupFields
+          .filter(([k, v]) => {
+            const mapping = sampleDataFieldMapping[k];
+            // optionLabelを持つフィールドのみをオプションとして表示
+            return mapping?.optionLabel;
+          })
+          .map(([k, v]) => {
+            const mapping = sampleDataFieldMapping[k];
+            const optionLabel = mapping.optionLabel;
+            return `<option value="${k}" ${selectedKey === k ? 'selected' : ''}>${optionLabel}</option>`;
+          }).join('');
 
         // サンプルモード判定
         const showSampleData = document.getElementById('show-sample-data')?.checked;
