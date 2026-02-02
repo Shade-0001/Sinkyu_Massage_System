@@ -314,20 +314,29 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
         $this->drawEllipseByKey($pdf, $birthdayEraKey);
       }
       // 生年月日を結合して描画（例: "令和 6年 3月 15日" または "30年 3月 15日"）
-      if ($birthYear && $birthMonth && $birthDay) {
+      if ($birthYear) {
         $fullDate = '';
-        if ($birthdayEra === '令和') {
-          $fullDate = '令和 ' . $birthYear . '年 ' . (int)$birthMonth . '月 ' . (int)$birthDay . '日';
-        } else {
-          $fullDate = $birthYear . '年 ' . (int)$birthMonth . '月 ' . (int)$birthDay . '日';
+        // birthday_yearが既に完全な日付テキスト（"年"を含む）の場合、そのまま使用
+        if (strpos($birthYear, '年') !== false) {
+          $fullDate = $birthYear;
+        } elseif ($birthMonth && $birthDay) {
+          // 個別フィールドから結合
+          if ($birthdayEra === '令和') {
+            $fullDate = '令和 ' . $birthYear . '年 ' . (int)$birthMonth . '月 ' . (int)$birthDay . '日';
+          } else {
+            $fullDate = $birthYear . '年 ' . (int)$birthMonth . '月 ' . (int)$birthDay . '日';
+          }
         }
-        \Log::info('[fillPatientBirthday] サンプルモード - 描画テキスト生成', [
-          'fullDate' => $fullDate,
-          'birthdayEra' => $birthdayEra
-        ]);
-        $pdf->SetFontSize($this->coord('birthday_full_date', 'fontSize'));
-        $this->drawTextByKey($pdf, 'birthday_full_date', $fullDate);
-        $pdf->SetFontSize(10);
+        if ($fullDate) {
+          \Log::info('[fillPatientBirthday] サンプルモード - 描画テキスト生成', [
+            'fullDate' => $fullDate,
+            'birthdayEra' => $birthdayEra,
+            'usedPreformattedText' => strpos($birthYear, '年') !== false
+          ]);
+          $pdf->SetFontSize($this->coord('birthday_full_date', 'fontSize'));
+          $this->drawTextByKey($pdf, 'birthday_full_date', $fullDate);
+          $pdf->SetFontSize(10);
+        }
       }
     } elseif (isset($clinicUser->birthday)) {
       \Log::info('[fillPatientBirthday] 通常モード - clinicUser->birthday使用', [
