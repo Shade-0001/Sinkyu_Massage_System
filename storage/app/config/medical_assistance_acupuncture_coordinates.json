@@ -158,7 +158,7 @@
         "lineWidth": 0.5,
         "radioGroup": "gender",
         "type": "select",
-        "isSelected": false
+        "isSelected": true
     },
     "patient_gender_female": {
         "x": 84.5,
@@ -168,7 +168,7 @@
         "lineWidth": 0.5,
         "radioGroup": "gender",
         "type": "select",
-        "isSelected": true
+        "isSelected": false
     },
     "birthday_era_reiwa": {
         "x": 68,
@@ -179,7 +179,7 @@
         "lineWidth": 0.5,
         "type": "select",
         "compositeGroup": "birthday_full_date",
-        "isSelected": true
+        "isSelected": false
     },
     "birthday_era_heisei": {
         "x": 53.5,
@@ -223,7 +223,7 @@
         "radioGroup": "birthday_era",
         "type": "select",
         "compositeGroup": "birthday_full_date",
-        "isSelected": false
+        "isSelected": true
     },
     "birthday_year": {
         "x": -34,

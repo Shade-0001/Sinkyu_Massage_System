@@ -58,8 +58,8 @@ const sampleDataFieldMapping = {
   'birthday_era_showa': { field: 'birthday_era', label: '元号', type: 'select', options: ['明治', '大正', '昭和', '平成'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '昭和', compositeGroup: 'birthday_full_date', compositeLabel: '生年月日' },
   'birthday_era_heisei': { field: 'birthday_era', label: '元号', type: 'select', options: ['明治', '大正', '昭和', '平成'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '平成', compositeGroup: 'birthday_full_date', compositeLabel: '生年月日' },
   'birthday_year': { field: 'birthday_year', label: '年', type: 'text', compositeGroup: 'birthday_full_date', compositeLabel: '生年月日', optionLabel: '年月日' },
-  'birthday_month': { field: 'birthday_month', label: '月', type: 'text', compositeGroup: 'birthday_full_date', compositeLabel: '生年月日', optionLabel: '年月日' },
-  'birthday_day': { field: 'birthday_day', label: '日', type: 'text', compositeGroup: 'birthday_full_date', compositeLabel: '生年月日', optionLabel: '年月日' },
+  'birthday_month': { field: 'birthday_month', label: '月', type: 'text', compositeGroup: 'birthday_full_date', compositeLabel: '生年月日' },
+  'birthday_day': { field: 'birthday_day', label: '日', type: 'text', compositeGroup: 'birthday_full_date', compositeLabel: '生年月日' },
 
   // === 8. 初療年月日・施術期間 ===
   'first_treatment_date': { field: 'first_treatment_date', label: '初療年月日', type: 'text', compositeGroup: 'first_treatment_date_composite', compositeLabel: '初療年月日', hidden: true },
