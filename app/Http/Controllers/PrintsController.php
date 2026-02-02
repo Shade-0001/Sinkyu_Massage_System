@@ -531,6 +531,23 @@ class PrintsController extends Controller
         \Log::info("saveCoordinates: x=0,y=0フィールドを除外", ['removed_count' => $removedCount]);
       }
 
+      // birthday_year座標が保存された場合、birthday_full_dateを自動同期
+      if (isset($filteredCoordinates['birthday_year'])) {
+        $filteredCoordinates['birthday_full_date'] = [
+          'x' => $filteredCoordinates['birthday_year']['x'],
+          'y' => $filteredCoordinates['birthday_year']['y'],
+          'fontSize' => $filteredCoordinates['birthday_year']['fontSize'] ?? 10,
+          'letterSpacing' => $filteredCoordinates['birthday_year']['letterSpacing'] ?? 0,
+          'textAlign' => $filteredCoordinates['birthday_year']['textAlign'] ?? 'center',
+          'type' => 'text'
+        ];
+        \Log::info('saveCoordinates: birthday_full_dateをbirthday_yearと自動同期', [
+          'x' => $filteredCoordinates['birthday_full_date']['x'],
+          'y' => $filteredCoordinates['birthday_full_date']['y'],
+          'fontSize' => $filteredCoordinates['birthday_full_date']['fontSize']
+        ]);
+      }
+
       file_put_contents($configPath, json_encode($filteredCoordinates, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
       \Log::info('saveCoordinates: 座標保存完了', [
@@ -602,6 +619,18 @@ class PrintsController extends Controller
 
       if ($removedCount > 0) {
         \Log::info("PreviewPdf: x=0,y=0フィールドを除外", ['removed_count' => $removedCount]);
+      }
+
+      // birthday_year座標がある場合、birthday_full_dateを自動同期
+      if (isset($filteredCoordinates['birthday_year'])) {
+        $filteredCoordinates['birthday_full_date'] = [
+          'x' => $filteredCoordinates['birthday_year']['x'],
+          'y' => $filteredCoordinates['birthday_year']['y'],
+          'fontSize' => $filteredCoordinates['birthday_year']['fontSize'] ?? 10,
+          'letterSpacing' => $filteredCoordinates['birthday_year']['letterSpacing'] ?? 0,
+          'textAlign' => $filteredCoordinates['birthday_year']['textAlign'] ?? 'center',
+          'type' => 'text'
+        ];
       }
 
       $coordinates = $filteredCoordinates;
