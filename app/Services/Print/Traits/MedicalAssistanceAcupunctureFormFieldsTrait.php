@@ -1703,14 +1703,6 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
         }
       }
 
-      // 電療料（サンプルデータモード：個別チェックボックス）
-      $therapyContentFields = ['therapy_content_electric_needle', 'therapy_content_electric_moxa', 'therapy_content_electric_light'];
-      foreach ($therapyContentFields as $field) {
-        if (isset($custom[$field]) && $custom[$field] === true) {
-          $this->drawEllipseByKey($pdf, $field);
-        }
-      }
-
       // 新規追加フィールド（サンプルデータモード）
 
       // 施術月（サンプルデータモード）

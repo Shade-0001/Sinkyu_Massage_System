@@ -1521,5 +1521,83 @@
         "compositeGroup": "fee_hari_kyu_electric",
         "fontSize": 10,
         "letterSpacing": 0
+    },
+    "fee_housecall_unit": {
+        "x": -12,
+        "y": 124,
+        "textAlign": "center",
+        "field": "fee_housecall_unit",
+        "label": "単価",
+        "type": "number",
+        "compositeGroup": "fee_housecall",
+        "compositeLabel": "往療料",
+        "optionLabel": "単価",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_housecall_count": {
+        "x": 9,
+        "y": 124,
+        "textAlign": "center",
+        "field": "fee_housecall_count",
+        "label": "回数",
+        "type": "number",
+        "compositeGroup": "fee_housecall",
+        "compositeLabel": "往療料",
+        "optionLabel": "回数",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_housecall_total": {
+        "x": 31,
+        "y": 124,
+        "textAlign": "center",
+        "field": "fee_housecall_total",
+        "label": "合計",
+        "type": "number",
+        "compositeGroup": "fee_housecall",
+        "compositeLabel": "往療料",
+        "optionLabel": "合計",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_housecall_additional_unit": {
+        "x": -12,
+        "y": 129,
+        "textAlign": "center",
+        "field": "fee_housecall_additional_unit",
+        "label": "単価",
+        "type": "number",
+        "compositeGroup": "fee_housecall_additional",
+        "compositeLabel": "往療4km超料金",
+        "optionLabel": "単価",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_housecall_additional_count": {
+        "x": 9,
+        "y": 129,
+        "textAlign": "center",
+        "field": "fee_housecall_additional_count",
+        "label": "回数",
+        "type": "number",
+        "compositeGroup": "fee_housecall_additional",
+        "compositeLabel": "往療4km超料金",
+        "optionLabel": "回数",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_housecall_additional_total": {
+        "x": 31,
+        "y": 129,
+        "textAlign": "center",
+        "field": "fee_housecall_additional_total",
+        "label": "合計",
+        "type": "number",
+        "compositeGroup": "fee_housecall_additional",
+        "compositeLabel": "往療4km超料金",
+        "optionLabel": "合計",
+        "fontSize": 10,
+        "letterSpacing": 0
     }
 }

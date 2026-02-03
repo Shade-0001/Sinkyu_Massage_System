@@ -158,29 +158,6 @@ const sampleDataFieldMapping = {
   'fee_initial_examination_combined': { field: 'fee_initial_examination', label: '初検料（サークル）', type: 'select', options: ['はり', 'きゅう', 'はり･きゅう併用'], ellipseWidth: 6, ellipseHeight: 3, lineWidth: 0.5, radioGroup: 'fee_initial_examination', optionLabel: 'はり･きゅう併用' },
   'fee_initial_examination_amount': { field: 'fee_initial_examination_amount', label: '初検料', type: 'number' },
 
-  // === 11-3. 電療料（サークル） ===
-  'therapy_content_electric_needle': {
-    field: 'therapy_content_electric_needle',
-    label: '電療料｜電気針（サークル）',
-    ellipseWidth: 2.5,
-    ellipseHeight: 2.5,
-    lineWidth: 0.5
-  },
-  'therapy_content_electric_moxa': {
-    field: 'therapy_content_electric_moxa',
-    label: '電療料｜電気温灸器（サークル）',
-    ellipseWidth: 2.5,
-    ellipseHeight: 2.5,
-    lineWidth: 0.5
-  },
-  'therapy_content_electric_light': {
-    field: 'therapy_content_electric_light',
-    label: '電療料｜電気光線器具（サークル）',
-    ellipseWidth: 2.5,
-    ellipseHeight: 2.5,
-    lineWidth: 0.5
-  },
-
   'fee_subtotal': { field: 'fee_subtotal', label: '合計', type: 'number' },
 
   // === 11-2. 一部負担金（サークル） ===
