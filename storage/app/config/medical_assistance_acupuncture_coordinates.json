@@ -1599,5 +1599,44 @@
         "optionLabel": "合計",
         "fontSize": 10,
         "letterSpacing": 0
+    },
+    "fee_initial_examination_hari": {
+        "x": 36.5,
+        "y": 83.5,
+        "textAlign": "left",
+        "field": "fee_initial_examination",
+        "label": "初検料（サークル）",
+        "type": "select",
+        "options": [
+            "はり",
+            "きゅう",
+            "はり･きゅう併用"
+        ],
+        "ellipseWidth": 7,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "fee_initial_examination",
+        "optionLabel": "はり",
+        "isSelected": true
+    },
+    "fee_initial_examination_amount": {
+        "x": 28,
+        "y": 75,
+        "textAlign": "center",
+        "field": "fee_initial_examination_amount",
+        "label": "初検料",
+        "type": "number",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_subtotal": {
+        "x": 32.5,
+        "y": 136,
+        "textAlign": "center",
+        "field": "fee_subtotal",
+        "label": "合計",
+        "type": "number",
+        "fontSize": 10,
+        "letterSpacing": 0
     }
 }

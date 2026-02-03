@@ -1544,5 +1544,13 @@
         "type": "text",
         "fontSize": 12,
         "letterSpacing": 0
+    },
+    "birthday_full_date": {
+        "x": -35,
+        "y": 71.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text"
     }
 }
