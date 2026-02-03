@@ -1402,9 +1402,39 @@
         "fontSize": 10,
         "letterSpacing": 0
     },
-    "fee_hari_kyu_unit": {
+    "fee_kyu_electric_unit": {
         "x": -12,
         "y": 102.5,
+        "textAlign": "center",
+        "field": "fee_kyu_electric_unit",
+        "type": "number",
+        "compositeGroup": "fee_kyu_electric",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_kyu_electric_count": {
+        "x": 9,
+        "y": 102.5,
+        "textAlign": "center",
+        "field": "fee_kyu_electric_count",
+        "type": "number",
+        "compositeGroup": "fee_kyu_electric",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_kyu_electric_total": {
+        "x": 31,
+        "y": 102.5,
+        "textAlign": "center",
+        "field": "fee_kyu_electric_total",
+        "type": "number",
+        "compositeGroup": "fee_kyu_electric",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_hari_kyu_unit": {
+        "x": -12,
+        "y": 108,
         "textAlign": "center",
         "field": "fee_hari_kyu_unit",
         "type": "number",
@@ -1414,7 +1444,7 @@
     },
     "fee_hari_kyu_count": {
         "x": 9,
-        "y": 102.5,
+        "y": 108,
         "textAlign": "center",
         "field": "fee_hari_kyu_count",
         "type": "number",
@@ -1424,11 +1454,41 @@
     },
     "fee_hari_kyu_total": {
         "x": 31,
-        "y": 102.5,
+        "y": 108,
         "textAlign": "center",
         "field": "fee_hari_kyu_total",
         "type": "number",
         "compositeGroup": "fee_hari_kyu",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_hari_kyu_electric_unit": {
+        "x": -12,
+        "y": 113.5,
+        "textAlign": "center",
+        "field": "fee_hari_kyu_electric_unit",
+        "type": "number",
+        "compositeGroup": "fee_hari_kyu_electric",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_hari_kyu_electric_count": {
+        "x": 9,
+        "y": 113.5,
+        "textAlign": "center",
+        "field": "fee_hari_kyu_electric_count",
+        "type": "number",
+        "compositeGroup": "fee_hari_kyu_electric",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_hari_kyu_electric_total": {
+        "x": 31,
+        "y": 113.5,
+        "textAlign": "center",
+        "field": "fee_hari_kyu_electric_total",
+        "type": "number",
+        "compositeGroup": "fee_hari_kyu_electric",
         "fontSize": 10,
         "letterSpacing": 0
     }

@@ -1593,18 +1593,32 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
         $this->drawTextByKey($pdf, 'fee_hari_kyu_total', (string)($custom['fee_hari_kyu_total'] ?? ''));
       }
 
-      // 電療料
-      if (isset($custom['fee_electric_unit']) && isset($this->coordinates['fee_electric_unit'])) {
-        $pdf->SetFontSize($this->coord('fee_electric_unit', 'fontSize'));
-        $this->drawTextByKey($pdf, 'fee_electric_unit', (string)($custom['fee_electric_unit'] ?? ''));
+      // きゅう（電気温灸器併用）料金
+      if (isset($custom['fee_kyu_electric_unit']) && isset($this->coordinates['fee_kyu_electric_unit'])) {
+        $pdf->SetFontSize($this->coord('fee_kyu_electric_unit', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_kyu_electric_unit', (string)($custom['fee_kyu_electric_unit'] ?? ''));
       }
-      if (isset($custom['fee_electric_count']) && isset($this->coordinates['fee_electric_count'])) {
-        $pdf->SetFontSize($this->coord('fee_electric_count', 'fontSize'));
-        $this->drawTextByKey($pdf, 'fee_electric_count', (string)($custom['fee_electric_count'] ?? ''));
+      if (isset($custom['fee_kyu_electric_count']) && isset($this->coordinates['fee_kyu_electric_count'])) {
+        $pdf->SetFontSize($this->coord('fee_kyu_electric_count', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_kyu_electric_count', (string)($custom['fee_kyu_electric_count'] ?? ''));
       }
-      if (isset($custom['fee_electric_total']) && isset($this->coordinates['fee_electric_total'])) {
-        $pdf->SetFontSize($this->coord('fee_electric_total', 'fontSize'));
-        $this->drawTextByKey($pdf, 'fee_electric_total', (string)($custom['fee_electric_total'] ?? ''));
+      if (isset($custom['fee_kyu_electric_total']) && isset($this->coordinates['fee_kyu_electric_total'])) {
+        $pdf->SetFontSize($this->coord('fee_kyu_electric_total', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_kyu_electric_total', (string)($custom['fee_kyu_electric_total'] ?? ''));
+      }
+
+      // はり･きゅう併用（電気鍼･電気温灸器併用）料金
+      if (isset($custom['fee_hari_kyu_electric_unit']) && isset($this->coordinates['fee_hari_kyu_electric_unit'])) {
+        $pdf->SetFontSize($this->coord('fee_hari_kyu_electric_unit', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_hari_kyu_electric_unit', (string)($custom['fee_hari_kyu_electric_unit'] ?? ''));
+      }
+      if (isset($custom['fee_hari_kyu_electric_count']) && isset($this->coordinates['fee_hari_kyu_electric_count'])) {
+        $pdf->SetFontSize($this->coord('fee_hari_kyu_electric_count', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_hari_kyu_electric_count', (string)($custom['fee_hari_kyu_electric_count'] ?? ''));
+      }
+      if (isset($custom['fee_hari_kyu_electric_total']) && isset($this->coordinates['fee_hari_kyu_electric_total'])) {
+        $pdf->SetFontSize($this->coord('fee_hari_kyu_electric_total', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_hari_kyu_electric_total', (string)($custom['fee_hari_kyu_electric_total'] ?? ''));
       }
 
       // 往療料4km超
