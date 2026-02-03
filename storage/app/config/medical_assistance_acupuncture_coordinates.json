@@ -591,6 +591,24 @@
         "fontSize": 10,
         "letterSpacing": 0
     },
+    "relationship": {
+        "x": 10,
+        "y": 52.5,
+        "textAlign": "center",
+        "field": "relationship",
+        "type": "text",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "insured_person_name": {
+        "x": 35,
+        "y": 52.5,
+        "textAlign": "center",
+        "field": "insured_person_name",
+        "type": "text",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
     "condition": {
         "x": 44.5,
         "y": 52.5,
@@ -1817,7 +1835,7 @@
         "lineWidth": 0.5,
         "radioGroup": "expenses_borne_ratio",
         "optionLabel": "１割",
-        "isSelected": false
+        "isSelected": true
     },
     "fee_partial_payment": {
         "x": 10,
@@ -1875,6 +1893,6 @@
         "lineWidth": 0.5,
         "radioGroup": "expenses_borne_ratio",
         "optionLabel": "３割",
-        "isSelected": true
+        "isSelected": false
     }
 }
