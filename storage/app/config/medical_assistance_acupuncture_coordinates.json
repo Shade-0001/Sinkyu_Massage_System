@@ -606,7 +606,7 @@
         "textAlign": "center",
         "field": "insured_person_name",
         "type": "text",
-        "fontSize": 10,
+        "fontSize": 15,
         "letterSpacing": 0
     },
     "condition": {
