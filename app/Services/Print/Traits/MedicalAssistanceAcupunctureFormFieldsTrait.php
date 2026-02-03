@@ -1551,6 +1551,20 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
         $this->drawTextByKey($pdf, 'fee_hari_total', (string)($custom['fee_hari_total'] ?? ''));
       }
 
+      // はり（電気鍼併用）料金
+      if (isset($custom['fee_hari_electric_unit']) && isset($this->coordinates['fee_hari_electric_unit'])) {
+        $pdf->SetFontSize($this->coord('fee_hari_electric_unit', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_hari_electric_unit', (string)($custom['fee_hari_electric_unit'] ?? ''));
+      }
+      if (isset($custom['fee_hari_electric_count']) && isset($this->coordinates['fee_hari_electric_count'])) {
+        $pdf->SetFontSize($this->coord('fee_hari_electric_count', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_hari_electric_count', (string)($custom['fee_hari_electric_count'] ?? ''));
+      }
+      if (isset($custom['fee_hari_electric_total']) && isset($this->coordinates['fee_hari_electric_total'])) {
+        $pdf->SetFontSize($this->coord('fee_hari_electric_total', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_hari_electric_total', (string)($custom['fee_hari_electric_total'] ?? ''));
+      }
+
       // きゅう料金
       if (isset($custom['fee_kyu_unit']) && isset($this->coordinates['fee_kyu_unit'])) {
         $pdf->SetFontSize($this->coord('fee_kyu_unit', 'fontSize'));
