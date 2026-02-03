@@ -1974,50 +1974,44 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
 
     // はり（電気鍼併用）料金（therapy_content_id: 14）
     $hariElectricCount = $therapyTypeCounts[14] ?? 0;
-    if ($hariElectricCount > 0) {
-      $feeKey = $isFirstTreatment ? 'hari_and_elec_needle_first' : 'hari_and_elec_needle_normal';
-      $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
-      $total = $unitPrice * $hariElectricCount;
+    $feeKey = $isFirstTreatment ? 'hari_and_elec_needle_first' : 'hari_and_elec_needle_normal';
+    $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
+    $total = $unitPrice * $hariElectricCount;
 
-      if (isset($this->coordinates['fee_hari_electric_unit'])) {
-        $pdf->SetFontSize($this->coord('fee_hari_electric_unit', 'fontSize'));
-        $this->drawTextByKey($pdf, 'fee_hari_electric_unit', (string)$unitPrice);
-        $this->drawTextByKey($pdf, 'fee_hari_electric_count', (string)$hariElectricCount);
-        $this->drawTextByKey($pdf, 'fee_hari_electric_total', (string)$total);
-        $totalFee += $total;
-      }
+    if (isset($this->coordinates['fee_hari_electric_unit'])) {
+      $pdf->SetFontSize($this->coord('fee_hari_electric_unit', 'fontSize'));
+      $this->drawTextByKey($pdf, 'fee_hari_electric_unit', (string)$unitPrice);
+      $this->drawTextByKey($pdf, 'fee_hari_electric_count', (string)$hariElectricCount);
+      $this->drawTextByKey($pdf, 'fee_hari_electric_total', (string)$total);
+      $totalFee += $total;
     }
 
     // きゅう（電気温灸器併用）料金（therapy_content_id: 15）
     $kyuElectricCount = $therapyTypeCounts[15] ?? 0;
-    if ($kyuElectricCount > 0) {
-      $feeKey = $isFirstTreatment ? 'kyu_and_elec_moxa_heater_first' : 'kyu_and_elec_moxa_heater_normal';
-      $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
-      $total = $unitPrice * $kyuElectricCount;
+    $feeKey = $isFirstTreatment ? 'kyu_and_elec_moxa_heater_first' : 'kyu_and_elec_moxa_heater_normal';
+    $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
+    $total = $unitPrice * $kyuElectricCount;
 
-      if (isset($this->coordinates['fee_kyu_electric_unit'])) {
-        $pdf->SetFontSize($this->coord('fee_kyu_electric_unit', 'fontSize'));
-        $this->drawTextByKey($pdf, 'fee_kyu_electric_unit', (string)$unitPrice);
-        $this->drawTextByKey($pdf, 'fee_kyu_electric_count', (string)$kyuElectricCount);
-        $this->drawTextByKey($pdf, 'fee_kyu_electric_total', (string)$total);
-        $totalFee += $total;
-      }
+    if (isset($this->coordinates['fee_kyu_electric_unit'])) {
+      $pdf->SetFontSize($this->coord('fee_kyu_electric_unit', 'fontSize'));
+      $this->drawTextByKey($pdf, 'fee_kyu_electric_unit', (string)$unitPrice);
+      $this->drawTextByKey($pdf, 'fee_kyu_electric_count', (string)$kyuElectricCount);
+      $this->drawTextByKey($pdf, 'fee_kyu_electric_total', (string)$total);
+      $totalFee += $total;
     }
 
     // はり･きゅう併用（電気鍼･電気温灸器併用）料金（therapy_content_id: 16/17）
     $hariKyuElectricCount = ($therapyTypeCounts[16] ?? 0) + ($therapyTypeCounts[17] ?? 0);
-    if ($hariKyuElectricCount > 0) {
-      $feeKey = $isFirstTreatment ? 'fomentation_and_elec_ray_first' : 'fomentation_and_elec_ray_normal';
-      $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
-      $total = $unitPrice * $hariKyuElectricCount;
+    $feeKey = $isFirstTreatment ? 'fomentation_and_elec_ray_first' : 'fomentation_and_elec_ray_normal';
+    $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
+    $total = $unitPrice * $hariKyuElectricCount;
 
-      if (isset($this->coordinates['fee_hari_kyu_electric_unit'])) {
-        $pdf->SetFontSize($this->coord('fee_hari_kyu_electric_unit', 'fontSize'));
-        $this->drawTextByKey($pdf, 'fee_hari_kyu_electric_unit', (string)$unitPrice);
-        $this->drawTextByKey($pdf, 'fee_hari_kyu_electric_count', (string)$hariKyuElectricCount);
-        $this->drawTextByKey($pdf, 'fee_hari_kyu_electric_total', (string)$total);
-        $totalFee += $total;
-      }
+    if (isset($this->coordinates['fee_hari_kyu_electric_unit'])) {
+      $pdf->SetFontSize($this->coord('fee_hari_kyu_electric_unit', 'fontSize'));
+      $this->drawTextByKey($pdf, 'fee_hari_kyu_electric_unit', (string)$unitPrice);
+      $this->drawTextByKey($pdf, 'fee_hari_kyu_electric_count', (string)$hariKyuElectricCount);
+      $this->drawTextByKey($pdf, 'fee_hari_kyu_electric_total', (string)$total);
+      $totalFee += $total;
     }
 
     // 往療料金4km以下（recordsのhousecall_distanceから判定、はり・きゅう関連の施術のみカウント、0 < distance <= 4）

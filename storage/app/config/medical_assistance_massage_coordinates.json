@@ -1521,5 +1521,13 @@
         "field": "consent_date_month",
         "type": "number",
         "compositeGroup": "consent_date"
+    },
+    "birthday_full_date": {
+        "x": -34,
+        "y": 71.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text"
     }
 }

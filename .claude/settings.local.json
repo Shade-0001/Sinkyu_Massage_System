@@ -55,7 +55,10 @@
       "Bash(do php -l \"$file\")",
       "Bash(echo:*)",
       "Bash(python:*)",
-      "Bash(git -c core.quotepath=false commit -m \"$\\(cat <<''EOF''\nfeat: PDF座標調整機能に年月選択機能を追加し座標データを最適化\n\n- PrintsController: 年月セレクトボックス用データ生成機能を追加（過去12ヶ月～未来12ヶ月）\n- coordinate_adjuster.blade.php: 年月選択UIを追加し、プレビュー時に選択した年月を反映\n- coordinate-adjuster_*.js: 年月選択とフォーム制御のロジックを実装\n- 座標データ: 医療費助成申請書（鍼灸・マッサージ）の各フィールド座標を微調整\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
+      "Bash(git -c core.quotepath=false commit -m \"$\\(cat <<''EOF''\nfeat: PDF座標調整機能に年月選択機能を追加し座標データを最適化\n\n- PrintsController: 年月セレクトボックス用データ生成機能を追加（過去12ヶ月～未来12ヶ月）\n- coordinate_adjuster.blade.php: 年月選択UIを追加し、プレビュー時に選択した年月を反映\n- coordinate-adjuster_*.js: 年月選択とフォーム制御のロジックを実装\n- 座標データ: 医療費助成申請書（鍼灸・マッサージ）の各フィールド座標を微調整\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(mysql:*)",
+      "Bash(\"I:\\\\XAMPP\\\\mysql\\\\bin\\\\mysql.exe\":*)",
+      "Bash(\"I:\\\\XAMPP\\\\mysql\\\\bin\\\\mysql.exe\" -u root -h 127.0.0.1 sinkyu_massage_system_db -e \"SELECT DISTINCT YEAR\\(date\\) as year, MONTH\\(date\\) as month, COUNT\\(*\\) as count FROM records WHERE clinic_user_id = 298 GROUP BY year, month ORDER BY year DESC, month DESC LIMIT 10\")"
     ],
     "deny": [],
     "ask": []
