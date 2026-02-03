@@ -1605,12 +1605,23 @@
         "y": 83.5,
         "textAlign": "left",
         "field": "fee_initial_examination",
-        "label": "初検料（サークル）",
+        "label": "初回（サークル）",
         "type": "select",
         "options": [
             "はり",
             "きゅう",
-            "はり･きゅう併用"
+            "はり･きゅう併用",
+            "はり（電気鍼）",
+            "きゅう（電気温灸器）",
+            "はり･きゅう併用（電気鍼･電気温灸器併用）"
+        ],
+        "optionLabels": [
+            "はり",
+            "きゅう",
+            "はり･きゅう併用",
+            "はり（電気鍼）",
+            "きゅう（電気温灸器）",
+            "はり･きゅう併用（電気鍼･電気温灸器併用）"
         ],
         "ellipseWidth": 7,
         "ellipseHeight": 2.5,
@@ -1619,12 +1630,162 @@
         "optionLabel": "はり",
         "isSelected": true
     },
+    "fee_initial_examination_kyu": {
+        "x": 48,
+        "y": 83.5,
+        "textAlign": "left",
+        "field": "fee_initial_examination",
+        "label": "初回（サークル）",
+        "type": "select",
+        "options": [
+            "はり",
+            "きゅう",
+            "はり･きゅう併用",
+            "はり（電気鍼）",
+            "きゅう（電気温灸器）",
+            "はり･きゅう併用（電気鍼･電気温灸器併用）"
+        ],
+        "optionLabels": [
+            "はり",
+            "きゅう",
+            "はり･きゅう併用",
+            "はり（電気鍼）",
+            "きゅう（電気温灸器）",
+            "はり･きゅう併用（電気鍼･電気温灸器併用）"
+        ],
+        "ellipseWidth": 7,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "fee_initial_examination",
+        "optionLabel": "きゅう",
+        "isSelected": false
+    },
+    "fee_initial_examination_combined": {
+        "x": 59.5,
+        "y": 83.5,
+        "textAlign": "left",
+        "field": "fee_initial_examination",
+        "label": "初回（サークル）",
+        "type": "select",
+        "options": [
+            "はり",
+            "きゅう",
+            "はり･きゅう併用",
+            "はり（電気鍼）",
+            "きゅう（電気温灸器）",
+            "はり･きゅう併用（電気鍼･電気温灸器併用）"
+        ],
+        "optionLabels": [
+            "はり",
+            "きゅう",
+            "はり･きゅう併用",
+            "はり（電気鍼）",
+            "きゅう（電気温灸器）",
+            "はり･きゅう併用（電気鍼･電気温灸器併用）"
+        ],
+        "ellipseWidth": 14,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "fee_initial_examination",
+        "optionLabel": "はり･きゅう併用",
+        "isSelected": false
+    },
+    "fee_initial_examination_hari_electric": {
+        "x": 81.5,
+        "y": 83.5,
+        "textAlign": "left",
+        "field": "fee_initial_examination",
+        "label": "初回（サークル）",
+        "type": "select",
+        "options": [
+            "はり",
+            "きゅう",
+            "はり･きゅう併用",
+            "はり（電気鍼）",
+            "きゅう（電気温灸器）",
+            "はり･きゅう併用（電気鍼･電気温灸器併用）"
+        ],
+        "optionLabels": [
+            "はり",
+            "きゅう",
+            "はり･きゅう併用",
+            "はり（電気鍼）",
+            "きゅう（電気温灸器）",
+            "はり･きゅう併用（電気鍼･電気温灸器併用）"
+        ],
+        "ellipseWidth": 14,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "fee_initial_examination",
+        "optionLabel": "はり（電気鍼）",
+        "isSelected": false
+    },
+    "fee_initial_examination_kyu_electric": {
+        "x": 36.5,
+        "y": 87.5,
+        "textAlign": "left",
+        "field": "fee_initial_examination",
+        "label": "初回（サークル）",
+        "type": "select",
+        "options": [
+            "はり",
+            "きゅう",
+            "はり･きゅう併用",
+            "はり（電気鍼）",
+            "きゅう（電気温灸器）",
+            "はり･きゅう併用（電気鍼･電気温灸器併用）"
+        ],
+        "optionLabels": [
+            "はり",
+            "きゅう",
+            "はり･きゅう併用",
+            "はり（電気鍼）",
+            "きゅう（電気温灸器）",
+            "はり･きゅう併用（電気鍼･電気温灸器併用）"
+        ],
+        "ellipseWidth": 18,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "fee_initial_examination",
+        "optionLabel": "きゅう（電気温灸器）",
+        "isSelected": false
+    },
+    "fee_initial_examination_hari_kyu_electric": {
+        "x": 63,
+        "y": 87.5,
+        "textAlign": "left",
+        "field": "fee_initial_examination",
+        "label": "初回（サークル）",
+        "type": "select",
+        "options": [
+            "はり",
+            "きゅう",
+            "はり･きゅう併用",
+            "はり（電気鍼）",
+            "きゅう（電気温灸器）",
+            "はり･きゅう併用（電気鍼･電気温灸器併用）"
+        ],
+        "optionLabels": [
+            "はり",
+            "きゅう",
+            "はり･きゅう併用",
+            "はり（電気鍼）",
+            "きゅう（電気温灸器）",
+            "はり･きゅう併用（電気鍼･電気温灸器併用）"
+        ],
+        "ellipseWidth": 42,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "fee_initial_examination",
+        "optionLabel": "はり･きゅう併用（電気鍼･電気温灸器併用）",
+        "isSelected": false
+    },
     "fee_initial_examination_amount": {
         "x": 28,
         "y": 75,
         "textAlign": "center",
         "field": "fee_initial_examination_amount",
-        "label": "初検料",
+        "label": "初回（料金）",
         "type": "number",
         "fontSize": 10,
         "letterSpacing": 0
@@ -1656,7 +1817,7 @@
         "lineWidth": 0.5,
         "radioGroup": "expenses_borne_ratio",
         "optionLabel": "１割",
-        "isSelected": true
+        "isSelected": false
     },
     "fee_partial_payment": {
         "x": 10,
@@ -1677,5 +1838,43 @@
         "type": "number",
         "fontSize": 10,
         "letterSpacing": 0
+    },
+    "expenses_borne_ratio_20": {
+        "x": 57.5,
+        "y": 144.5,
+        "textAlign": "left",
+        "field": "expenses_borne_ratio",
+        "label": "一部負担金（サークル）",
+        "type": "select",
+        "options": [
+            "１割",
+            "２割",
+            "３割"
+        ],
+        "ellipseWidth": 4,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "expenses_borne_ratio",
+        "optionLabel": "２割",
+        "isSelected": false
+    },
+    "expenses_borne_ratio_30": {
+        "x": 65,
+        "y": 144.5,
+        "textAlign": "left",
+        "field": "expenses_borne_ratio",
+        "label": "一部負担金（サークル）",
+        "type": "select",
+        "options": [
+            "１割",
+            "２割",
+            "３割"
+        ],
+        "ellipseWidth": 4,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "expenses_borne_ratio",
+        "optionLabel": "３割",
+        "isSelected": true
     }
 }

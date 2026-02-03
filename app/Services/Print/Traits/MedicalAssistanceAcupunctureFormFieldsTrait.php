@@ -1687,7 +1687,10 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
         $keyMap = [
           'はり' => 'fee_initial_examination_hari',
           'きゅう' => 'fee_initial_examination_kyu',
-          'はり･きゅう併用' => 'fee_initial_examination_combined'
+          'はり･きゅう併用' => 'fee_initial_examination_combined',
+          'はり（電気鍼）' => 'fee_initial_examination_hari_electric',
+          'きゅう（電気温灸器）' => 'fee_initial_examination_kyu_electric',
+          'はり･きゅう併用（電気鍼･電気温灸器併用）' => 'fee_initial_examination_hari_kyu_electric'
         ];
 
         $key = $keyMap[$initialExamType] ?? null;
@@ -2058,22 +2061,52 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
 
     // 初検料（初回施術時のみ描画）
     if ($isFirstTreatment) {
-      $initialExaminationFee = 1500;
-
       // 施術タイプを判定（正しいIDを使用）
       $hariCount = ($therapyTypeCounts[11] ?? 0) + ($therapyTypeCounts[13] ?? 0);
       $kyuCount = ($therapyTypeCounts[12] ?? 0) + ($therapyTypeCounts[13] ?? 0);
+      $hariElectricCount = $therapyTypeCounts[14] ?? 0;
+      $kyuElectricCount = $therapyTypeCounts[15] ?? 0;
+      $hariKyuElectricCount = ($therapyTypeCounts[16] ?? 0) + ($therapyTypeCounts[17] ?? 0);
+
+      // 電療使用フラグ
+      $hasElectric = ($hariElectricCount + $kyuElectricCount + $hariKyuElectricCount) > 0;
 
       $key = null;
+      $feeDbKey = null;
+
       if ($hariCount > 0 && $kyuCount > 0) {
-        $key = 'fee_initial_examination_combined';
+        // はり・きゅう併用
+        if ($hasElectric) {
+          $key = 'fee_initial_examination_hari_kyu_electric';
+          $feeDbKey = 'hari_and_kyu_and_elec_first';
+        } else {
+          $key = 'fee_initial_examination_combined';
+          $feeDbKey = 'hari_and_kyu_first';
+        }
       } elseif ($hariCount > 0) {
-        $key = 'fee_initial_examination_hari';
+        // はりのみ
+        if ($hasElectric) {
+          $key = 'fee_initial_examination_hari_electric';
+          $feeDbKey = 'hari_and_elec_needle_first';
+        } else {
+          $key = 'fee_initial_examination_hari';
+          $feeDbKey = 'hari_first';
+        }
       } elseif ($kyuCount > 0) {
-        $key = 'fee_initial_examination_kyu';
+        // きゅうのみ
+        if ($hasElectric) {
+          $key = 'fee_initial_examination_kyu_electric';
+          $feeDbKey = 'kyu_and_elec_moxa_heater_first';
+        } else {
+          $key = 'fee_initial_examination_kyu';
+          $feeDbKey = 'kyu_first';
+        }
       }
 
-      if ($key && isset($this->coordinates[$key])) {
+      if ($key && $feeDbKey && isset($this->coordinates[$key])) {
+        // DBから初回料金を取得
+        $initialExaminationFee = (int)($treatmentFees->$feeDbKey ?? 0);
+
         // 楕円描画（初検料サークル）
         $this->drawEllipseByKey($pdf, $key);
 
@@ -2082,7 +2115,7 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
           $pdf->SetFontSize($this->coord('fee_initial_examination_amount', 'fontSize'));
           $this->drawTextByKey($pdf, 'fee_initial_examination_amount', (string)$initialExaminationFee);
         }
-        
+
         $totalFee += $initialExaminationFee;
       }
     }
