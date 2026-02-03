@@ -1638,5 +1638,44 @@
         "type": "number",
         "fontSize": 10,
         "letterSpacing": 0
+    },
+    "expenses_borne_ratio_10": {
+        "x": 50,
+        "y": 144.5,
+        "textAlign": "left",
+        "field": "expenses_borne_ratio",
+        "label": "一部負担金（サークル）",
+        "type": "select",
+        "options": [
+            "１割",
+            "２割",
+            "３割"
+        ],
+        "ellipseWidth": 4,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "expenses_borne_ratio",
+        "optionLabel": "１割",
+        "isSelected": true
+    },
+    "fee_partial_payment": {
+        "x": 10,
+        "y": 142.5,
+        "textAlign": "center",
+        "field": "fee_partial_payment",
+        "label": "一部負担金",
+        "type": "number",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_total_claim": {
+        "x": 10,
+        "y": 148,
+        "textAlign": "center",
+        "field": "fee_total_claim",
+        "label": "請求額",
+        "type": "number",
+        "fontSize": 10,
+        "letterSpacing": 0
     }
 }

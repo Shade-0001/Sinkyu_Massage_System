@@ -2098,7 +2098,7 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
       // expenses_borne_ratioから数値を抽出（"2割" → 20）
       $ratioText = (string)($insurance->expenses_borne_ratio ?? '3割');
       $expensesBorneRatio = 30; // デフォルト3割
-      
+
       if (preg_match('/(\d+)割/', $ratioText, $matches)) {
         $expensesBorneRatio = (int)$matches[1] * 10;
       }
@@ -2107,6 +2107,17 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
 
       $pdf->SetFontSize($this->coord('fee_partial_payment', 'fontSize'));
       $this->drawTextByKey($pdf, 'fee_partial_payment', (string)$partialPayment);
+
+      // 一部負担金の割合に応じた楕円描画
+      $ratioKeyMap = [
+        10 => 'expenses_borne_ratio_10',
+        20 => 'expenses_borne_ratio_20',
+        30 => 'expenses_borne_ratio_30',
+      ];
+      $ratioKey = $ratioKeyMap[$expensesBorneRatio] ?? null;
+      if ($ratioKey && isset($this->coordinates[$ratioKey])) {
+        $this->drawEllipseByKey($pdf, $ratioKey);
+      }
 
       // 請求額（総額 - 一部負担金）
       $claimAmount = $totalFee - $partialPayment;
