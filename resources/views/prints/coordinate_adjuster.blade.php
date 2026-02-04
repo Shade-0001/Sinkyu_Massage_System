@@ -36,7 +36,7 @@
   2. storage/app/config/*_coordinates.json に座標情報を追加
   3. public/js/coordinate-adjuster_categories.js にカテゴリ定義を追加
   4. app/Services/Print/Traits/*FormFieldsTrait.php に描画ロジックを追加
-  ※全て必須。どれか1つでも欠けると正しく動作しない
+  ※1~4全て必須。どれか1つでも欠けると正しく動作しない
 --}}
 <x-app-layout>
 <div class="container-fluid mt-4">
