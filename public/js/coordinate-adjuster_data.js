@@ -160,6 +160,8 @@ let customSampleData = {
   fee_previous_payment_count: '0',
   fee_previous_payment_total: '0',
   fee_subtotal: '26250',
+  public_burden_ratio: '１割',
+  fee_public_burden_amount: '2625',
   fee_partial_payment: '2625',
   fee_total_claim: '23625',
   // 施術料金関連（マッサージ）
