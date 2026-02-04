@@ -1693,17 +1693,10 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
         $this->drawTextByKey($pdf, 'fee_subtotal', (string)($custom['fee_subtotal'] ?? ''));
       }
 
-      // 公費負担額（割合）サークル - 一部負担金（サークル）と同じデータを参照
-      if (isset($custom['expenses_borne_ratio'])) {
-        $ratioMap = [
-          '１割' => 'public_burden_ratio_1',
-          '２割' => 'public_burden_ratio_2',
-          '３割' => 'public_burden_ratio_3'
-        ];
-        $key = $ratioMap[$custom['expenses_borne_ratio']] ?? null;
-        if ($key && isset($this->coordinates[$key])) {
-          $this->drawEllipseByKey($pdf, $key);
-        }
+      // 公費負担額（割合） - 一部負担金（サークル）と同じデータを参照
+      if (isset($custom['expenses_borne_ratio']) && isset($this->coordinates['public_burden_ratio'])) {
+        $pdf->SetFontSize($this->coord('public_burden_ratio', 'fontSize'));
+        $this->drawTextByKey($pdf, 'public_burden_ratio', $custom['expenses_borne_ratio']);
       }
 
       // 公費負担額 - 一部負担金と同じデータを参照
@@ -2181,15 +2174,10 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
 
       $partialPayment = (int)($totalFee * ($expensesBorneRatio / 100));
 
-      // 公費負担額（割合）サークル - 一部負担金と同じ割合を描画
-      $publicBurdenRatioKeyMap = [
-        10 => 'public_burden_ratio_1',
-        20 => 'public_burden_ratio_2',
-        30 => 'public_burden_ratio_3',
-      ];
-      $publicBurdenRatioKey = $publicBurdenRatioKeyMap[$expensesBorneRatio] ?? null;
-      if ($publicBurdenRatioKey && isset($this->coordinates[$publicBurdenRatioKey])) {
-        $this->drawEllipseByKey($pdf, $publicBurdenRatioKey);
+      // 公費負担額（割合） - 一部負担金と同じ割合を描画
+      if (isset($this->coordinates['public_burden_ratio'])) {
+        $pdf->SetFontSize($this->coord('public_burden_ratio', 'fontSize'));
+        $this->drawTextByKey($pdf, 'public_burden_ratio', $ratioText);
       }
 
       // 公費負担額 - 一部負担金と同じ金額を描画
