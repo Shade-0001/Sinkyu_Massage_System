@@ -6,7 +6,7 @@
 // ============================================================
 // 1. このファイル（coordinate-adjuster_fields.js）にフィールド定義を追加
 // 2. 座標JSONファイル（*_coordinates.json）に座標情報を追加
-// 3. coordinate-adjuster_categories.js にカテゴリ定義を追加 ← 【忘れがち】
+// 3. coordinate-adjuster_categories.js にカテゴリ定義を追加
 // 4. PHPサービスクラス（*FormFieldsTrait.php）に描画ロジックを追加
 //
 // ※3を忘れると座標調整ツールUIにフィールドが表示されない
