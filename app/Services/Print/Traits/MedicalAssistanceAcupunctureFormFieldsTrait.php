@@ -1725,8 +1725,8 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
           'はり' => 'fee_initial_examination_hari',
           'きゅう' => 'fee_initial_examination_kyu',
           'はり･きゅう併用' => 'fee_initial_examination_combined',
-          'はり（電気鍼）' => 'fee_initial_examination_hari_electric',
-          'きゅう（電気温灸器）' => 'fee_initial_examination_kyu_electric',
+          'はり（電気鍼併用）' => 'fee_initial_examination_hari_electric',
+          'きゅう（電気温灸器併用）' => 'fee_initial_examination_kyu_electric',
           'はり･きゅう併用（電気鍼･電気温灸器併用）' => 'fee_initial_examination_hari_kyu_electric'
         ];
 
