@@ -112,12 +112,29 @@ class RecordsController extends Controller
         ->orderBy('consenting_end_date', 'desc')
         ->first();
 
-      // 1ヶ月以内の実績データの有無をチェック
-      $oneMonthAgo = date('Y-m-d', strtotime('-1 month'));
+      // 請求区分判定（継続 or 新規）
+      // 条件1：選択月の前月にデータがあるか
+      $previousMonth = sprintf('%04d-%02d', $selectedYear, $selectedMonth);
+      $previousMonthDate = date('Y-m-d', strtotime($previousMonth . '-01 -1 month'));
+      $previousMonthStart = date('Y-m-01', strtotime($previousMonthDate));
+      $previousMonthEnd = date('Y-m-t', strtotime($previousMonthDate));
+
       $hasRecentRecords = DB::table('records')
         ->where('clinic_user_id', $selectedUserId)
-        ->where('date', '>=', $oneMonthAgo)
+        ->whereBetween('date', [$previousMonthStart, $previousMonthEnd])
         ->exists();
+
+      // 条件2：選択月の前月にデータがなければ、選択月日の1ヶ月前の範囲をチェック
+      if (!$hasRecentRecords) {
+        $selectedMonthStart = sprintf('%04d-%02d-01', $selectedYear, $selectedMonth);
+        $oneMonthBeforeSelected = date('Y-m-d', strtotime($selectedMonthStart . ' -1 month'));
+
+        $hasRecentRecords = DB::table('records')
+          ->where('clinic_user_id', $selectedUserId)
+          ->where('date', '>=', $oneMonthBeforeSelected)
+          ->where('date', '<', $selectedMonthStart)
+          ->exists();
+      }
 
       // 選択された年月の実績データを取得
       $startDate = sprintf('%04d-%02d-01', $selectedYear, $selectedMonth);
@@ -326,12 +343,31 @@ class RecordsController extends Controller
       ->orderBy('consenting_end_date', 'desc')
       ->first();
 
-    // 1ヶ月以内の実績データの有無をチェック
-    $oneMonthAgo = date('Y-m-d', strtotime('-1 month'));
+    // 請求区分判定（継続 or 新規）
+    // 対象レコードの日付を基準にする
+    $recordDate = $record->date;
+
+    // 条件1：レコード月の前月にデータがあるか
+    $previousMonthDate = date('Y-m-d', strtotime($recordDate . ' -1 month'));
+    $previousMonthStart = date('Y-m-01', strtotime($previousMonthDate));
+    $previousMonthEnd = date('Y-m-t', strtotime($previousMonthDate));
+
     $hasRecentRecords = DB::table('records')
       ->where('clinic_user_id', $record->clinic_user_id)
-      ->where('date', '>=', $oneMonthAgo)
+      ->whereBetween('date', [$previousMonthStart, $previousMonthEnd])
       ->exists();
+
+    // 条件2：前月にデータがなければ、レコード月の1ヶ月前の範囲をチェック
+    if (!$hasRecentRecords) {
+      $recordMonthStart = date('Y-m-01', strtotime($recordDate));
+      $oneMonthBeforeRecord = date('Y-m-d', strtotime($recordMonthStart . ' -1 month'));
+
+      $hasRecentRecords = DB::table('records')
+        ->where('clinic_user_id', $record->clinic_user_id)
+        ->where('date', '>=', $oneMonthBeforeRecord)
+        ->where('date', '<', $recordMonthStart)
+        ->exists();
+    }
 
     // 施術者リストを取得
     $therapists = DB::table('therapists')
@@ -529,12 +565,31 @@ class RecordsController extends Controller
       ->orderBy('consenting_end_date', 'desc')
       ->first();
 
-    // 1ヶ月以内の実績データの有無をチェック
-    $oneMonthAgo = date('Y-m-d', strtotime('-1 month'));
+    // 請求区分判定（継続 or 新規）
+    // 対象レコードの日付を基準にする
+    $recordDate = $record->date;
+
+    // 条件1：レコード月の前月にデータがあるか
+    $previousMonthDate = date('Y-m-d', strtotime($recordDate . ' -1 month'));
+    $previousMonthStart = date('Y-m-01', strtotime($previousMonthDate));
+    $previousMonthEnd = date('Y-m-t', strtotime($previousMonthDate));
+
     $hasRecentRecords = DB::table('records')
       ->where('clinic_user_id', $record->clinic_user_id)
-      ->where('date', '>=', $oneMonthAgo)
+      ->whereBetween('date', [$previousMonthStart, $previousMonthEnd])
       ->exists();
+
+    // 条件2：前月にデータがなければ、レコード月の1ヶ月前の範囲をチェック
+    if (!$hasRecentRecords) {
+      $recordMonthStart = date('Y-m-01', strtotime($recordDate));
+      $oneMonthBeforeRecord = date('Y-m-d', strtotime($recordMonthStart . ' -1 month'));
+
+      $hasRecentRecords = DB::table('records')
+        ->where('clinic_user_id', $record->clinic_user_id)
+        ->where('date', '>=', $oneMonthBeforeRecord)
+        ->where('date', '<', $recordMonthStart)
+        ->exists();
+    }
 
     // 施術者リストを取得
     $therapists = DB::table('therapists')

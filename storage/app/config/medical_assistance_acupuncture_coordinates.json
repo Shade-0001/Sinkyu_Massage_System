@@ -1646,7 +1646,7 @@
         "lineWidth": 0.5,
         "radioGroup": "fee_initial_examination",
         "optionLabel": "はり",
-        "isSelected": false
+        "isSelected": true
     },
     "fee_initial_examination_kyu": {
         "x": 88.5,
@@ -1706,10 +1706,10 @@
         "lineWidth": 0.5,
         "radioGroup": "fee_initial_examination",
         "optionLabel": "はり･きゅう併用",
-        "isSelected": true
+        "isSelected": false
     },
     "fee_initial_examination_hari_electric": {
-        "x": 81.5,
+        "x": 61,
         "y": 83.5,
         "textAlign": "left",
         "field": "fee_initial_examination",
@@ -1731,16 +1731,16 @@
             "きゅう（電気温灸器併用）",
             "はり･きゅう併用（電気鍼･電気温灸器併用）"
         ],
-        "ellipseWidth": 14,
-        "ellipseHeight": 2.5,
+        "ellipseWidth": 16,
+        "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "fee_initial_examination",
         "optionLabel": "はり（電気鍼併用）",
         "isSelected": false
     },
     "fee_initial_examination_kyu_electric": {
-        "x": 36.5,
-        "y": 87.5,
+        "x": 119,
+        "y": 83.5,
         "textAlign": "left",
         "field": "fee_initial_examination",
         "label": "初回（サークル）",
@@ -1761,16 +1761,16 @@
             "きゅう（電気温灸器併用）",
             "はり･きゅう併用（電気鍼･電気温灸器併用）"
         ],
-        "ellipseWidth": 18,
-        "ellipseHeight": 2.5,
+        "ellipseWidth": 21,
+        "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "fee_initial_examination",
         "optionLabel": "きゅう（電気温灸器併用）",
         "isSelected": false
     },
     "fee_initial_examination_hari_kyu_electric": {
-        "x": 68.5,
-        "y": 87.5,
+        "x": 93,
+        "y": 88,
         "textAlign": "left",
         "field": "fee_initial_examination",
         "label": "初回（サークル）",
@@ -1791,8 +1791,8 @@
             "きゅう（電気温灸器併用）",
             "はり･きゅう併用（電気鍼･電気温灸器併用）"
         ],
-        "ellipseWidth": 42,
-        "ellipseHeight": 2.5,
+        "ellipseWidth": 33,
+        "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "fee_initial_examination",
         "optionLabel": "はり･きゅう併用（電気鍼･電気温灸器併用）",
@@ -1914,5 +1914,50 @@
         "radioGroup": "expenses_borne_ratio",
         "optionLabel": "３割",
         "isSelected": false
+    },
+    "applicant_postal_code": {
+        "x": -126,
+        "y": 191.5,
+        "textAlign": "left",
+        "field": "applicant_postal_code",
+        "label": "申請者郵便番号",
+        "type": "postal_code",
+        "postalCodeGap": 2,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "firstY": 191.5,
+        "lastY": 191.5,
+        "firstX": -126,
+        "lastX": -124
+    },
+    "applicant_address": {
+        "x": -126,
+        "y": 195.5,
+        "textAlign": "left",
+        "field": "applicant_address",
+        "label": "申請者住所",
+        "type": "text",
+        "fontSize": 9,
+        "letterSpacing": 0
+    },
+    "applicant_name": {
+        "x": -126,
+        "y": 199.5,
+        "textAlign": "left",
+        "field": "applicant_name",
+        "label": "申請者氏名",
+        "type": "text",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "patient_phone": {
+        "x": 156,
+        "y": 199.5,
+        "textAlign": "left",
+        "field": "patient_phone",
+        "label": "電話番号",
+        "type": "text",
+        "fontSize": 10,
+        "letterSpacing": 0
     }
 }
