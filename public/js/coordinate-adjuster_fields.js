@@ -162,7 +162,14 @@ const sampleDataFieldMapping = {
 
   'fee_subtotal': { field: 'fee_subtotal', label: '合計', type: 'number' },
 
-  // === 11-2. 一部負担金（サークル） ===
+  // === 11-2. 公費負担額（割合）サークル ===
+  'public_burden_ratio_1': { field: 'public_burden_ratio', label: '公費負担額（割合）', type: 'select', options: ['１割', '２割', '３割'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'public_burden_ratio', optionLabel: '１割' },
+  'public_burden_ratio_2': { field: 'public_burden_ratio', label: '公費負担額（割合）', type: 'select', options: ['１割', '２割', '３割'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'public_burden_ratio', optionLabel: '２割' },
+  'public_burden_ratio_3': { field: 'public_burden_ratio', label: '公費負担額（割合）', type: 'select', options: ['１割', '２割', '３割'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'public_burden_ratio', optionLabel: '３割' },
+
+  'fee_public_burden_amount': { field: 'fee_public_burden_amount', label: '公費負担額', type: 'number' },
+
+  // === 11-3. 一部負担金（サークル） ===
   'expenses_borne_ratio_10': { field: 'expenses_borne_ratio', label: '一部負担金（サークル）', type: 'select', options: ['１割', '２割', '３割'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'expenses_borne_ratio', optionLabel: '１割' },
   'expenses_borne_ratio_20': { field: 'expenses_borne_ratio', label: '一部負担金（サークル）', type: 'select', options: ['１割', '２割', '３割'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'expenses_borne_ratio', optionLabel: '２割' },
   'expenses_borne_ratio_30': { field: 'expenses_borne_ratio', label: '一部負担金（サークル）', type: 'select', options: ['１割', '２割', '３割'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'expenses_borne_ratio', optionLabel: '３割' },
