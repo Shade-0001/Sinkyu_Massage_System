@@ -30,6 +30,12 @@
   3. storage/app/templates/ の適切なサブフォルダにPDFテンプレートを配置
   4. app/Services/Print/ にPDF生成サービスクラスを作成
   5. （必要に応じて）coordinate-adjuster_ui.js の shouldIncludeField 関数にフィルタリング条件を追加
+
+  【既存PDFタイプに新しいフィールドを追加する手順】【重要】
+  1. public/js/coordinate-adjuster_fields.js にフィールド定義を追加
+  2. storage/app/config/*_coordinates.json に座標情報を追加
+  3. public/js/coordinate-adjuster_categories.js にカテゴリ定義を追加 ← 【必須：忘れるとUIに表示されない】
+  4. app/Services/Print/Traits/*FormFieldsTrait.php に描画ロジックを追加
 --}}
 <x-app-layout>
 <div class="container-fluid mt-4">
