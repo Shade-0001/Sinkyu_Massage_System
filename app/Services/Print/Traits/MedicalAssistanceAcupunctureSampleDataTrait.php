@@ -49,6 +49,7 @@ trait MedicalAssistanceAcupunctureSampleDataTrait
       'account_number' => $custom['insurance_symbol_number'] ?? '67890',
       'insured_number' => $custom['insurance_number'] ?? '1234567890',
       'relationship' => $custom['relationship'] ?? '本人',
+      'insured_name' => $custom['insured_person_name'] ?? '山田 一郎',
       'public_funds_payer_code' => '12345678',
       'public_funds_recipient_code' => '1234567',
       'locality_code' => '123456',

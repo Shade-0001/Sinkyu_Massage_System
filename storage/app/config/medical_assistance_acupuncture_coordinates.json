@@ -439,9 +439,9 @@
         "letterSpacing": 0
     },
     "patient_relationship": {
-        "x": 90.5,
+        "x": -9.5,
         "y": 47.5,
-        "textAlign": "left",
+        "textAlign": "center",
         "field": "relationship",
         "type": "select",
         "masterKey": "relationships",
@@ -601,8 +601,8 @@
         "letterSpacing": 0
     },
     "insured_person_name": {
-        "x": 35,
-        "y": 52.5,
+        "x": 62,
+        "y": 39,
         "textAlign": "center",
         "field": "insured_person_name",
         "type": "text",
