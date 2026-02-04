@@ -1941,8 +1941,8 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
     foreach ($records as $index => $record) {
       $therapyContentId = $record->therapy_content_id ?? null;
 
-      // 初検かどうかを判定（最初のレコードのみ）
-      if ($index === 0) {
+      // 初検かどうかを判定（指定月に請求区分が「新規」のレコードがあるか）
+      if (!$isFirstTreatment && isset($record->bill_category_id) && $record->bill_category_id == 1) {
         $isFirstTreatment = true;
       }
 
