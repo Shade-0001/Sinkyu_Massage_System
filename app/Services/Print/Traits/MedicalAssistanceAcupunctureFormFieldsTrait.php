@@ -616,6 +616,12 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
           $illnessSelected = true;
           // 「その他」の場合、追記テキストを表示
           if ($i === 7 && isset($this->customSampleData['illness_name_other_text']) && $this->customSampleData['illness_name_other_text']) {
+            \Log::info('[fillIllnessCheckboxes] その他テキスト描画（isSelected）', [
+              'text' => $this->customSampleData['illness_name_other_text'],
+              'x' => $this->coord('illness_name_other_text', 'x'),
+              'y' => $this->coord('illness_name_other_text', 'y'),
+              'fontSize' => $this->coord('illness_name_other_text', 'fontSize')
+            ]);
             $pdf->SetFontSize($this->coord('illness_name_other_text', 'fontSize'));
             $this->drawTextByKey($pdf, 'illness_name_other_text', (string)$this->customSampleData['illness_name_other_text']);
             $pdf->SetFontSize(10);
@@ -630,6 +636,12 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
           $this->drawEllipseByKey($pdf, 'illness_name_' . $illnessId);
           // 「その他」の場合、追記テキストを表示
           if ($illnessId === 7 && isset($this->customSampleData['illness_name_other_text']) && $this->customSampleData['illness_name_other_text']) {
+            \Log::info('[fillIllnessCheckboxes] その他テキスト描画（customSampleData）', [
+              'text' => $this->customSampleData['illness_name_other_text'],
+              'x' => $this->coord('illness_name_other_text', 'x'),
+              'y' => $this->coord('illness_name_other_text', 'y'),
+              'fontSize' => $this->coord('illness_name_other_text', 'fontSize')
+            ]);
             $pdf->SetFontSize($this->coord('illness_name_other_text', 'fontSize'));
             $this->drawTextByKey($pdf, 'illness_name_other_text', (string)$this->customSampleData['illness_name_other_text']);
             $pdf->SetFontSize(10);
