@@ -12,6 +12,34 @@
 // ※1~4全て必須。どれか1つでも欠けると正しく動作しない
 // ============================================================
 //
+// ============================================================
+// 【重要】select型フィールド（radioGroup）の表記統一ルール
+// ============================================================
+// select型フィールドで複数の選択肢を持つ場合、以下3箇所の表記を
+// 完全に一致させる必要がある。1文字でも異なるとマッピングが失敗する。
+//
+// 1. このファイル（coordinate-adjuster_fields.js）の options 配列
+// 2. 座標JSONファイル（*_coordinates.json）の options / optionLabels 配列
+// 3. PHPサービスクラス（*FormFieldsTrait.php）の $keyMap 連想配列
+//
+// 【例】初検料（サークル）フィールドの場合:
+//
+// ✅ 正しい統一表記:
+//   - 'はり（電気鍼併用）'
+//   - 'きゅう（電気温灸器併用）'
+//
+// ❌ 短縮形は使用禁止:
+//   - 'はり（電気鍼）'     → マッピング失敗
+//   - 'きゅう（電気温灸器）' → マッピング失敗
+//
+// 【修正が必要なファイル】
+// - public/js/coordinate-adjuster_fields.js（このファイル）
+// - storage/app/config/*_coordinates.json
+// - app/Services/Print/Traits/*FormFieldsTrait.php
+//
+// ※表記を変更する場合は、必ず上記3ファイル全てを同時に修正すること
+// ============================================================
+//
 const sampleDataFieldMapping = {
   // === 1. タイトル・機関コード ===
   'title_year_era': { field: 'title_year_era', label: '元号', type: 'select', options: ['令和', '平成', '昭和'], compositeGroup: 'title_date', compositeLabel: 'タイトル年月' },

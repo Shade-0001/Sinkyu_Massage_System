@@ -1719,6 +1719,17 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
       }
 
       // 初検料
+      // ============================================================
+      // 【重要】$keyMapの表記は以下のファイルと完全一致させること
+      // ============================================================
+      // 1. public/js/coordinate-adjuster_fields.js の options 配列
+      // 2. storage/app/config/*_coordinates.json の options / optionLabels 配列
+      // 3. このファイルの $keyMap（ここ）
+      //
+      // 表記が1文字でも異なるとマッピングが失敗し、楕円が描画されない。
+      // 短縮形（例：'はり（電気鍼）'）は使用禁止。
+      // 必ず完全な表記（例：'はり（電気鍼併用）'）を使用すること。
+      // ============================================================
       if (isset($custom['fee_initial_examination']) && $custom['fee_initial_examination']) {
         $initialExamType = $custom['fee_initial_examination'];
         $keyMap = [
