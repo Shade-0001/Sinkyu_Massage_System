@@ -9,7 +9,7 @@
 // 3. coordinate-adjuster_categories.js にカテゴリ定義を追加
 // 4. PHPサービスクラス（*FormFieldsTrait.php）に描画ロジックを追加
 //
-// ※3を忘れると座標調整ツールUIにフィールドが表示されない
+// ※全て必須。どれか1つでも欠けると正しく動作しない
 // ============================================================
 //
 const sampleDataFieldMapping = {
