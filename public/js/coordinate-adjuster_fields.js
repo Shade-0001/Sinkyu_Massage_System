@@ -174,10 +174,8 @@ const sampleDataFieldMapping = {
 
   'fee_subtotal': { field: 'fee_subtotal', label: '合計', type: 'number' },
 
-  // === 11-2. 公費負担額（割合）サークル ===
-  'public_burden_ratio_1': { field: 'public_burden_ratio', label: '公費負担額（割合）', type: 'select', options: ['１割', '２割', '３割'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'public_burden_ratio', optionLabel: '１割' },
-  'public_burden_ratio_2': { field: 'public_burden_ratio', label: '公費負担額（割合）', type: 'select', options: ['１割', '２割', '３割'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'public_burden_ratio', optionLabel: '２割' },
-  'public_burden_ratio_3': { field: 'public_burden_ratio', label: '公費負担額（割合）', type: 'select', options: ['１割', '２割', '３割'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'public_burden_ratio', optionLabel: '３割' },
+  // === 11-2. 公費負担額（割合） ===
+  'public_burden_ratio': { field: 'public_burden_ratio', label: '公費負担額（割合）', type: 'text' },
 
   'fee_public_burden_amount': { field: 'fee_public_burden_amount', label: '公費負担額', type: 'number' },
 
