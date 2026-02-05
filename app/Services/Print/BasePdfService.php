@@ -314,6 +314,13 @@ abstract class BasePdfService
 
   /**
    * 楕円を描画
+   *
+   * 【重要】座標JSONでellipseX/ellipseYとx/yの両方を定義しないこと
+   * - 楕円描画にはellipseX/ellipseYを使用（推奨）
+   * - x/yは後方互換性のためのフォールバック
+   * - 両方定義すると、coord()がellipseX不在時に0を返すため、
+   *   ??演算子でフォールバックが機能せず、座標(0,0)に描画される不具合が発生する
+   * - 修正後はisset()で実際の存在確認を行い、この問題を回避
    */
   protected function drawEllipseByKey(Fpdi $pdf, string $key): void
   {
@@ -322,6 +329,8 @@ abstract class BasePdfService
     }
 
     // ellipseX/ellipseYが定義されている場合は優先、なければx/yを使用
+    // 注: coord()は存在しないプロパティに対してデフォルト値0を返すため、
+    //     ??演算子は機能しない。そのためisset()で明示的に存在確認を行う
     $x = isset($this->coordinates[$key]['ellipseX']) ? $this->coordinates[$key]['ellipseX'] : $this->coord($key, 'x');
     $y = isset($this->coordinates[$key]['ellipseY']) ? $this->coordinates[$key]['ellipseY'] : $this->coord($key, 'y');
     // ellipseWidthとellipseHeightを使用（radiusXとradiusYは後方互換性のため維持）
