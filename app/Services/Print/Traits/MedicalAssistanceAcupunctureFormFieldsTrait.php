@@ -1129,7 +1129,7 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
           $formattedPostalCode = $postalCodeNumbers;
         }
         $pdf->SetFontSize($this->coord('agent_postal_code', 'fontSize'));
-        $this->drawTextByKey($pdf, 'agent_postal_code', $formattedPostalCode);
+        $this->drawTextByKey($pdf, 'agent_postal_code', '〒 ' . $formattedPostalCode);
       }
       if ($this->hasCoord('agent_address') && $agentAddress) {
         $pdf->SetFontSize($this->coord('agent_address', 'fontSize'));
@@ -1486,7 +1486,7 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
           $formattedPostalCode = $postalCodeNumbers;
         }
         $pdf->SetFontSize($this->coord('agent_postal_code', 'fontSize'));
-        $this->drawTextByKey($pdf, 'agent_postal_code', $formattedPostalCode);
+        $this->drawTextByKey($pdf, 'agent_postal_code', '〒 ' . $formattedPostalCode);
       }
       if ($this->hasCoord('agent_address') && isset($clinicInfo->address_1)) {
         $agentAddress = ($clinicInfo->address_1 ?? '') . ($clinicInfo->address_2 ?? '') . ($clinicInfo->address_3 ?? '');
