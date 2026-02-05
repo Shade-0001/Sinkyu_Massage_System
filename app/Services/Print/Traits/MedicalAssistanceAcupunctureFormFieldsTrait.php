@@ -1345,9 +1345,9 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
           if ($doctor) {
             // 同意医師郵便番号
             if ($this->hasCoord('consent_record_doctor_postal_code') && isset($doctor->postal_code)) {
-              $postalCode = $doctor->postal_code;
-              // ハイフンなしの場合は〒 XXX - XXXXフォーマットに変換
-              if (strlen($postalCode) === 7 && strpos($postalCode, '-') === false) {
+              $postalCode = preg_replace('/[^0-9]/', '', $doctor->postal_code);
+              // 7桁の郵便番号を〒 XXX - XXXXフォーマットに変換
+              if (strlen($postalCode) === 7) {
                 $postalCode = '〒 ' . substr($postalCode, 0, 3) . ' - ' . substr($postalCode, 3);
               }
               $pdf->SetFontSize($this->coord('consent_record_doctor_postal_code', 'fontSize'));
