@@ -1338,9 +1338,9 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
             // 同意医師郵便番号
             if ($this->hasCoord('consent_record_doctor_postal_code') && isset($doctor->postal_code)) {
               $postalCode = $doctor->postal_code;
-              // ハイフンなしの場合はXXX-XXXXフォーマットに変換
+              // ハイフンなしの場合は〒 XXX - XXXXフォーマットに変換
               if (strlen($postalCode) === 7 && strpos($postalCode, '-') === false) {
-                $postalCode = substr($postalCode, 0, 3) . '-' . substr($postalCode, 3);
+                $postalCode = '〒 ' . substr($postalCode, 0, 3) . ' - ' . substr($postalCode, 3);
               }
               $pdf->SetFontSize($this->coord('consent_record_doctor_postal_code', 'fontSize'));
               $this->drawTextByKey($pdf, 'consent_record_doctor_postal_code', (string)$postalCode);
@@ -1892,9 +1892,9 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
       if (isset($custom['consent_record_doctor_postal_code'])) {
         $pdf->SetFontSize($this->coord('consent_record_doctor_postal_code', 'fontSize'));
         $postalCode = $custom['consent_record_doctor_postal_code'];
-        // 7桁の数字を "XXX - XXXX" 形式に変換
+        // 7桁の数字を "〒 XXX - XXXX" 形式に変換
         if (strlen($postalCode) === 7 && ctype_digit($postalCode)) {
-          $postalCode = substr($postalCode, 0, 3) . ' - ' . substr($postalCode, 3);
+          $postalCode = '〒 ' . substr($postalCode, 0, 3) . ' - ' . substr($postalCode, 3);
         }
         $this->drawTextByKey($pdf, 'consent_record_doctor_postal_code', $postalCode);
       }
