@@ -734,7 +734,7 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
       }
       $pdf->SetFontSize(10);
       // 施術所郵便番号
-      if ($this->hasCoord('clinic_postal_code')) {
+      if ($this->hasCoord('clinic_postal_code') && $this->coord('clinic_postal_code', 'y') < 245) {
         $pdf->SetFontSize($this->coord('clinic_postal_code', 'fontSize'));
         $clinicPostalCode = $this->sampleDataMode && isset($this->customSampleData['clinic_postal_code'])
           ? $this->customSampleData['clinic_postal_code']
@@ -742,53 +742,61 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
         $this->drawTextByKey($pdf, 'clinic_postal_code', (string)$clinicPostalCode);
       }
       // 施術所住所
-      if ($this->sampleDataMode && isset($this->customSampleData['clinic_address'])) {
-        $clinicAddress = $this->customSampleData['clinic_address'];
-      } else {
-        $clinicAddress = ($clinicInfo->address_1 ?? '') .
-                         ($clinicInfo->address_2 ?? '') .
-                         ($clinicInfo->address_3 ?? '');
-      }
-      $pdf->SetFontSize($this->coord('clinic_address', 'fontSize'));
-      $this->drawTextByKey($pdf, 'clinic_address', (string)$clinicAddress);
-      $pdf->SetFontSize(10);
-      // 施術所名称
-      $pdf->SetFontSize($this->coord('clinic_name', 'fontSize'));
-      $clinicName = $this->sampleDataMode && isset($this->customSampleData['clinic_name'])
-        ? $this->customSampleData['clinic_name']
-        : ($clinicInfo->clinic_name ?? '');
-      $this->drawTextByKey($pdf, 'clinic_name', (string)$clinicName);
-      $pdf->SetFontSize(10);
-      // 施術管理者氏名（施術者情報から取得）
-      if ($this->sampleDataMode && isset($this->customSampleData['clinic_manager'])) {
-        $therapistName = $this->customSampleData['clinic_manager'];
-        $pdf->SetFontSize($this->coord('clinic_manager', 'fontSize'));
-        $this->drawTextByKey($pdf, 'clinic_manager', (string)$therapistName);
+      if ($this->hasCoord('clinic_address') && $this->coord('clinic_address', 'y') < 245) {
+        if ($this->sampleDataMode && isset($this->customSampleData['clinic_address'])) {
+          $clinicAddress = $this->customSampleData['clinic_address'];
+        } else {
+          $clinicAddress = ($clinicInfo->address_1 ?? '') .
+                           ($clinicInfo->address_2 ?? '') .
+                           ($clinicInfo->address_3 ?? '');
+        }
+        $pdf->SetFontSize($this->coord('clinic_address', 'fontSize'));
+        $this->drawTextByKey($pdf, 'clinic_address', (string)$clinicAddress);
         $pdf->SetFontSize(10);
-      } else {
-        $therapist = DB::table('therapists')->first();
-        if ($therapist) {
-          $therapistName = ($therapist->last_name ?? '') . ' ' . ($therapist->first_name ?? '');
-          if (empty(trim($therapistName))) {
-            \Log::warning('施術管理者氏名が設定されていません', ['therapist' => $therapist]);
-          }
+      }
+      // 施術所名称
+      if ($this->hasCoord('clinic_name') && $this->coord('clinic_name', 'y') < 245) {
+        $pdf->SetFontSize($this->coord('clinic_name', 'fontSize'));
+        $clinicName = $this->sampleDataMode && isset($this->customSampleData['clinic_name'])
+          ? $this->customSampleData['clinic_name']
+          : ($clinicInfo->clinic_name ?? '');
+        $this->drawTextByKey($pdf, 'clinic_name', (string)$clinicName);
+        $pdf->SetFontSize(10);
+      }
+      // 施術管理者氏名（施術者情報から取得）
+      if ($this->hasCoord('clinic_manager') && $this->coord('clinic_manager', 'y') < 245) {
+        if ($this->sampleDataMode && isset($this->customSampleData['clinic_manager'])) {
+          $therapistName = $this->customSampleData['clinic_manager'];
           $pdf->SetFontSize($this->coord('clinic_manager', 'fontSize'));
           $this->drawTextByKey($pdf, 'clinic_manager', (string)$therapistName);
           $pdf->SetFontSize(10);
         } else {
-          \Log::warning('施術者情報が見つかりません');
+          $therapist = DB::table('therapists')->first();
+          if ($therapist) {
+            $therapistName = ($therapist->last_name ?? '') . ' ' . ($therapist->first_name ?? '');
+            if (empty(trim($therapistName))) {
+              \Log::warning('施術管理者氏名が設定されていません', ['therapist' => $therapist]);
+            }
+            $pdf->SetFontSize($this->coord('clinic_manager', 'fontSize'));
+            $this->drawTextByKey($pdf, 'clinic_manager', (string)$therapistName);
+            $pdf->SetFontSize(10);
+          } else {
+            \Log::warning('施術者情報が見つかりません');
+          }
         }
       }
       // 電話番号
-      $clinicPhone = $this->sampleDataMode && isset($this->customSampleData['clinic_phone'])
-        ? $this->customSampleData['clinic_phone']
-        : ($clinicInfo->phone ?? '');
-      if (empty($clinicPhone)) {
-        \Log::warning('施術所電話番号が設定されていません', ['clinic_info' => $clinicInfo]);
+      if ($this->hasCoord('clinic_phone') && $this->coord('clinic_phone', 'y') < 245) {
+        $clinicPhone = $this->sampleDataMode && isset($this->customSampleData['clinic_phone'])
+          ? $this->customSampleData['clinic_phone']
+          : ($clinicInfo->phone ?? '');
+        if (empty($clinicPhone)) {
+          \Log::warning('施術所電話番号が設定されていません', ['clinic_info' => $clinicInfo]);
+        }
+        $pdf->SetFontSize($this->coord('clinic_phone', 'fontSize'));
+        $this->drawTextByKey($pdf, 'clinic_phone', (string)$clinicPhone);
+        $pdf->SetFontSize(10);
       }
-      $pdf->SetFontSize($this->coord('clinic_phone', 'fontSize'));
-      $this->drawTextByKey($pdf, 'clinic_phone', (string)$clinicPhone);
-      $pdf->SetFontSize(10);
       // === 保健所登録区分 ===
       // isSelectedフラグをチェック（座標調整ツールで選択された場合）
       if (isset($this->coordinates['health_center_registration_1']['isSelected']) && $this->coordinates['health_center_registration_1']['isSelected']) {

@@ -2043,7 +2043,7 @@
         "letterSpacing": 0
     },
     "consent_record_date_year": {
-        "x": 15.5,
+        "x": 18,
         "y": 266,
         "textAlign": "center",
         "field": "consent_record_date_year",
