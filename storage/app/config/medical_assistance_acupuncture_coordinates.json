@@ -1819,13 +1819,13 @@
         "letterSpacing": 0
     },
     "public_burden_ratio": {
-        "x": -2.5,
-        "y": 134,
-        "textAlign": "center",
+        "x": 101.5,
+        "y": 134.2,
+        "textAlign": "left",
         "field": "public_burden_ratio",
         "label": "公費負担額（割合）",
         "type": "text",
-        "fontSize": 9.5,
+        "fontSize": 9,
         "letterSpacing": 0
     },
     "fee_public_burden_amount": {

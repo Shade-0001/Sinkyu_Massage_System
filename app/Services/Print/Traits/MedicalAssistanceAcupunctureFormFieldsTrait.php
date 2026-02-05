@@ -1693,11 +1693,21 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
         $this->drawTextByKey($pdf, 'fee_subtotal', (string)($custom['fee_subtotal'] ?? ''));
       }
 
-      // 公費負担額（割合） - 一部負担金（サークル）と同じデータを参照
-      if (isset($custom['expenses_borne_ratio']) && isset($this->coordinates['public_burden_ratio'])) {
+      // 公費負担額（割合） - 一部負担金（サークル）と同じデータを参照、またはpublic_burden_ratioフィールド直接参照
+      if (isset($this->coordinates['public_burden_ratio'])) {
         $pdf->SetFontSize($this->coord('public_burden_ratio', 'fontSize'));
-        $ratioNumber = preg_replace('/[^0-9]/', '', $custom['expenses_borne_ratio']);
-        $this->drawTextByKey($pdf, 'public_burden_ratio', $ratioNumber);
+        // public_burden_ratioフィールドが直接定義されている場合はそれを優先、なければexpenses_borne_ratioから抽出
+        if (isset($custom['public_burden_ratio'])) {
+          $ratioText = $custom['public_burden_ratio'];
+        } elseif (isset($custom['expenses_borne_ratio'])) {
+          $ratioText = $custom['expenses_borne_ratio'];
+        } else {
+          $ratioText = '';
+        }
+        $ratioNumber = preg_replace('/[^0-9]/', '', $ratioText);
+        if ($ratioNumber !== '') {
+          $this->drawTextByKey($pdf, 'public_burden_ratio', $ratioNumber);
+        }
       }
 
       // 公費負担額 - 一部負担金と同じデータを参照
