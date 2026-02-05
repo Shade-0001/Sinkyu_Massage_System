@@ -937,7 +937,7 @@
         "textAlign": "left",
         "field": "agent_name",
         "type": "text",
-        "fontSize": 10,
+        "fontSize": 9,
         "letterSpacing": 0
     },
     "treatment_days_3": {
@@ -1104,7 +1104,7 @@
     },
     "agent_postal_code": {
         "x": 61,
-        "y": 246,
+        "y": 245.5,
         "textAlign": "left",
         "field": "agent_postal_code",
         "type": "postal_code",
@@ -1113,8 +1113,8 @@
         "letterSpacing": 0,
         "firstX": 61,
         "lastX": 63,
-        "firstY": 246,
-        "lastY": 246
+        "firstY": 245.5,
+        "lastY": 245.5
     },
     "health_center_registration_1": {
         "x": 144.5,
@@ -1265,7 +1265,7 @@
         "radioGroup": "payment_category",
         "fontSize": 10,
         "letterSpacing": 0,
-        "isSelected": false
+        "isSelected": true
     },
     "payment_category_counter_payment": {
         "x": 0.5,
@@ -1285,7 +1285,7 @@
         "radioGroup": "payment_category",
         "fontSize": 10,
         "letterSpacing": 0,
-        "isSelected": true
+        "isSelected": false
     },
     "deposit_type_current": {
         "x": 0.5,
@@ -1983,16 +1983,95 @@
         "letterSpacing": 0
     },
     "signature_applicant_postal_code": {
-        "x": 0,
-        "y": 209.5,
+        "x": 68,
+        "y": 235,
         "textAlign": "left",
         "field": "signature_applicant_postal_code",
         "label": "委任者郵便番号",
         "type": "postal_code",
         "postalCodeGap": 2,
-        "fontSize": 10,
+        "fontSize": 9,
         "letterSpacing": 0,
-        "firstY": 209.5,
-        "lastY": 209.5
+        "firstY": 235,
+        "lastY": 235,
+        "firstX": 68,
+        "lastX": 70
+    },
+    "signature_applicant_address": {
+        "x": 61,
+        "y": 248.5,
+        "textAlign": "left",
+        "field": "signature_applicant_address",
+        "label": "代理人住所",
+        "type": "text",
+        "fontSize": 9,
+        "letterSpacing": 0
+    },
+    "consent_record_doctor_name": {
+        "x": -71.5,
+        "y": 266,
+        "textAlign": "center",
+        "field": "consent_record_doctor_name",
+        "label": "同意医師氏名",
+        "type": "text",
+        "fontSize": 11,
+        "letterSpacing": 0
+    },
+    "consent_record_doctor_postal_code": {
+        "x": 51,
+        "y": 265,
+        "textAlign": "left",
+        "field": "consent_record_doctor_postal_code",
+        "label": "同意医師郵便番号",
+        "type": "postal_code",
+        "postalCodeGap": 2,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "firstX": 51,
+        "lastX": 53,
+        "firstY": 265,
+        "lastY": 265
+    },
+    "consent_record_doctor_address": {
+        "x": 51,
+        "y": 268,
+        "textAlign": "left",
+        "field": "consent_record_doctor_address",
+        "label": "同意医師住所",
+        "type": "text",
+        "fontSize": 9,
+        "letterSpacing": 0
+    },
+    "consent_record_date_year": {
+        "x": 15.5,
+        "y": 266,
+        "textAlign": "center",
+        "field": "consent_record_date_year",
+        "label": "年",
+        "type": "number",
+        "compositeGroup": "consent_record_date",
+        "compositeLabel": "同意年月日",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "consent_record_illness_name": {
+        "x": 51,
+        "y": 266,
+        "textAlign": "center",
+        "field": "consent_record_illness_name",
+        "label": "傷病名",
+        "type": "text",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "required_treatment_period": {
+        "x": 78.5,
+        "y": 266,
+        "textAlign": "center",
+        "field": "required_treatment_period",
+        "label": "要加療期間",
+        "type": "text",
+        "fontSize": 10,
+        "letterSpacing": 0
     }
 }
