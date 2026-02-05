@@ -1103,18 +1103,18 @@
         "field": "treatment_days_9"
     },
     "agent_postal_code": {
-        "x": 68,
-        "y": 235,
+        "x": 61,
+        "y": 246,
         "textAlign": "left",
         "field": "agent_postal_code",
         "type": "postal_code",
         "postalCodeGap": 2,
-        "fontSize": 10,
+        "fontSize": 9,
         "letterSpacing": 0,
-        "firstX": 68,
-        "lastX": 70,
-        "firstY": 235,
-        "lastY": 235
+        "firstX": 61,
+        "lastX": 63,
+        "firstY": 246,
+        "lastY": 246
     },
     "health_center_registration_1": {
         "x": 144.5,
@@ -1257,15 +1257,15 @@
             "口座振替",
             "窓口払"
         ],
-        "ellipseX": 33,
+        "ellipseX": 32.5,
         "ellipseY": 214,
-        "ellipseWidth": 15,
+        "ellipseWidth": 11,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "payment_category",
         "fontSize": 10,
         "letterSpacing": 0,
-        "isSelected": true
+        "isSelected": false
     },
     "payment_category_counter_payment": {
         "x": 0.5,
@@ -1277,15 +1277,15 @@
             "口座振替",
             "窓口払"
         ],
-        "ellipseX": 55,
+        "ellipseX": 51,
         "ellipseY": 214,
-        "ellipseWidth": 12,
+        "ellipseWidth": 9,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "payment_category",
         "fontSize": 10,
         "letterSpacing": 0,
-        "isSelected": false
+        "isSelected": true
     },
     "deposit_type_current": {
         "x": 0.5,
@@ -1964,12 +1964,35 @@
     },
     "agent_address": {
         "x": 68,
-        "y": 239,
+        "y": 238,
         "textAlign": "left",
         "field": "agent_address",
-        "label": "代理人住所",
+        "label": "委任者住所",
         "type": "text",
-        "fontSize": 10,
+        "fontSize": 9,
         "letterSpacing": 0
+    },
+    "temporary_insurer_name": {
+        "x": 67.5,
+        "y": 241.5,
+        "textAlign": "left",
+        "field": "temporary_insurer_name",
+        "label": "委任者氏名",
+        "type": "text",
+        "fontSize": 9,
+        "letterSpacing": 0
+    },
+    "signature_applicant_postal_code": {
+        "x": 0,
+        "y": 209.5,
+        "textAlign": "left",
+        "field": "signature_applicant_postal_code",
+        "label": "委任者郵便番号",
+        "type": "postal_code",
+        "postalCodeGap": 2,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "firstY": 209.5,
+        "lastY": 209.5
     }
 }
