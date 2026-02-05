@@ -1103,16 +1103,18 @@
         "field": "treatment_days_9"
     },
     "agent_postal_code": {
-        "x": 0.5,
-        "y": 0,
+        "x": 68,
+        "y": 235,
         "textAlign": "left",
         "field": "agent_postal_code",
         "type": "postal_code",
         "postalCodeGap": 2,
         "fontSize": 10,
         "letterSpacing": 0,
-        "firstX": 0.5,
-        "lastX": 2.5
+        "firstX": 68,
+        "lastX": 70,
+        "firstY": 235,
+        "lastY": 235
     },
     "health_center_registration_1": {
         "x": 144.5,
@@ -1217,8 +1219,8 @@
             "貯蓄",
             "その他"
         ],
-        "ellipseX": 0,
-        "ellipseY": 0,
+        "ellipseX": 5,
+        "ellipseY": 36,
         "ellipseWidth": 5,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
@@ -1228,22 +1230,22 @@
         "isSelected": true
     },
     "bank_account_holder_kana": {
-        "x": 0.5,
-        "y": 0,
-        "textAlign": "left",
+        "x": -43,
+        "y": 219.5,
+        "textAlign": "center",
         "field": "bank_account_holder_kana",
         "type": "text",
         "fontSize": 10,
         "letterSpacing": 0
     },
     "bank_account_number": {
-        "x": 0.5,
-        "y": 0,
+        "x": 111.5,
+        "y": 219,
         "textAlign": "left",
         "field": "bank_account_number",
         "type": "text",
-        "fontSize": 10,
-        "letterSpacing": 0
+        "fontSize": 14,
+        "letterSpacing": 4.7
     },
     "payment_category_account_transfer": {
         "x": 0.5,
@@ -1255,15 +1257,15 @@
             "口座振替",
             "窓口払"
         ],
-        "ellipseX": 0,
-        "ellipseY": 0,
+        "ellipseX": 5,
+        "ellipseY": 68,
         "ellipseWidth": 10,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "payment_category",
         "fontSize": 10,
         "letterSpacing": 0,
-        "isSelected": true
+        "isSelected": false
     },
     "payment_category_counter_payment": {
         "x": 0.5,
@@ -1275,15 +1277,15 @@
             "口座振替",
             "窓口払"
         ],
-        "ellipseX": 0,
-        "ellipseY": 0,
+        "ellipseX": 5,
+        "ellipseY": 39,
         "ellipseWidth": 10,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "payment_category",
         "fontSize": 10,
         "letterSpacing": 0,
-        "isSelected": false
+        "isSelected": true
     },
     "deposit_type_current": {
         "x": 0.5,
@@ -1297,8 +1299,8 @@
             "貯蓄",
             "その他"
         ],
-        "ellipseX": 0,
-        "ellipseY": 0,
+        "ellipseX": 17,
+        "ellipseY": 36,
         "ellipseWidth": 5,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
@@ -1319,8 +1321,8 @@
             "貯蓄",
             "その他"
         ],
-        "ellipseX": 0,
-        "ellipseY": 0,
+        "ellipseX": 29,
+        "ellipseY": 36,
         "ellipseWidth": 5,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
@@ -1341,8 +1343,8 @@
             "貯蓄",
             "その他"
         ],
-        "ellipseX": 0,
-        "ellipseY": 0,
+        "ellipseX": 41,
+        "ellipseY": 36,
         "ellipseWidth": 5,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
@@ -1352,8 +1354,8 @@
         "isSelected": false
     },
     "financial_institution_name": {
-        "x": 0.5,
-        "y": 0,
+        "x": 112,
+        "y": 211.5,
         "textAlign": "left",
         "field": "financial_institution_name",
         "type": "text",
