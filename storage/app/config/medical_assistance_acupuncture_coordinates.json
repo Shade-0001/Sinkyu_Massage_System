@@ -1247,21 +1247,19 @@
         "fontSize": 14,
         "letterSpacing": 4.7
     },
-    "payment_category_furikomi": {
+    "payment_category_account_transfer": {
         "x": 0.5,
         "y": 0,
         "textAlign": "left",
         "field": "payment_category",
         "type": "select",
         "options": [
-            "振込",
-            "銀行送金",
-            "郵便局送金",
-            "当地払"
+            "口座振替",
+            "窓口払"
         ],
-        "ellipseX": 5,
-        "ellipseY": 221,
-        "ellipseWidth": 10,
+        "ellipseX": 33,
+        "ellipseY": 214,
+        "ellipseWidth": 15,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,
         "radioGroup": "payment_category",
@@ -1269,64 +1267,18 @@
         "letterSpacing": 0,
         "isSelected": true
     },
-    "payment_category_bank_transfer": {
+    "payment_category_counter_payment": {
         "x": 0.5,
         "y": 0,
         "textAlign": "left",
         "field": "payment_category",
         "type": "select",
         "options": [
-            "振込",
-            "銀行送金",
-            "郵便局送金",
-            "当地払"
+            "口座振替",
+            "窓口払"
         ],
-        "ellipseX": 5,
-        "ellipseY": 225,
-        "ellipseWidth": 14,
-        "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
-        "radioGroup": "payment_category",
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "isSelected": false
-    },
-    "payment_category_post_transfer": {
-        "x": 0.5,
-        "y": 0,
-        "textAlign": "left",
-        "field": "payment_category",
-        "type": "select",
-        "options": [
-            "振込",
-            "銀行送金",
-            "郵便局送金",
-            "当地払"
-        ],
-        "ellipseX": 5,
-        "ellipseY": 229,
-        "ellipseWidth": 18,
-        "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
-        "radioGroup": "payment_category",
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "isSelected": false
-    },
-    "payment_category_local_payment": {
-        "x": 0.5,
-        "y": 0,
-        "textAlign": "left",
-        "field": "payment_category",
-        "type": "select",
-        "options": [
-            "振込",
-            "銀行送金",
-            "郵便局送金",
-            "当地払"
-        ],
-        "ellipseX": 5,
-        "ellipseY": 233,
+        "ellipseX": 55,
+        "ellipseY": 214,
         "ellipseWidth": 12,
         "ellipseHeight": 2.5,
         "lineWidth": 0.5,

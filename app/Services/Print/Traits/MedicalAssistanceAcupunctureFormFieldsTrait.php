@@ -1232,14 +1232,10 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
     // === 支払機関欄の楕円描画 ===
     // 支払区分
     $paymentMethodKey = null;
-    if (isset($this->coordinates['payment_category_furikomi']['isSelected']) && $this->coordinates['payment_category_furikomi']['isSelected']) {
-      $paymentMethodKey = 'payment_category_furikomi';
-    } elseif (isset($this->coordinates['payment_category_bank_transfer']['isSelected']) && $this->coordinates['payment_category_bank_transfer']['isSelected']) {
-      $paymentMethodKey = 'payment_category_bank_transfer';
-    } elseif (isset($this->coordinates['payment_category_post_transfer']['isSelected']) && $this->coordinates['payment_category_post_transfer']['isSelected']) {
-      $paymentMethodKey = 'payment_category_post_transfer';
-    } elseif (isset($this->coordinates['payment_category_local_payment']['isSelected']) && $this->coordinates['payment_category_local_payment']['isSelected']) {
-      $paymentMethodKey = 'payment_category_local_payment';
+    if (isset($this->coordinates['payment_category_account_transfer']['isSelected']) && $this->coordinates['payment_category_account_transfer']['isSelected']) {
+      $paymentMethodKey = 'payment_category_account_transfer';
+    } elseif (isset($this->coordinates['payment_category_counter_payment']['isSelected']) && $this->coordinates['payment_category_counter_payment']['isSelected']) {
+      $paymentMethodKey = 'payment_category_counter_payment';
     }
     if ($paymentMethodKey) {
       $this->drawEllipseByKey($pdf, $paymentMethodKey);
@@ -1460,9 +1456,9 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
       $pdf->SetFontSize(10);
     }
     // === 支払機関欄：支払区分・預金種別（実データモード） ===
-    // 支払区分は「振込」で固定
-    if ($this->hasCoord('payment_category_furikomi')) {
-      $this->drawEllipseByKey($pdf, 'payment_category_furikomi');
+    // 支払区分は「口座振替」で固定
+    if ($this->hasCoord('payment_category_account_transfer')) {
+      $this->drawEllipseByKey($pdf, 'payment_category_account_transfer');
     }
     // 預金種別はclinic_info.bank_account_typeを参照
     if ($clinicInfo && isset($clinicInfo->bank_account_type)) {
@@ -1807,10 +1803,8 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
       // 支払区分（ラジオグループ）
       if (isset($custom['payment_category'])) {
         $paymentCategoryMap = [
-          '振込' => 'payment_category_furikomi',
-          '銀行送金' => 'payment_category_bank_transfer',
-          '郵便局送金' => 'payment_category_post_transfer',
-          '当地払' => 'payment_category_local_payment'
+          '口座振替' => 'payment_category_account_transfer',
+          '窓口払' => 'payment_category_counter_payment'
         ];
         $key = $paymentCategoryMap[$custom['payment_category']] ?? null;
         if ($key && isset($this->coordinates[$key])) {
