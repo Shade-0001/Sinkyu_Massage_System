@@ -1,0 +1,2077 @@
+{
+    "title_year_month": {
+        "x": 11,
+        "y": 18,
+        "fontSize": 12,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text"
+    },
+    "document_type": {
+        "x": 197,
+        "y": 16,
+        "fontSize": 12,
+        "letterSpacing": 0,
+        "textAlign": "right",
+        "type": "text"
+    },
+    "patient_name": {
+        "x": -46.5,
+        "y": 43.5,
+        "fontSize": 16,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text"
+    },
+    "patient_gender_male": {
+        "x": 84.5,
+        "y": 45.5,
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "gender",
+        "type": "select",
+        "isSelected": true
+    },
+    "patient_gender_female": {
+        "x": 84.5,
+        "y": 49.5,
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "gender",
+        "type": "select",
+        "isSelected": false
+    },
+    "patient_age": {
+        "x": 189.5,
+        "y": 28.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number"
+    },
+    "illness_name": {
+        "x": 118,
+        "y": 38,
+        "fontSize": 14,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text"
+    },
+    "onset_date": {
+        "x": 68,
+        "y": 75,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text"
+    },
+    "consent_date": {
+        "x": 105,
+        "y": 59.5,
+        "fontSize": 11,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text"
+    },
+    "bill_category": {
+        "x": 68,
+        "y": 86,
+        "type": "text",
+        "fontSize": 10,
+        "letterSpacing": 2,
+        "textAlign": "center",
+        "field": "bill_category"
+    },
+    "outcome": {
+        "x": 68,
+        "y": 97,
+        "type": "text",
+        "fontSize": 10,
+        "letterSpacing": 2,
+        "textAlign": "center",
+        "field": "outcome"
+    },
+    "therapy_types": {
+        "x": 34.5,
+        "y": 89.5,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text",
+        "verticalSpacing": 5.1
+    },
+    "therapy_counts": {
+        "x": 63.5,
+        "y": 100,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number"
+    },
+    "therapy_unit_prices": {
+        "x": 85,
+        "y": 100,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number"
+    },
+    "therapy_totals": {
+        "x": 117.5,
+        "y": 100,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number"
+    },
+    "therapy_period_start": {
+        "x": -26.5,
+        "y": 64,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text"
+    },
+    "therapy_period_end": {
+        "x": 13,
+        "y": 64,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text"
+    },
+    "insurance_total": {
+        "x": 74,
+        "y": 162.5,
+        "fontSize": 14,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number"
+    },
+    "self_pay_total": {
+        "x": 171,
+        "y": 162.5,
+        "fontSize": 14,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number"
+    },
+    "copayment_amount": {
+        "x": 74,
+        "y": 171,
+        "fontSize": 14,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number"
+    },
+    "treatment_month": {
+        "x": -66,
+        "y": 155,
+        "fontSize": 13,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number"
+    },
+    "treatment_days": {
+        "x": 54.5,
+        "y": 158.5,
+        "type": "calendar",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "circleSpacing": 3.9,
+        "field": "treatment_days"
+    },
+    "treatment_days_1": {
+        "x": 55,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 1,
+        "field": "treatment_days_1"
+    },
+    "treatment_days_5": {
+        "x": 69.1,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 5,
+        "field": "treatment_days_5"
+    },
+    "treatment_days_10": {
+        "x": 87.7,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 10,
+        "field": "treatment_days_10"
+    },
+    "treatment_days_15": {
+        "x": 112.1,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 15,
+        "field": "treatment_days_15"
+    },
+    "treatment_days_20": {
+        "x": 136.6,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 20,
+        "field": "treatment_days_20"
+    },
+    "treatment_days_25": {
+        "x": 161.6,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 25,
+        "field": "treatment_days_25"
+    },
+    "copayment_ratio": {
+        "x": 64.5,
+        "y": 209,
+        "fontSize": 11,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number"
+    },
+    "remarks": {
+        "x": 23,
+        "y": 198.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "left",
+        "type": "text",
+        "maxCharsPerLine": 49
+    },
+    "receipt_amount": {
+        "x": 124.5,
+        "y": 208.5,
+        "fontSize": 14,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number"
+    },
+    "creation_date": {
+        "x": 38,
+        "y": 224,
+        "fontSize": 11,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text"
+    },
+    "clinic_postal_code": {
+        "x": 78,
+        "y": 247.5,
+        "fontSize": 11,
+        "letterSpacing": 0.2,
+        "textAlign": "left",
+        "type": "text"
+    },
+    "clinic_address": {
+        "x": 78,
+        "y": 253.5,
+        "fontSize": 11,
+        "letterSpacing": 0,
+        "textAlign": "left",
+        "type": "text"
+    },
+    "clinic_name": {
+        "x": 78,
+        "y": 260.5,
+        "fontSize": 11,
+        "letterSpacing": 0,
+        "textAlign": "left",
+        "type": "text"
+    },
+    "clinic_manager": {
+        "x": 78,
+        "y": 267.7,
+        "fontSize": 11,
+        "letterSpacing": 0,
+        "textAlign": "left",
+        "type": "text"
+    },
+    "clinic_phone": {
+        "x": 165,
+        "y": 255.5,
+        "fontSize": 11,
+        "letterSpacing": 0,
+        "textAlign": "left",
+        "type": "text"
+    },
+    "locality_code": {
+        "x": 45.2,
+        "y": 25,
+        "textAlign": "left",
+        "field": "locality_code",
+        "type": "text",
+        "fontSize": 14,
+        "letterSpacing": 7.27
+    },
+    "recipient_number": {
+        "x": 45.2,
+        "y": 31.5,
+        "textAlign": "left",
+        "field": "recipient_number",
+        "type": "text",
+        "fontSize": 14,
+        "letterSpacing": 7.27
+    },
+    "insurance_type_3_hongai": {
+        "x": 189,
+        "y": 7,
+        "textAlign": "left",
+        "field": "insurance_type_3",
+        "type": "select",
+        "masterKey": "insurance_types_3",
+        "valueField": "insurance_type_3",
+        "ellipseWidth": 1,
+        "ellipseHeight": 1,
+        "lineWidth": 0.5,
+        "radioGroup": "insurance_type_3",
+        "isSelected": true
+    },
+    "insurance_type_3_sangai": {
+        "x": 189,
+        "y": 10.5,
+        "textAlign": "left",
+        "field": "insurance_type_3",
+        "type": "select",
+        "masterKey": "insurance_types_3",
+        "valueField": "insurance_type_3",
+        "ellipseWidth": 1,
+        "ellipseHeight": 1,
+        "lineWidth": 0.5,
+        "radioGroup": "insurance_type_3",
+        "isSelected": false
+    },
+    "insurance_type_3_kagai": {
+        "x": 189,
+        "y": 14,
+        "textAlign": "left",
+        "field": "insurance_type_3",
+        "type": "select",
+        "masterKey": "insurance_types_3",
+        "valueField": "insurance_type_3",
+        "ellipseWidth": 1,
+        "ellipseHeight": 1,
+        "lineWidth": 0.5,
+        "radioGroup": "insurance_type_3",
+        "isSelected": false
+    },
+    "insurance_type_3_kougai9": {
+        "x": 189,
+        "y": 18,
+        "textAlign": "left",
+        "field": "insurance_type_3",
+        "type": "select",
+        "masterKey": "insurance_types_3",
+        "valueField": "insurance_type_3",
+        "ellipseWidth": 1,
+        "ellipseHeight": 1,
+        "lineWidth": 0.5,
+        "radioGroup": "insurance_type_3",
+        "isSelected": false
+    },
+    "insurance_type_3_kougai8": {
+        "x": 189,
+        "y": 21.5,
+        "textAlign": "left",
+        "field": "insurance_type_3",
+        "type": "select",
+        "masterKey": "insurance_types_3",
+        "valueField": "insurance_type_3",
+        "ellipseWidth": 1,
+        "ellipseHeight": 1,
+        "lineWidth": 0.5,
+        "radioGroup": "insurance_type_3",
+        "isSelected": false
+    },
+    "insurer_number": {
+        "x": 137.5,
+        "y": 25,
+        "textAlign": "left",
+        "field": "insurer_number",
+        "type": "text",
+        "fontSize": 14,
+        "letterSpacing": 7.27
+    },
+    "insurance_symbol_code": {
+        "x": 47.5,
+        "y": 32,
+        "textAlign": "center",
+        "field": "insurance_symbol_code",
+        "type": "text",
+        "fontSize": 13,
+        "letterSpacing": 0.5
+    },
+    "insurance_symbol_number": {
+        "x": 76,
+        "y": 32,
+        "textAlign": "center",
+        "field": "insurance_symbol_number",
+        "type": "text",
+        "fontSize": 13,
+        "letterSpacing": 0.5
+    },
+    "patient_name_kana": {
+        "x": -38,
+        "y": 38.2,
+        "textAlign": "center",
+        "field": "last_kana",
+        "type": "text",
+        "combine": [
+            "last_kana",
+            "first_kana"
+        ],
+        "fontSize": 9.5,
+        "letterSpacing": 0
+    },
+    "patient_relationship": {
+        "x": -9.5,
+        "y": 47.5,
+        "textAlign": "center",
+        "field": "relationship",
+        "type": "select",
+        "masterKey": "relationships",
+        "valueField": "relationship",
+        "fontSize": 13,
+        "letterSpacing": 0.5
+    },
+    "work_scope_type_1": {
+        "x": 158,
+        "y": 66,
+        "textAlign": "left",
+        "field": "work_scope_type",
+        "type": "select",
+        "options": [
+            "業務上",
+            "第三者行為",
+            "その他"
+        ],
+        "ellipseWidth": 6,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "work_scope_type",
+        "isSelected": true
+    },
+    "work_scope_type_2": {
+        "x": 174,
+        "y": 66,
+        "textAlign": "left",
+        "field": "work_scope_type",
+        "type": "select",
+        "options": [
+            "業務上",
+            "第三者行為",
+            "その他"
+        ],
+        "ellipseWidth": 12,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "work_scope_type",
+        "isSelected": false
+    },
+    "work_scope_type_3": {
+        "x": 190,
+        "y": 66,
+        "textAlign": "left",
+        "field": "work_scope_type",
+        "type": "select",
+        "options": [
+            "業務上",
+            "第三者行為",
+            "その他"
+        ],
+        "ellipseWidth": 6,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "work_scope_type",
+        "isSelected": false
+    },
+    "birthday_era_meiji": {
+        "x": 37,
+        "y": 55,
+        "textAlign": "left",
+        "field": "birthday_era",
+        "type": "select",
+        "options": [
+            "明治",
+            "大正",
+            "昭和",
+            "平成"
+        ],
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "birthday_era",
+        "compositeGroup": "birthday_full_date",
+        "isSelected": true
+    },
+    "birthday_era_taisho": {
+        "x": 42.5,
+        "y": 55,
+        "textAlign": "left",
+        "field": "birthday_era",
+        "type": "select",
+        "options": [
+            "明治",
+            "大正",
+            "昭和",
+            "平成"
+        ],
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "birthday_era",
+        "compositeGroup": "birthday_full_date",
+        "isSelected": false
+    },
+    "birthday_era_showa": {
+        "x": 48,
+        "y": 55,
+        "textAlign": "left",
+        "field": "birthday_era",
+        "type": "select",
+        "options": [
+            "明治",
+            "大正",
+            "昭和",
+            "平成"
+        ],
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "birthday_era",
+        "compositeGroup": "birthday_full_date",
+        "isSelected": false
+    },
+    "birthday_era_heisei": {
+        "x": 53.5,
+        "y": 55,
+        "textAlign": "left",
+        "field": "birthday_era",
+        "type": "select",
+        "options": [
+            "明治",
+            "大正",
+            "昭和",
+            "平成"
+        ],
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "birthday_era",
+        "compositeGroup": "birthday_full_date",
+        "isSelected": false
+    },
+    "birthday_full_date": {
+        "x": -38.5,
+        "y": 52.5,
+        "textAlign": "center",
+        "field": "birthday_year",
+        "type": "text",
+        "combine": [
+            "birthday_year",
+            "birthday_month",
+            "birthday_day"
+        ],
+        "compositeGroup": "birthday_full_date",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "relationship": {
+        "x": 10,
+        "y": 52.5,
+        "textAlign": "center",
+        "field": "relationship",
+        "type": "text",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "insured_person_name": {
+        "x": 62,
+        "y": 39.5,
+        "textAlign": "center",
+        "field": "insured_person_name",
+        "type": "text",
+        "fontSize": 13,
+        "letterSpacing": 0
+    },
+    "condition": {
+        "x": 44.5,
+        "y": 52.5,
+        "textAlign": "center",
+        "field": "condition",
+        "type": "text",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "first_treatment_date": {
+        "x": -66.5,
+        "y": 64,
+        "textAlign": "center",
+        "field": "first_treatment_date",
+        "type": "text",
+        "compositeGroup": "first_treatment_date_composite",
+        "fontSize": 9,
+        "letterSpacing": 0
+    },
+    "treatment_day_count": {
+        "x": 33.5,
+        "y": 64,
+        "textAlign": "center",
+        "field": "treatment_days",
+        "type": "number",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "illness_name_1": {
+        "x": 46,
+        "y": 72.5,
+        "textAlign": "left",
+        "field": "illness_name",
+        "type": "select",
+        "options": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"
+        ],
+        "optionLabels": [
+            "神経痛",
+            "リウマチ",
+            "頸腕症候群",
+            "五十肩",
+            "腰痛症",
+            "頸椎捻挫後遺症",
+            "その他"
+        ],
+        "ellipseWidth": 9,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "radioGroup": "illness_name",
+        "isSelected": true
+    },
+    "illness_name_2": {
+        "x": 65.5,
+        "y": 72.5,
+        "textAlign": "left",
+        "field": "illness_name",
+        "type": "select",
+        "options": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"
+        ],
+        "optionLabels": [
+            "神経痛",
+            "リウマチ",
+            "頸腕症候群",
+            "五十肩",
+            "腰痛症",
+            "頸椎捻挫後遺症",
+            "その他"
+        ],
+        "ellipseWidth": 10,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "radioGroup": "illness_name",
+        "isSelected": false
+    },
+    "illness_name_3": {
+        "x": 88.5,
+        "y": 72.5,
+        "textAlign": "left",
+        "field": "illness_name",
+        "type": "select",
+        "options": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"
+        ],
+        "optionLabels": [
+            "神経痛",
+            "リウマチ",
+            "頸腕症候群",
+            "五十肩",
+            "腰痛症",
+            "頸椎捻挫後遺症",
+            "その他"
+        ],
+        "ellipseWidth": 12,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "radioGroup": "illness_name",
+        "isSelected": false
+    },
+    "illness_name_4": {
+        "x": 46,
+        "y": 77,
+        "textAlign": "left",
+        "field": "illness_name",
+        "type": "select",
+        "options": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"
+        ],
+        "optionLabels": [
+            "神経痛",
+            "リウマチ",
+            "頸腕症候群",
+            "五十肩",
+            "腰痛症",
+            "頸椎捻挫後遺症",
+            "その他"
+        ],
+        "ellipseWidth": 8.5,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "radioGroup": "illness_name",
+        "isSelected": false
+    },
+    "illness_name_5": {
+        "x": 64.5,
+        "y": 77,
+        "textAlign": "left",
+        "field": "illness_name",
+        "type": "select",
+        "options": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"
+        ],
+        "optionLabels": [
+            "神経痛",
+            "リウマチ",
+            "頸腕症候群",
+            "五十肩",
+            "腰痛症",
+            "頸椎捻挫後遺症",
+            "その他"
+        ],
+        "ellipseWidth": 8.5,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "radioGroup": "illness_name",
+        "isSelected": false
+    },
+    "illness_name_6": {
+        "x": 91,
+        "y": 77,
+        "textAlign": "left",
+        "field": "illness_name",
+        "type": "select",
+        "options": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"
+        ],
+        "optionLabels": [
+            "神経痛",
+            "リウマチ",
+            "頸腕症候群",
+            "五十肩",
+            "腰痛症",
+            "頸椎捻挫後遺症",
+            "その他"
+        ],
+        "ellipseWidth": 15,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "radioGroup": "illness_name",
+        "isSelected": false
+    },
+    "illness_name_7": {
+        "x": 115,
+        "y": 77,
+        "textAlign": "left",
+        "field": "illness_name",
+        "type": "select",
+        "options": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"
+        ],
+        "optionLabels": [
+            "神経痛",
+            "リウマチ",
+            "頸腕症候群",
+            "五十肩",
+            "腰痛症",
+            "頸椎捻挫後遺症",
+            "その他"
+        ],
+        "ellipseWidth": 8.5,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "radioGroup": "illness_name",
+        "isSelected": false
+    },
+    "illness_name_other_text": {
+        "x": 28,
+        "y": 75,
+        "textAlign": "center",
+        "field": "illness_name_other_text",
+        "type": "text",
+        "fontSize": 8,
+        "letterSpacing": 0
+    },
+    "abstract": {
+        "x": 153.5,
+        "y": 109,
+        "textAlign": "left",
+        "field": "abstract",
+        "type": "text",
+        "width": 180,
+        "lineHeight": 5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "maxCharsPerLine": 11
+    },
+    "treatment_days_2": {
+        "x": 58.4,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 2,
+        "field": "treatment_days_2"
+    },
+    "treatment_days_19": {
+        "x": 132,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 19,
+        "field": "treatment_days_19"
+    },
+    "treatment_days_22": {
+        "x": 146.5,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 22,
+        "field": "treatment_days_22"
+    },
+    "treatment_days_29": {
+        "x": 181.5,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 29,
+        "field": "treatment_days_29"
+    },
+    "treatment_days_12": {
+        "x": 97.4,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 12,
+        "field": "treatment_days_12"
+    },
+    "treatment_days_30": {
+        "x": 186.5,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 30,
+        "field": "treatment_days_30"
+    },
+    "treatment_days_31": {
+        "x": 191,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 31,
+        "field": "treatment_days_31"
+    },
+    "agent_name": {
+        "x": 61,
+        "y": 252,
+        "textAlign": "left",
+        "field": "agent_name",
+        "type": "text",
+        "fontSize": 9,
+        "letterSpacing": 0
+    },
+    "treatment_days_3": {
+        "x": 62,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 3,
+        "field": "treatment_days_3"
+    },
+    "treatment_days_4": {
+        "x": 65.7,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 4,
+        "field": "treatment_days_4"
+    },
+    "treatment_days_6": {
+        "x": 72.5,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 6,
+        "field": "treatment_days_6"
+    },
+    "treatment_days_28": {
+        "x": 176.3,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 28,
+        "field": "treatment_days_28"
+    },
+    "treatment_days_27": {
+        "x": 171.4,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 27,
+        "field": "treatment_days_27"
+    },
+    "treatment_days_26": {
+        "x": 166.5,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 26,
+        "field": "treatment_days_26"
+    },
+    "treatment_days_24": {
+        "x": 156.7,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 24,
+        "field": "treatment_days_24"
+    },
+    "treatment_days_23": {
+        "x": 151.8,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 23,
+        "field": "treatment_days_23"
+    },
+    "treatment_days_21": {
+        "x": 141.5,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 21,
+        "field": "treatment_days_21"
+    },
+    "treatment_days_18": {
+        "x": 127,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 18,
+        "field": "treatment_days_18"
+    },
+    "treatment_days_17": {
+        "x": 122,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 17,
+        "field": "treatment_days_17"
+    },
+    "treatment_days_16": {
+        "x": 117.5,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 16,
+        "field": "treatment_days_16"
+    },
+    "treatment_days_14": {
+        "x": 107.2,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 14,
+        "field": "treatment_days_14"
+    },
+    "treatment_days_13": {
+        "x": 102.3,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 13,
+        "field": "treatment_days_13"
+    },
+    "treatment_days_11": {
+        "x": 92.5,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 11,
+        "field": "treatment_days_11"
+    },
+    "treatment_days_7": {
+        "x": 75.9,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 7,
+        "field": "treatment_days_7"
+    },
+    "treatment_days_8": {
+        "x": 79.8,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 8,
+        "field": "treatment_days_8"
+    },
+    "treatment_days_9": {
+        "x": 83.2,
+        "y": 158.5,
+        "type": "treatment_day_circle",
+        "circleRadius": 1.8,
+        "doubleCircleInnerRadius": 2.5,
+        "dayNumber": 9,
+        "field": "treatment_days_9"
+    },
+    "agent_postal_code": {
+        "x": 61,
+        "y": 245.5,
+        "textAlign": "left",
+        "field": "agent_postal_code",
+        "type": "postal_code",
+        "postalCodeGap": 2,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "firstX": 61,
+        "lastX": 63,
+        "firstY": 245.5,
+        "lastY": 245.5
+    },
+    "health_center_registration_1": {
+        "x": 144.5,
+        "y": 167,
+        "textAlign": "left",
+        "field": "health_center_registration",
+        "type": "select",
+        "options": [
+            "施術所所在地",
+            "出張専門施術者住所地"
+        ],
+        "ellipseWidth": 12,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "radioGroup": "health_center_registration",
+        "isSelected": true
+    },
+    "health_center_registration_2": {
+        "x": 175.5,
+        "y": 167,
+        "textAlign": "left",
+        "field": "health_center_registration",
+        "type": "select",
+        "options": [
+            "施術所所在地",
+            "出張専門施術者住所地"
+        ],
+        "ellipseWidth": 18.5,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "radioGroup": "health_center_registration",
+        "isSelected": false
+    },
+    "license_hari_number": {
+        "x": -59,
+        "y": 173,
+        "textAlign": "center",
+        "field": "license_hari_number",
+        "type": "text",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "license_kyu_number": {
+        "x": -59,
+        "y": 179.5,
+        "textAlign": "center",
+        "field": "license_kyu_number",
+        "type": "text",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "therapist_postal_code": {
+        "x": 87,
+        "y": 171,
+        "textAlign": "left",
+        "field": "therapist_postal_code",
+        "type": "postal_code",
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "postalCodeGap": 2,
+        "firstY": 171,
+        "lastY": 171,
+        "firstX": 87,
+        "lastX": 89
+    },
+    "therapist_address": {
+        "x": 87,
+        "y": 175,
+        "textAlign": "left",
+        "field": "therapist_address",
+        "type": "text",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "therapist_name": {
+        "x": 87,
+        "y": 180,
+        "textAlign": "left",
+        "field": "therapist_name",
+        "type": "text",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "therapist_phone": {
+        "x": 157,
+        "y": 178.5,
+        "textAlign": "left",
+        "field": "therapist_phone",
+        "type": "text",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "deposit_type_ordinary": {
+        "x": 0.5,
+        "y": 0,
+        "textAlign": "left",
+        "field": "deposit_type",
+        "type": "select",
+        "options": [
+            "普通",
+            "当座",
+            "貯蓄",
+            "その他"
+        ],
+        "ellipseX": 72,
+        "ellipseY": 212,
+        "ellipseWidth": 7,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "deposit_type",
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "isSelected": true
+    },
+    "bank_account_holder_kana": {
+        "x": -43,
+        "y": 219.5,
+        "textAlign": "center",
+        "field": "bank_account_holder_kana",
+        "type": "text",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "bank_account_number": {
+        "x": 111.5,
+        "y": 219,
+        "textAlign": "left",
+        "field": "bank_account_number",
+        "type": "text",
+        "fontSize": 14,
+        "letterSpacing": 4.7
+    },
+    "payment_category_account_transfer": {
+        "x": 0.5,
+        "y": 0,
+        "textAlign": "left",
+        "field": "payment_category",
+        "type": "select",
+        "options": [
+            "口座振替",
+            "窓口払"
+        ],
+        "ellipseX": 32.5,
+        "ellipseY": 214,
+        "ellipseWidth": 11,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "payment_category",
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "isSelected": true
+    },
+    "payment_category_counter_payment": {
+        "x": 0.5,
+        "y": 0,
+        "textAlign": "left",
+        "field": "payment_category",
+        "type": "select",
+        "options": [
+            "口座振替",
+            "窓口払"
+        ],
+        "ellipseX": 51,
+        "ellipseY": 214,
+        "ellipseWidth": 9,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "payment_category",
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "isSelected": false
+    },
+    "deposit_type_current": {
+        "x": 0.5,
+        "y": 0,
+        "textAlign": "left",
+        "field": "deposit_type",
+        "type": "select",
+        "options": [
+            "普通",
+            "当座",
+            "貯蓄",
+            "その他"
+        ],
+        "ellipseX": 86,
+        "ellipseY": 212,
+        "ellipseWidth": 7,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "deposit_type",
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "isSelected": false
+    },
+    "deposit_type_savings": {
+        "x": 0.5,
+        "y": 0,
+        "textAlign": "left",
+        "field": "deposit_type",
+        "type": "select",
+        "options": [
+            "普通",
+            "当座",
+            "貯蓄",
+            "その他"
+        ],
+        "ellipseX": 50,
+        "ellipseY": 212,
+        "ellipseWidth": 7,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "deposit_type",
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "isSelected": false
+    },
+    "deposit_type_other": {
+        "x": 0.5,
+        "y": 0,
+        "textAlign": "left",
+        "field": "deposit_type",
+        "type": "select",
+        "options": [
+            "普通",
+            "当座",
+            "貯蓄",
+            "その他"
+        ],
+        "ellipseX": 0,
+        "ellipseY": 212,
+        "ellipseWidth": 5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "deposit_type",
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "isSelected": false
+    },
+    "financial_institution_name": {
+        "x": 112,
+        "y": 211.5,
+        "textAlign": "left",
+        "field": "financial_institution_name",
+        "type": "text",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_hari_unit": {
+        "x": -12,
+        "y": 91.5,
+        "textAlign": "center",
+        "field": "fee_hari_unit",
+        "type": "number",
+        "compositeGroup": "fee_hari",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_hari_count": {
+        "x": 9,
+        "y": 91.5,
+        "textAlign": "center",
+        "field": "fee_hari_count",
+        "type": "number",
+        "compositeGroup": "fee_hari",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_hari_total": {
+        "x": 31,
+        "y": 91.5,
+        "textAlign": "center",
+        "field": "fee_hari_total",
+        "type": "number",
+        "compositeGroup": "fee_hari",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_hari_electric_unit": {
+        "x": -12,
+        "y": 97,
+        "textAlign": "center",
+        "field": "fee_hari_electric_unit",
+        "type": "number",
+        "compositeGroup": "fee_hari_electric",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_hari_electric_count": {
+        "x": 9,
+        "y": 97,
+        "textAlign": "center",
+        "field": "fee_hari_electric_count",
+        "type": "number",
+        "compositeGroup": "fee_hari_electric",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_hari_electric_total": {
+        "x": 31,
+        "y": 97,
+        "textAlign": "center",
+        "field": "fee_hari_electric_total",
+        "type": "number",
+        "compositeGroup": "fee_hari_electric",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_kyu_unit": {
+        "x": -12,
+        "y": 102.5,
+        "textAlign": "center",
+        "field": "fee_kyu_unit",
+        "type": "number",
+        "compositeGroup": "fee_kyu",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_kyu_count": {
+        "x": 9,
+        "y": 102.5,
+        "textAlign": "center",
+        "field": "fee_kyu_count",
+        "type": "number",
+        "compositeGroup": "fee_kyu",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_kyu_total": {
+        "x": 31,
+        "y": 102.5,
+        "textAlign": "center",
+        "field": "fee_kyu_total",
+        "type": "number",
+        "compositeGroup": "fee_kyu",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_kyu_electric_unit": {
+        "x": -12,
+        "y": 108,
+        "textAlign": "center",
+        "field": "fee_kyu_electric_unit",
+        "type": "number",
+        "compositeGroup": "fee_kyu_electric",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_kyu_electric_count": {
+        "x": 9,
+        "y": 108,
+        "textAlign": "center",
+        "field": "fee_kyu_electric_count",
+        "type": "number",
+        "compositeGroup": "fee_kyu_electric",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_kyu_electric_total": {
+        "x": 31,
+        "y": 108,
+        "textAlign": "center",
+        "field": "fee_kyu_electric_total",
+        "type": "number",
+        "compositeGroup": "fee_kyu_electric",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_hari_kyu_unit": {
+        "x": -12,
+        "y": 113.5,
+        "textAlign": "center",
+        "field": "fee_hari_kyu_unit",
+        "type": "number",
+        "compositeGroup": "fee_hari_kyu",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_hari_kyu_count": {
+        "x": 9,
+        "y": 113.5,
+        "textAlign": "center",
+        "field": "fee_hari_kyu_count",
+        "type": "number",
+        "compositeGroup": "fee_hari_kyu",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_hari_kyu_total": {
+        "x": 31,
+        "y": 113.5,
+        "textAlign": "center",
+        "field": "fee_hari_kyu_total",
+        "type": "number",
+        "compositeGroup": "fee_hari_kyu",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_hari_kyu_electric_unit": {
+        "x": -12,
+        "y": 119,
+        "textAlign": "center",
+        "field": "fee_hari_kyu_electric_unit",
+        "type": "number",
+        "compositeGroup": "fee_hari_kyu_electric",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_hari_kyu_electric_count": {
+        "x": 9,
+        "y": 119,
+        "textAlign": "center",
+        "field": "fee_hari_kyu_electric_count",
+        "type": "number",
+        "compositeGroup": "fee_hari_kyu_electric",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_hari_kyu_electric_total": {
+        "x": 31,
+        "y": 119,
+        "textAlign": "center",
+        "field": "fee_hari_kyu_electric_total",
+        "type": "number",
+        "compositeGroup": "fee_hari_kyu_electric",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_housecall_unit": {
+        "x": -12,
+        "y": 124,
+        "textAlign": "center",
+        "field": "fee_housecall_unit",
+        "label": "単価",
+        "type": "number",
+        "compositeGroup": "fee_housecall",
+        "compositeLabel": "往療料",
+        "optionLabel": "単価",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_housecall_count": {
+        "x": 9,
+        "y": 124,
+        "textAlign": "center",
+        "field": "fee_housecall_count",
+        "label": "回数",
+        "type": "number",
+        "compositeGroup": "fee_housecall",
+        "compositeLabel": "往療料",
+        "optionLabel": "回数",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_housecall_total": {
+        "x": 31,
+        "y": 124,
+        "textAlign": "center",
+        "field": "fee_housecall_total",
+        "label": "合計",
+        "type": "number",
+        "compositeGroup": "fee_housecall",
+        "compositeLabel": "往療料",
+        "optionLabel": "合計",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_housecall_additional_unit": {
+        "x": -12,
+        "y": 129,
+        "textAlign": "center",
+        "field": "fee_housecall_additional_unit",
+        "label": "単価",
+        "type": "number",
+        "compositeGroup": "fee_housecall_additional",
+        "compositeLabel": "往療4km超料金",
+        "optionLabel": "単価",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_housecall_additional_count": {
+        "x": 9,
+        "y": 129,
+        "textAlign": "center",
+        "field": "fee_housecall_additional_count",
+        "label": "回数",
+        "type": "number",
+        "compositeGroup": "fee_housecall_additional",
+        "compositeLabel": "往療4km超料金",
+        "optionLabel": "回数",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_housecall_additional_total": {
+        "x": 31,
+        "y": 129,
+        "textAlign": "center",
+        "field": "fee_housecall_additional_total",
+        "label": "合計",
+        "type": "number",
+        "compositeGroup": "fee_housecall_additional",
+        "compositeLabel": "往療4km超料金",
+        "optionLabel": "合計",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_initial_examination_hari": {
+        "x": 36.5,
+        "y": 83.5,
+        "textAlign": "left",
+        "field": "fee_initial_examination",
+        "label": "初回（サークル）",
+        "type": "select",
+        "options": [
+            "はり",
+            "きゅう",
+            "はり･きゅう併用",
+            "はり（電気鍼併用）",
+            "きゅう（電気温灸器併用）",
+            "はり･きゅう併用（電気鍼･電気温灸器併用）"
+        ],
+        "optionLabels": [
+            "はり",
+            "きゅう",
+            "はり･きゅう併用",
+            "はり（電気鍼併用）",
+            "きゅう（電気温灸器併用）",
+            "はり･きゅう併用（電気鍼･電気温灸器併用）"
+        ],
+        "ellipseWidth": 7,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "fee_initial_examination",
+        "optionLabel": "はり",
+        "isSelected": true
+    },
+    "fee_initial_examination_kyu": {
+        "x": 88.5,
+        "y": 83.5,
+        "textAlign": "left",
+        "field": "fee_initial_examination",
+        "label": "初回（サークル）",
+        "type": "select",
+        "options": [
+            "はり",
+            "きゅう",
+            "はり･きゅう併用",
+            "はり（電気鍼併用）",
+            "きゅう（電気温灸器併用）",
+            "はり･きゅう併用（電気鍼･電気温灸器併用）"
+        ],
+        "optionLabels": [
+            "はり",
+            "きゅう",
+            "はり･きゅう併用",
+            "はり（電気鍼併用）",
+            "きゅう（電気温灸器併用）",
+            "はり･きゅう併用（電気鍼･電気温灸器併用）"
+        ],
+        "ellipseWidth": 8,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "fee_initial_examination",
+        "optionLabel": "きゅう",
+        "isSelected": false
+    },
+    "fee_initial_examination_combined": {
+        "x": 45,
+        "y": 88,
+        "textAlign": "left",
+        "field": "fee_initial_examination",
+        "label": "初回（サークル）",
+        "type": "select",
+        "options": [
+            "はり",
+            "きゅう",
+            "はり･きゅう併用",
+            "はり（電気鍼併用）",
+            "きゅう（電気温灸器併用）",
+            "はり･きゅう併用（電気鍼･電気温灸器併用）"
+        ],
+        "optionLabels": [
+            "はり",
+            "きゅう",
+            "はり･きゅう併用",
+            "はり（電気鍼併用）",
+            "きゅう（電気温灸器併用）",
+            "はり･きゅう併用（電気鍼･電気温灸器併用）"
+        ],
+        "ellipseWidth": 16,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "fee_initial_examination",
+        "optionLabel": "はり･きゅう併用",
+        "isSelected": false
+    },
+    "fee_initial_examination_hari_electric": {
+        "x": 61,
+        "y": 83.5,
+        "textAlign": "left",
+        "field": "fee_initial_examination",
+        "label": "初回（サークル）",
+        "type": "select",
+        "options": [
+            "はり",
+            "きゅう",
+            "はり･きゅう併用",
+            "はり（電気鍼併用）",
+            "きゅう（電気温灸器併用）",
+            "はり･きゅう併用（電気鍼･電気温灸器併用）"
+        ],
+        "optionLabels": [
+            "はり",
+            "きゅう",
+            "はり･きゅう併用",
+            "はり（電気鍼併用）",
+            "きゅう（電気温灸器併用）",
+            "はり･きゅう併用（電気鍼･電気温灸器併用）"
+        ],
+        "ellipseWidth": 16,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "radioGroup": "fee_initial_examination",
+        "optionLabel": "はり（電気鍼併用）",
+        "isSelected": false
+    },
+    "fee_initial_examination_kyu_electric": {
+        "x": 119,
+        "y": 83.5,
+        "textAlign": "left",
+        "field": "fee_initial_examination",
+        "label": "初回（サークル）",
+        "type": "select",
+        "options": [
+            "はり",
+            "きゅう",
+            "はり･きゅう併用",
+            "はり（電気鍼併用）",
+            "きゅう（電気温灸器併用）",
+            "はり･きゅう併用（電気鍼･電気温灸器併用）"
+        ],
+        "optionLabels": [
+            "はり",
+            "きゅう",
+            "はり･きゅう併用",
+            "はり（電気鍼併用）",
+            "きゅう（電気温灸器併用）",
+            "はり･きゅう併用（電気鍼･電気温灸器併用）"
+        ],
+        "ellipseWidth": 21,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "radioGroup": "fee_initial_examination",
+        "optionLabel": "きゅう（電気温灸器併用）",
+        "isSelected": false
+    },
+    "fee_initial_examination_hari_kyu_electric": {
+        "x": 93,
+        "y": 88,
+        "textAlign": "left",
+        "field": "fee_initial_examination",
+        "label": "初回（サークル）",
+        "type": "select",
+        "options": [
+            "はり",
+            "きゅう",
+            "はり･きゅう併用",
+            "はり（電気鍼併用）",
+            "きゅう（電気温灸器併用）",
+            "はり･きゅう併用（電気鍼･電気温灸器併用）"
+        ],
+        "optionLabels": [
+            "はり",
+            "きゅう",
+            "はり･きゅう併用",
+            "はり（電気鍼併用）",
+            "きゅう（電気温灸器併用）",
+            "はり･きゅう併用（電気鍼･電気温灸器併用）"
+        ],
+        "ellipseWidth": 33,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "radioGroup": "fee_initial_examination",
+        "optionLabel": "はり･きゅう併用（電気鍼･電気温灸器併用）",
+        "isSelected": false
+    },
+    "fee_initial_examination_amount": {
+        "x": 31,
+        "y": 86,
+        "textAlign": "center",
+        "field": "fee_initial_examination_amount",
+        "label": "初回（料金）",
+        "type": "number",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_subtotal": {
+        "x": 32.5,
+        "y": 136,
+        "textAlign": "center",
+        "field": "fee_subtotal",
+        "label": "合計",
+        "type": "number",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "public_burden_ratio": {
+        "x": 101.5,
+        "y": 134.2,
+        "textAlign": "left",
+        "field": "public_burden_ratio",
+        "label": "公費負担額（割合）",
+        "type": "text",
+        "fontSize": 9,
+        "letterSpacing": 0
+    },
+    "fee_public_burden_amount": {
+        "x": 10,
+        "y": 136,
+        "textAlign": "center",
+        "field": "fee_public_burden_amount",
+        "label": "公費負担額",
+        "type": "number",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "expenses_borne_ratio_10": {
+        "x": 50,
+        "y": 144.5,
+        "textAlign": "left",
+        "field": "expenses_borne_ratio",
+        "label": "一部負担金（サークル）",
+        "type": "select",
+        "options": [
+            "１割",
+            "２割",
+            "３割"
+        ],
+        "ellipseWidth": 4,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "expenses_borne_ratio",
+        "optionLabel": "１割",
+        "isSelected": true
+    },
+    "fee_partial_payment": {
+        "x": 10,
+        "y": 142.5,
+        "textAlign": "center",
+        "field": "fee_partial_payment",
+        "label": "一部負担金",
+        "type": "number",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_total_claim": {
+        "x": 10,
+        "y": 148,
+        "textAlign": "center",
+        "field": "fee_total_claim",
+        "label": "請求額",
+        "type": "number",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "expenses_borne_ratio_20": {
+        "x": 57.5,
+        "y": 144.5,
+        "textAlign": "left",
+        "field": "expenses_borne_ratio",
+        "label": "一部負担金（サークル）",
+        "type": "select",
+        "options": [
+            "１割",
+            "２割",
+            "３割"
+        ],
+        "ellipseWidth": 4,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "expenses_borne_ratio",
+        "optionLabel": "２割",
+        "isSelected": false
+    },
+    "expenses_borne_ratio_30": {
+        "x": 65,
+        "y": 144.5,
+        "textAlign": "left",
+        "field": "expenses_borne_ratio",
+        "label": "一部負担金（サークル）",
+        "type": "select",
+        "options": [
+            "１割",
+            "２割",
+            "３割"
+        ],
+        "ellipseWidth": 4,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "expenses_borne_ratio",
+        "optionLabel": "３割",
+        "isSelected": false
+    },
+    "applicant_postal_code": {
+        "x": -126,
+        "y": 191.5,
+        "textAlign": "left",
+        "field": "applicant_postal_code",
+        "label": "申請者郵便番号",
+        "type": "postal_code",
+        "postalCodeGap": 2,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "firstY": 191.5,
+        "lastY": 191.5,
+        "firstX": -126,
+        "lastX": -124
+    },
+    "applicant_address": {
+        "x": -126,
+        "y": 195.5,
+        "textAlign": "left",
+        "field": "applicant_address",
+        "label": "申請者住所",
+        "type": "text",
+        "fontSize": 9,
+        "letterSpacing": 0
+    },
+    "applicant_name": {
+        "x": -126,
+        "y": 199.5,
+        "textAlign": "left",
+        "field": "applicant_name",
+        "label": "申請者氏名",
+        "type": "text",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "patient_phone": {
+        "x": 156,
+        "y": 199.5,
+        "textAlign": "left",
+        "field": "patient_phone",
+        "label": "電話番号",
+        "type": "text",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "agent_address": {
+        "x": 68,
+        "y": 238,
+        "textAlign": "left",
+        "field": "agent_address",
+        "label": "委任者住所",
+        "type": "text",
+        "fontSize": 9,
+        "letterSpacing": 0
+    },
+    "temporary_insurer_name": {
+        "x": 67.5,
+        "y": 241.5,
+        "textAlign": "left",
+        "field": "temporary_insurer_name",
+        "label": "委任者氏名",
+        "type": "text",
+        "fontSize": 9,
+        "letterSpacing": 0
+    },
+    "signature_applicant_postal_code": {
+        "x": 68,
+        "y": 235,
+        "textAlign": "left",
+        "field": "signature_applicant_postal_code",
+        "label": "委任者郵便番号",
+        "type": "postal_code",
+        "postalCodeGap": 2,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "firstY": 235,
+        "lastY": 235,
+        "firstX": 68,
+        "lastX": 70
+    },
+    "signature_applicant_address": {
+        "x": 61,
+        "y": 248.5,
+        "textAlign": "left",
+        "field": "signature_applicant_address",
+        "label": "代理人住所",
+        "type": "text",
+        "fontSize": 9,
+        "letterSpacing": 0
+    },
+    "consent_record_doctor_name": {
+        "x": -71.5,
+        "y": 266,
+        "textAlign": "center",
+        "field": "consent_record_doctor_name",
+        "label": "同意医師氏名",
+        "type": "text",
+        "fontSize": 11,
+        "letterSpacing": 0
+    },
+    "consent_record_doctor_postal_code": {
+        "x": 51,
+        "y": 265,
+        "textAlign": "left",
+        "field": "consent_record_doctor_postal_code",
+        "label": "同意医師郵便番号",
+        "type": "postal_code",
+        "postalCodeGap": 2,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "firstX": 51,
+        "lastX": 53,
+        "firstY": 265,
+        "lastY": 265
+    },
+    "consent_record_doctor_address": {
+        "x": 51,
+        "y": 268,
+        "textAlign": "left",
+        "field": "consent_record_doctor_address",
+        "label": "同意医師住所",
+        "type": "text",
+        "fontSize": 9,
+        "letterSpacing": 0
+    },
+    "consent_record_date_year": {
+        "x": 18,
+        "y": 266,
+        "textAlign": "center",
+        "field": "consent_record_date_year",
+        "label": "年",
+        "type": "number",
+        "compositeGroup": "consent_record_date",
+        "compositeLabel": "同意年月日",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "consent_record_illness_name": {
+        "x": 51,
+        "y": 266,
+        "textAlign": "center",
+        "field": "consent_record_illness_name",
+        "label": "傷病名",
+        "type": "text",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "required_treatment_period": {
+        "x": 78.5,
+        "y": 266,
+        "textAlign": "center",
+        "field": "required_treatment_period",
+        "label": "要加療期間",
+        "type": "text",
+        "fontSize": 10,
+        "letterSpacing": 0
+    }
+}
