@@ -307,15 +307,15 @@ const sampleDataFieldMapping = {
   'submission_date_day': { field: 'submission_date_day', label: '日', type: 'number', compositeGroup: 'submission_date', compositeLabel: '申請年月日' },
 
   // === 19. 委任欄 ===
+  'signature_applicant_postal_code': { field: 'signature_applicant_postal_code', label: '委任者郵便番号', type: 'postal_code', postalCodeGap: 2 },
+  'agent_address': { field: 'agent_address', label: '委任者住所', type: 'text' },
+  'temporary_insurer_name': { field: 'temporary_insurer_name', label: '委任者氏名', type: 'text' },
   'agent_postal_code': { field: 'agent_postal_code', label: '代理人郵便番号', type: 'postal_code', postalCodeGap: 2 },
-  'agent_address': { field: 'agent_address', label: '代理人住所', type: 'text' },
+  'signature_applicant_address': { field: 'signature_applicant_address', label: '代理人住所', type: 'text' },
   'agent_name': { field: 'agent_name', label: '代理人氏名', type: 'text' },
-  'temporary_insurer_name': { field: 'temporary_insurer_name', label: '委任申請者氏名', type: 'text' },
   'signature_date_year': { field: 'signature_date_year', label: '年', type: 'number', compositeGroup: 'signature_date', compositeLabel: '委任年月日' },
   'signature_date_month': { field: 'signature_date_month', label: '月', type: 'number', compositeGroup: 'signature_date', compositeLabel: '委任年月日' },
   'signature_date_day': { field: 'signature_date_day', label: '日', type: 'number', compositeGroup: 'signature_date', compositeLabel: '委任年月日' },
-  'signature_applicant_postal_code': { field: 'signature_applicant_postal_code', label: '申請者郵便番号（委任）', type: 'postal_code', postalCodeGap: 2 },
-  'signature_applicant_address': { field: 'signature_applicant_address', label: '委任申請者住所', type: 'text' },
 
   // ========== 施術料金領収書専用フィールド（指示順） ==========
   // 1. 元号年月
