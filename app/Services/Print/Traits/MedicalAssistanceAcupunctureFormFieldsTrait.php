@@ -1112,8 +1112,16 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
       $agentAddress = $this->customSampleData['agent_address'] ?? '';
       $agentName = $this->customSampleData['agent_name'] ?? '';
       if ($this->hasCoord('agent_postal_code') && $agentPostalCode) {
+        // ハイフンを削除して数字のみにする
+        $postalCodeNumbers = preg_replace('/[^0-9]/', '', $agentPostalCode);
+        // 3桁-4桁の形式にフォーマット
+        if (strlen($postalCodeNumbers) === 7) {
+          $formattedPostalCode = substr($postalCodeNumbers, 0, 3) . '-' . substr($postalCodeNumbers, 3, 4);
+        } else {
+          $formattedPostalCode = $postalCodeNumbers;
+        }
         $pdf->SetFontSize($this->coord('agent_postal_code', 'fontSize'));
-        $this->drawTextByKey($pdf, 'agent_postal_code', (string)$agentPostalCode);
+        $this->drawTextByKey($pdf, 'agent_postal_code', $formattedPostalCode);
       }
       if ($this->hasCoord('agent_address') && $agentAddress) {
         $pdf->SetFontSize($this->coord('agent_address', 'fontSize'));
@@ -1465,8 +1473,16 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
     if (!$this->sampleDataMode && $clinicInfo) {
       // 代理人情報はclinic_infoテーブルを参照
       if ($this->hasCoord('agent_postal_code') && isset($clinicInfo->postal_code)) {
+        // ハイフンを削除して数字のみにする
+        $postalCodeNumbers = preg_replace('/[^0-9]/', '', $clinicInfo->postal_code);
+        // 3桁-4桁の形式にフォーマット
+        if (strlen($postalCodeNumbers) === 7) {
+          $formattedPostalCode = substr($postalCodeNumbers, 0, 3) . '-' . substr($postalCodeNumbers, 3, 4);
+        } else {
+          $formattedPostalCode = $postalCodeNumbers;
+        }
         $pdf->SetFontSize($this->coord('agent_postal_code', 'fontSize'));
-        $this->drawTextByKey($pdf, 'agent_postal_code', (string)$clinicInfo->postal_code);
+        $this->drawTextByKey($pdf, 'agent_postal_code', $formattedPostalCode);
       }
       if ($this->hasCoord('agent_address') && isset($clinicInfo->address_1)) {
         $agentAddress = ($clinicInfo->address_1 ?? '') . ($clinicInfo->address_2 ?? '') . ($clinicInfo->address_3 ?? '');
