@@ -322,8 +322,8 @@ abstract class BasePdfService
     }
 
     // ellipseX/ellipseYが定義されている場合は優先、なければx/yを使用
-    $x = $this->coord($key, 'ellipseX') ?? $this->coord($key, 'x');
-    $y = $this->coord($key, 'ellipseY') ?? $this->coord($key, 'y');
+    $x = isset($this->coordinates[$key]['ellipseX']) ? $this->coordinates[$key]['ellipseX'] : $this->coord($key, 'x');
+    $y = isset($this->coordinates[$key]['ellipseY']) ? $this->coordinates[$key]['ellipseY'] : $this->coord($key, 'y');
     // ellipseWidthとellipseHeightを使用（radiusXとradiusYは後方互換性のため維持）
     $radiusX = $this->coord($key, 'ellipseWidth') ?: $this->coord($key, 'radiusX') ?: 1;
     $radiusY = $this->coord($key, 'ellipseHeight') ?: $this->coord($key, 'radiusY') ?: 1;

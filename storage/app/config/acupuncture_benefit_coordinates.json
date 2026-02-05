@@ -162,7 +162,7 @@
         "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "expenses_borne_ratio",
-        "isSelected": false
+        "isSelected": true
     },
     "expenses_borne_ratio_20": {
         "x": 62,
@@ -182,7 +182,7 @@
         "ellipseHeight": 3,
         "lineWidth": 0.5,
         "radioGroup": "expenses_borne_ratio",
-        "isSelected": true
+        "isSelected": false
     },
     "insurer_number": {
         "x": 136.5,
