@@ -270,46 +270,6 @@
         "textAlign": "center",
         "type": "text"
     },
-    "clinic_postal_code": {
-        "x": 78,
-        "y": 247.5,
-        "fontSize": 11,
-        "letterSpacing": 0.2,
-        "textAlign": "left",
-        "type": "text"
-    },
-    "clinic_address": {
-        "x": 78,
-        "y": 253.5,
-        "fontSize": 11,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "type": "text"
-    },
-    "clinic_name": {
-        "x": 78,
-        "y": 260.5,
-        "fontSize": 11,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "type": "text"
-    },
-    "clinic_manager": {
-        "x": 78,
-        "y": 267.7,
-        "fontSize": 11,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "type": "text"
-    },
-    "clinic_phone": {
-        "x": 165,
-        "y": 255.5,
-        "fontSize": 11,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "type": "text"
-    },
     "locality_code": {
         "x": 45.2,
         "y": 25,
