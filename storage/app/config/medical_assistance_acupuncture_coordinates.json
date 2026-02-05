@@ -1168,8 +1168,6 @@
         "letterSpacing": 0
     },
     "deposit_type_ordinary": {
-        "x": 0.5,
-        "y": 0,
         "textAlign": "left",
         "field": "deposit_type",
         "type": "select",
@@ -1208,8 +1206,6 @@
         "letterSpacing": 4.7
     },
     "payment_category_account_transfer": {
-        "x": 0.5,
-        "y": 0,
         "textAlign": "left",
         "field": "payment_category",
         "type": "select",
@@ -1228,8 +1224,6 @@
         "isSelected": true
     },
     "payment_category_counter_payment": {
-        "x": 0.5,
-        "y": 0,
         "textAlign": "left",
         "field": "payment_category",
         "type": "select",
@@ -1248,8 +1242,6 @@
         "isSelected": false
     },
     "deposit_type_current": {
-        "x": 0.5,
-        "y": 0,
         "textAlign": "left",
         "field": "deposit_type",
         "type": "select",
@@ -1270,8 +1262,6 @@
         "isSelected": false
     },
     "deposit_type_savings": {
-        "x": 0.5,
-        "y": 0,
         "textAlign": "left",
         "field": "deposit_type",
         "type": "select",
@@ -1292,8 +1282,6 @@
         "isSelected": false
     },
     "deposit_type_other": {
-        "x": 0.5,
-        "y": 0,
         "textAlign": "left",
         "field": "deposit_type",
         "type": "select",
