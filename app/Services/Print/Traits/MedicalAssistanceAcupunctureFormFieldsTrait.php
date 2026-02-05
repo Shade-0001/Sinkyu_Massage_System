@@ -842,8 +842,16 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
         ? $this->customSampleData['therapist_postal_code']
         : ($therapist->postal_code ?? '');
       if ($therapistPostalCode && isset($this->coordinates['therapist_postal_code'])) {
+        // ハイフンを削除して数字のみにする
+        $postalCodeNumbers = preg_replace('/[^0-9]/', '', $therapistPostalCode);
+        // 3桁-4桁の形式にフォーマット
+        if (strlen($postalCodeNumbers) === 7) {
+          $formattedPostalCode = substr($postalCodeNumbers, 0, 3) . '-' . substr($postalCodeNumbers, 3, 4);
+        } else {
+          $formattedPostalCode = $postalCodeNumbers;
+        }
         $pdf->SetFontSize($this->coord('therapist_postal_code', 'fontSize'));
-        $this->drawTextByKey($pdf, 'therapist_postal_code', '〒 ' . (string)$therapistPostalCode);
+        $this->drawTextByKey($pdf, 'therapist_postal_code', '〒 ' . $formattedPostalCode);
         $pdf->SetFontSize(10);
       }
       // === 施術者住所 ===
