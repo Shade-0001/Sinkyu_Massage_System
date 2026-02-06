@@ -553,15 +553,6 @@
         "fontSize": 10,
         "letterSpacing": 0
     },
-    "relationship": {
-        "x": 10,
-        "y": 52.5,
-        "textAlign": "center",
-        "field": "relationship",
-        "type": "text",
-        "fontSize": 10,
-        "letterSpacing": 0
-    },
     "insured_person_name": {
         "x": 62,
         "y": 39.5,

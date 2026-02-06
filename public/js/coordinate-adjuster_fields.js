@@ -100,7 +100,6 @@ const sampleDataFieldMapping = {
   'birthday_year': { field: 'birthday_year', label: '年', type: 'text', compositeGroup: 'birthday_full_date', compositeLabel: '生年月日', optionLabel: '年月日' },
   'birthday_month': { field: 'birthday_month', label: '月', type: 'text', compositeGroup: 'birthday_full_date', compositeLabel: '生年月日' },
   'birthday_day': { field: 'birthday_day', label: '日', type: 'text', compositeGroup: 'birthday_full_date', compositeLabel: '生年月日' },
-  'relationship': { field: 'relationship', label: '続柄（生年月日の次）', type: 'text' },
   'insured_person_name': { field: 'insured_person_name', label: '被保険者氏名', type: 'text' },
 
   // === 8. 初療年月日・施術期間 ===
