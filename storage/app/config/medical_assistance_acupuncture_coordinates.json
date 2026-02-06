@@ -1960,7 +1960,7 @@
     },
     "consent_record_doctor_postal_code": {
         "x": 51,
-        "y": 265,
+        "y": 264.5,
         "textAlign": "left",
         "field": "consent_record_doctor_postal_code",
         "label": "同意医師郵便番号",
@@ -1970,12 +1970,12 @@
         "letterSpacing": 0,
         "firstX": 51,
         "lastX": 53,
-        "firstY": 265,
-        "lastY": 265
+        "firstY": 264.5,
+        "lastY": 264.5
     },
     "consent_record_doctor_address": {
         "x": 51,
-        "y": 268,
+        "y": 268.5,
         "textAlign": "left",
         "field": "consent_record_doctor_address",
         "label": "同意医師住所",

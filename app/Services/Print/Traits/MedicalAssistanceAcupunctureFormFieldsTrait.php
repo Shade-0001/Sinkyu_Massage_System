@@ -139,37 +139,6 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
     if ($insuranceType3Key) {
       $this->drawEllipseByKey($pdf, $insuranceType3Key);
     }
-    // === 一部負担金（楕円） ===
-    $expensesBorneRatioKey = null;
-    // isSelectedフラグをチェック（サンプルデータの場合）
-    if (isset($this->coordinates['expenses_borne_ratio_10']['isSelected']) && $this->coordinates['expenses_borne_ratio_10']['isSelected']) {
-      $expensesBorneRatioKey = 'expenses_borne_ratio_10';
-      \Log::info('一部負担金: isSelected 10');
-    } elseif (isset($this->coordinates['expenses_borne_ratio_20']['isSelected']) && $this->coordinates['expenses_borne_ratio_20']['isSelected']) {
-      $expensesBorneRatioKey = 'expenses_borne_ratio_20';
-      \Log::info('一部負担金: isSelected 20');
-    } elseif (isset($this->coordinates['expenses_borne_ratio_30']['isSelected']) && $this->coordinates['expenses_borne_ratio_30']['isSelected']) {
-      $expensesBorneRatioKey = 'expenses_borne_ratio_30';
-      \Log::info('一部負担金: isSelected 30');
-    } elseif ($insurance && isset($insurance->expenses_borne_ratio)) {
-      // 通常モード：保険データから取得
-      $ratioValue = (string)$insurance->expenses_borne_ratio;
-      \Log::info('一部負担金: 保険データから取得', ['original' => $ratioValue]);
-      // 半角数字+全角「割」と全角数字+全角「割」の両方に対応
-      if ($ratioValue === '１割' || $ratioValue === '1割') $ratioValue = '10';
-      if ($ratioValue === '２割' || $ratioValue === '2割') $ratioValue = '20';
-      if ($ratioValue === '３割' || $ratioValue === '3割') $ratioValue = '30';
-      $expensesBorneRatioMap = [
-        '10' => 'expenses_borne_ratio_10',
-        '20' => 'expenses_borne_ratio_20',
-        '30' => 'expenses_borne_ratio_30',
-      ];
-      $expensesBorneRatioKey = $expensesBorneRatioMap[$ratioValue] ?? null;
-      \Log::info('一部負担金: 変換後', ['converted' => $ratioValue, 'key' => $expensesBorneRatioKey]);
-    }
-    if ($expensesBorneRatioKey) {
-      $this->drawEllipseByKey($pdf, $expensesBorneRatioKey);
-    }
     // === 保険者番号 ===
     if ($insurance && isset($insurance->insurer_number) && $insurance->insurer_number) {
       $pdf->SetFontSize($this->coord('insurer_number', 'fontSize'));
