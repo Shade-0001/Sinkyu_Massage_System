@@ -215,7 +215,7 @@ class PrintsController extends Controller
         'clinic_user_ids.*' => 'exists:clinic_users,id',
         'service_year_month' => 'required|date_format:Y-m',
         'assistance_type' => 'required|in:acupuncture,massage',
-        'signature_option' => 'required|in:user_signature_blank,user_address_signature_blank',
+        'signature_option' => 'nullable|in:user_signature_blank,user_address_signature_blank',
         'submission_month' => 'required|date_format:Y-m',
       ]);
 
