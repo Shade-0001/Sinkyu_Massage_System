@@ -226,7 +226,7 @@ class PrintsController extends Controller
         'clinic_user_ids' => $validated['clinic_user_ids'],
         'service_year_month' => $validated['service_year_month'],
         'assistance_type' => $assistanceType,
-        'signature_option' => $validated['signature_option'],
+        'signature_option' => $validated['signature_option'] ?? null,
         'submission_month' => $validated['submission_month'],
       ]);
 
@@ -239,7 +239,7 @@ class PrintsController extends Controller
 
       // 署名オプションを設定
       if (method_exists($service, 'setSignatureOption')) {
-        $service->setSignatureOption($validated['signature_option']);
+        $service->setSignatureOption($validated['signature_option'] ?? null);
       }
 
       $pdfBinary = $service->generate(
