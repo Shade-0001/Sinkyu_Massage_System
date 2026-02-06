@@ -1552,5 +1552,15 @@
         "letterSpacing": 0,
         "textAlign": "center",
         "type": "text"
+    },
+    "consent_date_full": {
+        "x": 9.5,
+        "y": 247,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text",
+        "field": "consent_date_full",
+        "label": "同意年月日"
     }
 }

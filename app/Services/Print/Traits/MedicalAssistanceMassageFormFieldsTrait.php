@@ -1345,6 +1345,11 @@ trait MedicalAssistanceMassageFormFieldsTrait
   protected function fillTemporaryInsurerName($pdf, $fullName): void
   {
     // === 被保険者情報 ===
+    // 署名オプションで委任者氏名を空白にする場合はスキップ
+    if ($this->signatureOption === 'user_signature_blank' || $this->signatureOption === 'user_address_signature_blank') {
+      return;
+    }
+
     if ($this->hasCoord('temporary_insurer_name')) {
       // サンプルデータモード時は専用の値を使用、実データモードでは申請者氏名と同じデータを参照
       $tempInsurerName = $this->sampleDataMode
@@ -1597,15 +1602,18 @@ trait MedicalAssistanceMassageFormFieldsTrait
     // === 委任欄（実データモード） ===
     if (!$this->sampleDataMode) {
       // 委任申請者郵便番号・住所は当該利用者のデータを参照
-      if ($this->hasCoord('signature_applicant_postal_code') && isset($clinicUser->postal_code)) {
-        $pdf->SetFontSize($this->coord('signature_applicant_postal_code', 'fontSize'));
-        $this->drawTextByKey($pdf, 'signature_applicant_postal_code', (string)$clinicUser->postal_code);
-      }
-      if ($this->hasCoord('signature_applicant_address')) {
-        $signatureAddress = ($clinicUser->address_1 ?? '') . ($clinicUser->address_2 ?? '') . ($clinicUser->address_3 ?? '');
-        if ($signatureAddress) {
-          $pdf->SetFontSize($this->coord('signature_applicant_address', 'fontSize'));
-          $this->drawTextByKey($pdf, 'signature_applicant_address', (string)$signatureAddress);
+      // 署名オプション: user_address_signature_blank の場合は郵便番号・住所をスキップ
+      if ($this->signatureOption !== 'user_address_signature_blank') {
+        if ($this->hasCoord('signature_applicant_postal_code') && isset($clinicUser->postal_code)) {
+          $pdf->SetFontSize($this->coord('signature_applicant_postal_code', 'fontSize'));
+          $this->drawTextByKey($pdf, 'signature_applicant_postal_code', (string)$clinicUser->postal_code);
+        }
+        if ($this->hasCoord('signature_applicant_address')) {
+          $signatureAddress = ($clinicUser->address_1 ?? '') . ($clinicUser->address_2 ?? '') . ($clinicUser->address_3 ?? '');
+          if ($signatureAddress) {
+            $pdf->SetFontSize($this->coord('signature_applicant_address', 'fontSize'));
+            $this->drawTextByKey($pdf, 'signature_applicant_address', (string)$signatureAddress);
+          }
         }
       }
     }

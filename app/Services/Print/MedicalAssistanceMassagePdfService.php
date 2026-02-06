@@ -16,6 +16,19 @@ class MedicalAssistanceMassagePdfService extends BasePdfService
   use \App\Services\Print\Traits\MedicalAssistanceMassageDrawingHelpersTrait;
 
   /**
+   * 署名オプション
+   */
+  protected $signatureOption = null;
+
+  /**
+   * 署名オプションを設定
+   */
+  public function setSignatureOption(?string $option): void
+  {
+    $this->signatureOption = $option;
+  }
+
+  /**
    * デフォルト座標ファイルパスを取得
    */
   protected function getDefaultCoordinatesPath(): string
