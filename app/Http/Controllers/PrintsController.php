@@ -652,6 +652,20 @@ class PrintsController extends Controller
         ];
       }
 
+      // consent_record_date_year座標がある場合、consent_date_fullを自動同期
+      if (isset($filteredCoordinates['consent_record_date_year'])) {
+        $filteredCoordinates['consent_date_full'] = [
+          'x' => $filteredCoordinates['consent_record_date_year']['x'],
+          'y' => $filteredCoordinates['consent_record_date_year']['y'],
+          'fontSize' => $filteredCoordinates['consent_record_date_year']['fontSize'] ?? 10,
+          'letterSpacing' => $filteredCoordinates['consent_record_date_year']['letterSpacing'] ?? 0,
+          'textAlign' => $filteredCoordinates['consent_record_date_year']['textAlign'] ?? 'left',
+          'type' => 'text',
+          'field' => 'consent_date_full',
+          'label' => '同意年月日'
+        ];
+      }
+
       $coordinates = $filteredCoordinates;
 
       // デバッグ：isSelectedが含まれているかチェック

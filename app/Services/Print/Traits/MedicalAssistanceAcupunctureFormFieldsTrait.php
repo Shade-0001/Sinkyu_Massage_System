@@ -916,13 +916,30 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
       $pdf->SetFontSize(10);
     }
     // 同意年月日
-    if ($this->sampleDataMode && isset($this->customSampleData['consent_record_date_year'])) {
-      $consentDateText = $this->customSampleData['consent_record_date_year'] . '年 '
-        . ($this->customSampleData['consent_record_date_month'] ?? '') . '月 '
-        . ($this->customSampleData['consent_record_date_day'] ?? '') . '日';
-      $pdf->SetFontSize($this->coord('consent_date_full', 'fontSize'));
-      $this->drawTextByKey($pdf, 'consent_date_full', $consentDateText);
-      $pdf->SetFontSize(10);
+    if ($this->sampleDataMode) {
+      // サンプルテキスト入力値を優先、なければ分離フィールドから生成
+      if (isset($this->customSampleData['consent_date_full'])) {
+        $consentDateText = $this->customSampleData['consent_date_full'];
+      } elseif (isset($this->customSampleData['consent_record_date_year'])) {
+        $yearValue = $this->customSampleData['consent_record_date_year'];
+        // 既にフルテキスト（「年」「月」「日」を含む）ならそのまま使用
+        if (strpos($yearValue, '年') !== false && strpos($yearValue, '月') !== false) {
+          $consentDateText = $yearValue;
+        } else {
+          // 数値のみなら分離フィールドとして扱う
+          $consentDateText = $yearValue . '年 '
+            . ($this->customSampleData['consent_record_date_month'] ?? '') . '月 '
+            . ($this->customSampleData['consent_record_date_day'] ?? '') . '日';
+        }
+      } else {
+        $consentDateText = null;
+      }
+
+      if ($consentDateText) {
+        $pdf->SetFontSize($this->coord('consent_date_full', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_date_full', $consentDateText);
+        $pdf->SetFontSize(10);
+      }
     } elseif ($consent && isset($consent->consenting_date) && $consent->consenting_date) {
       [$consentYear, $consentMonth, $consentDay] = explode('-', $consent->consenting_date);
       $consentJapaneseYear = $this->convertToJapaneseYear((int)$consentYear, (int)$consentMonth);
