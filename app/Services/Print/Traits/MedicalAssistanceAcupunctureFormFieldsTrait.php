@@ -1362,8 +1362,9 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
           }
         }
       }
-      // 同意年月日
-      if ($this->hasCoord('consent_record_date_year') && isset($consent->consenting_date)) {
+      // 同意年月日（同意記録用 - 分離フィールド版）
+      // Note: consent_date_fullが定義されている場合はそちらで統合描画されるためスキップ
+      if (!$this->hasCoord('consent_date_full') && $this->hasCoord('consent_record_date_year') && isset($consent->consenting_date)) {
         [$consentYear, $consentMonth, $consentDay] = explode('-', $consent->consenting_date);
         $consentJapaneseYear = $this->convertToJapaneseYear((int)$consentYear, (int)$consentMonth);
         $pdf->SetFontSize($this->coord('consent_record_date_year', 'fontSize'));
