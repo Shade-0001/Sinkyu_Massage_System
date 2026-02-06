@@ -67,29 +67,13 @@
         "textAlign": "center",
         "type": "text"
     },
-    "consent_date_year": {
+    "consent_date_full": {
         "x": 18,
         "y": 266,
         "fontSize": 10,
         "letterSpacing": 0,
-        "textAlign": "center",
-        "type": "number"
-    },
-    "consent_date_month": {
-        "x": 26.5,
-        "y": 266,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "type": "number"
-    },
-    "consent_date_day": {
-        "x": 34,
-        "y": 266,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "type": "number"
+        "textAlign": "left",
+        "type": "text"
     },
     "bill_category": {
         "x": 68,
