@@ -1362,22 +1362,6 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
           }
         }
       }
-      // 同意年月日（同意記録用 - 分離フィールド版）
-      // Note: consent_date_fullが定義されている場合はそちらで統合描画されるためスキップ
-      if (!$this->hasCoord('consent_date_full') && $this->hasCoord('consent_record_date_year') && isset($consent->consenting_date)) {
-        [$consentYear, $consentMonth, $consentDay] = explode('-', $consent->consenting_date);
-        $consentJapaneseYear = $this->convertToJapaneseYear((int)$consentYear, (int)$consentMonth);
-        $pdf->SetFontSize($this->coord('consent_record_date_year', 'fontSize'));
-        $this->drawTextByKey($pdf, 'consent_record_date_year', (string)$consentJapaneseYear['year']);
-        if ($this->hasCoord('consent_record_date_month')) {
-          $pdf->SetFontSize($this->coord('consent_record_date_month', 'fontSize'));
-          $this->drawTextByKey($pdf, 'consent_record_date_month', (string)(int)$consentMonth);
-        }
-        if ($this->hasCoord('consent_record_date_day')) {
-          $pdf->SetFontSize($this->coord('consent_record_date_day', 'fontSize'));
-          $this->drawTextByKey($pdf, 'consent_record_date_day', (string)(int)$consentDay);
-        }
-      }
       // 傷病名（同意記録）
       if ($this->hasCoord('consent_record_illness_name') && isset($consent->illness_name_acupuncture_id)) {
         $illness = DB::table('illnesses_acupuncture')

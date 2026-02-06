@@ -1990,18 +1990,6 @@
         "fontSize": 9,
         "letterSpacing": 0
     },
-    "consent_record_date_year": {
-        "x": 18,
-        "y": 266,
-        "textAlign": "center",
-        "field": "consent_record_date_year",
-        "label": "年",
-        "type": "number",
-        "compositeGroup": "consent_record_date",
-        "compositeLabel": "同意年月日",
-        "fontSize": 10,
-        "letterSpacing": 0
-    },
     "consent_record_illness_name": {
         "x": 51,
         "y": 266,
