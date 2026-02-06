@@ -401,7 +401,7 @@
         "letterSpacing": 0
     },
     "patient_relationship": {
-        "x": -9.5,
+        "x": -10,
         "y": 47.5,
         "textAlign": "center",
         "field": "relationship",
