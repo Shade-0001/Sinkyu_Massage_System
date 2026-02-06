@@ -314,13 +314,13 @@
             <div class="mb-3">
               <label class="form-label">オプション <span class="text-danger">*</span></label>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="signature_option" id="signature_option_1" value="user_signature_blank" required>
+                <input class="form-check-input signature-option-checkbox" type="checkbox" name="signature_option" id="signature_option_1" value="user_signature_blank" required>
                 <label class="form-check-label" for="signature_option_1">
                   利用者署名欄空白
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="signature_option" id="signature_option_2" value="user_address_signature_blank" required>
+                <input class="form-check-input signature-option-checkbox" type="checkbox" name="signature_option" id="signature_option_2" value="user_address_signature_blank" required>
                 <label class="form-check-label" for="signature_option_2">
                   利用者住所・署名欄空白
                 </label>

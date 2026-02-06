@@ -484,6 +484,9 @@ function openMedicalAssistanceModal(type) {
     submissionMonth.value = `${year}-${month}`;
   }
 
+  // チェックボックスの排他制御を設定
+  setupSignatureOptionCheckboxes();
+
   // モーダルをbodyに追加（必要な場合）
   if (modalElement.parentElement !== document.body) {
     document.body.appendChild(modalElement);
@@ -492,6 +495,26 @@ function openMedicalAssistanceModal(type) {
   // Bootstrapモーダルインスタンスを取得または作成
   const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
   modalInstance.show();
+}
+
+/**
+ * 署名オプションのチェックボックスを1つだけ選択可能にする排他制御
+ */
+function setupSignatureOptionCheckboxes() {
+  const checkboxes = document.querySelectorAll('.signature-option-checkbox');
+
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      if (this.checked) {
+        // 他のチェックボックスを全て外す
+        checkboxes.forEach(cb => {
+          if (cb !== this) {
+            cb.checked = false;
+          }
+        });
+      }
+    });
+  });
 }
 
 /**
