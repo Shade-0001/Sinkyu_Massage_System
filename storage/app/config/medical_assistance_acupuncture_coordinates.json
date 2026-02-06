@@ -1904,8 +1904,8 @@
         "letterSpacing": 0
     },
     "agent_address": {
-        "x": 68,
-        "y": 238,
+        "x": 61,
+        "y": 248.5,
         "textAlign": "left",
         "field": "agent_address",
         "label": "代理人住所",
@@ -1939,8 +1939,8 @@
         "lastX": 70
     },
     "signature_applicant_address": {
-        "x": 61,
-        "y": 248.5,
+        "x": 68,
+        "y": 238,
         "textAlign": "left",
         "field": "signature_applicant_address",
         "label": "委任者住所",
