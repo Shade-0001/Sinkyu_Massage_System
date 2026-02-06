@@ -68,12 +68,14 @@
         "type": "text"
     },
     "consent_date_full": {
-        "x": 18,
-        "y": 266,
-        "fontSize": 10,
+        "x": -11,
+        "y": 85.5,
+        "fontSize": 15,
         "letterSpacing": 0,
-        "textAlign": "left",
-        "type": "text"
+        "textAlign": "center",
+        "type": "text",
+        "field": "consent_date_full",
+        "label": "同意年月日"
     },
     "bill_category": {
         "x": 68,
@@ -2008,6 +2010,18 @@
         "label": "要加療期間",
         "type": "text",
         "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "consent_record_date_year": {
+        "x": -11,
+        "y": 85.5,
+        "textAlign": "center",
+        "field": "consent_record_date_year",
+        "label": "年",
+        "type": "text",
+        "compositeGroup": "consent_record_date",
+        "compositeLabel": "同意年月日",
+        "fontSize": 15,
         "letterSpacing": 0
     }
 }

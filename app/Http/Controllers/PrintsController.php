@@ -548,6 +548,25 @@ class PrintsController extends Controller
         ]);
       }
 
+      // consent_record_date_year座標が保存された場合、consent_date_fullを自動同期
+      if (isset($filteredCoordinates['consent_record_date_year'])) {
+        $filteredCoordinates['consent_date_full'] = [
+          'x' => $filteredCoordinates['consent_record_date_year']['x'],
+          'y' => $filteredCoordinates['consent_record_date_year']['y'],
+          'fontSize' => $filteredCoordinates['consent_record_date_year']['fontSize'] ?? 10,
+          'letterSpacing' => $filteredCoordinates['consent_record_date_year']['letterSpacing'] ?? 0,
+          'textAlign' => $filteredCoordinates['consent_record_date_year']['textAlign'] ?? 'left',
+          'type' => 'text',
+          'field' => 'consent_date_full',
+          'label' => '同意年月日'
+        ];
+        \Log::info('saveCoordinates: consent_date_fullをconsent_record_date_yearと自動同期', [
+          'x' => $filteredCoordinates['consent_date_full']['x'],
+          'y' => $filteredCoordinates['consent_date_full']['y'],
+          'fontSize' => $filteredCoordinates['consent_date_full']['fontSize']
+        ]);
+      }
+
       file_put_contents($configPath, json_encode($filteredCoordinates, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
       \Log::info('saveCoordinates: 座標保存完了', [

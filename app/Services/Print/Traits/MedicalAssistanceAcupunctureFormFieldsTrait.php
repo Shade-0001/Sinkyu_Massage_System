@@ -916,10 +916,10 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
       $pdf->SetFontSize(10);
     }
     // 同意年月日
-    if ($this->sampleDataMode && isset($this->customSampleData['consent_date_year'])) {
-      $consentDateText = $this->customSampleData['consent_date_year'] . '年 '
-        . ($this->customSampleData['consent_date_month'] ?? '') . '月 '
-        . ($this->customSampleData['consent_date_day'] ?? '') . '日';
+    if ($this->sampleDataMode && isset($this->customSampleData['consent_record_date_year'])) {
+      $consentDateText = $this->customSampleData['consent_record_date_year'] . '年 '
+        . ($this->customSampleData['consent_record_date_month'] ?? '') . '月 '
+        . ($this->customSampleData['consent_record_date_day'] ?? '') . '日';
       $pdf->SetFontSize($this->coord('consent_date_full', 'fontSize'));
       $this->drawTextByKey($pdf, 'consent_date_full', $consentDateText);
       $pdf->SetFontSize(10);
@@ -1896,19 +1896,7 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
         $this->drawTextByKey($pdf, 'consent_record_doctor_address', $custom['consent_record_doctor_address']);
       }
 
-      // 同意年月日（同意記録）
-      if (isset($custom['consent_record_date_year'])) {
-        $pdf->SetFontSize($this->coord('consent_record_date_year', 'fontSize'));
-        $this->drawTextByKey($pdf, 'consent_record_date_year', (string)$custom['consent_record_date_year']);
-      }
-      if (isset($custom['consent_record_date_month'])) {
-        $pdf->SetFontSize($this->coord('consent_record_date_month', 'fontSize'));
-        $this->drawTextByKey($pdf, 'consent_record_date_month', (string)$custom['consent_record_date_month']);
-      }
-      if (isset($custom['consent_record_date_day'])) {
-        $pdf->SetFontSize($this->coord('consent_record_date_day', 'fontSize'));
-        $this->drawTextByKey($pdf, 'consent_record_date_day', (string)$custom['consent_record_date_day']);
-      }
+      // 同意年月日（同意記録）- fillConsentRecordSectionで統合フィールドとして処理されるため、ここでは不要
 
       // 傷病名（同意記録）
       if (isset($custom['consent_record_illness_name'])) {
