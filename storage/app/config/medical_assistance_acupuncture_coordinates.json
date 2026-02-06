@@ -1908,7 +1908,7 @@
         "y": 238,
         "textAlign": "left",
         "field": "agent_address",
-        "label": "委任者住所",
+        "label": "代理人住所",
         "type": "text",
         "fontSize": 9,
         "letterSpacing": 0
@@ -1943,7 +1943,7 @@
         "y": 248.5,
         "textAlign": "left",
         "field": "signature_applicant_address",
-        "label": "代理人住所",
+        "label": "委任者住所",
         "type": "text",
         "fontSize": 9,
         "letterSpacing": 0
