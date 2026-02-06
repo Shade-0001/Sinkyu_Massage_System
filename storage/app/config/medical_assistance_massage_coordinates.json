@@ -478,7 +478,10 @@
         "y": 267,
         "fontSize": 9,
         "letterSpacing": 0,
-        "type": "text"
+        "type": "text",
+        "field": "agent_address",
+        "label": "代理人住所",
+        "textAlign": "left"
     },
     "agent_name": {
         "x": 54,
@@ -1223,7 +1226,9 @@
         "fontSize": 9,
         "letterSpacing": 0,
         "textAlign": "left",
-        "type": "text"
+        "type": "text",
+        "field": "signature_applicant_address",
+        "label": "委任者住所"
     },
     "patient_phone": {
         "x": 173.5,
