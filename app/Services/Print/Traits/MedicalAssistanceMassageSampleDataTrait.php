@@ -45,8 +45,10 @@ trait MedicalAssistanceMassageSampleDataTrait
 
     // サンプル同意書情報
     $consent = (object)[
-      'consenting_date' => $custom['consent_date'] ?? date('Y-m-d'),
-      'consenting_doctor_name' => $custom['doctor_name'] ?? '田中医師',
+      'consenting_date' => $custom['consent_date'] ?? '2024-12-10',
+      'consenting_doctor_name' => $custom['consent_record_doctor_name'] ?? '伊司田 一郎',
+      'injury_and_illness_name' => $custom['consent_record_illness_name'] ?? '五十肩',
+      'treatment_period' => $custom['required_treatment_period'] ?? '2026/04/10',
       'bill_category' => '継続',
       'outcome' => '継続',
       'work_scope_type' => 'その他',
@@ -76,9 +78,11 @@ trait MedicalAssistanceMassageSampleDataTrait
 
     // サンプル同意医師情報
     $doctor = (object)[
-      'name' => $custom['doctor_name'] ?? '田中医師',
-      'postal_code' => $custom['consent_record_doctor_postal_code'] ?? '1600001',
-      'address' => $custom['consent_record_doctor_address'] ?? '東京都新宿区新宿1-1-1',
+      'name' => $custom['consent_record_doctor_name'] ?? '伊司田 一郎',
+      'postal_code' => $custom['consent_record_doctor_postal_code'] ?? '8800002',
+      'address_1' => $custom['consent_record_doctor_address'] ?? '宮崎県宮崎市中央通254-2',
+      'address_2' => '',
+      'address_3' => '',
     ];
 
     return [

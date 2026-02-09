@@ -1756,10 +1756,18 @@ trait MedicalAssistanceMassageFormFieldsTrait
     }
 
     // === 同意記録欄 ===
+    \Log::info('【同意記録欄】描画開始', [
+      'sampleDataMode' => $this->sampleDataMode,
+      'customSampleData_keys' => $this->customSampleData ? array_keys($this->customSampleData) : 'null',
+      'consent_exists' => isset($consent),
+      'doctor_exists' => isset($doctor)
+    ]);
+
     // 同意年月日（フル形式）
     $consentDateFull = $this->sampleDataMode && isset($this->customSampleData['consent_date_full'])
       ? $this->customSampleData['consent_date_full']
       : (($consent && $consent->consenting_date) ? $this->formatWarekiDate($consent->consenting_date) : '');
+    \Log::info('【同意年月日フル】', ['value' => $consentDateFull, 'hasCoord' => isset($this->coordinates['consent_date_full'])]);
     if ($consentDateFull && isset($this->coordinates['consent_date_full'])) {
       $pdf->SetFontSize($this->coord('consent_date_full', 'fontSize'));
       $this->drawTextByKey($pdf, 'consent_date_full', $consentDateFull);
@@ -1769,6 +1777,7 @@ trait MedicalAssistanceMassageFormFieldsTrait
     $doctorName = $this->sampleDataMode && isset($this->customSampleData['consent_record_doctor_name'])
       ? $this->customSampleData['consent_record_doctor_name']
       : (($consent && $consent->consenting_doctor_name) ? $consent->consenting_doctor_name : '');
+    \Log::info('【同意医師氏名】', ['value' => $doctorName, 'hasCoord' => isset($this->coordinates['consent_record_doctor_name'])]);
     if ($doctorName && isset($this->coordinates['consent_record_doctor_name'])) {
       $pdf->SetFontSize($this->coord('consent_record_doctor_name', 'fontSize'));
       $this->drawTextByKey($pdf, 'consent_record_doctor_name', $doctorName);
