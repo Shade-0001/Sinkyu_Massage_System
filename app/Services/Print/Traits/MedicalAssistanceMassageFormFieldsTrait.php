@@ -210,6 +210,29 @@ trait MedicalAssistanceMassageFormFieldsTrait
         $this->drawTextByKey($pdf, 'fee_subtotal', (string)$custom['fee_subtotal']);
       }
 
+      // 公費負担額（割合）
+      if ($this->hasCoord('public_burden_ratio')) {
+        $pdf->SetFontSize($this->coord('public_burden_ratio', 'fontSize'));
+        // public_burden_ratioフィールドが直接定義されている場合はそれを優先、なければexpenses_borne_ratioから抽出
+        if (isset($custom['public_burden_ratio'])) {
+          $ratioText = $custom['public_burden_ratio'];
+        } elseif (isset($custom['expenses_borne_ratio'])) {
+          $ratioText = $custom['expenses_borne_ratio'];
+        } else {
+          $ratioText = '';
+        }
+        $ratioNumber = preg_replace('/[^0-9]/', '', $ratioText);
+        if ($ratioNumber !== '') {
+          $this->drawTextByKey($pdf, 'public_burden_ratio', $ratioNumber);
+        }
+      }
+
+      // 公費負担額 - 一部負担金と同じデータを参照
+      if (isset($custom['fee_partial_payment']) && $this->hasCoord('fee_public_burden_amount')) {
+        $pdf->SetFontSize($this->coord('fee_public_burden_amount', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_public_burden_amount', (string)($custom['fee_partial_payment'] ?? ''));
+      }
+
       // 一部負担金
       if (isset($custom['fee_partial_payment']) && $this->hasCoord('fee_partial_payment')) {
         $pdf->SetFontSize($this->coord('fee_partial_payment', 'fontSize'));
@@ -457,12 +480,29 @@ trait MedicalAssistanceMassageFormFieldsTrait
     }
 
     // 一部負担金計算
-    $burdenRatio = 0;
-    if (isset($insurance->expenses_borne_ratio)) {
-      $burdenRatio = (int)$insurance->expenses_borne_ratio;
-    }
-    $partialPayment = (int)floor($totalFee * $burdenRatio / 100);
+    $ratioText = (string)($insurance->expenses_borne_ratio ?? '3割');
+    $expensesBorneRatio = 30; // デフォルト3割
 
+    if (preg_match('/(\d+)割/', $ratioText, $matches)) {
+      $expensesBorneRatio = (int)$matches[1] * 10;
+    }
+
+    $partialPayment = (int)($totalFee * ($expensesBorneRatio / 100));
+
+    // 公費負担額（割合） - 一部負担金と同じ割合を描画
+    if ($this->hasCoord('public_burden_ratio')) {
+      $pdf->SetFontSize($this->coord('public_burden_ratio', 'fontSize'));
+      $ratioNumber = (string)($expensesBorneRatio / 10);
+      $this->drawTextByKey($pdf, 'public_burden_ratio', $ratioNumber);
+    }
+
+    // 公費負担額 - 一部負担金と同じ金額を描画
+    if ($this->hasCoord('fee_public_burden_amount')) {
+      $pdf->SetFontSize($this->coord('fee_public_burden_amount', 'fontSize'));
+      $this->drawTextByKey($pdf, 'fee_public_burden_amount', (string)$partialPayment);
+    }
+
+    // 一部負担金
     if ($this->hasCoord('fee_partial_payment')) {
       $pdf->SetFontSize($this->coord('fee_partial_payment', 'fontSize'));
       $this->drawTextByKey($pdf, 'fee_partial_payment', (string)$partialPayment);
