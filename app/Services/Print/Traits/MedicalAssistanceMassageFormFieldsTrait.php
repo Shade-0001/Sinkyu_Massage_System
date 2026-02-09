@@ -1572,6 +1572,42 @@ trait MedicalAssistanceMassageFormFieldsTrait
       }
     }
 
+    // 施術期間（開始） - therapy_period_start
+    if ($this->hasCoord('therapy_period_start')) {
+      if ($this->sampleDataMode && isset($this->customSampleData['therapy_period_start'])) {
+        // サンプルデータモード
+        $therapyPeriodStart = $this->customSampleData['therapy_period_start'];
+        $pdf->SetFontSize($this->coord('therapy_period_start', 'fontSize'));
+        $this->drawTextByKey($pdf, 'therapy_period_start', (string)$therapyPeriodStart);
+        $pdf->SetFontSize(10);
+      } elseif ($consent && isset($consent->therapy_period_start_date) && $consent->therapy_period_start_date) {
+        // 通常モード：therapy_period_start_dateをYYYY/m/d形式で表示
+        $startDate = new \DateTime($consent->therapy_period_start_date);
+        $formattedStartDate = $startDate->format('Y/m/d');
+        $pdf->SetFontSize($this->coord('therapy_period_start', 'fontSize'));
+        $this->drawTextByKey($pdf, 'therapy_period_start', $formattedStartDate);
+        $pdf->SetFontSize(10);
+      }
+    }
+
+    // 施術期間（終了） - therapy_period_end
+    if ($this->hasCoord('therapy_period_end')) {
+      if ($this->sampleDataMode && isset($this->customSampleData['therapy_period_end'])) {
+        // サンプルデータモード
+        $therapyPeriodEnd = $this->customSampleData['therapy_period_end'];
+        $pdf->SetFontSize($this->coord('therapy_period_end', 'fontSize'));
+        $this->drawTextByKey($pdf, 'therapy_period_end', (string)$therapyPeriodEnd);
+        $pdf->SetFontSize(10);
+      } elseif ($consent && isset($consent->therapy_period_end_date) && $consent->therapy_period_end_date) {
+        // 通常モード：therapy_period_end_dateをYYYY/m/d形式で表示
+        $endDate = new \DateTime($consent->therapy_period_end_date);
+        $formattedEndDate = $endDate->format('Y/m/d');
+        $pdf->SetFontSize($this->coord('therapy_period_end', 'fontSize'));
+        $this->drawTextByKey($pdf, 'therapy_period_end', $formattedEndDate);
+        $pdf->SetFontSize(10);
+      }
+    }
+
     // 旧フィールド名との互換性維持（念のため）
     // consent_doctor_name
     if (!$this->hasCoord('consent_record_doctor_name') && $this->hasCoord('consent_doctor_name')) {
@@ -1758,30 +1794,56 @@ trait MedicalAssistanceMassageFormFieldsTrait
     }
     $pdf->SetFontSize(10);
     // === 支払機関欄の楕円描画 ===
-    // 支払区分
+    // 支払区分（サンプルデータモードまたは通常モード）
     $paymentMethodKey = null;
-    if (isset($this->coordinates['payment_category_furikomi']['isSelected']) && $this->coordinates['payment_category_furikomi']['isSelected']) {
-      $paymentMethodKey = 'payment_category_furikomi';
-    } elseif (isset($this->coordinates['payment_category_bank_transfer']['isSelected']) && $this->coordinates['payment_category_bank_transfer']['isSelected']) {
-      $paymentMethodKey = 'payment_category_bank_transfer';
-    } elseif (isset($this->coordinates['payment_category_post_transfer']['isSelected']) && $this->coordinates['payment_category_post_transfer']['isSelected']) {
-      $paymentMethodKey = 'payment_category_post_transfer';
-    } elseif (isset($this->coordinates['payment_category_local_payment']['isSelected']) && $this->coordinates['payment_category_local_payment']['isSelected']) {
-      $paymentMethodKey = 'payment_category_local_payment';
+    if (isset($this->coordinates['payment_category_account_transfer']['isSelected']) && $this->coordinates['payment_category_account_transfer']['isSelected']) {
+      $paymentMethodKey = 'payment_category_account_transfer';
+    } elseif (isset($this->coordinates['payment_category_counter_payment']['isSelected']) && $this->coordinates['payment_category_counter_payment']['isSelected']) {
+      $paymentMethodKey = 'payment_category_counter_payment';
+    } elseif ($this->sampleDataMode && isset($this->customSampleData['payment_category'])) {
+      // サンプルデータから支払区分を取得
+      $paymentCategoryMap = [
+        '口座振替' => 'payment_category_account_transfer',
+        '窓口払' => 'payment_category_counter_payment'
+      ];
+      $paymentMethodKey = $paymentCategoryMap[$this->customSampleData['payment_category']] ?? null;
+    } elseif (!$this->sampleDataMode && $this->hasCoord('payment_category_account_transfer')) {
+      // 通常モード：デフォルトで口座振替を選択
+      $paymentMethodKey = 'payment_category_account_transfer';
     }
     if ($paymentMethodKey) {
       $this->drawEllipseByKey($pdf, $paymentMethodKey);
     }
-    // 預金の種類
+
+    // 預金の種類（サンプルデータモードまたは通常モード）
     $depositTypeKey = null;
     if (isset($this->coordinates['deposit_type_ordinary']['isSelected']) && $this->coordinates['deposit_type_ordinary']['isSelected']) {
       $depositTypeKey = 'deposit_type_ordinary';
     } elseif (isset($this->coordinates['deposit_type_current']['isSelected']) && $this->coordinates['deposit_type_current']['isSelected']) {
       $depositTypeKey = 'deposit_type_current';
-    } elseif (isset($this->coordinates['deposit_type_notice']['isSelected']) && $this->coordinates['deposit_type_notice']['isSelected']) {
-      $depositTypeKey = 'deposit_type_notice';
-    } elseif (isset($this->coordinates['deposit_type_betsudan']['isSelected']) && $this->coordinates['deposit_type_betsudan']['isSelected']) {
-      $depositTypeKey = 'deposit_type_betsudan';
+    } elseif (isset($this->coordinates['deposit_type_savings']['isSelected']) && $this->coordinates['deposit_type_savings']['isSelected']) {
+      $depositTypeKey = 'deposit_type_savings';
+    } elseif (isset($this->coordinates['deposit_type_other']['isSelected']) && $this->coordinates['deposit_type_other']['isSelected']) {
+      $depositTypeKey = 'deposit_type_other';
+    } elseif ($this->sampleDataMode && isset($this->customSampleData['deposit_type'])) {
+      // サンプルデータから預金種類を取得
+      $depositTypeMap = [
+        '普通' => 'deposit_type_ordinary',
+        '当座' => 'deposit_type_current',
+        '貯蓄' => 'deposit_type_savings',
+        'その他' => 'deposit_type_other'
+      ];
+      $depositTypeKey = $depositTypeMap[$this->customSampleData['deposit_type']] ?? null;
+    } elseif (!$this->sampleDataMode && $clinicInfoData) {
+      // 通常モード：clinic_infoから預金種類を取得
+      $accountType = $clinicInfoData->bank_account_type ?? '普通';
+      $depositTypeMap = [
+        '普通' => 'deposit_type_ordinary',
+        '当座' => 'deposit_type_current',
+        '貯蓄' => 'deposit_type_savings',
+        'その他' => 'deposit_type_other'
+      ];
+      $depositTypeKey = $depositTypeMap[$accountType] ?? 'deposit_type_ordinary';
     }
     if ($depositTypeKey) {
       $this->drawEllipseByKey($pdf, $depositTypeKey);
