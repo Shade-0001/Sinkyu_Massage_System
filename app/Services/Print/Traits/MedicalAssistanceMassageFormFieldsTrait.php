@@ -1389,18 +1389,6 @@ trait MedicalAssistanceMassageFormFieldsTrait
   protected function fillConsentRecordSection(Fpdi $pdf, $consent, $doctor = null): void
   {
     // === 同意記録欄 ===
-    // 同意年月日（フル形式）- consent_date_full
-    if ($this->hasCoord('consent_date_full')) {
-      $consentDateFull = $this->sampleDataMode && isset($this->customSampleData['consent_date_full'])
-        ? $this->customSampleData['consent_date_full']
-        : (($consent && $consent->consenting_date) ? $this->formatWarekiDate($consent->consenting_date) : '');
-      if ($consentDateFull) {
-        $pdf->SetFontSize($this->coord('consent_date_full', 'fontSize'));
-        $this->drawTextByKey($pdf, 'consent_date_full', (string)$consentDateFull);
-        $pdf->SetFontSize(10);
-      }
-    }
-
     // 同意医師氏名 - consent_record_doctor_name
     if ($this->hasCoord('consent_record_doctor_name')) {
       $consentDoctorName = $this->sampleDataMode && isset($this->customSampleData['consent_record_doctor_name'])

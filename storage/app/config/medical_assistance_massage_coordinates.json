@@ -67,16 +67,6 @@
         "textAlign": "center",
         "type": "text"
     },
-    "consent_date_full": {
-        "x": 18.5,
-        "y": 267,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "type": "text",
-        "field": "consent_date_full",
-        "label": "同意年月日"
-    },
     "bill_category": {
         "x": 68,
         "y": 86,

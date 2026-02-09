@@ -238,7 +238,6 @@ const sampleDataFieldMapping = {
   'clinic_date_day': { field: 'clinic_date_day', label: '日', type: 'number', compositeGroup: 'clinic_date', compositeLabel: '施術証明年月日' },
 
   // === 14. 同意記録 ===
-  'consent_date_full': { field: 'consent_date_full', label: '同意年月日', type: 'text' },
   'consent_record_doctor_name': { field: 'consent_record_doctor_name', label: '同意医師氏名', type: 'text' },
   'consent_record_doctor_postal_code': { field: 'consent_record_doctor_postal_code', label: '同意医師郵便番号', type: 'postal_code', postalCodeGap: 2 },
   'consent_record_doctor_address': { field: 'consent_record_doctor_address', label: '同意医師住所', type: 'text' },
