@@ -245,6 +245,12 @@ trait MedicalAssistanceMassageFormFieldsTrait
         $this->drawTextByKey($pdf, 'fee_total_claim', (string)$custom['fee_total_claim']);
       }
 
+      // 初検料
+      if (isset($custom['fee_initial_examination_amount']) && $this->hasCoord('fee_initial_examination_amount')) {
+        $pdf->SetFontSize($this->coord('fee_initial_examination_amount', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_initial_examination_amount', (string)$custom['fee_initial_examination_amount']);
+      }
+
       $pdf->SetFontSize(10);
       return;
     }
@@ -513,6 +519,15 @@ trait MedicalAssistanceMassageFormFieldsTrait
     if ($this->hasCoord('fee_total_claim')) {
       $pdf->SetFontSize($this->coord('fee_total_claim', 'fontSize'));
       $this->drawTextByKey($pdf, 'fee_total_claim', (string)$claimAmount);
+    }
+
+    // 初検料（初回施術の場合のみ描画）
+    if ($isFirstTreatment && $this->hasCoord('fee_initial_examination_amount')) {
+      $initialExaminationFee = (int)($treatmentFees->initial_examination_fee ?? 0);
+      if ($initialExaminationFee > 0) {
+        $pdf->SetFontSize($this->coord('fee_initial_examination_amount', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_initial_examination_amount', (string)$initialExaminationFee);
+      }
     }
 
     $pdf->SetFontSize(10);
@@ -1213,6 +1228,26 @@ trait MedicalAssistanceMassageFormFieldsTrait
       $key = $illnessMap[$selectedIllness];
       if ($this->hasCoord($key)) {
         $this->drawEllipseByKey($pdf, $key);
+
+        // 「その他」の場合、追記テキストを描画
+        if ($selectedIllness === 'その他' && $this->hasCoord('illness_name_other_text')) {
+          $otherText = '';
+
+          // サンプルデータモード
+          if ($this->sampleDataMode && isset($this->customSampleData['illness_name_other_text'])) {
+            $otherText = $this->customSampleData['illness_name_other_text'];
+          }
+          // 通常モード
+          elseif (isset($consent->illness_name_massage_addendum) && $consent->illness_name_massage_addendum) {
+            $otherText = $consent->illness_name_massage_addendum;
+          }
+
+          if ($otherText) {
+            $pdf->SetFontSize($this->coord('illness_name_other_text', 'fontSize'));
+            $this->drawTextByKey($pdf, 'illness_name_other_text', (string)$otherText);
+            $pdf->SetFontSize(10);
+          }
+        }
       }
     }
   }
@@ -1384,6 +1419,30 @@ trait MedicalAssistanceMassageFormFieldsTrait
       $pdf->SetFontSize($this->coord('clinic_phone', 'fontSize'));
       $this->drawTextByKey($pdf, 'clinic_phone', (string)$clinicPhone);
       $pdf->SetFontSize(10);
+    }
+
+    // === 保健所登録区分 ===
+    // isSelectedフラグをチェック（座標調整ツールで選択された場合）
+    if (isset($this->coordinates['health_center_registration_1']['isSelected']) && $this->coordinates['health_center_registration_1']['isSelected']) {
+      $this->drawEllipseByKey($pdf, 'health_center_registration_1');
+    } elseif (isset($this->coordinates['health_center_registration_2']['isSelected']) && $this->coordinates['health_center_registration_2']['isSelected']) {
+      $this->drawEllipseByKey($pdf, 'health_center_registration_2');
+    } elseif ($this->sampleDataMode && isset($this->customSampleData['health_center_registration'])) {
+      // サンプルデータモード：customSampleDataから取得
+      $healthCenterRegistration = $this->customSampleData['health_center_registration'];
+      if (strpos($healthCenterRegistration, '施術所') !== false) {
+        $this->drawEllipseByKey($pdf, 'health_center_registration_1');
+      } elseif (strpos($healthCenterRegistration, '出張') !== false) {
+        $this->drawEllipseByKey($pdf, 'health_center_registration_2');
+      }
+    } else {
+      // 通常モード：DBから取得
+      $healthCenterRegistration = $clinicInfo->health_center_registerd_location ?? '';
+      if (strpos($healthCenterRegistration, '施術所') !== false) {
+        $this->drawEllipseByKey($pdf, 'health_center_registration_1');
+      } elseif (strpos($healthCenterRegistration, '出張') !== false) {
+        $this->drawEllipseByKey($pdf, 'health_center_registration_2');
+      }
     }
 
     // 施術者情報を取得
