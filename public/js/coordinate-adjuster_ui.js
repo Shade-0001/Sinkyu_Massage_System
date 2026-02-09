@@ -159,14 +159,6 @@ function renderFieldSettings() {
 
     // カテゴリ内のフィールドを処理
     fields.forEach(key => {
-      // 🔍 デバッグ: 同意記録欄フィールドの処理状態を確認
-      if (category === 'consent_record') {
-        console.log(`🔍 [DEBUG] consent_record field "${key}":`, {
-          alreadyProcessed: processedKeys.has(key),
-          existsInCoordinates: !!coordinates[key]
-        });
-      }
-
       if (processedKeys.has(key)) return;
 
       let field = coordinates[key];
