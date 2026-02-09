@@ -1407,8 +1407,13 @@ trait MedicalAssistanceMassageFormFieldsTrait
         ? $this->customSampleData['consent_record_doctor_postal_code']
         : (($doctor && isset($doctor->postal_code)) ? $doctor->postal_code : '');
       if ($doctorPostalCode) {
+        // 7桁の数字を "〒 XXX - XXXX" 形式に変換
+        $postalCode = preg_replace('/[^0-9]/', '', $doctorPostalCode);
+        if (strlen($postalCode) === 7) {
+          $postalCode = '〒 ' . substr($postalCode, 0, 3) . ' - ' . substr($postalCode, 3);
+        }
         $pdf->SetFontSize($this->coord('consent_record_doctor_postal_code', 'fontSize'));
-        $this->drawTextByKey($pdf, 'consent_record_doctor_postal_code', (string)$doctorPostalCode);
+        $this->drawTextByKey($pdf, 'consent_record_doctor_postal_code', (string)$postalCode);
         $pdf->SetFontSize(10);
       }
     }
