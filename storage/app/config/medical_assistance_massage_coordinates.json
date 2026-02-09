@@ -1675,155 +1675,35 @@
         "fontSize": 10,
         "letterSpacing": 0
     },
-    "fee_massage_trunk_unit": {
+    "fee_massage_unit": {
         "x": -25.5,
         "y": 99,
         "fontSize": 10,
         "letterSpacing": 0,
         "textAlign": "center",
-        "field": "fee_massage_trunk_unit",
+        "field": "fee_massage_unit",
         "type": "number",
-        "compositeGroup": "fee_massage_trunk"
+        "compositeGroup": "fee_massage"
     },
-    "fee_massage_trunk_count": {
+    "fee_massage_count": {
         "x": 1,
         "y": 99,
         "fontSize": 10,
         "letterSpacing": 0,
         "textAlign": "center",
-        "field": "fee_massage_trunk_count",
+        "field": "fee_massage_count",
         "type": "number",
-        "compositeGroup": "fee_massage_trunk"
+        "compositeGroup": "fee_massage"
     },
-    "fee_massage_trunk_total": {
+    "fee_massage_total": {
         "x": 29.5,
         "y": 99,
         "fontSize": 10,
         "letterSpacing": 0,
         "textAlign": "center",
-        "field": "fee_massage_trunk_total",
+        "field": "fee_massage_total",
         "type": "number",
-        "compositeGroup": "fee_massage_trunk"
-    },
-    "fee_massage_upper_limb_r_unit": {
-        "x": -25.5,
-        "y": 104,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_massage_upper_limb_r_unit",
-        "type": "number",
-        "compositeGroup": "fee_massage_upper_limb_r"
-    },
-    "fee_massage_upper_limb_r_count": {
-        "x": 1,
-        "y": 104,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_massage_upper_limb_r_count",
-        "type": "number",
-        "compositeGroup": "fee_massage_upper_limb_r"
-    },
-    "fee_massage_upper_limb_r_total": {
-        "x": 29.5,
-        "y": 104,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_massage_upper_limb_r_total",
-        "type": "number",
-        "compositeGroup": "fee_massage_upper_limb_r"
-    },
-    "fee_massage_upper_limb_l_unit": {
-        "x": -25.5,
-        "y": 109,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_massage_upper_limb_l_unit",
-        "type": "number",
-        "compositeGroup": "fee_massage_upper_limb_l"
-    },
-    "fee_massage_upper_limb_l_count": {
-        "x": 1,
-        "y": 109,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_massage_upper_limb_l_count",
-        "type": "number",
-        "compositeGroup": "fee_massage_upper_limb_l"
-    },
-    "fee_massage_upper_limb_l_total": {
-        "x": 29.5,
-        "y": 109,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_massage_upper_limb_l_total",
-        "type": "number",
-        "compositeGroup": "fee_massage_upper_limb_l"
-    },
-    "fee_massage_lower_limb_r_unit": {
-        "x": -25.5,
-        "y": 114,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_massage_lower_limb_r_unit",
-        "type": "number",
-        "compositeGroup": "fee_massage_lower_limb_r"
-    },
-    "fee_massage_lower_limb_r_count": {
-        "x": 1,
-        "y": 114,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_massage_lower_limb_r_count",
-        "type": "number",
-        "compositeGroup": "fee_massage_lower_limb_r"
-    },
-    "fee_massage_lower_limb_r_total": {
-        "x": 29.5,
-        "y": 114,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_massage_lower_limb_r_total",
-        "type": "number",
-        "compositeGroup": "fee_massage_lower_limb_r"
-    },
-    "fee_massage_lower_limb_l_unit": {
-        "x": -25.5,
-        "y": 119,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_massage_lower_limb_l_unit",
-        "type": "number",
-        "compositeGroup": "fee_massage_lower_limb_l"
-    },
-    "fee_massage_lower_limb_l_count": {
-        "x": 1,
-        "y": 119,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_massage_lower_limb_l_count",
-        "type": "number",
-        "compositeGroup": "fee_massage_lower_limb_l"
-    },
-    "fee_massage_lower_limb_l_total": {
-        "x": 29.5,
-        "y": 119,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "center",
-        "field": "fee_massage_lower_limb_l_total",
-        "type": "number",
-        "compositeGroup": "fee_massage_lower_limb_l"
+        "compositeGroup": "fee_massage"
     },
     "fee_manual_correction_unit": {
         "x": -30,

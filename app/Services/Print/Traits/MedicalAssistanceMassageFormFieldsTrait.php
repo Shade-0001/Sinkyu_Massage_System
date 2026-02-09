@@ -50,74 +50,18 @@ trait MedicalAssistanceMassageFormFieldsTrait
     if ($this->sampleDataMode && $this->customSampleData) {
       $custom = $this->customSampleData;
 
-      // マッサージ料金（躯幹）
-      if (isset($custom['fee_massage_trunk_unit']) && $this->hasCoord('fee_massage_trunk_unit')) {
-        $pdf->SetFontSize($this->coord('fee_massage_trunk_unit', 'fontSize'));
-        $this->drawTextByKey($pdf, 'fee_massage_trunk_unit', (string)$custom['fee_massage_trunk_unit']);
+      // マッサージ料金
+      if (isset($custom['fee_massage_unit']) && $this->hasCoord('fee_massage_unit')) {
+        $pdf->SetFontSize($this->coord('fee_massage_unit', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_massage_unit', (string)$custom['fee_massage_unit']);
       }
-      if (isset($custom['fee_massage_trunk_count']) && $this->hasCoord('fee_massage_trunk_count')) {
-        $pdf->SetFontSize($this->coord('fee_massage_trunk_count', 'fontSize'));
-        $this->drawTextByKey($pdf, 'fee_massage_trunk_count', (string)$custom['fee_massage_trunk_count']);
+      if (isset($custom['fee_massage_count']) && $this->hasCoord('fee_massage_count')) {
+        $pdf->SetFontSize($this->coord('fee_massage_count', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_massage_count', (string)$custom['fee_massage_count']);
       }
-      if (isset($custom['fee_massage_trunk_total']) && $this->hasCoord('fee_massage_trunk_total')) {
-        $pdf->SetFontSize($this->coord('fee_massage_trunk_total', 'fontSize'));
-        $this->drawTextByKey($pdf, 'fee_massage_trunk_total', (string)$custom['fee_massage_trunk_total']);
-      }
-
-      // マッサージ料金（右上肢）
-      if (isset($custom['fee_massage_upper_limb_r_unit']) && $this->hasCoord('fee_massage_upper_limb_r_unit')) {
-        $pdf->SetFontSize($this->coord('fee_massage_upper_limb_r_unit', 'fontSize'));
-        $this->drawTextByKey($pdf, 'fee_massage_upper_limb_r_unit', (string)$custom['fee_massage_upper_limb_r_unit']);
-      }
-      if (isset($custom['fee_massage_upper_limb_r_count']) && $this->hasCoord('fee_massage_upper_limb_r_count')) {
-        $pdf->SetFontSize($this->coord('fee_massage_upper_limb_r_count', 'fontSize'));
-        $this->drawTextByKey($pdf, 'fee_massage_upper_limb_r_count', (string)$custom['fee_massage_upper_limb_r_count']);
-      }
-      if (isset($custom['fee_massage_upper_limb_r_total']) && $this->hasCoord('fee_massage_upper_limb_r_total')) {
-        $pdf->SetFontSize($this->coord('fee_massage_upper_limb_r_total', 'fontSize'));
-        $this->drawTextByKey($pdf, 'fee_massage_upper_limb_r_total', (string)$custom['fee_massage_upper_limb_r_total']);
-      }
-
-      // マッサージ料金（左上肢）
-      if (isset($custom['fee_massage_upper_limb_l_unit']) && $this->hasCoord('fee_massage_upper_limb_l_unit')) {
-        $pdf->SetFontSize($this->coord('fee_massage_upper_limb_l_unit', 'fontSize'));
-        $this->drawTextByKey($pdf, 'fee_massage_upper_limb_l_unit', (string)$custom['fee_massage_upper_limb_l_unit']);
-      }
-      if (isset($custom['fee_massage_upper_limb_l_count']) && $this->hasCoord('fee_massage_upper_limb_l_count')) {
-        $pdf->SetFontSize($this->coord('fee_massage_upper_limb_l_count', 'fontSize'));
-        $this->drawTextByKey($pdf, 'fee_massage_upper_limb_l_count', (string)$custom['fee_massage_upper_limb_l_count']);
-      }
-      if (isset($custom['fee_massage_upper_limb_l_total']) && $this->hasCoord('fee_massage_upper_limb_l_total')) {
-        $pdf->SetFontSize($this->coord('fee_massage_upper_limb_l_total', 'fontSize'));
-        $this->drawTextByKey($pdf, 'fee_massage_upper_limb_l_total', (string)$custom['fee_massage_upper_limb_l_total']);
-      }
-
-      // マッサージ料金（右下肢）
-      if (isset($custom['fee_massage_lower_limb_r_unit']) && $this->hasCoord('fee_massage_lower_limb_r_unit')) {
-        $pdf->SetFontSize($this->coord('fee_massage_lower_limb_r_unit', 'fontSize'));
-        $this->drawTextByKey($pdf, 'fee_massage_lower_limb_r_unit', (string)$custom['fee_massage_lower_limb_r_unit']);
-      }
-      if (isset($custom['fee_massage_lower_limb_r_count']) && $this->hasCoord('fee_massage_lower_limb_r_count')) {
-        $pdf->SetFontSize($this->coord('fee_massage_lower_limb_r_count', 'fontSize'));
-        $this->drawTextByKey($pdf, 'fee_massage_lower_limb_r_count', (string)$custom['fee_massage_lower_limb_r_count']);
-      }
-      if (isset($custom['fee_massage_lower_limb_r_total']) && $this->hasCoord('fee_massage_lower_limb_r_total')) {
-        $pdf->SetFontSize($this->coord('fee_massage_lower_limb_r_total', 'fontSize'));
-        $this->drawTextByKey($pdf, 'fee_massage_lower_limb_r_total', (string)$custom['fee_massage_lower_limb_r_total']);
-      }
-
-      // マッサージ料金（左下肢）
-      if (isset($custom['fee_massage_lower_limb_l_unit']) && $this->hasCoord('fee_massage_lower_limb_l_unit')) {
-        $pdf->SetFontSize($this->coord('fee_massage_lower_limb_l_unit', 'fontSize'));
-        $this->drawTextByKey($pdf, 'fee_massage_lower_limb_l_unit', (string)$custom['fee_massage_lower_limb_l_unit']);
-      }
-      if (isset($custom['fee_massage_lower_limb_l_count']) && $this->hasCoord('fee_massage_lower_limb_l_count')) {
-        $pdf->SetFontSize($this->coord('fee_massage_lower_limb_l_count', 'fontSize'));
-        $this->drawTextByKey($pdf, 'fee_massage_lower_limb_l_count', (string)$custom['fee_massage_lower_limb_l_count']);
-      }
-      if (isset($custom['fee_massage_lower_limb_l_total']) && $this->hasCoord('fee_massage_lower_limb_l_total')) {
-        $pdf->SetFontSize($this->coord('fee_massage_lower_limb_l_total', 'fontSize'));
-        $this->drawTextByKey($pdf, 'fee_massage_lower_limb_l_total', (string)$custom['fee_massage_lower_limb_l_total']);
+      if (isset($custom['fee_massage_total']) && $this->hasCoord('fee_massage_total')) {
+        $pdf->SetFontSize($this->coord('fee_massage_total', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_massage_total', (string)$custom['fee_massage_total']);
       }
 
       // 変形徒手矯正術
@@ -316,83 +260,46 @@ trait MedicalAssistanceMassageFormFieldsTrait
 
     $totalFee = 0;
 
-    // マッサージ料金（躯幹）bodypart_id: 1
-    $count = $bodypartCounts[1] ?? 0;
-    $feeKey = $isFirstTreatment ? 'massage_trunk_first' : 'massage_trunk_normal';
-    $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
-    $total = $unitPrice * $count;
+    // マッサージ料金（全部位合計）
+    $massageTotalCount = 0;
+    $massageTotalAmount = 0;
+    $massageUnitPrice = 0;
 
-    \Log::info('マッサージ料金（躯幹）描画', [
-      'bodypart_id' => 1,
-      'count' => $count,
-      'fee_key' => $feeKey,
-      'unit_price' => $unitPrice,
-      'total' => $total,
-      'has_coord' => $this->hasCoord('fee_massage_trunk_unit')
+    // 各部位の料金を計算
+    $bodypartFees = [
+      1 => ['first' => 'massage_trunk_first', 'normal' => 'massage_trunk_normal'],
+      2 => ['first' => 'massage_upper_limb_r_first', 'normal' => 'massage_upper_limb_r_normal'],
+      3 => ['first' => 'massage_upper_limb_l_first', 'normal' => 'massage_upper_limb_l_normal'],
+      4 => ['first' => 'massage_lower_limb_r_first', 'normal' => 'massage_lower_limb_r_normal'],
+      5 => ['first' => 'massage_lower_limb_l_first', 'normal' => 'massage_lower_limb_l_normal'],
+    ];
+
+    foreach ($bodypartFees as $bodypartId => $feeKeys) {
+      $count = $bodypartCounts[$bodypartId] ?? 0;
+      if ($count > 0) {
+        $feeKey = $isFirstTreatment ? $feeKeys['first'] : $feeKeys['normal'];
+        $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
+        $massageTotalCount += $count;
+        $massageTotalAmount += $unitPrice * $count;
+        if ($massageUnitPrice === 0) {
+          $massageUnitPrice = $unitPrice; // 最初に見つかった単価を使用
+        }
+      }
+    }
+
+    \Log::info('マッサージ料金（統合）描画', [
+      'total_count' => $massageTotalCount,
+      'unit_price' => $massageUnitPrice,
+      'total_amount' => $massageTotalAmount,
+      'has_coord' => $this->hasCoord('fee_massage_unit')
     ]);
 
-    if ($this->hasCoord('fee_massage_trunk_unit')) {
-      $pdf->SetFontSize($this->coord('fee_massage_trunk_unit', 'fontSize'));
-      $this->drawTextByKey($pdf, 'fee_massage_trunk_unit', (string)$unitPrice);
-      $this->drawTextByKey($pdf, 'fee_massage_trunk_count', (string)$count);
-      $this->drawTextByKey($pdf, 'fee_massage_trunk_total', (string)$total);
-      $totalFee += $total;
-    }
-
-    // マッサージ料金（右上肢）bodypart_id: 2
-    $count = $bodypartCounts[2] ?? 0;
-    $feeKey = $isFirstTreatment ? 'massage_upper_limb_r_first' : 'massage_upper_limb_r_normal';
-    $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
-    $total = $unitPrice * $count;
-
-    if ($this->hasCoord('fee_massage_upper_limb_r_unit')) {
-      $pdf->SetFontSize($this->coord('fee_massage_upper_limb_r_unit', 'fontSize'));
-      $this->drawTextByKey($pdf, 'fee_massage_upper_limb_r_unit', (string)$unitPrice);
-      $this->drawTextByKey($pdf, 'fee_massage_upper_limb_r_count', (string)$count);
-      $this->drawTextByKey($pdf, 'fee_massage_upper_limb_r_total', (string)$total);
-      $totalFee += $total;
-    }
-
-    // マッサージ料金（左上肢）bodypart_id: 3
-    $count = $bodypartCounts[3] ?? 0;
-    $feeKey = $isFirstTreatment ? 'massage_upper_limb_l_first' : 'massage_upper_limb_l_normal';
-    $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
-    $total = $unitPrice * $count;
-
-    if ($this->hasCoord('fee_massage_upper_limb_l_unit')) {
-      $pdf->SetFontSize($this->coord('fee_massage_upper_limb_l_unit', 'fontSize'));
-      $this->drawTextByKey($pdf, 'fee_massage_upper_limb_l_unit', (string)$unitPrice);
-      $this->drawTextByKey($pdf, 'fee_massage_upper_limb_l_count', (string)$count);
-      $this->drawTextByKey($pdf, 'fee_massage_upper_limb_l_total', (string)$total);
-      $totalFee += $total;
-    }
-
-    // マッサージ料金（右下肢）bodypart_id: 4
-    $count = $bodypartCounts[4] ?? 0;
-    $feeKey = $isFirstTreatment ? 'massage_lower_limb_r_first' : 'massage_lower_limb_r_normal';
-    $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
-    $total = $unitPrice * $count;
-
-    if ($this->hasCoord('fee_massage_lower_limb_r_unit')) {
-      $pdf->SetFontSize($this->coord('fee_massage_lower_limb_r_unit', 'fontSize'));
-      $this->drawTextByKey($pdf, 'fee_massage_lower_limb_r_unit', (string)$unitPrice);
-      $this->drawTextByKey($pdf, 'fee_massage_lower_limb_r_count', (string)$count);
-      $this->drawTextByKey($pdf, 'fee_massage_lower_limb_r_total', (string)$total);
-      $totalFee += $total;
-    }
-
-    // マッサージ料金（左下肢）bodypart_id: 5
-    $count = $bodypartCounts[5] ?? 0;
-    $feeKey = $isFirstTreatment ? 'massage_lower_limb_l_first' : 'massage_lower_limb_l_normal';
-    $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
-    $total = $unitPrice * $count;
-
-    if ($this->hasCoord('fee_massage_lower_limb_l_unit')) {
-      $pdf->SetFontSize($this->coord('fee_massage_lower_limb_l_unit', 'fontSize'));
-      $this->drawTextByKey($pdf, 'fee_massage_lower_limb_l_unit', (string)$unitPrice);
-      $this->drawTextByKey($pdf, 'fee_massage_lower_limb_l_count', (string)$count);
-      $this->drawTextByKey($pdf, 'fee_massage_lower_limb_l_total', (string)$total);
-      $totalFee += $total;
+    if ($this->hasCoord('fee_massage_unit')) {
+      $pdf->SetFontSize($this->coord('fee_massage_unit', 'fontSize'));
+      $this->drawTextByKey($pdf, 'fee_massage_unit', (string)$massageUnitPrice);
+      $this->drawTextByKey($pdf, 'fee_massage_count', (string)$massageTotalCount);
+      $this->drawTextByKey($pdf, 'fee_massage_total', (string)$massageTotalAmount);
+      $totalFee += $massageTotalAmount;
     }
 
     // 変形徒手矯正術 therapy_content_id: 19
