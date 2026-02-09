@@ -2039,30 +2039,58 @@ trait MedicalAssistanceMassageFormFieldsTrait
   }
 
   /**
-   * 代理人情報を埋める（サンプルデータモード用）
+   * 代理人情報を埋める
    */
-  protected function fillAgentInfo($pdf): void
+  protected function fillAgentInfo($pdf, $clinicInfo = null, $clinicUser = null): void
   {
     // === 代理人情報 ===
-    if ($this->hasCoord('agent_postal_code') || $this->hasCoord('agent_address') || $this->hasCoord('agent_name')) {
-      // カスタムサンプルデータから取得、なければ空文字
+    if ($this->sampleDataMode) {
+      // サンプルデータモード
       $agentPostalCode = $this->customSampleData['agent_postal_code'] ?? '';
       $agentAddress = $this->customSampleData['agent_address'] ?? '';
       $agentName = $this->customSampleData['agent_name'] ?? '';
-      if ($this->hasCoord('agent_postal_code') && $agentPostalCode) {
-        $pdf->SetFontSize($this->coord('agent_postal_code', 'fontSize'));
-        $this->drawTextByKey($pdf, 'agent_postal_code', (string)$agentPostalCode);
-      }
-      if ($this->hasCoord('agent_address') && $agentAddress) {
-        $pdf->SetFontSize($this->coord('agent_address', 'fontSize'));
-        $this->drawTextByKey($pdf, 'agent_address', (string)$agentAddress);
-      }
-      if ($this->hasCoord('agent_name') && $agentName) {
-        $pdf->SetFontSize($this->coord('agent_name', 'fontSize'));
-        $this->drawTextByKey($pdf, 'agent_name', (string)$agentName);
-      }
-      $pdf->SetFontSize(10);
+    } else {
+      // 通常モード：clinic_infoテーブルを参照
+      $agentPostalCode = $clinicInfo->postal_code ?? '';
+      $agentAddress = ($clinicInfo->address_1 ?? '') . ($clinicInfo->address_2 ?? '') . ($clinicInfo->address_3 ?? '');
+      $agentName = isset($clinicInfo->owner_last_name) && isset($clinicInfo->owner_first_name)
+        ? trim($clinicInfo->owner_last_name . ' ' . $clinicInfo->owner_first_name)
+        : '';
     }
+
+    if ($this->hasCoord('agent_postal_code') && $agentPostalCode) {
+      $pdf->SetFontSize($this->coord('agent_postal_code', 'fontSize'));
+      $this->drawTextByKey($pdf, 'agent_postal_code', (string)$agentPostalCode);
+    }
+    if ($this->hasCoord('agent_address') && $agentAddress) {
+      $pdf->SetFontSize($this->coord('agent_address', 'fontSize'));
+      $this->drawTextByKey($pdf, 'agent_address', (string)$agentAddress);
+    }
+    if ($this->hasCoord('agent_name') && $agentName) {
+      $pdf->SetFontSize($this->coord('agent_name', 'fontSize'));
+      $this->drawTextByKey($pdf, 'agent_name', (string)$agentName);
+    }
+
+    // === 委任者郵便番号・住所 ===
+    if (!$this->sampleDataMode && $clinicUser) {
+      // 通常モード：利用者のデータを参照
+      // 署名オプション: user_address_signature_blank の場合は郵便番号・住所をスキップ
+      if ($this->signatureOption !== 'user_address_signature_blank') {
+        if ($this->hasCoord('signature_applicant_postal_code') && isset($clinicUser->postal_code)) {
+          $pdf->SetFontSize($this->coord('signature_applicant_postal_code', 'fontSize'));
+          $this->drawTextByKey($pdf, 'signature_applicant_postal_code', (string)$clinicUser->postal_code);
+        }
+        if ($this->hasCoord('signature_applicant_address')) {
+          $signatureAddress = ($clinicUser->address_1 ?? '') . ($clinicUser->address_2 ?? '') . ($clinicUser->address_3 ?? '');
+          if ($signatureAddress) {
+            $pdf->SetFontSize($this->coord('signature_applicant_address', 'fontSize'));
+            $this->drawTextByKey($pdf, 'signature_applicant_address', (string)$signatureAddress);
+          }
+        }
+      }
+    }
+
+    $pdf->SetFontSize(10);
   }
 
   /**
