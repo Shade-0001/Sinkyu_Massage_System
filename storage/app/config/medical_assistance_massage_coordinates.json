@@ -1610,7 +1610,7 @@
     },
     "consent_record_doctor_name": {
         "x": -71.5,
-        "y": 267,
+        "y": 266,
         "textAlign": "center",
         "field": "consent_record_doctor_name",
         "label": "同意医師氏名",
@@ -1620,7 +1620,7 @@
     },
     "consent_record_doctor_postal_code": {
         "x": 51,
-        "y": 265.5,
+        "y": 264.5,
         "textAlign": "left",
         "field": "consent_record_doctor_postal_code",
         "label": "同意医師郵便番号",
@@ -1635,7 +1635,7 @@
     },
     "consent_record_doctor_address": {
         "x": 51,
-        "y": 269.5,
+        "y": 268.5,
         "textAlign": "left",
         "field": "consent_record_doctor_address",
         "label": "同意医師住所",
@@ -1645,7 +1645,7 @@
     },
     "consent_record_illness_name": {
         "x": 51,
-        "y": 267,
+        "y": 266,
         "textAlign": "center",
         "field": "consent_record_illness_name",
         "label": "傷病名",
@@ -1655,7 +1655,7 @@
     },
     "required_treatment_period": {
         "x": 78.5,
-        "y": 267,
+        "y": 266,
         "textAlign": "center",
         "field": "required_treatment_period",
         "label": "要加療期間",
@@ -1665,7 +1665,7 @@
     },
     "consent_record_date_year": {
         "x": 18.5,
-        "y": 267,
+        "y": 266,
         "textAlign": "center",
         "field": "consent_record_date_year",
         "label": "年",
@@ -1938,5 +1938,15 @@
         "field": "fee_fomentation_electric_light_total",
         "type": "number",
         "compositeGroup": "fee_fomentation_electric_light"
+    },
+    "consent_date_full": {
+        "x": 18.5,
+        "y": 267,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text",
+        "field": "consent_date_full",
+        "label": "同意年月日"
     }
 }
