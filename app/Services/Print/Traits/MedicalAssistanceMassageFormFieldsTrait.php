@@ -1008,11 +1008,9 @@ trait MedicalAssistanceMassageFormFieldsTrait
         $this->drawTextByKey($pdf, 'condition', (string)$conditionText);
         $pdf->SetFontSize(10);
       }
-    } elseif ($consent && isset($consent->condition) && $consent->condition) {
-      // 通常モード：実データから取得
-      // IDから名称を取得
-      $condition = \App\Models\Condition::find($consent->condition);
-      $conditionName = $condition ? $condition->condition_name : '';
+    } elseif ($consent && isset($consent->condition_name) && $consent->condition_name) {
+      // 通常モード：実データから取得（JOINで既にcondition_nameが含まれている）
+      $conditionName = $consent->condition_name;
       if ($conditionName) {
         $pdf->SetFontSize($this->coord('condition', 'fontSize'));
         $this->drawTextByKey($pdf, 'condition', $conditionName);

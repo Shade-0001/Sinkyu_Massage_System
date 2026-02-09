@@ -54,6 +54,7 @@ trait MedicalAssistanceMassageSampleDataTrait
       'outcome' => '継続',
       'work_scope_type' => 'その他',
       'notes' => $custom['remarks'] ?? '転倒により右肩を負傷。関節可動域制限あり。',
+      'condition_name' => $custom['condition'] ?? '良好',
     ];
 
     // サンプル施術実績（月の2日、7日、12日、17日、22日、27日）
