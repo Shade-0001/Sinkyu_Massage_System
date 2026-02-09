@@ -63,7 +63,7 @@ class ConsentAcupuncture extends Model
     return $this->belongsTo(WorkScopeType::class, 'work_scope_type_id');
   }
 
-  // TODO: bodypartsとのリレーションは中間テーブル作成後に実装
-  // 現状では consents_acupuncture 用の中間テーブルが存在しないため、
-  // 必要に応じて bodyparts-consents_acupuncture テーブルを作成する必要がある
+  // 注: 鍼灸同意書では部位（bodyparts）のリレーションは使用しない
+  // マッサージ同意書とは異なり、鍼灸同意書では illness_name_acupuncture_id フィールドで
+  // 傷病名を管理するため、bodyparts との中間テーブルは不要
 }
