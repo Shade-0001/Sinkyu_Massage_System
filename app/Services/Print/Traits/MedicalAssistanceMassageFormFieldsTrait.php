@@ -1425,7 +1425,28 @@ trait MedicalAssistanceMassageFormFieldsTrait
       }
     }
 
-    // 同意年月日（年月日分割） - consent_record_date_year/month/day
+    // 同意年月日
+    if ($this->sampleDataMode) {
+      // サンプルモード: consent_date_fullのみ使用
+      $consentDateText = $this->customSampleData['consent_date_full'] ?? null;
+      if ($consentDateText) {
+        $pdf->SetFontSize($this->coord('consent_date_full', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_date_full', $consentDateText);
+        $pdf->SetFontSize(10);
+      }
+    } elseif ($consent && isset($consent->consenting_date) && $consent->consenting_date) {
+      // 本番モード: consenting_dateから和暦形式で生成
+      [$consentYear, $consentMonth, $consentDay] = explode('-', $consent->consenting_date);
+      $consentJapaneseYear = $this->convertToJapaneseYear((int)$consentYear, (int)$consentMonth);
+      $consentDateText = $consentJapaneseYear['era'] . $consentJapaneseYear['year'] . '年 '
+        . (int)$consentMonth . '月 '
+        . (int)$consentDay . '日';
+      $pdf->SetFontSize($this->coord('consent_date_full', 'fontSize'));
+      $this->drawTextByKey($pdf, 'consent_date_full', $consentDateText);
+      $pdf->SetFontSize(10);
+    }
+
+    // 同意年月日（年月日分割） - consent_record_date_year/month/day（後方互換用）
     if ($this->hasCoord('consent_record_date_year')) {
       if ($this->sampleDataMode && isset($this->customSampleData['consent_record_date_year'])) {
         $pdf->SetFontSize($this->coord('consent_record_date_year', 'fontSize'));
