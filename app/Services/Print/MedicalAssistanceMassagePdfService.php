@@ -8,6 +8,14 @@ use Illuminate\Support\Facades\Storage;
 
 /**
  * あんま・マッサージ医療助成費支給申請書PDF生成サービス
+ *
+ * 【データ取得の注意点】
+ * - $consent: consents_massageテーブルから取得、複数テーブルとJOIN
+ *   - illness_name: illnesses_massageテーブルとJOINで取得（injury_and_illness_name_idから）
+ *   - therapy_period: 通常は空、therapy_period_start_date/end_dateから生成が必要な場合あり
+ * - $doctor: doctorsテーブルから取得、consent.consenting_doctor_nameで検索
+ *   - postal_code, address_1/2/3 を提供
+ * - サンプルデータとのフィールド名の違いに注意（MedicalAssistanceMassageSampleDataTrait参照）
  */
 class MedicalAssistanceMassagePdfService extends BasePdfService
 {

@@ -7,6 +7,28 @@ use setasign\Fpdi\Tcpdf\Fpdi;
 
 /**
  * あんま・マッサージ医療助成費支給申請書PDF - フォームフィールド関連メソッド
+ *
+ * 【開発メモ】新規フィールド追加時のチェックリスト
+ * 1. 呼び出しフローを確認
+ *    - grep で "->メソッド名(" を検索して実際に呼ばれているメソッドを特定
+ *    - 未使用メソッドにコード追加しないこと
+ *
+ * 2. データ構造を事前確認
+ *    - テーブル構造: DB::connection()->getSchemaBuilder()->getColumnListing('table_name')
+ *    - JOIN結果: SELECTクエリで取得されるカラム名を確認
+ *    - サンプルデータと実データで異なるフィールド名に注意
+ *
+ * 3. フィールド名の一覧化
+ *    - 座標JSON (storage/app/config/medical_assistance_massage_coordinates.json)
+ *    - カテゴリマッピング (public/js/coordinate-adjuster_categories.js)
+ *    - フィールド定義 (public/js/coordinate-adjuster_fields.js)
+ *    - PHP実装 (このファイル)
+ *    - DB実データ (consents_massage等)
+ *    - サンプルデータ (MedicalAssistanceMassageSampleDataTrait.php)
+ *
+ * 4. 既存の動作パターンから学ぶ
+ *    - 同じカテゴリで既に動作しているフィールドの実装を参考にする
+ *    - サンプルモード/ノーマルモードの分岐パターンを踏襲
  */
 trait MedicalAssistanceMassageFormFieldsTrait
 {
