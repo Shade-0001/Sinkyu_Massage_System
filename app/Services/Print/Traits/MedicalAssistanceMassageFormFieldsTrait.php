@@ -1478,23 +1478,24 @@ trait MedicalAssistanceMassageFormFieldsTrait
 
     // 要加療期間 - required_treatment_period
     if ($this->hasCoord('required_treatment_period')) {
-      $therapyPeriod = $this->sampleDataMode && isset($this->customSampleData['required_treatment_period'])
-        ? $this->customSampleData['required_treatment_period']
-        : '';
-      // ノーマルモード: treatment_period または therapy_period を確認
-      if (!$therapyPeriod && $consent) {
-        if (isset($consent->treatment_period) && $consent->treatment_period) {
-          $therapyPeriod = $consent->treatment_period;
+      $therapyPeriodText = '';
+      // サンプルデータモード
+      if ($this->sampleDataMode && isset($this->customSampleData['required_treatment_period'])) {
+        $therapyPeriodText = $this->customSampleData['required_treatment_period'];
+      }
+      // ノーマルモード: therapy_period_end_dateをYYYY/m/d形式で表示
+      if (!$therapyPeriodText && $consent) {
+        if (isset($consent->therapy_period_end_date)) {
+          $endDate = new \DateTime($consent->therapy_period_end_date);
+          $therapyPeriodText = $endDate->format('Y/m/d');
         } elseif (isset($consent->therapy_period) && $consent->therapy_period) {
-          $therapyPeriod = $consent->therapy_period;
-        } elseif (isset($consent->therapy_period_start_date) && isset($consent->therapy_period_end_date)) {
-          // 日付範囲から生成
-          $therapyPeriod = $consent->therapy_period_start_date . ' ~ ' . $consent->therapy_period_end_date;
+          // フォールバック: therapy_periodフィールドがある場合はそのまま使用
+          $therapyPeriodText = $consent->therapy_period;
         }
       }
-      if ($therapyPeriod) {
+      if ($therapyPeriodText) {
         $pdf->SetFontSize($this->coord('required_treatment_period', 'fontSize'));
-        $this->drawTextByKey($pdf, 'required_treatment_period', (string)$therapyPeriod);
+        $this->drawTextByKey($pdf, 'required_treatment_period', (string)$therapyPeriodText);
         $pdf->SetFontSize(10);
       }
     }
