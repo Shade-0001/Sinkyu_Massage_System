@@ -5,13 +5,18 @@ function renderFieldSettings() {
 
   // 現在のPDFタイプを取得
   const currentPdfType = window.coordinateAdjusterData?.currentPdfType || 'therapy_benefit_acupuncture';
-  
+
   // PDFタイプに応じたフィールドマッピングを取得
   const sampleDataFieldMapping = getSampleDataFieldMapping();
-  
+
   // PDFタイプに応じたカテゴリ定義を取得
   const fieldCategories = getFieldCategories(currentPdfType);
   const categoryOrder = getCategoryOrder(currentPdfType);
+
+  // 🔍 デバッグ: PDFタイプとカテゴリ順序を確認
+  console.log('🔍 [DEBUG] currentPdfType:', currentPdfType);
+  console.log('🔍 [DEBUG] categoryOrder:', categoryOrder);
+  console.log('🔍 [DEBUG] fieldCategories keys count:', Object.keys(fieldCategories).length);
 
   // radioGroupとcompositeGroupでグループ化されたフィールドを追跡
   const processedGroups = new Set();
@@ -71,6 +76,10 @@ function renderFieldSettings() {
       }
     });
   }
+
+  // 🔍 デバッグ: orderedKeysに同意記録欄フィールドが含まれているか確認
+  const consentFields = orderedKeys.filter(k => k.includes('consent') || k === 'required_treatment_period');
+  console.log('🔍 [DEBUG] Consent fields in orderedKeys:', consentFields);
 
   // カテゴリごとにフィールドをグループ化
   const categorizedFields = {};
@@ -132,11 +141,27 @@ function renderFieldSettings() {
       categorizedFields[category] = [];
     }
     categorizedFields[category].push(key);
+
+    // 🔍 デバッグ: 同意記録欄関連フィールドの振り分けをログ
+    if (key.includes('consent') || key === 'required_treatment_period') {
+      console.log(`🔍 [DEBUG] Field "${key}" → Category "${category}"`);
+    }
+  });
+
+  // 🔍 デバッグ: 各カテゴリのフィールド数を確認
+  console.log('🔍 [DEBUG] Categorized fields count:');
+  Object.keys(categorizedFields).forEach(cat => {
+    console.log(`  - ${cat}: ${categorizedFields[cat]?.length || 0} fields`);
   });
 
   // カテゴリごとにアコーディオンを作成
   categoryOrder.forEach(category => {
     const fields = categorizedFields[category];
+
+    // 🔍 デバッグ: 同意記録欄の処理を確認
+    if (category === 'consent_record') {
+      console.log(`🔍 [DEBUG] Processing category "consent_record", fields:`, fields);
+    }
     if (!fields || fields.length === 0) return;
 
     const categoryDiv = document.createElement('div');
