@@ -13,11 +13,6 @@ function renderFieldSettings() {
   const fieldCategories = getFieldCategories(currentPdfType);
   const categoryOrder = getCategoryOrder(currentPdfType);
 
-  // 🔍 デバッグ: PDFタイプとカテゴリ順序を確認
-  console.log('🔍 [DEBUG] currentPdfType:', currentPdfType);
-  console.log('🔍 [DEBUG] categoryOrder:', categoryOrder);
-  console.log('🔍 [DEBUG] fieldCategories keys count:', Object.keys(fieldCategories).length);
-
   // radioGroupとcompositeGroupでグループ化されたフィールドを追跡
   const processedGroups = new Set();
   const processedCompositeGroups = new Set();
@@ -76,10 +71,6 @@ function renderFieldSettings() {
       }
     });
   }
-
-  // 🔍 デバッグ: orderedKeysに同意記録欄フィールドが含まれているか確認
-  const consentFields = orderedKeys.filter(k => k.includes('consent') || k === 'required_treatment_period');
-  console.log('🔍 [DEBUG] Consent fields in orderedKeys:', consentFields);
 
   // カテゴリごとにフィールドをグループ化
   const categorizedFields = {};
@@ -141,27 +132,11 @@ function renderFieldSettings() {
       categorizedFields[category] = [];
     }
     categorizedFields[category].push(key);
-
-    // 🔍 デバッグ: 同意記録欄関連フィールドの振り分けをログ
-    if (key.includes('consent') || key === 'required_treatment_period') {
-      console.log(`🔍 [DEBUG] Field "${key}" → Category "${category}"`);
-    }
-  });
-
-  // 🔍 デバッグ: 各カテゴリのフィールド数を確認
-  console.log('🔍 [DEBUG] Categorized fields count:');
-  Object.keys(categorizedFields).forEach(cat => {
-    console.log(`  - ${cat}: ${categorizedFields[cat]?.length || 0} fields`);
   });
 
   // カテゴリごとにアコーディオンを作成
   categoryOrder.forEach(category => {
     const fields = categorizedFields[category];
-
-    // 🔍 デバッグ: 同意記録欄の処理を確認
-    if (category === 'consent_record') {
-      console.log(`🔍 [DEBUG] Processing category "consent_record", fields:`, fields);
-    }
     if (!fields || fields.length === 0) return;
 
     const categoryDiv = document.createElement('div');
@@ -273,7 +248,6 @@ function renderFieldSettings() {
 
         // groupFieldsが空の場合はスキップ
         if (groupFields.length === 0) {
-          console.warn(`compositeGroup "${field.compositeGroup}" のフィールドが見つかりません`);
           return;
         }
 
@@ -443,8 +417,6 @@ function renderFieldSettings() {
           // ノーマルモード: 利用者の実際の施術記録から取得（loadTreatmentDaysで設定）
           treatmentDaysArray = window.currentTreatmentDays || [];
         }
-
-        console.log('[施術日セレクトボックス] サンプルモード:', showSampleData, '日付数:', treatmentDaysArray.length, '日付:', treatmentDaysArray);
 
         let selectHtml = `
           <h6 class="field-header" onclick="toggleField('treatment_days_individual')" style="cursor: pointer; user-select: none;">
@@ -2693,11 +2665,6 @@ function toggleAllTreatmentDays(fieldKey, selectAll) {
   const selectedDays = Array.from(selector.selectedOptions).map(opt => parseInt(opt.value));
   customSampleData.treatment_days_array = selectedDays;
 
-  console.log('[toggleAllTreatmentDays] すべて選択/解除実行', {
-    selectAll: selectAll,
-    selectedDays: selectedDays
-  });
-
   // プレビュー更新
   previewPdf();
 }
@@ -2715,17 +2682,11 @@ function updateTreatmentDaysArray(fieldKey) {
 function updateTreatmentDaysArrayFromSelector() {
   const selector = document.getElementById('treatment-days-display-toggle');
   if (!selector) {
-    console.error('[updateTreatmentDaysArrayFromSelector] セレクトボックスが見つからない');
     return;
   }
 
   const selectedDays = Array.from(selector.selectedOptions).map(opt => parseInt(opt.value));
   customSampleData.treatment_days_array = selectedDays;
-
-  console.log('[updateTreatmentDaysArrayFromSelector] 選択状態更新', {
-    selectedDays: selectedDays,
-    customSampleData: customSampleData
-  });
 
   // プレビュー更新
   previewPdf();

@@ -312,27 +312,20 @@ function updateTherapyDaysDisplay() {
 
 // 往療距離入力欄を更新
 function updateHousecallDistanceInputs() {
-  console.log('[DEBUG updateHousecallDistanceInputs] 開始');
-  console.log('[DEBUG updateHousecallDistanceInputs] selectedDates:', Array.from(window.selectedDates));
-
   const container = document.getElementById('housecall-distance-inputs');
   if (!container) {
-    console.log('[DEBUG updateHousecallDistanceInputs] container not found');
     return;
   }
 
   container.innerHTML = '';
 
   if (window.selectedDates.size === 0) {
-    console.log('[DEBUG updateHousecallDistanceInputs] selectedDates is empty');
     return;
   }
 
   // 日付順にソート
   const sortedDates = [...window.selectedDates].sort();
   const oldInput = window.recordsConfig.oldInput || {};
-
-  console.log('[DEBUG updateHousecallDistanceInputs] sortedDates:', sortedDates);
 
   sortedDates.forEach(date => {
     const dateObj = new Date(date);
@@ -366,15 +359,7 @@ function updateHousecallDistanceInputs() {
     inputGroup.appendChild(input);
     inputGroup.appendChild(unit);
     container.appendChild(inputGroup);
-
-    console.log('[DEBUG updateHousecallDistanceInputs] input作成:', {
-      date: date,
-      name: input.name,
-      value: input.value
-    });
   });
-
-  console.log('[DEBUG updateHousecallDistanceInputs] 完了');
 }
 
 // 実績フィールドの状態を更新（日付選択に応じて入力可/不可を切り替え）
@@ -421,28 +406,10 @@ function updateRecordFieldsState() {
 
 // フォーム関連のイベントリスナーを設定
 function setupFormEventListeners() {
-  // フォーム送信時のデバッグログ
   const recordForm = document.getElementById('recordForm');
   if (recordForm) {
     recordForm.addEventListener('submit', function(e) {
-      console.log('[DEBUG records.js] フォーム送信開始');
-      console.log('[DEBUG records.js] selectedDates:', Array.from(window.selectedDates));
-
-      // フォームデータを確認
-      const formData = new FormData(recordForm);
-      const formDataObj = {};
-      for (let [key, value] of formData.entries()) {
-        if (formDataObj[key]) {
-          if (Array.isArray(formDataObj[key])) {
-            formDataObj[key].push(value);
-          } else {
-            formDataObj[key] = [formDataObj[key], value];
-          }
-        } else {
-          formDataObj[key] = value;
-        }
-      }
-      console.log('[DEBUG records.js] フォームデータ:', formDataObj);
+      // フォームデータ確認用（必要に応じて）
     });
   }
 
@@ -723,24 +690,13 @@ function openUserSearchPopup() {
 
 // スケジュール画面から渡された開始日時を適用
 function applyScheduleDateTime(dateStr, timeStr) {
-  console.log('[DEBUG applyScheduleDateTime] dateStr:', dateStr, 'timeStr:', timeStr);
-  console.log('[DEBUG applyScheduleDateTime] current calendar state:', { currentYear, currentMonth });
-
   // 日付をカレンダーで選択
   if (dateStr) {
     // YYYY-MM-DD形式の文字列を分解してDateオブジェクトを作成（タイムゾーンの影響を回避）
     const [year, month, day] = dateStr.split('-').map(Number);
-    console.log('[DEBUG applyScheduleDateTime] parsed:', { year, month, day });
 
     // カレンダーを該当月に移動（monthは0-based）
-    console.log('[DEBUG applyScheduleDateTime] 条件チェック:', {
-      yearMatch: year === currentYear,
-      monthMatch: (month - 1) === currentMonth,
-      willRerender: year !== currentYear || (month - 1) !== currentMonth
-    });
-
     if (year !== currentYear || (month - 1) !== currentMonth) {
-      console.log('[DEBUG applyScheduleDateTime] カレンダーを再レンダリング');
       currentYear = year;
       currentMonth = month - 1;
       renderCalendar(year, month - 1);
@@ -751,50 +707,27 @@ function applyScheduleDateTime(dateStr, timeStr) {
         selectDate(dateStr);
       }, 0);
     } else {
-      console.log('[DEBUG applyScheduleDateTime] カレンダー再レンダリング不要（既に正しい月）');
       selectDate(dateStr);
     }
   }
 
   // 日付選択のヘルパー関数
   function selectDate(dateStr) {
-    // カレンダー要素の存在確認
-    const allDayElements = document.querySelectorAll('.calendar-day[data-date]');
-    console.log('[DEBUG applyScheduleDateTime] 全カレンダー日付要素数:', allDayElements.length);
-    if (allDayElements.length > 0) {
-      const allDates = Array.from(allDayElements).map(el => el.getAttribute('data-date'));
-      console.log('[DEBUG applyScheduleDateTime] 全data-date一覧:', allDates);
-      console.log('[DEBUG applyScheduleDateTime] 検索対象日付が含まれているか:', allDates.includes(dateStr));
-    }
-    console.log('[DEBUG applyScheduleDateTime] 検索対象日付:', dateStr);
-
     const dayElement = document.querySelector(`.calendar-day[data-date="${dateStr}"]`);
-    console.log('[DEBUG applyScheduleDateTime] dayElement:', dayElement);
-    console.log('[DEBUG applyScheduleDateTime] dayElement.classList:', dayElement ? dayElement.classList.toString() : 'null');
     if (dayElement && !dayElement.classList.contains('closed-day')) {
       dayElement.classList.add('selected');
       window.selectedDates.add(dateStr);
-      console.log('[DEBUG applyScheduleDateTime] 日付選択完了:', dateStr);
-      console.log('[DEBUG applyScheduleDateTime] selectedDates:', Array.from(window.selectedDates));
-      console.log('[DEBUG applyScheduleDateTime] 施術実日数更新前');
       updateTherapyDaysDisplay();
-      console.log('[DEBUG applyScheduleDateTime] 往療距離入力欄更新前');
       updateHousecallDistanceInputs();
-      console.log('[DEBUG applyScheduleDateTime] 実績フィールド状態更新前');
       updateRecordFieldsState();
-      console.log('[DEBUG applyScheduleDateTime] すべての更新完了');
-    } else {
-      console.log('[DEBUG applyScheduleDateTime] 日付選択失敗: dayElement not found or closed');
     }
   }
 
   // 開始時刻を設定
   if (timeStr) {
     const startTimeInput = document.getElementById('start_time');
-    console.log('[DEBUG applyScheduleDateTime] startTimeInput:', startTimeInput);
     if (startTimeInput) {
       startTimeInput.value = timeStr;
-      console.log('[DEBUG applyScheduleDateTime] 時刻設定完了:', timeStr);
 
       // タイムピッカーの表示を更新
       const startTimePicker = document.getElementById('start-time-picker');
@@ -812,7 +745,6 @@ function applyScheduleDateTime(dateStr, timeStr) {
             hourValue.textContent = hour;
             minuteValue.textContent = String(minute).padStart(2, '0');
           }
-          console.log('[DEBUG applyScheduleDateTime] タイムピッカー表示更新完了');
         }
       }
     }
@@ -821,12 +753,7 @@ function applyScheduleDateTime(dateStr, timeStr) {
 
 // 新規登録画面の初期化
 function initializeIndexPage() {
-  console.log('[DEBUG records.js] initializeIndexPage 開始');
-  console.log('[DEBUG records.js] recordsConfig:', window.recordsConfig);
-
   if (window.recordsConfig.selectedUserId) {
-    console.log('[DEBUG records.js] selectedUserId:', window.recordsConfig.selectedUserId);
-
     initializeCalendar(window.recordsConfig.initialYear, window.recordsConfig.initialMonth);
     setupCalendarEventListeners();
     setupFormEventListeners();
@@ -836,11 +763,7 @@ function initializeIndexPage() {
     updateInsuranceCategoryState(); // 初期状態で保険区分の状態を更新
 
     // スケジュール画面から開始日時が渡された場合、カレンダーと時刻を設定
-    console.log('[DEBUG records.js] startDate:', window.recordsConfig.startDate);
-    console.log('[DEBUG records.js] startTime:', window.recordsConfig.startTime);
-
     if (window.recordsConfig.startDate && window.recordsConfig.startTime) {
-      console.log('[DEBUG records.js] スケジュール画面からの日時適用を開始');
       // DOM構築完了後に実行
       setTimeout(() => {
         applyScheduleDateTime(window.recordsConfig.startDate, window.recordsConfig.startTime);

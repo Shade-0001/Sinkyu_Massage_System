@@ -1,15 +1,9 @@
 //-- public/js/consents-acupuncture.js --//
 
 $(document).ready(function() {
-  // デバッグ: テーブル構造をチェック
-  console.log('テーブルのヘッダー列数:', $('#consentingTable thead tr th').length);
-  console.log('テーブルの最初の行の列数:', $('#consentingTable tbody tr:first td').length);
-
   // データがない場合はDataTablesを初期化しない
   const hasData = $('#consentingTable tbody tr').length > 0 &&
                   !$('#consentingTable tbody tr:first td[colspan]').length;
-
-  console.log('データがあるか:', hasData);
 
   if (hasData) {
     $('#consentingTable').DataTable({
@@ -27,8 +21,6 @@ $(document).ready(function() {
         { orderable: false, targets: [5, 6] } // 複製・削除列はソート無効
       ]
     });
-  } else {
-    console.log('データがないため、DataTablesを初期化しませんでした');
   }
 
   // 削除確認
@@ -43,7 +35,6 @@ $(document).ready(function() {
   $('#printConsentingHistory').on('click', function() {
     const url = $(this).data('print-url');
     if (!url) {
-      console.error('印刷URLが設定されていません');
       return;
     }
     const windowName = 'ConsentingHistoryPDF_' + new Date().getTime();
