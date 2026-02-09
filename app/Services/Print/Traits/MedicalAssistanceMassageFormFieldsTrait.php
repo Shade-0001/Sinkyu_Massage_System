@@ -1145,7 +1145,25 @@ trait MedicalAssistanceMassageFormFieldsTrait
 
   protected function fillCauseAndProgressSection(Fpdi $pdf, $consent): void
   {
-    // 発病負傷の原因・経過は fillOnsetInfo で実装済み
+    // === 発病負傷の原因・経過 ===
+    if ($this->hasCoord('remarks')) {
+      $remarks = '';
+
+      // サンプルデータモード
+      if ($this->sampleDataMode && isset($this->customSampleData['remarks'])) {
+        $remarks = $this->customSampleData['remarks'];
+      }
+      // 通常モード：consent.notesから取得
+      elseif ($consent && isset($consent->notes) && $consent->notes) {
+        $remarks = $consent->notes;
+      }
+
+      if ($remarks) {
+        $pdf->SetFontSize($this->coord('remarks', 'fontSize'));
+        $this->drawTextByKey($pdf, 'remarks', (string)$remarks);
+        $pdf->SetFontSize(10);
+      }
+    }
   }
 
   protected function fillTreatmentMonth(Fpdi $pdf, string $serviceYearMonth): void
