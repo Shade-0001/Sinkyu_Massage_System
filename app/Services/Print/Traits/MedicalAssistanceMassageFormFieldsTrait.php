@@ -1754,6 +1754,151 @@ trait MedicalAssistanceMassageFormFieldsTrait
         }
       }
     }
+
+    // === 同意記録欄 ===
+    // 同意年月日（フル形式）
+    if ($this->hasCoord('consent_date_full')) {
+      $consentDateFull = '';
+      if ($this->sampleDataMode) {
+        $consentDateFull = $this->getSampleValue('consent_date_full', '令和7年 12月 10日');
+      } else {
+        if ($consent && $consent->consenting_date) {
+          $consentDateFull = $this->formatWarekiDate($consent->consenting_date);
+        }
+      }
+      if ($consentDateFull) {
+        $pdf->SetFontSize($this->coord('consent_date_full', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_date_full', $consentDateFull);
+      }
+    }
+
+    // 同意医師氏名
+    if ($this->hasCoord('consent_record_doctor_name')) {
+      $doctorName = '';
+      if ($this->sampleDataMode) {
+        $doctorName = $this->getSampleValue('consent_record_doctor_name', '伊司田 一郎');
+      } else {
+        if ($consent && $consent->consenting_doctor_name) {
+          $doctorName = $consent->consenting_doctor_name;
+        }
+      }
+      if ($doctorName) {
+        $pdf->SetFontSize($this->coord('consent_record_doctor_name', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_doctor_name', $doctorName);
+      }
+    }
+
+    // 同意医師郵便番号
+    if ($this->hasCoord('consent_record_doctor_postal_code')) {
+      $doctorPostalCode = '';
+      if ($this->sampleDataMode) {
+        $doctorPostalCode = $this->getSampleValue('consent_record_doctor_postal_code', '8800002');
+      } else {
+        if ($doctor && $doctor->postal_code) {
+          $doctorPostalCode = $doctor->postal_code;
+        }
+      }
+      if ($doctorPostalCode) {
+        $pdf->SetFontSize($this->coord('consent_record_doctor_postal_code', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_doctor_postal_code', $doctorPostalCode);
+      }
+    }
+
+    // 同意医師住所
+    if ($this->hasCoord('consent_record_doctor_address')) {
+      $doctorAddress = '';
+      if ($this->sampleDataMode) {
+        $doctorAddress = $this->getSampleValue('consent_record_doctor_address', '宮崎県宮崎市中央通254-2');
+      } else {
+        if ($doctor) {
+          $doctorAddress = ($doctor->address_1 ?? '') . ($doctor->address_2 ?? '') . ($doctor->address_3 ?? '');
+        }
+      }
+      if ($doctorAddress) {
+        $pdf->SetFontSize($this->coord('consent_record_doctor_address', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_doctor_address', $doctorAddress);
+      }
+    }
+
+    // 同意年月日（年）
+    if ($this->hasCoord('consent_record_date_year')) {
+      $year = '';
+      if ($this->sampleDataMode) {
+        $year = $this->getSampleValue('consent_record_date_year', '7');
+      } else {
+        if ($consent && $consent->consenting_date) {
+          $year = $this->formatWarekiYear($consent->consenting_date);
+        }
+      }
+      if ($year) {
+        $pdf->SetFontSize($this->coord('consent_record_date_year', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_date_year', $year);
+      }
+    }
+
+    // 同意年月日（月）
+    if ($this->hasCoord('consent_record_date_month')) {
+      $month = '';
+      if ($this->sampleDataMode) {
+        $month = $this->getSampleValue('consent_record_date_month', '12');
+      } else {
+        if ($consent && $consent->consenting_date) {
+          $month = date('n', strtotime($consent->consenting_date));
+        }
+      }
+      if ($month) {
+        $pdf->SetFontSize($this->coord('consent_record_date_month', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_date_month', (string)$month);
+      }
+    }
+
+    // 同意年月日（日）
+    if ($this->hasCoord('consent_record_date_day')) {
+      $day = '';
+      if ($this->sampleDataMode) {
+        $day = $this->getSampleValue('consent_record_date_day', '10');
+      } else {
+        if ($consent && $consent->consenting_date) {
+          $day = date('j', strtotime($consent->consenting_date));
+        }
+      }
+      if ($day) {
+        $pdf->SetFontSize($this->coord('consent_record_date_day', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_date_day', (string)$day);
+      }
+    }
+
+    // 傷病名
+    if ($this->hasCoord('consent_record_illness_name')) {
+      $illnessName = '';
+      if ($this->sampleDataMode) {
+        $illnessName = $this->getSampleValue('consent_record_illness_name', '五十肩');
+      } else {
+        if ($consent && $consent->injury_and_illness_name) {
+          $illnessName = $consent->injury_and_illness_name;
+        }
+      }
+      if ($illnessName) {
+        $pdf->SetFontSize($this->coord('consent_record_illness_name', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_illness_name', $illnessName);
+      }
+    }
+
+    // 要加療期間
+    if ($this->hasCoord('required_treatment_period')) {
+      $period = '';
+      if ($this->sampleDataMode) {
+        $period = $this->getSampleValue('required_treatment_period', '2026/04/10');
+      } else {
+        if ($consent && $consent->treatment_period) {
+          $period = $consent->treatment_period;
+        }
+      }
+      if ($period) {
+        $pdf->SetFontSize($this->coord('required_treatment_period', 'fontSize'));
+        $this->drawTextByKey($pdf, 'required_treatment_period', $period);
+      }
+    }
   }
 
 }
