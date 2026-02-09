@@ -143,4 +143,41 @@ trait MedicalAssistanceMassageDrawingHelpersTrait
     $this->drawTextWithSpacing($pdf, $x, $y, $text, (float)$letterSpacing, $textAlign, (float)$alignmentWidth);
   }
 
+  /**
+   * 楕円をキーで描画
+   *
+   * @param Fpdi $pdf
+   * @param string $key
+   * @return void
+   */
+  protected function drawEllipseByKey(Fpdi $pdf, string $key): void
+  {
+    // キーが存在しない場合は何もしない
+    if (!$this->hasCoord($key)) {
+      \Log::warning("楕円描画スキップ：座標なし", ['key' => $key]);
+      return;
+    }
+
+    // ellipseX/ellipseY を優先、存在しない場合は x/y を使用
+    $x = $this->coordinates[$key]['ellipseX'] ?? $this->coordinates[$key]['x'] ?? 0;
+    $y = $this->coordinates[$key]['ellipseY'] ?? $this->coordinates[$key]['y'] ?? 0;
+    $ellipseWidth = $this->coordinates[$key]['ellipseWidth'] ?? 2.5;
+    $ellipseHeight = $this->coordinates[$key]['ellipseHeight'] ?? 2.5;
+    $lineWidth = $this->coordinates[$key]['lineWidth'] ?? 0.5;
+
+    // デバッグ：楕円描画成功ログ
+    \Log::info("楕円描画実行", [
+      'key' => $key,
+      'x' => $x,
+      'y' => $y,
+      'width' => $ellipseWidth,
+      'height' => $ellipseHeight,
+      'coordinates' => $this->coordinates[$key] ?? 'なし'
+    ]);
+
+    $pdf->SetDrawColor(0, 0, 0);
+    $pdf->SetLineWidth($lineWidth);
+    $pdf->Ellipse($x, $y, $ellipseWidth, $ellipseHeight, 0, 0, 360, 'D');
+  }
+
 }
