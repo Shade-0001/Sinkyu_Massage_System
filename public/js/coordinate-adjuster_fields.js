@@ -232,8 +232,6 @@ const sampleDataFieldMapping = {
   'consent_record_doctor_postal_code': { field: 'consent_record_doctor_postal_code', label: '同意医師郵便番号', type: 'postal_code', postalCodeGap: 2 },
   'consent_record_doctor_address': { field: 'consent_record_doctor_address', label: '同意医師住所', type: 'text' },
   'consent_record_date_year': { field: 'consent_record_date_year', label: '年', type: 'text', compositeGroup: 'consent_record_date', compositeLabel: '同意年月日' },
-  'consent_record_date_month': { field: 'consent_record_date_month', label: '月', type: 'text', compositeGroup: 'consent_record_date', compositeLabel: '同意年月日' },
-  'consent_record_date_day': { field: 'consent_record_date_day', label: '日', type: 'text', compositeGroup: 'consent_record_date', compositeLabel: '同意年月日' },
   'consent_record_illness_name': { field: 'consent_record_illness_name', label: '傷病名', type: 'text' },
   'required_treatment_period': { field: 'required_treatment_period', label: '要加療期間', type: 'text' },
 

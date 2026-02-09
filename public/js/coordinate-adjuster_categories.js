@@ -570,8 +570,6 @@ const fieldCategoriesMedicalAssistanceAcupuncture = {
   "consent_record_doctor_postal_code": "consent_record",
   "consent_record_doctor_address": "consent_record",
   "consent_record_date_year": "consent_record",
-  "consent_record_date_month": "consent_record",
-  "consent_record_date_day": "consent_record",
   "consent_record_illness_name": "consent_record",
   "required_treatment_period": "consent_record"
 };
@@ -686,8 +684,6 @@ const fieldCategoriesMedicalAssistanceMassage = {
   "consent_record_doctor_postal_code": "consent_record",
   "consent_record_doctor_address": "consent_record",
   "consent_record_date_year": "consent_record",
-  "consent_record_date_month": "consent_record",
-  "consent_record_date_day": "consent_record",
   "consent_record_illness_name": "consent_record",
   "required_treatment_period": "consent_record"
 };
