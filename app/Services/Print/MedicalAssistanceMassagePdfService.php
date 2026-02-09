@@ -270,7 +270,7 @@ class MedicalAssistanceMassagePdfService extends BasePdfService
     $this->fillClinicInfoSection($pdf, $clinicInfo, $submissionDate);
     $this->fillTherapistSection($pdf, $consent);
     $this->fillHealthOfficeRegistration($pdf, $consent);
-    $this->fillConsentRecordSection($pdf, $consent);
+    $this->fillConsentRecordSection($pdf, $consent, $doctor);
     $this->fillApplicationSection($pdf, $submissionDate);
     $this->fillApplicantInfo($pdf, $clinicUser, $fullName);
     $this->fillAgentInfo($pdf);

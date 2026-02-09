@@ -1364,67 +1364,200 @@ trait MedicalAssistanceMassageFormFieldsTrait
     // ここでは空のままとする
   }
 
-  protected function fillConsentRecordSection(Fpdi $pdf, $consent): void
+  protected function fillConsentRecordSection(Fpdi $pdf, $consent, $doctor = null): void
   {
     // === 同意記録欄 ===
-    // 同意医師氏名
-    $consentDoctorName = $this->sampleDataMode && isset($this->customSampleData['consent_doctor_name'])
-      ? $this->customSampleData['consent_doctor_name']
-      : ($consent->consenting_doctor_name ?? '');
-    if ($consentDoctorName) {
-      $pdf->SetFontSize($this->coord('consent_doctor_name', 'fontSize'));
-      $this->drawTextByKey($pdf, 'consent_doctor_name', (string)$consentDoctorName);
-      $pdf->SetFontSize(10);
-    }
-    // 同意年月日
-    if ($this->sampleDataMode && isset($this->customSampleData['consent_date_year'])) {
-      $pdf->SetFontSize($this->coord('consent_date_year', 'fontSize'));
-      $this->drawTextByKey($pdf, 'consent_date_year', (string)$this->customSampleData['consent_date_year']);
-      $pdf->SetFontSize($this->coord('consent_date_month', 'fontSize'));
-      $this->drawTextByKey($pdf, 'consent_date_month', (string)($this->customSampleData['consent_date_month'] ?? ''));
-      $pdf->SetFontSize($this->coord('consent_date_day', 'fontSize'));
-      $this->drawTextByKey($pdf, 'consent_date_day', (string)($this->customSampleData['consent_date_day'] ?? ''));
-      $pdf->SetFontSize(10);
-    } elseif ($consent && isset($consent->consenting_date) && $consent->consenting_date) {
-      [$consentYear, $consentMonth, $consentDay] = explode('-', $consent->consenting_date);
-      $consentJapaneseYear = $this->convertToJapaneseYear((int)$consentYear, (int)$consentMonth);
-      $pdf->SetFontSize($this->coord('consent_date_year', 'fontSize'));
-      $this->drawTextByKey($pdf, 'consent_date_year', (string)$consentJapaneseYear['year']);
-      $pdf->SetFontSize($this->coord('consent_date_month', 'fontSize'));
-      $this->drawTextByKey($pdf, 'consent_date_month', (string)(int)$consentMonth);
-      $pdf->SetFontSize($this->coord('consent_date_day', 'fontSize'));
-      $this->drawTextByKey($pdf, 'consent_date_day', (string)(int)$consentDay);
-      $pdf->SetFontSize(10);
-    }
-    // 同意書の傷病名
-    $consentIllnessName = $this->sampleDataMode && isset($this->customSampleData['consent_illness_name'])
-      ? $this->customSampleData['consent_illness_name']
-      : '';
-    if (!$consentIllnessName && $consent && isset($consent->illness_name_massage_id) && $consent->illness_name_massage_id) {
-      $illness = DB::table('illnesses_massage')
-        ->where('id', $consent->illness_name_massage_id)
-        ->first();
-      if ($illness && isset($illness->illness_name_massage)) {
-        $consentIllnessName = $illness->illness_name_massage;
-        if (isset($consent->illness_name_massage_addendum) && $consent->illness_name_massage_addendum) {
-          $consentIllnessName .= '、' . $consent->illness_name_massage_addendum;
-        }
+    // 同意年月日（フル形式）- consent_date_full
+    if ($this->hasCoord('consent_date_full')) {
+      $consentDateFull = $this->sampleDataMode && isset($this->customSampleData['consent_date_full'])
+        ? $this->customSampleData['consent_date_full']
+        : (($consent && $consent->consenting_date) ? $this->formatWarekiDate($consent->consenting_date) : '');
+      if ($consentDateFull) {
+        $pdf->SetFontSize($this->coord('consent_date_full', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_date_full', (string)$consentDateFull);
+        $pdf->SetFontSize(10);
       }
     }
-    if ($consentIllnessName) {
-      $pdf->SetFontSize($this->coord('consent_illness_name', 'fontSize'));
-      $this->drawTextByKey($pdf, 'consent_illness_name', (string)$consentIllnessName);
-      $pdf->SetFontSize(10);
+
+    // 同意医師氏名 - consent_record_doctor_name
+    if ($this->hasCoord('consent_record_doctor_name')) {
+      $consentDoctorName = $this->sampleDataMode && isset($this->customSampleData['consent_record_doctor_name'])
+        ? $this->customSampleData['consent_record_doctor_name']
+        : ($consent->consenting_doctor_name ?? '');
+      if ($consentDoctorName) {
+        $pdf->SetFontSize($this->coord('consent_record_doctor_name', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_doctor_name', (string)$consentDoctorName);
+        $pdf->SetFontSize(10);
+      }
     }
-    // 要加療期間
-    $therapyPeriod = $this->sampleDataMode && isset($this->customSampleData['therapy_period'])
-      ? $this->customSampleData['therapy_period']
-      : ($consent->therapy_period ?? '');
-    if ($therapyPeriod) {
-      $pdf->SetFontSize($this->coord('therapy_period', 'fontSize'));
-      $this->drawTextByKey($pdf, 'therapy_period', (string)$therapyPeriod);
-      $pdf->SetFontSize(10);
+
+    // 同意医師郵便番号 - consent_record_doctor_postal_code
+    if ($this->hasCoord('consent_record_doctor_postal_code')) {
+      $doctorPostalCode = $this->sampleDataMode && isset($this->customSampleData['consent_record_doctor_postal_code'])
+        ? $this->customSampleData['consent_record_doctor_postal_code']
+        : (($doctor && isset($doctor->postal_code)) ? $doctor->postal_code : '');
+      if ($doctorPostalCode) {
+        $pdf->SetFontSize($this->coord('consent_record_doctor_postal_code', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_doctor_postal_code', (string)$doctorPostalCode);
+        $pdf->SetFontSize(10);
+      }
     }
+
+    // 同意医師住所 - consent_record_doctor_address
+    if ($this->hasCoord('consent_record_doctor_address')) {
+      $doctorAddress = $this->sampleDataMode && isset($this->customSampleData['consent_record_doctor_address'])
+        ? $this->customSampleData['consent_record_doctor_address']
+        : (($doctor) ? (($doctor->address_1 ?? '') . ($doctor->address_2 ?? '') . ($doctor->address_3 ?? '')) : '');
+      if ($doctorAddress) {
+        $pdf->SetFontSize($this->coord('consent_record_doctor_address', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_doctor_address', (string)$doctorAddress);
+        $pdf->SetFontSize(10);
+      }
+    }
+
+    // 同意年月日（年月日分割） - consent_record_date_year/month/day
+    if ($this->hasCoord('consent_record_date_year')) {
+      if ($this->sampleDataMode && isset($this->customSampleData['consent_record_date_year'])) {
+        $pdf->SetFontSize($this->coord('consent_record_date_year', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_date_year', (string)$this->customSampleData['consent_record_date_year']);
+        if ($this->hasCoord('consent_record_date_month')) {
+          $pdf->SetFontSize($this->coord('consent_record_date_month', 'fontSize'));
+          $this->drawTextByKey($pdf, 'consent_record_date_month', (string)($this->customSampleData['consent_record_date_month'] ?? ''));
+        }
+        if ($this->hasCoord('consent_record_date_day')) {
+          $pdf->SetFontSize($this->coord('consent_record_date_day', 'fontSize'));
+          $this->drawTextByKey($pdf, 'consent_record_date_day', (string)($this->customSampleData['consent_record_date_day'] ?? ''));
+        }
+        $pdf->SetFontSize(10);
+      } elseif ($consent && isset($consent->consenting_date) && $consent->consenting_date) {
+        [$consentYear, $consentMonth, $consentDay] = explode('-', $consent->consenting_date);
+        $consentJapaneseYear = $this->convertToJapaneseYear((int)$consentYear, (int)$consentMonth);
+        $pdf->SetFontSize($this->coord('consent_record_date_year', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_date_year', (string)$consentJapaneseYear['year']);
+        if ($this->hasCoord('consent_record_date_month')) {
+          $pdf->SetFontSize($this->coord('consent_record_date_month', 'fontSize'));
+          $this->drawTextByKey($pdf, 'consent_record_date_month', (string)(int)$consentMonth);
+        }
+        if ($this->hasCoord('consent_record_date_day')) {
+          $pdf->SetFontSize($this->coord('consent_record_date_day', 'fontSize'));
+          $this->drawTextByKey($pdf, 'consent_record_date_day', (string)(int)$consentDay);
+        }
+        $pdf->SetFontSize(10);
+      }
+    }
+
+    // 同意書の傷病名 - consent_record_illness_name
+    if ($this->hasCoord('consent_record_illness_name')) {
+      $consentIllnessName = $this->sampleDataMode && isset($this->customSampleData['consent_record_illness_name'])
+        ? $this->customSampleData['consent_record_illness_name']
+        : '';
+      // ノーマルモード: まず injury_and_illness_name を確認（サンプルデータ用）
+      if (!$consentIllnessName && $consent && isset($consent->injury_and_illness_name) && $consent->injury_and_illness_name) {
+        $consentIllnessName = $consent->injury_and_illness_name;
+      }
+      // illness_name を確認（JOINで取得される実データ）
+      if (!$consentIllnessName && $consent && isset($consent->illness_name) && $consent->illness_name) {
+        $consentIllnessName = $consent->illness_name;
+      }
+      if ($consentIllnessName) {
+        $pdf->SetFontSize($this->coord('consent_record_illness_name', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_illness_name', (string)$consentIllnessName);
+        $pdf->SetFontSize(10);
+      }
+    }
+
+    // 要加療期間 - required_treatment_period
+    if ($this->hasCoord('required_treatment_period')) {
+      $therapyPeriod = $this->sampleDataMode && isset($this->customSampleData['required_treatment_period'])
+        ? $this->customSampleData['required_treatment_period']
+        : '';
+      // ノーマルモード: treatment_period または therapy_period を確認
+      if (!$therapyPeriod && $consent) {
+        if (isset($consent->treatment_period) && $consent->treatment_period) {
+          $therapyPeriod = $consent->treatment_period;
+        } elseif (isset($consent->therapy_period) && $consent->therapy_period) {
+          $therapyPeriod = $consent->therapy_period;
+        } elseif (isset($consent->therapy_period_start_date) && isset($consent->therapy_period_end_date)) {
+          // 日付範囲から生成
+          $therapyPeriod = $consent->therapy_period_start_date . ' ~ ' . $consent->therapy_period_end_date;
+        }
+      }
+      if ($therapyPeriod) {
+        $pdf->SetFontSize($this->coord('required_treatment_period', 'fontSize'));
+        $this->drawTextByKey($pdf, 'required_treatment_period', (string)$therapyPeriod);
+        $pdf->SetFontSize(10);
+      }
+    }
+
+    // 旧フィールド名との互換性維持（念のため）
+    // consent_doctor_name
+    if (!$this->hasCoord('consent_record_doctor_name') && $this->hasCoord('consent_doctor_name')) {
+      $consentDoctorName = $this->sampleDataMode && isset($this->customSampleData['consent_doctor_name'])
+        ? $this->customSampleData['consent_doctor_name']
+        : ($consent->consenting_doctor_name ?? '');
+      if ($consentDoctorName) {
+        $pdf->SetFontSize($this->coord('consent_doctor_name', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_doctor_name', (string)$consentDoctorName);
+        $pdf->SetFontSize(10);
+      }
+    }
+    // consent_date_year/month/day
+    if (!$this->hasCoord('consent_record_date_year') && $this->hasCoord('consent_date_year')) {
+      if ($this->sampleDataMode && isset($this->customSampleData['consent_date_year'])) {
+        $pdf->SetFontSize($this->coord('consent_date_year', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_date_year', (string)$this->customSampleData['consent_date_year']);
+        $pdf->SetFontSize($this->coord('consent_date_month', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_date_month', (string)($this->customSampleData['consent_date_month'] ?? ''));
+        $pdf->SetFontSize($this->coord('consent_date_day', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_date_day', (string)($this->customSampleData['consent_date_day'] ?? ''));
+        $pdf->SetFontSize(10);
+      } elseif ($consent && isset($consent->consenting_date) && $consent->consenting_date) {
+        [$consentYear, $consentMonth, $consentDay] = explode('-', $consent->consenting_date);
+        $consentJapaneseYear = $this->convertToJapaneseYear((int)$consentYear, (int)$consentMonth);
+        $pdf->SetFontSize($this->coord('consent_date_year', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_date_year', (string)$consentJapaneseYear['year']);
+        $pdf->SetFontSize($this->coord('consent_date_month', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_date_month', (string)(int)$consentMonth);
+        $pdf->SetFontSize($this->coord('consent_date_day', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_date_day', (string)(int)$consentDay);
+        $pdf->SetFontSize(10);
+      }
+    }
+    // consent_illness_name
+    if (!$this->hasCoord('consent_record_illness_name') && $this->hasCoord('consent_illness_name')) {
+      $consentIllnessName = $this->sampleDataMode && isset($this->customSampleData['consent_illness_name'])
+        ? $this->customSampleData['consent_illness_name']
+        : '';
+      if (!$consentIllnessName && $consent && isset($consent->illness_name_massage_id) && $consent->illness_name_massage_id) {
+        $illness = DB::table('illnesses_massage')
+          ->where('id', $consent->illness_name_massage_id)
+          ->first();
+        if ($illness && isset($illness->illness_name_massage)) {
+          $consentIllnessName = $illness->illness_name_massage;
+          if (isset($consent->illness_name_massage_addendum) && $consent->illness_name_massage_addendum) {
+            $consentIllnessName .= '、' . $consent->illness_name_massage_addendum;
+          }
+        }
+      }
+      if ($consentIllnessName) {
+        $pdf->SetFontSize($this->coord('consent_illness_name', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_illness_name', (string)$consentIllnessName);
+        $pdf->SetFontSize(10);
+      }
+    }
+    // therapy_period
+    if (!$this->hasCoord('required_treatment_period') && $this->hasCoord('therapy_period')) {
+      $therapyPeriod = $this->sampleDataMode && isset($this->customSampleData['therapy_period'])
+        ? $this->customSampleData['therapy_period']
+        : ($consent->therapy_period ?? '');
+      if ($therapyPeriod) {
+        $pdf->SetFontSize($this->coord('therapy_period', 'fontSize'));
+        $this->drawTextByKey($pdf, 'therapy_period', (string)$therapyPeriod);
+        $pdf->SetFontSize(10);
+      }
+    }
+
+    \Log::info('【同意記録欄】fillConsentRecordSection完了');
   }
 
   protected function fillApplicationSection(Fpdi $pdf, string $submissionDate): void
@@ -1754,97 +1887,38 @@ trait MedicalAssistanceMassageFormFieldsTrait
         }
       }
     }
+  }
 
-    // === 同意記録欄 ===
-    \Log::info('【同意記録欄】描画開始', [
-      'sampleDataMode' => $this->sampleDataMode,
-      'customSampleData_keys' => $this->customSampleData ? array_keys($this->customSampleData) : 'null',
-      'consent_exists' => isset($consent),
-      'doctor_exists' => isset($doctor)
-    ]);
+  /**
+   * 日付を和暦フル形式に変換（例: 令和7年12月10日）
+   */
+  protected function formatWarekiDate(string $date): string
+  {
+    if (!$date) return '';
 
-    // 同意年月日（フル形式）
-    $consentDateFull = $this->sampleDataMode && isset($this->customSampleData['consent_date_full'])
-      ? $this->customSampleData['consent_date_full']
-      : (($consent && $consent->consenting_date) ? $this->formatWarekiDate($consent->consenting_date) : '');
-    \Log::info('【同意年月日フル】', ['value' => $consentDateFull, 'hasCoord' => isset($this->coordinates['consent_date_full'])]);
-    if ($consentDateFull && isset($this->coordinates['consent_date_full'])) {
-      $pdf->SetFontSize($this->coord('consent_date_full', 'fontSize'));
-      $this->drawTextByKey($pdf, 'consent_date_full', $consentDateFull);
-    }
+    [$year, $month, $day] = explode('-', $date);
+    $japaneseYear = $this->convertToJapaneseYear((int)$year, (int)$month);
 
-    // 同意医師氏名
-    $doctorName = $this->sampleDataMode && isset($this->customSampleData['consent_record_doctor_name'])
-      ? $this->customSampleData['consent_record_doctor_name']
-      : (($consent && $consent->consenting_doctor_name) ? $consent->consenting_doctor_name : '');
-    \Log::info('【同意医師氏名】', ['value' => $doctorName, 'hasCoord' => isset($this->coordinates['consent_record_doctor_name'])]);
-    if ($doctorName && isset($this->coordinates['consent_record_doctor_name'])) {
-      $pdf->SetFontSize($this->coord('consent_record_doctor_name', 'fontSize'));
-      $this->drawTextByKey($pdf, 'consent_record_doctor_name', $doctorName);
-    }
+    $eraName = $japaneseYear['era'] ?? '';
+    $eraYear = $japaneseYear['year'] ?? '';
 
-    // 同意医師郵便番号
-    $doctorPostalCode = $this->sampleDataMode && isset($this->customSampleData['consent_record_doctor_postal_code'])
-      ? $this->customSampleData['consent_record_doctor_postal_code']
-      : (($doctor && $doctor->postal_code) ? $doctor->postal_code : '');
-    if ($doctorPostalCode && isset($this->coordinates['consent_record_doctor_postal_code'])) {
-      $pdf->SetFontSize($this->coord('consent_record_doctor_postal_code', 'fontSize'));
-      $this->drawTextByKey($pdf, 'consent_record_doctor_postal_code', $doctorPostalCode);
-    }
+    return $eraName . $eraYear . '年' . (int)$month . '月' . (int)$day . '日';
+  }
 
-    // 同意医師住所
-    $doctorAddress = $this->sampleDataMode && isset($this->customSampleData['consent_record_doctor_address'])
-      ? $this->customSampleData['consent_record_doctor_address']
-      : (($doctor) ? (($doctor->address_1 ?? '') . ($doctor->address_2 ?? '') . ($doctor->address_3 ?? '')) : '');
-    if ($doctorAddress && isset($this->coordinates['consent_record_doctor_address'])) {
-      $pdf->SetFontSize($this->coord('consent_record_doctor_address', 'fontSize'));
-      $this->drawTextByKey($pdf, 'consent_record_doctor_address', $doctorAddress);
-    }
+  /**
+   * 日付を和暦の年のみに変換（例: 令和7）
+   */
+  protected function formatWarekiYear(string $date): string
+  {
+    if (!$date) return '';
 
-    // 同意年月日（年）
-    $year = $this->sampleDataMode && isset($this->customSampleData['consent_record_date_year'])
-      ? $this->customSampleData['consent_record_date_year']
-      : (($consent && $consent->consenting_date) ? $this->formatWarekiYear($consent->consenting_date) : '');
-    if ($year && isset($this->coordinates['consent_record_date_year'])) {
-      $pdf->SetFontSize($this->coord('consent_record_date_year', 'fontSize'));
-      $this->drawTextByKey($pdf, 'consent_record_date_year', $year);
-    }
+    [$year, $month] = explode('-', $date);
+    $japaneseYear = $this->convertToJapaneseYear((int)$year, (int)$month);
 
-    // 同意年月日（月）
-    $month = $this->sampleDataMode && isset($this->customSampleData['consent_record_date_month'])
-      ? $this->customSampleData['consent_record_date_month']
-      : (($consent && $consent->consenting_date) ? date('n', strtotime($consent->consenting_date)) : '');
-    if ($month && isset($this->coordinates['consent_record_date_month'])) {
-      $pdf->SetFontSize($this->coord('consent_record_date_month', 'fontSize'));
-      $this->drawTextByKey($pdf, 'consent_record_date_month', (string)$month);
-    }
+    $eraName = $japaneseYear['era'] ?? '';
+    $eraYear = $japaneseYear['year'] ?? '';
 
-    // 同意年月日（日）
-    $day = $this->sampleDataMode && isset($this->customSampleData['consent_record_date_day'])
-      ? $this->customSampleData['consent_record_date_day']
-      : (($consent && $consent->consenting_date) ? date('j', strtotime($consent->consenting_date)) : '');
-    if ($day && isset($this->coordinates['consent_record_date_day'])) {
-      $pdf->SetFontSize($this->coord('consent_record_date_day', 'fontSize'));
-      $this->drawTextByKey($pdf, 'consent_record_date_day', (string)$day);
-    }
-
-    // 傷病名
-    $illnessName = $this->sampleDataMode && isset($this->customSampleData['consent_record_illness_name'])
-      ? $this->customSampleData['consent_record_illness_name']
-      : (($consent && $consent->injury_and_illness_name) ? $consent->injury_and_illness_name : '');
-    if ($illnessName && isset($this->coordinates['consent_record_illness_name'])) {
-      $pdf->SetFontSize($this->coord('consent_record_illness_name', 'fontSize'));
-      $this->drawTextByKey($pdf, 'consent_record_illness_name', $illnessName);
-    }
-
-    // 要加療期間
-    $period = $this->sampleDataMode && isset($this->customSampleData['required_treatment_period'])
-      ? $this->customSampleData['required_treatment_period']
-      : (($consent && $consent->treatment_period) ? $consent->treatment_period : '');
-    if ($period && isset($this->coordinates['required_treatment_period'])) {
-      $pdf->SetFontSize($this->coord('required_treatment_period', 'fontSize'));
-      $this->drawTextByKey($pdf, 'required_treatment_period', $period);
-    }
+    return $eraName . $eraYear;
   }
 
 }
