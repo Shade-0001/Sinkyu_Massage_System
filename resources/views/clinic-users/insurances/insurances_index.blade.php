@@ -99,15 +99,9 @@
   <script src="{{ asset('js/utility.js') }}"></script>
   <script>
     $(document).ready(function() {
-      // デバッグ: テーブル構造をチェック
-      console.log('テーブルのヘッダー列数:', $('#insuranceTable thead tr th').length);
-      console.log('テーブルの最初の行の列数:', $('#insuranceTable tbody tr:first td').length);
-
       // データがない場合はDataTablesを初期化しない
       const hasData = $('#insuranceTable tbody tr').length > 0 &&
                       !$('#insuranceTable tbody tr:first td[colspan]').length;
-
-      console.log('データがあるか:', hasData);
 
       if (hasData) {
         $('#insuranceTable').DataTable({
@@ -125,8 +119,6 @@
             { orderable: false, targets: [5, 6] } // 複製・削除列はソート無効
           ]
         });
-      } else {
-        console.log('データがないため、DataTablesを初期化しませんでした');
       }
 
       // 削除確認

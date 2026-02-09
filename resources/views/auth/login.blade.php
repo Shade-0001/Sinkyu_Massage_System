@@ -10,7 +10,7 @@
 <body>
   <h2>ログイン</h2>
 
-  <form method="POST" action="{{ route('login') }}" id="loginForm" onsubmit="console.log('Form submitted'); return true;">
+  <form method="POST" action="{{ route('login') }}" id="loginForm">
     @csrf
 
     @if ($errors->any())
@@ -45,16 +45,7 @@
       </label>
     </div>
 
-    <button type="submit" onclick="console.log('Button clicked');">ログイン</button>
+    <button type="submit">ログイン</button>
   </form>
-
-  <script>
-    console.log('Login page loaded');
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-      console.log('Form submit event triggered');
-      console.log('Action:', this.action);
-      console.log('Method:', this.method);
-    });
-  </script>
 </body>
 </html>
