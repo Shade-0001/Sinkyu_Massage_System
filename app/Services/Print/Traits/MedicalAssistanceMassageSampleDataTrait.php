@@ -41,6 +41,7 @@ trait MedicalAssistanceMassageSampleDataTrait
       'account_number' => $custom['insurance_symbol_number'] ?? '09876',
       'insured_number' => $custom['insurance_number'] ?? '0987654321',
       'relationship' => $custom['relationship'] ?? '本人',
+      'insured_name' => $custom['insured_person_name'] ?? '佐藤 花子',
     ];
 
     // サンプル同意書情報

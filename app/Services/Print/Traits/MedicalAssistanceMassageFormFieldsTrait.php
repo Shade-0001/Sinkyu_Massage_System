@@ -700,6 +700,12 @@ trait MedicalAssistanceMassageFormFieldsTrait
       $this->drawTextByKey($pdf, 'patient_relationship', (string)$insurance->relationship);
       $pdf->SetFontSize(10);
     }
+    // === 被保険者氏名 ===
+    if ($this->hasCoord('insured_person_name') && $insurance && isset($insurance->insured_name) && $insurance->insured_name) {
+      $pdf->SetFontSize($this->coord('insured_person_name', 'fontSize'));
+      $this->drawTextByKey($pdf, 'insured_person_name', (string)$insurance->insured_name);
+      $pdf->SetFontSize(10);
+    }
     // === 性別（男・女に○を表示） ===
     $genderKey = null;
     // isSelectedフラグをチェック（サンプルデータの場合）
