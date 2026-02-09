@@ -1685,6 +1685,16 @@
         "type": "number",
         "compositeGroup": "fee_massage"
     },
+    "fee_massage_bodypart_count": {
+        "x": -12,
+        "y": 99,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "field": "fee_massage_bodypart_count",
+        "type": "number",
+        "compositeGroup": "fee_massage"
+    },
     "fee_massage_count": {
         "x": 1,
         "y": 99,
@@ -1712,6 +1722,16 @@
         "letterSpacing": 0,
         "textAlign": "center",
         "field": "fee_manual_correction_unit",
+        "type": "number",
+        "compositeGroup": "fee_manual_correction"
+    },
+    "fee_manual_correction_bodypart_count": {
+        "x": -11.5,
+        "y": 123.7,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "field": "fee_manual_correction_bodypart_count",
         "type": "number",
         "compositeGroup": "fee_manual_correction"
     },

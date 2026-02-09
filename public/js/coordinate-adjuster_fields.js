@@ -164,9 +164,11 @@ const sampleDataFieldMapping = {
 
   // === 11-2. マッサージ関連（マッサージ用PDF） ===
   'fee_massage_unit': { field: 'fee_massage_unit', label: '単価', type: 'number', compositeGroup: 'fee_massage', compositeLabel: 'マッサージ', optionLabel: '単価' },
+  'fee_massage_bodypart_count': { field: 'fee_massage_bodypart_count', label: '部位数', type: 'number', compositeGroup: 'fee_massage', compositeLabel: 'マッサージ', optionLabel: '部位数' },
   'fee_massage_count': { field: 'fee_massage_count', label: '回数', type: 'number', compositeGroup: 'fee_massage', compositeLabel: 'マッサージ', optionLabel: '回数' },
   'fee_massage_total': { field: 'fee_massage_total', label: '合計', type: 'number', compositeGroup: 'fee_massage', compositeLabel: 'マッサージ', optionLabel: '合計' },
   'fee_manual_correction_unit': { field: 'fee_manual_correction_unit', label: '単価', type: 'number', compositeGroup: 'fee_manual_correction', compositeLabel: '変形徒手矯正術', optionLabel: '単価' },
+  'fee_manual_correction_bodypart_count': { field: 'fee_manual_correction_bodypart_count', label: '部位数', type: 'number', compositeGroup: 'fee_manual_correction', compositeLabel: '変形徒手矯正術', optionLabel: '部位数' },
   'fee_manual_correction_count': { field: 'fee_manual_correction_count', label: '回数', type: 'number', compositeGroup: 'fee_manual_correction', compositeLabel: '変形徒手矯正術', optionLabel: '回数' },
   'fee_manual_correction_total': { field: 'fee_manual_correction_total', label: '合計', type: 'number', compositeGroup: 'fee_manual_correction', compositeLabel: '変形徒手矯正術', optionLabel: '合計' },
   'fee_fomentation_unit': { field: 'fee_fomentation_unit', label: '単価', type: 'number', compositeGroup: 'fee_fomentation', compositeLabel: '温罨法', optionLabel: '単価' },
