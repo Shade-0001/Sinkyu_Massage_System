@@ -90,13 +90,11 @@ function loadCoordinates() {
     .then(data => {
       if (data.success) {
         coordinates = data.coordinates;
-        console.log('座標読み込み完了（JSON）:', Object.keys(coordinates).length, 'フィールド');
 
         // フィールド定義から新規フィールドを追加（既存フィールドは保持）
         // 現在のPDFタイプに関連するフィールドのみを追加
         const fieldMapping = getSampleDataFieldMapping();
         const fieldCategories = getFieldCategories(currentPdfType);
-        let newFieldCount = 0;
         Object.keys(fieldMapping).forEach(key => {
           const definition = fieldMapping[key];
 
@@ -107,7 +105,6 @@ function loadCoordinates() {
 
           // coordinatesに存在しない場合のみ新規作成
           if (!coordinates[key]) {
-            newFieldCount++;
             const isEllipseField = definition.radioGroup !== undefined &&
                                     (definition.ellipseWidth !== undefined || definition.ellipseHeight !== undefined);
             coordinates[key] = {
@@ -124,8 +121,6 @@ function loadCoordinates() {
           }
           // 既存フィールドには何もしない（JSONの値をそのまま保持）
         });
-
-        console.log(`新規フィールド追加: ${newFieldCount}件、合計: ${Object.keys(coordinates).length}フィールド`);
         
         originalCoordinates = JSON.parse(JSON.stringify(coordinates));
         resetRadioGroupsToDefault();
@@ -441,8 +436,6 @@ function previewPdf() {
       }
     });
 
-    console.log('[previewPdf] 送信するサンプルデータ:', processedSampleData);
-    console.log('[previewPdf] public_funds_payer_number:', processedSampleData.public_funds_payer_number);
     requestBody.custom_sample_data = processedSampleData;
   }
 
@@ -511,17 +504,14 @@ function loadTreatmentDays() {
     .then(data => {
       if (data.success) {
         window.currentTreatmentDays = data.treatment_days || [];
-        console.log('[施術日取得] 利用者ID:', clinicUserId, '施術日:', window.currentTreatmentDays);
 
         // 施術日セレクトボックスが既に表示されている場合は更新
         renderFieldSettings();
       } else {
-        console.warn('[施術日取得] 失敗:', data.message);
         window.currentTreatmentDays = [];
       }
     })
     .catch(error => {
-      console.error('[施術日取得] エラー:', error);
       window.currentTreatmentDays = [];
     });
 }
@@ -530,18 +520,15 @@ function loadTreatmentDays() {
 function loadCustomSampleData() {
   const storageKey = 'customSampleData_' + currentPdfType;
   const stored = localStorage.getItem(storageKey);
-  console.log('[loadCustomSampleData] LocalStorageから読み込み:', storageKey, stored ? 'データあり' : 'データなし');
   if (stored) {
     try {
       const savedData = JSON.parse(stored);
-      console.log('[loadCustomSampleData] 保存データ:', savedData);
       // デフォルト値とマージ（空文字やnullの場合はデフォルト値を優先）
       Object.keys(savedData).forEach(key => {
         if (savedData[key] !== '' && savedData[key] !== null && savedData[key] !== undefined) {
           customSampleData[key] = savedData[key];
         }
       });
-      console.log('[loadCustomSampleData] マージ後のcustomSampleData.public_funds_payer_number:', customSampleData.public_funds_payer_number);
     } catch (e) {
       console.error('サンプルデータの読み込みエラー:', e);
     }
@@ -568,13 +555,11 @@ function loadCustomSampleData() {
 
 // サンプルデータを更新
 function updateSampleData(field, value) {
-  console.log('[updateSampleData] フィールド更新:', { field, value, before: customSampleData[field] });
   customSampleData[field] = value;
 
   // localStorageに保存
   const storageKey = 'customSampleData_' + currentPdfType;
   localStorage.setItem(storageKey, JSON.stringify(customSampleData));
-  console.log('[updateSampleData] LocalStorage保存完了:', storageKey);
 
   // プレビューを自動更新
   autoPreview();
@@ -582,16 +567,12 @@ function updateSampleData(field, value) {
 
 // 結合フィールド（combine属性あり）のサンプルデータを更新
 function updateCombinedSampleData(combineFields, value) {
-  console.log('updateCombinedSampleData called', { combineFields, value });
-
   // スペースで分割（全角・半角両対応）
   const parts = value.split(/[\s　]+/).filter(p => p);
-  console.log('Split parts:', parts);
 
   // 分割した値を各フィールドに割り当て
   combineFields.forEach((field, index) => {
     customSampleData[field] = parts[index] || '';
-    console.log(`Set ${field} = ${parts[index] || ''}`);
   });
 
   // localStorageに保存
