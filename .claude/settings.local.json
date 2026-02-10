@@ -71,7 +71,15 @@
       "Bash(/tmp/check_records_feb.php:*)",
       "Bash(/tmp/check_all_records_feb.php:*)",
       "Bash($timestamp = Get-Date -Format \"yyyyMMdd_HHmmss\")",
-      "Bash(Copy-Item:*)"
+      "Bash(Copy-Item:*)",
+      "Bash(git -C \"i:\\\\XAMPP\\\\htdocs\\\\Sinkyu_Massage_System\" status)",
+      "Bash(git -C \"i:\\\\XAMPP\\\\htdocs\\\\Sinkyu_Massage_System\" diff)",
+      "Bash(git -C \"i:\\\\XAMPP\\\\htdocs\\\\Sinkyu_Massage_System\" add \"public/js/coordinate-adjuster_categories.js\" \"public/js/coordinate-adjuster_core.js\")",
+      "Bash(git -C \"i:\\\\XAMPP\\\\htdocs\\\\Sinkyu_Massage_System\" commit -m \"$\\(cat <<''EOF''\nautosave-commit_260210-2320｜fieldsFile空時に既存フィールド定義を流用するロジックを削除\n\nfieldsFileが空のPDFタイプに対して既存のフィールド定義・カテゴリ定義が\nデフォルトで適用されていた問題を修正。\n\n【変更内容】\n- coordinate-adjuster_core.js::getFieldDefinitions\\(\\)\n  → fieldsFileが空の場合は空オブジェクト{}を返すよう修正\n- coordinate-adjuster_categories.js::getFieldCategories\\(\\)\n  → fieldsFileが空の場合は空オブジェクト{}を返すよう修正\n- coordinate-adjuster_categories.js::getCategoryOrder\\(\\)\n  → fieldsFileが空の場合は空配列[]を返すよう修正\n\nこれにより、新規追加したPDFタイプでフィールド未定義時は\nUIにカテゴリやフィールドが一切表示されなくなる。\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git -C \"i:\\\\XAMPP\\\\htdocs\\\\Sinkyu_Massage_System\" diff .claude/settings.local.json)",
+      "Bash(git -C \"i:\\\\XAMPP\\\\htdocs\\\\Sinkyu_Massage_System\" log --oneline -9)",
+      "Bash(git -C \"i:\\\\XAMPP\\\\htdocs\\\\Sinkyu_Massage_System\" push)",
+      "Bash(git -C \"i:\\\\XAMPP\\\\htdocs\\\\Sinkyu_Massage_System\" add .claude/settings.local.json)"
     ],
     "deny": [],
     "ask": []
