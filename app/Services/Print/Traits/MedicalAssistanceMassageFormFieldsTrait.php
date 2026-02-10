@@ -272,7 +272,7 @@ trait MedicalAssistanceMassageFormFieldsTrait
     $massageTotalCount = 0;
     $massageTotalAmount = 0;
     $massageUnitPrice = 0;
-    $massageBodypartCount = 0; // 部位数
+    $massageBodypartCount = 0; // 部位数（総カウント数）
 
     // 各部位の料金を計算
     $bodypartFees = [
@@ -290,7 +290,7 @@ trait MedicalAssistanceMassageFormFieldsTrait
         $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
         $massageTotalCount += $count;
         $massageTotalAmount += $unitPrice * $count;
-        $massageBodypartCount++; // 施術した部位数をカウント
+        $massageBodypartCount += $count; // 部位カウントの総数を加算
         if ($massageUnitPrice === 0) {
           $massageUnitPrice = $unitPrice; // 最初に見つかった単価を使用
         }
