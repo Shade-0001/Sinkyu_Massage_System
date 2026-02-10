@@ -1,3 +1,21 @@
+// ============================================================
+// フィールド表示順序の決定ロジック
+// ============================================================
+// フィールドの表示順序は以下の2段階で決定される：
+//
+// 1. fieldDefinitions（coordinate-adjuster_fields.js）の定義順
+//    → Object.keys(fieldDefs) でキー配列を取得
+//    → このキー配列の順序がベースとなる
+//
+// 2. カテゴリマッピング（coordinate-adjuster_categories.js）
+//    → fieldDefs の各キーをカテゴリごとに振り分け
+//    → カテゴリ内では fieldDefs の順序を保持
+//
+// 【重要】表示順序を変更する場合：
+// - fieldDefinitions の定義順を変更（必須）
+// - カテゴリマッピングも更新（必須）
+// ============================================================
+
 // カテゴリアコーディオン対応のrenderFieldSettings関数（新版）
 function renderFieldSettings() {
   const container = document.getElementById('field-settings');
@@ -6,7 +24,8 @@ function renderFieldSettings() {
   // 現在のPDFタイプを取得
   const currentPdfType = window.coordinateAdjusterData?.currentPdfType || 'therapy_benefit_acupuncture';
 
-  // PDFタイプに応じたフィールドマッピングを取得
+  // PDFタイプに応じたフィールド定義を取得
+  // ※この定義順が表示順のベースとなる（重要！）
   const fieldDefs = getFieldDefinitions();
 
   // PDFタイプに応じたカテゴリ定義を取得
@@ -55,13 +74,16 @@ function renderFieldSettings() {
     'clinic_phone'                // 32. 作成者電話番号
   ];
 
-  // PDFタイプに応じてフィールド順序を決定
+  // ========================================
+  // フィールド順序の決定（表示順のベース）
+  // ========================================
   let orderedKeys;
   if (currentPdfType === 'treatment_receipt') {
     // 施術料金領収書は専用の順序を使用
     orderedKeys = treatmentReceiptFieldOrder.filter(key => coordinates.hasOwnProperty(key));
   } else {
     // その他はfieldDefinitionsの順序を使用
+    // ※Object.keys() で取得したキー配列の順序が表示順のベースとなる
     const fieldMapping = getFieldDefinitions();
     orderedKeys = Object.keys(fieldMapping);
     // coordinatesに存在するが、fieldDefinitionsにないキーも追加
@@ -72,7 +94,11 @@ function renderFieldSettings() {
     });
   }
 
+  // ========================================
   // カテゴリごとにフィールドをグループ化
+  // ========================================
+  // orderedKeys の順序を保持したまま、カテゴリごとに振り分ける
+  // カテゴリ内での順序は orderedKeys の順序がそのまま維持される
   const categorizedFields = {};
   categoryOrder.forEach(category => {
     categorizedFields[category] = [];
@@ -121,16 +147,20 @@ function renderFieldSettings() {
   }
 
   // フィールドをカテゴリに振り分け
+  // ※重要：orderedKeys の順序を保持したまま振り分ける
+  //   → カテゴリ内での表示順序は orderedKeys の順序がそのまま維持される
   orderedKeys.forEach(key => {
     // PDFタイプに応じてフィールドをフィルタリング
     if (!shouldIncludeField(key, currentPdfType)) {
       return; // このフィールドをスキップ
     }
 
+    // カテゴリマッピングに基づいてカテゴリを取得
     const category = fieldCategories[key] || 'uncategorized';
     if (!categorizedFields[category]) {
       categorizedFields[category] = [];
     }
+    // orderedKeys の順序で push されるため、カテゴリ内の順序は保持される
     categorizedFields[category].push(key);
   });
 

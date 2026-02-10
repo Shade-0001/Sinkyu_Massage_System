@@ -1758,5 +1758,23 @@
         "field": "consent_date_month",
         "type": "number",
         "compositeGroup": "consent_date"
+    },
+    "birthday_full_date": {
+        "x": -34,
+        "y": 71.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text"
+    },
+    "consent_date_full": {
+        "x": 9.5,
+        "y": 248,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text",
+        "field": "consent_date_full",
+        "label": "同意年月日"
     }
 }
