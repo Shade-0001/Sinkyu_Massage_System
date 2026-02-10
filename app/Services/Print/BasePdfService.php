@@ -458,6 +458,8 @@ abstract class BasePdfService
     $pdf->SetMargins(0, 0, 0);
     $pdf->AddPage();
 
+    $compressionError = false;
+
     // テンプレートPDF読み込み（存在する場合）
     $path = $templatePath ?? $this->customTemplatePath;
     if ($path && file_exists($path)) {
@@ -466,12 +468,32 @@ abstract class BasePdfService
         $tplId = $pdf->importPage(1);
         $pdf->useTemplate($tplId, 0, 0, null, null, true);
       } catch (\Exception $e) {
-        // FPDI無料版で非対応の圧縮形式の場合は空白ページを表示
-        \Log::warning('PDFテンプレート読み込みエラー（非対応の圧縮形式）', [
-          'path' => $path,
-          'message' => $e->getMessage()
-        ]);
+        // FPDI無料版で非対応の圧縮形式の場合
+        if (strpos($e->getMessage(), 'compression technique') !== false) {
+          $compressionError = true;
+          \Log::warning('PDFテンプレート読み込みエラー（非対応の圧縮形式）', [
+            'path' => $path,
+            'message' => $e->getMessage()
+          ]);
+        } else {
+          throw $e;
+        }
       }
+    }
+
+    // 圧縮形式エラーの場合、エラーメッセージを表示
+    if ($compressionError) {
+      $pdf->SetFont('kozminproregular', '', 12);
+      $pdf->SetTextColor(255, 0, 0);
+      $pdf->SetXY(20, 100);
+      $pdf->MultiCell(170, 10,
+        "【エラー】\n\n" .
+        "このPDFテンプレートは非対応の圧縮形式を使用しています。\n\n" .
+        "対処方法：\n" .
+        "1. Adobe Acrobatなどで互換性の高い形式に再保存\n" .
+        "2. または空白ページのまま座標設定を実施",
+        0, 'L'
+      );
     }
 
     return $pdf->Output('', 'S');
