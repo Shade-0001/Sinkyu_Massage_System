@@ -247,15 +247,6 @@
         "textAlign": "center",
         "type": "number"
     },
-    "remarks": {
-        "x": 23,
-        "y": 198.5,
-        "fontSize": 10,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "type": "text",
-        "maxCharsPerLine": 49
-    },
     "receipt_amount": {
         "x": 124.5,
         "y": 208.5,

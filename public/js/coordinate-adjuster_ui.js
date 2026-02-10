@@ -64,14 +64,13 @@ function renderFieldSettings() {
     'treatment_month',            // 22. 施術月
     'treatment_days',             // 23. 施術日
     'copayment_ratio',            // 24. 負担割合
-    'remarks',                    // 25. 備考
-    'receipt_amount',             // 26. 領収金額
-    'creation_date',              // 27. 作成年月日
-    'clinic_postal_code',         // 28. 作成者郵便番号
-    'clinic_address',             // 29. 作成者住所
-    'clinic_name',                // 30. 作成者名称
-    'clinic_manager',             // 31. 作成者氏名
-    'clinic_phone'                // 32. 作成者電話番号
+    'receipt_amount',             // 25. 領収金額
+    'creation_date',              // 26. 作成年月日
+    'clinic_postal_code',         // 27. 作成者郵便番号
+    'clinic_address',             // 28. 作成者住所
+    'clinic_name',                // 29. 作成者名称
+    'clinic_manager',             // 30. 作成者氏名
+    'clinic_phone'                // 31. 作成者電話番号
   ];
 
   // ========================================

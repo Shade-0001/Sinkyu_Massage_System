@@ -411,7 +411,6 @@ const fieldDefinitionsTreatmentReceipt = {
   'copayment_amount': { field: 'copayment_amount', label: '一部負担金', type: 'number' },
   'treatment_month': { field: 'treatment_month', label: '施術月', type: 'number' },
   'copayment_ratio': { field: 'copayment_ratio', label: '負担割合', type: 'number' },
-  'remarks': { field: 'remarks', label: '備考', type: 'text' },
   'receipt_amount': { field: 'receipt_amount', label: '領収金額', type: 'number' },
   'creation_date': { field: 'creation_date', label: '提出年月日', type: 'text' },
   'clinic_postal_code': { field: 'clinic_postal_code', label: '郵便番号', type: 'text' },
