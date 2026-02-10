@@ -285,7 +285,7 @@ trait MedicalAssistanceMassageFormFieldsTrait
     $totalFee = 0;
 
     // マッサージ料金（全部位合計）
-    $massageTotalCount = 0;
+    $massageRecordCount = $therapyTypeCounts[18] ?? 0; // 回数（レコード総数）
     $massageTotalAmount = 0;
     $massageUnitPrice = 0;
     $massageBodypartCount = 0; // 部位数（総カウント数）
@@ -304,7 +304,6 @@ trait MedicalAssistanceMassageFormFieldsTrait
       if ($count > 0) {
         $feeKey = $isFirstTreatment ? $feeKeys['first'] : $feeKeys['normal'];
         $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
-        $massageTotalCount += $count;
         $massageTotalAmount += $unitPrice * $count;
         $massageBodypartCount += $count; // 部位カウントの総数を加算
         if ($massageUnitPrice === 0) {
@@ -315,7 +314,7 @@ trait MedicalAssistanceMassageFormFieldsTrait
 
     \Log::info('マッサージ料金（統合）描画', [
       'bodypart_count' => $massageBodypartCount,
-      'total_count' => $massageTotalCount,
+      'record_count' => $massageRecordCount,
       'unit_price' => $massageUnitPrice,
       'total_amount' => $massageTotalAmount,
       'has_coord' => $this->hasCoord('fee_massage_unit')
@@ -325,13 +324,13 @@ trait MedicalAssistanceMassageFormFieldsTrait
       $pdf->SetFontSize($this->coord('fee_massage_unit', 'fontSize'));
       $this->drawTextByKey($pdf, 'fee_massage_unit', (string)$massageUnitPrice);
       $this->drawTextByKey($pdf, 'fee_massage_bodypart_count', (string)$massageBodypartCount);
-      $this->drawTextByKey($pdf, 'fee_massage_count', (string)$massageTotalCount);
+      $this->drawTextByKey($pdf, 'fee_massage_count', (string)$massageRecordCount);
       $this->drawTextByKey($pdf, 'fee_massage_total', (string)$massageTotalAmount);
       $totalFee += $massageTotalAmount;
     }
 
     // 変形徒手矯正術 therapy_content_id: 19
-    $manualCorrectionTotalCount = 0;
+    $manualCorrectionRecordCount = $therapyTypeCounts[19] ?? 0; // 回数（レコード総数）
     $manualCorrectionTotalAmount = 0;
     $manualCorrectionUnitPrice = 0;
     $manualCorrectionBodypartCount = 0; // 部位数（総カウント数）
@@ -350,7 +349,6 @@ trait MedicalAssistanceMassageFormFieldsTrait
       if ($count > 0) {
         $feeKey = $isFirstTreatment ? $feeKeys['first'] : $feeKeys['normal'];
         $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
-        $manualCorrectionTotalCount += $count;
         $manualCorrectionTotalAmount += $unitPrice * $count;
         $manualCorrectionBodypartCount += $count; // 部位カウントの総数を加算
         if ($manualCorrectionUnitPrice === 0) {
@@ -363,7 +361,7 @@ trait MedicalAssistanceMassageFormFieldsTrait
       $pdf->SetFontSize($this->coord('fee_manual_correction_unit', 'fontSize'));
       $this->drawTextByKey($pdf, 'fee_manual_correction_unit', (string)$manualCorrectionUnitPrice);
       $this->drawTextByKey($pdf, 'fee_manual_correction_bodypart_count', (string)$manualCorrectionBodypartCount);
-      $this->drawTextByKey($pdf, 'fee_manual_correction_count', (string)$manualCorrectionTotalCount);
+      $this->drawTextByKey($pdf, 'fee_manual_correction_count', (string)$manualCorrectionRecordCount);
       $this->drawTextByKey($pdf, 'fee_manual_correction_total', (string)$manualCorrectionTotalAmount);
       $totalFee += $manualCorrectionTotalAmount;
     }
