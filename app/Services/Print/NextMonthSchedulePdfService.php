@@ -19,7 +19,7 @@ class NextMonthSchedulePdfService extends BasePdfService
 
   public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate, string $remarks = ''): string
   {
-    // TODO: 実装予定
-    throw new \Exception('このPDFタイプはまだ実装されていません');
+    // 未実装：テンプレートのみ表示
+    return $this->generateTemplatePdf();
   }
 }

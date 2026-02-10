@@ -444,6 +444,32 @@ abstract class BasePdfService
   }
 
   /**
+   * テンプレートのみのダミーPDFを生成
+   *
+   * @param string|null $templatePath テンプレートファイルパス
+   * @return string PDFバイナリデータ
+   */
+  protected function generateTemplatePdf(?string $templatePath = null): string
+  {
+    $pdf = new Fpdi('P', 'mm', 'A4', true, 'UTF-8', false);
+    $pdf->SetAutoPageBreak(false);
+    $pdf->setPrintHeader(false);
+    $pdf->setPrintFooter(false);
+    $pdf->SetMargins(0, 0, 0);
+    $pdf->AddPage();
+
+    // テンプレートPDF読み込み（存在する場合）
+    $path = $templatePath ?? $this->customTemplatePath;
+    if ($path && file_exists($path)) {
+      $pageCount = $pdf->setSourceFile($path);
+      $tplId = $pdf->importPage(1);
+      $pdf->useTemplate($tplId, 0, 0, null, null, true);
+    }
+
+    return $pdf->Output('', 'S');
+  }
+
+  /**
    * PDF生成（サブクラスで実装）
    */
   abstract public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate): string;
