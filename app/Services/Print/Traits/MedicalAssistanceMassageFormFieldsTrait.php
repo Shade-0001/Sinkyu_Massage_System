@@ -220,7 +220,8 @@ trait MedicalAssistanceMassageFormFieldsTrait
 
     // 通常モード:施術実績から料金を計算
     $therapyTypeCounts = [];
-    $bodypartCounts = []; // 部位ごとのカウント
+    $bodypartCounts = []; // 部位ごとのカウント（マッサージ用）
+    $manualCorrectionBodypartCounts = []; // 部位ごとのカウント（変形徒手矯正術用）
     $isFirstTreatment = false;
 
     \Log::info('=== ノーマルモード：料金計算開始 ===', [
@@ -257,12 +258,27 @@ trait MedicalAssistanceMassageFormFieldsTrait
             $bodypartCounts[$bodypartId]++;
           }
         }
+
+        // therapy_content_id = 19 (変形徒手矯正術)の場合、部位情報を取得
+        if ($therapyContentId == 19) {
+          $bodyparts = DB::table('bodyparts-records')
+            ->where('records_id', $record->id)
+            ->pluck('therapy_type_bodyparts_id');
+
+          foreach ($bodyparts as $bodypartId) {
+            if (!isset($manualCorrectionBodypartCounts[$bodypartId])) {
+              $manualCorrectionBodypartCounts[$bodypartId] = 0;
+            }
+            $manualCorrectionBodypartCounts[$bodypartId]++;
+          }
+        }
       }
     }
 
     \Log::info('施術内容集計結果', [
       'therapy_type_counts' => $therapyTypeCounts,
       'bodypart_counts' => $bodypartCounts,
+      'manual_correction_bodypart_counts' => $manualCorrectionBodypartCounts,
       'is_first_treatment' => $isFirstTreatment
     ]);
 
@@ -315,19 +331,41 @@ trait MedicalAssistanceMassageFormFieldsTrait
     }
 
     // 変形徒手矯正術 therapy_content_id: 19
-    $count = $therapyTypeCounts[19] ?? 0;
-    $feeKey = $isFirstTreatment ? 'manual_correction_first' : 'manual_correction_normal';
-    $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
-    $total = $unitPrice * $count;
-    $manualCorrectionBodypartCount = $count > 0 ? 1 : 0; // 施術があれば部位数は1
+    $manualCorrectionTotalCount = 0;
+    $manualCorrectionTotalAmount = 0;
+    $manualCorrectionUnitPrice = 0;
+    $manualCorrectionBodypartCount = 0; // 部位数（総カウント数）
+
+    // 各部位の料金を計算
+    $manualCorrectionBodypartFees = [
+      1 => ['first' => 'manual_correction_first', 'normal' => 'manual_correction_normal'],
+      2 => ['first' => 'manual_correction_first', 'normal' => 'manual_correction_normal'],
+      3 => ['first' => 'manual_correction_first', 'normal' => 'manual_correction_normal'],
+      4 => ['first' => 'manual_correction_first', 'normal' => 'manual_correction_normal'],
+      5 => ['first' => 'manual_correction_first', 'normal' => 'manual_correction_normal'],
+    ];
+
+    foreach ($manualCorrectionBodypartFees as $bodypartId => $feeKeys) {
+      $count = $manualCorrectionBodypartCounts[$bodypartId] ?? 0;
+      if ($count > 0) {
+        $feeKey = $isFirstTreatment ? $feeKeys['first'] : $feeKeys['normal'];
+        $unitPrice = (int)($treatmentFees->$feeKey ?? 0);
+        $manualCorrectionTotalCount += $count;
+        $manualCorrectionTotalAmount += $unitPrice * $count;
+        $manualCorrectionBodypartCount += $count; // 部位カウントの総数を加算
+        if ($manualCorrectionUnitPrice === 0) {
+          $manualCorrectionUnitPrice = $unitPrice; // 最初に見つかった単価を使用
+        }
+      }
+    }
 
     if ($this->hasCoord('fee_manual_correction_unit')) {
       $pdf->SetFontSize($this->coord('fee_manual_correction_unit', 'fontSize'));
-      $this->drawTextByKey($pdf, 'fee_manual_correction_unit', (string)$unitPrice);
+      $this->drawTextByKey($pdf, 'fee_manual_correction_unit', (string)$manualCorrectionUnitPrice);
       $this->drawTextByKey($pdf, 'fee_manual_correction_bodypart_count', (string)$manualCorrectionBodypartCount);
-      $this->drawTextByKey($pdf, 'fee_manual_correction_count', (string)$count);
-      $this->drawTextByKey($pdf, 'fee_manual_correction_total', (string)$total);
-      $totalFee += $total;
+      $this->drawTextByKey($pdf, 'fee_manual_correction_count', (string)$manualCorrectionTotalCount);
+      $this->drawTextByKey($pdf, 'fee_manual_correction_total', (string)$manualCorrectionTotalAmount);
+      $totalFee += $manualCorrectionTotalAmount;
     }
 
     // 温罨法 therapy_content_id: 20
