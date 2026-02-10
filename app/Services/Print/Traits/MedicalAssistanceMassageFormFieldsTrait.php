@@ -850,7 +850,7 @@ trait MedicalAssistanceMassageFormFieldsTrait
     // 傷病名・症状（illness_name_symptom）
     if ($this->hasCoord('illness_name_symptom')) {
       $illnessNameSymptom = '';
-      
+
       if ($this->sampleDataMode && isset($this->customSampleData['illness_name_symptom'])) {
         $illnessNameSymptom = $this->customSampleData['illness_name_symptom'];
       } elseif ($consent) {
@@ -870,6 +870,26 @@ trait MedicalAssistanceMassageFormFieldsTrait
       if ($illnessNameSymptom) {
         $pdf->SetFontSize($this->coord('illness_name_symptom', 'fontSize'));
         $this->drawTextByKey($pdf, 'illness_name_symptom', $illnessNameSymptom);
+        $pdf->SetFontSize(10);
+      }
+    }
+
+    // 施術内容欄の傷病名（treatment_content_illness_name）
+    if ($this->hasCoord('treatment_content_illness_name')) {
+      $treatmentIllnessName = $this->sampleDataMode && isset($this->customSampleData['consent_record_illness_name'])
+        ? $this->customSampleData['consent_record_illness_name']
+        : '';
+      // ノーマルモード: injury_and_illness_name を確認
+      if (!$treatmentIllnessName && $consent && isset($consent->injury_and_illness_name) && $consent->injury_and_illness_name) {
+        $treatmentIllnessName = $consent->injury_and_illness_name;
+      }
+      // illness_name を確認（JOINで取得される実データ）
+      if (!$treatmentIllnessName && $consent && isset($consent->illness_name) && $consent->illness_name) {
+        $treatmentIllnessName = $consent->illness_name;
+      }
+      if ($treatmentIllnessName) {
+        $pdf->SetFontSize($this->coord('treatment_content_illness_name', 'fontSize'));
+        $this->drawTextByKey($pdf, 'treatment_content_illness_name', (string)$treatmentIllnessName);
         $pdf->SetFontSize(10);
       }
     }
@@ -993,11 +1013,15 @@ trait MedicalAssistanceMassageFormFieldsTrait
       if ($this->sampleDataMode && isset($this->customSampleData['treatment_days'])) {
         $dayCount = $this->customSampleData['treatment_days'];
       } else {
-        // マッサージ関連の施術（therapy_content_id: 18-21）のみカウント
+        // マッサージ関連の施術（therapy_content_id: 18-21）のユニークな日数をカウント
         $massageContentIds = [18, 19, 20, 21];
-        $dayCount = $records->filter(function ($record) use ($massageContentIds) {
-          return in_array($record->therapy_content_id ?? null, $massageContentIds);
-        })->count();
+        $dayCount = $records
+          ->filter(function ($record) use ($massageContentIds) {
+            return in_array($record->therapy_content_id ?? null, $massageContentIds);
+          })
+          ->pluck('date')
+          ->unique()
+          ->count();
       }
       $pdf->SetFontSize($this->coord('treatment_day_count', 'fontSize'));
       $this->drawTextByKey($pdf, 'treatment_day_count', (string)$dayCount);

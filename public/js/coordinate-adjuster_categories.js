@@ -618,6 +618,7 @@ const fieldCategoriesMedicalAssistanceMassage = {
   "first_treatment_year": "treatment_content",
   "first_treatment_month": "treatment_content",
   "first_treatment_day": "treatment_content",
+  "treatment_content_illness_name": "treatment_content",
   "onset_date": "treatment_content",
   "onset_date_year": "treatment_content",
   "onset_date_month": "treatment_content",

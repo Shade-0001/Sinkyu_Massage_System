@@ -59,6 +59,16 @@
         "textAlign": "center",
         "type": "text"
     },
+    "treatment_content_illness_name": {
+        "x": 51,
+        "y": 70,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text",
+        "field": "consent_record_illness_name",
+        "label": "傷病名"
+    },
     "onset_date": {
         "x": 68,
         "y": 75,
@@ -572,7 +582,7 @@
         "letterSpacing": 0
     },
     "treatment_day_count": {
-        "x": 33.5,
+        "x": 36,
         "y": 64,
         "textAlign": "center",
         "field": "treatment_days",
