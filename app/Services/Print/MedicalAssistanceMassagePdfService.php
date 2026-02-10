@@ -272,7 +272,7 @@ class MedicalAssistanceMassagePdfService extends BasePdfService
     $this->fillCauseAndProgressSection($pdf, $consent);
     $this->fillTreatmentMonth($pdf, $data['service_year_month']);
     $this->fillDiseaseCheckboxes($pdf, $consent);
-    $this->fillTreatmentDayCalendar($pdf, $records);
+    $this->fillServiceDates($pdf, $records);
     $this->fillAbstractSection($pdf, $records);
     $this->fillTreatmentFees($pdf, $data);
     $this->fillClinicInfoSection($pdf, $clinicInfo, $submissionDate);
