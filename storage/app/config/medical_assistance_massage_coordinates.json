@@ -1093,31 +1093,31 @@
         "isSelected": false
     },
     "license_massage_number": {
-        "x": -40.5,
-        "y": 173,
+        "x": -52.5,
+        "y": 174,
         "textAlign": "center",
         "field": "license_massage_number",
         "type": "text",
-        "fontSize": 25,
+        "fontSize": 10,
         "letterSpacing": 0
     },
     "therapist_postal_code": {
         "x": 87,
-        "y": 171,
+        "y": 172,
         "textAlign": "left",
         "field": "therapist_postal_code",
         "type": "postal_code",
         "fontSize": 10,
         "letterSpacing": 0,
         "postalCodeGap": 2,
-        "firstY": 171,
-        "lastY": 171,
+        "firstY": 172,
+        "lastY": 172,
         "firstX": 87,
         "lastX": 89
     },
     "therapist_address": {
         "x": 87,
-        "y": 175,
+        "y": 176,
         "textAlign": "left",
         "field": "therapist_address",
         "type": "text",
@@ -1126,7 +1126,7 @@
     },
     "therapist_name": {
         "x": 87,
-        "y": 180,
+        "y": 181,
         "textAlign": "left",
         "field": "therapist_name",
         "type": "text",
@@ -1135,7 +1135,7 @@
     },
     "therapist_phone": {
         "x": 157,
-        "y": 178.5,
+        "y": 180,
         "textAlign": "left",
         "field": "therapist_phone",
         "type": "text",
@@ -1512,7 +1512,7 @@
     },
     "applicant_postal_code": {
         "x": -126,
-        "y": 191.5,
+        "y": 192.5,
         "textAlign": "left",
         "field": "applicant_postal_code",
         "label": "申請者郵便番号",
@@ -1520,14 +1520,14 @@
         "postalCodeGap": 2,
         "fontSize": 9,
         "letterSpacing": 0,
-        "firstY": 191.5,
-        "lastY": 191.5,
+        "firstY": 192.5,
+        "lastY": 192.5,
         "firstX": -126,
         "lastX": -124
     },
     "applicant_address": {
         "x": -126,
-        "y": 195.5,
+        "y": 196.5,
         "textAlign": "left",
         "field": "applicant_address",
         "label": "申請者住所",
@@ -1537,7 +1537,7 @@
     },
     "applicant_name": {
         "x": -126,
-        "y": 199.5,
+        "y": 200.5,
         "textAlign": "left",
         "field": "applicant_name",
         "label": "申請者氏名",
@@ -1547,7 +1547,7 @@
     },
     "patient_phone": {
         "x": 156,
-        "y": 199.5,
+        "y": 200.5,
         "textAlign": "left",
         "field": "patient_phone",
         "label": "電話番号",

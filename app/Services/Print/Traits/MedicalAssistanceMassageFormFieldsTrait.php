@@ -1948,7 +1948,7 @@ trait MedicalAssistanceMassageFormFieldsTrait
         $formattedPostalCode = $postalCodeNumbers;
       }
       $pdf->SetFontSize($this->coord('applicant_postal_code', 'fontSize'));
-      $this->drawTextByKey($pdf, 'applicant_postal_code', $formattedPostalCode);
+      $this->drawTextByKey($pdf, 'applicant_postal_code', '〒 ' . $formattedPostalCode);
       $pdf->SetFontSize(10);
     }
     // 申請者住所
