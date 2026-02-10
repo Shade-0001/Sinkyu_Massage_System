@@ -456,24 +456,31 @@ abstract class BasePdfService
     $pdf->setPrintHeader(false);
     $pdf->setPrintFooter(false);
     $pdf->SetMargins(0, 0, 0);
-    $pdf->AddPage();
 
     $compressionError = false;
     $noTemplateFile = false;
+    $pageCount = 0;
 
     // テンプレートPDF読み込み（存在する場合）
     $path = $templatePath ?? $this->customTemplatePath;
     if (!$path || empty($path)) {
       $noTemplateFile = true;
+      $pdf->AddPage();
     } elseif (file_exists($path)) {
       try {
         $pageCount = $pdf->setSourceFile($path);
-        $tplId = $pdf->importPage(1);
-        $pdf->useTemplate($tplId, 0, 0, null, null, true);
+
+        // 全ページを読み込み
+        for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
+          $pdf->AddPage();
+          $tplId = $pdf->importPage($pageNo);
+          $pdf->useTemplate($tplId, 0, 0, null, null, true);
+        }
       } catch (\Exception $e) {
         // FPDI無料版で非対応の圧縮形式の場合
         if (strpos($e->getMessage(), 'compression technique') !== false) {
           $compressionError = true;
+          $pdf->AddPage();
           \Log::warning('PDFテンプレート読み込みエラー（非対応の圧縮形式）', [
             'path' => $path,
             'message' => $e->getMessage()
