@@ -459,10 +459,13 @@ abstract class BasePdfService
     $pdf->AddPage();
 
     $compressionError = false;
+    $noTemplateFile = false;
 
     // テンプレートPDF読み込み（存在する場合）
     $path = $templatePath ?? $this->customTemplatePath;
-    if ($path && file_exists($path)) {
+    if (!$path || empty($path)) {
+      $noTemplateFile = true;
+    } elseif (file_exists($path)) {
       try {
         $pageCount = $pdf->setSourceFile($path);
         $tplId = $pdf->importPage(1);
@@ -481,19 +484,30 @@ abstract class BasePdfService
       }
     }
 
-    // 圧縮形式エラーの場合、エラーメッセージを表示
-    if ($compressionError) {
+    // エラーメッセージまたは情報メッセージを表示
+    if ($compressionError || $noTemplateFile) {
       $pdf->SetFont('kozminproregular', '', 12);
-      $pdf->SetTextColor(255, 0, 0);
       $pdf->SetXY(20, 100);
-      $pdf->MultiCell(170, 10,
-        "【エラー】\n\n" .
-        "このPDFテンプレートは非対応の圧縮形式を使用しています。\n\n" .
-        "対処方法：\n" .
-        "1. Adobe Acrobatなどで互換性の高い形式に再保存\n" .
-        "2. または空白ページのまま座標設定を実施",
-        0, 'L'
-      );
+
+      if ($compressionError) {
+        $pdf->SetTextColor(255, 0, 0);
+        $pdf->MultiCell(170, 10,
+          "【エラー】\n\n" .
+          "このPDFテンプレートはFPDI非対応の圧縮形式を使用しています。\n\n" .
+          "対処方法：\n" .
+          "・Adobe AcrobatなどでPDF 1.4形式（Acrobat 5.0互換）に変換\n" .
+          "・または空白ページのまま座標設定を実施",
+          0, 'L'
+        );
+      } elseif ($noTemplateFile) {
+        $pdf->SetTextColor(100, 100, 100);
+        $pdf->MultiCell(170, 10,
+          "【情報】\n\n" .
+          "このPDFタイプにはテンプレートファイルが設定されていません。\n\n" .
+          "空白ページのまま座標設定を実施してください。",
+          0, 'L'
+        );
+      }
     }
 
     return $pdf->Output('', 'S');
