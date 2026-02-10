@@ -69,7 +69,9 @@
       "Bash(check_condition.php:*)",
       "Bash(git reset:*)",
       "Bash(/tmp/check_records_feb.php:*)",
-      "Bash(/tmp/check_all_records_feb.php:*)"
+      "Bash(/tmp/check_all_records_feb.php:*)",
+      "Bash($timestamp = Get-Date -Format \"yyyyMMdd_HHmmss\")",
+      "Bash(Copy-Item:*)"
     ],
     "deny": [],
     "ask": []

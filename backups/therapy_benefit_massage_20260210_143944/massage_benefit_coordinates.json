@@ -1,0 +1,1780 @@
+{
+    "title_year_era": {
+        "x": -8,
+        "y": 5.5,
+        "fontSize": 7,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "select",
+        "compositeGroup": "title_date"
+    },
+    "title_year_number": {
+        "x": -8,
+        "y": 8,
+        "fontSize": 8,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "title_date"
+    },
+    "title_month": {
+        "x": 0,
+        "y": 7,
+        "fontSize": 9.5,
+        "letterSpacing": 0,
+        "type": "number",
+        "compositeGroup": "title_date",
+        "textAlign": "center"
+    },
+    "institution_code": {
+        "x": 130,
+        "y": 11.5,
+        "fontSize": 10,
+        "letterSpacing": 2.5,
+        "textAlign": "center",
+        "type": "text"
+    },
+    "insurance_type_1_shakoku": {
+        "x": 132.5,
+        "y": 20,
+        "type": "select",
+        "ellipseWidth": 5.5,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "radioGroup": "insurance_type_1",
+        "isSelected": true
+    },
+    "insurance_type_1_kouhi": {
+        "x": 132.5,
+        "y": 25.5,
+        "type": "select",
+        "ellipseWidth": 5.5,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "radioGroup": "insurance_type_1",
+        "isSelected": false
+    },
+    "insurance_type_1_kouki": {
+        "x": 143,
+        "y": 20,
+        "type": "select",
+        "ellipseWidth": 5.5,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "radioGroup": "insurance_type_1",
+        "isSelected": false
+    },
+    "insurance_type_1_taishoku": {
+        "x": 143,
+        "y": 25.5,
+        "type": "select",
+        "ellipseWidth": 5.5,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "radioGroup": "insurance_type_1",
+        "isSelected": false
+    },
+    "insurance_type_3_hongai": {
+        "x": 154,
+        "y": 19,
+        "type": "select",
+        "ellipseWidth": 5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "insurance_type_3",
+        "isSelected": true
+    },
+    "insurance_type_3_sangai": {
+        "x": 154,
+        "y": 22.5,
+        "type": "select",
+        "ellipseWidth": 5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "insurance_type_3",
+        "isSelected": false
+    },
+    "insurance_type_3_kagai": {
+        "x": 154,
+        "y": 25.5,
+        "type": "select",
+        "ellipseWidth": 5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "insurance_type_3",
+        "isSelected": false
+    },
+    "insurance_type_3_kougai9": {
+        "x": 165,
+        "y": 20.5,
+        "type": "select",
+        "ellipseWidth": 6,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "radioGroup": "insurance_type_3",
+        "isSelected": false
+    },
+    "insurance_type_3_kougai8": {
+        "x": 165,
+        "y": 24,
+        "type": "select",
+        "ellipseWidth": 6,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "radioGroup": "insurance_type_3",
+        "isSelected": false
+    },
+    "benefit_ratio_80": {
+        "x": 177.5,
+        "y": 25.5,
+        "type": "select",
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "benefit_ratio",
+        "isSelected": true
+    },
+    "benefit_ratio_90": {
+        "x": 185,
+        "y": 25.5,
+        "type": "select",
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "benefit_ratio",
+        "isSelected": false
+    },
+    "benefit_ratio_100": {
+        "x": 192.5,
+        "y": 25.5,
+        "type": "select",
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "benefit_ratio",
+        "isSelected": false
+    },
+    "expenses_borne_ratio_10": {
+        "x": 39,
+        "y": 162.5,
+        "type": "select",
+        "ellipseWidth": 3,
+        "ellipseHeight": 2,
+        "lineWidth": 0.5,
+        "radioGroup": "expenses_borne_ratio",
+        "isSelected": true
+    },
+    "expenses_borne_ratio_20": {
+        "x": 44.5,
+        "y": 162.5,
+        "type": "select",
+        "ellipseWidth": 3,
+        "ellipseHeight": 2,
+        "lineWidth": 0.5,
+        "radioGroup": "expenses_borne_ratio",
+        "isSelected": false
+    },
+    "expenses_borne_ratio_30": {
+        "x": 50,
+        "y": 162.5,
+        "type": "select",
+        "ellipseWidth": 3,
+        "ellipseHeight": 2,
+        "lineWidth": 0.5,
+        "radioGroup": "expenses_borne_ratio",
+        "isSelected": false
+    },
+    "insurer_number": {
+        "x": 136.5,
+        "y": 35,
+        "fontSize": 15,
+        "letterSpacing": 7.35,
+        "type": "text"
+    },
+    "insurance_symbol": {
+        "x": -52,
+        "y": 48,
+        "fontSize": 12,
+        "letterSpacing": 0,
+        "type": "text",
+        "textAlign": "center"
+    },
+    "insurance_symbol_code": {
+        "x": -67,
+        "y": 47.8,
+        "textAlign": "center",
+        "field": "insurance_symbol_code",
+        "type": "text",
+        "fontSize": 12,
+        "letterSpacing": 0
+    },
+    "insurance_symbol_number": {
+        "x": -39,
+        "y": 47.8,
+        "textAlign": "center",
+        "field": "insurance_symbol_number",
+        "type": "text",
+        "fontSize": 12,
+        "letterSpacing": 0
+    },
+    "public_funds_payer_number": {
+        "x": 46.5,
+        "y": 16.5,
+        "fontSize": 15,
+        "letterSpacing": 4.1,
+        "textAlign": "left",
+        "type": "text"
+    },
+    "public_funds_recipient_number": {
+        "x": 46.5,
+        "y": 22.5,
+        "fontSize": 15,
+        "letterSpacing": 4.1,
+        "textAlign": "left",
+        "type": "text"
+    },
+    "locality_code": {
+        "x": 46.5,
+        "y": 29,
+        "fontSize": 15,
+        "letterSpacing": 4.1,
+        "textAlign": "left",
+        "type": "text"
+    },
+    "recipient_number": {
+        "x": 46.5,
+        "y": 35,
+        "fontSize": 15,
+        "letterSpacing": 4.1,
+        "textAlign": "left",
+        "type": "text"
+    },
+    "patient_name_kana": {
+        "x": -34,
+        "y": 53.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text"
+    },
+    "patient_name": {
+        "x": -38,
+        "y": 60.5,
+        "fontSize": 18,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text"
+    },
+    "patient_relationship": {
+        "x": 0.5,
+        "y": 65,
+        "fontSize": 11,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "select"
+    },
+    "patient_gender_male": {
+        "x": 94.5,
+        "y": 62,
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "gender",
+        "type": "select",
+        "isSelected": true
+    },
+    "patient_gender_female": {
+        "x": 94.5,
+        "y": 67,
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "gender",
+        "type": "select",
+        "isSelected": false
+    },
+    "birthday_era_reiwa": {
+        "x": 68,
+        "y": 73.5,
+        "radioGroup": "birthday_era",
+        "ellipseWidth": 2,
+        "ellipseHeight": 2,
+        "lineWidth": 0.5,
+        "type": "select",
+        "compositeGroup": "birthday_full_date",
+        "isSelected": false
+    },
+    "birthday_era_heisei": {
+        "x": 63,
+        "y": 73.5,
+        "radioGroup": "birthday_era",
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "type": "select",
+        "compositeGroup": "birthday_full_date",
+        "isSelected": false
+    },
+    "birthday_era_showa": {
+        "x": 58,
+        "y": 73.5,
+        "radioGroup": "birthday_era",
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "type": "select",
+        "compositeGroup": "birthday_full_date",
+        "isSelected": false
+    },
+    "birthday_era_taisho": {
+        "x": 53,
+        "y": 73.5,
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "birthday_era",
+        "type": "select",
+        "compositeGroup": "birthday_full_date",
+        "isSelected": false
+    },
+    "birthday_era_meiji": {
+        "x": 48,
+        "y": 73.5,
+        "ellipseWidth": 2.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "birthday_era",
+        "type": "select",
+        "compositeGroup": "birthday_full_date",
+        "isSelected": true
+    },
+    "birthday_year": {
+        "x": -34,
+        "y": 71.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text",
+        "compositeGroup": "birthday_full_date"
+    },
+    "birthday_month": {
+        "x": -26,
+        "y": 71.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text",
+        "compositeGroup": "birthday_full_date"
+    },
+    "birthday_day": {
+        "x": -18.5,
+        "y": 71.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text",
+        "compositeGroup": "birthday_full_date"
+    },
+    "treatment_start_year": {
+        "x": -29.5,
+        "y": 83.7,
+        "fontSize": 9,
+        "letterSpacing": -0.1,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "treatment_start_date_composite"
+    },
+    "treatment_start_month": {
+        "x": -22.5,
+        "y": 83.7,
+        "fontSize": 9,
+        "letterSpacing": -0.1,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "treatment_start_date_composite"
+    },
+    "treatment_start_day": {
+        "x": -15,
+        "y": 83.7,
+        "fontSize": 9,
+        "letterSpacing": -0.1,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "treatment_start_date_composite"
+    },
+    "treatment_end_year": {
+        "x": 6.5,
+        "y": 83.7,
+        "fontSize": 9,
+        "letterSpacing": -0.1,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "treatment_end_date_composite"
+    },
+    "treatment_end_month": {
+        "x": 13.5,
+        "y": 83.7,
+        "fontSize": 9,
+        "letterSpacing": -0.1,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "treatment_end_date_composite"
+    },
+    "treatment_end_day": {
+        "x": 21,
+        "y": 83.7,
+        "fontSize": 9,
+        "letterSpacing": -0.1,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "treatment_end_date_composite"
+    },
+    "treatment_days": {
+        "x": 44,
+        "y": 175.6,
+        "type": "calendar",
+        "circleRadius": 2.6,
+        "doubleCircleInnerRadius": 1.9,
+        "circleSpacing": 4.91,
+        "field": "treatment_days"
+    },
+    "treatment_day_count": {
+        "x": 38,
+        "y": 83.5,
+        "fontSize": 11,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number"
+    },
+    "calendar_start": {
+        "x": 44,
+        "y": 174.5,
+        "fontSize": 10,
+        "letterSpacing": -0.09,
+        "cellWidth": 5,
+        "circleRadius": 2,
+        "doubleCircleInnerRadius": 2.6
+    },
+    "clinic_date_year": {
+        "x": -72,
+        "y": 189.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "clinic_date"
+    },
+    "clinic_date_month": {
+        "x": -61.5,
+        "y": 189.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "clinic_date"
+    },
+    "clinic_date_day": {
+        "x": -49.5,
+        "y": 189.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "clinic_date"
+    },
+    "therapist_registration_number": {
+        "x": -55,
+        "y": 198.5,
+        "fontSize": 10,
+        "letterSpacing": 0.2,
+        "textAlign": "center",
+        "type": "text"
+    },
+    "clinic_postal_code": {
+        "x": 123,
+        "y": 186,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "textAlign": "left",
+        "type": "text"
+    },
+    "clinic_address": {
+        "x": 123,
+        "y": 190,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "textAlign": "left",
+        "type": "text"
+    },
+    "clinic_name": {
+        "x": 123,
+        "y": 194.5,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "textAlign": "left",
+        "type": "text"
+    },
+    "clinic_manager": {
+        "x": 123,
+        "y": 199.5,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "textAlign": "left",
+        "type": "text"
+    },
+    "clinic_phone": {
+        "x": 173.5,
+        "y": 200,
+        "fontSize": 8.5,
+        "letterSpacing": -0.1,
+        "textAlign": "left",
+        "type": "text"
+    },
+    "applicant_address": {
+        "x": 122,
+        "y": 211.5,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "textAlign": "left",
+        "type": "text"
+    },
+    "applicant_name": {
+        "x": 122,
+        "y": 218,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "left",
+        "type": "text"
+    },
+    "agent_postal_code": {
+        "x": 136,
+        "y": 263,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "type": "postal_code",
+        "postalCodeGap": 11,
+        "lastX": 147
+    },
+    "agent_address": {
+        "x": 136,
+        "y": 267,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "type": "text"
+    },
+    "agent_name": {
+        "x": 58,
+        "y": 274,
+        "fontSize": 12,
+        "letterSpacing": 0,
+        "type": "text",
+        "textAlign": "center"
+    },
+    "payment_institution_postal_code": {
+        "x": 46.5,
+        "y": 296,
+        "fontSize": 9,
+        "letterSpacing": 0
+    },
+    "payment_institution_address": {
+        "x": 70,
+        "y": 296,
+        "fontSize": 9,
+        "letterSpacing": 0
+    },
+    "temporary_insurer_name": {
+        "x": -34,
+        "y": 274,
+        "fontSize": 12,
+        "letterSpacing": 0,
+        "type": "text",
+        "textAlign": "center"
+    },
+    "illness_name_other_text": {
+        "x": 23,
+        "y": 96,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text"
+    },
+    "fee_initial_examination_hari": {
+        "ellipseX": 33,
+        "ellipseY": 104.5,
+        "ellipseWidth": 5.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "type": "select",
+        "radioGroup": "fee_initial_examination",
+        "isSelected": true
+    },
+    "fee_initial_examination_kyu": {
+        "ellipseX": 44.5,
+        "ellipseY": 104.5,
+        "ellipseWidth": 6.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "type": "select",
+        "radioGroup": "fee_initial_examination",
+        "isSelected": false
+    },
+    "fee_initial_examination_combined": {
+        "ellipseX": 63,
+        "ellipseY": 104.5,
+        "ellipseWidth": 13,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "type": "select",
+        "radioGroup": "fee_initial_examination",
+        "isSelected": false
+    },
+    "fee_initial_examination_amount": {
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "fontSize": 10,
+        "type": "number",
+        "x": 15,
+        "y": 102.5
+    },
+    "therapy_content_electric_needle": {
+        "lineWidth": 0.5,
+        "ellipseX": 39.5,
+        "ellipseY": 129,
+        "ellipseWidth": 5.5,
+        "ellipseHeight": 2.5
+    },
+    "therapy_content_electric_moxa": {
+        "lineWidth": 0.5,
+        "ellipseX": 52.5,
+        "ellipseY": 129,
+        "ellipseWidth": 8.5,
+        "ellipseHeight": 2.5
+    },
+    "therapy_content_electric_light": {
+        "lineWidth": 0.5,
+        "ellipseX": 69,
+        "ellipseY": 129,
+        "ellipseWidth": 10,
+        "ellipseHeight": 2.5
+    },
+    "fee_hari_unit": {
+        "x": -5,
+        "y": 108.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "fee_hari"
+    },
+    "fee_hari_count": {
+        "x": 16.5,
+        "y": 108.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "fee_hari"
+    },
+    "fee_hari_total": {
+        "x": 36,
+        "y": 108.5,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "fee_hari"
+    },
+    "fee_kyu_unit": {
+        "x": -5,
+        "y": 114.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "fee_kyu"
+    },
+    "fee_kyu_count": {
+        "x": 16.5,
+        "y": 114.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "fee_kyu"
+    },
+    "fee_kyu_total": {
+        "x": 36,
+        "y": 114.5,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "fee_kyu"
+    },
+    "fee_hari_kyu_unit": {
+        "x": -5,
+        "y": 121,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "fee_hari_kyu"
+    },
+    "fee_hari_kyu_count": {
+        "x": 16.5,
+        "y": 121,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "fee_hari_kyu"
+    },
+    "fee_hari_kyu_total": {
+        "x": 36,
+        "y": 121,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "fee_hari_kyu"
+    },
+    "fee_electric_unit": {
+        "x": -5,
+        "y": 127,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "fee_electric"
+    },
+    "fee_electric_count": {
+        "x": 16.5,
+        "y": 127,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "fee_electric"
+    },
+    "fee_electric_total": {
+        "x": 36,
+        "y": 127,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "fee_electric"
+    },
+    "fee_housecall_unit": {
+        "x": -30,
+        "y": 138.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "fee_housecall"
+    },
+    "fee_housecall_count": {
+        "x": 1,
+        "y": 138.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "fee_housecall"
+    },
+    "fee_housecall_total": {
+        "x": 29.5,
+        "y": 138.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "fee_housecall"
+    },
+    "fee_housecall_additional_unit": {
+        "x": -30,
+        "y": 143.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "fee_housecall_additional"
+    },
+    "fee_housecall_additional_count": {
+        "x": 1,
+        "y": 143.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "fee_housecall_additional"
+    },
+    "fee_housecall_additional_total": {
+        "x": 29.5,
+        "y": 143.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "fee_housecall_additional"
+    },
+    "fee_subtotal": {
+        "x": 0,
+        "y": 155.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number"
+    },
+    "fee_partial_payment": {
+        "x": 0,
+        "y": 160.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number"
+    },
+    "fee_total_claim": {
+        "x": 0,
+        "y": 165.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number"
+    },
+    "bill_category_new": {
+        "x": 164.5,
+        "y": 86,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "left",
+        "ellipseWidth": 6.5,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "radioGroup": "bill_category",
+        "type": "text",
+        "isSelected": true
+    },
+    "bill_category_continued": {
+        "x": 183.5,
+        "y": 86,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "left",
+        "ellipseWidth": 6.5,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "radioGroup": "bill_category",
+        "type": "text",
+        "isSelected": false
+    },
+    "outcome_continued": {
+        "x": 160.5,
+        "y": 96.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "left",
+        "ellipseWidth": 4.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "outcome",
+        "type": "text",
+        "isSelected": true
+    },
+    "outcome_cured": {
+        "x": 169.5,
+        "y": 96.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "left",
+        "ellipseWidth": 4.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "outcome",
+        "type": "text",
+        "isSelected": false
+    },
+    "outcome_discontinued": {
+        "x": 178,
+        "y": 96.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "left",
+        "ellipseWidth": 4.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "outcome",
+        "type": "text",
+        "isSelected": false
+    },
+    "outcome_transferred": {
+        "x": 186.5,
+        "y": 96.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "left",
+        "ellipseWidth": 4.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "radioGroup": "outcome",
+        "type": "text",
+        "isSelected": false
+    },
+    "health_center_registration_1": {
+        "x": 153.5,
+        "y": 183.5,
+        "textAlign": "left",
+        "circleRadius": 1.2,
+        "lineWidth": 0.5,
+        "ellipseWidth": 10,
+        "ellipseHeight": 2.5,
+        "radioGroup": "health_center_registration",
+        "type": "select",
+        "isSelected": true
+    },
+    "health_center_registration_2": {
+        "x": 176,
+        "y": 183.5,
+        "textAlign": "left",
+        "circleRadius": 1.2,
+        "lineWidth": 0.5,
+        "ellipseWidth": 15,
+        "ellipseHeight": 2.5,
+        "radioGroup": "health_center_registration",
+        "type": "select",
+        "isSelected": false
+    },
+    "abstract": {
+        "x": 155,
+        "y": 110,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "left",
+        "width": 40,
+        "lineHeight": 5,
+        "type": "text",
+        "maxCharsPerLine": 10
+    },
+    "first_treatment_era": {
+        "x": -78.2,
+        "y": 83.7,
+        "fontSize": 8,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text",
+        "compositeGroup": "first_treatment_date_composite"
+    },
+    "first_treatment_year": {
+        "x": -71,
+        "y": 83.7,
+        "fontSize": 9,
+        "textAlign": "center",
+        "letterSpacing": -0.1,
+        "type": "number",
+        "compositeGroup": "first_treatment_date_composite"
+    },
+    "first_treatment_month": {
+        "x": -62.5,
+        "y": 83.7,
+        "fontSize": 9,
+        "textAlign": "center",
+        "letterSpacing": -0.1,
+        "type": "number",
+        "compositeGroup": "first_treatment_date_composite"
+    },
+    "first_treatment_day": {
+        "x": -55,
+        "y": 83.7,
+        "fontSize": 9,
+        "textAlign": "center",
+        "letterSpacing": -0.1,
+        "type": "number",
+        "compositeGroup": "first_treatment_date_composite"
+    },
+    "applicant_postal_code": {
+        "x": 129,
+        "y": 205.5,
+        "fontSize": 10,
+        "firstX": 129,
+        "firstY": 205.5,
+        "lastX": 141,
+        "lastY": 205.5,
+        "postalCodeGap": 12,
+        "type": "postal_code",
+        "textAlign": "left"
+    },
+    "condition": {
+        "x": 49,
+        "y": 59,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text"
+    },
+    "onset_date_year": {
+        "x": 1,
+        "y": 48,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "onset_date_composite"
+    },
+    "onset_date_month": {
+        "x": 11,
+        "y": 48,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "onset_date_composite"
+    },
+    "onset_date_day": {
+        "x": 20,
+        "y": 48,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "onset_date_composite"
+    },
+    "onset_illness_name": {
+        "x": 60,
+        "y": 48,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text"
+    },
+    "work_scope_type_1": {
+        "x": 124,
+        "y": 73.5,
+        "ellipseWidth": 10,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "radioGroup": "work_scope_type",
+        "type": "select",
+        "isSelected": true
+    },
+    "work_scope_type_2": {
+        "x": 150,
+        "y": 73.5,
+        "ellipseWidth": 18,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "radioGroup": "work_scope_type",
+        "type": "select",
+        "isSelected": false
+    },
+    "work_scope_type_3": {
+        "x": 177.5,
+        "y": 73.5,
+        "ellipseWidth": 10,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "radioGroup": "work_scope_type",
+        "type": "select",
+        "isSelected": false
+    },
+    "treatment_month": {
+        "x": -70.5,
+        "y": 172,
+        "fontSize": 12,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number"
+    },
+    "submission_date_year": {
+        "x": -72.5,
+        "y": 209,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "submission_date"
+    },
+    "submission_date_month": {
+        "x": -61,
+        "y": 209,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "submission_date"
+    },
+    "submission_date_day": {
+        "x": -49.5,
+        "y": 209,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "submission_date"
+    },
+    "insurer_name": {
+        "x": -130,
+        "y": 217.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "right",
+        "type": "text"
+    },
+    "payment_category_furikomi": {
+        "ellipseX": 29,
+        "ellipseY": 228.5,
+        "ellipseWidth": 10,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "x": 10,
+        "y": 195,
+        "textAlign": "center",
+        "type": "select",
+        "options": [
+            "振込",
+            "銀行送金",
+            "郵便局送金",
+            "当地払"
+        ],
+        "radioGroup": "payment_category",
+        "isSelected": true
+    },
+    "payment_category_bank_transfer": {
+        "ellipseX": 58,
+        "ellipseY": 228,
+        "ellipseWidth": 12,
+        "ellipseHeight": 3,
+        "lineWidth": 0.5,
+        "x": 25,
+        "y": 195,
+        "textAlign": "center",
+        "type": "select",
+        "options": [
+            "振込",
+            "銀行送金",
+            "郵便局送金",
+            "当地払"
+        ],
+        "radioGroup": "payment_category",
+        "isSelected": false
+    },
+    "payment_category_post_transfer": {
+        "ellipseX": 32,
+        "ellipseY": 231.5,
+        "ellipseWidth": 14,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "x": 43,
+        "y": 195,
+        "textAlign": "center",
+        "type": "select",
+        "options": [
+            "振込",
+            "銀行送金",
+            "郵便局送金",
+            "当地払"
+        ],
+        "radioGroup": "payment_category",
+        "isSelected": false
+    },
+    "payment_category_local_payment": {
+        "ellipseX": 57,
+        "ellipseY": 231.5,
+        "ellipseWidth": 13,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "x": 63,
+        "y": 195,
+        "textAlign": "center",
+        "type": "select",
+        "options": [
+            "振込",
+            "銀行送金",
+            "郵便局送金",
+            "当地払"
+        ],
+        "radioGroup": "payment_category",
+        "isSelected": false
+    },
+    "deposit_type_ordinary": {
+        "ellipseX": 82,
+        "ellipseY": 228,
+        "ellipseWidth": 9,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "x": 10,
+        "y": 200,
+        "textAlign": "center",
+        "type": "select",
+        "radioGroup": "deposit_type",
+        "isSelected": true
+    },
+    "deposit_type_current": {
+        "ellipseX": 101,
+        "ellipseY": 228,
+        "ellipseWidth": 9,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "x": 20,
+        "y": 200,
+        "textAlign": "center",
+        "type": "select",
+        "radioGroup": "deposit_type",
+        "isSelected": false
+    },
+    "deposit_type_notice": {
+        "ellipseX": 81.5,
+        "ellipseY": 231.5,
+        "ellipseWidth": 9,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "x": 30,
+        "y": 200,
+        "textAlign": "center",
+        "type": "select",
+        "radioGroup": "deposit_type",
+        "isSelected": false
+    },
+    "deposit_type_betsudan": {
+        "ellipseX": 101.5,
+        "ellipseY": 231.5,
+        "ellipseWidth": 9,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "x": 40,
+        "y": 200,
+        "textAlign": "center",
+        "type": "select",
+        "radioGroup": "deposit_type",
+        "isSelected": false
+    },
+    "financial_institution_name_1": {
+        "x": 32,
+        "y": 226,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text"
+    },
+    "financial_institution_type_bank": {
+        "ellipseX": 160.5,
+        "ellipseY": 224.5,
+        "ellipseWidth": 4.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "x": 35,
+        "y": 205,
+        "textAlign": "center",
+        "type": "select",
+        "radioGroup": "financial_institution_type",
+        "isSelected": true
+    },
+    "financial_institution_type_kinko": {
+        "ellipseX": 160.5,
+        "ellipseY": 228,
+        "ellipseWidth": 4.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "x": 45,
+        "y": 205,
+        "textAlign": "center",
+        "type": "select",
+        "radioGroup": "financial_institution_type",
+        "isSelected": false
+    },
+    "financial_institution_type_nokyo": {
+        "ellipseX": 160.5,
+        "ellipseY": 231.5,
+        "ellipseWidth": 4.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "x": 55,
+        "y": 205,
+        "textAlign": "center",
+        "type": "select",
+        "radioGroup": "financial_institution_type",
+        "isSelected": false
+    },
+    "financial_institution_name_2": {
+        "x": 69,
+        "y": 225.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text"
+    },
+    "branch_type_honten": {
+        "ellipseX": 191,
+        "ellipseY": 224.5,
+        "ellipseWidth": 4.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "x": 90,
+        "y": 205,
+        "textAlign": "center",
+        "type": "select",
+        "radioGroup": "branch_type",
+        "isSelected": true
+    },
+    "branch_type_shiten": {
+        "ellipseX": 191,
+        "ellipseY": 228,
+        "ellipseWidth": 4.5,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "x": 100,
+        "y": 205,
+        "textAlign": "center",
+        "type": "select",
+        "radioGroup": "branch_type",
+        "isSelected": false
+    },
+    "branch_type_shucchoujo": {
+        "ellipseX": 189.5,
+        "ellipseY": 231.5,
+        "ellipseWidth": 6,
+        "ellipseHeight": 2.5,
+        "lineWidth": 0.5,
+        "x": 110,
+        "y": 205,
+        "textAlign": "center",
+        "type": "select",
+        "radioGroup": "branch_type",
+        "isSelected": false
+    },
+    "bank_account_holder_kana": {
+        "x": -40,
+        "y": 234.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text"
+    },
+    "bank_account_number": {
+        "x": 111,
+        "y": 233.5,
+        "fontSize": 15,
+        "letterSpacing": 2.9,
+        "textAlign": "left",
+        "type": "text"
+    },
+    "consent_record_doctor_name": {
+        "x": -72,
+        "y": 247,
+        "fontSize": 11,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text"
+    },
+    "consent_record_doctor_postal_code": {
+        "x": -158,
+        "y": 246,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "textAlign": "left",
+        "type": "postal_code",
+        "postalCodeGap": 11,
+        "lastX": -147
+    },
+    "consent_record_doctor_address": {
+        "x": -158,
+        "y": 250.5,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "textAlign": "left",
+        "type": "text"
+    },
+    "consent_record_date_year": {
+        "x": 9.5,
+        "y": 248,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "consent_record_date"
+    },
+    "consent_record_date_month": {
+        "x": 17,
+        "y": 248,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "consent_record_date"
+    },
+    "consent_record_date_day": {
+        "x": 24,
+        "y": 248,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "consent_record_date"
+    },
+    "consent_record_illness_name": {
+        "x": 50.5,
+        "y": 248,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text"
+    },
+    "required_treatment_period": {
+        "x": 79,
+        "y": 248,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text"
+    },
+    "signature_date_year": {
+        "x": 26,
+        "y": 257.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "signature_date"
+    },
+    "signature_date_month": {
+        "x": 36,
+        "y": 257.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "signature_date"
+    },
+    "signature_date_day": {
+        "x": 45.5,
+        "y": 257.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "number",
+        "compositeGroup": "signature_date"
+    },
+    "signature_applicant_address": {
+        "x": 48,
+        "y": 267,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "textAlign": "left",
+        "type": "text"
+    },
+    "patient_phone": {
+        "x": 173.5,
+        "y": 218.5,
+        "fontSize": 8,
+        "letterSpacing": -0.1,
+        "textAlign": "left",
+        "type": "text"
+    },
+    "branch_name": {
+        "x": 17.5,
+        "y": 23.5,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "field": "branch_name",
+        "type": "text"
+    },
+    "fee_massage_trunk_unit": {
+        "x": -25.5,
+        "y": 99,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "field": "fee_massage_trunk_unit",
+        "type": "number",
+        "compositeGroup": "fee_massage_trunk"
+    },
+    "fee_massage_upper_limb_r_unit": {
+        "x": -25.5,
+        "y": 104,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "field": "fee_massage_upper_limb_r_unit",
+        "type": "number",
+        "compositeGroup": "fee_massage_upper_limb_r"
+    },
+    "fee_massage_upper_limb_l_unit": {
+        "x": -25.5,
+        "y": 109,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "field": "fee_massage_upper_limb_l_unit",
+        "type": "number",
+        "compositeGroup": "fee_massage_upper_limb_l"
+    },
+    "fee_massage_lower_limb_r_unit": {
+        "x": -25.5,
+        "y": 114,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "field": "fee_massage_lower_limb_r_unit",
+        "type": "number",
+        "compositeGroup": "fee_massage_lower_limb_r"
+    },
+    "fee_massage_lower_limb_l_unit": {
+        "x": -25.5,
+        "y": 119,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "field": "fee_massage_lower_limb_l_unit",
+        "type": "number",
+        "compositeGroup": "fee_massage_lower_limb_l"
+    },
+    "fee_manual_correction_unit": {
+        "x": -30,
+        "y": 123.7,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "field": "fee_manual_correction_unit",
+        "type": "number",
+        "compositeGroup": "fee_manual_correction"
+    },
+    "fee_manual_correction_count": {
+        "x": 7,
+        "y": 123.7,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "field": "fee_manual_correction_count",
+        "type": "number",
+        "compositeGroup": "fee_manual_correction"
+    },
+    "fee_manual_correction_total": {
+        "x": 29.5,
+        "y": 123.7,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "field": "fee_manual_correction_total",
+        "type": "number",
+        "compositeGroup": "fee_manual_correction"
+    },
+    "fee_fomentation_unit": {
+        "x": -30,
+        "y": 128.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "field": "fee_fomentation_unit",
+        "type": "number",
+        "compositeGroup": "fee_fomentation"
+    },
+    "fee_fomentation_count": {
+        "x": 1,
+        "y": 128.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "field": "fee_fomentation_count",
+        "type": "number",
+        "compositeGroup": "fee_fomentation"
+    },
+    "fee_fomentation_total": {
+        "x": 29.5,
+        "y": 128.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "field": "fee_fomentation_total",
+        "type": "number",
+        "compositeGroup": "fee_fomentation"
+    },
+    "fee_fomentation_electric_light_unit": {
+        "x": -30,
+        "y": 133.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "field": "fee_fomentation_electric_light_unit",
+        "type": "number",
+        "compositeGroup": "fee_fomentation_electric_light"
+    },
+    "fee_fomentation_electric_light_count": {
+        "x": 1,
+        "y": 133.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "field": "fee_fomentation_electric_light_count",
+        "type": "number",
+        "compositeGroup": "fee_fomentation_electric_light"
+    },
+    "fee_fomentation_electric_light_total": {
+        "x": 29.5,
+        "y": 133.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "field": "fee_fomentation_electric_light_total",
+        "type": "number",
+        "compositeGroup": "fee_fomentation_electric_light"
+    },
+    "illness_name_symptom": {
+        "x": 0,
+        "y": 92,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "field": "illness_name_symptom",
+        "type": "text"
+    },
+    "fee_massage_trunk_count": {
+        "x": 1,
+        "y": 99,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "field": "fee_massage_trunk_count",
+        "type": "number",
+        "compositeGroup": "fee_massage_trunk"
+    },
+    "fee_massage_trunk_total": {
+        "x": 29.5,
+        "y": 99,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "field": "fee_massage_trunk_total",
+        "type": "number",
+        "compositeGroup": "fee_massage_trunk"
+    },
+    "fee_massage_upper_limb_r_count": {
+        "x": 1,
+        "y": 104,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "field": "fee_massage_upper_limb_r_count",
+        "type": "number",
+        "compositeGroup": "fee_massage_upper_limb_r"
+    },
+    "fee_massage_upper_limb_r_total": {
+        "x": 29.5,
+        "y": 104,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "field": "fee_massage_upper_limb_r_total",
+        "type": "number",
+        "compositeGroup": "fee_massage_upper_limb_r"
+    },
+    "fee_massage_upper_limb_l_count": {
+        "x": 1,
+        "y": 109,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "field": "fee_massage_upper_limb_l_count",
+        "type": "number",
+        "compositeGroup": "fee_massage_upper_limb_l"
+    },
+    "fee_massage_upper_limb_l_total": {
+        "x": 29.5,
+        "y": 109,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "field": "fee_massage_upper_limb_l_total",
+        "type": "number",
+        "compositeGroup": "fee_massage_upper_limb_l"
+    },
+    "fee_massage_lower_limb_r_count": {
+        "x": 1,
+        "y": 114,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "field": "fee_massage_lower_limb_r_count",
+        "type": "number",
+        "compositeGroup": "fee_massage_lower_limb_r"
+    },
+    "fee_massage_lower_limb_r_total": {
+        "x": 29.5,
+        "y": 114,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "field": "fee_massage_lower_limb_r_total",
+        "type": "number",
+        "compositeGroup": "fee_massage_lower_limb_r"
+    },
+    "fee_massage_lower_limb_l_count": {
+        "x": 1,
+        "y": 119,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "field": "fee_massage_lower_limb_l_count",
+        "type": "number",
+        "compositeGroup": "fee_massage_lower_limb_l"
+    },
+    "fee_massage_lower_limb_l_total": {
+        "x": 29.5,
+        "y": 119,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "field": "fee_massage_lower_limb_l_total",
+        "type": "number",
+        "compositeGroup": "fee_massage_lower_limb_l"
+    },
+    "consent_date_year": {
+        "x": 26.5,
+        "y": 8,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "field": "consent_date_year",
+        "type": "number",
+        "compositeGroup": "consent_date"
+    },
+    "signature_applicant_postal_code": {
+        "x": 48,
+        "y": 263,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "textAlign": "left",
+        "field": "signature_applicant_postal_code",
+        "type": "postal_code",
+        "postalCodeGap": 11,
+        "lastX": 59
+    },
+    "consent_date_month": {
+        "x": 0,
+        "y": 1,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "left",
+        "field": "consent_date_month",
+        "type": "number",
+        "compositeGroup": "consent_date"
+    },
+    "birthday_full_date": {
+        "x": -34,
+        "y": 71.5,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text"
+    },
+    "consent_date_full": {
+        "x": 9.5,
+        "y": 248,
+        "fontSize": 9,
+        "letterSpacing": 0,
+        "textAlign": "center",
+        "type": "text",
+        "field": "consent_date_full",
+        "label": "同意年月日"
+    }
+}

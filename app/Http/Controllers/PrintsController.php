@@ -79,7 +79,8 @@ class PrintsController extends Controller
     }
 
     if (method_exists($service, 'setTemplatePath') && isset($config['templateFile'])) {
-      $templatePath = storage_path('app/templates/acupuncture_and_massage/' . $config['templateFile']);
+      $templateDir = $config['templateDir'] ?? 'acupuncture_and_massage';
+      $templatePath = storage_path('app/templates/' . $templateDir . '/' . $config['templateFile']);
       $service->setTemplatePath($templatePath);
     }
 
