@@ -70,13 +70,9 @@ const sampleDataFieldMapping = {
   // === 4. 保険者番号 ===
   'insurer_number': { field: 'insurer_number', label: '保険者番号', type: 'text' },
 
-  // === 5. 被保険者証記号・番号、発病年月日、傷病名 ===
+  // === 5. 被保険者証記号・番号 ===
   'insurance_symbol_code': { field: 'insurance_symbol_code', label: '被保険者記号', type: 'text' },
   'insurance_symbol_number': { field: 'insurance_symbol_number', label: '被保険者番号', type: 'text' },
-  'onset_date': { field: 'onset_date', label: '発病負傷年月日', type: 'text' },
-  'onset_date_year': { field: 'onset_date_year', label: '年', type: 'number', compositeGroup: 'onset_date_composite', compositeLabel: '発病負傷年月日', hidden: true },
-  'onset_date_month': { field: 'onset_date_month', label: '月', type: 'number', compositeGroup: 'onset_date_composite', compositeLabel: '発病負傷年月日', hidden: true },
-  'onset_date_day': { field: 'onset_date_day', label: '日', type: 'number', compositeGroup: 'onset_date_composite', compositeLabel: '発病負傷年月日', hidden: true },
 
   // === 6. 患者氏名カナ・続柄・氏名 ===
   'patient_last_kana': { field: 'last_kana', label: '氏名カナ（姓）', type: 'text' },
@@ -87,12 +83,9 @@ const sampleDataFieldMapping = {
   'patient_first_name': { field: 'first_name', label: '氏名（名）', type: 'text' },
   'patient_name': { field: 'last_name', label: '氏名（姓名）', type: 'text', combine: ['last_name', 'first_name'] },
 
-  // === 7. 性別・業務上第三者行為・生年月日 ===
+  // === 7. 性別・生年月日 ===
   'patient_gender_male': { field: 'gender', label: '性別', type: 'select', masterKey: 'genders', valueField: 'gender', ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'gender', optionLabel: '男' },
   'patient_gender_female': { field: 'gender', label: '性別', type: 'select', masterKey: 'genders', valueField: 'gender', ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'gender', optionLabel: '女' },
-  'work_scope_type_1': { field: 'work_scope_type', label: '業務上･外･第三者行為の有無', type: 'select', options: ['業務上', '第三者行為', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'work_scope_type', optionLabel: '業務上' },
-  'work_scope_type_2': { field: 'work_scope_type', label: '業務上･外･第三者行為の有無', type: 'select', options: ['業務上', '第三者行為', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'work_scope_type', optionLabel: '第三者行為' },
-  'work_scope_type_3': { field: 'work_scope_type', label: '業務上･外･第三者行為の有無', type: 'select', options: ['業務上', '第三者行為', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'work_scope_type', optionLabel: 'その他' },
   'birthday_era_meiji': { field: 'birthday_era', label: '元号', type: 'select', options: ['明治', '大正', '昭和', '平成'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '明治', compositeGroup: 'birthday_full_date', compositeLabel: '生年月日' },
   'birthday_era_taisho': { field: 'birthday_era', label: '元号', type: 'select', options: ['明治', '大正', '昭和', '平成'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '大正', compositeGroup: 'birthday_full_date', compositeLabel: '生年月日' },
   'birthday_era_showa': { field: 'birthday_era', label: '元号', type: 'select', options: ['明治', '大正', '昭和', '平成'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'birthday_era', optionLabel: '昭和', compositeGroup: 'birthday_full_date', compositeLabel: '生年月日' },
@@ -118,14 +111,17 @@ const sampleDataFieldMapping = {
   'treatment_end_month': { field: 'treatment_end_month', label: '月', type: 'number', compositeGroup: 'treatment_end_date_composite', compositeLabel: '施術期間（終了）', hidden: true },
   'treatment_end_day': { field: 'treatment_end_day', label: '日', type: 'number', compositeGroup: 'treatment_end_date_composite', compositeLabel: '施術期間（終了）', hidden: true },
 
-  // === 9. 実日数・請求区分・転帰 ===
+  // === 9. 実日数 ===
   'treatment_day_count': { field: 'treatment_days', label: '実日数', type: 'number' },
-  'bill_category': { field: 'bill_category', label: '請求区分', type: 'text' },
-  'outcome': { field: 'outcome', label: '転帰', type: 'text' },
 
-  // === 9-2. 傷病名・症状（マッサージ用） ===
-  'illness_name_symptom': { field: 'illness_name_symptom', label: '傷病名・症状', type: 'text' },
+  // === 9-1. 業務上･外･第三者行為の有無 ===
+  'work_scope_type_1': { field: 'work_scope_type', label: '業務上･外･第三者行為の有無', type: 'select', options: ['業務上', '第三者行為', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'work_scope_type', optionLabel: '業務上' },
+  'work_scope_type_2': { field: 'work_scope_type', label: '業務上･外･第三者行為の有無', type: 'select', options: ['業務上', '第三者行為', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'work_scope_type', optionLabel: '第三者行為' },
+  'work_scope_type_3': { field: 'work_scope_type', label: '業務上･外･第三者行為の有無', type: 'select', options: ['業務上', '第三者行為', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'work_scope_type', optionLabel: 'その他' },
+
+  // === 9-2. 傷病名 ===
   'treatment_content_illness_name': { field: 'consent_record_illness_name', label: '傷病名', type: 'text' },
+  'illness_name_symptom': { field: 'illness_name_symptom', label: '傷病名・症状', type: 'text' },
 
   'illness_name_1': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: '神経痛' },
   'illness_name_2': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: 'リウマチ' },
@@ -136,6 +132,17 @@ const sampleDataFieldMapping = {
   'illness_name_7': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: 'その他' },
   'illness_name_other_text': { field: 'illness_name_other_text', label: '傷病名（その他の内容）', type: 'text' },
 
+  // === 9-3. 発病負傷年月日 ===
+  'onset_date': { field: 'onset_date', label: '発病負傷年月日', type: 'text' },
+  'onset_date_year': { field: 'onset_date_year', label: '年', type: 'number', compositeGroup: 'onset_date_composite', compositeLabel: '発病負傷年月日', hidden: true },
+  'onset_date_month': { field: 'onset_date_month', label: '月', type: 'number', compositeGroup: 'onset_date_composite', compositeLabel: '発病負傷年月日', hidden: true },
+  'onset_date_day': { field: 'onset_date_day', label: '日', type: 'number', compositeGroup: 'onset_date_composite', compositeLabel: '発病負傷年月日', hidden: true },
+
+  // === 9-4. 請求区分・転帰 ===
+  'bill_category': { field: 'bill_category', label: '請求区分', type: 'text' },
+  'outcome': { field: 'outcome', label: '転帰', type: 'text' },
+
+  // === 9-5. 摘要 ===
   'condition': { field: 'condition', label: '発病負傷の原因･経過', type: 'text' },
   'abstract': { field: 'abstract', label: '摘要', type: 'text', width: 180, lineHeight: 5 },
 
