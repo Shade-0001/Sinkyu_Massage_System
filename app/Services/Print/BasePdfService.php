@@ -461,9 +461,17 @@ abstract class BasePdfService
     // テンプレートPDF読み込み（存在する場合）
     $path = $templatePath ?? $this->customTemplatePath;
     if ($path && file_exists($path)) {
-      $pageCount = $pdf->setSourceFile($path);
-      $tplId = $pdf->importPage(1);
-      $pdf->useTemplate($tplId, 0, 0, null, null, true);
+      try {
+        $pageCount = $pdf->setSourceFile($path);
+        $tplId = $pdf->importPage(1);
+        $pdf->useTemplate($tplId, 0, 0, null, null, true);
+      } catch (\Exception $e) {
+        // FPDI無料版で非対応の圧縮形式の場合は空白ページを表示
+        \Log::warning('PDFテンプレート読み込みエラー（非対応の圧縮形式）', [
+          'path' => $path,
+          'message' => $e->getMessage()
+        ]);
+      }
     }
 
     return $pdf->Output('', 'S');
