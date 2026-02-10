@@ -9,12 +9,12 @@ const csrfToken = coordinateAdjusterData.csrfToken;
 let coordinates = {};
 let originalCoordinates = {};
 
-// PDFタイプに応じたフィールドマッピングを取得
-function getSampleDataFieldMapping() {
+// PDFタイプに応じたフィールド定義を取得
+function getFieldDefinitions() {
   if (currentPdfType === 'treatment_receipt') {
-    return sampleDataFieldMappingTreatmentReceipt;
+    return fieldDefinitionsTreatmentReceipt;
   }
-  return sampleDataFieldMapping;
+  return fieldDefinitions;
 }
 
 // 初期化
@@ -93,7 +93,7 @@ function loadCoordinates() {
 
         // フィールド定義から新規フィールドを追加（既存フィールドは保持）
         // 現在のPDFタイプに関連するフィールドのみを追加
-        const fieldMapping = getSampleDataFieldMapping();
+        const fieldMapping = getFieldDefinitions();
         const fieldCategories = getFieldCategories(currentPdfType);
         Object.keys(fieldMapping).forEach(key => {
           const definition = fieldMapping[key];
@@ -147,7 +147,7 @@ function updateCoordinate(key, property, value) {
   }
 
   // postal_codeタイプの場合、x/y/postalCodeGap変更時にfirstX/firstY/lastXも同期
-  const fieldMapping = getSampleDataFieldMapping();
+  const fieldMapping = getFieldDefinitions();
   const mapping = fieldMapping[key];
   if (mapping && mapping.type === 'postal_code') {
     if (property === 'x') {
@@ -210,7 +210,7 @@ function adjustValue(key, property, delta) {
   coordinates[key][property] = newValue;
 
   // postal_codeタイプの場合、x/y/postalCodeGap変更時にfirstX/firstY/lastXも同期
-  const fieldMapping = getSampleDataFieldMapping();
+  const fieldMapping = getFieldDefinitions();
   const mapping = fieldMapping[key];
   if (mapping && mapping.type === 'postal_code') {
     if (property === 'x') {

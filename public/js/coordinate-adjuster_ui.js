@@ -7,7 +7,7 @@ function renderFieldSettings() {
   const currentPdfType = window.coordinateAdjusterData?.currentPdfType || 'therapy_benefit_acupuncture';
 
   // PDFタイプに応じたフィールドマッピングを取得
-  const sampleDataFieldMapping = getSampleDataFieldMapping();
+  const fieldDefs = getFieldDefinitions();
 
   // PDFタイプに応じたカテゴリ定義を取得
   const fieldCategories = getFieldCategories(currentPdfType);
@@ -61,10 +61,10 @@ function renderFieldSettings() {
     // 施術料金領収書は専用の順序を使用
     orderedKeys = treatmentReceiptFieldOrder.filter(key => coordinates.hasOwnProperty(key));
   } else {
-    // その他はsampleDataFieldMappingの順序を使用
-    const fieldMapping = getSampleDataFieldMapping();
+    // その他はfieldDefinitionsの順序を使用
+    const fieldMapping = getFieldDefinitions();
     orderedKeys = Object.keys(fieldMapping);
-    // coordinatesに存在するが、sampleDataFieldMappingにないキーも追加
+    // coordinatesに存在するが、fieldDefinitionsにないキーも追加
     Object.keys(coordinates).forEach(key => {
       if (!orderedKeys.includes(key)) {
         orderedKeys.push(key);
@@ -182,7 +182,7 @@ function renderFieldSettings() {
             }
 
             // hidden属性を持つフィールドは除外（ただし特定のPDFタイプ・グループでは例外）
-            const mapping = sampleDataFieldMapping[k];
+            const mapping = fieldDefs[k];
             if (mapping?.hidden) {
               // therapy_benefit_acupunctureの初療年月日・施術期間・発病負傷年月日グループでは年月日のみ表示
               if (currentPdfType === 'therapy_benefit_acupuncture' &&
@@ -253,17 +253,17 @@ function renderFieldSettings() {
         div.setAttribute('data-composite-group', field.compositeGroup);
 
         // フィールド定義からcompositeLabelを取得（座標JSONからは取得しない）
-        const firstFieldMapping = sampleDataFieldMapping[firstKey];
+        const firstFieldMapping = fieldDefs[firstKey];
         const groupLabel = firstFieldMapping?.compositeLabel || field.compositeGroup;
 
         const options = groupFields
           .filter(([k, v]) => {
-            const mapping = sampleDataFieldMapping[k];
+            const mapping = fieldDefs[k];
             // optionLabelを持つフィールドのみをオプションとして表示
             return mapping?.optionLabel;
           })
           .map(([k, v]) => {
-            const mapping = sampleDataFieldMapping[k];
+            const mapping = fieldDefs[k];
             const optionLabel = mapping.optionLabel;
             return `<option value="${k}" ${selectedKey === k ? 'selected' : ''}>${optionLabel}</option>`;
           }).join('');
@@ -340,11 +340,11 @@ function renderFieldSettings() {
         div.setAttribute('data-radio-group', field.radioGroup);
 
         // フィールド定義からlabelを取得（座標JSONからは取得しない）
-        const firstFieldMapping = sampleDataFieldMapping[groupFields[0][0]];
+        const firstFieldMapping = fieldDefs[groupFields[0][0]];
         const groupLabel = firstFieldMapping?.label || field.radioGroup;
 
         const options = groupFields.map(([k, v]) => {
-          const mapping = sampleDataFieldMapping[k];
+          const mapping = fieldDefs[k];
           // フィールド定義からのみoptionLabelを取得
           const optionLabel = mapping?.optionLabel || mapping?.label || k;
           return `<option value="${k}" ${selectedKey === k ? 'selected' : ''}>${optionLabel}</option>`;
@@ -508,14 +508,14 @@ function renderFieldSettings() {
         if (processedKeys.has(key)) return;
 
         let field = coordinates[key];
-        if (!field && sampleDataFieldMapping[key]) {
-          const mappingField = sampleDataFieldMapping[key];
+        if (!field && fieldDefs[key]) {
+          const mappingField = fieldDefs[key];
           const isEllipseField = mappingField.radioGroup !== undefined && (mappingField.ellipseWidth !== undefined || mappingField.ellipseHeight !== undefined);
           field = {
             x: 0,
             y: 0,
             textAlign: 'left',
-            ...sampleDataFieldMapping[key]
+            ...fieldDefs[key]
           };
           // 楕円フィールド以外にはfontSizeとletterSpacingを設定
           if (!isEllipseField) {
@@ -534,7 +534,7 @@ function renderFieldSettings() {
             .filter(([k, v]) => {
               if (v.compositeGroup !== field.compositeGroup) return false;
               // hidden属性を持つフィールドは除外
-              const mapping = sampleDataFieldMapping[k];
+              const mapping = fieldDefs[k];
               if (mapping?.hidden) return false;
               return true;
             })
@@ -553,11 +553,11 @@ function renderFieldSettings() {
           div.className = 'field-group';
           div.setAttribute('data-composite-group', field.compositeGroup);
 
-          const mapping = sampleDataFieldMapping[firstKey];
+          const mapping = fieldDefs[firstKey];
           const groupLabel = mapping?.compositeLabel || field.compositeGroup;
 
           const options = groupFields.map(([k, v]) => {
-            const m = sampleDataFieldMapping[k];
+            const m = fieldDefs[k];
             return `<option value="${k}" ${selectedKey === k ? 'selected' : ''}>${m?.label || k}</option>`;
           }).join('');
 
@@ -624,11 +624,11 @@ function renderFieldSettings() {
           div.setAttribute('data-radio-group', field.radioGroup);
 
           // フィールド定義からlabelを取得（座標JSONからは取得しない）
-          const firstFieldMapping = sampleDataFieldMapping[firstKey];
+          const firstFieldMapping = fieldDefs[firstKey];
           const groupLabel = firstFieldMapping?.label || field.radioGroup;
 
           const options = groupFields.map(([k, v]) => {
-            const mapping = sampleDataFieldMapping[k];
+            const mapping = fieldDefs[k];
             // フィールド定義からのみoptionLabelを取得
             const optionLabel = mapping?.optionLabel || mapping?.label || k;
             return `<option value="${k}" ${selectedKey === k ? 'selected' : ''}>${optionLabel}</option>`;
@@ -735,7 +735,7 @@ function renderSingleFieldHTML(key, field) {
   }
 
   // フィールド定義からlabelを取得（座標JSONからは取得しない）
-  const mapping = getSampleDataFieldMapping()[key];
+  const mapping = getFieldDefinitions()[key];
   const fieldLabel = mapping?.label || key;
 
   return `
@@ -1052,7 +1052,7 @@ function renderSingleFieldHTML(key, field) {
       ` : ''}
 
       ${(() => {
-        // 既存のsampleDataFieldMappingによる入力欄
+        // 既存のfieldDefinitionsによる入力欄
         const sampleDataHtml = getSampleDataInput(key);
         if (sampleDataHtml) return sampleDataHtml;
 
@@ -1086,7 +1086,7 @@ function updateCompositeGroupSelection(groupName, selectedKey) {
     });
 
     // サンプルデータを更新
-    const mapping = sampleDataFieldMapping[selectedKey];
+    const mapping = fieldDefs[selectedKey];
     if (mapping && mapping.field && mapping.optionLabel) {
       updateSampleData(mapping.field, mapping.optionLabel);
     }
@@ -1612,7 +1612,7 @@ function updateRadioGroupSelection(groupName, selectedKey) {
   // サンプルデータを更新（radioGroupフィールドの場合）
   const selectedField = coordinates[selectedKey];
   if (selectedField && selectedField.radioGroup) {
-    const mapping = sampleDataFieldMapping[selectedKey];
+    const mapping = fieldDefs[selectedKey];
     if (mapping && mapping.field && mapping.optionLabel) {
       // optionLabelをサンプルデータとして設定
       updateSampleData(mapping.field, mapping.optionLabel);
@@ -2222,7 +2222,7 @@ function getSampleDataInput(key) {
   const showSampleData = document.getElementById('show-sample-data')?.checked;
   if (!showSampleData) return '';
 
-  const fieldMapping = getSampleDataFieldMapping();
+  const fieldMapping = getFieldDefinitions();
   const mapping = fieldMapping[key];
   if (!mapping) return '';
 

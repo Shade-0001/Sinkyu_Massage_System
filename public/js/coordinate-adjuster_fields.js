@@ -1,5 +1,9 @@
-// サンプルデータフィールドマッピング（座標キーとサンプルデータキーの対応）
-// 申請書の上から下への記載順序に合わせて整理
+// フィールド定義（座標調整ツール用）
+//
+// 【役割】
+// 1. フィールドのメタデータ定義（type, label, options等）
+// 2. UI表示順序の決定（オブジェクトの定義順 = 表示順）
+// 3. サンプルデータとのマッピング（fieldプロパティ）
 //
 // ============================================================
 // 【重要】新しいフィールドを追加する際の必須作業チェックリスト
@@ -40,7 +44,7 @@
 // ※表記を変更する場合は、必ず上記3ファイル全てを同時に修正すること
 // ============================================================
 //
-const sampleDataFieldMapping = {
+const fieldDefinitions = {
   // === 1. タイトル・機関コード ===
   'title_year_era': { field: 'title_year_era', label: '元号', type: 'select', options: ['令和', '平成', '昭和'], compositeGroup: 'title_date', compositeLabel: 'タイトル年月' },
   'title_year_number': { field: 'title_year_number', label: '年', type: 'number', compositeGroup: 'title_date', compositeLabel: 'タイトル年月' },
@@ -361,8 +365,8 @@ const sampleDataFieldMapping = {
   // 27-31. 作成者情報 → clinic_*（既存）
 };
 
-// 施術料金領収書用のフィールドマッピング
-const sampleDataFieldMappingTreatmentReceipt = {
+// 施術料金領収書用のフィールド定義
+const fieldDefinitionsTreatmentReceipt = {
   'title_year_month': { field: 'title_year_month', label: '元号年月', type: 'text' },
   'document_type': { field: 'document_type', label: '書類区分', type: 'text' },
   'patient_name': { field: 'last_name', label: '氏名（姓名）', type: 'text', combine: ['last_name', 'first_name'] },

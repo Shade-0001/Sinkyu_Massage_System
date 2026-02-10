@@ -60,9 +60,9 @@
         "type": "text"
     },
     "treatment_content_illness_name": {
-        "x": 51,
-        "y": 70,
-        "fontSize": 10,
+        "x": -1,
+        "y": 72,
+        "fontSize": 12,
         "letterSpacing": 0,
         "textAlign": "center",
         "type": "text",

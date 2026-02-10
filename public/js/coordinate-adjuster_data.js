@@ -262,7 +262,7 @@ let customSampleData = {
 
 // サンプルデータ取得関数（combine対応）
 function getSampleValue(key) {
-  const fieldMapping = getSampleDataFieldMapping();
+  const fieldMapping = getFieldDefinitions();
   const mapping = fieldMapping[key];
 
   if (!mapping) {
