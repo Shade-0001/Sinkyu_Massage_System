@@ -568,7 +568,7 @@
         "textAlign": "center",
         "field": "condition",
         "type": "text",
-        "fontSize": 10,
+        "fontSize": 9,
         "letterSpacing": 0
     },
     "first_treatment_date": {
@@ -1071,7 +1071,7 @@
     },
     "health_center_registration_1": {
         "x": 144.5,
-        "y": 167,
+        "y": 168,
         "textAlign": "left",
         "field": "health_center_registration",
         "type": "select",
@@ -1080,14 +1080,14 @@
             "出張専門施術者住所地"
         ],
         "ellipseWidth": 12,
-        "ellipseHeight": 3,
+        "ellipseHeight": 2.5,
         "lineWidth": 0.2,
         "radioGroup": "health_center_registration",
-        "isSelected": true
+        "isSelected": false
     },
     "health_center_registration_2": {
-        "x": 175.5,
-        "y": 167,
+        "x": 172.5,
+        "y": 168,
         "textAlign": "left",
         "field": "health_center_registration",
         "type": "select",
@@ -1096,25 +1096,16 @@
             "出張専門施術者住所地"
         ],
         "ellipseWidth": 18.5,
-        "ellipseHeight": 3,
+        "ellipseHeight": 2.5,
         "lineWidth": 0.2,
         "radioGroup": "health_center_registration",
-        "isSelected": false
+        "isSelected": true
     },
-    "license_hari_number": {
+    "license_massage_number": {
         "x": -59,
         "y": 173,
         "textAlign": "center",
-        "field": "license_hari_number",
-        "type": "text",
-        "fontSize": 10,
-        "letterSpacing": 0
-    },
-    "license_kyu_number": {
-        "x": -59,
-        "y": 179.5,
-        "textAlign": "center",
-        "field": "license_kyu_number",
+        "field": "license_massage_number",
         "type": "text",
         "fontSize": 10,
         "letterSpacing": 0
@@ -1304,8 +1295,8 @@
         "letterSpacing": 0
     },
     "fee_housecall_unit": {
-        "x": -12,
-        "y": 124,
+        "x": -35,
+        "y": 125.5,
         "textAlign": "center",
         "field": "fee_housecall_unit",
         "label": "単価",
@@ -1317,8 +1308,8 @@
         "letterSpacing": 0
     },
     "fee_housecall_count": {
-        "x": 9,
-        "y": 124,
+        "x": 0,
+        "y": 125.5,
         "textAlign": "center",
         "field": "fee_housecall_count",
         "label": "回数",
@@ -1330,8 +1321,8 @@
         "letterSpacing": 0
     },
     "fee_housecall_total": {
-        "x": 31,
-        "y": 124,
+        "x": 31.5,
+        "y": 125.5,
         "textAlign": "center",
         "field": "fee_housecall_total",
         "label": "合計",
@@ -1343,8 +1334,8 @@
         "letterSpacing": 0
     },
     "fee_housecall_additional_unit": {
-        "x": -12,
-        "y": 129,
+        "x": -35,
+        "y": 130.5,
         "textAlign": "center",
         "field": "fee_housecall_additional_unit",
         "label": "単価",
@@ -1356,8 +1347,8 @@
         "letterSpacing": 0
     },
     "fee_housecall_additional_count": {
-        "x": 9,
-        "y": 129,
+        "x": 0,
+        "y": 130.5,
         "textAlign": "center",
         "field": "fee_housecall_additional_count",
         "label": "回数",
@@ -1369,8 +1360,8 @@
         "letterSpacing": 0
     },
     "fee_housecall_additional_total": {
-        "x": 31,
-        "y": 129,
+        "x": 31.5,
+        "y": 130.5,
         "textAlign": "center",
         "field": "fee_housecall_additional_total",
         "label": "合計",
@@ -1422,8 +1413,8 @@
         "letterSpacing": 0
     },
     "fee_subtotal": {
-        "x": 32.5,
-        "y": 136,
+        "x": 26.5,
+        "y": 137,
         "textAlign": "center",
         "field": "fee_subtotal",
         "label": "合計",
@@ -1432,18 +1423,18 @@
         "letterSpacing": 0
     },
     "public_burden_ratio": {
-        "x": 101.5,
-        "y": 134.2,
-        "textAlign": "left",
+        "x": -21.5,
+        "y": 135.2,
+        "textAlign": "center",
         "field": "public_burden_ratio",
         "label": "公費負担額（割合）",
         "type": "text",
-        "fontSize": 9,
+        "fontSize": 10,
         "letterSpacing": 0
     },
     "fee_public_burden_amount": {
-        "x": 10,
-        "y": 136,
+        "x": -6,
+        "y": 137.5,
         "textAlign": "center",
         "field": "fee_public_burden_amount",
         "label": "公費負担額",
@@ -1452,8 +1443,8 @@
         "letterSpacing": 0
     },
     "expenses_borne_ratio_10": {
-        "x": 50,
-        "y": 144.5,
+        "x": 40,
+        "y": 146,
         "textAlign": "left",
         "field": "expenses_borne_ratio",
         "label": "一部負担金（サークル）",
@@ -1463,16 +1454,16 @@
             "２割",
             "３割"
         ],
-        "ellipseWidth": 4,
-        "ellipseHeight": 2.5,
+        "ellipseWidth": 3.5,
+        "ellipseHeight": 2,
         "lineWidth": 0.2,
         "radioGroup": "expenses_borne_ratio",
         "optionLabel": "１割",
-        "isSelected": true
+        "isSelected": false
     },
     "fee_partial_payment": {
-        "x": 10,
-        "y": 142.5,
+        "x": -1,
+        "y": 143.5,
         "textAlign": "center",
         "field": "fee_partial_payment",
         "label": "一部負担金",
@@ -1481,8 +1472,8 @@
         "letterSpacing": 0
     },
     "fee_total_claim": {
-        "x": 10,
-        "y": 148,
+        "x": -1,
+        "y": 149,
         "textAlign": "center",
         "field": "fee_total_claim",
         "label": "請求額",
@@ -1491,8 +1482,8 @@
         "letterSpacing": 0
     },
     "expenses_borne_ratio_20": {
-        "x": 57.5,
-        "y": 144.5,
+        "x": 46,
+        "y": 146,
         "textAlign": "left",
         "field": "expenses_borne_ratio",
         "label": "一部負担金（サークル）",
@@ -1502,16 +1493,16 @@
             "２割",
             "３割"
         ],
-        "ellipseWidth": 4,
-        "ellipseHeight": 2.5,
+        "ellipseWidth": 3.5,
+        "ellipseHeight": 2,
         "lineWidth": 0.2,
         "radioGroup": "expenses_borne_ratio",
         "optionLabel": "２割",
         "isSelected": false
     },
     "expenses_borne_ratio_30": {
-        "x": 65,
-        "y": 144.5,
+        "x": 52,
+        "y": 146,
         "textAlign": "left",
         "field": "expenses_borne_ratio",
         "label": "一部負担金（サークル）",
@@ -1521,12 +1512,12 @@
             "２割",
             "３割"
         ],
-        "ellipseWidth": 4,
-        "ellipseHeight": 2.5,
+        "ellipseWidth": 3.5,
+        "ellipseHeight": 2,
         "lineWidth": 0.2,
         "radioGroup": "expenses_borne_ratio",
         "optionLabel": "３割",
-        "isSelected": false
+        "isSelected": true
     },
     "applicant_postal_code": {
         "x": -126,
@@ -1686,8 +1677,8 @@
         "letterSpacing": 0
     },
     "fee_massage_unit": {
-        "x": -25.5,
-        "y": 99,
+        "x": -35,
+        "y": 83.5,
         "fontSize": 10,
         "letterSpacing": 0,
         "textAlign": "center",
@@ -1696,8 +1687,8 @@
         "compositeGroup": "fee_massage"
     },
     "fee_massage_bodypart_count": {
-        "x": -12,
-        "y": 99,
+        "x": -11,
+        "y": 83.5,
         "fontSize": 10,
         "letterSpacing": 0,
         "textAlign": "center",
@@ -1706,8 +1697,8 @@
         "compositeGroup": "fee_massage"
     },
     "fee_massage_count": {
-        "x": 1,
-        "y": 99,
+        "x": 10,
+        "y": 83.5,
         "fontSize": 10,
         "letterSpacing": 0,
         "textAlign": "center",
@@ -1716,8 +1707,8 @@
         "compositeGroup": "fee_massage"
     },
     "fee_massage_total": {
-        "x": 29.5,
-        "y": 99,
+        "x": 31.5,
+        "y": 83.5,
         "fontSize": 10,
         "letterSpacing": 0,
         "textAlign": "center",
@@ -1726,8 +1717,8 @@
         "compositeGroup": "fee_massage"
     },
     "fee_manual_correction_unit": {
-        "x": -30,
-        "y": 123.7,
+        "x": -35,
+        "y": 94.5,
         "fontSize": 10,
         "letterSpacing": 0,
         "textAlign": "center",
@@ -1736,8 +1727,8 @@
         "compositeGroup": "fee_manual_correction"
     },
     "fee_manual_correction_bodypart_count": {
-        "x": -11.5,
-        "y": 123.7,
+        "x": -9,
+        "y": 94.5,
         "fontSize": 10,
         "letterSpacing": 0,
         "textAlign": "center",
@@ -1746,8 +1737,8 @@
         "compositeGroup": "fee_manual_correction"
     },
     "fee_manual_correction_count": {
-        "x": 7,
-        "y": 123.7,
+        "x": 10,
+        "y": 94.5,
         "fontSize": 10,
         "letterSpacing": 0,
         "textAlign": "center",
@@ -1756,8 +1747,8 @@
         "compositeGroup": "fee_manual_correction"
     },
     "fee_manual_correction_total": {
-        "x": 29.5,
-        "y": 123.7,
+        "x": 31.5,
+        "y": 94.5,
         "fontSize": 10,
         "letterSpacing": 0,
         "textAlign": "center",
@@ -1766,8 +1757,8 @@
         "compositeGroup": "fee_manual_correction"
     },
     "fee_fomentation_unit": {
-        "x": -30,
-        "y": 128.5,
+        "x": -35,
+        "y": 106,
         "fontSize": 10,
         "letterSpacing": 0,
         "textAlign": "center",
@@ -1776,8 +1767,8 @@
         "compositeGroup": "fee_fomentation"
     },
     "fee_fomentation_count": {
-        "x": 1,
-        "y": 128.5,
+        "x": 0,
+        "y": 106,
         "fontSize": 10,
         "letterSpacing": 0,
         "textAlign": "center",
@@ -1786,8 +1777,8 @@
         "compositeGroup": "fee_fomentation"
     },
     "fee_fomentation_total": {
-        "x": 29.5,
-        "y": 128.5,
+        "x": 31.5,
+        "y": 106,
         "fontSize": 10,
         "letterSpacing": 0,
         "textAlign": "center",
@@ -1796,8 +1787,8 @@
         "compositeGroup": "fee_fomentation"
     },
     "fee_fomentation_electric_light_unit": {
-        "x": -30,
-        "y": 133.5,
+        "x": -35,
+        "y": 117,
         "fontSize": 10,
         "letterSpacing": 0,
         "textAlign": "center",
@@ -1806,8 +1797,8 @@
         "compositeGroup": "fee_fomentation_electric_light"
     },
     "fee_fomentation_electric_light_count": {
-        "x": 1,
-        "y": 133.5,
+        "x": 0,
+        "y": 117,
         "fontSize": 10,
         "letterSpacing": 0,
         "textAlign": "center",
@@ -1816,8 +1807,8 @@
         "compositeGroup": "fee_fomentation_electric_light"
     },
     "fee_fomentation_electric_light_total": {
-        "x": 29.5,
-        "y": 133.5,
+        "x": 31.5,
+        "y": 117,
         "fontSize": 10,
         "letterSpacing": 0,
         "textAlign": "center",
