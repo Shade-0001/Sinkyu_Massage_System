@@ -16,6 +16,12 @@ use Illuminate\Support\Facades\Storage;
  * - $doctor: doctorsテーブルから取得、consent.consenting_doctor_nameで検索
  *   - postal_code, address_1/2/3 を提供
  * - サンプルデータとのフィールド名の違いに注意（MedicalAssistanceMassageSampleDataTrait参照）
+ *
+ * 【施術日カレンダー描画の注意点】
+ * - fillServiceDates()を使用（fillTreatmentDayCalendar()ではない）
+ * - fillServiceDates()はtherapy_categoryに応じて単円(○)/二重丸(◎)を描画
+ * - fillTreatmentDayCalendar()は単円のみで二重丸に非対応
+ * - therapy_category: 1=通院(○)、2=往療初回(◎)
  */
 class MedicalAssistanceMassagePdfService extends BasePdfService
 {

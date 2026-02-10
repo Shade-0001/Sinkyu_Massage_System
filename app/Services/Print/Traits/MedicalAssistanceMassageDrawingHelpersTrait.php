@@ -6,6 +6,14 @@ use setasign\Fpdi\Tcpdf\Fpdi;
 
 /**
  * あんま・マッサージ医療助成費支給申請書PDF - 描画ヘルパーメソッド
+ *
+ * 【重要】fillServiceDates()について
+ * - このメソッドはtherapy_categoryに応じて施術日の円を描画
+ *   - therapy_category = 1: 通院（単円○）
+ *   - therapy_category = 2: 往療初回（二重丸◎）
+ * - 個別フィールド(treatment_days_1～31)の座標/円サイズを優先使用
+ * - 個別設定がない場合はtreatment_daysフィールドのデフォルト値を使用
+ * - あんま･マッサージ関連施術のみ対象（therapy_content_id: 18-21）
  */
 trait MedicalAssistanceMassageDrawingHelpersTrait
 {
