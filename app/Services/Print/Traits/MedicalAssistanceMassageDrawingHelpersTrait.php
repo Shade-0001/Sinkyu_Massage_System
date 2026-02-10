@@ -13,16 +13,26 @@ trait MedicalAssistanceMassageDrawingHelpersTrait
   {
     $letterSpacing = 0; // 追加間隔（現在は使用しない）
     $cellWidth = $this->coord('treatment_days', 'circleSpacing') ?? 6.45; // 円の間隔
-    $circleRadius = $this->coord('treatment_days', 'circleRadius') ?? 1.8;
-    $innerRadius = $this->coord('treatment_days', 'doubleCircleInnerRadius') ?? 2.5;
+    $defaultCircleRadius = $this->coord('treatment_days', 'circleRadius') ?? 1.8;
+    $defaultInnerRadius = $this->coord('treatment_days', 'doubleCircleInnerRadius') ?? 2.5;
 
     // サンプルデータモード時の処理
     if ($this->sampleDataMode && isset($this->customSampleData['treatment_days_array'])) {
       $treatmentDaysArray = $this->customSampleData['treatment_days_array'];
 
       foreach ($treatmentDaysArray as $day) {
-        $x = $this->coord('treatment_days', 'x') + ($day - 1) * ($cellWidth + $letterSpacing);
-        $y = $this->coord('treatment_days', 'y');
+        $dayFieldKey = "treatment_days_{$day}";
+
+        // 個別フィールドの座標があればそれを使用、なければ計算
+        if ($this->hasCoord($dayFieldKey)) {
+          $x = $this->coord($dayFieldKey, 'x');
+          $y = $this->coord($dayFieldKey, 'y');
+          $circleRadius = $this->coord($dayFieldKey, 'circleRadius') ?? $defaultCircleRadius;
+        } else {
+          $x = $this->coord('treatment_days', 'x') + ($day - 1) * ($cellWidth + $letterSpacing);
+          $y = $this->coord('treatment_days', 'y');
+          $circleRadius = $defaultCircleRadius;
+        }
 
         // サンプルモードでは通院（単純な円）を描画
         $pdf->SetDrawColor(0, 0, 0);
@@ -43,16 +53,29 @@ trait MedicalAssistanceMassageDrawingHelpersTrait
       }
 
       $day = (int)date('d', strtotime($record->date));
+      $dayFieldKey = "treatment_days_{$day}";
 
-      $x = $this->coord('treatment_days', 'x') + ($day - 1) * ($cellWidth + $letterSpacing);
-      $y = $this->coord('treatment_days', 'y');
+      // 個別フィールドの座標と円サイズを取得（存在すればそれを使用、なければデフォルト値）
+      if ($this->hasCoord($dayFieldKey)) {
+        $x = $this->coord($dayFieldKey, 'x');
+        $y = $this->coord($dayFieldKey, 'y');
+        $circleRadius = $this->coord($dayFieldKey, 'circleRadius') ?? $defaultCircleRadius;
+        $innerRadius = $this->coord($dayFieldKey, 'doubleCircleInnerRadius') ?? $defaultInnerRadius;
+      } else {
+        $x = $this->coord('treatment_days', 'x') + ($day - 1) * ($cellWidth + $letterSpacing);
+        $y = $this->coord('treatment_days', 'y');
+        $circleRadius = $defaultCircleRadius;
+        $innerRadius = $defaultInnerRadius;
+      }
 
       if ($record->therapy_category == 2) {
+        // 往療（二重丸）
         $pdf->SetDrawColor(0, 0, 0);
         $pdf->SetLineWidth(0.2);
         $pdf->Ellipse($x, $y, $circleRadius, $circleRadius, 0, 0, 360, 'D');
         $pdf->Ellipse($x, $y, $innerRadius, $innerRadius, 0, 0, 360, 'D');
       } else {
+        // 通院（単純な円）
         $pdf->SetDrawColor(0, 0, 0);
         $pdf->SetLineWidth(0.2);
         $pdf->Ellipse($x, $y, $circleRadius, $circleRadius, 0, 0, 360, 'D');
