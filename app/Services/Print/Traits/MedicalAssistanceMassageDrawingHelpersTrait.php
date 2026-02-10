@@ -11,6 +11,11 @@ trait MedicalAssistanceMassageDrawingHelpersTrait
 {
   protected function fillServiceDates(Fpdi $pdf, $records): void
   {
+    \Log::info("fillServiceDates開始（マッサージ版）", [
+      'record_count' => count($records),
+      'sampleDataMode' => $this->sampleDataMode ?? false
+    ]);
+
     $letterSpacing = 0; // 追加間隔（現在は使用しない）
     $cellWidth = $this->coord('treatment_days', 'circleSpacing') ?? 6.45; // 円の間隔
     $defaultCircleRadius = $this->coord('treatment_days', 'circleRadius') ?? 1.8;
@@ -61,11 +66,31 @@ trait MedicalAssistanceMassageDrawingHelpersTrait
         $y = $this->coord($dayFieldKey, 'y');
         $circleRadius = $this->coord($dayFieldKey, 'circleRadius') ?? $defaultCircleRadius;
         $innerRadius = $this->coord($dayFieldKey, 'doubleCircleInnerRadius') ?? $defaultInnerRadius;
+
+        \Log::info("施術日円描画", [
+          'day' => $day,
+          'field_key' => $dayFieldKey,
+          'x' => $x,
+          'y' => $y,
+          'circleRadius' => $circleRadius,
+          'innerRadius' => $innerRadius,
+          'therapy_category' => $record->therapy_category,
+          'is_double_circle' => $record->therapy_category == 2
+        ]);
       } else {
         $x = $this->coord('treatment_days', 'x') + ($day - 1) * ($cellWidth + $letterSpacing);
         $y = $this->coord('treatment_days', 'y');
         $circleRadius = $defaultCircleRadius;
         $innerRadius = $defaultInnerRadius;
+
+        \Log::info("施術日円描画（計算値）", [
+          'day' => $day,
+          'field_key' => $dayFieldKey,
+          'x' => $x,
+          'y' => $y,
+          'circleRadius' => $circleRadius,
+          'innerRadius' => $innerRadius
+        ]);
       }
 
       if ($record->therapy_category == 2) {
