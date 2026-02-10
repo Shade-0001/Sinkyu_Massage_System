@@ -1093,12 +1093,12 @@
         "isSelected": false
     },
     "license_massage_number": {
-        "x": -59,
+        "x": -40.5,
         "y": 173,
         "textAlign": "center",
         "field": "license_massage_number",
         "type": "text",
-        "fontSize": 10,
+        "fontSize": 25,
         "letterSpacing": 0
     },
     "therapist_postal_code": {

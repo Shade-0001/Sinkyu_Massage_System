@@ -1451,6 +1451,18 @@ trait MedicalAssistanceMassageFormFieldsTrait
       $pdf->SetFontSize(10);
     }
 
+    // 免許番号（あん摩マッサージ指圧師）
+    if ($this->hasCoord('license_massage_number')) {
+      $licenseMassageNumber = $this->sampleDataMode && isset($this->customSampleData['license_massage_number'])
+        ? $this->customSampleData['license_massage_number']
+        : ($therapist->license_massage_code_number ?? '');
+      if ($licenseMassageNumber) {
+        $pdf->SetFontSize($this->coord('license_massage_number', 'fontSize'));
+        $this->drawTextByKey($pdf, 'license_massage_number', (string)$licenseMassageNumber);
+        $pdf->SetFontSize(10);
+      }
+    }
+
     // 施術者電話番号
     if ($this->hasCoord('therapist_phone')) {
       $therapistPhone = $this->sampleDataMode && isset($this->customSampleData['therapist_phone'])
