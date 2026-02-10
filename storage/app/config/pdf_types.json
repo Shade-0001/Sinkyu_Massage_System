@@ -39,14 +39,6 @@
     "serviceClass": "MedicalAssistanceMassagePdfService",
     "fieldsFile": "therapy_benefit_massage.js"
   },
-  "elderly_therapy_benefit_massage": {
-    "name": "後期高齢者医療療養費支給申請書（あんま･マッサージ）",
-    "coordinatesFile": "elderly_therapy_benefit_massage_coordinates.json",
-    "templateFile": "後期高齢者医療療養費支給申請書（あんま･マッサージ）.pdf",
-    "templateDir": "acupuncture_and_massage",
-    "serviceClass": "ElderlyTherapyBenefitMassagePdfService",
-    "fieldsFile": ""
-  },
   "elderly_therapy_benefit_acupuncture": {
     "name": "後期高齢者医療療養費支給申請書（はり･きゅう）",
     "coordinatesFile": "elderly_therapy_benefit_acupuncture_coordinates.json",
@@ -55,12 +47,28 @@
     "serviceClass": "ElderlyTherapyBenefitAcupuncturePdfService",
     "fieldsFile": ""
   },
-  "consent_massage": {
-    "name": "同意書（あんま･マッサージ）",
-    "coordinatesFile": "consent_massage_coordinates.json",
-    "templateFile": "同意書（あんま･マッサージ）.pdf",
+  "elderly_therapy_benefit_massage": {
+    "name": "後期高齢者医療療養費支給申請書（あんま･マッサージ）",
+    "coordinatesFile": "elderly_therapy_benefit_massage_coordinates.json",
+    "templateFile": "後期高齢者医療療養費支給申請書（あんま･マッサージ）.pdf",
     "templateDir": "acupuncture_and_massage",
-    "serviceClass": "ConsentMassagePdfService",
+    "serviceClass": "ElderlyTherapyBenefitMassagePdfService",
+    "fieldsFile": ""
+  },
+  "consent_request_letter_sample": {
+    "name": "同意書依頼状（サンプル版）",
+    "coordinatesFile": "consent_request_letter_sample_coordinates.json",
+    "templateFile": "同意書依頼状.pdf",
+    "templateDir": "acupuncture_and_massage",
+    "serviceClass": "ConsentRequestLetterSamplePdfService",
+    "fieldsFile": ""
+  },
+  "consent_request_letter_designated": {
+    "name": "同意書依頼状（医師指定）",
+    "coordinatesFile": "consent_request_letter_designated_coordinates.json",
+    "templateFile": "同意書依頼状.pdf",
+    "templateDir": "acupuncture_and_massage",
+    "serviceClass": "ConsentRequestLetterDesignatedPdfService",
     "fieldsFile": ""
   },
   "consent_acupuncture": {
@@ -71,20 +79,20 @@
     "serviceClass": "ConsentAcupuncturePdfService",
     "fieldsFile": ""
   },
-  "consent_request_letter": {
-    "name": "同意書依頼状",
-    "coordinatesFile": "consent_request_letter_coordinates.json",
-    "templateFile": "同意書依頼状.pdf",
+  "consent_massage": {
+    "name": "同意書（あんま･マッサージ）",
+    "coordinatesFile": "consent_massage_coordinates.json",
+    "templateFile": "同意書（あんま･マッサージ）.pdf",
     "templateDir": "acupuncture_and_massage",
-    "serviceClass": "ConsentRequestLetterPdfService",
+    "serviceClass": "ConsentMassagePdfService",
     "fieldsFile": ""
   },
-  "treatment_record_massage": {
-    "name": "施術録（あんま･マッサージ）",
-    "coordinatesFile": "treatment_record_massage_coordinates.json",
-    "templateFile": "施術録（あんま･マッサージ）.pdf",
-    "templateDir": "acupuncture_and_massage",
-    "serviceClass": "TreatmentRecordMassagePdfService",
+  "treatment_fee_list_self": {
+    "name": "施術料金一覧表（自費）",
+    "coordinatesFile": "treatment_fee_list_self_coordinates.json",
+    "templateFile": "",
+    "templateDir": "",
+    "serviceClass": "TreatmentFeeListSelfPdfService",
     "fieldsFile": ""
   },
   "treatment_record_acupuncture": {
@@ -93,6 +101,14 @@
     "templateFile": "施術録（はり・きゅう）.pdf",
     "templateDir": "acupuncture_and_massage",
     "serviceClass": "TreatmentRecordAcupuncturePdfService",
+    "fieldsFile": ""
+  },
+  "treatment_record_massage": {
+    "name": "施術録（あんま･マッサージ）",
+    "coordinatesFile": "treatment_record_massage_coordinates.json",
+    "templateFile": "施術録（あんま･マッサージ）.pdf",
+    "templateDir": "acupuncture_and_massage",
+    "serviceClass": "TreatmentRecordMassagePdfService",
     "fieldsFile": ""
   },
   "summary_table": {
@@ -111,28 +127,12 @@
     "serviceClass": "FirstExperienceMaterialPdfService",
     "fieldsFile": ""
   },
-  "implementation_plan": {
-    "name": "実施計画書",
-    "coordinatesFile": "implementation_plan_coordinates.json",
-    "templateFile": "実施計画書.pdf",
+  "power_of_attorney_application": {
+    "name": "委任状（申請･受領）",
+    "coordinatesFile": "power_of_attorney_application_coordinates.json",
+    "templateFile": "委任状（申請･受領）.pdf",
     "templateDir": "others_1",
-    "serviceClass": "ImplementationPlanPdfService",
-    "fieldsFile": ""
-  },
-  "report": {
-    "name": "報告書",
-    "coordinatesFile": "report_coordinates.json",
-    "templateFile": "報告書.pdf",
-    "templateDir": "others_1",
-    "serviceClass": "ReportPdfService",
-    "fieldsFile": ""
-  },
-  "report_greeting": {
-    "name": "報告書挨拶文",
-    "coordinatesFile": "report_greeting_coordinates.json",
-    "templateFile": "報告書挨拶文.pdf",
-    "templateDir": "others_1",
-    "serviceClass": "ReportGreetingPdfService",
+    "serviceClass": "PowerOfAttorneyApplicationPdfService",
     "fieldsFile": ""
   },
   "power_of_attorney_consent": {
@@ -143,24 +143,136 @@
     "serviceClass": "PowerOfAttorneyConsentPdfService",
     "fieldsFile": ""
   },
-  "power_of_attorney_application": {
-    "name": "委任状（申請･受領）",
-    "coordinatesFile": "power_of_attorney_application_coordinates.json",
-    "templateFile": "委任状（申請･受領）.pdf",
-    "templateDir": "others_1",
-    "serviceClass": "PowerOfAttorneyApplicationPdfService",
+  "deposit_management_insurance": {
+    "name": "入金管理票（保険）",
+    "coordinatesFile": "deposit_management_insurance_coordinates.json",
+    "templateFile": "",
+    "templateDir": "",
+    "serviceClass": "DepositManagementInsurancePdfService",
     "fieldsFile": ""
   },
-  "thank_you_letter": {
-    "name": "御礼状",
-    "coordinatesFile": "thank_you_letter_coordinates.json",
+  "thank_you_letter_doctor": {
+    "name": "医師への御礼状",
+    "coordinatesFile": "thank_you_letter_doctor_coordinates.json",
     "templateFile": "御礼状.pdf",
     "templateDir": "others_1",
-    "serviceClass": "ThankYouLetterPdfService",
+    "serviceClass": "ThankYouLetterDoctorPdfService",
+    "fieldsFile": ""
+  },
+  "thank_you_letter_referrer": {
+    "name": "紹介者への御礼状",
+    "coordinatesFile": "thank_you_letter_referrer_coordinates.json",
+    "templateFile": "御礼状.pdf",
+    "templateDir": "others_1",
+    "serviceClass": "ThankYouLetterReferrerPdfService",
+    "fieldsFile": ""
+  },
+  "user_count_summary": {
+    "name": "利用者数集計表",
+    "coordinatesFile": "user_count_summary_coordinates.json",
+    "templateFile": "",
+    "templateDir": "",
+    "serviceClass": "UserCountSummaryPdfService",
+    "fieldsFile": ""
+  },
+  "implementation_plan": {
+    "name": "実施計画書",
+    "coordinatesFile": "implementation_plan_coordinates.json",
+    "templateFile": "実施計画書.pdf",
+    "templateDir": "others_1",
+    "serviceClass": "ImplementationPlanPdfService",
+    "fieldsFile": ""
+  },
+  "report_greeting": {
+    "name": "報告書挨拶文",
+    "coordinatesFile": "report_greeting_coordinates.json",
+    "templateFile": "報告書挨拶文.pdf",
+    "templateDir": "others_1",
+    "serviceClass": "ReportGreetingPdfService",
+    "fieldsFile": ""
+  },
+  "report": {
+    "name": "報告書",
+    "coordinatesFile": "report_coordinates.json",
+    "templateFile": "報告書.pdf",
+    "templateDir": "others_1",
+    "serviceClass": "ReportPdfService",
+    "fieldsFile": ""
+  },
+  "next_month_schedule": {
+    "name": "翌月予定表",
+    "coordinatesFile": "next_month_schedule_coordinates.json",
+    "templateFile": "",
+    "templateDir": "",
+    "serviceClass": "NextMonthSchedulePdfService",
+    "fieldsFile": ""
+  },
+  "therapy_deadline_list": {
+    "name": "要加療期限切れリスト",
+    "coordinatesFile": "therapy_deadline_list_coordinates.json",
+    "templateFile": "",
+    "templateDir": "",
+    "serviceClass": "TherapyDeadlineListPdfService",
+    "fieldsFile": ""
+  },
+  "clinic_user_basic_info_list": {
+    "name": "利用者情報一覧（基本情報）",
+    "coordinatesFile": "clinic_user_basic_info_list_coordinates.json",
+    "templateFile": "",
+    "templateDir": "",
+    "serviceClass": "ClinicUserBasicInfoListPdfService",
+    "fieldsFile": ""
+  },
+  "clinic_user_insurance_info_list": {
+    "name": "利用者情報一覧（医療保険情報）",
+    "coordinatesFile": "clinic_user_insurance_info_list_coordinates.json",
+    "templateFile": "",
+    "templateDir": "",
+    "serviceClass": "ClinicUserInsuranceInfoListPdfService",
+    "fieldsFile": ""
+  },
+  "clinic_user_consent_info_list": {
+    "name": "利用者情報一覧（同意医師情報）",
+    "coordinatesFile": "clinic_user_consent_info_list_coordinates.json",
+    "templateFile": "",
+    "templateDir": "",
+    "serviceClass": "ClinicUserConsentInfoListPdfService",
+    "fieldsFile": ""
+  },
+  "doctor_info_list": {
+    "name": "医師情報一覧",
+    "coordinatesFile": "doctor_info_list_coordinates.json",
+    "templateFile": "",
+    "templateDir": "",
+    "serviceClass": "DoctorInfoListPdfService",
+    "fieldsFile": ""
+  },
+  "care_manager_info_list": {
+    "name": "ケアマネ情報一覧",
+    "coordinatesFile": "care_manager_info_list_coordinates.json",
+    "templateFile": "",
+    "templateDir": "",
+    "serviceClass": "CareManagerInfoListPdfService",
+    "fieldsFile": ""
+  },
+  "therapist_info_list": {
+    "name": "施術者情報一覧",
+    "coordinatesFile": "therapist_info_list_coordinates.json",
+    "templateFile": "",
+    "templateDir": "",
+    "serviceClass": "TherapistInfoListPdfService",
+    "fieldsFile": ""
+  },
+  "address_label_csv_export": {
+    "name": "宛名シール・住所データCSV出力",
+    "coordinatesFile": "address_label_csv_export_coordinates.json",
+    "templateFile": "",
+    "templateDir": "",
+    "serviceClass": "AddressLabelCsvExportService",
     "fieldsFile": ""
   },
   "fax_cover_sheet": {
-    "name": "FAX送信票",
+    "name": "FAX送信表",
     "coordinatesFile": "fax_cover_sheet_coordinates.json",
     "templateFile": "FAX送信票.pdf",
     "templateDir": "others_2",
