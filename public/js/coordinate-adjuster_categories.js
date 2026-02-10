@@ -723,6 +723,14 @@ const categoryOrderMedicalAssistance = [
 
 // PDFタイプに応じたfieldCategoriesを取得
 function getFieldCategories(pdfType) {
+  // fieldsFileが空の場合は空オブジェクトを返す
+  const pdfTypes = window.coordinateAdjusterData?.pdfTypes || {};
+  const currentConfig = pdfTypes[pdfType] || {};
+
+  if (!currentConfig.fieldsFile || currentConfig.fieldsFile === '') {
+    return {};
+  }
+
   if (pdfType === 'therapy_benefit_massage') {
     return fieldCategoriesTherapyBenefitMassage;
   } else if (pdfType === 'treatment_receipt') {
@@ -737,6 +745,14 @@ function getFieldCategories(pdfType) {
 
 // PDFタイプに応じたcategoryOrderを取得
 function getCategoryOrder(pdfType) {
+  // fieldsFileが空の場合は空配列を返す
+  const pdfTypes = window.coordinateAdjusterData?.pdfTypes || {};
+  const currentConfig = pdfTypes[pdfType] || {};
+
+  if (!currentConfig.fieldsFile || currentConfig.fieldsFile === '') {
+    return [];
+  }
+
   if (pdfType === 'therapy_benefit_massage') {
     return categoryOrderTherapyBenefitMassage;
   } else if (pdfType === 'treatment_receipt') {

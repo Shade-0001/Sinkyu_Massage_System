@@ -11,6 +11,14 @@ let originalCoordinates = {};
 
 // PDFタイプに応じたフィールド定義を取得
 function getFieldDefinitions() {
+  // fieldsFileが空の場合は空オブジェクトを返す
+  const pdfTypes = coordinateAdjusterData.pdfTypes || {};
+  const currentConfig = pdfTypes[currentPdfType] || {};
+
+  if (!currentConfig.fieldsFile || currentConfig.fieldsFile === '') {
+    return {};
+  }
+
   if (currentPdfType === 'treatment_receipt') {
     return fieldDefinitionsTreatmentReceipt;
   }
