@@ -73,7 +73,7 @@ const sampleDataFieldMapping = {
   // === 5. 被保険者証記号・番号、発病年月日、傷病名 ===
   'insurance_symbol_code': { field: 'insurance_symbol_code', label: '被保険者記号', type: 'text' },
   'insurance_symbol_number': { field: 'insurance_symbol_number', label: '被保険者番号', type: 'text' },
-  'onset_date': { field: 'onset_date', label: '発病負傷年月日', type: 'text', compositeGroup: 'onset_date_composite', compositeLabel: '発病負傷年月日', hidden: true },
+  'onset_date': { field: 'onset_date', label: '発病負傷年月日', type: 'text' },
   'onset_date_year': { field: 'onset_date_year', label: '年', type: 'number', compositeGroup: 'onset_date_composite', compositeLabel: '発病負傷年月日', hidden: true },
   'onset_date_month': { field: 'onset_date_month', label: '月', type: 'number', compositeGroup: 'onset_date_composite', compositeLabel: '発病負傷年月日', hidden: true },
   'onset_date_day': { field: 'onset_date_day', label: '日', type: 'number', compositeGroup: 'onset_date_composite', compositeLabel: '発病負傷年月日', hidden: true },
