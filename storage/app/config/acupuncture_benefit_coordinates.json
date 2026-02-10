@@ -284,7 +284,7 @@
         "lineWidth": 0.5,
         "type": "select",
         "compositeGroup": "birthday_full_date",
-        "isSelected": false
+        "isSelected": true
     },
     "birthday_era_heisei": {
         "x": 60.5,
@@ -328,7 +328,7 @@
         "radioGroup": "birthday_era",
         "type": "select",
         "compositeGroup": "birthday_full_date",
-        "isSelected": true
+        "isSelected": false
     },
     "birthday_year": {
         "x": -35,

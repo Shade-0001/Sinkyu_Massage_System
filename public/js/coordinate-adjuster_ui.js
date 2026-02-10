@@ -1086,6 +1086,7 @@ function updateCompositeGroupSelection(groupName, selectedKey) {
     });
 
     // サンプルデータを更新
+    const fieldDefs = getFieldDefinitions();
     const mapping = fieldDefs[selectedKey];
     if (mapping && mapping.field && mapping.optionLabel) {
       updateSampleData(mapping.field, mapping.optionLabel);
@@ -1612,6 +1613,7 @@ function updateRadioGroupSelection(groupName, selectedKey) {
   // サンプルデータを更新（radioGroupフィールドの場合）
   const selectedField = coordinates[selectedKey];
   if (selectedField && selectedField.radioGroup) {
+    const fieldDefs = getFieldDefinitions();
     const mapping = fieldDefs[selectedKey];
     if (mapping && mapping.field && mapping.optionLabel) {
       // optionLabelをサンプルデータとして設定
