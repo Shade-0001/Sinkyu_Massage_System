@@ -264,16 +264,16 @@ class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
     $this->fillInsuranceSection($pdf, $insurance);
     $this->fillPatientBasicInfo($pdf, $clinicUser, $insurance, $fullName, $fullNameKana);
     $this->fillPatientBirthday($pdf, $clinicUser);
-    $this->fillOnsetInfo($pdf, $consent);
+    $this->fillOnsetInfoMassage($pdf, $consent);
     $this->fillWorkScopeType($pdf, $consent);
     $this->fillFirstTreatmentDate($pdf, $records);
     $this->fillTreatmentDayCount($pdf, $records);
     $this->fillBillCategoryAndOutcome($pdf, $consent);
-    $this->fillIllnessCheckboxes($pdf, $consent);
+    $this->fillIllnessCheckboxesMassage($pdf, $consent);
     $this->fillServiceDates($pdf, $records);
     $this->fillAbstractSection($pdf, $records);
     $this->fillClinicInfoSection($pdf, $clinicInfo, $submissionDate);
-    $this->fillConsentRecordSection($pdf, $consent);
+    $this->fillConsentRecordSectionMassage($pdf, $consent);
     $this->fillTreatmentPeriodFields($pdf, $data);
     $this->fillApplicationSection($pdf, $submissionDate);
     $this->fillApplicantInfo($pdf, $clinicUser, $fullName);
@@ -281,8 +281,178 @@ class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
     $this->fillPaymentInstitutionSection($pdf, $clinicInfo);
     $this->fillTemporaryInsurerName($pdf, $fullName);
     if (!$this->sampleDataMode) {
-      $this->fillRealDataModeFields($pdf, $data, $insurance, $consent, $clinicInfo, $clinicUser, $submissionDate);
+      $this->fillRealDataModeFieldsMassage($pdf, $data, $insurance, $consent, $clinicInfo, $clinicUser, $submissionDate);
     }
     $this->fillTreatmentFees($pdf, $data);
+  }
+
+  /**
+   * 発病負傷情報埋め込み（マッサージ用）
+   */
+  protected function fillOnsetInfoMassage($pdf, $consent): void
+  {
+    // 発病又は負傷年月日
+    if ($this->hasCoord('onset_date')) {
+      if ($this->sampleDataMode && $this->customSampleData) {
+        $onsetDate = $this->customSampleData['onset_date'] ?? '';
+        if ($onsetDate) {
+          $pdf->SetFontSize($this->coord('onset_date', 'fontSize'));
+          $this->drawTextByKey($pdf, 'onset_date', (string)$onsetDate);
+          $pdf->SetFontSize(10);
+        }
+      } elseif ($consent && isset($consent->injury_or_disease_onset_date) && $consent->injury_or_disease_onset_date) {
+        $onsetDate = $this->formatDateJapanese($consent->injury_or_disease_onset_date);
+        if ($onsetDate) {
+          $pdf->SetFontSize($this->coord('onset_date', 'fontSize'));
+          $this->drawTextByKey($pdf, 'onset_date', $onsetDate);
+          $pdf->SetFontSize(10);
+        }
+      }
+    }
+
+    // 傷病名（発病又は負傷年月日の隣）
+    if ($this->sampleDataMode && $this->customSampleData) {
+      $onsetIllnessName = $this->customSampleData['onset_illness_name'] ?? '';
+      if ($onsetIllnessName) {
+        $pdf->SetFontSize($this->coord('onset_illness_name', 'fontSize'));
+        $this->drawTextByKey($pdf, 'onset_illness_name', (string)$onsetIllnessName);
+        $pdf->SetFontSize(10);
+      }
+    } elseif ($consent) {
+      // マッサージの場合はillness_nameがJOINされている
+      $onsetIllnessName = $consent->illness_name ?? '';
+      if ($onsetIllnessName) {
+        $pdf->SetFontSize($this->coord('onset_illness_name', 'fontSize'));
+        $this->drawTextByKey($pdf, 'onset_illness_name', (string)$onsetIllnessName);
+        $pdf->SetFontSize(10);
+      }
+    }
+
+    // 発病負傷の原因･経過
+    if ($this->sampleDataMode && $this->customSampleData) {
+      $conditionText = $this->customSampleData['condition'] ?? '';
+      if ($conditionText) {
+        $pdf->SetFontSize($this->coord('condition', 'fontSize'));
+        $this->drawTextByKey($pdf, 'condition', (string)$conditionText);
+        $pdf->SetFontSize(10);
+      }
+    } elseif ($consent) {
+      // マッサージの場合はcondition_nameがJOINされている
+      $conditionText = $consent->condition_name ?? '';
+      if ($conditionText) {
+        $pdf->SetFontSize($this->coord('condition', 'fontSize'));
+        $this->drawTextByKey($pdf, 'condition', $conditionText);
+        $pdf->SetFontSize(10);
+      }
+    }
+  }
+
+  /**
+   * 傷病名チェックボックス埋め込み（マッサージ用）
+   */
+  protected function fillIllnessCheckboxesMassage($pdf, $consent): void
+  {
+    if ($this->sampleDataMode) {
+      // サンプルデータモードの処理は親クラスと同じ
+      $illnessSelected = false;
+      for ($i = 1; $i <= 7; $i++) {
+        $key = 'illness_name_' . $i;
+        if (isset($this->coordinates[$key]['isSelected']) && $this->coordinates[$key]['isSelected']) {
+          $this->drawEllipseByKey($pdf, $key);
+          $illnessSelected = true;
+          if ($i === 7 && isset($this->customSampleData['illness_name_other_text']) && $this->customSampleData['illness_name_other_text']) {
+            $pdf->SetFontSize($this->coord('illness_name_other_text', 'fontSize'));
+            $this->drawTextByKey($pdf, 'illness_name_other_text', (string)$this->customSampleData['illness_name_other_text']);
+            $pdf->SetFontSize(10);
+          }
+          break;
+        }
+      }
+      if (!$illnessSelected && isset($this->customSampleData['illness_name']) && $this->customSampleData['illness_name']) {
+        $illnessId = (int)$this->customSampleData['illness_name'];
+        if ($illnessId >= 1 && $illnessId <= 7) {
+          $this->drawEllipseByKey($pdf, 'illness_name_' . $illnessId);
+          if ($illnessId === 7 && isset($this->customSampleData['illness_name_other_text']) && $this->customSampleData['illness_name_other_text']) {
+            $pdf->SetFontSize($this->coord('illness_name_other_text', 'fontSize'));
+            $this->drawTextByKey($pdf, 'illness_name_other_text', (string)$this->customSampleData['illness_name_other_text']);
+            $pdf->SetFontSize(10);
+          }
+        }
+      }
+    } elseif ($consent && isset($consent->injury_and_illness_name_id) && $consent->injury_and_illness_name_id) {
+      // マッサージの場合：injury_and_illness_name_idを使用
+      $illnessId = (int)$consent->injury_and_illness_name_id;
+      if ($illnessId >= 1 && $illnessId <= 7) {
+        $this->drawEllipseByKey($pdf, 'illness_name_' . $illnessId);
+      }
+      // 「その他」の場合、illness_nameをテキスト表示
+      if ($illnessId === 7 && isset($consent->illness_name) && $consent->illness_name) {
+        $pdf->SetFontSize($this->coord('illness_name_other_text', 'fontSize'));
+        $this->drawTextByKey($pdf, 'illness_name_other_text', (string)$consent->illness_name);
+        $pdf->SetFontSize(10);
+      }
+    }
+  }
+
+  /**
+   * 同意記録セクション埋め込み（マッサージ用）
+   */
+  protected function fillConsentRecordSectionMassage($pdf, $consent): void
+  {
+    if ($this->sampleDataMode && $this->customSampleData) {
+      // サンプルデータモードは親クラスのfillConsentRecordSectionを呼び出し
+      $this->fillConsentRecordSection($pdf, $consent);
+      return;
+    }
+
+    if (!$consent) {
+      return;
+    }
+
+    // 同意年月日（統合フィールド）
+    if ($this->hasCoord('consent_date_full') && isset($consent->consenting_date) && $consent->consenting_date) {
+      $consentDateText = $this->formatDateJapanese($consent->consenting_date);
+      if ($consentDateText) {
+        $pdf->SetFontSize($this->coord('consent_date_full', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_date_full', $consentDateText);
+        $pdf->SetFontSize(10);
+      }
+    }
+
+    // 傷病名（同意記録）
+    $consentIllnessName = $consent->illness_name ?? '';
+    if ($consentIllnessName) {
+      $pdf->SetFontSize($this->coord('consent_illness_name', 'fontSize'));
+      $this->drawTextByKey($pdf, 'consent_illness_name', (string)$consentIllnessName);
+      $pdf->SetFontSize(10);
+    }
+
+    // 要加療期間
+    $therapyPeriod = '';
+    if (isset($consent->therapy_period) && $consent->therapy_period) {
+      $therapyPeriod = $consent->therapy_period;
+    }
+    if ($therapyPeriod) {
+      $pdf->SetFontSize($this->coord('required_treatment_period', 'fontSize'));
+      $this->drawTextByKey($pdf, 'required_treatment_period', (string)$therapyPeriod);
+      $pdf->SetFontSize(10);
+    }
+
+    // 同意医師氏名・住所（親クラスのロジックを使用）
+    if ($this->hasCoord('consent_record_doctor_name') && isset($consent->consenting_doctor_name)) {
+      $pdf->SetFontSize($this->coord('consent_record_doctor_name', 'fontSize'));
+      $this->drawTextByKey($pdf, 'consent_record_doctor_name', (string)$consent->consenting_doctor_name);
+      $pdf->SetFontSize(10);
+    }
+  }
+
+  /**
+   * 実データモードフィールド埋め込み（マッサージ用）
+   */
+  protected function fillRealDataModeFieldsMassage($pdf, $data, $insurance, $consent, $clinicInfo, $clinicUser, $submissionDate): void
+  {
+    // 実データモードでのみ処理される追加フィールド
+    // 基本的に親クラスのfillRealDataModeFieldsと同じだが、マッサージ固有の処理を追加可能
+    // 現時点では特別な処理は不要
   }
 }
