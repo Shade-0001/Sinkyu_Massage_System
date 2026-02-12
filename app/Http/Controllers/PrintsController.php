@@ -273,6 +273,77 @@ class PrintsController extends Controller
   }
 
   /**
+   * 後期高齢者医療療養費支給申請書PDF出力
+   *
+   * @param Request $request
+   * @param string $filename
+   * @return \Illuminate\Http\Response
+   */
+  public function lateElderlyMedical(Request $request, string $filename)
+  {
+    try {
+      $validated = $request->validate([
+        'clinic_user_ids' => 'required|array',
+        'clinic_user_ids.*' => 'exists:clinic_users,id',
+        'service_year_month' => 'required|date_format:Y-m',
+        'assistance_type' => 'required|in:acupuncture,massage',
+        'signature_option' => 'nullable|in:user_signature_blank,user_address_signature_blank',
+        'submission_month' => 'required|date_format:Y-m',
+      ]);
+
+      $assistanceType = $validated['assistance_type'];
+      $typeName = $assistanceType === 'acupuncture' ? '後期高齢者医療療養費支給申請書（はり･きゅう）' : '後期高齢者医療療養費支給申請書（あんま･マッサージ）';
+
+      \Log::info("{$typeName}PDF生成開始", [
+        'clinic_user_ids' => $validated['clinic_user_ids'],
+        'service_year_month' => $validated['service_year_month'],
+        'assistance_type' => $assistanceType,
+        'signature_option' => $validated['signature_option'] ?? null,
+        'submission_month' => $validated['submission_month'],
+      ]);
+
+      // 後期高齢者医療専用のサービスクラスを取得
+      $serviceClass = $assistanceType === 'acupuncture'
+        ? \App\Services\Print\LateElderlyMedicalAcupuncturePdfService::class
+        : \App\Services\Print\LateElderlyMedicalMassagePdfService::class;
+
+      $service = new $serviceClass();
+
+      // 署名オプションを設定
+      if (method_exists($service, 'setSignatureOption')) {
+        $service->setSignatureOption($validated['signature_option'] ?? null);
+      }
+
+      $pdfBinary = $service->generate(
+        $validated['clinic_user_ids'],
+        $validated['service_year_month'],
+        $validated['submission_month'] . '-01'
+      );
+
+      \Log::info("{$typeName}PDF生成完了", ['size' => strlen($pdfBinary)]);
+
+      return response($pdfBinary, 200, [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'inline',
+      ]);
+    } catch (\Exception $e) {
+      \Log::error("後期高齢者医療療養費支給申請書PDF生成エラー", [
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+        'trace' => $e->getTraceAsString(),
+      ]);
+
+      return response()->json([
+        'error' => 'PDF生成に失敗しました',
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+      ], 500);
+    }
+  }
+
+  /**
    * 施術料金一覧表（保険扱い）PDF出力
    *
    * @param Request $request
