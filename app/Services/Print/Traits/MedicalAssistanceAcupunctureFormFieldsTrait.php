@@ -1922,6 +1922,7 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
     // 通常モード：施術実績から料金を計算
     $therapyTypeCounts = [];
     $isFirstTreatment = false;
+    $firstAcupunctureContentId = null; // 時系列で最初の鍼灸施術のtherapy_content_id
 
     // 施術実績を集計
     foreach ($records as $index => $record) {
@@ -1935,6 +1936,7 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
           && $record->bill_category_id == 1
           && in_array($therapyContentId, $acupunctureContentIds)) {
         $isFirstTreatment = true;
+        $firstAcupunctureContentId = $therapyContentId; // 最初の新規鍼灸施術を記録
       }
 
       // 施術内容ごとにカウント
@@ -2100,41 +2102,52 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
 
     // 初検料（初回施術時のみ描画）
     if ($isFirstTreatment) {
-      // 施術タイプを判定（正しいIDを使用）
-      $hariCount = ($therapyTypeCounts[11] ?? 0) + ($therapyTypeCounts[13] ?? 0);
-      $kyuCount = ($therapyTypeCounts[12] ?? 0) + ($therapyTypeCounts[13] ?? 0);
+      // 電療使用フラグの判定
       $hariElectricCount = $therapyTypeCounts[14] ?? 0;
       $kyuElectricCount = $therapyTypeCounts[15] ?? 0;
       $hariKyuElectricCount = ($therapyTypeCounts[16] ?? 0) + ($therapyTypeCounts[17] ?? 0);
-
-      // 電療使用フラグ
       $hasElectric = ($hariElectricCount + $kyuElectricCount + $hariKyuElectricCount) > 0;
 
       $key = null;
       $feeDbKey = null;
 
-      // はり･きゅう併用の場合は電療の有無に関わらず「はり･きゅう併用」として扱う
-      if ($hariCount > 0 && $kyuCount > 0) {
-        // はり・きゅう併用（電療があっても併用として扱う）
+      // 行政規定に基づく初検料判定
+      // 1. ID:13「はり･きゅう併用」が明示的に存在する場合
+      if (isset($therapyTypeCounts[13]) && $therapyTypeCounts[13] > 0) {
         $key = 'fee_initial_examination_combined';
         $feeDbKey = 'hari_and_kyu_first';
-      } elseif ($hariCount > 0) {
-        // はりのみ
-        if ($hasElectric) {
+      }
+      // 2. 時系列で最初の新規鍼灸施術に基づいて判定
+      elseif ($firstAcupunctureContentId !== null) {
+        if ($firstAcupunctureContentId == 11) {
+          // はり
+          if ($hasElectric) {
+            $key = 'fee_initial_examination_hari_electric';
+            $feeDbKey = 'hari_and_elec_needle_first';
+          } else {
+            $key = 'fee_initial_examination_hari';
+            $feeDbKey = 'hari_first';
+          }
+        } elseif ($firstAcupunctureContentId == 12) {
+          // きゅう
+          if ($hasElectric) {
+            $key = 'fee_initial_examination_kyu_electric';
+            $feeDbKey = 'kyu_and_elec_moxa_heater_first';
+          } else {
+            $key = 'fee_initial_examination_kyu';
+            $feeDbKey = 'kyu_first';
+          }
+        } elseif ($firstAcupunctureContentId == 14) {
+          // 電療（電気針）→ はり（電気鍼併用）として扱う
           $key = 'fee_initial_examination_hari_electric';
           $feeDbKey = 'hari_and_elec_needle_first';
-        } else {
-          $key = 'fee_initial_examination_hari';
-          $feeDbKey = 'hari_first';
-        }
-      } elseif ($kyuCount > 0) {
-        // きゅうのみ
-        if ($hasElectric) {
+        } elseif ($firstAcupunctureContentId == 15) {
+          // 電療（電気温灸器）→ きゅう（電気温灸器併用）として扱う
           $key = 'fee_initial_examination_kyu_electric';
           $feeDbKey = 'kyu_and_elec_moxa_heater_first';
-        } else {
-          $key = 'fee_initial_examination_kyu';
-          $feeDbKey = 'kyu_first';
+        } elseif ($firstAcupunctureContentId == 16) {
+          // 電療（電気光線器具）→ 判定不能、スキップ
+          // TODO: 正しい扱いを確認
         }
       }
 
