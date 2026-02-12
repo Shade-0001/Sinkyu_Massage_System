@@ -806,6 +806,14 @@ class PrintsController extends Controller
         }
       }
 
+      // ノーマルモード時でもcustom_title_textは常に設定
+      if (!$showSampleData) {
+        $customSampleData = $request->input('custom_sample_data');
+        if ($customSampleData && method_exists($service, 'setCustomSampleData')) {
+          $service->setCustomSampleData($customSampleData);
+        }
+      }
+
       $pdfBinary = $service->generate(
         $clinicUsers,
         $yearMonth,
