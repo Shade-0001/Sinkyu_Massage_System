@@ -333,20 +333,24 @@ class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
     }
 
     // 傷病名（発病又は負傷年月日の隣）
-    if ($this->sampleDataMode && $this->customSampleData) {
-      $onsetIllnessName = $this->customSampleData['onset_illness_name'] ?? '';
-      if ($onsetIllnessName) {
-        $pdf->SetFontSize($this->coord('onset_illness_name', 'fontSize'));
-        $this->drawTextByKey($pdf, 'onset_illness_name', (string)$onsetIllnessName);
-        $pdf->SetFontSize(10);
-      }
-    } elseif ($consent) {
-      // マッサージの場合はillness_nameがJOINされている
-      $onsetIllnessName = $consent->illness_name ?? '';
-      if ($onsetIllnessName) {
-        $pdf->SetFontSize($this->coord('onset_illness_name', 'fontSize'));
-        $this->drawTextByKey($pdf, 'onset_illness_name', (string)$onsetIllnessName);
-        $pdf->SetFontSize(10);
+    // 注：座標ファイルには onset_illness_name が存在しない場合があるため、
+    // hasCoord でチェックしてから描画
+    if ($this->hasCoord('onset_illness_name')) {
+      if ($this->sampleDataMode && $this->customSampleData) {
+        $onsetIllnessName = $this->customSampleData['onset_illness_name'] ?? '';
+        if ($onsetIllnessName) {
+          $pdf->SetFontSize($this->coord('onset_illness_name', 'fontSize'));
+          $this->drawTextByKey($pdf, 'onset_illness_name', (string)$onsetIllnessName);
+          $pdf->SetFontSize(10);
+        }
+      } elseif ($consent) {
+        // マッサージの場合はillness_nameがJOINされている
+        $onsetIllnessName = $consent->illness_name ?? '';
+        if ($onsetIllnessName) {
+          $pdf->SetFontSize($this->coord('onset_illness_name', 'fontSize'));
+          $this->drawTextByKey($pdf, 'onset_illness_name', (string)$onsetIllnessName);
+          $pdf->SetFontSize(10);
+        }
       }
     }
 
@@ -478,11 +482,14 @@ class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
     }
 
     // 傷病名（同意記録）
-    $consentIllnessName = $consent->illness_name ?? '';
-    if ($consentIllnessName) {
-      $pdf->SetFontSize($this->coord('consent_illness_name', 'fontSize'));
-      $this->drawTextByKey($pdf, 'consent_illness_name', (string)$consentIllnessName);
-      $pdf->SetFontSize(10);
+    // 座標ファイルでは consent_record_illness_name を使用
+    if ($this->hasCoord('consent_record_illness_name')) {
+      $consentIllnessName = $consent->illness_name ?? '';
+      if ($consentIllnessName) {
+        $pdf->SetFontSize($this->coord('consent_record_illness_name', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_illness_name', (string)$consentIllnessName);
+        $pdf->SetFontSize(10);
+      }
     }
 
     // 要加療期間
