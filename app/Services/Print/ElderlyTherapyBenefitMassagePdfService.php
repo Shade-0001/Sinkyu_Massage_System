@@ -285,6 +285,7 @@ class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
     $this->fillFirstTreatmentDate($pdf, $records);
     $this->fillTreatmentDayCount($pdf, $records);
     $this->fillBillCategoryAndOutcome($pdf, $consent);
+    $this->fillTreatmentMonth($pdf, $data['service_year_month']);
     $this->fillIllnessCheckboxesMassage($pdf, $consent);
     $this->fillServiceDates($pdf, $records);
     $this->fillAbstractSection($pdf, $records);
@@ -712,6 +713,20 @@ class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
     }
     if ($financialInstitutionTypeKey) {
       $this->drawEllipseByKey($pdf, $financialInstitutionTypeKey);
+    }
+  }
+
+  /**
+   * 施術月埋め込み（マッサージ用）
+   */
+  protected function fillTreatmentMonth($pdf, string $serviceYearMonth): void
+  {
+    // === 施術月 ===
+    if ($this->hasCoord('treatment_month')) {
+      [$year, $month] = explode('-', $serviceYearMonth);
+      $pdf->SetFontSize($this->coord('treatment_month', 'fontSize'));
+      $this->drawTextByKey($pdf, 'treatment_month', (string)(int)$month);
+      $pdf->SetFontSize(10);
     }
   }
 
