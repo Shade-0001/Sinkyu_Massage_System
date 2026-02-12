@@ -16,7 +16,8 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
   protected function fillCustomTitleAndSubmissionCount($pdf, $data): void
   {
     // === カスタムタイトル（ラベル名: "タイトル" > "描画テキスト"） ===
-    if ($this->sampleDataMode && isset($this->customSampleData['custom_title_text'])) {
+    // 常に描画（サンプルモード・ノーマルモード共通）
+    if (isset($this->customSampleData['custom_title_text'])) {
       $customTitle = $this->customSampleData['custom_title_text'];
       $pdf->SetFontSize($this->coord('custom_title_text', 'fontSize'));
       $this->drawTextByKey($pdf, 'custom_title_text', (string)$customTitle);
