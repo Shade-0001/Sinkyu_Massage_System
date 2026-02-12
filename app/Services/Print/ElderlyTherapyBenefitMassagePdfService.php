@@ -422,8 +422,8 @@ class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
   protected function fillConsentRecordSectionMassage($pdf, $consent, $doctor = null): void
   {
     if ($this->sampleDataMode && $this->customSampleData) {
-      // サンプルデータモードは親クラスのfillConsentRecordSectionを呼び出し
-      $this->fillConsentRecordSection($pdf, $consent, $doctor);
+      // サンプルデータモードは親クラスのfillConsentRecordSectionを呼び出し（2引数のみ）
+      $this->fillConsentRecordSection($pdf, $consent);
       return;
     }
 
@@ -550,6 +550,162 @@ class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
     }
 
     $pdf->SetFontSize(10);
+  }
+
+  /**
+   * 支払機関セクション埋め込み（マッサージ用）
+   */
+  protected function fillPaymentInstitutionSection($pdf, $clinicInfo): void
+  {
+    // clinic_infoテーブルから銀行口座情報を取得（ノーマルモード用）
+    $clinicInfoData = null;
+    if (!$this->sampleDataMode) {
+      $clinicInfoData = DB::table('clinic_info')->first();
+    }
+
+    // === 支払機関情報 ===
+    // 支払区分
+    if ($this->hasCoord('payment_method')) {
+      $paymentMethod = $this->customSampleData['payment_method'] ?? '';
+      if ($paymentMethod) {
+        $pdf->SetFontSize($this->coord('payment_method', 'fontSize'));
+        $this->drawTextByKey($pdf, 'payment_method', $paymentMethod);
+      }
+    }
+    // 預金の種類
+    if ($this->hasCoord('deposit_type')) {
+      $depositType = $this->sampleDataMode && isset($this->customSampleData['deposit_type'])
+        ? $this->customSampleData['deposit_type']
+        : ($clinicInfoData->bank_account_type ?? '');
+      if ($depositType) {
+        $pdf->SetFontSize($this->coord('deposit_type', 'fontSize'));
+        $this->drawTextByKey($pdf, 'deposit_type', $depositType);
+      }
+    }
+    // 金融機関名（種類）
+    if ($this->hasCoord('financial_institution_type')) {
+      $financialInstitutionType = $this->customSampleData['financial_institution_type'] ?? '';
+      if ($financialInstitutionType) {
+        $pdf->SetFontSize($this->coord('financial_institution_type', 'fontSize'));
+        $this->drawTextByKey($pdf, 'financial_institution_type', $financialInstitutionType);
+      }
+    }
+    // 金融機関名（詳細）
+    if ($this->hasCoord('financial_institution_name')) {
+      $financialInstitutionName = $this->sampleDataMode && isset($this->customSampleData['financial_institution_name'])
+        ? $this->customSampleData['financial_institution_name']
+        : ($clinicInfoData->bank_name ?? '') . ($clinicInfoData->bank_branch_name ?? '');
+      if ($financialInstitutionName) {
+        $pdf->SetFontSize($this->coord('financial_institution_name', 'fontSize'));
+        $this->drawTextByKey($pdf, 'financial_institution_name', $financialInstitutionName);
+      }
+    }
+    // 本店支店出張所（種類）
+    if ($this->hasCoord('branch_type')) {
+      $branchType = $this->customSampleData['branch_type'] ?? '';
+      if ($branchType) {
+        $pdf->SetFontSize($this->coord('branch_type', 'fontSize'));
+        $this->drawTextByKey($pdf, 'branch_type', $branchType);
+      }
+    }
+    // 支店名
+    if ($this->hasCoord('branch_name')) {
+      $branchName = $this->sampleDataMode && isset($this->customSampleData['branch_name'])
+        ? $this->customSampleData['branch_name']
+        : ($clinicInfoData->bank_branch_name ?? '');
+      if ($branchName) {
+        $pdf->SetFontSize($this->coord('branch_name', 'fontSize'));
+        $this->drawTextByKey($pdf, 'branch_name', $branchName);
+      }
+    }
+    // 口座番号
+    if ($this->hasCoord('bank_account_number')) {
+      $accountNumber = $this->sampleDataMode && isset($this->customSampleData['account_number'])
+        ? $this->customSampleData['account_number']
+        : ($clinicInfoData->bank_account_number ?? '');
+      if ($accountNumber) {
+        $pdf->SetFontSize($this->coord('bank_account_number', 'fontSize'));
+        $this->drawTextByKey($pdf, 'bank_account_number', (string)$accountNumber);
+      }
+    }
+    // 口座名義（カナ）
+    if ($this->hasCoord('bank_account_holder_kana')) {
+      $accountHolder = $this->sampleDataMode && isset($this->customSampleData['account_holder'])
+        ? $this->customSampleData['account_holder']
+        : ($clinicInfoData->bank_account_name_kana ?? '');
+      if ($accountHolder) {
+        $pdf->SetFontSize($this->coord('bank_account_holder_kana', 'fontSize'));
+        $this->drawTextByKey($pdf, 'bank_account_holder_kana', (string)$accountHolder);
+      }
+    }
+    $pdf->SetFontSize(10);
+    // === 支払機関欄の楕円描画 ===
+    // 支払区分（サンプルデータモードまたは通常モード）
+    $paymentMethodKey = null;
+    if (isset($this->coordinates['payment_category_account_transfer']['isSelected']) && $this->coordinates['payment_category_account_transfer']['isSelected']) {
+      $paymentMethodKey = 'payment_category_account_transfer';
+    } elseif (isset($this->coordinates['payment_category_counter_payment']['isSelected']) && $this->coordinates['payment_category_counter_payment']['isSelected']) {
+      $paymentMethodKey = 'payment_category_counter_payment';
+    } elseif ($this->sampleDataMode && isset($this->customSampleData['payment_category'])) {
+      // サンプルデータから支払区分を取得
+      $paymentCategoryMap = [
+        '口座振替' => 'payment_category_account_transfer',
+        '窓口払' => 'payment_category_counter_payment'
+      ];
+      $paymentMethodKey = $paymentCategoryMap[$this->customSampleData['payment_category']] ?? null;
+    } elseif (!$this->sampleDataMode && $this->hasCoord('payment_category_account_transfer')) {
+      // 通常モード：デフォルトで口座振替を選択
+      $paymentMethodKey = 'payment_category_account_transfer';
+    }
+    if ($paymentMethodKey) {
+      $this->drawEllipseByKey($pdf, $paymentMethodKey);
+    }
+
+    // 預金の種類（サンプルデータモードまたは通常モード）
+    $depositTypeKey = null;
+    if (isset($this->coordinates['deposit_type_ordinary']['isSelected']) && $this->coordinates['deposit_type_ordinary']['isSelected']) {
+      $depositTypeKey = 'deposit_type_ordinary';
+    } elseif (isset($this->coordinates['deposit_type_current']['isSelected']) && $this->coordinates['deposit_type_current']['isSelected']) {
+      $depositTypeKey = 'deposit_type_current';
+    } elseif (isset($this->coordinates['deposit_type_savings']['isSelected']) && $this->coordinates['deposit_type_savings']['isSelected']) {
+      $depositTypeKey = 'deposit_type_savings';
+    } elseif (isset($this->coordinates['deposit_type_other']['isSelected']) && $this->coordinates['deposit_type_other']['isSelected']) {
+      $depositTypeKey = 'deposit_type_other';
+    } elseif ($this->sampleDataMode && isset($this->customSampleData['deposit_type'])) {
+      // サンプルデータから預金種類を取得
+      $depositTypeMap = [
+        '普通' => 'deposit_type_ordinary',
+        '当座' => 'deposit_type_current',
+        '貯蓄' => 'deposit_type_savings',
+        'その他' => 'deposit_type_other'
+      ];
+      $depositTypeKey = $depositTypeMap[$this->customSampleData['deposit_type']] ?? null;
+    } elseif (!$this->sampleDataMode && $clinicInfoData) {
+      // 通常モード：clinic_infoから預金種類を取得
+      $accountType = $clinicInfoData->bank_account_type ?? '普通';
+      $depositTypeMap = [
+        '普通' => 'deposit_type_ordinary',
+        '当座' => 'deposit_type_current',
+        '貯蓄' => 'deposit_type_savings',
+        'その他' => 'deposit_type_other'
+      ];
+      $depositTypeKey = $depositTypeMap[$accountType] ?? 'deposit_type_ordinary';
+    }
+    if ($depositTypeKey) {
+      $this->drawEllipseByKey($pdf, $depositTypeKey);
+    }
+    // 金融機関種類
+    $financialInstitutionTypeKey = null;
+    if (isset($this->coordinates['financial_institution_type_bank']['isSelected']) && $this->coordinates['financial_institution_type_bank']['isSelected']) {
+      $financialInstitutionTypeKey = 'financial_institution_type_bank';
+    } elseif (isset($this->coordinates['financial_institution_type_kinko']['isSelected']) && $this->coordinates['financial_institution_type_kinko']['isSelected']) {
+      $financialInstitutionTypeKey = 'financial_institution_type_kinko';
+    } elseif (isset($this->coordinates['financial_institution_type_nokyo']['isSelected']) && $this->coordinates['financial_institution_type_nokyo']['isSelected']) {
+      $financialInstitutionTypeKey = 'financial_institution_type_nokyo';
+    }
+    if ($financialInstitutionTypeKey) {
+      $this->drawEllipseByKey($pdf, $financialInstitutionTypeKey);
+    }
   }
 
   /**
