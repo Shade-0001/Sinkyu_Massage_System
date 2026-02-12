@@ -301,12 +301,18 @@ class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
           $pdf->SetFontSize(10);
         }
       } elseif ($consent && isset($consent->injury_or_disease_onset_date) && $consent->injury_or_disease_onset_date) {
-        $onsetDate = $this->formatDateJapanese($consent->injury_or_disease_onset_date);
-        if ($onsetDate) {
-          $pdf->SetFontSize($this->coord('onset_date', 'fontSize'));
-          $this->drawTextByKey($pdf, 'onset_date', $onsetDate);
-          $pdf->SetFontSize(10);
-        }
+        [$onsetYear, $onsetMonth, $onsetDay] = explode('-', $consent->injury_or_disease_onset_date);
+        $onsetJapaneseYear = $this->convertToJapaneseYear((int)$onsetYear, (int)$onsetMonth);
+        $formattedDate = sprintf(
+          '%s%d年 %d月 %d日',
+          $onsetJapaneseYear['era'],
+          $onsetJapaneseYear['year'],
+          (int)$onsetMonth,
+          (int)$onsetDay
+        );
+        $pdf->SetFontSize($this->coord('onset_date', 'fontSize'));
+        $this->drawTextByKey($pdf, 'onset_date', $formattedDate);
+        $pdf->SetFontSize(10);
       }
     }
 
@@ -411,12 +417,18 @@ class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
 
     // 同意年月日（統合フィールド）
     if ($this->hasCoord('consent_date_full') && isset($consent->consenting_date) && $consent->consenting_date) {
-      $consentDateText = $this->formatDateJapanese($consent->consenting_date);
-      if ($consentDateText) {
-        $pdf->SetFontSize($this->coord('consent_date_full', 'fontSize'));
-        $this->drawTextByKey($pdf, 'consent_date_full', $consentDateText);
-        $pdf->SetFontSize(10);
-      }
+      [$consentYear, $consentMonth, $consentDay] = explode('-', $consent->consenting_date);
+      $consentJapaneseYear = $this->convertToJapaneseYear((int)$consentYear, (int)$consentMonth);
+      $formattedDate = sprintf(
+        '%s%d年 %d月 %d日',
+        $consentJapaneseYear['era'],
+        $consentJapaneseYear['year'],
+        (int)$consentMonth,
+        (int)$consentDay
+      );
+      $pdf->SetFontSize($this->coord('consent_date_full', 'fontSize'));
+      $this->drawTextByKey($pdf, 'consent_date_full', $formattedDate);
+      $pdf->SetFontSize(10);
     }
 
     // 傷病名（同意記録）
