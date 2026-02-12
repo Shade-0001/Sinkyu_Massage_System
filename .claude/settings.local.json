@@ -82,7 +82,10 @@
       "Bash(git -C \"i:\\\\XAMPP\\\\htdocs\\\\Sinkyu_Massage_System\" add .claude/settings.local.json)",
       "Bash(git -C \"i:\\\\XAMPP\\\\htdocs\\\\Sinkyu_Massage_System\" commit -m \"$\\(cat <<''EOF''\nchore: Claude Code設定ファイルのallow履歴を更新\n\ngit操作の自動承認履歴を追加。\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
       "Bash(git -C \"i:\\\\XAMPP\\\\htdocs\\\\Sinkyu_Massage_System\" commit --amend -m \"［autosave-commit_260210-2328｜Claude Code設定ファイルのallow履歴を更新］\")",
-      "Bash(git -C \"i:\\\\XAMPP\\\\htdocs\\\\Sinkyu_Massage_System\" log --oneline -1)"
+      "Bash(git -C \"i:\\\\XAMPP\\\\htdocs\\\\Sinkyu_Massage_System\" log --oneline -1)",
+      "Bash(check_columns.php:*)",
+      "Bash(check_coords.php:*)",
+      "Bash(check_field.php << 'PHPEOF'\n<?php\n$json = file_get_contents\\('storage/app/config/elderly_therapy_benefit_massage_coordinates.json'\\);\n$coords = json_decode\\($json, true\\);\n\necho \"therapy_period: \" . \\(isset\\($coords['therapy_period']\\) ? '存在' : '存在しない'\\) . \"\\\\n\";\necho \"required_treatment_period: \" . \\(isset\\($coords['required_treatment_period']\\) ? '存在' : '存在しない'\\) . \"\\\\n\";\n\nif \\(isset\\($coords['therapy_period']\\)\\) {\n  echo \"\\\\ntherapy_period座標:\\\\n\";\n  var_export\\($coords['therapy_period']\\);\n}\nPHPEOF)"
     ],
     "deny": [],
     "ask": []
