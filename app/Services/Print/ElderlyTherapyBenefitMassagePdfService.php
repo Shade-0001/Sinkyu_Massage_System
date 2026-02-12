@@ -317,8 +317,8 @@ class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
           $this->drawTextByKey($pdf, 'onset_date', (string)$onsetDate);
           $pdf->SetFontSize(10);
         }
-      } elseif ($consent && isset($consent->injury_or_disease_onset_date) && $consent->injury_or_disease_onset_date) {
-        [$onsetYear, $onsetMonth, $onsetDay] = explode('-', $consent->injury_or_disease_onset_date);
+      } elseif ($consent && isset($consent->onset_and_injury_date) && $consent->onset_and_injury_date) {
+        [$onsetYear, $onsetMonth, $onsetDay] = explode('-', $consent->onset_and_injury_date);
         $onsetJapaneseYear = $this->convertToJapaneseYear((int)$onsetYear, (int)$onsetMonth);
         $formattedDate = sprintf(
           '%s%d年 %d月 %d日',
