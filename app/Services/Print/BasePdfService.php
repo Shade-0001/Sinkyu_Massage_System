@@ -32,6 +32,11 @@ abstract class BasePdfService
   protected $customSampleData = null;
 
   /**
+   * カスタムタイトルテキスト（描画テキスト用）
+   */
+  protected $customTitleText = null;
+
+  /**
    * 座標ファイルパス（カスタム）
    */
   protected $customCoordinatesPath = null;
@@ -63,6 +68,14 @@ abstract class BasePdfService
   public function setCustomSampleData(array $data): void
   {
     $this->customSampleData = $data;
+  }
+
+  /**
+   * カスタムタイトルテキストを設定
+   */
+  public function setCustomTitleText(?string $text): void
+  {
+    $this->customTitleText = $text;
   }
 
   /**

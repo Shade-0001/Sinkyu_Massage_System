@@ -1,5 +1,7 @@
 // サンプルデータ定義
 let customSampleData = {
+// タイトルテキスト専用変数（sampleモードと無関係）
+let customTitleText = '';
   // タイトル情報
   title_year_era: '令和',
   title_year_number: '7',

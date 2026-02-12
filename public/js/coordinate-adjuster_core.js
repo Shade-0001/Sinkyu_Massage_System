@@ -448,10 +448,8 @@ function previewPdf() {
   }
 
   // custom_title_textは常に送信（ノーマルモード時も描画するため）
-  if (!showSampleData && customSampleData && customSampleData['custom_title_text']) {
-    requestBody.custom_sample_data = {
-      custom_title_text: customSampleData['custom_title_text']
-    };
+  if (customTitleText) {
+    requestBody.custom_title_text = customTitleText;
   }
 
   fetch('/prints/preview-pdf', {
@@ -549,6 +547,13 @@ function loadCustomSampleData() {
     }
   }
 
+  // customTitleTextを個別に読み込み
+  const titleStorageKey = 'customTitleText_' + currentPdfType;
+  const storedTitle = localStorage.getItem(titleStorageKey);
+  if (storedTitle) {
+    customTitleText = storedTitle;
+  }
+
   // consent_dateのデフォルト値を設定
   if (!customSampleData.consent_date) {
     const today = new Date();
@@ -575,6 +580,18 @@ function updateSampleData(field, value) {
   // localStorageに保存
   const storageKey = 'customSampleData_' + currentPdfType;
   localStorage.setItem(storageKey, JSON.stringify(customSampleData));
+
+  // プレビューを自動更新
+  autoPreview();
+}
+
+// カスタムタイトルテキストを更新
+function updateCustomTitleText(value) {
+  customTitleText = value;
+
+  // localStorageに保存
+  const storageKey = 'customTitleText_' + currentPdfType;
+  localStorage.setItem(storageKey, value);
 
   // プレビューを自動更新
   autoPreview();

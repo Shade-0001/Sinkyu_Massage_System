@@ -1,16 +1,16 @@
 {
     "custom_title_text": {
-        "x": 10,
-        "y": 10,
-        "fontSize": 10,
+        "x": 12,
+        "y": 13.5,
+        "fontSize": 17,
         "letterSpacing": 0,
         "textAlign": "left",
         "type": "text"
     },
     "submission_count": {
-        "x": 9.5,
-        "y": 10,
-        "fontSize": 10,
+        "x": 11.5,
+        "y": 12.2,
+        "fontSize": 11.5,
         "letterSpacing": 0,
         "textAlign": "center",
         "type": "text"

@@ -1083,13 +1083,13 @@ function renderSingleFieldHTML(key, field) {
       ${(() => {
         // custom_title_text専用の入力ボックス（常に表示）
         if (key === 'custom_title_text') {
-          const currentValue = customSampleData['custom_title_text'] || '';
+          const currentValue = customTitleText || '';
           return `
             <div class="coordinate-input">
               <label>描画テキスト:</label>
               <input type="text"
                      value="${currentValue}"
-                     onchange="updateSampleData('custom_title_text', this.value)"
+                     onchange="updateCustomTitleText(this.value)"
                      class="form-control form-control-sm">
             </div>
           `;

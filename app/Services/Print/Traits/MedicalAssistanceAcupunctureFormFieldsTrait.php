@@ -17,10 +17,9 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
   {
     // === カスタムタイトル（ラベル名: "タイトル" > "描画テキスト"） ===
     // 常に描画（サンプルモード・ノーマルモード共通）
-    if (isset($this->customSampleData['custom_title_text'])) {
-      $customTitle = $this->customSampleData['custom_title_text'];
+    if (!empty($this->customTitleText)) {
       $pdf->SetFontSize($this->coord('custom_title_text', 'fontSize'));
-      $this->drawTextByKey($pdf, 'custom_title_text', (string)$customTitle);
+      $this->drawTextByKey($pdf, 'custom_title_text', (string)$this->customTitleText);
     }
 
     // === 第ｎ回（該当データ存在月の累積回数） ===
