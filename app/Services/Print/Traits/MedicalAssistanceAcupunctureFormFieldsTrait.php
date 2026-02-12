@@ -2113,15 +2113,11 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
       $key = null;
       $feeDbKey = null;
 
+      // 行政規定により、はり･きゅう併用の場合は電療の有無に関わらず「はり･きゅう併用」として扱う
       if ($hariCount > 0 && $kyuCount > 0) {
-        // はり・きゅう併用
-        if ($hasElectric) {
-          $key = 'fee_initial_examination_hari_kyu_electric';
-          $feeDbKey = 'hari_and_kyu_and_elec_first';
-        } else {
-          $key = 'fee_initial_examination_combined';
-          $feeDbKey = 'hari_and_kyu_first';
-        }
+        // はり・きゅう併用（電療があっても併用として扱う）
+        $key = 'fee_initial_examination_combined';
+        $feeDbKey = 'hari_and_kyu_first';
       } elseif ($hariCount > 0) {
         // はりのみ
         if ($hasElectric) {
