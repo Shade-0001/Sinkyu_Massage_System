@@ -447,6 +447,13 @@ function previewPdf() {
     requestBody.custom_sample_data = processedSampleData;
   }
 
+  // custom_title_textは常に送信（ノーマルモード時も描画するため）
+  if (!showSampleData && customSampleData && customSampleData['custom_title_text']) {
+    requestBody.custom_sample_data = {
+      custom_title_text: customSampleData['custom_title_text']
+    };
+  }
+
   fetch('/prints/preview-pdf', {
     method: 'POST',
     headers: {
