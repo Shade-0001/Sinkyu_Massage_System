@@ -739,6 +739,8 @@ function getFieldCategories(pdfType) {
     return fieldCategoriesMedicalAssistanceAcupuncture;
   } else if (pdfType === 'medical_assistance_massage') {
     return fieldCategoriesMedicalAssistanceMassage;
+  } else if (pdfType === 'elderly_therapy_benefit_acupuncture') {
+    return fieldCategoriesMedicalAssistanceAcupuncture;
   }
   return fieldCategoriesTherapyBenefitAcupuncture;
 }
@@ -757,7 +759,7 @@ function getCategoryOrder(pdfType) {
     return categoryOrderTherapyBenefitMassage;
   } else if (pdfType === 'treatment_receipt') {
     return categoryOrderTreatmentReceipt;
-  } else if (pdfType === 'medical_assistance_acupuncture' || pdfType === 'medical_assistance_massage') {
+  } else if (pdfType === 'medical_assistance_acupuncture' || pdfType === 'medical_assistance_massage' || pdfType === 'elderly_therapy_benefit_acupuncture') {
     return categoryOrderMedicalAssistance;
   }
   return categoryOrderTherapyBenefitAcupuncture;

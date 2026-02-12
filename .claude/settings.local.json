@@ -79,7 +79,10 @@
       "Bash(git -C \"i:\\\\XAMPP\\\\htdocs\\\\Sinkyu_Massage_System\" diff .claude/settings.local.json)",
       "Bash(git -C \"i:\\\\XAMPP\\\\htdocs\\\\Sinkyu_Massage_System\" log --oneline -9)",
       "Bash(git -C \"i:\\\\XAMPP\\\\htdocs\\\\Sinkyu_Massage_System\" push)",
-      "Bash(git -C \"i:\\\\XAMPP\\\\htdocs\\\\Sinkyu_Massage_System\" add .claude/settings.local.json)"
+      "Bash(git -C \"i:\\\\XAMPP\\\\htdocs\\\\Sinkyu_Massage_System\" add .claude/settings.local.json)",
+      "Bash(git -C \"i:\\\\XAMPP\\\\htdocs\\\\Sinkyu_Massage_System\" commit -m \"$\\(cat <<''EOF''\nchore: Claude Code設定ファイルのallow履歴を更新\n\ngit操作の自動承認履歴を追加。\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git -C \"i:\\\\XAMPP\\\\htdocs\\\\Sinkyu_Massage_System\" commit --amend -m \"［autosave-commit_260210-2328｜Claude Code設定ファイルのallow履歴を更新］\")",
+      "Bash(git -C \"i:\\\\XAMPP\\\\htdocs\\\\Sinkyu_Massage_System\" log --oneline -1)"
     ],
     "deny": [],
     "ask": []

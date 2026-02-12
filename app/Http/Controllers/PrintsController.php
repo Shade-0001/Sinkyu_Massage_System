@@ -786,7 +786,7 @@ class PrintsController extends Controller
 
       // PDFタイプに応じて対象の施術内容IDを決定
       $therapyContentIds = [];
-      if ($pdfType === 'medical_assistance_acupuncture') {
+      if ($pdfType === 'medical_assistance_acupuncture' || $pdfType === 'elderly_therapy_benefit_acupuncture') {
         // はり･きゅう: therapy_content_id 11-16
         $therapyContentIds = [11, 12, 13, 14, 15, 16];
       } elseif ($pdfType === 'medical_assistance_massage') {

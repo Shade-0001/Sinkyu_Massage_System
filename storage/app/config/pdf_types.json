@@ -45,7 +45,7 @@
     "templateFile": "後期高齢者医療療養費支給申請書（はり･きゅう）.pdf",
     "templateDir": "acupuncture_and_massage",
     "serviceClass": "ElderlyTherapyBenefitAcupuncturePdfService",
-    "fieldsFile": ""
+    "fieldsFile": "therapy_benefit_acupuncture.js"
   },
   "elderly_therapy_benefit_massage": {
     "name": "後期高齢者医療療養費支給申請書（あんま･マッサージ）",
