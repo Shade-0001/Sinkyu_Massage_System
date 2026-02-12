@@ -26,7 +26,7 @@
   "medical_assistance_acupuncture": {
     "name": "医療助成費支給申請書（はり･きゅう）",
     "coordinatesFile": "medical_assistance_acupuncture_coordinates.json",
-    "templateFile": "医療助成費支給申請書（はり･きゅう）.pdf",
+    "templateFile": "医療費支給申請書（はり･きゅう）.pdf",
     "templateDir": "acupuncture_and_massage",
     "serviceClass": "MedicalAssistanceAcupuncturePdfService",
     "fieldsFile": "therapy_benefit_acupuncture.js"
@@ -34,7 +34,7 @@
   "medical_assistance_massage": {
     "name": "医療助成費支給申請書（あんま･マッサージ）",
     "coordinatesFile": "medical_assistance_massage_coordinates.json",
-    "templateFile": "医療助成費支給申請書（あんま･マッサージ）.pdf",
+    "templateFile": "医療費支給申請書（あんま･マッサージ）.pdf",
     "templateDir": "acupuncture_and_massage",
     "serviceClass": "MedicalAssistanceMassagePdfService",
     "fieldsFile": "therapy_benefit_massage.js"
@@ -42,7 +42,7 @@
   "elderly_therapy_benefit_acupuncture": {
     "name": "後期高齢者医療療養費支給申請書（はり･きゅう）",
     "coordinatesFile": "elderly_therapy_benefit_acupuncture_coordinates.json",
-    "templateFile": "後期高齢者医療療養費支給申請書（はり･きゅう）.pdf",
+    "templateFile": "医療費支給申請書（はり･きゅう）.pdf",
     "templateDir": "acupuncture_and_massage",
     "serviceClass": "ElderlyTherapyBenefitAcupuncturePdfService",
     "fieldsFile": "therapy_benefit_acupuncture.js"
@@ -50,7 +50,7 @@
   "elderly_therapy_benefit_massage": {
     "name": "後期高齢者医療療養費支給申請書（あんま･マッサージ）",
     "coordinatesFile": "elderly_therapy_benefit_massage_coordinates.json",
-    "templateFile": "後期高齢者医療療養費支給申請書（あんま･マッサージ）.pdf",
+    "templateFile": "医療費支給申請書（あんま･マッサージ）.pdf",
     "templateDir": "acupuncture_and_massage",
     "serviceClass": "ElderlyTherapyBenefitMassagePdfService",
     "fieldsFile": "therapy_benefit_acupuncture.js"

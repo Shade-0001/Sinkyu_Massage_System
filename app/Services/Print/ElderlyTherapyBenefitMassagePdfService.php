@@ -238,7 +238,7 @@ class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
     $pdf->AddPage();
 
     // テンプレートPDF読み込み
-    $templatePath = $this->customTemplatePath ?? storage_path('app/templates/acupuncture_and_massage/後期高齢者医療療養費支給申請書（あんま･マッサージ）.pdf');
+    $templatePath = $this->customTemplatePath ?? storage_path('app/templates/acupuncture_and_massage/医療費支給申請書（あんま･マッサージ）.pdf');
 
     if (file_exists($templatePath)) {
       $pageCount = $pdf->setSourceFile($templatePath);

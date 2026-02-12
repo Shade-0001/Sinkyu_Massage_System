@@ -207,7 +207,7 @@ class MedicalAssistanceAcupuncturePdfService extends BasePdfService
     $pdf->AddPage();
 
     // テンプレートPDF読み込み
-    $templatePath = $this->customTemplatePath ?? storage_path('app/templates/acupuncture_and_massage/医療助成費支給申請書（はり･きゅう）.pdf');
+    $templatePath = $this->customTemplatePath ?? storage_path('app/templates/acupuncture_and_massage/医療費支給申請書（はり･きゅう）.pdf');
 
     if (file_exists($templatePath)) {
       $pageCount = $pdf->setSourceFile($templatePath);
