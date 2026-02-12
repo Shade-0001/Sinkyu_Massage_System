@@ -169,6 +169,20 @@ class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
       \Log::warning('あんま・マッサージ同意書情報が見つかりません', ['clinic_user_id' => $clinicUserId]);
     }
 
+    // 同意医師情報取得
+    $doctor = null;
+    if ($consent && $consent->consenting_doctor_name) {
+      // スペース（半角・全角）で分割して姓名を取得
+      $nameParts = preg_split('/[\s　]+/u', trim($consent->consenting_doctor_name), 2);
+
+      if (count($nameParts) === 2) {
+        $doctor = DB::table('doctors')
+          ->where('last_name', $nameParts[0])
+          ->where('first_name', $nameParts[1])
+          ->first();
+      }
+    }
+
     // 施術実績取得（対象年月）
     $records = DB::table('records')
       ->where('clinic_user_id', $clinicUserId)
@@ -203,6 +217,7 @@ class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
       'clinic_user' => $clinicUser,
       'insurance' => $insurance,
       'consent' => $consent,
+      'doctor' => $doctor,
       'records' => $records,
       'clinic_info' => $clinicInfo,
       'treatment_fees' => $treatmentFees,
@@ -252,6 +267,7 @@ class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
     $clinicUser = $data['clinic_user'];
     $insurance = $data['insurance'];
     $consent = $data['consent'];
+    $doctor = $data['doctor'] ?? null;
     $records = $data['records'];
     $clinicInfo = $data['clinic_info'];
     [$year, $month] = explode('-', $data['service_year_month']);
@@ -273,11 +289,11 @@ class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
     $this->fillServiceDates($pdf, $records);
     $this->fillAbstractSection($pdf, $records);
     $this->fillClinicInfoSection($pdf, $clinicInfo, $submissionDate);
-    $this->fillConsentRecordSectionMassage($pdf, $consent);
+    $this->fillConsentRecordSectionMassage($pdf, $consent, $doctor);
     $this->fillTreatmentPeriodFields($pdf, $data);
     $this->fillApplicationSection($pdf, $submissionDate);
     $this->fillApplicantInfo($pdf, $clinicUser, $fullName);
-    $this->fillAgentInfo($pdf);
+    $this->fillAgentInfo($pdf, $clinicInfo, $clinicUser);
     $this->fillPaymentInstitutionSection($pdf, $clinicInfo);
     $this->fillTemporaryInsurerName($pdf, $fullName);
     if (!$this->sampleDataMode) {
@@ -403,16 +419,46 @@ class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
   /**
    * 同意記録セクション埋め込み（マッサージ用）
    */
-  protected function fillConsentRecordSectionMassage($pdf, $consent): void
+  protected function fillConsentRecordSectionMassage($pdf, $consent, $doctor = null): void
   {
     if ($this->sampleDataMode && $this->customSampleData) {
       // サンプルデータモードは親クラスのfillConsentRecordSectionを呼び出し
-      $this->fillConsentRecordSection($pdf, $consent);
+      $this->fillConsentRecordSection($pdf, $consent, $doctor);
       return;
     }
 
     if (!$consent) {
       return;
+    }
+
+    // 同意医師氏名
+    if ($this->hasCoord('consent_record_doctor_name') && isset($consent->consenting_doctor_name)) {
+      $pdf->SetFontSize($this->coord('consent_record_doctor_name', 'fontSize'));
+      $this->drawTextByKey($pdf, 'consent_record_doctor_name', (string)$consent->consenting_doctor_name);
+      $pdf->SetFontSize(10);
+    }
+
+    // 同意医師郵便番号
+    if ($this->hasCoord('consent_record_doctor_postal_code') && $doctor && isset($doctor->postal_code)) {
+      $doctorPostalCode = $doctor->postal_code;
+      // 7桁の数字を "〒 XXX - XXXX" 形式に変換
+      $postalCode = preg_replace('/[^0-9]/', '', $doctorPostalCode);
+      if (strlen($postalCode) === 7) {
+        $postalCode = '〒 ' . substr($postalCode, 0, 3) . ' - ' . substr($postalCode, 3);
+      }
+      $pdf->SetFontSize($this->coord('consent_record_doctor_postal_code', 'fontSize'));
+      $this->drawTextByKey($pdf, 'consent_record_doctor_postal_code', (string)$postalCode);
+      $pdf->SetFontSize(10);
+    }
+
+    // 同意医師住所
+    if ($this->hasCoord('consent_record_doctor_address') && $doctor) {
+      $doctorAddress = ($doctor->address_1 ?? '') . ($doctor->address_2 ?? '') . ($doctor->address_3 ?? '');
+      if ($doctorAddress) {
+        $pdf->SetFontSize($this->coord('consent_record_doctor_address', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_doctor_address', (string)$doctorAddress);
+        $pdf->SetFontSize(10);
+      }
     }
 
     // 同意年月日（統合フィールド）
@@ -449,13 +495,61 @@ class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
       $this->drawTextByKey($pdf, 'required_treatment_period', (string)$therapyPeriod);
       $pdf->SetFontSize(10);
     }
+  }
 
-    // 同意医師氏名・住所（親クラスのロジックを使用）
-    if ($this->hasCoord('consent_record_doctor_name') && isset($consent->consenting_doctor_name)) {
-      $pdf->SetFontSize($this->coord('consent_record_doctor_name', 'fontSize'));
-      $this->drawTextByKey($pdf, 'consent_record_doctor_name', (string)$consent->consenting_doctor_name);
-      $pdf->SetFontSize(10);
+  /**
+   * 代理人情報埋め込み（マッサージ用）
+   */
+  protected function fillAgentInfo($pdf, $clinicInfo = null, $clinicUser = null): void
+  {
+    // === 代理人情報 ===
+    if ($this->sampleDataMode) {
+      // サンプルデータモード
+      $agentPostalCode = $this->customSampleData['agent_postal_code'] ?? '';
+      $agentAddress = $this->customSampleData['agent_address'] ?? '';
+      $agentName = $this->customSampleData['agent_name'] ?? '';
+    } else {
+      // 通常モード：clinic_infoテーブルを参照
+      $agentPostalCode = $clinicInfo->postal_code ?? '';
+      $agentAddress = ($clinicInfo->address_1 ?? '') . ($clinicInfo->address_2 ?? '') . ($clinicInfo->address_3 ?? '');
+      $agentName = isset($clinicInfo->owner_last_name) && isset($clinicInfo->owner_first_name)
+        ? trim($clinicInfo->owner_last_name . ' ' . $clinicInfo->owner_first_name)
+        : '';
     }
+
+    if ($this->hasCoord('agent_postal_code') && $agentPostalCode) {
+      $pdf->SetFontSize($this->coord('agent_postal_code', 'fontSize'));
+      $this->drawTextByKey($pdf, 'agent_postal_code', (string)$agentPostalCode);
+    }
+    if ($this->hasCoord('agent_address') && $agentAddress) {
+      $pdf->SetFontSize($this->coord('agent_address', 'fontSize'));
+      $this->drawTextByKey($pdf, 'agent_address', (string)$agentAddress);
+    }
+    if ($this->hasCoord('agent_name') && $agentName) {
+      $pdf->SetFontSize($this->coord('agent_name', 'fontSize'));
+      $this->drawTextByKey($pdf, 'agent_name', (string)$agentName);
+    }
+
+    // === 委任者郵便番号・住所 ===
+    if (!$this->sampleDataMode && $clinicUser) {
+      // 通常モード：利用者のデータを参照
+      // 署名オプション: user_address_signature_blank の場合は郵便番号・住所をスキップ
+      if ($this->signatureOption !== 'user_address_signature_blank') {
+        if ($this->hasCoord('signature_applicant_postal_code') && isset($clinicUser->postal_code)) {
+          $pdf->SetFontSize($this->coord('signature_applicant_postal_code', 'fontSize'));
+          $this->drawTextByKey($pdf, 'signature_applicant_postal_code', (string)$clinicUser->postal_code);
+        }
+        if ($this->hasCoord('signature_applicant_address')) {
+          $signatureAddress = ($clinicUser->address_1 ?? '') . ($clinicUser->address_2 ?? '') . ($clinicUser->address_3 ?? '');
+          if ($signatureAddress) {
+            $pdf->SetFontSize($this->coord('signature_applicant_address', 'fontSize'));
+            $this->drawTextByKey($pdf, 'signature_applicant_address', (string)$signatureAddress);
+          }
+        }
+      }
+    }
+
+    $pdf->SetFontSize(10);
   }
 
   /**
