@@ -598,6 +598,8 @@ const fieldCategoriesMedicalAssistanceAcupuncture = {
 
 // フィールドカテゴリマッピング（医療助成費支給申請書（あんま・マッサージ）用）
 const fieldCategoriesMedicalAssistanceMassage = {
+  "custom_title_text": "basic_info",
+  "submission_count": "basic_info",
   "title_year_month": "basic_info",
   "locality_code": "basic_info",
   "recipient_number": "basic_info",

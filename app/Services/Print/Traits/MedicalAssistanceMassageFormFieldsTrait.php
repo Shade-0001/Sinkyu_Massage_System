@@ -489,6 +489,48 @@ trait MedicalAssistanceMassageFormFieldsTrait
 
     $pdf->SetFontSize(10);
   }
+  /**
+   * カスタムタイトルと第ｎ回を描画
+   */
+  protected function fillCustomTitleAndSubmissionCount($pdf, $data): void
+  {
+    // === カスタムタイトル（ラベル名: "タイトル" > "描画テキスト"） ===
+    // 常に描画（サンプルモード・ノーマルモード共通）
+    if (!empty($this->customTitleText)) {
+      $pdf->SetFontSize($this->coord('custom_title_text', 'fontSize'));
+      $this->drawTextByKey($pdf, 'custom_title_text', (string)$this->customTitleText);
+    }
+
+    // === 第ｎ回（該当データ存在月の累積回数） ===
+    if ($this->sampleDataMode && isset($this->customSampleData['submission_count'])) {
+      $submissionCount = $this->customSampleData['submission_count'];
+      $pdf->SetFontSize($this->coord('submission_count', 'fontSize'));
+      $this->drawTextByKey($pdf, 'submission_count', (string)$submissionCount);
+    } else {
+      // 通常モード：該当利用者のデータが存在する月の累積回数を計算
+      $clinicUser = $data['clinic_user'] ?? null;
+      $serviceYearMonth = $data['service_year_month'] ?? null;
+
+      if ($clinicUser && $serviceYearMonth) {
+        // 該当利用者のデータが存在する月を昇順で取得
+        $monthsWithData = \DB::table('records')
+          ->where('clinic_user_id', $clinicUser->id)
+          ->whereRaw("DATE_FORMAT(date, '%Y-%m') <= ?", [$serviceYearMonth])
+          ->selectRaw("DISTINCT DATE_FORMAT(date, '%Y-%m') as month")
+          ->orderBy('month', 'asc')
+          ->pluck('month');
+
+        // 現在の年月が何回目か（1-based index）
+        $submissionCount = $monthsWithData->search($serviceYearMonth);
+        if ($submissionCount !== false) {
+          $submissionCount = $submissionCount + 1; // 0-based → 1-based
+          $pdf->SetFontSize($this->coord('submission_count', 'fontSize'));
+          $this->drawTextByKey($pdf, 'submission_count', (string)$submissionCount);
+        }
+      }
+    }
+  }
+
   protected function fillTitleYearMonth(Fpdi $pdf, array $japaneseYear, int $month): void
   {
     // === 上部：年月 ===

@@ -1,6 +1,7 @@
 // サンプルデータ定義
 let customSampleData = {
   // タイトル情報
+  submission_count: '1',
   title_year_era: '令和',
   title_year_number: '7',
   title_month: '12',

@@ -263,6 +263,7 @@ class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
     list($year, $month) = explode('-', $data['service_year_month']);
     $japaneseYear = $this->convertToJapaneseYear($year, $month);
 
+    $this->fillCustomTitleAndSubmissionCount($pdf, $data);
     $this->fillTitleYearMonth($pdf, $japaneseYear, (int)$month);
     $this->fillInstitutionAndPublicFunds($pdf, $clinicInfo, $insurance);
     $this->fillInsuranceType($pdf, $insurance);

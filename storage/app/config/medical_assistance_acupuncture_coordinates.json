@@ -1,8 +1,8 @@
 {
     "custom_title_text": {
         "x": 12,
-        "y": 13.5,
-        "fontSize": 17,
+        "y": 14,
+        "fontSize": 16,
         "letterSpacing": 0,
         "textAlign": "left",
         "type": "text"
