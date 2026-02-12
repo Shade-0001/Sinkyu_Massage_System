@@ -1927,8 +1927,13 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
     foreach ($records as $index => $record) {
       $therapyContentId = $record->therapy_content_id ?? null;
 
-      // 初検かどうかを判定（指定月に請求区分が「新規」のレコードがあるか）
-      if (!$isFirstTreatment && isset($record->bill_category_id) && $record->bill_category_id == 1) {
+      // 初検かどうかを判定（指定月に請求区分が「新規」且つ鍼灸施術のレコードがあるか）
+      // 鍼灸施術のtherapy_content_id: 11-17（はり・きゅう関連）
+      $acupunctureContentIds = [11, 12, 13, 14, 15, 16, 17];
+      if (!$isFirstTreatment
+          && isset($record->bill_category_id)
+          && $record->bill_category_id == 1
+          && in_array($therapyContentId, $acupunctureContentIds)) {
         $isFirstTreatment = true;
       }
 
