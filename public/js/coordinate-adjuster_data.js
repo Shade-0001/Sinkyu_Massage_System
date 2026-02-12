@@ -1,7 +1,5 @@
 // サンプルデータ定義
 let customSampleData = {
-// タイトルテキスト専用変数（sampleモードと無関係）
-let customTitleText = '';
   // タイトル情報
   title_year_era: '令和',
   title_year_number: '7',
@@ -300,3 +298,6 @@ function getSampleValue(key) {
   // 通常は単一フィールド
   return customSampleData[mapping.field] || customSampleData[key];
 }
+
+// タイトルテキスト専用変数（sampleモードと無関係）
+let customTitleText = '';
