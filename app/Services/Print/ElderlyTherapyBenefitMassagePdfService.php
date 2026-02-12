@@ -9,25 +9,19 @@ use Illuminate\Support\Facades\Storage;
 /**
  * 後期高齢者医療療養費支給申請書（あんま･マッサージ）PDF生成サービス
  *
+ * 【仕様】
+ * - フォーム構造：医療助成費支給申請書（はり･きゅう）と同じ
+ * - データ取得：あんま･マッサージ用（consents_massage、therapy_content_id 1-10）
+ *
  * 【データ取得の注意点】
  * - $consent: consents_massageテーブルから取得、複数テーブルとJOIN
- *   - illness_name: illnesses_massageテーブルとJOINで取得（injury_and_illness_name_idから）
- *   - therapy_period: 通常は空、therapy_period_start_date/end_dateから生成が必要な場合あり
- * - $doctor: doctorsテーブルから取得、consent.consenting_doctor_nameで検索
- *   - postal_code, address_1/2/3 を提供
- * - サンプルデータとのフィールド名の違いに注意（MedicalAssistanceMassageSampleDataTrait参照）
- *
- * 【施術日カレンダー描画の注意点】
- * - fillServiceDates()を使用（fillTreatmentDayCalendar()ではない）
- * - fillServiceDates()はtherapy_categoryに応じて単円(○)/二重丸(◎)を描画
- * - fillTreatmentDayCalendar()は単円のみで二重丸に非対応
- * - therapy_category: 1=通院(○)、2=往療初回(◎)
+ * - サンプルデータは医療助成費（はり･きゅう）のものを流用
  */
 class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
 {
-  use \App\Services\Print\Traits\MedicalAssistanceMassageFormFieldsTrait;
-  use \App\Services\Print\Traits\MedicalAssistanceMassageSampleDataTrait;
-  use \App\Services\Print\Traits\MedicalAssistanceMassageDrawingHelpersTrait;
+  use \App\Services\Print\Traits\MedicalAssistanceAcupunctureFormFieldsTrait;
+  use \App\Services\Print\Traits\MedicalAssistanceAcupunctureSampleDataTrait;
+  use \App\Services\Print\Traits\MedicalAssistanceAcupunctureDrawingHelpersTrait;
 
   /**
    * 署名オプション
@@ -117,10 +111,11 @@ class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
       ->first();
 
     if (!$clinicUser) {
+      \Log::error('利用者情報が見つかりません', ['clinic_user_id' => $clinicUserId]);
       return null;
     }
 
-    // 保険情報取得
+    // 保険情報取得（保険者情報、続柄、給付割合もJOIN）
     $insurance = DB::table('insurances')
       ->leftJoin('insurers', 'insurances.insurers_id', '=', 'insurers.id')
       ->leftJoin('relationships_with_clinic_user', 'insurances.relationship_with_clinic_user_id', '=', 'relationships_with_clinic_user.id')
@@ -140,9 +135,18 @@ class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
       )
       ->first();
 
+    if (!$insurance) {
+      \Log::warning('保険情報が見つかりません', ['clinic_user_id' => $clinicUserId]);
+    } else {
+      \Log::info('保険情報取得成功', [
+        'clinic_user_id' => $clinicUserId,
+        'insurance_id' => $insurance->id ?? null,
+        'expenses_borne_ratio_id' => $insurance->expenses_borne_ratio_id ?? null,
+        'expenses_borne_ratio' => $insurance->expenses_borne_ratio ?? null,
+      ]);
+    }
 
-
-    // あんま・マッサージ同意書情報取得
+    // あんま・マッサージ同意書情報取得（請求区分、転帰、業務上区分もJOIN）
     $consent = DB::table('consents_massage')
       ->leftJoin('bill_categories', 'consents_massage.bill_category_id', '=', 'bill_categories.id')
       ->leftJoin('outcomes', 'consents_massage.outcome_id', '=', 'outcomes.id')
@@ -161,20 +165,8 @@ class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
       )
       ->first();
 
-
-
-    // 同意医師情報取得
-    $doctor = null;
-    if ($consent && $consent->consenting_doctor_name) {
-      // スペース（半角・全角）で分割して姓名を取得
-      $nameParts = preg_split('/[\s　]+/u', trim($consent->consenting_doctor_name), 2);
-
-      if (count($nameParts) === 2) {
-        $doctor = DB::table('doctors')
-          ->where('last_name', $nameParts[0])
-          ->where('first_name', $nameParts[1])
-          ->first();
-      }
+    if (!$consent) {
+      \Log::warning('あんま・マッサージ同意書情報が見つかりません', ['clinic_user_id' => $clinicUserId]);
     }
 
     // 施術実績取得（対象年月）
@@ -184,24 +176,33 @@ class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
       ->orderBy('date')
       ->get();
 
-
+    if ($records->isEmpty()) {
+      \Log::warning('施術実績が見つかりません', [
+        'clinic_user_id' => $clinicUserId,
+        'service_year_month' => $serviceYearMonth,
+      ]);
+    }
 
     // 施術所情報取得
     $clinicInfo = DB::table('clinic_info')->first();
 
+    if (!$clinicInfo) {
+      \Log::error('施術所情報が見つかりません');
+    }
 
     // 施術料金データ取得（最新のデータ）
     $treatmentFees = DB::table('treatment_fees')
       ->orderBy('created_at', 'desc')
       ->first();
 
-
+    if (!$treatmentFees) {
+      \Log::warning('施術料金データが見つかりません');
+    }
 
     return [
       'clinic_user' => $clinicUser,
       'insurance' => $insurance,
       'consent' => $consent,
-      'doctor' => $doctor,
       'records' => $records,
       'clinic_info' => $clinicInfo,
       'treatment_fees' => $treatmentFees,
@@ -251,45 +252,37 @@ class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
     $clinicUser = $data['clinic_user'];
     $insurance = $data['insurance'];
     $consent = $data['consent'];
-    $doctor = $data['doctor'] ?? null;
     $records = $data['records'];
     $clinicInfo = $data['clinic_info'];
-
-    $fullName = ($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? '');
-    list($year, $month) = explode('-', $data['service_year_month']);
+    [$year, $month] = explode('-', $data['service_year_month']);
     $japaneseYear = $this->convertToJapaneseYear($year, $month);
+    $fullName = ($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? '');
+    $fullNameKana = ($clinicUser->last_kana ?? '') . ' ' . ($clinicUser->first_kana ?? '');
 
     $this->fillTitleYearMonth($pdf, $japaneseYear, (int)$month);
     $this->fillInstitutionAndPublicFunds($pdf, $clinicInfo, $insurance);
-    $this->fillInsuranceType($pdf, $insurance);
-    $this->fillPartialPaymentEllipse($pdf, $insurance);
-    $this->fillInsuranceInfoSection($pdf, $insurance);
-    $this->fillPatientBasicInfo($pdf, $clinicUser, $insurance, $fullName);
+    $this->fillInsuranceSection($pdf, $insurance);
+    $this->fillPatientBasicInfo($pdf, $clinicUser, $insurance, $fullName, $fullNameKana);
     $this->fillPatientBirthday($pdf, $clinicUser);
-    $this->fillPatientAddressInfo($pdf, $clinicUser);
-    $this->fillTreatmentPeriodSection($pdf, $records);
-    $this->fillDiseaseAndSymptoms($pdf, $consent);
     $this->fillOnsetInfo($pdf, $consent);
+    $this->fillWorkScopeType($pdf, $consent);
     $this->fillFirstTreatmentDate($pdf, $records);
     $this->fillTreatmentDayCount($pdf, $records);
-    $this->fillBillCategorySection($pdf, $consent);
-    $this->fillOutcomeSection($pdf, $consent);
-    $this->fillWorkRelatedSection($pdf, $consent);
-    $this->fillCauseAndProgressSection($pdf, $consent);
-    $this->fillTreatmentMonth($pdf, $data['service_year_month']);
-    $this->fillDiseaseCheckboxes($pdf, $consent);
+    $this->fillBillCategoryAndOutcome($pdf, $consent);
+    $this->fillIllnessCheckboxes($pdf, $consent);
     $this->fillServiceDates($pdf, $records);
     $this->fillAbstractSection($pdf, $records);
-    $this->fillTreatmentFees($pdf, $data);
     $this->fillClinicInfoSection($pdf, $clinicInfo, $submissionDate);
-    $this->fillTherapistSection($pdf, $consent);
-    $this->fillHealthOfficeRegistration($pdf, $consent);
-    $this->fillConsentRecordSection($pdf, $consent, $doctor);
+    $this->fillConsentRecordSection($pdf, $consent);
+    $this->fillTreatmentPeriodFields($pdf, $data);
     $this->fillApplicationSection($pdf, $submissionDate);
     $this->fillApplicantInfo($pdf, $clinicUser, $fullName);
-    $this->fillAgentInfo($pdf, $clinicInfo, $clinicUser);
+    $this->fillAgentInfo($pdf);
     $this->fillPaymentInstitutionSection($pdf, $clinicInfo);
     $this->fillTemporaryInsurerName($pdf, $fullName);
-    $this->fillDelegationSection($pdf, $insurance, $doctor);
+    if (!$this->sampleDataMode) {
+      $this->fillRealDataModeFields($pdf, $data, $insurance, $consent, $clinicInfo, $clinicUser, $submissionDate);
+    }
+    $this->fillTreatmentFees($pdf, $data);
   }
 }
