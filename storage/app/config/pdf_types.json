@@ -53,7 +53,7 @@
     "templateFile": "医療費支給申請書（あんま･マッサージ）.pdf",
     "templateDir": "acupuncture_and_massage",
     "serviceClass": "ElderlyTherapyBenefitMassagePdfService",
-    "fieldsFile": "therapy_benefit_acupuncture.js"
+    "fieldsFile": "therapy_benefit_massage.js"
   },
   "consent_request_letter_sample": {
     "name": "同意書依頼状（サンプル版）",
