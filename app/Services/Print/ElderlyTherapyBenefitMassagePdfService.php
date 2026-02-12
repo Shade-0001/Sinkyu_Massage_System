@@ -19,9 +19,9 @@ use Illuminate\Support\Facades\Storage;
  */
 class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
 {
-  use \App\Services\Print\Traits\MedicalAssistanceAcupunctureFormFieldsTrait;
-  use \App\Services\Print\Traits\MedicalAssistanceAcupunctureSampleDataTrait;
-  use \App\Services\Print\Traits\MedicalAssistanceAcupunctureDrawingHelpersTrait;
+  use \App\Services\Print\Traits\MedicalAssistanceMassageFormFieldsTrait;
+  use \App\Services\Print\Traits\MedicalAssistanceMassageSampleDataTrait;
+  use \App\Services\Print\Traits\MedicalAssistanceMassageDrawingHelpersTrait;
 
   /**
    * 署名オプション
