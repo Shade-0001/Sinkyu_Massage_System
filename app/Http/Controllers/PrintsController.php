@@ -789,7 +789,7 @@ class PrintsController extends Controller
       if ($pdfType === 'medical_assistance_acupuncture' || $pdfType === 'elderly_therapy_benefit_acupuncture') {
         // はり･きゅう: therapy_content_id 11-16
         $therapyContentIds = [11, 12, 13, 14, 15, 16];
-      } elseif ($pdfType === 'medical_assistance_massage') {
+      } elseif ($pdfType === 'medical_assistance_massage' || $pdfType === 'elderly_therapy_benefit_massage') {
         // あんま･マッサージ: therapy_content_id 1-10
         $therapyContentIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
       }

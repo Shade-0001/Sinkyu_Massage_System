@@ -246,8 +246,8 @@ function renderFieldSettings() {
                   return false;
                 }
               }
-              // medical_assistance_*とelderly_therapy_benefit_acupunctureの初療年月日・施術期間グループでは日付フィールドのみ表示
-              if ((currentPdfType === 'medical_assistance_acupuncture' || currentPdfType === 'medical_assistance_massage' || currentPdfType === 'elderly_therapy_benefit_acupuncture') &&
+              // medical_assistance_*とelderly_therapy_benefit_*の初療年月日・施術期間グループでは日付フィールドのみ表示
+              if ((currentPdfType === 'medical_assistance_acupuncture' || currentPdfType === 'medical_assistance_massage' || currentPdfType === 'elderly_therapy_benefit_acupuncture' || currentPdfType === 'elderly_therapy_benefit_massage') &&
                   (field.compositeGroup === 'first_treatment_date_composite' ||
                    field.compositeGroup === 'treatment_start_date_composite' ||
                    field.compositeGroup === 'treatment_end_date_composite')) {
@@ -418,8 +418,8 @@ function renderFieldSettings() {
       }
 
 
-      // 医療助成費支給申請書とelderly_therapy_benefit_acupunctureのtreatment_daysフィールドの場合、個別調整UIに置き換え
-      if ((currentPdfType === 'medical_assistance_acupuncture' || currentPdfType === 'medical_assistance_massage' || currentPdfType === 'elderly_therapy_benefit_acupuncture') &&
+      // 医療助成費支給申請書とelderly_therapy_benefit_*のtreatment_daysフィールドの場合、個別調整UIに置き換え
+      if ((currentPdfType === 'medical_assistance_acupuncture' || currentPdfType === 'medical_assistance_massage' || currentPdfType === 'elderly_therapy_benefit_acupuncture' || currentPdfType === 'elderly_therapy_benefit_massage') &&
           key === 'treatment_days') {
         processedKeys.add(key);
 
