@@ -26,7 +26,7 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
     if ($this->sampleDataMode && isset($this->customSampleData['submission_count'])) {
       $submissionCount = $this->customSampleData['submission_count'];
       $pdf->SetFontSize($this->coord('submission_count', 'fontSize'));
-      $this->drawTextByKey($pdf, 'submission_count', '第' . $submissionCount . '回');
+      $this->drawTextByKey($pdf, 'submission_count', (string)$submissionCount);
     } else {
       // 通常モード：該当利用者のデータが存在する月の累積回数を計算
       $clinicUser = $data['clinic_user'] ?? null;
@@ -46,7 +46,7 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
         if ($submissionCount !== false) {
           $submissionCount = $submissionCount + 1; // 0-based → 1-based
           $pdf->SetFontSize($this->coord('submission_count', 'fontSize'));
-          $this->drawTextByKey($pdf, 'submission_count', '第' . $submissionCount . '回');
+          $this->drawTextByKey($pdf, 'submission_count', (string)$submissionCount);
         }
       }
     }
