@@ -105,6 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
   enableClickToggleSelect('massage_clinic_user_ids');
   enableClickToggleSelect('receipt_clinic_user_ids');
   enableClickToggleSelect('medical_assistance_clinic_user_ids');
+  enableClickToggleSelect('late_elderly_medical_clinic_user_ids');
 });
 
 /**
@@ -552,6 +553,119 @@ function submitMedicalAssistance() {
   // モーダルを閉じる
   setTimeout(() => {
     const modalElement = document.getElementById('medicalAssistanceModal');
+    if (modalElement) {
+      const modalInstance = bootstrap.Modal.getInstance(modalElement);
+      if (modalInstance) {
+        modalInstance.hide();
+      }
+    }
+  }, 100);
+}
+
+/**
+ * 後期高齢者医療療養費支給申請書モーダルを開く
+ * @param {string} type - 'acupuncture'（はり・きゅう）または 'massage'（あんま・マッサージ）
+ */
+function openLateElderlyMedicalModal(type) {
+  const modalElement = document.getElementById('lateElderlyMedicalModal');
+  if (!modalElement) return;
+
+  // フォームをリセット
+  resetFormToDefault('lateElderlyMedicalForm');
+
+  // タイプを設定
+  const lateElderlyMedicalType = document.getElementById('late_elderly_medical_type');
+  if (lateElderlyMedicalType) {
+    lateElderlyMedicalType.value = type;
+  }
+
+  // モーダルタイトルを更新
+  const modalTitle = document.getElementById('lateElderlyMedicalModalLabel');
+  if (modalTitle) {
+    if (type === 'acupuncture') {
+      modalTitle.textContent = 'はり・きゅう後期高齢者医療療養費支給申請書 出力設定';
+    } else {
+      modalTitle.textContent = 'あんま・マッサージ後期高齢者医療療養費支給申請書 出力設定';
+    }
+  }
+
+  // 提出年月を今月に設定
+  const submissionMonth = document.getElementById('late_elderly_medical_submission_month');
+  if (submissionMonth) {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    submissionMonth.value = `${year}-${month}`;
+  }
+
+  // チェックボックスの排他制御を設定
+  setupLateElderlySignatureOptionCheckboxes();
+
+  // モーダルをbodyに追加（必要な場合）
+  if (modalElement.parentElement !== document.body) {
+    document.body.appendChild(modalElement);
+  }
+
+  // Bootstrapモーダルインスタンスを取得または作成
+  const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
+  modalInstance.show();
+}
+
+/**
+ * 後期高齢者署名オプションのチェックボックスを1つだけ選択可能にする排他制御
+ */
+function setupLateElderlySignatureOptionCheckboxes() {
+  const checkboxes = document.querySelectorAll('.late-elderly-signature-option-checkbox');
+
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      if (this.checked) {
+        // 他のチェックボックスを全て外す
+        checkboxes.forEach(cb => {
+          if (cb !== this) {
+            cb.checked = false;
+          }
+        });
+      }
+    });
+  });
+}
+
+/**
+ * 後期高齢者医療療養費支給申請書PDF出力
+ */
+function submitLateElderlyMedical() {
+  const form = document.getElementById('lateElderlyMedicalForm');
+
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
+  const lateElderlyMedicalType = document.getElementById('late_elderly_medical_type').value;
+
+  // 現在日時からファイル名を生成
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  const typeName = lateElderlyMedicalType === 'acupuncture' ? 'はり・きゅう' : 'あんま・マッサージ';
+  const filename = `${typeName}後期高齢者医療療養費支給申請書_${year}-${month}-${day}_${hours}-${minutes}-${seconds}.pdf`;
+
+  // フォームのアクションURLにファイル名を含める
+  form.action = `/prints/late-elderly-medical/${encodeURIComponent(filename)}`;
+
+  // フォームを新しいタブで送信
+  form.target = '_blank';
+  form.submit();
+
+  // モーダルを閉じる
+  setTimeout(() => {
+    const modalElement = document.getElementById('lateElderlyMedicalModal');
     if (modalElement) {
       const modalInstance = bootstrap.Modal.getInstance(modalElement);
       if (modalInstance) {
