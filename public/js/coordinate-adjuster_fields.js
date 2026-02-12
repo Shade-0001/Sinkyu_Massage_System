@@ -67,6 +67,8 @@
 //
 const fieldDefinitions = {
   // === 1. タイトル・機関コード ===
+  'custom_title_text': { field: 'custom_title_text', label: '描画テキスト', type: 'text', compositeGroup: 'custom_title', compositeLabel: 'タイトル' },
+  'submission_count': { field: 'submission_count', label: '第ｎ回', type: 'number' },
   'title_year_era': { field: 'title_year_era', label: '元号', type: 'select', options: ['令和', '平成', '昭和'], compositeGroup: 'title_date', compositeLabel: 'タイトル年月' },
   'title_year_number': { field: 'title_year_number', label: '年', type: 'number', compositeGroup: 'title_date', compositeLabel: 'タイトル年月' },
   'title_month': { field: 'title_month', label: '月', type: 'number', compositeGroup: 'title_date', compositeLabel: 'タイトル年月' },

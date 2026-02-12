@@ -244,6 +244,7 @@ class MedicalAssistanceAcupuncturePdfService extends BasePdfService
     $fullName = ($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? '');
     $fullNameKana = ($clinicUser->last_kana ?? '') . ' ' . ($clinicUser->first_kana ?? '');
 
+    $this->fillCustomTitleAndSubmissionCount($pdf, $data);
     $this->fillTitleYearMonth($pdf, $japaneseYear, (int)$month);
     $this->fillInstitutionAndPublicFunds($pdf, $clinicInfo, $insurance);
     $this->fillInsuranceSection($pdf, $insurance);

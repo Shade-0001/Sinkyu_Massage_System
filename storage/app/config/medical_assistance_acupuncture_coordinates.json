@@ -1,4 +1,20 @@
 {
+    "custom_title_text": {
+        "x": 10,
+        "y": 10,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "left",
+        "type": "text"
+    },
+    "submission_count": {
+        "x": 190,
+        "y": 10,
+        "fontSize": 10,
+        "letterSpacing": 0,
+        "textAlign": "right",
+        "type": "text"
+    },
     "title_year_month": {
         "x": 11,
         "y": 18,
