@@ -494,14 +494,16 @@ class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
     }
 
     // 要加療期間
-    $therapyPeriod = '';
-    if (isset($consent->therapy_period) && $consent->therapy_period) {
-      $therapyPeriod = $consent->therapy_period;
-    }
-    if ($therapyPeriod) {
-      $pdf->SetFontSize($this->coord('required_treatment_period', 'fontSize'));
-      $this->drawTextByKey($pdf, 'required_treatment_period', (string)$therapyPeriod);
-      $pdf->SetFontSize(10);
+    if ($this->hasCoord('required_treatment_period')) {
+      $therapyPeriod = '';
+      if (isset($consent->therapy_period) && $consent->therapy_period) {
+        $therapyPeriod = $consent->therapy_period;
+      }
+      if ($therapyPeriod) {
+        $pdf->SetFontSize($this->coord('required_treatment_period', 'fontSize'));
+        $this->drawTextByKey($pdf, 'required_treatment_period', (string)$therapyPeriod);
+        $pdf->SetFontSize(10);
+      }
     }
   }
 
