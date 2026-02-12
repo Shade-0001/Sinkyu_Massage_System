@@ -495,13 +495,18 @@ class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
 
     // 要加療期間
     if ($this->hasCoord('required_treatment_period')) {
-      $therapyPeriod = '';
-      if (isset($consent->therapy_period) && $consent->therapy_period) {
-        $therapyPeriod = $consent->therapy_period;
+      $therapyPeriodText = '';
+      // therapy_period_end_dateをYYYY/MM/DD形式で表示
+      if (isset($consent->therapy_period_end_date) && $consent->therapy_period_end_date) {
+        $endDate = new \DateTime($consent->therapy_period_end_date);
+        $therapyPeriodText = $endDate->format('Y/m/d');
+      } elseif (isset($consent->therapy_period) && $consent->therapy_period) {
+        // フォールバック: therapy_periodフィールドがある場合はそのまま使用
+        $therapyPeriodText = $consent->therapy_period;
       }
-      if ($therapyPeriod) {
+      if ($therapyPeriodText) {
         $pdf->SetFontSize($this->coord('required_treatment_period', 'fontSize'));
-        $this->drawTextByKey($pdf, 'required_treatment_period', (string)$therapyPeriod);
+        $this->drawTextByKey($pdf, 'required_treatment_period', (string)$therapyPeriodText);
         $pdf->SetFontSize(10);
       }
     }
