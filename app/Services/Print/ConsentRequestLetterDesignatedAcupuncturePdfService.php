@@ -69,9 +69,9 @@ class ConsentRequestLetterDesignatedAcupuncturePdfService extends BasePdfService
       \Log::error('施術所情報が見つかりません');
     }
 
-    // 文書関連付け情報取得（document_id_1 = 2: 同意書依頼状医師指定版はり･きゅう）
+    // 文書関連付け情報取得（document_id_1 = 3: 同意書依頼状医師指定版はり･きゅう）
     $documentAssociation = DB::table('document_association')
-      ->where('document_id_1', 2)
+      ->where('document_id_1', 3)
       ->first();
 
     $documentContent = '';
