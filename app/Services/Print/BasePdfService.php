@@ -273,7 +273,7 @@ abstract class BasePdfService
   }
 
   /**
-   * 座標キーで指定された位置にテキストを描画
+   * 座標キーで指定された位置にテキストを描画（文字間隔対応）
    */
   protected function drawTextByKey(Fpdi $pdf, string $key, string $text): void
   {
@@ -285,13 +285,19 @@ abstract class BasePdfService
     $y = $this->coord($key, 'y');
     $fontSize = $this->coord($key, 'fontSize') ?: 10;
     $fontWeight = $this->coord($key, 'fontWeight') ?: 'normal';
+    $letterSpacing = $this->coord($key, 'letterSpacing') ?: 0;
 
     // フォント設定
     $pdf->SetFont('kozgopromedium', $fontWeight === 'bold' ? 'B' : '', $fontSize);
 
-    // テキスト描画
-    $pdf->SetXY($x, $y);
-    $pdf->Cell(0, 0, $text, 0, 0, 'L', false);
+    // 文字間隔が指定されている場合は文字ごとに描画
+    if ($letterSpacing > 0) {
+      $this->drawTextWithSpacing($pdf, $x, $y, $text, $letterSpacing);
+    } else {
+      // 通常描画
+      $pdf->SetXY($x, $y);
+      $pdf->Cell(0, 0, $text, 0, 0, 'L', false);
+    }
   }
 
   /**
