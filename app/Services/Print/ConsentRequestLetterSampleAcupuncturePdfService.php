@@ -197,7 +197,7 @@ class ConsentRequestLetterSampleAcupuncturePdfService extends BasePdfService
   }
 
   /**
-   * 複数行テキスト描画（1行あたり文字数調節機能付き）
+   * 複数行テキスト描画（1行あたり文字数調節機能付き、改行保持）
    */
   protected function drawMultilineTextByKey(Fpdi $pdf, string $key, string $text): void
   {
@@ -213,11 +213,25 @@ class ConsentRequestLetterSampleAcupuncturePdfService extends BasePdfService
 
     $pdf->SetFontSize($fontSize);
 
-    // テキストを指定文字数で改行
-    $lines = mb_str_split($text, $maxCharsPerLine);
+    // まず元のテキストの改行で分割
+    $originalLines = preg_split('/\r\n|\r|\n/', $text);
 
+    $allLines = [];
+    foreach ($originalLines as $originalLine) {
+      // 各行が最大文字数を超える場合は自動分割
+      if (mb_strlen($originalLine) > $maxCharsPerLine) {
+        $chunks = mb_str_split($originalLine, $maxCharsPerLine);
+        foreach ($chunks as $chunk) {
+          $allLines[] = $chunk;
+        }
+      } else {
+        $allLines[] = $originalLine;
+      }
+    }
+
+    // 描画
     $currentY = $y;
-    foreach ($lines as $line) {
+    foreach ($allLines as $line) {
       $pdf->SetXY($x, $currentY);
       $pdf->Cell(0, 0, $line, 0, 0, 'L', false);
       $currentY += $lineHeight;
