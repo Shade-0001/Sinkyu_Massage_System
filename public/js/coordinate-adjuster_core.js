@@ -23,7 +23,8 @@ function getFieldDefinitions() {
     return fieldDefinitionsTreatmentReceipt;
   }
 
-  if (currentPdfType === 'consent_request_letter_sample_acupuncture') {
+  if (currentPdfType === 'consent_request_letter_sample_acupuncture' ||
+      currentPdfType === 'consent_request_letter_designated_acupuncture') {
     return fieldDefinitionsConsentRequestLetterSampleAcupuncture;
   }
 
