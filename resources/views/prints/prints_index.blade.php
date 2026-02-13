@@ -17,8 +17,8 @@
   <button type="button" class="btn btn-primary" onclick="openTreatmentReceiptModal('acupuncture')">施術料金領収書</button>
   <button type="button" class="btn btn-primary" onclick="openMedicalAssistanceModal('acupuncture')">医療助成費支給申請書</button>
   <button type="button" class="btn btn-primary" onclick="openLateElderlyMedicalModal('acupuncture')">後期高齢者医療療養費支給申請書</button>
-  <button>同意書依頼状 (サンプル版)</button>
-  <button>同意書依頼状 (医師指定)</button>
+  <button type="button" class="btn btn-primary" onclick="openConsentRequestSampleModal('acupuncture')">同意書依頼状 (サンプル版)</button>
+  <button type="button" class="btn btn-primary" onclick="openConsentRequestDesignatedModal('acupuncture')">同意書依頼状 (医師指定)</button>
   <button>同意書</button>
   <button type="button" class="btn btn-primary" onclick="openTreatmentFeeListModal('acupuncture')">施術料金一覧表(保険)</button>
   <button>施術料金一覧表(自費)</button>
@@ -31,8 +31,8 @@
   <button type="button" class="btn btn-primary" onclick="openTreatmentReceiptModal('massage')">施術料金領収書</button>
   <button type="button" class="btn btn-primary" onclick="openMedicalAssistanceModal('massage')">医療助成費支給申請書</button>
   <button type="button" class="btn btn-primary" onclick="openLateElderlyMedicalModal('massage')">後期高齢者医療療養費支給申請書</button>
-  <button>同意書依頼状 (サンプル版)</button>
-  <button>同意書依頼状 (医師指定)</button>
+  <button type="button" class="btn btn-primary" onclick="openConsentRequestSampleModal('massage')">同意書依頼状 (サンプル版)</button>
+  <button type="button" class="btn btn-primary" onclick="openConsentRequestDesignatedModal('massage')">同意書依頼状 (医師指定)</button>
   <button>同意書</button>
   <button type="button" class="btn btn-primary" onclick="openTreatmentFeeListModal('massage')">施術料金一覧表(保険)</button>
   <button>施術料金一覧表(自費)</button>
@@ -460,6 +460,110 @@
     </div>
   </div>
 
+  <!-- 同意書依頼状（サンプル版）モーダル（はり・きゅう / あんま・マッサージ共通） -->
+  <div class="modal fade" id="consentRequestSampleModal" tabindex="-1" aria-labelledby="consentRequestSampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="consentRequestSampleModalLabel">同意書依頼状（サンプル版） 出力設定</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="consentRequestSampleForm" method="POST">
+            @csrf
+            <input type="hidden" id="consent_request_sample_type" name="consent_request_type" value="">
+
+            <!-- 利用者選択 -->
+            <div class="mb-3">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <label for="consent_request_sample_clinic_user_ids" class="form-label mb-0">利用者 <span class="text-danger">*</span></label>
+                <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('consent_request_sample_clinic_user_ids')">全て選択 / 解除</button>
+              </div>
+              <select class="form-select" id="consent_request_sample_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
+                @foreach($clinicUsers as $user)
+                  <option value="{{ $user->id }}">
+                    {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
+                  </option>
+                @endforeach
+              </select>
+              <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
+            </div>
+
+            <!-- 提出年月 -->
+            <div class="mb-3">
+              <label for="consent_request_sample_submission_month" class="form-label">提出年月 <span class="text-danger">*</span></label>
+              <input type="month" class="form-control" id="consent_request_sample_submission_month" name="submission_month" value="{{ now()->format('Y-m') }}" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-primary" onclick="submitConsentRequestSample()">印刷</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 同意書依頼状（医師指定）モーダル（はり・きゅう / あんま・マッサージ共通） -->
+  <div class="modal fade" id="consentRequestDesignatedModal" tabindex="-1" aria-labelledby="consentRequestDesignatedModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="consentRequestDesignatedModalLabel">同意書依頼状（医師指定） 出力設定</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="consentRequestDesignatedForm" method="POST">
+            @csrf
+            <input type="hidden" id="consent_request_designated_type" name="consent_request_type" value="">
+
+            <!-- 利用者選択 -->
+            <div class="mb-3">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <label for="consent_request_designated_clinic_user_ids" class="form-label mb-0">利用者 <span class="text-danger">*</span></label>
+                <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('consent_request_designated_clinic_user_ids')">全て選択 / 解除</button>
+              </div>
+              <select class="form-select" id="consent_request_designated_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
+                @foreach($clinicUsers as $user)
+                  <option value="{{ $user->id }}">
+                    {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
+                  </option>
+                @endforeach
+              </select>
+              <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
+            </div>
+
+            <!-- 医師選択 -->
+            <div class="mb-3">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <label for="consent_request_designated_doctor_ids" class="form-label mb-0">医師 <span class="text-danger">*</span></label>
+                <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('consent_request_designated_doctor_ids')">全て選択 / 解除</button>
+              </div>
+              <select class="form-select" id="consent_request_designated_doctor_ids" name="doctor_ids[]" multiple size="10" required>
+                @foreach($doctors as $doctor)
+                  <option value="{{ $doctor->id }}">
+                    {{ $doctor->last_name }} {{ $doctor->first_name }} ({{ $doctor->last_name_kana }} {{ $doctor->first_name_kana }})
+                  </option>
+                @endforeach
+              </select>
+              <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
+            </div>
+
+            <!-- 提出年月 -->
+            <div class="mb-3">
+              <label for="consent_request_designated_submission_month" class="form-label">提出年月 <span class="text-danger">*</span></label>
+              <input type="month" class="form-control" id="consent_request_designated_submission_month" name="submission_month" value="{{ now()->format('Y-m') }}" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-primary" onclick="submitConsentRequestDesignated()">印刷</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   @push('scripts')
     @push('styles')
       <style>
@@ -472,7 +576,10 @@
         #massage_clinic_user_ids,
         #receipt_clinic_user_ids,
         #medical_assistance_clinic_user_ids,
-        #late_elderly_medical_clinic_user_ids {
+        #late_elderly_medical_clinic_user_ids,
+        #consent_request_sample_clinic_user_ids,
+        #consent_request_designated_clinic_user_ids,
+        #consent_request_designated_doctor_ids {
           scroll-behavior: auto;
         }
       </style>

@@ -263,6 +263,8 @@ Route::middleware('auth')->group(function () {
   Route::post('/prints/treatment-fee-list/{filename}', [PrintsController::class, 'treatmentFeeList'])->name('prints.treatment-fee-list');
   Route::post('/prints/medical-assistance/{filename}', [PrintsController::class, 'medicalAssistance'])->name('prints.medical-assistance');
   Route::post('/prints/late-elderly-medical/{filename}', [PrintsController::class, 'lateElderlyMedical'])->name('prints.late-elderly-medical');
+  Route::post('/prints/consent-request-sample/{filename}', [PrintsController::class, 'consentRequestSample'])->name('prints.consent-request-sample');
+  Route::post('/prints/consent-request-designated/{filename}', [PrintsController::class, 'consentRequestDesignated'])->name('prints.consent-request-designated');
 
   // PDFレイアウト調整ツール
   Route::get('/prints/coordinate-adjuster', [PrintsController::class, 'coordinateAdjuster'])->name('prints.coordinate-adjuster');

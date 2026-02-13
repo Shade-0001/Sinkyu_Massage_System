@@ -99,10 +99,15 @@ class PrintsController extends Controller
       ->orderBy('last_kana')
       ->get();
 
+    $doctors = DB::table('doctors')
+      ->select('id', 'last_name', 'first_name', 'last_name_kana', 'first_name_kana')
+      ->orderBy('last_name_kana')
+      ->get();
+
     // PDFタイプ一覧をビューに渡す
     $pdfTypes = $this->getPdfTypesConfig();
 
-    return view('prints.prints_index', compact('clinicUsers', 'pdfTypes'));
+    return view('prints.prints_index', compact('clinicUsers', 'doctors', 'pdfTypes'));
   }
 
   /**
@@ -380,6 +385,123 @@ class PrintsController extends Controller
       ]);
     } catch (\Exception $e) {
       \Log::error("施術料金一覧表（保険扱い）PDF生成エラー", [
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+        'trace' => $e->getTraceAsString(),
+      ]);
+
+      return response()->json([
+        'error' => 'PDF生成に失敗しました',
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+      ], 500);
+    }
+  }
+
+  /**
+   * 同意書依頼状（サンプル版）PDF出力
+   *
+   * @param Request $request
+   * @param string $filename
+   * @return \Illuminate\Http\Response
+   */
+  public function consentRequestSample(Request $request, string $filename)
+  {
+    try {
+      $validated = $request->validate([
+        'clinic_user_ids' => 'required|array',
+        'clinic_user_ids.*' => 'exists:clinic_users,id',
+        'consent_request_type' => 'required|in:acupuncture,massage',
+        'submission_month' => 'required|date_format:Y-m',
+      ]);
+
+      $consentRequestType = $validated['consent_request_type'];
+      $typeName = $consentRequestType === 'acupuncture' ? '同意書依頼状（サンプル版）はり･きゅう' : '同意書依頼状（サンプル版）あんま･マッサージ';
+
+      \Log::info("{$typeName}PDF生成開始", [
+        'clinic_user_ids' => $validated['clinic_user_ids'],
+        'consent_request_type' => $consentRequestType,
+        'submission_month' => $validated['submission_month'],
+      ]);
+
+      $service = new \App\Services\Print\ConsentRequestLetterSamplePdfService();
+
+      $pdfBinary = $service->generate(
+        $validated['clinic_user_ids'],
+        $validated['submission_month'],
+        $validated['submission_month'] . '-01'
+      );
+
+      \Log::info("{$typeName}PDF生成完了", ['size' => strlen($pdfBinary)]);
+
+      return response($pdfBinary, 200, [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'inline',
+      ]);
+    } catch (\Exception $e) {
+      \Log::error("同意書依頼状（サンプル版）PDF生成エラー", [
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+        'trace' => $e->getTraceAsString(),
+      ]);
+
+      return response()->json([
+        'error' => 'PDF生成に失敗しました',
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+      ], 500);
+    }
+  }
+
+  /**
+   * 同意書依頼状（医師指定）PDF出力
+   *
+   * @param Request $request
+   * @param string $filename
+   * @return \Illuminate\Http\Response
+   */
+  public function consentRequestDesignated(Request $request, string $filename)
+  {
+    try {
+      $validated = $request->validate([
+        'clinic_user_ids' => 'required|array',
+        'clinic_user_ids.*' => 'exists:clinic_users,id',
+        'doctor_ids' => 'required|array',
+        'doctor_ids.*' => 'exists:doctors,id',
+        'consent_request_type' => 'required|in:acupuncture,massage',
+        'submission_month' => 'required|date_format:Y-m',
+      ]);
+
+      $consentRequestType = $validated['consent_request_type'];
+      $typeName = $consentRequestType === 'acupuncture' ? '同意書依頼状（医師指定）はり･きゅう' : '同意書依頼状（医師指定）あんま･マッサージ';
+
+      \Log::info("{$typeName}PDF生成開始", [
+        'clinic_user_ids' => $validated['clinic_user_ids'],
+        'doctor_ids' => $validated['doctor_ids'],
+        'consent_request_type' => $consentRequestType,
+        'submission_month' => $validated['submission_month'],
+      ]);
+
+      $service = new \App\Services\Print\ConsentRequestLetterDesignatedPdfService();
+
+      $pdfBinary = $service->generate(
+        $validated['clinic_user_ids'],
+        $validated['submission_month'],
+        $validated['submission_month'] . '-01'
+      );
+
+      \Log::info("{$typeName}PDF生成完了", ['size' => strlen($pdfBinary)]);
+
+      return response($pdfBinary, 200, [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'inline',
+      ]);
+    } catch (\Exception $e) {
+      \Log::error("同意書依頼状（医師指定）PDF生成エラー", [
         'message' => $e->getMessage(),
         'file' => $e->getFile(),
         'line' => $e->getLine(),
