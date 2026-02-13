@@ -25,8 +25,8 @@ class DocumentController extends Controller
    */
   public function create()
   {
-    // document_templatesテーブルからカテゴリ一覧を取得
-    $categories = DB::table('document_templates')
+    // documentsテーブルからカテゴリ一覧を取得
+    $categories = DB::table('documents')
       ->select('document_category')
       ->distinct()
       ->whereNotNull('document_category')
@@ -53,7 +53,7 @@ class DocumentController extends Controller
     }
 
     // カテゴリ一覧を取得
-    $categories = DB::table('document_templates')
+    $categories = DB::table('documents')
       ->select('document_category')
       ->distinct()
       ->whereNotNull('document_category')
@@ -167,7 +167,7 @@ class DocumentController extends Controller
     }
 
     // カテゴリ一覧を取得
-    $categories = DB::table('document_templates')
+    $categories = DB::table('documents')
       ->select('document_category')
       ->distinct()
       ->whereNotNull('document_category')
