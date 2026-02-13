@@ -463,6 +463,12 @@ const fieldCategoriesTreatmentReceipt = {};
 // カテゴリ順序（施術料金領収書用）- カテゴライズなし
 const categoryOrderTreatmentReceipt = [];
 
+// フィールドカテゴリマッピング（同意書依頼状サンプル版はり･きゅう用）- カテゴライズなし
+const fieldCategoriesConsentRequestLetterSampleAcupuncture = {};
+
+// カテゴリ順序（同意書依頼状サンプル版はり･きゅう用）- カテゴライズなし
+const categoryOrderConsentRequestLetterSampleAcupuncture = [];
+
 // フィールドカテゴリマッピング（医療助成費支給申請書（はり・きゅう）用）
 const fieldCategoriesMedicalAssistanceAcupuncture = {
   "custom_title_text": "basic_info",
@@ -739,6 +745,8 @@ function getFieldCategories(pdfType) {
     return fieldCategoriesTherapyBenefitMassage;
   } else if (pdfType === 'treatment_receipt') {
     return fieldCategoriesTreatmentReceipt;
+  } else if (pdfType === 'consent_request_letter_sample_acupuncture') {
+    return fieldCategoriesConsentRequestLetterSampleAcupuncture;
   } else if (pdfType === 'medical_assistance_acupuncture') {
     return fieldCategoriesMedicalAssistanceAcupuncture;
   } else if (pdfType === 'medical_assistance_massage' || pdfType === 'elderly_therapy_benefit_massage') {
@@ -763,6 +771,8 @@ function getCategoryOrder(pdfType) {
     return categoryOrderTherapyBenefitMassage;
   } else if (pdfType === 'treatment_receipt') {
     return categoryOrderTreatmentReceipt;
+  } else if (pdfType === 'consent_request_letter_sample_acupuncture') {
+    return categoryOrderConsentRequestLetterSampleAcupuncture;
   } else if (pdfType === 'medical_assistance_acupuncture' || pdfType === 'medical_assistance_massage' || pdfType === 'elderly_therapy_benefit_acupuncture' || pdfType === 'elderly_therapy_benefit_massage') {
     return categoryOrderMedicalAssistance;
   }
