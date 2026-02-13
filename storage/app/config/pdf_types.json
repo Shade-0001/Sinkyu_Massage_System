@@ -55,20 +55,36 @@
     "serviceClass": "ElderlyTherapyBenefitMassagePdfService",
     "fieldsFile": "therapy_benefit_massage.js"
   },
-  "consent_request_letter_sample": {
-    "name": "同意書依頼状（サンプル版）",
-    "coordinatesFile": "consent_request_letter_sample_coordinates.json",
+  "consent_request_letter_sample_acupuncture": {
+    "name": "同意書依頼状（サンプル版）（はり･きゅう）",
+    "coordinatesFile": "consent_request_letter_sample_acupuncture_coordinates.json",
     "templateFile": "汎用文書.pdf",
     "templateDir": "",
-    "serviceClass": "ConsentRequestLetterSamplePdfService",
+    "serviceClass": "ConsentRequestLetterSampleAcupuncturePdfService",
     "fieldsFile": ""
   },
-  "consent_request_letter_designated": {
-    "name": "同意書依頼状（医師指定）",
-    "coordinatesFile": "consent_request_letter_designated_coordinates.json",
+  "consent_request_letter_sample_massage": {
+    "name": "同意書依頼状（サンプル版）（あんま･マッサージ）",
+    "coordinatesFile": "consent_request_letter_sample_massage_coordinates.json",
     "templateFile": "汎用文書.pdf",
     "templateDir": "",
-    "serviceClass": "ConsentRequestLetterDesignatedPdfService",
+    "serviceClass": "ConsentRequestLetterSampleMassagePdfService",
+    "fieldsFile": ""
+  },
+  "consent_request_letter_designated_acupuncture": {
+    "name": "同意書依頼状（医師指定）（はり･きゅう）",
+    "coordinatesFile": "consent_request_letter_designated_acupuncture_coordinates.json",
+    "templateFile": "汎用文書.pdf",
+    "templateDir": "",
+    "serviceClass": "ConsentRequestLetterDesignatedAcupuncturePdfService",
+    "fieldsFile": ""
+  },
+  "consent_request_letter_designated_massage": {
+    "name": "同意書依頼状（医師指定）（あんま･マッサージ）",
+    "coordinatesFile": "consent_request_letter_designated_massage_coordinates.json",
+    "templateFile": "汎用文書.pdf",
+    "templateDir": "",
+    "serviceClass": "ConsentRequestLetterDesignatedMassagePdfService",
     "fieldsFile": ""
   },
   "consent_acupuncture": {

@@ -14,7 +14,7 @@
     <div style="color: red;">{{ session('error') }}</div>
   @endif
 
-  <table id="documentAssociationTable" class="table table-bordered table-striped">
+  <table id="documentAssociationTable" class="table table-bordered">
     <thead>
       <tr>
         <th style="width: 30%;">文書カテゴリ</th>
@@ -25,14 +25,14 @@
       @foreach($categories as $category)
         @php
           // このカテゴリに属するハードコード文書を取得
-          $categoryDocuments = collect($fixedDocuments)->where('document_category', $category->document_category);
+          $categoryDocuments = collect($fixedDocuments)->where('document_category', $category)->values();
           $docCount = $categoryDocuments->count();
         @endphp
         @if($docCount > 0)
           @foreach($categoryDocuments as $index => $document)
             <tr>
               @if($index === 0)
-                <td rowspan="{{ $docCount }}">{{ $category->document_category }}</td>
+                <td rowspan="{{ $docCount }}">{{ $category }}</td>
               @endif
               <td>
                 <div style="display: flex; align-items: center; gap: 10px;">
@@ -59,7 +59,7 @@
           @endforeach
         @else
           <tr>
-            <td>{{ $category->document_category }}</td>
+            <td>{{ $category }}</td>
             <td style="color: #999;">（文書未登録）</td>
           </tr>
         @endif

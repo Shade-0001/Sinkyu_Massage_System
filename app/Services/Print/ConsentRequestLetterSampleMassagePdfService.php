@@ -3,13 +3,13 @@
 namespace App\Services\Print;
 
 /**
- * 同意書依頼状（サンプル版）PDF生成サービス
+ * 同意書依頼状（サンプル版）（あんま･マッサージ）PDF生成サービス
  */
-class ConsentRequestLetterSamplePdfService extends BasePdfService
+class ConsentRequestLetterSampleMassagePdfService extends BasePdfService
 {
   protected function getDefaultCoordinatesPath(): string
   {
-    return storage_path('app/config/consent_request_letter_sample_coordinates.json');
+    return storage_path('app/config/consent_request_letter_sample_massage_coordinates.json');
   }
 
   protected function getDefaultCoordinates(): array
