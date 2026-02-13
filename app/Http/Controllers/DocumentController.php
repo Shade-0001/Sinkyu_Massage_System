@@ -16,7 +16,7 @@ class DocumentController extends Controller
     $items = DB::table('documents')->orderBy('id')->get();
     return view('master.documents.documents_index', [
       'items' => $items,
-      'page_header_title' => '文書編集'
+      'page_header_title' => '文面編集'
     ]);
   }
 
@@ -62,7 +62,7 @@ class DocumentController extends Controller
 
     return view('master.documents.documents_registration', [
       'mode' => 'edit',
-      'page_header_title' => '文書編集',
+      'page_header_title' => '文面編集',
       'document' => $document,
       'categories' => $categories
     ]);

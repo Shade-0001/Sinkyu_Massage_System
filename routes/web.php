@@ -109,7 +109,7 @@ Route::middleware('auth')->group(function () {
   Route::post('/master/submaster/illnesses-massage/{id}', [SubMasterController::class, 'updateIllnessMassage'])->name('submaster.illnesses-massage.update');
   Route::delete('/master/submaster/illnesses-massage/{id}', [SubMasterController::class, 'destroyIllnessMassage'])->name('submaster.illnesses-massage.destroy');
 
-  // 文書編集
+  // 文面編集
   Route::get('/master/documents/index', [DocumentController::class, 'index'])->name('master.documents.index');
   Route::get('/master/documents/create', [DocumentController::class, 'create'])->name('master.documents.create');
   Route::post('/master/documents/check-duplicate-name', [DocumentController::class, 'checkDuplicateName'])->name('master.documents.check-duplicate-name');

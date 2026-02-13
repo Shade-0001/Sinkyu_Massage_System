@@ -68,11 +68,11 @@ function getSubMasterBreadcrumbs() {
   ];
 }
 
-// 文書編集
+// 文面編集
 function getDocumentsBreadcrumbs() {
   return [
     ...getMasterBreadcrumbs(),
-    ['url' => route('master.documents.index'), 'label' => '文書編集'],
+    ['url' => route('master.documents.index'), 'label' => '文面編集'],
   ];
 }
 
@@ -507,12 +507,12 @@ Breadcrumbs::define('submaster.illnesses-massage', function() {
   ];
 });
 
-// 文書編集 ｰ トップ
+// 文面編集 ｰ トップ
 Breadcrumbs::define('master.documents.index', function() {
   return getDocumentsBreadcrumbs();
 });
 
-// 文書編集 ｰ 新規登録
+// 文面編集 ｰ 新規登録
 Breadcrumbs::define('master.documents.create', function() {
   return [
     ...getDocumentsBreadcrumbs(),
@@ -520,7 +520,7 @@ Breadcrumbs::define('master.documents.create', function() {
   ];
 });
 
-// 文書編集 ｰ 編集
+// 文面編集 ｰ 編集
 Breadcrumbs::define('master.documents.edit', function() {
   return [
     ...getDocumentsBreadcrumbs(),
@@ -528,7 +528,7 @@ Breadcrumbs::define('master.documents.edit', function() {
   ];
 });
 
-// 文書編集 ｰ 複製
+// 文面編集 ｰ 複製
 Breadcrumbs::define('master.documents.duplicate', function() {
   return [
     ...getDocumentsBreadcrumbs(),

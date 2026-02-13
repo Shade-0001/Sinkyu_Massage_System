@@ -8,11 +8,11 @@
 | clinic-users/clinic-users_index.blade.php | clinic-users.index | 利用者情報 | ホーム > マスター登録 > 利用者情報 |
 | index.blade.php | index | ホーム | ホーム |
 | master/document-association/document-association_index.blade.php | master.document-association.index | 標準文書の確認および関連付け | ホーム > マスター登録 > 標準文書の確認および関連付け |
-| master/documents/documents_index.blade.php | master.documents.index | 文書編集 | ホーム > マスター登録 > 文書編集 |
+| master/documents/documents_index.blade.php | master.documents.index | 文面編集 | ホーム > マスター登録 > 文面編集 |
 | submaster/submaster_index.blade.php | submaster.index | サブマスター登録 | ホーム > マスター登録 > サブマスター登録 |
 | master/self-fees/self-fees_index.blade.php | master.self-fees.index | 自費施術料金編集 | ホーム > マスター登録 > 自費施術料金編集 |
 | submaster/self-paid-fees.blade.php | - | サブマスター | (独自階層) |
-| master/documents/documents_registration.blade.php | master.documents.create/edit/duplicate | 文書編集‐登録 | ホーム > マスター登録 > 文書編集 > 登録 |
+| master/documents/documents_registration.blade.php | master.documents.create/edit/duplicate | 文面編集‐登録 | ホーム > マスター登録 > 文面編集 > 登録 |
 | submaster/illnesses-massage.blade.php | submaster.illnesses-massage | 疾病（あんま・マッサージ） | ホーム > マスター登録 > サブマスター登録 > 疾病（あんま・マッサージ） |
 | submaster/service-providers.blade.php | submaster.service-providers | サービス提供者 | ホーム > マスター登録 > サブマスター登録 > サービス提供者 |
 | submaster/medical-institutions.blade.php | submaster.medical-institutions | 医療機関 | ホーム > マスター登録 > サブマスター登録 > 医療機関 |
