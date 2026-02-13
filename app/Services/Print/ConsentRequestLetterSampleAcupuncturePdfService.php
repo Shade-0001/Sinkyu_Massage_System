@@ -130,8 +130,8 @@ class ConsentRequestLetterSampleAcupuncturePdfService extends BasePdfService
 
     // 1. タイトル（医療助成費支給申請書のタイトルフィールドと同じ仕様）
     if (!empty($this->customTitleText)) {
-      $pdf->SetFontSize($this->coord('title', 'fontSize'));
-      $this->drawTextByKey($pdf, 'title', (string)$this->customTitleText);
+      $pdf->SetFontSize($this->coord('custom_title_text', 'fontSize'));
+      $this->drawTextByKey($pdf, 'custom_title_text', (string)$this->customTitleText);
     }
 
     // 2. 提出年月日（元号*年 *月 *日形式）

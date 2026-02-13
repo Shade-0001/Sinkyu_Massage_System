@@ -424,7 +424,7 @@ const fieldDefinitionsTreatmentReceipt = {
 
 // 同意書依頼状（サンプル版）はり･きゅう用のフィールド定義
 const fieldDefinitionsConsentRequestLetterSampleAcupuncture = {
-  'title': { field: 'title', label: 'タイトル', type: 'text' },
+  'custom_title_text': { field: 'custom_title_text', label: 'タイトル', type: 'text' },
   'submission_date': { field: 'submission_date', label: '提出年月日', type: 'text' },
   'document_content': { field: 'document_content', label: '本文', type: 'text', lineHeight: 5, maxCharsPerLine: 40 },
   'user_name': { field: 'user_name', label: '利用者氏名', type: 'text' },

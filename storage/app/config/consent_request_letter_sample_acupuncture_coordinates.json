@@ -1,12 +1,12 @@
 {
-  "title": {
+  "custom_title_text": {
     "x": 0,
     "y": 0,
     "fontSize": 14,
     "letterSpacing": 0,
     "textAlign": "center",
     "type": "text",
-    "field": "title",
+    "field": "custom_title_text",
     "label": "タイトル"
   },
   "submission_date": {
