@@ -9,7 +9,27 @@ const csrfToken = coordinateAdjusterData.csrfToken;
 let coordinates = {};
 let originalCoordinates = {};
 
+// ============================================================
 // PDFタイプに応じたフィールド定義を取得
+// ============================================================
+// 【重要】新しいPDFタイプを追加する際の必須作業
+// ============================================================
+// 1. storage/app/config/pdf_types.json に新しいタイプのエントリを追加
+// 2. storage/app/config/ に座標設定JSONファイルを作成
+// 3. public/js/coordinate-adjuster_fields.js に専用のフィールド定義オブジェクトを追加
+//    （または既存のフィールド定義を使い回す）
+// 4. この関数（getFieldDefinitions）に新しいPDFタイプのケースを追加
+//    ※追加しないとフィールドラベルが英語（キー名）で表示される
+// 5. app/Services/Print/ にPDF生成サービスクラスを作成
+// 6. coordinate-adjuster_categories.js にカテゴリ定義を追加（必要に応じて）
+//
+// 【例】同意書依頼状（医師指定版）の場合：
+// - pdf_types.jsonに追加: "consent_request_letter_designated_acupuncture"
+// - 座標JSONファイル作成: consent_request_letter_designated_acupuncture_coordinates.json
+// - フィールド定義: fieldDefinitionsConsentRequestLetterSampleAcupuncture を使い回し
+// - この関数に追加: currentPdfType === 'consent_request_letter_designated_acupuncture'
+// - サービスクラス作成: ConsentRequestLetterDesignatedAcupuncturePdfService.php
+// ============================================================
 function getFieldDefinitions() {
   // fieldsFileが空の場合は空オブジェクトを返す
   const pdfTypes = coordinateAdjusterData.pdfTypes || {};
@@ -23,6 +43,8 @@ function getFieldDefinitions() {
     return fieldDefinitionsTreatmentReceipt;
   }
 
+  // 同意書依頼状（サンプル版・医師指定版）はり・きゅう用
+  // ※座標とフィールドが同じなので、同じフィールド定義を使い回す
   if (currentPdfType === 'consent_request_letter_sample_acupuncture' ||
       currentPdfType === 'consent_request_letter_designated_acupuncture') {
     return fieldDefinitionsConsentRequestLetterSampleAcupuncture;

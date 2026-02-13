@@ -422,14 +422,33 @@ const fieldDefinitionsTreatmentReceipt = {
   'clinic_phone': { field: 'clinic_phone', label: '電話番号', type: 'text' }
 };
 
-// 同意書依頼状（サンプル版）はり･きゅう用のフィールド定義
+// ============================================================
+// 同意書依頼状（サンプル版・医師指定版）はり･きゅう用のフィールド定義
+// ============================================================
+// 【重要】このフィールド定義は以下の複数のPDFタイプで共有される
+// ============================================================
+// 使用PDFタイプ：
+// - consent_request_letter_sample_acupuncture（サンプル版はり・きゅう）
+// - consent_request_letter_designated_acupuncture（医師指定版はり・きゅう）
+//
+// 共有理由：
+// - 座標とフィールド構成が完全に同じため
+// - 違いは参照する文面（document_content）のみ
+//   → サンプル版：document_id_2=23
+//   → 医師指定版：document_id_2=24
+//
+// 【注意】新しい同意書依頼状PDFタイプを追加する場合：
+// 1. このフィールド定義を使い回す（座標が同じ場合）
+// 2. coordinate-adjuster_core.jsのgetFieldDefinitions()に追加
+// 3. PDFサービスクラスで適切なdocument_id_1を参照
+// ============================================================
 const fieldDefinitionsConsentRequestLetterSampleAcupuncture = {
   'custom_title_text': { field: 'custom_title_text', label: 'タイトル', type: 'text' },
   'submission_date': { field: 'submission_date', label: '提出年月日', type: 'text' },
   'document_content': { field: 'document_content', label: '本文', type: 'text', lineHeight: 5, maxCharsPerLine: 40 },
   'user_name': { field: 'user_name', label: '利用者氏名', type: 'text' },
   'illness_name': { field: 'illness_name', label: '傷病名', type: 'text' },
-  'clinic_postal_code': { field: 'clinic_postal_code', label: '施設郵便番号', type: 'boxes', boxWidth: 5.6, boxCount: 7 },
+  'clinic_postal_code': { field: 'clinic_postal_code', label: '施設郵便番号', type: 'text' },
   'clinic_address': { field: 'clinic_address', label: '施設住所', type: 'text' },
   'clinic_phone': { field: 'clinic_phone', label: '施設電話番号', type: 'text' },
   'clinic_name': { field: 'clinic_name', label: '施設名', type: 'text' },

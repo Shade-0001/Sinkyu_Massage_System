@@ -21,7 +21,22 @@ class DocumentAssociationController extends Controller
       '資料',
     ];
 
+    // ============================================================
     // 文書カラムの項目をハードコード定義（idはdocument_id_1として使用）
+    // ============================================================
+    // 【重要】このIDはPDFサービスクラスのfetchData()で参照される
+    // ============================================================
+    // 対応するPDFサービスクラス：
+    // - id=1: ConsentRequestLetterSampleAcupuncturePdfService (document_id_1 = 1)
+    // - id=2: ConsentRequestLetterSampleMassagePdfService (document_id_1 = 2)
+    // - id=3: ConsentRequestLetterDesignatedAcupuncturePdfService (document_id_1 = 3)
+    // - id=4: ConsentRequestLetterDesignatedMassagePdfService (document_id_1 = 4)
+    //
+    // 【注意】新しいPDFサービスクラスを作成する場合：
+    // 1. ここにfixedDocumentsのエントリを追加
+    // 2. PDFサービスクラスのfetchData()で正しいdocument_id_1を参照
+    // 3. document_associationテーブルのcommentカラムにも文書名称を記録
+    // ============================================================
     $fixedDocuments = [
       // 依頼状カテゴリ
       ['id' => 1, 'document_category' => '依頼状', 'document_name' => '同意書依頼（サンプル版）はり・きゅう'],

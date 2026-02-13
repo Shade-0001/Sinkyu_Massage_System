@@ -7,6 +7,21 @@ use Illuminate\Support\Facades\DB;
 
 /**
  * 同意書依頼状（医師指定）（はり･きゅう）PDF生成サービス
+ *
+ * 【重要】document_associationテーブルとの関連付け
+ * ============================================================
+ * このサービスは document_id_1 = 3（同意書依頼状医師指定版はり・きゅう）
+ * の文面を参照する。
+ *
+ * DocumentAssociationController.phpのfixedDocuments定義：
+ * - id=1: 同意書依頼（サンプル版）はり・きゅう
+ * - id=2: 同意書依頼（サンプル版）あんま・マッサージ
+ * - id=3: 同意書依頼（医師指定）はり・きゅう ← このサービスが参照
+ * - id=4: 同意書依頼（医師指定）あんま・マッサージ
+ *
+ * ※fetchData()メソッド内のdocument_id_1の値を変更する場合は、
+ *   上記の定義と一致していることを必ず確認すること！
+ * ============================================================
  */
 class ConsentRequestLetterDesignatedAcupuncturePdfService extends BasePdfService
 {
