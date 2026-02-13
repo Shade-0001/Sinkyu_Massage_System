@@ -134,8 +134,8 @@ class DocumentController extends Controller
     ]);
 
     DB::table('documents')->insert([
-      'document_category' => $request->category,
-      'document_name' => $request->name,
+      'document_category' => $request->document_category,
+      'document_name' => $request->document_name,
       'content' => $request->content,
       'font_size' => $request->font_size ?? 12,
       'line_height' => $request->line_height ?? 7,
