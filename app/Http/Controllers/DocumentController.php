@@ -9,6 +9,30 @@ use Illuminate\Support\Facades\DB;
 class DocumentController extends Controller
 {
   /**
+   * カテゴリ一覧を取得（既存DBデータ + 固定選択肢）
+   */
+  private function getCategories()
+  {
+    // DBから既存カテゴリを取得
+    $dbCategories = DB::table('documents')
+      ->select('document_category')
+      ->distinct()
+      ->whereNotNull('document_category')
+      ->orderBy('document_category')
+      ->pluck('document_category')
+      ->toArray();
+
+    // 固定選択肢
+    $fixedCategories = ['依頼状', '挨拶状', '御礼状', '資料'];
+
+    // マージして重複削除、ソート
+    $allCategories = array_unique(array_merge($dbCategories, $fixedCategories));
+    sort($allCategories);
+
+    return $allCategories;
+  }
+
+  /**
    * 文面のインデックスページを表示
    */
   public function index()
@@ -25,18 +49,10 @@ class DocumentController extends Controller
    */
   public function create()
   {
-    // documentsテーブルからカテゴリ一覧を取得
-    $categories = DB::table('documents')
-      ->select('document_category')
-      ->distinct()
-      ->whereNotNull('document_category')
-      ->orderBy('document_category')
-      ->pluck('document_category');
-
     return view('master.documents.documents_registration', [
       'mode' => 'create',
       'page_header_title' => '文面新規登録',
-      'categories' => $categories
+      'categories' => $this->getCategories()
     ]);
   }
 
@@ -52,19 +68,11 @@ class DocumentController extends Controller
       return redirect()->route('master.documents.index')->with('error', '文面が見つからない。');
     }
 
-    // カテゴリ一覧を取得
-    $categories = DB::table('documents')
-      ->select('document_category')
-      ->distinct()
-      ->whereNotNull('document_category')
-      ->orderBy('document_category')
-      ->pluck('document_category');
-
     return view('master.documents.documents_registration', [
       'mode' => 'edit',
       'page_header_title' => '文面編集',
       'document' => $document,
-      'categories' => $categories
+      'categories' => $this->getCategories()
     ]);
   }
 
