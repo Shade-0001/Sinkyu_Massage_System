@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 class DocumentController extends Controller
 {
   /**
-   * 文書のインデックスページを表示
+   * 文面のインデックスページを表示
    */
   public function index()
   {
@@ -35,7 +35,7 @@ class DocumentController extends Controller
 
     return view('master.documents.documents_registration', [
       'mode' => 'create',
-      'page_header_title' => '文書新規登録',
+      'page_header_title' => '文面新規登録',
       'categories' => $categories
     ]);
   }
@@ -49,7 +49,7 @@ class DocumentController extends Controller
     $document = DB::table('documents')->where('id', $id)->first();
 
     if (!$document) {
-      return redirect()->route('master.documents.index')->with('error', '文書が見つからない。');
+      return redirect()->route('master.documents.index')->with('error', '文面が見つからない。');
     }
 
     // カテゴリ一覧を取得
@@ -69,7 +69,7 @@ class DocumentController extends Controller
   }
 
   /**
-   * 文書を更新
+   * 文面を更新
    */
   public function update(Request $request, $id)
   {
@@ -85,7 +85,7 @@ class DocumentController extends Controller
             ->where('id', '!=', $id)
             ->exists();
           if ($exists) {
-            $fail('既存の文書名称と重複。文書名称を変更が必要。');
+            $fail('既存の文面名称と重複。文面名称を変更が必要。');
           }
         }
       ],
@@ -105,11 +105,11 @@ class DocumentController extends Controller
         'updated_at' => now(),
       ]);
 
-    return redirect()->route('master.documents.index')->with('success', '文書情報を更新完了。');
+    return redirect()->route('master.documents.index')->with('success', '文面情報を更新完了。');
   }
 
   /**
-   * 文書を新規登録
+   * 文面を新規登録
    */
   public function store(Request $request)
   {
@@ -124,7 +124,7 @@ class DocumentController extends Controller
             ->where('document_name', $value)
             ->exists();
           if ($exists) {
-            $fail('既存の文書名称と重複。文書名称を変更が必要。');
+            $fail('既存の文面名称と重複。文面名称を変更が必要。');
           }
         }
       ],
@@ -147,7 +147,7 @@ class DocumentController extends Controller
   }
 
   /**
-   * 文書を削除
+   * 文面を削除
    */
   public function destroy($id)
   {
@@ -156,14 +156,14 @@ class DocumentController extends Controller
   }
 
   /**
-   * 文書複製画面表示
+   * 文面複製画面表示
    */
   public function duplicate($id)
   {
     $document = DB::table('documents')->where('id', $id)->first();
 
     if (!$document) {
-      return redirect()->route('master.documents.index')->with('error', '文書が見つからない。');
+      return redirect()->route('master.documents.index')->with('error', '文面が見つからない。');
     }
 
     // カテゴリ一覧を取得
@@ -176,14 +176,14 @@ class DocumentController extends Controller
 
     return view('master.documents.documents_registration', [
       'mode' => 'duplicate',
-      'page_header_title' => '文書複製',
+      'page_header_title' => '文面複製',
       'document' => $document,
       'categories' => $categories
     ]);
   }
 
   /**
-   * 文書複製登録処理
+   * 文面複製登録処理
    */
   public function duplicateStore(Request $request)
   {
@@ -198,7 +198,7 @@ class DocumentController extends Controller
             ->where('document_name', $value)
             ->exists();
           if ($exists) {
-            $fail('既存の文書名称と重複。文書名称を変更が必要。');
+            $fail('既存の文面名称と重複。文面名称を変更が必要。');
           }
         }
       ],
@@ -217,18 +217,18 @@ class DocumentController extends Controller
       'updated_at' => now(),
     ]);
 
-    return redirect()->route('master.documents.index')->with('success', '文書を複製登録完了。');
+    return redirect()->route('master.documents.index')->with('success', '文面を複製登録完了。');
   }
 
   /**
-   * 文書のプレビューを表示
+   * 文面のプレビューを表示
    */
   public function preview($id)
   {
     $document = DB::table('documents')->where('id', $id)->first();
 
     if (!$document) {
-      abort(404, '文書が見つかりません');
+      abort(404, '文面が見つかりません');
     }
 
     // clinic_infoテーブルから事業所情報を取得
@@ -283,7 +283,7 @@ class DocumentController extends Controller
   }
 
   /**
-   * 文書名称の重複チェック（Ajax用）
+   * 文面名称の重複チェック（Ajax用）
    */
   public function checkDuplicateName(Request $request)
   {

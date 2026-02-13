@@ -3,7 +3,7 @@
 @csrf
 
 <div class="mb-3">
-  <label class="fw-semibold" for="document_category">文書カテゴリ</span></label><br>
+  <label class="fw-semibold" for="document_category">文面カテゴリ</span></label><br>
   <select name="document_category" id="document_category">
     <option value="">╌╌╌</option>
     @foreach($categories as $category)
@@ -18,9 +18,9 @@
 </div>
 
 <div class="mb-3">
-  <label class="fw-semibold" for="document_name">文書名称</label><br>
-  <input type="text" name="document_name" id="document_name" value="{{ old('document_name', $item->document_name ?? '') }}" placeholder="文書名称を入力…">
-  <div id="name-duplicate-error" class="text-danger" style="display: none;">既存の文書名称と重複しています。文書名称を変更してください。</div>
+  <label class="fw-semibold" for="document_name">文面名称</label><br>
+  <input type="text" name="document_name" id="document_name" value="{{ old('document_name', $item->document_name ?? '') }}" placeholder="文面名称を入力…">
+  <div id="name-duplicate-error" class="text-danger" style="display: none;">既存の文面名称と重複。文面名称を変更が必要。</div>
   @error('document_name')
     <div class="text-danger">{{ $message }}</div>
   @enderror
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
     return;
   }
 
-  // 文書名称の入力時にリアルタイムチェック
+  // 文面名称の入力時にリアルタイムチェック
   nameInput.addEventListener('input', function() {
     clearTimeout(typingTimer);
 
