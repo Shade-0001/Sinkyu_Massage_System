@@ -3,7 +3,7 @@
 @csrf
 
 <div class="mb-3">
-  <label class="fw-semibold" for="document_category">文面カテゴリ</span></label><br>
+  <label class="fw-semibold" for="document_category">文書カテゴリ</span></label><br>
   <select name="document_category" id="document_category">
     <option value="">╌╌╌</option>
     @foreach($categories as $category)

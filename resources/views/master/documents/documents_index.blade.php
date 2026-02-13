@@ -20,7 +20,7 @@
   <table id="documentsTable" class="table table-bordered table-striped">
     <thead>
       <tr>
-        <th style="width: 12%;">文面カテゴリ</th>
+        <th style="width: 12%;">文書カテゴリ</th>
         <th style="width: 35%;">文面名称</th>
         <th style="width: 13%;">登録日時</th>
         <th style="width: 10%;">プレビュー</th>
