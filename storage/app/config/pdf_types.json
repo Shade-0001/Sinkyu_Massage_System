@@ -184,7 +184,7 @@
     "fieldsFile": ""
   },
   "report_greeting": {
-    "name": "報告書挨拶文",
+    "name": "報告書挨拶状",
     "coordinatesFile": "report_greeting_coordinates.json",
     "templateFile": "汎用文書.pdf",
     "templateDir": "",
