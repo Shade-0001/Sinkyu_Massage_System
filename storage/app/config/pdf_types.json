@@ -61,7 +61,7 @@
     "templateFile": "汎用文書.pdf",
     "templateDir": "",
     "serviceClass": "ConsentRequestLetterSampleAcupuncturePdfService",
-    "fieldsFile": ""
+    "fieldsFile": "consent_request_letter_sample_acupuncture.js"
   },
   "consent_request_letter_sample_massage": {
     "name": "同意書依頼状（サンプル版）（あんま･マッサージ）",

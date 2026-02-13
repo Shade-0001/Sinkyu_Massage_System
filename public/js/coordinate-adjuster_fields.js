@@ -421,3 +421,17 @@ const fieldDefinitionsTreatmentReceipt = {
   'clinic_manager': { field: 'clinic_manager', label: '代表者氏名', type: 'text' },
   'clinic_phone': { field: 'clinic_phone', label: '電話番号', type: 'text' }
 };
+
+// 同意書依頼状（サンプル版）はり･きゅう用のフィールド定義
+const fieldDefinitionsConsentRequestLetterSampleAcupuncture = {
+  'title': { field: 'title', label: 'タイトル', type: 'text' },
+  'submission_date': { field: 'submission_date', label: '提出年月日', type: 'text' },
+  'document_content': { field: 'document_content', label: '本文', type: 'text', lineHeight: 5, maxCharsPerLine: 40 },
+  'user_name': { field: 'user_name', label: '利用者氏名', type: 'text' },
+  'illness_name': { field: 'illness_name', label: '傷病名', type: 'text' },
+  'clinic_postal_code': { field: 'clinic_postal_code', label: '施設郵便番号', type: 'boxes', boxWidth: 5.6, boxCount: 7 },
+  'clinic_address': { field: 'clinic_address', label: '施設住所', type: 'text' },
+  'clinic_phone': { field: 'clinic_phone', label: '施設電話番号', type: 'text' },
+  'clinic_name': { field: 'clinic_name', label: '施設名', type: 'text' },
+  'clinic_owner_name': { field: 'clinic_owner_name', label: '施設代表者氏名', type: 'text' }
+};
