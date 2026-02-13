@@ -273,7 +273,7 @@ abstract class BasePdfService
   }
 
   /**
-   * 座標キーで指定された位置にテキストを描画（文字間隔対応）
+   * 座標キーで指定された位置にテキストを描画（文字間隔・配置対応）
    */
   protected function drawTextByKey(Fpdi $pdf, string $key, string $text): void
   {
@@ -286,16 +286,30 @@ abstract class BasePdfService
     $fontSize = $this->coord($key, 'fontSize') ?: 10;
     $fontWeight = $this->coord($key, 'fontWeight') ?: 'normal';
     $letterSpacing = $this->coord($key, 'letterSpacing') ?: 0;
+    $textAlign = $this->coord($key, 'textAlign') ?: 'left';
 
     // フォント設定
     $pdf->SetFont('kozgopromedium', $fontWeight === 'bold' ? 'B' : '', $fontSize);
 
-    // 文字間隔が指定されている場合は文字ごとに描画
+    // 文字間隔が指定されている場合は文字ごとに描画（配置対応）
     if ($letterSpacing > 0) {
-      $this->drawTextWithSpacing($pdf, $x, $y, $text, $letterSpacing);
+      // A4幅を配置幅として使用（210mm）
+      $alignmentWidth = 210;
+      $this->drawTextWithSpacing($pdf, $x, $y, $text, $letterSpacing, $textAlign, $alignmentWidth);
     } else {
-      // 通常描画
-      $pdf->SetXY($x, $y);
+      // 通常描画（配置対応）
+      $textWidth = $pdf->GetStringWidth($text);
+      $alignedX = $x;
+
+      if ($textAlign === 'center') {
+        // 中央揃え：A4幅（210mm）の中央に配置
+        $alignedX = ($210 - $textWidth) / 2;
+      } elseif ($textAlign === 'right') {
+        // 右揃え：A4幅から右マージン（10mm）を引いた位置
+        $alignedX = 210 - 10 - $textWidth;
+      }
+
+      $pdf->SetXY($alignedX, $y);
       $pdf->Cell(0, 0, $text, 0, 0, 'L', false);
     }
   }
