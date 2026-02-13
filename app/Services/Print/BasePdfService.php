@@ -300,13 +300,15 @@ abstract class BasePdfService
       // 通常描画（配置対応）
       $textWidth = $pdf->GetStringWidth($text);
       $alignedX = $x;
+      $pageWidth = 210; // A4幅（mm）
+      $rightMargin = 10; // 右マージン（mm）
 
       if ($textAlign === 'center') {
-        // 中央揃え：A4幅（210mm）の中央に配置
-        $alignedX = ($210 - $textWidth) / 2;
+        // 中央揃え：A4幅の中央に配置
+        $alignedX = ($pageWidth - $textWidth) / 2;
       } elseif ($textAlign === 'right') {
-        // 右揃え：A4幅から右マージン（10mm）を引いた位置
-        $alignedX = 210 - 10 - $textWidth;
+        // 右揃え：A4幅から右マージンを引いた位置
+        $alignedX = $pageWidth - $rightMargin - $textWidth;
       }
 
       $pdf->SetXY($alignedX, $y);
