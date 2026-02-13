@@ -58,16 +58,16 @@
   "consent_request_letter_sample": {
     "name": "同意書依頼状（サンプル版）",
     "coordinatesFile": "consent_request_letter_sample_coordinates.json",
-    "templateFile": "同意書依頼状.pdf",
-    "templateDir": "acupuncture_and_massage",
+    "templateFile": "汎用文書.pdf",
+    "templateDir": "",
     "serviceClass": "ConsentRequestLetterSamplePdfService",
     "fieldsFile": ""
   },
   "consent_request_letter_designated": {
     "name": "同意書依頼状（医師指定）",
     "coordinatesFile": "consent_request_letter_designated_coordinates.json",
-    "templateFile": "同意書依頼状.pdf",
-    "templateDir": "acupuncture_and_massage",
+    "templateFile": "汎用文書.pdf",
+    "templateDir": "",
     "serviceClass": "ConsentRequestLetterDesignatedPdfService",
     "fieldsFile": ""
   },
@@ -154,16 +154,16 @@
   "thank_you_letter_doctor": {
     "name": "医師への御礼状",
     "coordinatesFile": "thank_you_letter_doctor_coordinates.json",
-    "templateFile": "御礼状.pdf",
-    "templateDir": "others_1",
+    "templateFile": "汎用文書.pdf",
+    "templateDir": "",
     "serviceClass": "ThankYouLetterDoctorPdfService",
     "fieldsFile": ""
   },
   "thank_you_letter_referrer": {
     "name": "紹介者への御礼状",
     "coordinatesFile": "thank_you_letter_referrer_coordinates.json",
-    "templateFile": "御礼状.pdf",
-    "templateDir": "others_1",
+    "templateFile": "汎用文書.pdf",
+    "templateDir": "",
     "serviceClass": "ThankYouLetterReferrerPdfService",
     "fieldsFile": ""
   },
@@ -186,8 +186,8 @@
   "report_greeting": {
     "name": "報告書挨拶文",
     "coordinatesFile": "report_greeting_coordinates.json",
-    "templateFile": "報告書挨拶文.pdf",
-    "templateDir": "others_1",
+    "templateFile": "汎用文書.pdf",
+    "templateDir": "",
     "serviceClass": "ReportGreetingPdfService",
     "fieldsFile": ""
   },
