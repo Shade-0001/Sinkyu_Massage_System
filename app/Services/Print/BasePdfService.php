@@ -304,11 +304,12 @@ abstract class BasePdfService
       $rightMargin = 10; // 右マージン（mm）
 
       if ($textAlign === 'center') {
-        // 中央揃え：A4幅の中央に配置
-        $alignedX = ($pageWidth - $textWidth) / 2;
+        // 中央揃え：X座標を起点としてページ幅内で中央配置
+        $alignmentWidth = $pageWidth - $x;
+        $alignedX = $x + ($alignmentWidth - $textWidth) / 2;
       } elseif ($textAlign === 'right') {
-        // 右揃え：A4幅から右マージンを引いた位置
-        $alignedX = $pageWidth - $rightMargin - $textWidth;
+        // 右揃え：X座標を右端として、そこから左にテキスト幅分配置
+        $alignedX = $x - $textWidth;
       }
 
       $pdf->SetXY($alignedX, $y);

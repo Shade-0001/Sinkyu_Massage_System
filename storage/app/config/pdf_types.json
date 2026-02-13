@@ -77,7 +77,7 @@
     "templateFile": "汎用文書.pdf",
     "templateDir": "",
     "serviceClass": "ConsentRequestLetterDesignatedAcupuncturePdfService",
-    "fieldsFile": ""
+    "fieldsFile": "consent_request_letter_sample_acupuncture.js"
   },
   "consent_request_letter_designated_massage": {
     "name": "同意書依頼状（医師指定）（あんま･マッサージ）",

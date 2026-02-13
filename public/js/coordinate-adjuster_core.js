@@ -14,20 +14,33 @@ let originalCoordinates = {};
 // ============================================================
 // 【重要】新しいPDFタイプを追加する際の必須作業
 // ============================================================
+// 詳細は storage/app/config/PDF_TYPES_README.md を参照
+//
 // 1. storage/app/config/pdf_types.json に新しいタイプのエントリを追加
+//    【重要】fieldsFile を空文字列 "" にしない！（フィールドラベルが英語になる）
+//
 // 2. storage/app/config/ に座標設定JSONファイルを作成
+//
 // 3. public/js/coordinate-adjuster_fields.js に専用のフィールド定義オブジェクトを追加
 //    （または既存のフィールド定義を使い回す）
+//
 // 4. この関数（getFieldDefinitions）に新しいPDFタイプのケースを追加
-//    ※追加しないとフィールドラベルが英語（キー名）で表示される
-// 5. app/Services/Print/ にPDF生成サービスクラスを作成
-// 6. coordinate-adjuster_categories.js にカテゴリ定義を追加（必要に応じて）
+//    【重要】追加しないとフィールドラベルが英語（キー名）で表示される
+//
+// 5. coordinate-adjuster_categories.js の以下2つの関数に追加
+//    - getFieldCategories()
+//    - getCategoryOrder()
+//    【重要】追加しないと不適切なカテゴリが表示される
+//
+// 6. app/Services/Print/ にPDF生成サービスクラスを作成
 //
 // 【例】同意書依頼状（医師指定版）の場合：
 // - pdf_types.jsonに追加: "consent_request_letter_designated_acupuncture"
+//   fieldsFile: "consent_request_letter_sample_acupuncture.js" （サンプル版と同じ定義を使い回し）
 // - 座標JSONファイル作成: consent_request_letter_designated_acupuncture_coordinates.json
 // - フィールド定義: fieldDefinitionsConsentRequestLetterSampleAcupuncture を使い回し
 // - この関数に追加: currentPdfType === 'consent_request_letter_designated_acupuncture'
+// - カテゴリ関数に追加: getFieldCategories() と getCategoryOrder()
 // - サービスクラス作成: ConsentRequestLetterDesignatedAcupuncturePdfService.php
 // ============================================================
 function getFieldDefinitions() {

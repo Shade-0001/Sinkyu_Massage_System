@@ -900,6 +900,27 @@ function renderSingleFieldHTML(key, field) {
       </div>
       ` : ''}
 
+      ${field.lineHeight !== undefined ? `
+      <div class="coordinate-input">
+        <label>行間:</label>
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'lineHeight', -0.5)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'lineHeight', -0.5)"
+                ontouchend="stopLongPress()">−</button>
+        <input type="number" step="0.5" value="${field.lineHeight}"
+               onchange="updateCoordinate('${key}', 'lineHeight', this.value)"
+               class="form-control form-control-sm" style="width: 80px;" data-property="lineHeight">
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'lineHeight', 0.5)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'lineHeight', 0.5)"
+                ontouchend="stopLongPress()">+</button>
+      </div>
+      ` : ''}
+
       ${field.maxCharsPerLine !== undefined ? `
       <div class="coordinate-input">
         <label>1行あたり文字数:</label>
@@ -1321,6 +1342,50 @@ function updateCompositeGroupSelection(groupName, selectedKey) {
   lsDiv.appendChild(lsInput);
   lsDiv.appendChild(lsBtnPlus);
   detailsDiv.appendChild(lsDiv);
+  }
+
+  // 行間
+  if (!isShapeOnly && selectedField.lineHeight !== undefined) {
+  const lhDiv = document.createElement('div');
+  lhDiv.className = 'coordinate-input';
+  lhDiv.innerHTML = `<label>行間:</label>`;
+
+  const lhBtnMinus = document.createElement('button');
+  lhBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+  lhBtnMinus.innerHTML = '−';
+  lhBtnMinus.addEventListener('mousedown', () => startLongPress(selectedKey, 'lineHeight', -0.5));
+  lhBtnMinus.addEventListener('mouseup', stopLongPress);
+  lhBtnMinus.addEventListener('mouseleave', stopLongPress);
+  lhBtnMinus.addEventListener('touchstart', () => startLongPress(selectedKey, 'lineHeight', -0.5));
+  lhBtnMinus.addEventListener('touchend', stopLongPress);
+
+  const lhInput = document.createElement('input');
+  lhInput.type = 'number';
+  lhInput.step = '0.5';
+  lhInput.value = selectedField.lineHeight || 5;
+  lhInput.className = 'form-control form-control-sm';
+  lhInput.style.width = '80px';
+  lhInput.style.display = 'inline-block';
+  lhInput.style.marginLeft = '5px';
+  lhInput.style.marginRight = '5px';
+  lhInput.setAttribute('data-property', 'lineHeight');
+  lhInput.addEventListener('change', function() {
+    updateCoordinate(selectedKey, 'lineHeight', this.value);
+  });
+
+  const lhBtnPlus = document.createElement('button');
+  lhBtnPlus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+  lhBtnPlus.innerHTML = '+';
+  lhBtnPlus.addEventListener('mousedown', () => startLongPress(selectedKey, 'lineHeight', 0.5));
+  lhBtnPlus.addEventListener('mouseup', stopLongPress);
+  lhBtnPlus.addEventListener('mouseleave', stopLongPress);
+  lhBtnPlus.addEventListener('touchstart', () => startLongPress(selectedKey, 'lineHeight', 0.5));
+  lhBtnPlus.addEventListener('touchend', stopLongPress);
+
+  lhDiv.appendChild(lhBtnMinus);
+  lhDiv.appendChild(lhInput);
+  lhDiv.appendChild(lhBtnPlus);
+  detailsDiv.appendChild(lhDiv);
   }
 
   // 1行あたり文字数
@@ -1945,6 +2010,50 @@ function updateRadioGroupSelection(groupName, selectedKey) {
     lsDiv.appendChild(lsInput);
     lsDiv.appendChild(lsBtnPlus);
     detailsDiv.appendChild(lsDiv);
+  }
+
+  // 行間
+  if (!isShapeOnly && selectedField.lineHeight !== undefined) {
+    const lhDiv = document.createElement('div');
+    lhDiv.className = 'coordinate-input';
+    lhDiv.innerHTML = `<label>行間:</label>`;
+
+  const lhBtnMinus = document.createElement('button');
+  lhBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+  lhBtnMinus.innerHTML = '−';
+  lhBtnMinus.addEventListener('mousedown', () => startLongPress(selectedKey, 'lineHeight', -0.5));
+  lhBtnMinus.addEventListener('mouseup', stopLongPress);
+  lhBtnMinus.addEventListener('mouseleave', stopLongPress);
+  lhBtnMinus.addEventListener('touchstart', () => startLongPress(selectedKey, 'lineHeight', -0.5));
+  lhBtnMinus.addEventListener('touchend', stopLongPress);
+
+  const lhInput = document.createElement('input');
+  lhInput.type = 'number';
+  lhInput.step = '0.5';
+  lhInput.value = selectedField.lineHeight || 5;
+  lhInput.className = 'form-control form-control-sm';
+  lhInput.style.width = '80px';
+  lhInput.style.display = 'inline-block';
+  lhInput.style.marginLeft = '5px';
+  lhInput.setAttribute('data-property', 'lineHeight');
+  lhInput.style.marginRight = '5px';
+  lhInput.addEventListener('change', function() {
+    updateCoordinate(selectedKey, 'lineHeight', this.value);
+  });
+
+  const lhBtnPlus = document.createElement('button');
+  lhBtnPlus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
+  lhBtnPlus.innerHTML = '+';
+  lhBtnPlus.addEventListener('mousedown', () => startLongPress(selectedKey, 'lineHeight', 0.5));
+  lhBtnPlus.addEventListener('mouseup', stopLongPress);
+  lhBtnPlus.addEventListener('mouseleave', stopLongPress);
+  lhBtnPlus.addEventListener('touchstart', () => startLongPress(selectedKey, 'lineHeight', 0.5));
+  lhBtnPlus.addEventListener('touchend', stopLongPress);
+
+    lhDiv.appendChild(lhBtnMinus);
+    lhDiv.appendChild(lhInput);
+    lhDiv.appendChild(lhBtnPlus);
+    detailsDiv.appendChild(lhDiv);
   }
 
   // 1行あたり文字数

@@ -731,7 +731,15 @@ const categoryOrderMedicalAssistance = [
   "consent_record"
 ];
 
+// ============================================================
 // PDFタイプに応じたfieldCategoriesを取得
+// ============================================================
+// 【重要】新しいPDFタイプを追加する際、この関数にケースを追加すること
+// 追加しないと、デフォルトのカテゴリ（療養費支給申請書）が使われ、
+// 不適切なカテゴリが表示される
+//
+// 詳細は storage/app/config/PDF_TYPES_README.md を参照
+// ============================================================
 function getFieldCategories(pdfType) {
   // fieldsFileが空の場合は空オブジェクトを返す
   const pdfTypes = window.coordinateAdjusterData?.pdfTypes || {};
@@ -745,7 +753,7 @@ function getFieldCategories(pdfType) {
     return fieldCategoriesTherapyBenefitMassage;
   } else if (pdfType === 'treatment_receipt') {
     return fieldCategoriesTreatmentReceipt;
-  } else if (pdfType === 'consent_request_letter_sample_acupuncture') {
+  } else if (pdfType === 'consent_request_letter_sample_acupuncture' || pdfType === 'consent_request_letter_designated_acupuncture') {
     return fieldCategoriesConsentRequestLetterSampleAcupuncture;
   } else if (pdfType === 'medical_assistance_acupuncture') {
     return fieldCategoriesMedicalAssistanceAcupuncture;
@@ -757,7 +765,14 @@ function getFieldCategories(pdfType) {
   return fieldCategoriesTherapyBenefitAcupuncture;
 }
 
+// ============================================================
 // PDFタイプに応じたcategoryOrderを取得
+// ============================================================
+// 【重要】新しいPDFタイプを追加する際、この関数にケースを追加すること
+// 追加しないと、デフォルトのカテゴリ順序（療養費支給申請書）が使われる
+//
+// 詳細は storage/app/config/PDF_TYPES_README.md を参照
+// ============================================================
 function getCategoryOrder(pdfType) {
   // fieldsFileが空の場合は空配列を返す
   const pdfTypes = window.coordinateAdjusterData?.pdfTypes || {};
@@ -771,7 +786,7 @@ function getCategoryOrder(pdfType) {
     return categoryOrderTherapyBenefitMassage;
   } else if (pdfType === 'treatment_receipt') {
     return categoryOrderTreatmentReceipt;
-  } else if (pdfType === 'consent_request_letter_sample_acupuncture') {
+  } else if (pdfType === 'consent_request_letter_sample_acupuncture' || pdfType === 'consent_request_letter_designated_acupuncture') {
     return categoryOrderConsentRequestLetterSampleAcupuncture;
   } else if (pdfType === 'medical_assistance_acupuncture' || pdfType === 'medical_assistance_massage' || pdfType === 'elderly_therapy_benefit_acupuncture' || pdfType === 'elderly_therapy_benefit_massage') {
     return categoryOrderMedicalAssistance;

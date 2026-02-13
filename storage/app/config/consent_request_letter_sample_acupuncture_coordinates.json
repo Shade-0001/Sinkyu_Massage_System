@@ -1,102 +1,104 @@
 {
-  "custom_title_text": {
-    "x": 0,
-    "y": 0,
-    "fontSize": 14,
-    "letterSpacing": 0,
-    "textAlign": "center",
-    "type": "text",
-    "field": "custom_title_text",
-    "label": "タイトル"
-  },
-  "submission_date": {
-    "x": 0,
-    "y": 0,
-    "fontSize": 10,
-    "letterSpacing": 0,
-    "textAlign": "left",
-    "type": "text",
-    "field": "submission_date",
-    "label": "提出年月日"
-  },
-  "document_content": {
-    "x": 0,
-    "y": 0,
-    "fontSize": 10,
-    "lineHeight": 5,
-    "maxCharsPerLine": 40,
-    "type": "text",
-    "field": "document_content",
-    "label": "本文"
-  },
-  "user_name": {
-    "x": 0,
-    "y": 0,
-    "fontSize": 10,
-    "letterSpacing": 0,
-    "textAlign": "left",
-    "type": "text",
-    "field": "user_name",
-    "label": "利用者氏名"
-  },
-  "illness_name": {
-    "x": 0,
-    "y": 0,
-    "fontSize": 10,
-    "letterSpacing": 0,
-    "textAlign": "left",
-    "type": "text",
-    "field": "illness_name",
-    "label": "傷病名"
-  },
-  "clinic_postal_code": {
-    "x": 0,
-    "y": 0,
-    "fontSize": 10,
-    "boxWidth": 5.6,
-    "boxCount": 7,
-    "type": "boxes",
-    "field": "clinic_postal_code",
-    "label": "施設郵便番号"
-  },
-  "clinic_address": {
-    "x": 0,
-    "y": 0,
-    "fontSize": 10,
-    "letterSpacing": 0,
-    "textAlign": "left",
-    "type": "text",
-    "field": "clinic_address",
-    "label": "施設住所"
-  },
-  "clinic_phone": {
-    "x": 0,
-    "y": 0,
-    "fontSize": 10,
-    "letterSpacing": 0,
-    "textAlign": "left",
-    "type": "text",
-    "field": "clinic_phone",
-    "label": "施設電話番号"
-  },
-  "clinic_name": {
-    "x": 0,
-    "y": 0,
-    "fontSize": 10,
-    "letterSpacing": 0,
-    "textAlign": "left",
-    "type": "text",
-    "field": "clinic_name",
-    "label": "施設名"
-  },
-  "clinic_owner_name": {
-    "x": 0,
-    "y": 0,
-    "fontSize": 10,
-    "letterSpacing": 0,
-    "textAlign": "left",
-    "type": "text",
-    "field": "clinic_owner_name",
-    "label": "施設代表者氏名"
-  }
+    "document_content": {
+        "x": 15,
+        "y": 65,
+        "fontSize": 12,
+        "lineHeight": 6.5,
+        "maxCharsPerLine": 42,
+        "type": "text",
+        "field": "document_content",
+        "label": "本文"
+    },
+    "custom_title_text": {
+        "x": 0,
+        "y": 10,
+        "textAlign": "center",
+        "field": "custom_title_text",
+        "label": "タイトル",
+        "type": "text",
+        "fontSize": 28,
+        "letterSpacing": 4
+    },
+    "submission_date": {
+        "x": 193,
+        "y": 28,
+        "textAlign": "right",
+        "field": "submission_date",
+        "label": "提出年月日",
+        "type": "text",
+        "fontSize": 14,
+        "letterSpacing": 0
+    },
+    "user_name": {
+        "x": 37,
+        "y": 245,
+        "textAlign": "left",
+        "field": "user_name",
+        "label": "利用者氏名",
+        "type": "text",
+        "fontSize": 12,
+        "letterSpacing": 0
+    },
+    "illness_name": {
+        "x": 37,
+        "y": 251,
+        "textAlign": "left",
+        "field": "illness_name",
+        "label": "傷病名",
+        "type": "text",
+        "fontSize": 12,
+        "letterSpacing": 0
+    },
+    "clinic_postal_code": {
+        "x": 120,
+        "y": 256.5,
+        "textAlign": "left",
+        "field": "clinic_postal_code",
+        "label": "施設郵便番号",
+        "type": "boxes",
+        "boxWidth": 5.6,
+        "boxCount": 7,
+        "fontSize": 12,
+        "letterSpacing": 0
+    },
+    "clinic_address": {
+        "x": 120,
+        "y": 262.5,
+        "textAlign": "left",
+        "field": "clinic_address",
+        "label": "施設住所",
+        "type": "text",
+        "fontSize": 12,
+        "letterSpacing": 0
+    },
+    "clinic_phone": {
+        "x": 120,
+        "y": 269,
+        "textAlign": "left",
+        "field": "clinic_phone",
+        "label": "施設電話番号",
+        "type": "text",
+        "fontSize": 12,
+        "letterSpacing": 0
+    },
+    "clinic_name": {
+        "x": 120,
+        "y": 275,
+        "textAlign": "left",
+        "field": "clinic_name",
+        "label": "施設名",
+        "type": "text",
+        "fontSize": 14,
+        "letterSpacing": 0
+    },
+    "clinic_owner_name": {
+        "x": 120,
+        "y": 282,
+        "textAlign": "left",
+        "field": "clinic_owner_name",
+        "label": "施設代表者氏名",
+        "type": "text",
+        "fontSize": 12,
+        "letterSpacing": 0
+    }
 }

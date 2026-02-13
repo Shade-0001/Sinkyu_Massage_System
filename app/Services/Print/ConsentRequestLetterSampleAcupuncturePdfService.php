@@ -161,11 +161,18 @@ class ConsentRequestLetterSampleAcupuncturePdfService extends BasePdfService
       $this->drawTextByKey($pdf, 'illness_name', $illnessName);
     }
 
-    // 6. 施設郵便番号（医療助成費支給申請書の代理人郵便番号と同じ仕様）
+    // 6. 施設郵便番号（〒***-****形式、医療助成費支給申請書の代理人郵便番号と同じ仕様）
     if ($clinicInfo && $clinicInfo->postal_code) {
-      $postalCode = str_replace('-', '', $clinicInfo->postal_code);
+      // ハイフンを削除して数字のみにする
+      $postalCodeNumbers = preg_replace('/[^0-9]/', '', $clinicInfo->postal_code);
+      // 3桁-4桁の形式にフォーマット
+      if (strlen($postalCodeNumbers) === 7) {
+        $formattedPostalCode = substr($postalCodeNumbers, 0, 3) . '-' . substr($postalCodeNumbers, 3, 4);
+      } else {
+        $formattedPostalCode = $postalCodeNumbers;
+      }
       $pdf->SetFontSize($this->coord('clinic_postal_code', 'fontSize'));
-      $this->fillBoxesByKey($pdf, 'clinic_postal_code', $postalCode, 7, 5.6);
+      $this->drawTextByKey($pdf, 'clinic_postal_code', '〒 ' . $formattedPostalCode);
     }
 
     // 7. 施設住所
@@ -175,9 +182,10 @@ class ConsentRequestLetterSampleAcupuncturePdfService extends BasePdfService
       $this->drawTextByKey($pdf, 'clinic_address', $address);
     }
 
-    // 8. 施設電話番号（TEL：*形式、therapy_benefit_acupunctureの申請欄カテゴリの電話番号フィールドと同じ仕様）
+    // 8. 施設電話番号（TEL∶ *形式、therapy_benefit_acupunctureの申請欄カテゴリの電話番号フィールドと同じ仕様）
     if ($clinicInfo && $clinicInfo->phone) {
-      $phoneText = 'TEL：' . $clinicInfo->phone;
+      $formattedPhone = $this->formatPhoneNumber($clinicInfo->phone);
+      $phoneText = 'TEL∶ ' . $formattedPhone;  // U+2236 (Ratio)
       $pdf->SetFontSize($this->coord('clinic_phone', 'fontSize'));
       $this->drawTextByKey($pdf, 'clinic_phone', $phoneText);
     }
@@ -236,5 +244,38 @@ class ConsentRequestLetterSampleAcupuncturePdfService extends BasePdfService
       $pdf->Cell(0, 0, $line, 0, 0, 'L', false);
       $currentY += $lineHeight;
     }
+  }
+
+  /**
+   * 電話番号フォーマット
+   */
+  protected function formatPhoneNumber(string $phone): string
+  {
+    // ハイフンや空白を除去して数字のみにする
+    $digitsOnly = preg_replace('/[^0-9]/', '', $phone);
+
+    if (empty($digitsOnly)) {
+      return '';
+    }
+
+    // 10桁の場合
+    if (strlen($digitsOnly) === 10) {
+      // 市外局番が03の場合: 2桁 - 4桁 - 4桁
+      if (substr($digitsOnly, 0, 2) === '03') {
+        return substr($digitsOnly, 0, 2) . ' - ' . substr($digitsOnly, 2, 4) . ' - ' . substr($digitsOnly, 6);
+      }
+      // 市外局番が03以外の場合: 3桁 - 3桁 - 4桁
+      else {
+        return substr($digitsOnly, 0, 3) . ' - ' . substr($digitsOnly, 3, 3) . ' - ' . substr($digitsOnly, 6);
+      }
+    }
+
+    // 11桁の場合: 3桁 - 4桁 - 4桁
+    if (strlen($digitsOnly) === 11) {
+      return substr($digitsOnly, 0, 3) . ' - ' . substr($digitsOnly, 3, 4) . ' - ' . substr($digitsOnly, 7);
+    }
+
+    // その他の桁数はそのまま返す
+    return $phone;
   }
 }
