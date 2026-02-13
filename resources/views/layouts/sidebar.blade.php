@@ -38,7 +38,7 @@
           <li><a href="{{ route('caremanagers.index') }}" class="submenu-link">ケアマネ</a></li>
           <li><a href="{{ route('clinic-info.index') }}" class="submenu-link">自社情報</a></li>
           <li><a href="{{ route('submaster.index') }}" class="submenu-link">サブマスター登録</a></li>
-          <li><a href="{{ route('master.documents.index') }}" class="submenu-link">文書</a></li>
+          <li><a href="{{ route('master.documents.index') }}" class="submenu-link">文面編集</a></li>
           <li><a href="{{ route('master.treatment-fees.index') }}" class="submenu-link">施術料金</a></li>
           <li><a href="{{ route('master.self-fees.index') }}" class="submenu-link">自費施術料金</a></li>
           <li><a href="{{ route('master.document-association.index') }}" class="submenu-link">登録済み標準文書の確認･関連付け</a></li>

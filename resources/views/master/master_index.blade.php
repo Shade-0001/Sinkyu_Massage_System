@@ -19,7 +19,7 @@
   ・<a href="{{ route('caremanagers.index') }}">ケアマネ</a><br>
   ・<a href="{{ route('clinic-info.index') }}">自社情報</a><br>
   ・<a href="{{ route('submaster.index') }}">サブマスター登録</a><br>
-  ・<a href="{{ route('master.documents.index') }}">文書</a><br>
+  ・<a href="{{ route('master.documents.index') }}">文面編集</a><br>
   ・<a href="{{ route('master.treatment-fees.index') }}">施術料金</a><br>
   ・<a href="{{ route('master.self-fees.index') }}">自費施術料金</a><br>
   ・<a href="{{ route('master.document-association.index') }}">登録済み標準文書の確認･関連付け</a>
