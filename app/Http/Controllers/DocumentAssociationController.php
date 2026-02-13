@@ -13,10 +13,15 @@ class DocumentAssociationController extends Controller
    */
   public function index()
   {
+    // 文書カラムの項目をハードコード定義（idはdocument_id_1として使用）
+    $fixedDocuments = [
+      ['id' => 1, 'document_category' => '依頼状', 'document_name' => '同意書依頼状（サンプル版）'],
+    ];
+
     // document_templatesからカテゴリ一覧を取得
     $categories = DB::table('document_templates')->orderBy('id')->get();
 
-    // documentsテーブルから全文書を取得
+    // documentsテーブルから全文書を取得（セレクトボックス用）
     $documents = DB::table('documents')->orderBy('id')->get();
 
     // document_associationから既存の関連付けを取得
@@ -24,6 +29,7 @@ class DocumentAssociationController extends Controller
 
     return view('master.document-association.document-association_index', [
       'categories' => $categories,
+      'fixedDocuments' => $fixedDocuments,
       'documents' => $documents,
       'associations' => $associations,
       'page_header_title' => '標準文書の確認および関連付け'

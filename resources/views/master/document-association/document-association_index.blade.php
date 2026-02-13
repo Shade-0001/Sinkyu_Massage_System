@@ -24,8 +24,8 @@
     <tbody>
       @foreach($categories as $category)
         @php
-          // このカテゴリに属する文書を取得
-          $categoryDocuments = $documents->where('document_category', $category->document_category);
+          // このカテゴリに属するハードコード文書を取得
+          $categoryDocuments = collect($fixedDocuments)->where('document_category', $category->document_category);
           $docCount = $categoryDocuments->count();
         @endphp
         @if($docCount > 0)
@@ -37,16 +37,16 @@
               <td>
                 <div style="display: flex; align-items: center; gap: 10px;">
                   <div style="flex: 1;">
-                    {{ $document->document_name }}
+                    {{ $document['document_name'] }}
                   </div>
                   <div style="flex: 1;">
-                    <form action="{{ route('master.document-association.associate', $document->id) }}" method="POST" style="margin: 0;">
+                    <form action="{{ route('master.document-association.associate', $document['id']) }}" method="POST" style="margin: 0;">
                       @csrf
                       <select name="document_id_2" style="width: 100%;" onchange="this.form.submit()">
                         <option value="">-- 選択 --</option>
                         @foreach($documents as $doc)
                           <option value="{{ $doc->id }}"
-                            {{ isset($associations[$document->id]) && $associations[$document->id]->document_id_2 == $doc->id ? 'selected' : '' }}>
+                            {{ isset($associations[$document['id']]) && $associations[$document['id']]->document_id_2 == $doc->id ? 'selected' : '' }}>
                             {{ $doc->document_name }}
                           </option>
                         @endforeach
