@@ -35,7 +35,7 @@ class ConsentRequestLetterDesignatedAcupuncturePdfService extends BasePdfService
     return [];
   }
 
-  public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate, string $remarks = ''): string
+  public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate, string $remarks = '', array $doctorIds = []): string
   {
     $pdf = new Fpdi('P', 'mm', 'A4', true, 'UTF-8', false);
     $pdf->SetAutoPageBreak(false);
@@ -43,11 +43,14 @@ class ConsentRequestLetterDesignatedAcupuncturePdfService extends BasePdfService
     $pdf->setPrintFooter(false);
     $pdf->SetMargins(0, 0, 0);
 
+    // 利用者と医師のペアでページを生成
     foreach ($clinicUserIds as $clinicUserId) {
-      $data = $this->fetchData($clinicUserId, $submissionDate);
+      foreach ($doctorIds as $doctorId) {
+        $data = $this->fetchData($clinicUserId, $submissionDate, $doctorId);
 
-      if ($data) {
-        $this->addPage($pdf, $data, $submissionDate);
+        if ($data) {
+          $this->addPage($pdf, $data, $submissionDate);
+        }
       }
     }
 
@@ -57,7 +60,7 @@ class ConsentRequestLetterDesignatedAcupuncturePdfService extends BasePdfService
   /**
    * データ取得
    */
-  protected function fetchData(int $clinicUserId, string $submissionDate): ?array
+  protected function fetchData(int $clinicUserId, string $submissionDate, ?int $doctorId = null): ?array
   {
     // サンプルデータ表示モードの場合
     if ($this->sampleDataMode) {
@@ -74,21 +77,36 @@ class ConsentRequestLetterDesignatedAcupuncturePdfService extends BasePdfService
       return null;
     }
 
+    // 医師情報を取得（指定された医師IDまたは最新の同意書から）
+    $doctor = null;
+    $medicalInstitutionName = '';
+    $doctorName = '';
+
+    if ($doctorId) {
+      // 指定された医師IDから医師情報を取得
+      $doctor = DB::table('doctors')
+        ->leftJoin('medical_institutions', 'doctors.medical_institutions_id', '=', 'medical_institutions.id')
+        ->where('doctors.id', $doctorId)
+        ->select(
+          'doctors.*',
+          'medical_institutions.medical_institution_name'
+        )
+        ->first();
+
+      if ($doctor) {
+        $medicalInstitutionName = $doctor->medical_institution_name ?? '';
+        $doctorName = trim(($doctor->last_name ?? '') . ' ' . ($doctor->first_name ?? ''));
+      }
+    }
+
     // はり・きゅう同意書情報取得（最新）
-    // 医師名から医療機関情報を取得するため、doctors→medical_institutionsをJOIN
     $consent = DB::table('consents_acupuncture')
       ->leftJoin('illnesses_acupuncture', 'consents_acupuncture.illness_name_acupuncture_id', '=', 'illnesses_acupuncture.id')
-      ->leftJoin('doctors', function($join) {
-        $join->on(DB::raw('CONCAT(doctors.last_name, " ", doctors.first_name)'), '=', 'consents_acupuncture.consenting_doctor_name');
-      })
-      ->leftJoin('medical_institutions', 'doctors.medical_institutions_id', '=', 'medical_institutions.id')
       ->where('consents_acupuncture.clinic_user_id', $clinicUserId)
       ->orderBy('consents_acupuncture.consenting_date', 'desc')
       ->select(
         'consents_acupuncture.*',
-        'illnesses_acupuncture.illness_name_acupuncture',
-        'medical_institutions.medical_institution_name',
-        'consents_acupuncture.consenting_doctor_name as doctor_name'
+        'illnesses_acupuncture.illness_name_acupuncture'
       )
       ->first();
 
@@ -121,8 +139,8 @@ class ConsentRequestLetterDesignatedAcupuncturePdfService extends BasePdfService
       'clinic_info' => $clinicInfo,
       'document_content' => $documentContent,
       'submission_date' => $submissionDate,
-      'medical_institution_name' => $consent->medical_institution_name ?? '',
-      'doctor_name' => $consent->doctor_name ?? '',
+      'medical_institution_name' => $medicalInstitutionName,
+      'doctor_name' => $doctorName,
     ];
   }
 

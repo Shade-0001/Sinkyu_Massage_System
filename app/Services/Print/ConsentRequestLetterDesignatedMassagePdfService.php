@@ -17,7 +17,7 @@ class ConsentRequestLetterDesignatedMassagePdfService extends BasePdfService
     return [];
   }
 
-  public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate, string $remarks = ''): string
+  public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate, string $remarks = '', array $doctorIds = []): string
   {
     // 未実装：テンプレートのみ表示
     return $this->generateTemplatePdf();
