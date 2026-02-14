@@ -503,9 +503,6 @@ function previewPdf() {
     requestBody.custom_title_text = customTitleText;
   }
 
-  console.log('[PDF Preview] customTitleText:', customTitleText);
-  console.log('[PDF Preview] requestBody.custom_title_text:', requestBody.custom_title_text);
-
   fetch('/prints/preview-pdf', {
     method: 'POST',
     headers: {
@@ -607,9 +604,6 @@ function loadCustomSampleData() {
   if (storedTitle) {
     customTitleText = storedTitle;
   }
-  console.log('[Load CustomSampleData] titleStorageKey:', titleStorageKey);
-  console.log('[Load CustomSampleData] storedTitle:', storedTitle);
-  console.log('[Load CustomSampleData] customTitleText:', customTitleText);
 
   // consent_dateのデフォルト値を設定
   if (!customSampleData.consent_date) {
@@ -649,10 +643,6 @@ function updateCustomTitleText(value) {
   // localStorageに保存
   const storageKey = 'customTitleText_' + currentPdfType;
   localStorage.setItem(storageKey, value);
-
-  console.log('[Update CustomTitleText] storageKey:', storageKey);
-  console.log('[Update CustomTitleText] value:', value);
-  console.log('[Update CustomTitleText] customTitleText:', customTitleText);
 
   // プレビューを自動更新
   autoPreview();
