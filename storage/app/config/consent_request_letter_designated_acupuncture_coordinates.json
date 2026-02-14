@@ -26,7 +26,7 @@
         "field": "submission_date",
         "label": "提出年月日",
         "type": "text",
-        "fontSize": 14,
+        "fontSize": 13,
         "letterSpacing": 0
     },
     "user_name": {
@@ -102,23 +102,23 @@
         "letterSpacing": 0
     },
     "medical_institution_name": {
-        "x": 11.5,
-        "y": 9,
+        "x": 15,
+        "y": 33.5,
         "textAlign": "left",
         "field": "medical_institution_name",
         "label": "医療機関名",
         "type": "text",
-        "fontSize": 11,
+        "fontSize": 15,
         "letterSpacing": 0
     },
     "doctor_name": {
-        "x": 13.5,
-        "y": 10,
+        "x": 15,
+        "y": 41,
         "textAlign": "left",
         "field": "doctor_name",
         "label": "医師氏名",
         "type": "text",
-        "fontSize": 10,
+        "fontSize": 15,
         "letterSpacing": 0
     }
 }

@@ -941,12 +941,25 @@ class PrintsController extends Controller
         $service->setCustomTitleText($customTitleText);
       }
 
-      $pdfBinary = $service->generate(
-        $clinicUsers,
-        $yearMonth,
-        $yearMonth . '-01',
-        ''
-      );
+      // 医師指定版の場合はダミー医師IDを渡す
+      if (in_array($pdfType, ['consent_request_letter_designated_acupuncture', 'consent_request_letter_designated_massage'])) {
+        // 最初の医師IDを取得（なければ空配列）
+        $doctorIds = DB::table('doctors')->limit(1)->pluck('id')->toArray();
+        $pdfBinary = $service->generate(
+          $clinicUsers,
+          $yearMonth,
+          $yearMonth . '-01',
+          '',
+          $doctorIds
+        );
+      } else {
+        $pdfBinary = $service->generate(
+          $clinicUsers,
+          $yearMonth,
+          $yearMonth . '-01',
+          ''
+        );
+      }
 
       // 元の設定に戻す
       file_put_contents($configPath, $originalCoordinates);
