@@ -535,18 +535,14 @@
 
             <!-- 医師選択 -->
             <div class="mb-3">
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="consent_request_designated_doctor_ids" class="form-label mb-0">医師 <span class="text-danger">*</span></label>
-                <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('consent_request_designated_doctor_ids')">全て選択 / 解除</button>
-              </div>
-              <select class="form-select" id="consent_request_designated_doctor_ids" name="doctor_ids[]" multiple size="10" required>
+              <label for="consent_request_designated_doctor_ids" class="form-label">医師 <span class="text-danger">*</span></label>
+              <select class="form-select" id="consent_request_designated_doctor_ids" name="doctor_ids[]" size="10" required>
                 @foreach($doctors as $doctor)
                   <option value="{{ $doctor->id }}">
                     {{ $doctor->last_name }} {{ $doctor->first_name }} ({{ $doctor->last_name_kana }} {{ $doctor->first_name_kana }})
                   </option>
                 @endforeach
               </select>
-              <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
             </div>
 
             <!-- 提出年月 -->
