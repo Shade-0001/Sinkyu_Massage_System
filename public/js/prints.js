@@ -737,6 +737,26 @@ function submitConsentRequestSample() {
 
   const consentRequestType = document.getElementById('consent_request_sample_type').value;
 
+  // localStorageからカスタムタイトルを読み込み
+  const pdfType = consentRequestType === 'acupuncture'
+    ? 'consent_request_letter_sample_acupuncture'
+    : 'consent_request_letter_sample_massage';
+  const titleStorageKey = 'customTitleText_' + pdfType;
+  const customTitleText = localStorage.getItem(titleStorageKey);
+
+  // カスタムタイトルをフォームに追加
+  if (customTitleText) {
+    let titleInput = document.getElementById('consent_request_sample_custom_title');
+    if (!titleInput) {
+      titleInput = document.createElement('input');
+      titleInput.type = 'hidden';
+      titleInput.id = 'consent_request_sample_custom_title';
+      titleInput.name = 'custom_title_text';
+      form.appendChild(titleInput);
+    }
+    titleInput.value = customTitleText;
+  }
+
   // 現在日時からファイル名を生成
   const now = new Date();
   const year = now.getFullYear();
@@ -826,6 +846,26 @@ function submitConsentRequestDesignated() {
   }
 
   const consentRequestType = document.getElementById('consent_request_designated_type').value;
+
+  // localStorageからカスタムタイトルを読み込み
+  const pdfType = consentRequestType === 'acupuncture'
+    ? 'consent_request_letter_designated_acupuncture'
+    : 'consent_request_letter_designated_massage';
+  const titleStorageKey = 'customTitleText_' + pdfType;
+  const customTitleText = localStorage.getItem(titleStorageKey);
+
+  // カスタムタイトルをフォームに追加
+  if (customTitleText) {
+    let titleInput = document.getElementById('consent_request_designated_custom_title');
+    if (!titleInput) {
+      titleInput = document.createElement('input');
+      titleInput.type = 'hidden';
+      titleInput.id = 'consent_request_designated_custom_title';
+      titleInput.name = 'custom_title_text';
+      form.appendChild(titleInput);
+    }
+    titleInput.value = customTitleText;
+  }
 
   // 現在日時からファイル名を生成
   const now = new Date();

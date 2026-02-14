@@ -426,13 +426,25 @@ class PrintsController extends Controller
         'submission_month' => $validated['submission_month'],
       ]);
 
-      $service = new \App\Services\Print\ConsentRequestLetterSamplePdfService();
+      $serviceClass = $consentRequestType === 'acupuncture'
+        ? \App\Services\Print\ConsentRequestLetterSampleAcupuncturePdfService::class
+        : \App\Services\Print\ConsentRequestLetterSampleMassagePdfService::class;
+
+      $service = new $serviceClass();
+
+      // タイトルを設定（リクエストから優先、なければデフォルト）
+      $customTitleText = $request->input('custom_title_text');
+      if (!$customTitleText) {
+        $customTitleText = $consentRequestType === 'acupuncture'
+          ? '同意書依頼（サンプル版）はり・きゅう'
+          : '同意書依頼（サンプル版）あんま・マッサージ';
+      }
+      $service->setCustomTitleText($customTitleText);
 
       $pdfBinary = $service->generate(
         $validated['clinic_user_ids'],
         $validated['submission_month'],
-        $validated['submission_month'] . '-01',
-        $consentRequestType
+        $validated['submission_month'] . '-01'
       );
 
       \Log::info("{$typeName}PDF生成完了", ['size' => strlen($pdfBinary)]);
@@ -493,11 +505,14 @@ class PrintsController extends Controller
 
       $service = new $serviceClass();
 
-      // タイトルを設定
-      $defaultTitle = $consentRequestType === 'acupuncture'
-        ? '同意書依頼（医師指定）はり・きゅう'
-        : '同意書依頼（医師指定）あんま・マッサージ';
-      $service->setCustomTitleText($defaultTitle);
+      // タイトルを設定（リクエストから優先、なければデフォルト）
+      $customTitleText = $request->input('custom_title_text');
+      if (!$customTitleText) {
+        $customTitleText = $consentRequestType === 'acupuncture'
+          ? '同意書依頼（医師指定）はり・きゅう'
+          : '同意書依頼（医師指定）あんま・マッサージ';
+      }
+      $service->setCustomTitleText($customTitleText);
 
       $pdfBinary = $service->generate(
         $validated['clinic_user_ids'],
