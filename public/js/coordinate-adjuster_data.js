@@ -299,6 +299,3 @@ function getSampleValue(key) {
   // 通常は単一フィールド
   return customSampleData[mapping.field] || customSampleData[key];
 }
-
-// タイトルテキスト専用変数（sampleモードと無関係）
-let customTitleText = '';
