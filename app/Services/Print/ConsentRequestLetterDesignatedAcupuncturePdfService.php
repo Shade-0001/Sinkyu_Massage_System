@@ -59,6 +59,11 @@ class ConsentRequestLetterDesignatedAcupuncturePdfService extends BasePdfService
    */
   protected function fetchData(int $clinicUserId, string $submissionDate): ?array
   {
+    // サンプルデータ表示モードの場合
+    if ($this->sampleDataMode) {
+      return $this->getSampleData($submissionDate);
+    }
+
     // 利用者情報取得
     $clinicUser = DB::table('clinic_users')
       ->where('id', $clinicUserId)
@@ -70,11 +75,21 @@ class ConsentRequestLetterDesignatedAcupuncturePdfService extends BasePdfService
     }
 
     // はり・きゅう同意書情報取得（最新）
+    // 医師名から医療機関情報を取得するため、doctors→medical_institutionsをJOIN
     $consent = DB::table('consents_acupuncture')
       ->leftJoin('illnesses_acupuncture', 'consents_acupuncture.illness_name_acupuncture_id', '=', 'illnesses_acupuncture.id')
+      ->leftJoin('doctors', function($join) {
+        $join->on(DB::raw('CONCAT(doctors.last_name, " ", doctors.first_name)'), '=', 'consents_acupuncture.consenting_doctor_name');
+      })
+      ->leftJoin('medical_institutions', 'doctors.medical_institutions_id', '=', 'medical_institutions.id')
       ->where('consents_acupuncture.clinic_user_id', $clinicUserId)
       ->orderBy('consents_acupuncture.consenting_date', 'desc')
-      ->select('consents_acupuncture.*', 'illnesses_acupuncture.illness_name_acupuncture')
+      ->select(
+        'consents_acupuncture.*',
+        'illnesses_acupuncture.illness_name_acupuncture',
+        'medical_institutions.medical_institution_name',
+        'consents_acupuncture.consenting_doctor_name as doctor_name'
+      )
       ->first();
 
     // 施術所情報取得
@@ -106,6 +121,69 @@ class ConsentRequestLetterDesignatedAcupuncturePdfService extends BasePdfService
       'clinic_info' => $clinicInfo,
       'document_content' => $documentContent,
       'submission_date' => $submissionDate,
+      'medical_institution_name' => $consent->medical_institution_name ?? '',
+      'doctor_name' => $consent->doctor_name ?? '',
+    ];
+  }
+
+  /**
+   * サンプルデータ取得
+   */
+  protected function getSampleData(string $submissionDate): array
+  {
+    // カスタムサンプルデータがあればそれを優先的に使用
+    $custom = $this->customSampleData;
+
+    \Log::info('ConsentRequestLetterDesignatedAcupuncture getSampleData実行', [
+      'custom_exists' => !empty($custom),
+      'document_content' => isset($custom['document_content']) ? '存在' : 'なし',
+      'medical_institution_name' => $custom['medical_institution_name'] ?? 'なし',
+      'doctor_name' => $custom['doctor_name'] ?? 'なし',
+      'user_name' => $custom['user_name'] ?? 'なし',
+      'illness_name' => $custom['illness_name'] ?? 'なし',
+    ]);
+
+    // サンプル利用者情報
+    $clinicUser = (object)[
+      'id' => 999,
+      'last_name' => $custom['last_name'] ?? '山田',
+      'first_name' => $custom['first_name'] ?? '太郎',
+      'last_kana' => 'ヤマダ',
+      'first_kana' => 'タロウ',
+    ];
+
+    // サンプル同意書情報
+    $consent = (object)[
+      'illness_name_acupuncture' => $custom['illness_name'] ?? '腰痛症',
+    ];
+
+    // サンプル施術所情報
+    $clinicInfo = (object)[
+      'postal_code' => $custom['clinic_postal_code'] ?? '100-0001',
+      'address_1' => $custom['clinic_address'] ?? '東京都千代田区千代田1-1-1',
+      'address_2' => '',
+      'address_3' => '',
+      'phone' => $custom['clinic_phone'] ?? '03-1234-5678',
+      'clinic_name' => $custom['clinic_name'] ?? 'サンプル鍼灸院',
+      'owner_last_name' => $custom['clinic_owner_last_name'] ?? '鈴木',
+      'owner_first_name' => $custom['clinic_owner_first_name'] ?? '一郎',
+    ];
+
+    // サンプル文書内容
+    $documentContent = $custom['document_content'] ?? "拝啓　時下ますますご清栄のこととお慶び申し上げます。\n\nさて、このたび下記の方より、はり・きゅう施術の同意書交付についてご依頼がございました。\nつきましては、ご多忙中誠に恐縮ではございますが、ご高診の上、同意書をご交付いただきますよう、何卒よろしくお願い申し上げます。\n\n敬具";
+
+    // 医療機関名・医師氏名を追加
+    $medicalInstitutionName = $custom['medical_institution_name'] ?? '〇〇病院';
+    $doctorName = $custom['doctor_name'] ?? '田中医師';
+
+    return [
+      'clinic_user' => $clinicUser,
+      'consent' => $consent,
+      'clinic_info' => $clinicInfo,
+      'document_content' => $documentContent,
+      'submission_date' => $submissionDate,
+      'medical_institution_name' => $medicalInstitutionName,
+      'doctor_name' => $doctorName,
     ];
   }
 
@@ -158,25 +236,37 @@ class ConsentRequestLetterDesignatedAcupuncturePdfService extends BasePdfService
       $this->drawTextByKey($pdf, 'submission_date', $dateText);
     }
 
-    // 3. 本文（文面関連付けで取得した内容）
+    // 3. 医療機関名
+    if (isset($data['medical_institution_name']) && $this->hasCoord('medical_institution_name')) {
+      $pdf->SetFontSize($this->coord('medical_institution_name', 'fontSize'));
+      $this->drawTextByKey($pdf, 'medical_institution_name', $data['medical_institution_name']);
+    }
+
+    // 4. 医師氏名
+    if (isset($data['doctor_name']) && $this->hasCoord('doctor_name')) {
+      $pdf->SetFontSize($this->coord('doctor_name', 'fontSize'));
+      $this->drawTextByKey($pdf, 'doctor_name', $data['doctor_name']);
+    }
+
+    // 5. 本文（文面関連付けで取得した内容）
     if ($documentContent) {
       $pdf->SetFontSize($this->coord('document_content', 'fontSize'));
       $this->drawMultilineTextByKey($pdf, 'document_content', $documentContent);
     }
 
-    // 4. 利用者氏名（姓 名形式）
+    // 6. 利用者氏名（姓 名形式）
     $userName = ($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? '');
     $pdf->SetFontSize($this->coord('user_name', 'fontSize'));
     $this->drawTextByKey($pdf, 'user_name', $userName);
 
-    // 5. 傷病名
+    // 7. 傷病名
     $illnessName = $consent->illness_name_acupuncture ?? '';
     if ($illnessName) {
       $pdf->SetFontSize($this->coord('illness_name', 'fontSize'));
       $this->drawTextByKey($pdf, 'illness_name', $illnessName);
     }
 
-    // 6. 施設郵便番号（〒***-****形式、医療助成費支給申請書の代理人郵便番号と同じ仕様）
+    // 8. 施設郵便番号（〒***-****形式、医療助成費支給申請書の代理人郵便番号と同じ仕様）
     if ($clinicInfo && $clinicInfo->postal_code) {
       // ハイフンを削除して数字のみにする
       $postalCodeNumbers = preg_replace('/[^0-9]/', '', $clinicInfo->postal_code);
@@ -190,14 +280,14 @@ class ConsentRequestLetterDesignatedAcupuncturePdfService extends BasePdfService
       $this->drawTextByKey($pdf, 'clinic_postal_code', '〒 ' . $formattedPostalCode);
     }
 
-    // 7. 施設住所
+    // 9. 施設住所
     if ($clinicInfo) {
       $address = ($clinicInfo->address_1 ?? '') . ($clinicInfo->address_2 ?? '') . ($clinicInfo->address_3 ?? '');
       $pdf->SetFontSize($this->coord('clinic_address', 'fontSize'));
       $this->drawTextByKey($pdf, 'clinic_address', $address);
     }
 
-    // 8. 施設電話番号（TEL∶ *形式、therapy_benefit_acupunctureの申請欄カテゴリの電話番号フィールドと同じ仕様）
+    // 10. 施設電話番号（TEL∶ *形式、therapy_benefit_acupunctureの申請欄カテゴリの電話番号フィールドと同じ仕様）
     if ($clinicInfo && $clinicInfo->phone) {
       $formattedPhone = $this->formatPhoneNumber($clinicInfo->phone);
       $phoneText = 'TEL∶ ' . $formattedPhone;  // U+2236 (Ratio)
@@ -205,13 +295,13 @@ class ConsentRequestLetterDesignatedAcupuncturePdfService extends BasePdfService
       $this->drawTextByKey($pdf, 'clinic_phone', $phoneText);
     }
 
-    // 9. 施設名
+    // 11. 施設名
     if ($clinicInfo && $clinicInfo->clinic_name) {
       $pdf->SetFontSize($this->coord('clinic_name', 'fontSize'));
       $this->drawTextByKey($pdf, 'clinic_name', $clinicInfo->clinic_name);
     }
 
-    // 10. 施設代表者氏名（姓 名形式）
+    // 12. 施設代表者氏名（姓 名形式）
     if ($clinicInfo) {
       $ownerName = ($clinicInfo->owner_last_name ?? '') . ' ' . ($clinicInfo->owner_first_name ?? '');
       $pdf->SetFontSize($this->coord('clinic_owner_name', 'fontSize'));

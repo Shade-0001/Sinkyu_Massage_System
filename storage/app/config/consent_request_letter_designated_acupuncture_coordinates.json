@@ -108,7 +108,7 @@
         "field": "medical_institution_name",
         "label": "医療機関名",
         "type": "text",
-        "fontSize": 10,
+        "fontSize": 11,
         "letterSpacing": 0
     },
     "doctor_name": {
