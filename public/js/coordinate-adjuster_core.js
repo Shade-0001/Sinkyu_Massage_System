@@ -9,6 +9,9 @@ const csrfToken = coordinateAdjusterData.csrfToken;
 let coordinates = {};
 let originalCoordinates = {};
 
+// カスタムタイトルテキスト（PDFタイトル）
+let customTitleText = '';
+
 // ============================================================
 // PDFタイプに応じたフィールド定義を取得
 // ============================================================
