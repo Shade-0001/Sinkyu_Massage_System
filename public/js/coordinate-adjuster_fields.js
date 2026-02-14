@@ -423,19 +423,23 @@ const fieldDefinitionsTreatmentReceipt = {
 };
 
 // ============================================================
-// 同意書依頼状（サンプル版・医師指定版）はり･きゅう用のフィールド定義
+// 同意書依頼状（サンプル版・医師指定版）はり･きゅう・マッサージ用のフィールド定義
 // ============================================================
 // 【重要】このフィールド定義は以下の複数のPDFタイプで共有される
 // ============================================================
 // 使用PDFタイプ：
 // - consent_request_letter_sample_acupuncture（サンプル版はり・きゅう）
 // - consent_request_letter_designated_acupuncture（医師指定版はり・きゅう）
+// - consent_request_letter_sample_massage（サンプル版マッサージ）
+// - consent_request_letter_designated_massage（医師指定版マッサージ）
 //
 // 共有理由：
 // - 座標とフィールド構成が完全に同じため
-// - 違いは参照する文面（document_content）のみ
-//   → サンプル版：document_id_2=23
-//   → 医師指定版：document_id_2=24
+// - 違いは参照する文面（document_content）と傷病名テーブルのみ
+//   → サンプル版はり・きゅう：document_id_1=1, illnesses_acupuncture
+//   → 医師指定版はり・きゅう：document_id_1=3, illnesses_acupuncture
+//   → サンプル版マッサージ：document_id_1=2, illnesses_massage
+//   → 医師指定版マッサージ：document_id_1=4, illnesses_massage
 //
 // 【注意】新しい同意書依頼状PDFタイプを追加する場合：
 // 1. このフィールド定義を使い回す（座標が同じ場合）
