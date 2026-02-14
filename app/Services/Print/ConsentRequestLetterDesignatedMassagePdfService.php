@@ -133,9 +133,6 @@ class ConsentRequestLetterDesignatedMassagePdfService extends BasePdfService
       }
     }
 
-    // タイトルを取得（document_id_1に基づく）
-    $documentTitle = '同意書依頼（医師指定）あんま・マッサージ';
-
     return [
       'clinic_user' => $clinicUser,
       'consent' => $consent,
@@ -144,7 +141,6 @@ class ConsentRequestLetterDesignatedMassagePdfService extends BasePdfService
       'submission_date' => $submissionDate,
       'medical_institution_name' => $medicalInstitutionName,
       'doctor_name' => $doctorName,
-      'document_title' => $documentTitle,
     ];
   }
 
@@ -198,9 +194,6 @@ class ConsentRequestLetterDesignatedMassagePdfService extends BasePdfService
     $medicalInstitutionName = $custom['medical_institution_name'] ?? '〇〇病院';
     $doctorName = $custom['doctor_name'] ?? '田中医師';
 
-    // タイトルを取得（document_id_1に基づく）
-    $documentTitle = '同意書依頼（医師指定）あんま・マッサージ';
-
     return [
       'clinic_user' => $clinicUser,
       'consent' => $consent,
@@ -209,7 +202,6 @@ class ConsentRequestLetterDesignatedMassagePdfService extends BasePdfService
       'submission_date' => $submissionDate,
       'medical_institution_name' => $medicalInstitutionName,
       'doctor_name' => $doctorName,
-      'document_title' => $documentTitle,
     ];
   }
 
@@ -248,11 +240,9 @@ class ConsentRequestLetterDesignatedMassagePdfService extends BasePdfService
     $documentContent = $data['document_content'];
 
     // 1. タイトル（医療助成費支給申請書のタイトルフィールドと同じ仕様）
-    // customTitleTextが設定されている場合はそれを使用、なければdocument_titleを使用
-    $titleText = !empty($this->customTitleText) ? $this->customTitleText : ($data['document_title'] ?? '');
-    if (!empty($titleText)) {
+    if (!empty($this->customTitleText)) {
       $pdf->SetFontSize($this->coord('custom_title_text', 'fontSize'));
-      $this->drawTextByKey($pdf, 'custom_title_text', (string)$titleText);
+      $this->drawTextByKey($pdf, 'custom_title_text', (string)$this->customTitleText);
     }
 
     // 2. 提出年月日（元号*年 *月 *日形式）
