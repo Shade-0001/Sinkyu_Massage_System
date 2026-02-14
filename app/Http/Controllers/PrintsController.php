@@ -431,7 +431,8 @@ class PrintsController extends Controller
       $pdfBinary = $service->generate(
         $validated['clinic_user_ids'],
         $validated['submission_month'],
-        $validated['submission_month'] . '-01'
+        $validated['submission_month'] . '-01',
+        $consentRequestType
       );
 
       \Log::info("{$typeName}PDF生成完了", ['size' => strlen($pdfBinary)]);
