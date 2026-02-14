@@ -85,12 +85,16 @@ class ConsentRequestLetterSampleAcupuncturePdfService extends BasePdfService
       }
     }
 
+    // タイトルを取得（document_id_1に基づく）
+    $documentTitle = '同意書依頼（サンプル版）はり・きゅう';
+
     return [
       'clinic_user' => $clinicUser,
       'consent' => $consent,
       'clinic_info' => $clinicInfo,
       'document_content' => $documentContent,
       'submission_date' => $submissionDate,
+      'document_title' => $documentTitle,
     ];
   }
 
@@ -129,9 +133,11 @@ class ConsentRequestLetterSampleAcupuncturePdfService extends BasePdfService
     $documentContent = $data['document_content'];
 
     // 1. タイトル（医療助成費支給申請書のタイトルフィールドと同じ仕様）
-    if (!empty($this->customTitleText)) {
+    // customTitleTextが設定されている場合はそれを使用、なければdocument_titleを使用
+    $titleText = !empty($this->customTitleText) ? $this->customTitleText : ($data['document_title'] ?? '');
+    if (!empty($titleText)) {
       $pdf->SetFontSize($this->coord('custom_title_text', 'fontSize'));
-      $this->drawTextByKey($pdf, 'custom_title_text', (string)$this->customTitleText);
+      $this->drawTextByKey($pdf, 'custom_title_text', (string)$titleText);
     }
 
     // 2. 提出年月日（元号*年 *月 *日形式）
