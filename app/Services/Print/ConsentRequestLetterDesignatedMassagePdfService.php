@@ -106,7 +106,7 @@ class ConsentRequestLetterDesignatedMassagePdfService extends BasePdfService
       ->orderBy('consents_massage.consenting_date', 'desc')
       ->select(
         'consents_massage.*',
-        'illnesses_massage.illness_name_massage'
+        'illnesses_massage.illness_name'
       )
       ->first();
 
@@ -172,7 +172,7 @@ class ConsentRequestLetterDesignatedMassagePdfService extends BasePdfService
 
     // サンプル同意書情報
     $consent = (object)[
-      'illness_name_massage' => $custom['illness_name'] ?? '神経痛',
+      'illness_name' => $custom['illness_name'] ?? '神経痛',
     ];
 
     // サンプル施術所情報
@@ -278,7 +278,7 @@ class ConsentRequestLetterDesignatedMassagePdfService extends BasePdfService
     $this->drawTextByKey($pdf, 'user_name', $userName);
 
     // 7. 傷病名
-    $illnessName = $consent->illness_name_massage ?? '';
+    $illnessName = $consent->illness_name ?? '';
     if ($illnessName) {
       $pdf->SetFontSize($this->coord('illness_name', 'fontSize'));
       $this->drawTextByKey($pdf, 'illness_name', $illnessName);
