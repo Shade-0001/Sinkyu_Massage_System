@@ -240,9 +240,15 @@ class ConsentRequestLetterDesignatedAcupuncturePdfService extends BasePdfService
     $documentContent = $data['document_content'];
 
     // 1. タイトル（医療助成費支給申請書のタイトルフィールドと同じ仕様）
+    \Log::info('[ConsentRequestLetterDesignatedAcupuncture] タイトル描画チェック', [
+      'customTitleText' => $this->customTitleText,
+      'isEmpty' => empty($this->customTitleText),
+      'hasCoord' => $this->hasCoord('custom_title_text'),
+    ]);
     if (!empty($this->customTitleText)) {
       $pdf->SetFontSize($this->coord('custom_title_text', 'fontSize'));
       $this->drawTextByKey($pdf, 'custom_title_text', (string)$this->customTitleText);
+      \Log::info('[ConsentRequestLetterDesignatedAcupuncture] タイトル描画実行完了');
     }
 
     // 2. 提出年月日（元号*年 *月 *日形式）

@@ -938,8 +938,14 @@ class PrintsController extends Controller
       // custom_title_textは常に設定（サンプルモード・ノーマルモード共通）
       // カスタムタイトルテキストを設定
       $customTitleText = $request->input('custom_title_text');
+      \Log::info('[PrintsController] custom_title_text受信', [
+        'pdf_type' => $pdfType,
+        'custom_title_text' => $customTitleText,
+        'has_method' => method_exists($service, 'setCustomTitleText'),
+      ]);
       if ($customTitleText && method_exists($service, 'setCustomTitleText')) {
         $service->setCustomTitleText($customTitleText);
+        \Log::info('[PrintsController] setCustomTitleText実行完了', ['custom_title_text' => $customTitleText]);
       }
 
       // 医師指定版の場合はダミー医師IDを渡す
