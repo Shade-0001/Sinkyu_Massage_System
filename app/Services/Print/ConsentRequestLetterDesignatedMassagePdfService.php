@@ -101,7 +101,7 @@ class ConsentRequestLetterDesignatedMassagePdfService extends BasePdfService
 
     // あんま・マッサージ同意書情報取得（最新）
     $consent = DB::table('consents_massage')
-      ->leftJoin('illnesses_massage', 'consents_massage.illness_name_massage_id', '=', 'illnesses_massage.id')
+      ->leftJoin('illnesses_massage', 'consents_massage.injury_and_illness_name_id', '=', 'illnesses_massage.id')
       ->where('consents_massage.clinic_user_id', $clinicUserId)
       ->orderBy('consents_massage.consenting_date', 'desc')
       ->select(
