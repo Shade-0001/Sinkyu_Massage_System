@@ -493,6 +493,12 @@ class PrintsController extends Controller
 
       $service = new $serviceClass();
 
+      // タイトルを設定
+      $defaultTitle = $consentRequestType === 'acupuncture'
+        ? '同意書依頼（医師指定）はり・きゅう'
+        : '同意書依頼（医師指定）あんま・マッサージ';
+      $service->setCustomTitleText($defaultTitle);
+
       $pdfBinary = $service->generate(
         $validated['clinic_user_ids'],
         $validated['submission_month'],

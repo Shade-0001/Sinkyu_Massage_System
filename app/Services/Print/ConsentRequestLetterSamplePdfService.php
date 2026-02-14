@@ -29,9 +29,14 @@ class ConsentRequestLetterSamplePdfService
     // タイプに応じて適切なサービスクラスを選択
     if ($consentRequestType === 'massage') {
       $service = new ConsentRequestLetterSampleMassagePdfService();
+      $defaultTitle = '同意書依頼（サンプル版）あんま・マッサージ';
     } else {
       $service = new ConsentRequestLetterSampleAcupuncturePdfService();
+      $defaultTitle = '同意書依頼（サンプル版）はり・きゅう';
     }
+
+    // タイトルを設定
+    $service->setCustomTitleText($defaultTitle);
 
     // 生成処理を委譲
     return $service->generate($clinicUserIds, $serviceYearMonth, $submissionDate, $remarks);
