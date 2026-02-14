@@ -486,7 +486,11 @@ class PrintsController extends Controller
         'submission_month' => $validated['submission_month'],
       ]);
 
-      $service = new \App\Services\Print\ConsentRequestLetterDesignatedPdfService();
+      $serviceClass = $consentRequestType === 'acupuncture'
+        ? \App\Services\Print\ConsentRequestLetterDesignatedAcupuncturePdfService::class
+        : \App\Services\Print\ConsentRequestLetterDesignatedMassagePdfService::class;
+
+      $service = new $serviceClass();
 
       $pdfBinary = $service->generate(
         $validated['clinic_user_ids'],
