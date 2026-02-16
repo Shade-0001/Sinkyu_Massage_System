@@ -263,9 +263,10 @@ class ConsentAcupuncturePdfService extends BasePdfService
     if (isset($this->customSampleData['consenting_doctor_name']) && $this->customSampleData['consenting_doctor_name']) {
       $pdf->SetFontSize($this->coord('consenting_doctor_name', 'fontSize'));
       $this->drawTextByKey($pdf, 'consenting_doctor_name', (string)$this->customSampleData['consenting_doctor_name']);
-    } elseif ($consent && $consent->consenting_doctor_name) {
+    } elseif ($doctor) {
+      $doctorName = ($doctor->last_name ?? '') . ' ' . ($doctor->first_name ?? '');
       $pdf->SetFontSize($this->coord('consenting_doctor_name', 'fontSize'));
-      $this->drawTextByKey($pdf, 'consenting_doctor_name', $consent->consenting_doctor_name);
+      $this->drawTextByKey($pdf, 'consenting_doctor_name', $doctorName);
     }
   }
 }

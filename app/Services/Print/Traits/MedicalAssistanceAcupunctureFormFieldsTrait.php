@@ -918,9 +918,18 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
   {
     // === 同意記録欄 ===
     // 同意医師氏名
-    $consentDoctorName = $this->sampleDataMode && isset($this->customSampleData['consent_doctor_name'])
-      ? $this->customSampleData['consent_doctor_name']
-      : ($consent->consenting_doctor_name ?? '');
+    $consentDoctorName = '';
+    if ($this->sampleDataMode && isset($this->customSampleData['consent_doctor_name'])) {
+      $consentDoctorName = $this->customSampleData['consent_doctor_name'];
+    } elseif ($consent && $consent->consenting_doctor_id) {
+      // consenting_doctor_idから医師名を取得
+      $doctor = DB::table('doctors')
+        ->where('id', $consent->consenting_doctor_id)
+        ->first();
+      if ($doctor) {
+        $consentDoctorName = ($doctor->last_name ?? '') . ' ' . ($doctor->first_name ?? '');
+      }
+    }
     if ($consentDoctorName) {
       $pdf->SetFontSize($this->coord('consent_doctor_name', 'fontSize'));
       $this->drawTextByKey($pdf, 'consent_doctor_name', (string)$consentDoctorName);
@@ -1341,41 +1350,37 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
     }
     // === 同意記録（実データモード） ===
     if (!$this->sampleDataMode && $consent) {
-      // 同意医師氏名
-      if ($this->hasCoord('consent_record_doctor_name') && isset($consent->consenting_doctor_name)) {
-        $pdf->SetFontSize($this->coord('consent_record_doctor_name', 'fontSize'));
-        $this->drawTextByKey($pdf, 'consent_record_doctor_name', (string)$consent->consenting_doctor_name);
-      }
-      // 同意医師住所・郵便番号（doctorsテーブルから取得）
-      if (isset($consent->consenting_doctor_name)) {
-        // 医師名から姓名を分割（半角・全角・Unicodeスペースに対応）
-        $nameParts = preg_split('/[\s\x{2000}-\x{200B}\x{3000}]+/u', trim($consent->consenting_doctor_name));
-        if (count($nameParts) >= 2) {
-          $lastName = $nameParts[0];
-          $firstName = $nameParts[1];
-          // doctorsテーブルから該当医師を検索
-          $doctor = DB::table('doctors')
-            ->where('last_name', $lastName)
-            ->where('first_name', $firstName)
-            ->first();
-          if ($doctor) {
-            // 同意医師郵便番号
-            if ($this->hasCoord('consent_record_doctor_postal_code') && isset($doctor->postal_code)) {
-              $postalCode = preg_replace('/[^0-9]/', '', $doctor->postal_code);
-              // 7桁の郵便番号を〒 XXX - XXXXフォーマットに変換
-              if (strlen($postalCode) === 7) {
-                $postalCode = '〒 ' . substr($postalCode, 0, 3) . ' - ' . substr($postalCode, 3);
-              }
-              $pdf->SetFontSize($this->coord('consent_record_doctor_postal_code', 'fontSize'));
-              $this->drawTextByKey($pdf, 'consent_record_doctor_postal_code', (string)$postalCode);
+      // 同意医師氏名と医師情報
+      $doctor = null;
+      if ($consent->consenting_doctor_id) {
+        $doctor = DB::table('doctors')
+          ->where('id', $consent->consenting_doctor_id)
+          ->first();
+        
+        if ($doctor) {
+          // 同意医師氏名
+          $doctorName = ($doctor->last_name ?? '') . ' ' . ($doctor->first_name ?? '');
+          if ($this->hasCoord('consent_record_doctor_name') && $doctorName) {
+            $pdf->SetFontSize($this->coord('consent_record_doctor_name', 'fontSize'));
+            $this->drawTextByKey($pdf, 'consent_record_doctor_name', (string)$doctorName);
+          }
+          
+          // 同意医師郵便番号
+          if ($this->hasCoord('consent_record_doctor_postal_code') && isset($doctor->postal_code)) {
+            $postalCode = preg_replace('/[^0-9]/', '', $doctor->postal_code);
+            // 7桁の郵便番号を〒 XXX - XXXXフォーマットに変換
+            if (strlen($postalCode) === 7) {
+              $postalCode = '〒 ' . substr($postalCode, 0, 3) . ' - ' . substr($postalCode, 3);
             }
-            // 同意医師住所
-            if ($this->hasCoord('consent_record_doctor_address')) {
-              $doctorAddress = ($doctor->address_1 ?? '') . ($doctor->address_2 ?? '') . ($doctor->address_3 ?? '');
-              if ($doctorAddress) {
-                $pdf->SetFontSize($this->coord('consent_record_doctor_address', 'fontSize'));
-                $this->drawTextByKey($pdf, 'consent_record_doctor_address', (string)$doctorAddress);
-              }
+            $pdf->SetFontSize($this->coord('consent_record_doctor_postal_code', 'fontSize'));
+            $this->drawTextByKey($pdf, 'consent_record_doctor_postal_code', (string)$postalCode);
+          }
+          // 同意医師住所
+          if ($this->hasCoord('consent_record_doctor_address')) {
+            $doctorAddress = ($doctor->address_1 ?? '') . ($doctor->address_2 ?? '') . ($doctor->address_3 ?? '');
+            if ($doctorAddress) {
+              $pdf->SetFontSize($this->coord('consent_record_doctor_address', 'fontSize'));
+              $this->drawTextByKey($pdf, 'consent_record_doctor_address', (string)$doctorAddress);
             }
           }
         }

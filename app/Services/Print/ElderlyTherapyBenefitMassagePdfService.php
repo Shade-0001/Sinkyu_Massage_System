@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Storage;
  * - $consent: consents_massageテーブルから取得、複数テーブルとJOIN
  *   - illness_name: illnesses_massageテーブルとJOINで取得（injury_and_illness_name_idから）
  *   - therapy_period: 通常は空、therapy_period_start_date/end_dateから生成が必要な場合あり
- * - $doctor: doctorsテーブルから取得、consent.consenting_doctor_nameで検索
+ * - $doctor: doctorsテーブルから取得、consent.consenting_doctor_idで検索
  *   - postal_code, address_1/2/3 を提供
  * - サンプルデータとのフィールド名の違いに注意（MedicalAssistanceMassageSampleDataTrait参照）
  *
@@ -169,16 +169,10 @@ class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
 
     // 同意医師情報取得
     $doctor = null;
-    if ($consent && $consent->consenting_doctor_name) {
-      // スペース（半角・全角）で分割して姓名を取得
-      $nameParts = preg_split('/[\s　]+/u', trim($consent->consenting_doctor_name), 2);
-
-      if (count($nameParts) === 2) {
-        $doctor = DB::table('doctors')
-          ->where('last_name', $nameParts[0])
-          ->where('first_name', $nameParts[1])
-          ->first();
-      }
+    if ($consent && $consent->consenting_doctor_id) {
+      $doctor = DB::table('doctors')
+        ->where('id', $consent->consenting_doctor_id)
+        ->first();
     }
 
     // 施術実績取得（対象年月）

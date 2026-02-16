@@ -1530,9 +1530,18 @@ trait MedicalAssistanceMassageFormFieldsTrait
     // === 同意記録欄 ===
     // 同意医師氏名 - consent_record_doctor_name
     if ($this->hasCoord('consent_record_doctor_name')) {
-      $consentDoctorName = $this->sampleDataMode && isset($this->customSampleData['consent_record_doctor_name'])
-        ? $this->customSampleData['consent_record_doctor_name']
-        : ($consent->consenting_doctor_name ?? '');
+      $consentDoctorName = '';
+      if ($this->sampleDataMode && isset($this->customSampleData['consent_record_doctor_name'])) {
+        $consentDoctorName = $this->customSampleData['consent_record_doctor_name'];
+      } elseif ($doctor) {
+        $consentDoctorName = ($doctor->last_name ?? '') . ' ' . ($doctor->first_name ?? '');
+      } elseif ($consent && $consent->consenting_doctor_id) {
+        // doctorがない場合、consenting_doctor_idから取得
+        $doctorData = DB::table('doctors')->where('id', $consent->consenting_doctor_id)->first();
+        if ($doctorData) {
+          $consentDoctorName = ($doctorData->last_name ?? '') . ' ' . ($doctorData->first_name ?? '');
+        }
+      }
       if ($consentDoctorName) {
         $pdf->SetFontSize($this->coord('consent_record_doctor_name', 'fontSize'));
         $this->drawTextByKey($pdf, 'consent_record_doctor_name', (string)$consentDoctorName);
@@ -1704,9 +1713,17 @@ trait MedicalAssistanceMassageFormFieldsTrait
     // 旧フィールド名との互換性維持（念のため）
     // consent_doctor_name
     if (!$this->hasCoord('consent_record_doctor_name') && $this->hasCoord('consent_doctor_name')) {
-      $consentDoctorName = $this->sampleDataMode && isset($this->customSampleData['consent_doctor_name'])
-        ? $this->customSampleData['consent_doctor_name']
-        : ($consent->consenting_doctor_name ?? '');
+      $consentDoctorName = '';
+      if ($this->sampleDataMode && isset($this->customSampleData['consent_doctor_name'])) {
+        $consentDoctorName = $this->customSampleData['consent_doctor_name'];
+      } elseif ($doctor) {
+        $consentDoctorName = ($doctor->last_name ?? '') . ' ' . ($doctor->first_name ?? '');
+      } elseif ($consent && $consent->consenting_doctor_id) {
+        $doctorData = DB::table('doctors')->where('id', $consent->consenting_doctor_id)->first();
+        if ($doctorData) {
+          $consentDoctorName = ($doctorData->last_name ?? '') . ' ' . ($doctorData->first_name ?? '');
+        }
+      }
       if ($consentDoctorName) {
         $pdf->SetFontSize($this->coord('consent_doctor_name', 'fontSize'));
         $this->drawTextByKey($pdf, 'consent_doctor_name', (string)$consentDoctorName);

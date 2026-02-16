@@ -132,16 +132,10 @@ class MassageBenefitPdfService extends BasePdfService
 
     // 同意医師情報取得
     $doctor = null;
-    if ($consent && $consent->consenting_doctor_name) {
-      // スペース（半角・全角）で分割して姓名を取得
-      $nameParts = preg_split('/[\s　]+/u', trim($consent->consenting_doctor_name), 2);
-      
-      if (count($nameParts) === 2) {
-        $doctor = DB::table('doctors')
-          ->where('last_name', $nameParts[0])
-          ->where('first_name', $nameParts[1])
-          ->first();
-      }
+    if ($consent && $consent->consenting_doctor_id) {
+      $doctor = DB::table('doctors')
+        ->where('id', $consent->consenting_doctor_id)
+        ->first();
     }
 
     // 施術実績取得（対象年月）

@@ -1424,11 +1424,15 @@ trait MassageFormFieldsTrait
         $this->drawTextByKey($pdf, 'consent_record_doctor_name', (string)$this->customSampleData['consent_record_doctor_name']);
         $pdf->SetFontSize(10);
       }
-    } elseif ($consent && isset($consent->consenting_doctor_name)) {
-      if ($this->hasCoord('consent_record_doctor_name') && $consent->consenting_doctor_name) {
-        $pdf->SetFontSize($this->coord('consent_record_doctor_name', 'fontSize'));
-        $this->drawTextByKey($pdf, 'consent_record_doctor_name', (string)$consent->consenting_doctor_name);
-        $pdf->SetFontSize(10);
+    } elseif ($consent && $consent->consenting_doctor_id) {
+      if ($this->hasCoord('consent_record_doctor_name')) {
+        $doctor = DB::table('doctors')->where('id', $consent->consenting_doctor_id)->first();
+        if ($doctor) {
+          $doctorName = ($doctor->last_name ?? '') . ' ' . ($doctor->first_name ?? '');
+          $pdf->SetFontSize($this->coord('consent_record_doctor_name', 'fontSize'));
+          $this->drawTextByKey($pdf, 'consent_record_doctor_name', (string)$doctorName);
+          $pdf->SetFontSize(10);
+        }
       }
     }
   }

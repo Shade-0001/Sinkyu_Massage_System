@@ -153,6 +153,14 @@ class MedicalAssistanceAcupuncturePdfService extends BasePdfService
       \Log::warning('はり・きゅう同意書情報が見つかりません', ['clinic_user_id' => $clinicUserId]);
     }
 
+    // 同意医師情報取得
+    $doctor = null;
+    if ($consent && $consent->consenting_doctor_id) {
+      $doctor = DB::table('doctors')
+        ->where('id', $consent->consenting_doctor_id)
+        ->first();
+    }
+
     // 施術実績取得（対象年月）
     $records = DB::table('records')
       ->where('clinic_user_id', $clinicUserId)
@@ -187,6 +195,7 @@ class MedicalAssistanceAcupuncturePdfService extends BasePdfService
       'clinic_user' => $clinicUser,
       'insurance' => $insurance,
       'consent' => $consent,
+      'doctor' => $doctor,
       'records' => $records,
       'clinic_info' => $clinicInfo,
       'treatment_fees' => $treatmentFees,
