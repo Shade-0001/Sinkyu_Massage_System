@@ -19,7 +19,7 @@
   <button type="button" class="btn btn-primary" onclick="openLateElderlyMedicalModal('acupuncture')">後期高齢者医療療養費支給申請書</button>
   <button type="button" class="btn btn-primary" onclick="openConsentRequestSampleModal('acupuncture')">同意書依頼状 (サンプル版)</button>
   <button type="button" class="btn btn-primary" onclick="openConsentRequestDesignatedModal('acupuncture')">同意書依頼状 (医師指定)</button>
-  <button>同意書</button>
+  <button type="button" class="btn btn-primary" onclick="openConsentFormModal('acupuncture')">同意書</button>
   <button type="button" class="btn btn-primary" onclick="openTreatmentFeeListModal('acupuncture')">施術料金一覧表(保険)</button>
   <button>施術料金一覧表(自費)</button>
   <button>施術録</button>
@@ -33,7 +33,7 @@
   <button type="button" class="btn btn-primary" onclick="openLateElderlyMedicalModal('massage')">後期高齢者医療療養費支給申請書</button>
   <button type="button" class="btn btn-primary" onclick="openConsentRequestSampleModal('massage')">同意書依頼状 (サンプル版)</button>
   <button type="button" class="btn btn-primary" onclick="openConsentRequestDesignatedModal('massage')">同意書依頼状 (医師指定)</button>
-  <button>同意書</button>
+  <button type="button" class="btn btn-primary" onclick="openConsentFormModal('massage')">同意書</button>
   <button type="button" class="btn btn-primary" onclick="openTreatmentFeeListModal('massage')">施術料金一覧表(保険)</button>
   <button>施術料金一覧表(自費)</button>
   <button>施術録</button>
@@ -560,6 +560,76 @@
     </div>
   </div>
 
+  <!-- 同意書モーダル（はり・きゅう / あんま・マッサージ共通） -->
+  <div class="modal fade" id="consentFormModal" tabindex="-1" aria-labelledby="consentFormModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="consentFormModalLabel">同意書 出力設定</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="consentFormForm" method="POST">
+            @csrf
+            <input type="hidden" id="consent_form_type" name="consent_form_type" value="">
+
+            <!-- 利用者選択 -->
+            <div class="mb-3">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <label for="consent_form_clinic_user_ids" class="form-label mb-0">利用者 <span class="text-danger">*</span></label>
+                <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('consent_form_clinic_user_ids')">全て選択 / 解除</button>
+              </div>
+              <select class="form-select" id="consent_form_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
+                @foreach($clinicUsers as $user)
+                  <option value="{{ $user->id }}">
+                    {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
+                  </option>
+                @endforeach
+              </select>
+              <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
+            </div>
+
+            <!-- 同意区分 -->
+            <div class="mb-3">
+              <label class="form-label">同意区分 <span class="text-danger">*</span></label>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="consent_category" id="consent_category_new" value="new" checked>
+                <label class="form-check-label" for="consent_category_new">
+                  新規同意
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="consent_category" id="consent_category_renewal" value="renewal">
+                <label class="form-check-label" for="consent_category_renewal">
+                  再同意
+                </label>
+              </div>
+            </div>
+
+            <!-- オプション -->
+            <div class="mb-3">
+              <label for="consent_form_option" class="form-label">オプション</label>
+              <select class="form-select" id="consent_form_option" name="consent_form_option">
+                <option value="">選択してください</option>
+                <option value="doctor_info_blank">医師情報空白</option>
+              </select>
+            </div>
+
+            <!-- 提出年月日 -->
+            <div class="mb-3">
+              <label for="consent_form_submission_date" class="form-label">提出年月日 <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" id="consent_form_submission_date" name="submission_date" value="{{ now()->format('Y-m-d') }}" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-primary" onclick="submitConsentForm()">印刷</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   @push('scripts')
     @push('styles')
       <style>
@@ -575,7 +645,8 @@
         #late_elderly_medical_clinic_user_ids,
         #consent_request_sample_clinic_user_ids,
         #consent_request_designated_clinic_user_ids,
-        #consent_request_designated_doctor_ids {
+        #consent_request_designated_doctor_ids,
+        #consent_form_clinic_user_ids {
           scroll-behavior: auto;
         }
       </style>

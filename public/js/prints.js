@@ -109,6 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
   enableClickToggleSelect('consent_request_sample_clinic_user_ids');
   enableClickToggleSelect('consent_request_designated_clinic_user_ids');
   enableClickToggleSelect('consent_request_designated_doctor_ids');
+  enableClickToggleSelect('consent_form_clinic_user_ids');
 });
 
 /**
@@ -889,6 +890,93 @@ function submitConsentRequestDesignated() {
   // モーダルを閉じる
   setTimeout(() => {
     const modalElement = document.getElementById('consentRequestDesignatedModal');
+    if (modalElement) {
+      const modalInstance = bootstrap.Modal.getInstance(modalElement);
+      if (modalInstance) {
+        modalInstance.hide();
+      }
+    }
+  }, 100);
+}
+
+/**
+ * 同意書モーダルを開く
+ * @param {string} type - 'acupuncture'（はり・きゅう）または 'massage'（あんま・マッサージ）
+ */
+function openConsentFormModal(type) {
+  const modalElement = document.getElementById('consentFormModal');
+  if (!modalElement) return;
+
+  // フォームをリセット
+  resetFormToDefault('consentFormForm');
+
+  // タイプを設定
+  const consentFormType = document.getElementById('consent_form_type');
+  if (consentFormType) {
+    consentFormType.value = type;
+  }
+
+  // モーダルタイトルを更新
+  const modalTitle = document.getElementById('consentFormModalLabel');
+  if (modalTitle) {
+    if (type === 'acupuncture') {
+      modalTitle.textContent = 'はり・きゅう同意書 出力設定';
+    } else {
+      modalTitle.textContent = 'あんま・マッサージ同意書 出力設定';
+    }
+  }
+
+  // 提出年月日を今日に設定
+  const submissionDate = document.getElementById('consent_form_submission_date');
+  if (submissionDate) {
+    submissionDate.value = new Date().toISOString().split('T')[0];
+  }
+
+  // モーダルをbodyに追加（必要な場合）
+  if (modalElement.parentElement !== document.body) {
+    document.body.appendChild(modalElement);
+  }
+
+  // Bootstrapモーダルインスタンスを取得または作成
+  const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
+  modalInstance.show();
+}
+
+/**
+ * 同意書PDF出力
+ */
+function submitConsentForm() {
+  const form = document.getElementById('consentFormForm');
+
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
+  const consentFormType = document.getElementById('consent_form_type').value;
+
+  // 現在日時からファイル名を生成
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  const typeName = consentFormType === 'acupuncture' ? 'はり・きゅう' : 'あんま・マッサージ';
+  const filename = `${typeName}同意書_${year}-${month}-${day}_${hours}-${minutes}-${seconds}.pdf`;
+
+  // フォームのアクションURLにファイル名を含める
+  form.action = `/prints/consent-form/${encodeURIComponent(filename)}`;
+
+  // フォームを新しいタブで送信
+  form.target = '_blank';
+  form.submit();
+
+  // モーダルを閉じる
+  setTimeout(() => {
+    const modalElement = document.getElementById('consentFormModal');
     if (modalElement) {
       const modalInstance = bootstrap.Modal.getInstance(modalElement);
       if (modalInstance) {
