@@ -33,7 +33,13 @@
         <td style="width: 6%;" class="@if($index === 0) status-latest @else status-updated @endif">
           {{ $index === 0 ? '最新' : '履歴' }}
         </td>
-        <td style="width: 15%;">{{ $history->consenting_doctor_name }}</td>
+        <td style="width: 15%;">
+          @if($history->consentingDoctor)
+            {{ $history->consentingDoctor->last_name }}\u{2000}{{ $history->consentingDoctor->first_name }}
+          @else
+            未設定
+          @endif
+        </td>
         <td style="width: 10%;">
           @if($history->consenting_date)
             {{ \Carbon\Carbon::parse($history->consenting_date)->format('Y/n/j') }}

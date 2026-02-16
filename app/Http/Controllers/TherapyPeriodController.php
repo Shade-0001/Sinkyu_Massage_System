@@ -23,7 +23,7 @@ class TherapyPeriodController extends Controller
     // consents_massage から要加療期間内の利用者を取得
     $massagePeriods = DB::table('consents_massage as cm')
       ->join('clinic_users as cu', 'cm.clinic_user_id', '=', 'cu.id')
-      ->leftJoin('doctors as d', 'cm.consenting_doctor_name', '=', DB::raw("CONCAT(d.last_name, '\u{2000}', d.first_name)"))
+      ->leftJoin('doctors as d', 'cm.consenting_doctor_id', '=', 'd.id')
       ->leftJoin('medical_institutions as mi', 'd.medical_institutions_id', '=', 'mi.id')
       ->whereNotNull('cm.therapy_period_start_date')
       ->whereNotNull('cm.therapy_period_end_date')
@@ -38,7 +38,7 @@ class TherapyPeriodController extends Controller
         'cm.therapy_period_end_date',
         'cm.consenting_start_date',
         'cm.consenting_end_date',
-        'cm.consenting_doctor_name',
+        DB::raw("CONCAT(d.last_name, '\u{2000}', d.first_name) as consenting_doctor_name"),
         'd.id as doctor_id',
         'mi.medical_institution_name',
         'cm.id as consent_id'
@@ -47,7 +47,7 @@ class TherapyPeriodController extends Controller
     // consents_acupuncture から要加療期間内の利用者を取得
     $acupuncturePeriods = DB::table('consents_acupuncture as ca')
       ->join('clinic_users as cu', 'ca.clinic_user_id', '=', 'cu.id')
-      ->leftJoin('doctors as d', 'ca.consenting_doctor_name', '=', DB::raw("CONCAT(d.last_name, '\u{2000}', d.first_name)"))
+      ->leftJoin('doctors as d', 'ca.consenting_doctor_id', '=', 'd.id')
       ->leftJoin('medical_institutions as mi', 'd.medical_institutions_id', '=', 'mi.id')
       ->whereNotNull('ca.therapy_period_start_date')
       ->whereNotNull('ca.therapy_period_end_date')
@@ -62,7 +62,7 @@ class TherapyPeriodController extends Controller
         'ca.therapy_period_end_date',
         'ca.consenting_start_date',
         'ca.consenting_end_date',
-        'ca.consenting_doctor_name',
+        DB::raw("CONCAT(d.last_name, '\u{2000}', d.first_name) as consenting_doctor_name"),
         'd.id as doctor_id',
         'mi.medical_institution_name',
         'ca.id as consent_id'

@@ -40,7 +40,12 @@
 
   @if($mode === 'duplicate')
   <div class="alert alert-warning">
-    <strong>複製元の履歴:</strong> {{ $history->consenting_doctor_name }}
+    <strong>複製元の履歴:</strong>
+    @if($history->consentingDoctor)
+      {{ $history->consentingDoctor->last_name }}\u{2000}{{ $history->consentingDoctor->first_name }}
+    @else
+      同意医師未設定
+    @endif
     （同意日: {{ $history->consenting_date?->format('Y年m月d日') ?? '未設定' }}）
   </div>
   @endif
