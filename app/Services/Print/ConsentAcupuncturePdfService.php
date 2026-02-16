@@ -71,8 +71,9 @@ class ConsentAcupuncturePdfService extends BasePdfService
         'clinic_user_id' => $clinicUserId
       ]);
 
-      // 医師名から姓を抽出（全角スペースまたは半角スペースで分割）
-      $nameParts = preg_split('/[\s　]+/', $consent->consenting_doctor_name);
+      // 医師名から姓を抽出（様々なスペース文字に対応）
+      // U+0020(半角), U+3000(全角), U+2000-U+200A(各種スペース), U+202F(NNBSP), U+205F(MMSP)
+      $nameParts = preg_split('/[\x20\x{3000}\x{2000}-\x{200A}\x{202F}\x{205F}]+/u', $consent->consenting_doctor_name);
       $lastName = $nameParts[0] ?? '';
 
       \Log::info('医師姓抽出', ['last_name' => $lastName]);
