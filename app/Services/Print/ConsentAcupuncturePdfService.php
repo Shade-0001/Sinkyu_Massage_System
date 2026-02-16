@@ -70,7 +70,13 @@ class ConsentAcupuncturePdfService extends BasePdfService
       $doctor = DB::table('doctors')
         ->leftJoin('medical_institutions', 'doctors.medical_institutions_id', '=', 'medical_institutions.id')
         ->where('doctors.last_name', 'LIKE', '%' . explode(' ', $consent->consenting_doctor_name)[0] . '%')
-        ->select('doctors.*', 'medical_institutions.medical_institution_name')
+        ->select(
+          'doctors.*',
+          'medical_institutions.medical_institution_name',
+          'medical_institutions.address_1 as mi_address_1',
+          'medical_institutions.address_2 as mi_address_2',
+          'medical_institutions.address_3 as mi_address_3'
+        )
         ->first();
     }
 
@@ -255,9 +261,9 @@ class ConsentAcupuncturePdfService extends BasePdfService
       $pdf->SetFontSize($this->coord('consenting_doctor_address', 'fontSize'));
       $this->drawTextByKey($pdf, 'consenting_doctor_address', (string)$this->customSampleData['consenting_doctor_address']);
     } elseif ($doctor) {
-      $doctorAddress = ($doctor->address_1 ?? '') . ($doctor->address_2 ?? '') . ($doctor->address_3 ?? '');
+      $medicalInstitutionAddress = ($doctor->mi_address_1 ?? '') . ($doctor->mi_address_2 ?? '') . ($doctor->mi_address_3 ?? '');
       $pdf->SetFontSize($this->coord('consenting_doctor_address', 'fontSize'));
-      $this->drawTextByKey($pdf, 'consenting_doctor_address', $doctorAddress);
+      $this->drawTextByKey($pdf, 'consenting_doctor_address', $medicalInstitutionAddress);
     }
 
     // 17. 同意医師氏名（姓 名形式）
