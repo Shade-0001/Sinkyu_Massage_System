@@ -238,6 +238,18 @@ class ConsentMassagePdfService extends BasePdfService
       $this->drawTextByKey($pdf, 'consent_category', $remarks);
     }
 
+    // 13-1. 診察日（元号*年 *月 *日形式）
+    if (isset($this->customSampleData['consenting_date']) && $this->customSampleData['consenting_date']) {
+      $pdf->SetFontSize($this->coord('consenting_date', 'fontSize'));
+      $this->drawTextByKey($pdf, 'consenting_date', (string)$this->customSampleData['consenting_date']);
+    } elseif ($consent && $consent->consenting_date) {
+      [$year, $month, $day] = explode('-', $consent->consenting_date);
+      $japaneseDate = $this->convertToJapaneseYear((int)$year, (int)$month);
+      $consentingDateText = $japaneseDate['era'] . $japaneseDate['year'] . '年 ' . (int)$month . '月 ' . (int)$day . '日';
+      $pdf->SetFontSize($this->coord('consenting_date', 'fontSize'));
+      $this->drawTextByKey($pdf, 'consenting_date', $consentingDateText);
+    }
+
     // 14. 提出年月日（元号*年 *月 *日形式）
     if (isset($this->customSampleData['submission_date']) && $this->customSampleData['submission_date']) {
       $pdf->SetFontSize($this->coord('submission_date', 'fontSize'));

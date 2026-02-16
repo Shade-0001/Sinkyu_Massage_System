@@ -30,9 +30,9 @@
         "letterSpacing": 0
     },
     "consent_massage_illness_name": {
-        "x": 86,
-        "y": 61,
-        "fontSize": 12,
+        "x": 50,
+        "y": 60,
+        "fontSize": 14,
         "textAlign": "left",
         "field": "consent_massage_illness_name",
         "label": "傷病名",
@@ -40,7 +40,7 @@
         "letterSpacing": 0
     },
     "onset_date": {
-        "x": 52,
+        "x": 50,
         "y": 70.5,
         "fontSize": 12,
         "textAlign": "left",
@@ -50,12 +50,22 @@
         "letterSpacing": 0
     },
     "consent_category": {
-        "x": 52,
+        "x": 50,
         "y": 79,
         "fontSize": 12,
         "textAlign": "left",
         "field": "consent_category",
         "label": "同意区分",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "consenting_date": {
+        "x": 50,
+        "y": 87,
+        "fontSize": 12,
+        "textAlign": "left",
+        "field": "consenting_date",
+        "label": "診察日",
         "type": "text",
         "letterSpacing": 0
     },

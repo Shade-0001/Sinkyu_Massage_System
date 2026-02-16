@@ -268,6 +268,7 @@ let customSampleData = {
   illness_name_other_text: '脊柱管狭窄症',
   onset_date: '令和7年 11月 15日',
   consent_category: '初回同意',
+  consenting_date: '令和7年 11月 20日',
   submission_date: '令和7年 12月 31日',
   consenting_doctor_medical_institution_name: '〇〇病院',
   consenting_doctor_address: '東京都新宿区〇〇1-2-3',

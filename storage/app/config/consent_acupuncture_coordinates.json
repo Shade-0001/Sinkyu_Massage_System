@@ -150,6 +150,16 @@
         "type": "text",
         "letterSpacing": 0
     },
+    "consenting_date": {
+        "x": 52,
+        "y": 165,
+        "fontSize": 12,
+        "textAlign": "left",
+        "field": "consenting_date",
+        "label": "診察日",
+        "type": "text",
+        "letterSpacing": 0
+    },
     "submission_date": {
         "x": 34,
         "y": 226,
