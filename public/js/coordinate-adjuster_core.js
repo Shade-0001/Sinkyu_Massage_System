@@ -178,11 +178,13 @@ function loadCoordinates() {
         // 現在のPDFタイプに関連するフィールドのみを追加
         const fieldMapping = getFieldDefinitions();
         const fieldCategories = getFieldCategories(currentPdfType);
+        const hasCategories = Object.keys(fieldCategories).length > 0;
+
         Object.keys(fieldMapping).forEach(key => {
           const definition = fieldMapping[key];
 
-          // 現在のPDFタイプに関連しないフィールドはスキップ
-          if (!fieldCategories.hasOwnProperty(key)) {
+          // カテゴリが定義されている場合のみ、カテゴリに含まれないフィールドをスキップ
+          if (hasCategories && !fieldCategories.hasOwnProperty(key)) {
             return;
           }
 
