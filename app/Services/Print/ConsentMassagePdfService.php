@@ -59,7 +59,7 @@ class ConsentMassagePdfService extends BasePdfService
       ->leftJoin('illnesses_massage', 'consents_massage.illness_name_massage_id', '=', 'illnesses_massage.id')
       ->where('consents_massage.clinic_user_id', $clinicUserId)
       ->orderBy('consents_massage.consenting_date', 'desc')
-      ->select('consents_massage.*', 'illnesses_massage.illness_name_massage')
+      ->select('consents_massage.*', 'illnesses_massage.illness_name')
       ->first();
 
     // 同意医師情報取得
