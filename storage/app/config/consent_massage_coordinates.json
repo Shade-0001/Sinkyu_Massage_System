@@ -1,1 +1,193 @@
-[]
+{
+    "user_address": {
+        "x": 86,
+        "y": 39.5,
+        "fontSize": 12,
+        "textAlign": "left",
+        "field": "user_address",
+        "label": "利用者住所",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "user_name": {
+        "x": 86,
+        "y": 48,
+        "fontSize": 12,
+        "textAlign": "left",
+        "field": "user_name",
+        "label": "利用者氏名",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "user_birthday": {
+        "x": 86,
+        "y": 55,
+        "fontSize": 12,
+        "textAlign": "left",
+        "field": "user_birthday",
+        "label": "利用者生年月日",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "illness_name_1": {
+        "x": 59,
+        "y": 69.5,
+        "ellipseWidth": 11,
+        "ellipseHeight": 4.5,
+        "lineWidth": 0.5,
+        "field": "illness_name",
+        "label": "傷病名（サークル）",
+        "type": "select",
+        "optionLabel": "神経痛",
+        "radioGroup": "illness_name",
+        "isSelected": true
+    },
+    "illness_name_2": {
+        "x": 59,
+        "y": 79.5,
+        "ellipseWidth": 11.5,
+        "ellipseHeight": 4.5,
+        "lineWidth": 0.5,
+        "field": "illness_name",
+        "label": "傷病名（サークル）",
+        "type": "select",
+        "optionLabel": "リウマチ",
+        "radioGroup": "illness_name",
+        "isSelected": false
+    },
+    "illness_name_3": {
+        "x": 63,
+        "y": 89.5,
+        "ellipseWidth": 16,
+        "ellipseHeight": 4.5,
+        "lineWidth": 0.5,
+        "field": "illness_name",
+        "label": "傷病名（サークル）",
+        "type": "select",
+        "optionLabel": "頸腕症候群",
+        "radioGroup": "illness_name",
+        "isSelected": false
+    },
+    "illness_name_4": {
+        "x": 59,
+        "y": 99,
+        "ellipseWidth": 11,
+        "ellipseHeight": 4.5,
+        "lineWidth": 0.5,
+        "field": "illness_name",
+        "label": "傷病名（サークル）",
+        "type": "select",
+        "optionLabel": "五十肩",
+        "radioGroup": "illness_name",
+        "isSelected": false
+    },
+    "illness_name_5": {
+        "x": 59,
+        "y": 109.5,
+        "ellipseWidth": 11,
+        "ellipseHeight": 4.5,
+        "lineWidth": 0.5,
+        "field": "illness_name",
+        "label": "傷病名（サークル）",
+        "type": "select",
+        "optionLabel": "腰痛症",
+        "radioGroup": "illness_name",
+        "isSelected": false
+    },
+    "illness_name_6": {
+        "x": 67.5,
+        "y": 119,
+        "ellipseWidth": 20,
+        "ellipseHeight": 4.5,
+        "lineWidth": 0.5,
+        "field": "illness_name",
+        "label": "傷病名（サークル）",
+        "type": "select",
+        "optionLabel": "頸椎捻挫後遺症",
+        "radioGroup": "illness_name",
+        "isSelected": false
+    },
+    "illness_name_7": {
+        "x": 59,
+        "y": 129,
+        "ellipseWidth": 11,
+        "ellipseHeight": 4.5,
+        "lineWidth": 0.5,
+        "field": "illness_name",
+        "label": "傷病名（サークル）",
+        "type": "select",
+        "optionLabel": "その他",
+        "radioGroup": "illness_name",
+        "isSelected": false
+    },
+    "illness_name_other_text": {
+        "x": 76,
+        "y": 126.5,
+        "fontSize": 12,
+        "textAlign": "left",
+        "field": "illness_name_other_text",
+        "label": "傷病名（その他の内容）",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "onset_date": {
+        "x": 52,
+        "y": 149,
+        "fontSize": 12,
+        "textAlign": "left",
+        "field": "onset_date",
+        "label": "発病負傷年月日",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "consent_category": {
+        "x": 52,
+        "y": 157,
+        "fontSize": 12,
+        "textAlign": "left",
+        "field": "consent_category",
+        "label": "同意区分",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "submission_date": {
+        "x": 52,
+        "y": 165.5,
+        "fontSize": 12,
+        "textAlign": "left",
+        "field": "submission_date",
+        "label": "提出年月日",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "consenting_doctor_medical_institution_name": {
+        "x": 75,
+        "y": 239.2,
+        "fontSize": 12,
+        "textAlign": "left",
+        "field": "consenting_doctor_medical_institution_name",
+        "label": "同意医師医療機関名",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "consenting_doctor_address": {
+        "x": 75,
+        "y": 248,
+        "fontSize": 12,
+        "textAlign": "left",
+        "field": "consenting_doctor_address",
+        "label": "同意医師医療機関住所",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "consenting_doctor_name": {
+        "x": 75,
+        "y": 256.8,
+        "fontSize": 12,
+        "textAlign": "left",
+        "field": "consenting_doctor_name",
+        "label": "同意医師氏名",
+        "type": "text",
+        "letterSpacing": 0
+    }
+}

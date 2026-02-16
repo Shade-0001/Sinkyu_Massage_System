@@ -30,92 +30,99 @@
         "letterSpacing": 0
     },
     "illness_name_1": {
-        "x": 30,
-        "y": 80,
-        "ellipseWidth": 2.5,
-        "ellipseHeight": 2.5,
+        "x": 59,
+        "y": 69.5,
+        "ellipseWidth": 11,
+        "ellipseHeight": 4.5,
         "lineWidth": 0.5,
         "field": "illness_name",
         "label": "傷病名（サークル）",
         "type": "select",
         "optionLabel": "神経痛",
-        "radioGroup": "illness_name"
+        "radioGroup": "illness_name",
+        "isSelected": true
     },
     "illness_name_2": {
-        "x": 50,
-        "y": 80,
-        "ellipseWidth": 2.5,
-        "ellipseHeight": 2.5,
+        "x": 59,
+        "y": 79.5,
+        "ellipseWidth": 11.5,
+        "ellipseHeight": 4.5,
         "lineWidth": 0.5,
         "field": "illness_name",
         "label": "傷病名（サークル）",
         "type": "select",
         "optionLabel": "リウマチ",
-        "radioGroup": "illness_name"
+        "radioGroup": "illness_name",
+        "isSelected": false
     },
     "illness_name_3": {
-        "x": 70,
-        "y": 80,
-        "ellipseWidth": 2.5,
-        "ellipseHeight": 2.5,
+        "x": 63,
+        "y": 89.5,
+        "ellipseWidth": 16,
+        "ellipseHeight": 4.5,
         "lineWidth": 0.5,
         "field": "illness_name",
         "label": "傷病名（サークル）",
         "type": "select",
         "optionLabel": "頸腕症候群",
-        "radioGroup": "illness_name"
+        "radioGroup": "illness_name",
+        "isSelected": false
     },
     "illness_name_4": {
-        "x": 100,
-        "y": 80,
-        "ellipseWidth": 2.5,
-        "ellipseHeight": 2.5,
+        "x": 59,
+        "y": 99,
+        "ellipseWidth": 11,
+        "ellipseHeight": 4.5,
         "lineWidth": 0.5,
         "field": "illness_name",
         "label": "傷病名（サークル）",
         "type": "select",
         "optionLabel": "五十肩",
-        "radioGroup": "illness_name"
+        "radioGroup": "illness_name",
+        "isSelected": false
     },
     "illness_name_5": {
-        "x": 120,
-        "y": 80,
-        "ellipseWidth": 2.5,
-        "ellipseHeight": 2.5,
+        "x": 59,
+        "y": 109.5,
+        "ellipseWidth": 11,
+        "ellipseHeight": 4.5,
         "lineWidth": 0.5,
         "field": "illness_name",
         "label": "傷病名（サークル）",
         "type": "select",
         "optionLabel": "腰痛症",
-        "radioGroup": "illness_name"
+        "radioGroup": "illness_name",
+        "isSelected": false
     },
     "illness_name_6": {
-        "x": 140,
-        "y": 80,
-        "ellipseWidth": 2.5,
-        "ellipseHeight": 2.5,
+        "x": 67.5,
+        "y": 119,
+        "ellipseWidth": 20,
+        "ellipseHeight": 4.5,
         "lineWidth": 0.5,
         "field": "illness_name",
         "label": "傷病名（サークル）",
         "type": "select",
         "optionLabel": "頸椎捻挫後遺症",
-        "radioGroup": "illness_name"
+        "radioGroup": "illness_name",
+        "isSelected": false
     },
     "illness_name_7": {
-        "x": 170,
-        "y": 80,
-        "ellipseWidth": 2.5,
-        "ellipseHeight": 2.5,
+        "x": 59,
+        "y": 129,
+        "ellipseWidth": 11,
+        "ellipseHeight": 4.5,
         "lineWidth": 0.5,
         "field": "illness_name",
         "label": "傷病名（サークル）",
         "type": "select",
         "optionLabel": "その他",
-        "radioGroup": "illness_name"
+        "radioGroup": "illness_name",
+        "isSelected": false
     },
     "illness_name_other_text": {
-        "x": 30,
-        "y": 90,
+        "x": 76,
+        "y": 126.5,
         "fontSize": 12,
         "textAlign": "left",
         "field": "illness_name_other_text",
@@ -124,8 +131,8 @@
         "letterSpacing": 0
     },
     "onset_date": {
-        "x": 30,
-        "y": 100,
+        "x": 52,
+        "y": 149,
         "fontSize": 12,
         "textAlign": "left",
         "field": "onset_date",
@@ -134,8 +141,8 @@
         "letterSpacing": 0
     },
     "consent_category": {
-        "x": 30,
-        "y": 110,
+        "x": 52,
+        "y": 157,
         "fontSize": 12,
         "textAlign": "left",
         "field": "consent_category",
@@ -144,8 +151,8 @@
         "letterSpacing": 0
     },
     "submission_date": {
-        "x": 30,
-        "y": 120,
+        "x": 52,
+        "y": 165.5,
         "fontSize": 12,
         "textAlign": "left",
         "field": "submission_date",
@@ -154,8 +161,8 @@
         "letterSpacing": 0
     },
     "consenting_doctor_medical_institution_name": {
-        "x": 30,
-        "y": 130,
+        "x": 75,
+        "y": 239.2,
         "fontSize": 12,
         "textAlign": "left",
         "field": "consenting_doctor_medical_institution_name",
@@ -164,8 +171,8 @@
         "letterSpacing": 0
     },
     "consenting_doctor_address": {
-        "x": 30,
-        "y": 140,
+        "x": 75,
+        "y": 248,
         "fontSize": 12,
         "textAlign": "left",
         "field": "consenting_doctor_address",
@@ -174,8 +181,8 @@
         "letterSpacing": 0
     },
     "consenting_doctor_name": {
-        "x": 30,
-        "y": 150,
+        "x": 75,
+        "y": 256.8,
         "fontSize": 12,
         "textAlign": "left",
         "field": "consenting_doctor_name",

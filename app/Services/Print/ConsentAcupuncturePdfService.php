@@ -64,32 +64,13 @@ class ConsentAcupuncturePdfService extends BasePdfService
 
     // 同意医師情報取得
     $doctor = null;
-    $medicalInstitution = null;
-    if ($consent && $consent->consenting_doctor_name) {
-      \Log::info('同意医師情報取得開始', [
-        'consenting_doctor_name' => $consent->consenting_doctor_name,
-        'clinic_user_id' => $clinicUserId
-      ]);
-
-      // 医師名から姓を抽出（様々なスペース文字に対応）
-      // U+0020(半角), U+3000(全角), U+2000-U+200A(各種スペース), U+202F(NNBSP), U+205F(MMSP)
-      $nameParts = preg_split('/[\x20\x{3000}\x{2000}-\x{200A}\x{202F}\x{205F}]+/u', $consent->consenting_doctor_name);
-      $lastName = $nameParts[0] ?? '';
-
-      \Log::info('医師姓抽出', ['last_name' => $lastName]);
-
-      // doctors テーブルから医師情報を取得
+    if ($consent && $consent->consenting_doctor_id) {
+      // consenting_doctor_idを使用してdoctorsテーブルから医師情報を取得
       $doctor = DB::table('doctors')
         ->leftJoin('medical_institutions', 'doctors.medical_institutions_id', '=', 'medical_institutions.id')
-        ->where('doctors.last_name', 'LIKE', '%' . $lastName . '%')
+        ->where('doctors.id', $consent->consenting_doctor_id)
         ->select('doctors.*', 'medical_institutions.medical_institution_name')
         ->first();
-
-      \Log::info('医師情報取得結果', [
-        'found' => $doctor ? 'あり' : 'なし',
-        'medical_institution_name' => $doctor->medical_institution_name ?? null,
-        'address' => $doctor ? ($doctor->address_1 . $doctor->address_2 . $doctor->address_3) : null
-      ]);
     }
 
     return [

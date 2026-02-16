@@ -78,6 +78,11 @@ function getFieldDefinitions() {
     return fieldDefinitionsConsentAcupuncture;
   }
 
+  // 同意書（あんま・マッサージ）用
+  if (currentPdfType === 'consent_massage') {
+    return fieldDefinitionsConsentAcupuncture;
+  }
+
   // 同意書依頼状（サンプル版・医師指定版）はり・きゅう用
   // ※座標とフィールドが同じなので、同じフィールド定義を使い回す
   if (currentPdfType === 'consent_request_letter_sample_acupuncture' ||

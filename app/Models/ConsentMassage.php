@@ -16,7 +16,7 @@ class ConsentMassage extends Model
 
   protected $fillable = [
     'clinic_user_id',
-    'consenting_doctor_name',
+    'consenting_doctor_id',
     'consenting_date',
     'consenting_start_date',
     'consenting_end_date',
@@ -111,6 +111,11 @@ class ConsentMassage extends Model
       'consents_massage_id',
       'therapy_type_2_bodyparts_id'
     );
+  }
+
+  public function consentingDoctor()
+  {
+    return $this->belongsTo(Doctor::class, 'consenting_doctor_id');
   }
 
   /**

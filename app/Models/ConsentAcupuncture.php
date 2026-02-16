@@ -15,7 +15,7 @@ class ConsentAcupuncture extends Model
 
   protected $fillable = [
     'clinic_user_id',
-    'consenting_doctor_name',
+    'consenting_doctor_id',
     'consenting_date',
     'consenting_start_date',
     'consenting_end_date',
@@ -61,6 +61,11 @@ class ConsentAcupuncture extends Model
   public function workScopeType()
   {
     return $this->belongsTo(WorkScopeType::class, 'work_scope_type_id');
+  }
+
+  public function consentingDoctor()
+  {
+    return $this->belongsTo(Doctor::class, 'consenting_doctor_id');
   }
 
   // 注: 鍼灸同意書では部位（bodyparts）のリレーションは使用しない
