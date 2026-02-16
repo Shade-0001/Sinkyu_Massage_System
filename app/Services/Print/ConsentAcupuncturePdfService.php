@@ -164,6 +164,12 @@ class ConsentAcupuncturePdfService extends BasePdfService
 
             $pdf->SetLineWidth($lineWidth);
             $pdf->Ellipse($x, $y, $ellipseWidth, $ellipseHeight, 0, 0, 360, 'D');
+
+            // 「その他」の場合、追記テキストを表示
+            if ($i === 7 && isset($this->customSampleData['illness_name_other_text']) && $this->customSampleData['illness_name_other_text']) {
+              $pdf->SetFontSize($this->coord('illness_name_other_text', 'fontSize'));
+              $this->drawTextByKey($pdf, 'illness_name_other_text', (string)$this->customSampleData['illness_name_other_text']);
+            }
           }
         }
       }
