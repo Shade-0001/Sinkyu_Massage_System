@@ -592,27 +592,31 @@
             <!-- 同意区分 -->
             <div class="mb-3">
               <label class="form-label">同意区分 <span class="text-danger">*</span></label>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="consent_category" id="consent_category_new" value="new" checked>
-                <label class="form-check-label" for="consent_category_new">
-                  新規同意
-                </label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="consent_category" id="consent_category_renewal" value="renewal">
-                <label class="form-check-label" for="consent_category_renewal">
-                  再同意
-                </label>
+              <div class="d-flex gap-3">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="consent_category" id="consent_category_new" value="new" checked>
+                  <label class="form-check-label" for="consent_category_new">
+                    新規同意
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="consent_category" id="consent_category_renewal" value="renewal">
+                  <label class="form-check-label" for="consent_category_renewal">
+                    再同意
+                  </label>
+                </div>
               </div>
             </div>
 
             <!-- オプション -->
             <div class="mb-3">
-              <label for="consent_form_option" class="form-label">オプション</label>
-              <select class="form-select" id="consent_form_option" name="consent_form_option">
-                <option value="">選択してください</option>
-                <option value="doctor_info_blank">医師情報空白</option>
-              </select>
+              <label class="form-label">オプション</label>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="consent_form_option" id="consent_form_option_doctor_blank" value="doctor_info_blank">
+                <label class="form-check-label" for="consent_form_option_doctor_blank">
+                  医師情報空白
+                </label>
+              </div>
             </div>
 
             <!-- 提出年月日 -->
