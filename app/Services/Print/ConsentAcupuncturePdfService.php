@@ -116,21 +116,30 @@ class ConsentAcupuncturePdfService extends BasePdfService
     $doctor = $data['doctor'];
 
     // 1. 利用者住所
-    if ($clinicUser) {
+    if (isset($this->customSampleData['user_address']) && $this->customSampleData['user_address']) {
+      $pdf->SetFontSize($this->coord('user_address', 'fontSize'));
+      $this->drawTextByKey($pdf, 'user_address', (string)$this->customSampleData['user_address']);
+    } elseif ($clinicUser) {
       $address = ($clinicUser->address_1 ?? '') . ($clinicUser->address_2 ?? '') . ($clinicUser->address_3 ?? '');
       $pdf->SetFontSize($this->coord('user_address', 'fontSize'));
       $this->drawTextByKey($pdf, 'user_address', $address);
     }
 
     // 2. 利用者氏名（姓 名形式）
-    if ($clinicUser) {
+    if (isset($this->customSampleData['user_name']) && $this->customSampleData['user_name']) {
+      $pdf->SetFontSize($this->coord('user_name', 'fontSize'));
+      $this->drawTextByKey($pdf, 'user_name', (string)$this->customSampleData['user_name']);
+    } elseif ($clinicUser) {
       $userName = ($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? '');
       $pdf->SetFontSize($this->coord('user_name', 'fontSize'));
       $this->drawTextByKey($pdf, 'user_name', $userName);
     }
 
     // 3. 利用者生年月日（元号*年 *月 *日形式）
-    if ($clinicUser && $clinicUser->birthday) {
+    if (isset($this->customSampleData['user_birthday']) && $this->customSampleData['user_birthday']) {
+      $pdf->SetFontSize($this->coord('user_birthday', 'fontSize'));
+      $this->drawTextByKey($pdf, 'user_birthday', (string)$this->customSampleData['user_birthday']);
+    } elseif ($clinicUser && $clinicUser->birthday) {
       [$year, $month, $day] = explode('-', $clinicUser->birthday);
       $japaneseDate = $this->convertToJapaneseYear((int)$year, (int)$month);
       $birthdayText = $japaneseDate['era'] . $japaneseDate['year'] . '年 ' . (int)$month . '月 ' . (int)$day . '日';
@@ -200,7 +209,10 @@ class ConsentAcupuncturePdfService extends BasePdfService
     }
 
     // 12. 発病負傷年月日（元号*年 *月 *日形式）
-    if ($consent && $consent->onset_and_injury_date) {
+    if (isset($this->customSampleData['onset_date']) && $this->customSampleData['onset_date']) {
+      $pdf->SetFontSize($this->coord('onset_date', 'fontSize'));
+      $this->drawTextByKey($pdf, 'onset_date', (string)$this->customSampleData['onset_date']);
+    } elseif ($consent && $consent->onset_and_injury_date) {
       [$year, $month, $day] = explode('-', $consent->onset_and_injury_date);
       $japaneseDate = $this->convertToJapaneseYear((int)$year, (int)$month);
       $onsetDateText = $japaneseDate['era'] . $japaneseDate['year'] . '年 ' . (int)$month . '月 ' . (int)$day . '日';
@@ -209,13 +221,19 @@ class ConsentAcupuncturePdfService extends BasePdfService
     }
 
     // 13. 同意区分（モーダル引数 = $remarksパラメータ）
-    if ($remarks) {
+    if (isset($this->customSampleData['consent_category']) && $this->customSampleData['consent_category']) {
+      $pdf->SetFontSize($this->coord('consent_category', 'fontSize'));
+      $this->drawTextByKey($pdf, 'consent_category', (string)$this->customSampleData['consent_category']);
+    } elseif ($remarks) {
       $pdf->SetFontSize($this->coord('consent_category', 'fontSize'));
       $this->drawTextByKey($pdf, 'consent_category', $remarks);
     }
 
     // 14. 提出年月日（元号*年 *月 *日形式）
-    if ($submissionDate) {
+    if (isset($this->customSampleData['submission_date']) && $this->customSampleData['submission_date']) {
+      $pdf->SetFontSize($this->coord('submission_date', 'fontSize'));
+      $this->drawTextByKey($pdf, 'submission_date', (string)$this->customSampleData['submission_date']);
+    } elseif ($submissionDate) {
       [$year, $month, $day] = explode('-', $submissionDate);
       $japaneseDate = $this->convertToJapaneseYear((int)$year, (int)$month);
       $dateText = $japaneseDate['era'] . $japaneseDate['year'] . '年 ' . (int)$month . '月 ' . (int)$day . '日';
@@ -224,20 +242,29 @@ class ConsentAcupuncturePdfService extends BasePdfService
     }
 
     // 15. 同意医師医療機関名
-    if ($doctor && $doctor->medical_institution_name) {
+    if (isset($this->customSampleData['consenting_doctor_medical_institution_name']) && $this->customSampleData['consenting_doctor_medical_institution_name']) {
+      $pdf->SetFontSize($this->coord('consenting_doctor_medical_institution_name', 'fontSize'));
+      $this->drawTextByKey($pdf, 'consenting_doctor_medical_institution_name', (string)$this->customSampleData['consenting_doctor_medical_institution_name']);
+    } elseif ($doctor && $doctor->medical_institution_name) {
       $pdf->SetFontSize($this->coord('consenting_doctor_medical_institution_name', 'fontSize'));
       $this->drawTextByKey($pdf, 'consenting_doctor_medical_institution_name', $doctor->medical_institution_name);
     }
 
     // 16. 同意医師医療機関住所
-    if ($doctor) {
+    if (isset($this->customSampleData['consenting_doctor_address']) && $this->customSampleData['consenting_doctor_address']) {
+      $pdf->SetFontSize($this->coord('consenting_doctor_address', 'fontSize'));
+      $this->drawTextByKey($pdf, 'consenting_doctor_address', (string)$this->customSampleData['consenting_doctor_address']);
+    } elseif ($doctor) {
       $doctorAddress = ($doctor->address_1 ?? '') . ($doctor->address_2 ?? '') . ($doctor->address_3 ?? '');
       $pdf->SetFontSize($this->coord('consenting_doctor_address', 'fontSize'));
       $this->drawTextByKey($pdf, 'consenting_doctor_address', $doctorAddress);
     }
 
     // 17. 同意医師氏名（姓 名形式）
-    if ($consent && $consent->consenting_doctor_name) {
+    if (isset($this->customSampleData['consenting_doctor_name']) && $this->customSampleData['consenting_doctor_name']) {
+      $pdf->SetFontSize($this->coord('consenting_doctor_name', 'fontSize'));
+      $this->drawTextByKey($pdf, 'consenting_doctor_name', (string)$this->customSampleData['consenting_doctor_name']);
+    } elseif ($consent && $consent->consenting_doctor_name) {
       $pdf->SetFontSize($this->coord('consenting_doctor_name', 'fontSize'));
       $this->drawTextByKey($pdf, 'consenting_doctor_name', $consent->consenting_doctor_name);
     }
