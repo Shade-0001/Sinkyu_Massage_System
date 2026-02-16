@@ -1086,4 +1086,73 @@ class PrintsController extends Controller
       ], 500);
     }
   }
+
+  /**
+   * 同意書（はり・きゅう / あんま・マッサージ）PDF出力
+   *
+   * @param Request $request
+   * @param string $filename
+   * @return \Illuminate\Http\Response
+   */
+  public function consentForm(Request $request, string $filename)
+  {
+    try {
+      $validated = $request->validate([
+        'clinic_user_ids' => 'required|array',
+        'clinic_user_ids.*' => 'exists:clinic_users,id',
+        'consent_form_type' => 'required|in:acupuncture,massage',
+        'consent_category' => 'required|in:new,renewal',
+        'consent_form_option' => 'nullable|in:doctor_info_blank',
+        'submission_date' => 'required|date',
+      ]);
+
+      $consentFormType = $validated['consent_form_type'];
+      $typeName = $consentFormType === 'acupuncture' ? '同意書（はり・きゅう）' : '同意書（あんま・マッサージ）';
+
+      \Log::info("{$typeName}PDF生成開始", [
+        'clinic_user_ids' => $validated['clinic_user_ids'],
+        'consent_form_type' => $consentFormType,
+        'consent_category' => $validated['consent_category'],
+        'consent_form_option' => $validated['consent_form_option'] ?? null,
+        'submission_date' => $validated['submission_date'],
+      ]);
+
+      $serviceClass = $consentFormType === 'acupuncture'
+        ? \App\Services\Print\ConsentAcupuncturePdfService::class
+        : \App\Services\Print\ConsentMassagePdfService::class;
+
+      $service = new $serviceClass();
+
+      // 同意区分を日本語に変換
+      $consentCategoryText = $validated['consent_category'] === 'new' ? '新規同意' : '再同意';
+
+      $pdfBinary = $service->generate(
+        $validated['clinic_user_ids'],
+        '', // service_year_month (不要)
+        $validated['submission_date'],
+        $consentCategoryText
+      );
+
+      \Log::info("{$typeName}PDF生成完了", ['size' => strlen($pdfBinary)]);
+
+      return response($pdfBinary, 200, [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'inline',
+      ]);
+    } catch (\Exception $e) {
+      \Log::error("同意書PDF生成エラー", [
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+        'trace' => $e->getTraceAsString(),
+      ]);
+
+      return response()->json([
+        'error' => 'PDF生成に失敗しました',
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+      ], 500);
+    }
+  }
 }
