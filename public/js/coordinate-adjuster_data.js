@@ -258,7 +258,17 @@ let customSampleData = {
   // 施術期間終了
   therapy_period_end: '令和 7年 12月 31日',
   // 作成年月日
-  creation_date: '令和 7年 12月 31日'
+  creation_date: '令和 7年 12月 31日',
+  // === 同意書（はり・きゅう）用 ===
+  user_address: '東京都千代田区丸の内1-1-1',
+  user_name: '田中 太郎',
+  user_birthday: '昭和30年 3月 15日',
+  illness_name: '5', // 1:神経痛, 2:リウマチ, 3:頸腕症候群, 4:五十肩, 5:腰痛症, 6:頸椎捻挫後遺症, 7:その他
+  illness_name_other_text: '脊柱管狭窄症',
+  consent_category: '初回同意',
+  consenting_doctor_medical_institution_name: '〇〇病院',
+  consenting_doctor_address: '東京都新宿区〇〇1-2-3',
+  consenting_doctor_name: '山田 太郎'
 };
 
 // サンプルデータ取得関数（combine対応）
