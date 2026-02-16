@@ -2,6 +2,9 @@
 
 namespace App\Services\Print;
 
+use setasign\Fpdi\Tcpdf\Fpdi;
+use Illuminate\Support\Facades\DB;
+
 /**
  * 同意書（はり・きゅう）PDF生成サービス
  */
@@ -19,7 +22,189 @@ class ConsentAcupuncturePdfService extends BasePdfService
 
   public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate, string $remarks = ''): string
   {
-    // 未実装：テンプレートのみ表示
-    return $this->generateTemplatePdf();
+    $pdf = new Fpdi('P', 'mm', 'A4', true, 'UTF-8', false);
+    $pdf->SetAutoPageBreak(false);
+    $pdf->setPrintHeader(false);
+    $pdf->setPrintFooter(false);
+    $pdf->SetMargins(0, 0, 0);
+
+    foreach ($clinicUserIds as $clinicUserId) {
+      $data = $this->fetchData($clinicUserId, $submissionDate);
+
+      if ($data) {
+        $this->addPage($pdf, $data, $submissionDate, $remarks);
+      }
+    }
+
+    return $pdf->Output('', 'S');
+  }
+
+  /**
+   * データ取得
+   */
+  protected function fetchData(int $clinicUserId, string $submissionDate): ?array
+  {
+    // 利用者情報取得
+    $clinicUser = DB::table('clinic_users')
+      ->where('id', $clinicUserId)
+      ->first();
+
+    if (!$clinicUser) {
+      \Log::error('利用者情報が見つかりません', ['clinic_user_id' => $clinicUserId]);
+      return null;
+    }
+
+    // はり・きゅう同意書情報取得（最新）
+    $consent = DB::table('consents_acupuncture')
+      ->leftJoin('illnesses_acupuncture', 'consents_acupuncture.illness_name_acupuncture_id', '=', 'illnesses_acupuncture.id')
+      ->where('consents_acupuncture.clinic_user_id', $clinicUserId)
+      ->orderBy('consents_acupuncture.consenting_date', 'desc')
+      ->select('consents_acupuncture.*', 'illnesses_acupuncture.illness_name_acupuncture')
+      ->first();
+
+    // 同意医師情報取得
+    $doctor = null;
+    $medicalInstitution = null;
+    if ($consent && $consent->consenting_doctor_name) {
+      // doctors テーブルから医師情報を取得
+      $doctor = DB::table('doctors')
+        ->leftJoin('medical_institutions', 'doctors.medical_institutions_id', '=', 'medical_institutions.id')
+        ->where('doctors.last_name', 'LIKE', '%' . explode(' ', $consent->consenting_doctor_name)[0] . '%')
+        ->select('doctors.*', 'medical_institutions.medical_institution_name')
+        ->first();
+    }
+
+    return [
+      'clinic_user' => $clinicUser,
+      'consent' => $consent,
+      'doctor' => $doctor,
+      'submission_date' => $submissionDate,
+    ];
+  }
+
+  /**
+   * PDFページ追加
+   */
+  protected function addPage(Fpdi $pdf, array $data, string $submissionDate, string $remarks): void
+  {
+    $pdf->AddPage();
+
+    // テンプレートPDF読み込み
+    $templatePath = $this->customTemplatePath ?? storage_path('app/templates/acupuncture_and_massage/同意書（はり・きゅう）.pdf');
+
+    if (file_exists($templatePath)) {
+      $pageCount = $pdf->setSourceFile($templatePath);
+      $tplId = $pdf->importPage(1);
+      $pdf->useTemplate($tplId, 0, 0, null, null, true);
+    }
+
+    // フォント設定
+    $pdf->SetFont('kozminproregular', '', 10);
+    $pdf->SetTextColor(0, 0, 0);
+
+    // データ埋め込み
+    $this->fillFormFields($pdf, $data, $submissionDate, $remarks);
+  }
+
+  /**
+   * フォームフィールド埋め込み
+   */
+  protected function fillFormFields(Fpdi $pdf, array $data, string $submissionDate, string $remarks): void
+  {
+    $clinicUser = $data['clinic_user'];
+    $consent = $data['consent'];
+    $doctor = $data['doctor'];
+
+    // 1. 利用者住所
+    if ($clinicUser) {
+      $address = ($clinicUser->address_1 ?? '') . ($clinicUser->address_2 ?? '') . ($clinicUser->address_3 ?? '');
+      $pdf->SetFontSize($this->coord('user_address', 'fontSize'));
+      $this->drawTextByKey($pdf, 'user_address', $address);
+    }
+
+    // 2. 利用者氏名（姓 名形式）
+    if ($clinicUser) {
+      $userName = ($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? '');
+      $pdf->SetFontSize($this->coord('user_name', 'fontSize'));
+      $this->drawTextByKey($pdf, 'user_name', $userName);
+    }
+
+    // 3. 利用者生年月日（元号*年 *月 *日形式）
+    if ($clinicUser && $clinicUser->birthday) {
+      [$year, $month, $day] = explode('-', $clinicUser->birthday);
+      $japaneseDate = $this->convertToJapaneseYear((int)$year, (int)$month);
+      $birthdayText = $japaneseDate['era'] . $japaneseDate['year'] . '年 ' . (int)$month . '月 ' . (int)$day . '日';
+      $pdf->SetFontSize($this->coord('user_birthday', 'fontSize'));
+      $this->drawTextByKey($pdf, 'user_birthday', $birthdayText);
+    }
+
+    // 4-10. 傷病名（サークル）
+    if ($consent && $consent->illness_name_acupuncture_id) {
+      $illnessId = $consent->illness_name_acupuncture_id;
+      for ($i = 1; $i <= 7; $i++) {
+        $key = 'illness_name_' . $i;
+        if ($this->hasCoord($key)) {
+          $x = $this->coord($key, 'x');
+          $y = $this->coord($key, 'y');
+          $ellipseWidth = $this->coord($key, 'ellipseWidth') ?: 2.5;
+          $ellipseHeight = $this->coord($key, 'ellipseHeight') ?: 2.5;
+          $lineWidth = $this->coord($key, 'lineWidth') ?: 0.5;
+
+          if ($illnessId == $i) {
+            $pdf->SetLineWidth($lineWidth);
+            $pdf->Ellipse($x, $y, $ellipseWidth, $ellipseHeight, 0, 0, 360, 'D');
+          }
+        }
+      }
+    }
+
+    // 11. 傷病名（その他の内容）
+    if ($consent && $consent->illness_name_acupuncture_id == 7 && $consent->illness_name_acupuncture_addendum) {
+      $pdf->SetFontSize($this->coord('illness_name_other_text', 'fontSize'));
+      $this->drawTextByKey($pdf, 'illness_name_other_text', $consent->illness_name_acupuncture_addendum);
+    }
+
+    // 12. 発病負傷年月日（元号*年 *月 *日形式）
+    if ($consent && $consent->onset_and_injury_date) {
+      [$year, $month, $day] = explode('-', $consent->onset_and_injury_date);
+      $japaneseDate = $this->convertToJapaneseYear((int)$year, (int)$month);
+      $onsetDateText = $japaneseDate['era'] . $japaneseDate['year'] . '年 ' . (int)$month . '月 ' . (int)$day . '日';
+      $pdf->SetFontSize($this->coord('onset_date', 'fontSize'));
+      $this->drawTextByKey($pdf, 'onset_date', $onsetDateText);
+    }
+
+    // 13. 同意区分（モーダル引数 = $remarksパラメータ）
+    if ($remarks) {
+      $pdf->SetFontSize($this->coord('consent_category', 'fontSize'));
+      $this->drawTextByKey($pdf, 'consent_category', $remarks);
+    }
+
+    // 14. 提出年月日（元号*年 *月 *日形式）
+    if ($submissionDate) {
+      [$year, $month, $day] = explode('-', $submissionDate);
+      $japaneseDate = $this->convertToJapaneseYear((int)$year, (int)$month);
+      $dateText = $japaneseDate['era'] . $japaneseDate['year'] . '年 ' . (int)$month . '月 ' . (int)$day . '日';
+      $pdf->SetFontSize($this->coord('submission_date', 'fontSize'));
+      $this->drawTextByKey($pdf, 'submission_date', $dateText);
+    }
+
+    // 15. 同意医師医療機関名
+    if ($doctor && $doctor->medical_institution_name) {
+      $pdf->SetFontSize($this->coord('consenting_doctor_medical_institution_name', 'fontSize'));
+      $this->drawTextByKey($pdf, 'consenting_doctor_medical_institution_name', $doctor->medical_institution_name);
+    }
+
+    // 16. 同意医師医療機関住所
+    if ($doctor) {
+      $doctorAddress = ($doctor->address_1 ?? '') . ($doctor->address_2 ?? '') . ($doctor->address_3 ?? '');
+      $pdf->SetFontSize($this->coord('consenting_doctor_address', 'fontSize'));
+      $this->drawTextByKey($pdf, 'consenting_doctor_address', $doctorAddress);
+    }
+
+    // 17. 同意医師氏名（姓 名形式）
+    if ($consent && $consent->consenting_doctor_name) {
+      $pdf->SetFontSize($this->coord('consenting_doctor_name', 'fontSize'));
+      $this->drawTextByKey($pdf, 'consenting_doctor_name', $consent->consenting_doctor_name);
+    }
   }
 }
