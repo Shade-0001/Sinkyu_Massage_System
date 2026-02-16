@@ -56,7 +56,7 @@ class ConsentMassagePdfService extends BasePdfService
 
     // あんま・マッサージ同意書情報取得（最新）
     $consent = DB::table('consents_massage')
-      ->leftJoin('illnesses_massage', 'consents_massage.illness_name_massage_id', '=', 'illnesses_massage.id')
+      ->leftJoin('illnesses_massage', 'consents_massage.injury_and_illness_name_id', '=', 'illnesses_massage.id')
       ->where('consents_massage.clinic_user_id', $clinicUserId)
       ->orderBy('consents_massage.consenting_date', 'desc')
       ->select('consents_massage.*', 'illnesses_massage.illness_name')
@@ -181,9 +181,9 @@ class ConsentMassagePdfService extends BasePdfService
           }
         }
       }
-    } elseif ($consent && $consent->illness_name_massage_id) {
+    } elseif ($consent && $consent->injury_and_illness_name_id) {
       // 通常モード: DBデータで判定
-      $illnessId = $consent->illness_name_massage_id;
+      $illnessId = $consent->injury_and_illness_name_id;
       for ($i = 1; $i <= 7; $i++) {
         $key = 'illness_name_' . $i;
         if ($this->hasCoord($key)) {
@@ -202,10 +202,11 @@ class ConsentMassagePdfService extends BasePdfService
     }
 
     // 11. 傷病名（その他の内容）
-    if ($consent && $consent->illness_name_massage_id == 7 && $consent->illness_name_massage_addendum) {
-      $pdf->SetFontSize($this->coord('illness_name_other_text', 'fontSize'));
-      $this->drawTextByKey($pdf, 'illness_name_other_text', $consent->illness_name_massage_addendum);
-    }
+    // 注: マッサージ側にはillness_name_addendumカラムが存在しないため、この機能は無効
+    // if ($consent && $consent->injury_and_illness_name_id == 7 && $consent->illness_name_addendum) {
+    //   $pdf->SetFontSize($this->coord('illness_name_other_text', 'fontSize'));
+    //   $this->drawTextByKey($pdf, 'illness_name_other_text', $consent->illness_name_addendum);
+    // }
 
     // 12. 発病負傷年月日（元号*年 *月 *日形式）
     if (isset($this->customSampleData['onset_date']) && $this->customSampleData['onset_date']) {
