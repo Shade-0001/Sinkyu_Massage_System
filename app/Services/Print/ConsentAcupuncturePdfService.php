@@ -66,12 +66,29 @@ class ConsentAcupuncturePdfService extends BasePdfService
     $doctor = null;
     $medicalInstitution = null;
     if ($consent && $consent->consenting_doctor_name) {
+      \Log::info('同意医師情報取得開始', [
+        'consenting_doctor_name' => $consent->consenting_doctor_name,
+        'clinic_user_id' => $clinicUserId
+      ]);
+
+      // 医師名から姓を抽出（全角スペースまたは半角スペースで分割）
+      $nameParts = preg_split('/[\s　]+/', $consent->consenting_doctor_name);
+      $lastName = $nameParts[0] ?? '';
+
+      \Log::info('医師姓抽出', ['last_name' => $lastName]);
+
       // doctors テーブルから医師情報を取得
       $doctor = DB::table('doctors')
         ->leftJoin('medical_institutions', 'doctors.medical_institutions_id', '=', 'medical_institutions.id')
-        ->where('doctors.last_name', 'LIKE', '%' . explode(' ', $consent->consenting_doctor_name)[0] . '%')
+        ->where('doctors.last_name', 'LIKE', '%' . $lastName . '%')
         ->select('doctors.*', 'medical_institutions.medical_institution_name')
         ->first();
+
+      \Log::info('医師情報取得結果', [
+        'found' => $doctor ? 'あり' : 'なし',
+        'medical_institution_name' => $doctor->medical_institution_name ?? null,
+        'address' => $doctor ? ($doctor->address_1 . $doctor->address_2 . $doctor->address_3) : null
+      ]);
     }
 
     return [
