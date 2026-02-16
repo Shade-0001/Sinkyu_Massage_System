@@ -1731,9 +1731,14 @@ function updateRadioGroupSelection(groupName, selectedKey) {
   if (selectedField && selectedField.radioGroup) {
     const fieldDefs = getFieldDefinitions();
     const mapping = fieldDefs[selectedKey];
-    if (mapping && mapping.field && mapping.optionLabel) {
-      // optionLabelをサンプルデータとして設定
-      updateSampleData(mapping.field, mapping.optionLabel);
+    if (mapping && mapping.field) {
+      // selectedKeyから数値インデックスを抽出（例: illness_name_1 → '1'）
+      const match = selectedKey.match(/_(\d+)$/);
+      const indexValue = match ? match[1] : null;
+
+      // 数値インデックスがある場合はそれを使用、なければoptionLabelを使用
+      const sampleValue = indexValue || mapping.optionLabel;
+      updateSampleData(mapping.field, sampleValue);
     }
   }
 

@@ -139,18 +139,47 @@ class ConsentAcupuncturePdfService extends BasePdfService
     }
 
     // 4-10. 傷病名（サークル）
-    if ($consent && $consent->illness_name_acupuncture_id) {
+    // サンプルモード時はisSelectedフラグ、通常モード時はDBデータで判定
+    $useSampleMode = false;
+    for ($i = 1; $i <= 7; $i++) {
+      $key = 'illness_name_' . $i;
+      if ($this->hasCoord($key) && isset($this->coordinates[$key]['isSelected'])) {
+        $useSampleMode = true;
+        break;
+      }
+    }
+
+    if ($useSampleMode) {
+      // サンプルモード: isSelectedフラグで判定
+      for ($i = 1; $i <= 7; $i++) {
+        $key = 'illness_name_' . $i;
+        if ($this->hasCoord($key)) {
+          $isSelected = $this->coordinates[$key]['isSelected'] ?? false;
+          if ($isSelected) {
+            $x = $this->coord($key, 'x');
+            $y = $this->coord($key, 'y');
+            $ellipseWidth = $this->coord($key, 'ellipseWidth') ?: 2.5;
+            $ellipseHeight = $this->coord($key, 'ellipseHeight') ?: 2.5;
+            $lineWidth = $this->coord($key, 'lineWidth') ?: 0.5;
+
+            $pdf->SetLineWidth($lineWidth);
+            $pdf->Ellipse($x, $y, $ellipseWidth, $ellipseHeight, 0, 0, 360, 'D');
+          }
+        }
+      }
+    } elseif ($consent && $consent->illness_name_acupuncture_id) {
+      // 通常モード: DBデータで判定
       $illnessId = $consent->illness_name_acupuncture_id;
       for ($i = 1; $i <= 7; $i++) {
         $key = 'illness_name_' . $i;
         if ($this->hasCoord($key)) {
-          $x = $this->coord($key, 'x');
-          $y = $this->coord($key, 'y');
-          $ellipseWidth = $this->coord($key, 'ellipseWidth') ?: 2.5;
-          $ellipseHeight = $this->coord($key, 'ellipseHeight') ?: 2.5;
-          $lineWidth = $this->coord($key, 'lineWidth') ?: 0.5;
-
           if ($illnessId == $i) {
+            $x = $this->coord($key, 'x');
+            $y = $this->coord($key, 'y');
+            $ellipseWidth = $this->coord($key, 'ellipseWidth') ?: 2.5;
+            $ellipseHeight = $this->coord($key, 'ellipseHeight') ?: 2.5;
+            $lineWidth = $this->coord($key, 'lineWidth') ?: 0.5;
+
             $pdf->SetLineWidth($lineWidth);
             $pdf->Ellipse($x, $y, $ellipseWidth, $ellipseHeight, 0, 0, 360, 'D');
           }
