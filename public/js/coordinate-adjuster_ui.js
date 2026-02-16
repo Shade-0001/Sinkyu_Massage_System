@@ -141,6 +141,13 @@ function renderFieldSettings() {
         'fee_massage_unit', 'fee_massage_count', 'fee_massage_total'
       ];
       return !acupunctureOnlyFields.includes(key);
+    } else if (pdfType === 'consent_massage') {
+      // 同意書（マッサージ）では傷病名フィールドを除外
+      const excludedFields = [
+        'illness_name_1', 'illness_name_2', 'illness_name_3', 'illness_name_4',
+        'illness_name_5', 'illness_name_6', 'illness_name_7', 'illness_name_other_text'
+      ];
+      return !excludedFields.includes(key);
     }
     return true;
   }
