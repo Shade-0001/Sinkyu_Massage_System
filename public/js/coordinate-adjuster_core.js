@@ -47,14 +47,10 @@ let customTitleText = '';
 // - サービスクラス作成: ConsentRequestLetterDesignatedAcupuncturePdfService.php
 // ============================================================
 function getFieldDefinitions() {
-  // fieldsFileが空の場合は空オブジェクトを返す
   const pdfTypes = coordinateAdjusterData.pdfTypes || {};
   const currentConfig = pdfTypes[currentPdfType] || {};
 
-  if (!currentConfig.fieldsFile || currentConfig.fieldsFile === '') {
-    return {};
-  }
-
+  // PDFタイプ別のフィールド定義を優先的に返す
   if (currentPdfType === 'treatment_receipt') {
     return fieldDefinitionsTreatmentReceipt;
   }
@@ -76,6 +72,11 @@ function getFieldDefinitions() {
   if (currentPdfType === 'consent_request_letter_sample_massage' ||
       currentPdfType === 'consent_request_letter_designated_massage') {
     return fieldDefinitionsConsentRequestLetterSampleAcupuncture;
+  }
+
+  // fieldsFileが空の場合は空オブジェクトを返す
+  if (!currentConfig.fieldsFile || currentConfig.fieldsFile === '') {
+    return {};
   }
 
   return fieldDefinitions;
