@@ -4,19 +4,19 @@
   @csrf
 
   <div class="mb-3">
-    <label class="fw-semibold" for="consenting_doctor_name">同意医師名</label><br>
-    <select id="consenting_doctor_name" name="consenting_doctor_name">
+    <label class="fw-semibold" for="consenting_doctor_id">同意医師名</label><br>
+    <select id="consenting_doctor_id" name="consenting_doctor_id">
       <option value="">╌╌╌</option>
       @foreach($doctors ?? [] as $doctor)
         @php
           $doctorFullName = trim(($doctor->last_name ?? '') . "\u{2000}" . ($doctor->first_name ?? ''));
         @endphp
-        <option value="{{ $doctorFullName }}" {{ old('consenting_doctor_name', $history?->consenting_doctor_name ?? '') == $doctorFullName ? 'selected' : '' }}>
+        <option value="{{ $doctor->id }}" {{ old('consenting_doctor_id', $history?->consenting_doctor_id ?? '') == $doctor->id ? 'selected' : '' }}>
           {{ $doctorFullName }}
         </option>
       @endforeach
     </select>
-    @error('consenting_doctor_name')
+    @error('consenting_doctor_id')
       <div class="text-danger">{{ $message }}</div>
     @enderror
   </div>

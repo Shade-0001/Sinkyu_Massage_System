@@ -22,7 +22,7 @@ class ConsentMassageRequest extends FormRequest
   public function rules(): array
   {
     return [
-      'consenting_doctor_name' => 'required|string|max:255',
+      'consenting_doctor_id' => 'required|integer|exists:doctors,id',
       'consenting_date' => 'nullable|date',
       'consenting_start_date' => 'nullable|date',
       'consenting_end_date' => 'nullable|date',
@@ -78,8 +78,8 @@ class ConsentMassageRequest extends FormRequest
   public function messages(): array
   {
     return [
-      'consenting_doctor_name.required' => '同意医師名は必須です。',
-      'consenting_doctor_name.max' => '同意医師名は255文字以内で入力してください。',
+      'consenting_doctor_id.required' => '同意医師は必須です。',
+      'consenting_doctor_id.exists' => '選択された同意医師が無効です。',
       'consenting_date.date' => '同意日は正しい日付形式で入力してください。',
       'consenting_start_date.date' => '同意開始日は正しい日付形式で入力してください。',
       'consenting_end_date.date' => '同意終了日は正しい日付形式で入力してください。',

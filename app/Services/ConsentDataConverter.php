@@ -10,6 +10,7 @@ use App\Models\HousecallReason;
 use App\Models\TherapyContent;
 use App\Models\Condition;
 use App\Models\WorkScopeType;
+use App\Models\Doctor;
 
 /**
  * 同意医師履歴データ変換サービス
@@ -33,6 +34,8 @@ class ConsentDataConverter
         $result = $data;
 
         $mappings = [
+            // 共通
+            'consenting_doctor_id' => [Doctor::class, 'last_name', 'first_name'], // 姓名を結合
             // マッサージ用
             'injury_and_illness_name_id' => [Illness::class, 'illness_name'],
             // 鍼灸用
@@ -50,10 +53,24 @@ class ConsentDataConverter
             'work_scope_type_id' => [WorkScopeType::class, 'work_scope_type'],
         ];
 
-        foreach ($mappings as $field => [$model, $attribute]) {
+        foreach ($mappings as $field => $mapping) {
             if (isset($data[$field]) && $data[$field]) {
+                $model = $mapping[0];
                 $record = $model::find($data[$field]);
-                $result[$field] = $record ? $record->$attribute : '';
+
+                if ($record) {
+                    // consenting_doctor_idの場合は姓名を結合
+                    if ($field === 'consenting_doctor_id' && isset($mapping[2])) {
+                        $lastName = $record->{$mapping[1]} ?? '';
+                        $firstName = $record->{$mapping[2]} ?? '';
+                        $result[$field] = trim($lastName . "\u{2000}" . $firstName);
+                    } else {
+                        $attribute = $mapping[1];
+                        $result[$field] = $record->$attribute;
+                    }
+                } else {
+                    $result[$field] = '';
+                }
             }
         }
 
@@ -106,7 +123,7 @@ class ConsentDataConverter
     public function getLabels(): array
     {
         return [
-            'consenting_doctor_name' => '同意医師名',
+            'consenting_doctor_id' => '同意医師',
             'consenting_date' => '同意日',
             'consenting_start_date' => '同意開始年月日',
             'consenting_end_date' => '同意終了年月日',

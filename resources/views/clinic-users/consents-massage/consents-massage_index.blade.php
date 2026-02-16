@@ -51,7 +51,14 @@
     @forelse($consentingHistories as $history)
     <tr>
       <td>
-      <a href="{{ route('clinic-users.consents-massage.edit', ['id' => $id, 'history_id' => $history->id]) }}">{{ $history->consenting_doctor_name }} [編集]</a>
+      <a href="{{ route('clinic-users.consents-massage.edit', ['id' => $id, 'history_id' => $history->id]) }}">
+        @if($history->consentingDoctor)
+          {{ $history->consentingDoctor->last_name }}\u{2000}{{ $history->consentingDoctor->first_name }}
+        @else
+          同意医師未設定
+        @endif
+        [編集]
+      </a>
       </td>
       <td data-order="{{ $history->consenting_date ? strtotime($history->consenting_date) : 0 }}">
       @if($history->consenting_date)
