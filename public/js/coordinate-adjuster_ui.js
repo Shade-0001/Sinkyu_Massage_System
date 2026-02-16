@@ -663,12 +663,11 @@ function renderFieldSettings() {
             return `<option value="${k}" ${selectedKey === k ? 'selected' : ''}>${optionLabel}</option>`;
           }).join('');
 
-          div.innerHTML = `
-            <h6 class="field-header" onclick="toggleField('${field.radioGroup}')" style="cursor: pointer; user-select: none;">
-              <span class="toggle-icon" id="toggle-${field.radioGroup}">▶</span> ${groupLabel}
-            </h6>
+          // サンプルモード判定
+          const showSampleData = document.getElementById('show-sample-data')?.checked;
 
-            <div class="field-controls" id="controls-${field.radioGroup}">
+          // セレクトボックスHTMLを条件付きで生成
+          const selectorHtml = showSampleData ? `
               <div class="coordinate-input">
                 <label>選択:</label>
                 <select onchange="updateRadioGroupSelection('${field.radioGroup}', this.value)"
@@ -677,6 +676,15 @@ function renderFieldSettings() {
                   ${options}
                 </select>
               </div>
+          ` : '';
+
+          div.innerHTML = `
+            <h6 class="field-header" onclick="toggleField('${field.radioGroup}')" style="cursor: pointer; user-select: none;">
+              <span class="toggle-icon" id="toggle-${field.radioGroup}">▶</span> ${groupLabel}
+            </h6>
+
+            <div class="field-controls" id="controls-${field.radioGroup}">
+              ${selectorHtml}
 
               <div id="radiogroup-fields-${field.radioGroup}">
               </div>
