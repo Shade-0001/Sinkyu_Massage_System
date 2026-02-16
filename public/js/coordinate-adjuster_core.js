@@ -29,7 +29,7 @@ let customTitleText = '';
 //
 // 4. この関数（getFieldDefinitions）に新しいPDFタイプのケースを追加
 //
-// ⚠️【教訓】getFieldDefinitions()関数の実装上の注意点（2026/02/16）
+// ⚠️【注意点】getFieldDefinitions()関数の実装上の注意点（2026/02/16）
 // ============================================================
 // 問題：
 //   fieldsFileの空文字チェック（return {}）をPDFタイプ別分岐より先に書くと、
