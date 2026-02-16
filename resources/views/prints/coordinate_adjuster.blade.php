@@ -143,7 +143,8 @@ window.coordinateAdjusterData = {
     genders: @json($masterData['genders']),
     relationships: @json($masterData['relationships']),
     insurance_types_1: @json($masterData['insurance_types_1']),
-    insurance_types_3: @json($masterData['insurance_types_3'])
+    insurance_types_3: @json($masterData['insurance_types_3']),
+    illnesses_massage: @json($masterData['illnesses_massage'])
   },
   treatmentFees: @json($treatmentFees ?? null),
   csrfToken: '{{ csrf_token() }}'

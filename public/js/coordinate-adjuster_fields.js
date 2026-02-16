@@ -456,6 +456,15 @@ const fieldDefinitionsConsentMassage = {
   'user_address': { field: 'user_address', label: '利用者住所', type: 'text' },
   'user_name': { field: 'user_name', label: '利用者氏名', type: 'text' },
   'user_birthday': { field: 'user_birthday', label: '利用者生年月日', type: 'text' },
+  'consent_massage_illness_name': { field: 'consent_massage_illness_name', label: '傷病名', type: 'text' },
+  'illness_name_1': { field: 'illness_name', label: '傷病名（サークル）', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: '神経痛' },
+  'illness_name_2': { field: 'illness_name', label: '傷病名（サークル）', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: 'リウマチ' },
+  'illness_name_3': { field: 'illness_name', label: '傷病名（サークル）', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: '頸腕症候群' },
+  'illness_name_4': { field: 'illness_name', label: '傷病名（サークル）', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: '五十肩' },
+  'illness_name_5': { field: 'illness_name', label: '傷病名（サークル）', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: '腰痛症' },
+  'illness_name_6': { field: 'illness_name', label: '傷病名（サークル）', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: '頸椎捻挫後遺症' },
+  'illness_name_7': { field: 'illness_name', label: '傷病名（サークル）', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: 'その他' },
+  'illness_name_other_text': { field: 'illness_name_other_text', label: '傷病名（その他の内容）', type: 'text' },
   'onset_date': { field: 'onset_date', label: '発病負傷年月日', type: 'text' },
   'consent_category': { field: 'consent_category', label: '同意区分', type: 'text' },
   'submission_date': { field: 'submission_date', label: '提出年月日', type: 'text' },
@@ -501,28 +510,4 @@ const fieldDefinitionsConsentRequestLetterSampleAcupuncture = {
   'clinic_phone': { field: 'clinic_phone', label: '施設電話番号', type: 'text' },
   'clinic_name': { field: 'clinic_name', label: '施設名', type: 'text' },
   'clinic_owner_name': { field: 'clinic_owner_name', label: '施設代表者氏名', type: 'text' }
-};
-
-// ============================================================
-// 同意書（あんま・マッサージ）専用フィールド
-// ============================================================
-const fieldDefinitionsConsentMassage = {
-  'user_address': { field: 'user_address', label: '利用者住所', type: 'text' },
-  'user_name': { field: 'user_name', label: '利用者氏名', type: 'text' },
-  'user_birthday': { field: 'user_birthday', label: '利用者生年月日', type: 'text' },
-  'consent_massage_illness_name': { field: 'consent_massage_illness_name', label: '傷病名', type: 'text' },
-  'illness_name_1': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: '神経痛' },
-  'illness_name_2': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: 'リウマチ' },
-  'illness_name_3': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: '頸腕症候群' },
-  'illness_name_4': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: '五十肩' },
-  'illness_name_5': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: '腰痛症' },
-  'illness_name_6': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: '頸椎捻挫後遺症' },
-  'illness_name_7': { field: 'illness_name', label: '傷病名', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: 'その他' },
-  'illness_name_other_text': { field: 'illness_name_other_text', label: '傷病名（その他の内容）', type: 'text' },
-  'onset_date': { field: 'onset_date', label: '発病負傷年月日', type: 'text' },
-  'consent_category': { field: 'consent_category', label: '同意区分', type: 'text' },
-  'submission_date': { field: 'submission_date', label: '提出年月日', type: 'text' },
-  'consenting_doctor_medical_institution_name': { field: 'consenting_doctor_medical_institution_name', label: '同意医師医療機関名', type: 'text' },
-  'consenting_doctor_address': { field: 'consenting_doctor_address', label: '同意医師住所', type: 'text' },
-  'consenting_doctor_name': { field: 'consenting_doctor_name', label: '同意医師氏名', type: 'text' }
 };

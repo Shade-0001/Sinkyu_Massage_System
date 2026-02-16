@@ -151,8 +151,8 @@
         "letterSpacing": 0
     },
     "submission_date": {
-        "x": 52,
-        "y": 165.5,
+        "x": 34,
+        "y": 226,
         "fontSize": 12,
         "textAlign": "left",
         "field": "submission_date",

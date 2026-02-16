@@ -259,10 +259,11 @@ let customSampleData = {
   therapy_period_end: '令和 7年 12月 31日',
   // 作成年月日
   creation_date: '令和 7年 12月 31日',
-  // === 同意書（はり・きゅう）用 ===
+  // === 同意書（はり・きゅう・あんま・マッサージ）用 ===
   user_address: '東京都千代田区丸の内1-1-1',
   user_name: '田中 太郎',
   user_birthday: '昭和30年 3月 15日',
+  consent_massage_illness_name: '腰痛症',
   illness_name: '5', // 1:神経痛, 2:リウマチ, 3:頸腕症候群, 4:五十肩, 5:腰痛症, 6:頸椎捻挫後遺症, 7:その他
   illness_name_other_text: '脊柱管狭窄症',
   onset_date: '令和7年 11月 15日',

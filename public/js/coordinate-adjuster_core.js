@@ -80,7 +80,7 @@ function getFieldDefinitions() {
 
   // 同意書（あんま・マッサージ）用
   if (currentPdfType === 'consent_massage') {
-    return fieldDefinitionsConsentAcupuncture;
+    return fieldDefinitionsConsentMassage;
   }
 
   // 同意書依頼状（サンプル版・医師指定版）はり・きゅう用

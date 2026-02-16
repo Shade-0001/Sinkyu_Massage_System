@@ -632,6 +632,7 @@ class PrintsController extends Controller
       'relationships' => DB::table('relationships_with_clinic_user')->select('id', 'relationship')->get(),
       'insurance_types_1' => DB::table('insurance_types_1')->select('id', 'insurance_type_1')->get(),
       'insurance_types_3' => DB::table('insurance_types_3')->select('id', 'insurance_type_3')->get(),
+      'illnesses_massage' => DB::table('illnesses_massage')->select('id', 'illness_name')->get(),
     ];
 
     $treatmentFees = DB::table('treatment_fees')

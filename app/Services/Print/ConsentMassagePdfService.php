@@ -146,6 +146,15 @@ class ConsentMassagePdfService extends BasePdfService
       $this->drawTextByKey($pdf, 'user_birthday', $birthdayText);
     }
 
+    // 3-1. 傷病名（テキスト）
+    if (isset($this->customSampleData['consent_massage_illness_name']) && $this->customSampleData['consent_massage_illness_name']) {
+      $pdf->SetFontSize($this->coord('consent_massage_illness_name', 'fontSize'));
+      $this->drawTextByKey($pdf, 'consent_massage_illness_name', (string)$this->customSampleData['consent_massage_illness_name']);
+    } elseif ($consent && $consent->illness_name) {
+      $pdf->SetFontSize($this->coord('consent_massage_illness_name', 'fontSize'));
+      $this->drawTextByKey($pdf, 'consent_massage_illness_name', $consent->illness_name);
+    }
+
     // 4-10. 傷病名（サークル）
     // サンプルモード時はisSelectedフラグ、通常モード時はDBデータで判定
     $useSampleMode = false;
