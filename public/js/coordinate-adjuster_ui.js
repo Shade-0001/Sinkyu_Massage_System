@@ -1846,27 +1846,28 @@ function updateCompositeGroupSelection(groupName, selectedKey) {
 
 // ラジオグループの選択を更新
 function updateRadioGroupSelection(groupName, selectedKey) {
+  const fieldDefs = getFieldDefinitions();
+
   // 座標のisSelectedを更新
   Object.keys(coordinates).forEach(key => {
-    const field = coordinates[key];
-    if (field.radioGroup === groupName) {
-      field.isSelected = (key === selectedKey);
+    const fieldMapping = fieldDefs[key];
+    if (fieldMapping?.radioGroup === groupName) {
+      coordinates[key].isSelected = (key === selectedKey);
     }
   });
 
   // サンプルデータを更新（radioGroupフィールドの場合）
   const selectedField = coordinates[selectedKey];
-  if (selectedField && selectedField.radioGroup) {
-    const fieldDefs = getFieldDefinitions();
-    const mapping = fieldDefs[selectedKey];
-    if (mapping && mapping.field) {
+  const selectedMapping = fieldDefs[selectedKey];
+  if (selectedField && selectedMapping?.radioGroup) {
+    if (selectedMapping.field) {
       // selectedKeyから数値インデックスを抽出（例: illness_name_1 → '1'）
       const match = selectedKey.match(/_(\d+)$/);
       const indexValue = match ? match[1] : null;
 
       // 数値インデックスがある場合はそれを使用、なければoptionLabelを使用
-      const sampleValue = indexValue || mapping.optionLabel;
-      updateSampleData(mapping.field, sampleValue);
+      const sampleValue = indexValue || selectedMapping.optionLabel;
+      updateSampleData(selectedMapping.field, sampleValue);
     }
   }
 

@@ -71,7 +71,7 @@
     },
     "muscle_paralysis_trunk": {
         "x": 50,
-        "y": 95,
+        "y": 132,
         "fontSize": 10,
         "textAlign": "left",
         "field": "muscle_paralysis",
