@@ -271,7 +271,7 @@ class TreatmentFeeListPdfService
 
         // 施術名
         $pdf->SetXY($x, $currentY);
-        $pdf->Cell($colWidths['treatment'], $rowHeight, $therapyContent->therapy_content, 0, 0, 'C', false);
+        $pdf->Cell($colWidths['treatment'], $rowHeight, $therapyContent->therapy_content, 0, 0, 'L', false);
         // 上辺は最初の行のみ実線、それ以外は破線
         if (!$firstRow) {
           $pdf->SetLineStyle(array('width' => 0.2, 'dash' => '2,2', 'color' => array(0, 0, 0)));
