@@ -163,6 +163,45 @@ function renderFieldSettings() {
     categorizedFields[category].push(key);
   });
 
+  // consent_massage専用：診察日までのuncategorizedフィールドを先に表示
+  if (currentPdfType === 'consent_massage' && categorizedFields['uncategorized']) {
+    const uncategorizedFields = categorizedFields['uncategorized'];
+    const consentingDateIndex = uncategorizedFields.indexOf('consenting_date');
+
+    if (consentingDateIndex !== -1) {
+      // 診察日までのフィールド（診察日含む）を表示
+      const fieldsBeforeCategories = uncategorizedFields.slice(0, consentingDateIndex + 1);
+
+      fieldsBeforeCategories.forEach(key => {
+        if (processedKeys.has(key)) return;
+
+        let field = coordinates[key];
+        if (!field && fieldDefs[key]) {
+          const mappingField = fieldDefs[key];
+          const isEllipseField = mappingField.radioGroup !== undefined && (mappingField.ellipseWidth !== undefined || mappingField.ellipseHeight !== undefined);
+          field = {
+            x: 0,
+            y: 0,
+            textAlign: 'left',
+            ...fieldDefs[key]
+          };
+          if (!isEllipseField) {
+            field.fontSize = 10;
+            field.letterSpacing = 0;
+          }
+          coordinates[key] = field;
+        }
+        if (!field) return;
+
+        processedKeys.add(key);
+        const div = document.createElement('div');
+        div.className = 'field-group';
+        div.innerHTML = renderSingleFieldHTML(key, field);
+        container.appendChild(div);
+      });
+    }
+  }
+
   // カテゴリごとにアコーディオンを作成
   categoryOrder.forEach(category => {
     const fields = categorizedFields[category];
@@ -528,7 +567,16 @@ function renderFieldSettings() {
 
   // 未分類フィールドがあれば最後に追加
   if (categorizedFields['uncategorized'] && categorizedFields['uncategorized'].length > 0) {
-    const uncategorizedFields = categorizedFields['uncategorized'];
+    let uncategorizedFields = categorizedFields['uncategorized'];
+
+    // consent_massage専用：診察日以降のフィールドのみ表示
+    if (currentPdfType === 'consent_massage') {
+      const consentingDateIndex = uncategorizedFields.indexOf('consenting_date');
+      if (consentingDateIndex !== -1) {
+        // 診察日より後のフィールドのみ
+        uncategorizedFields = uncategorizedFields.slice(consentingDateIndex + 1);
+      }
+    }
 
     // カテゴリヘッダーなしで直接フィールドを表示
     uncategorizedFields.forEach(key => {
