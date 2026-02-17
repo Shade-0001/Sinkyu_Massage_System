@@ -9,7 +9,7 @@ class TreatmentFeeListSelfPdfService extends BasePdfService
 {
   protected function getDefaultCoordinatesPath(): string
   {
-    return storage_path('app/config/treatment_fee_list_self_coordinates.json');
+    return storage_path('app/config/treatment_fee_list_coordinates.json');
   }
 
   protected function getDefaultCoordinates(): array
