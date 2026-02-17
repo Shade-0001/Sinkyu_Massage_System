@@ -449,12 +449,16 @@ function renderFieldSettings() {
         return;
       }
 
-      // radioGroupの処理
-      if (field.radioGroup && !processedGroups.has(field.radioGroup)) {
-        processedGroups.add(field.radioGroup);
+      // radioGroupの処理（fieldDefinitionsから取得）
+      const fieldMapping = fieldDefs[key];
+      if (fieldMapping?.radioGroup && !processedGroups.has(fieldMapping.radioGroup)) {
+        processedGroups.add(fieldMapping.radioGroup);
 
         const groupFields = Object.entries(coordinates)
-          .filter(([k, v]) => v.radioGroup === field.radioGroup)
+          .filter(([k, v]) => {
+            const km = fieldDefs[k];
+            return km?.radioGroup === fieldMapping.radioGroup;
+          })
           .sort((a, b) => {
             const indexA = orderedKeys.indexOf(a[0]);
             const indexB = orderedKeys.indexOf(b[0]);
@@ -480,11 +484,11 @@ function renderFieldSettings() {
 
         const div = document.createElement('div');
         div.className = 'field-group';
-        div.setAttribute('data-radio-group', field.radioGroup);
+        div.setAttribute('data-radio-group', fieldMapping.radioGroup);
 
         // フィールド定義からlabelを取得（座標JSONからは取得しない）
         const firstFieldMapping = fieldDefs[groupFields[0][0]];
-        const groupLabel = firstFieldMapping?.label || field.radioGroup;
+        const groupLabel = firstFieldMapping?.label || fieldMapping.radioGroup;
 
         const options = groupFields.map(([k, v]) => {
           const mapping = fieldDefs[k];
@@ -500,7 +504,7 @@ function renderFieldSettings() {
         const selectorHtml = showSampleData ? `
             <div class="coordinate-input">
               <label>選択:</label>
-              <select onchange="updateRadioGroupSelection('${field.radioGroup}', this.value)"
+              <select onchange="updateRadioGroupSelection('${fieldMapping.radioGroup}', this.value)"
                       class="form-control form-control-sm"
                       style="width: auto; display: inline-block; margin-left: 10px;">
                 ${options}
@@ -509,25 +513,25 @@ function renderFieldSettings() {
         ` : '';
 
         div.innerHTML = `
-          <h6 class="field-header" onclick="toggleField('${field.radioGroup}')" style="cursor: pointer; user-select: none;">
-            <span class="toggle-icon" id="toggle-${field.radioGroup}">▶</span> ${groupLabel}
+          <h6 class="field-header" onclick="toggleField('${fieldMapping.radioGroup}')" style="cursor: pointer; user-select: none;">
+            <span class="toggle-icon" id="toggle-${fieldMapping.radioGroup}">▶</span> ${groupLabel}
           </h6>
 
-          <div class="field-controls" id="controls-${field.radioGroup}">
+          <div class="field-controls" id="controls-${fieldMapping.radioGroup}">
             ${selectorHtml}
 
-            <div id="radiogroup-fields-${field.radioGroup}">
+            <div id="radiogroup-fields-${fieldMapping.radioGroup}">
               <!-- 選択されたオプションの詳細設定をここに表示 -->
             </div>
           </div>
         `;
 
         categoryContent.appendChild(div);
-        updateRadioGroupSelection(field.radioGroup, selectedKey);
+        updateRadioGroupSelection(fieldMapping.radioGroup, selectedKey);
         return;
       }
 
-      if (field.radioGroup) {
+      if (fieldMapping?.radioGroup) {
         return;
       }
 
@@ -741,11 +745,15 @@ function renderFieldSettings() {
         }
 
         // radioGroupの処理
-        if (field.radioGroup && !processedGroups.has(field.radioGroup)) {
-          processedGroups.add(field.radioGroup);
+        const fieldMapping = fieldDefs[key];
+        if (fieldMapping?.radioGroup && !processedGroups.has(fieldMapping.radioGroup)) {
+          processedGroups.add(fieldMapping.radioGroup);
 
           const groupFields = Object.entries(coordinates)
-            .filter(([k, v]) => v.radioGroup === field.radioGroup)
+            .filter(([k, v]) => {
+              const km = fieldDefs[k];
+              return km?.radioGroup === fieldMapping.radioGroup;
+            })
             .sort((a, b) => {
               const indexA = orderedKeys.indexOf(a[0]);
               const indexB = orderedKeys.indexOf(b[0]);
@@ -771,11 +779,11 @@ function renderFieldSettings() {
 
           const div = document.createElement('div');
           div.className = 'field-group';
-          div.setAttribute('data-radio-group', field.radioGroup);
+          div.setAttribute('data-radio-group', fieldMapping.radioGroup);
 
           // フィールド定義からlabelを取得（座標JSONからは取得しない）
           const firstFieldMapping = fieldDefs[firstKey];
-          const groupLabel = firstFieldMapping?.label || field.radioGroup;
+          const groupLabel = firstFieldMapping?.label || fieldMapping.radioGroup;
 
           const options = groupFields.map(([k, v]) => {
             const mapping = fieldDefs[k];
@@ -791,7 +799,7 @@ function renderFieldSettings() {
           const selectorHtml = showSampleData ? `
               <div class="coordinate-input">
                 <label>選択:</label>
-                <select onchange="updateRadioGroupSelection('${field.radioGroup}', this.value)"
+                <select onchange="updateRadioGroupSelection('${fieldMapping.radioGroup}', this.value)"
                         class="form-control form-control-sm"
                         style="width: auto; display: inline-block; margin-left: 10px;">
                   ${options}
@@ -800,24 +808,24 @@ function renderFieldSettings() {
           ` : '';
 
           div.innerHTML = `
-            <h6 class="field-header" onclick="toggleField('${field.radioGroup}')" style="cursor: pointer; user-select: none;">
-              <span class="toggle-icon" id="toggle-${field.radioGroup}">▶</span> ${groupLabel}
+            <h6 class="field-header" onclick="toggleField('${fieldMapping.radioGroup}')" style="cursor: pointer; user-select: none;">
+              <span class="toggle-icon" id="toggle-${fieldMapping.radioGroup}">▶</span> ${groupLabel}
             </h6>
 
-            <div class="field-controls" id="controls-${field.radioGroup}">
+            <div class="field-controls" id="controls-${fieldMapping.radioGroup}">
               ${selectorHtml}
 
-              <div id="radiogroup-fields-${field.radioGroup}">
+              <div id="radiogroup-fields-${fieldMapping.radioGroup}">
               </div>
             </div>
           `;
 
           container.appendChild(div);
-          updateRadioGroupSelection(field.radioGroup, selectedKey);
+          updateRadioGroupSelection(fieldMapping.radioGroup, selectedKey);
           return;
         }
 
-        if (field.radioGroup) {
+        if (fieldMapping?.radioGroup) {
           return;
         }
 
