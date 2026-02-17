@@ -526,14 +526,12 @@ function renderFieldSettings() {
     });
   });
 
-  // 未分類フィールドがあれば最後に追加（カテゴライズなしのPDFタイプ用）
+  // 未分類フィールドがあれば最後に追加
   if (categorizedFields['uncategorized'] && categorizedFields['uncategorized'].length > 0) {
     const uncategorizedFields = categorizedFields['uncategorized'];
 
-    // カテゴリが存在しない場合（施術料金領収書など）は直接フィールドを追加
-    if (categoryOrder.length === 0) {
-      // カテゴリヘッダーなしで直接フィールドを表示
-      uncategorizedFields.forEach(key => {
+    // カテゴリヘッダーなしで直接フィールドを表示
+    uncategorizedFields.forEach(key => {
         if (processedKeys.has(key)) return;
 
         let field = coordinates[key];
@@ -708,7 +706,6 @@ function renderFieldSettings() {
         div.innerHTML = renderSingleFieldHTML(key, field);
         container.appendChild(div);
       });
-    }
   }
 }
 
