@@ -193,6 +193,77 @@ function renderFieldSettings() {
         }
         if (!field) return;
 
+        // radioGroupの処理
+        if (field.radioGroup && !processedGroups.has(field.radioGroup)) {
+          processedGroups.add(field.radioGroup);
+
+          const groupFields = Object.entries(coordinates)
+            .filter(([k, v]) => v.radioGroup === field.radioGroup && fieldsBeforeCategories.includes(k))
+            .sort((a, b) => {
+              const indexA = orderedKeys.indexOf(a[0]);
+              const indexB = orderedKeys.indexOf(b[0]);
+              if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+              const numA = parseInt(a[0].match(/\d+$/)?.[0] || 0);
+              const numB = parseInt(b[0].match(/\d+$/)?.[0] || 0);
+              return numA - numB;
+            });
+
+          groupFields.forEach(([k]) => processedKeys.add(k));
+
+          const firstKey = groupFields[0][0];
+          let selectedKey = firstKey;
+          for (const [k, v] of groupFields) {
+            if (v.isSelected) {
+              selectedKey = k;
+              break;
+            }
+          }
+
+          const div = document.createElement('div');
+          div.className = 'field-group';
+          div.setAttribute('data-radio-group', field.radioGroup);
+
+          const firstFieldMapping = fieldDefs[firstKey];
+          const groupLabel = firstFieldMapping?.label || field.radioGroup;
+
+          const options = groupFields.map(([k, v]) => {
+            const mapping = fieldDefs[k];
+            const optionLabel = mapping?.optionLabel || mapping?.label || k;
+            return `<option value="${k}" ${selectedKey === k ? 'selected' : ''}>${optionLabel}</option>`;
+          }).join('');
+
+          const showSampleData = document.getElementById('show-sample-data')?.checked;
+          const selectorHtml = showSampleData ? `
+              <div class="coordinate-input">
+                <label>選択:</label>
+                <select onchange="updateRadioGroupSelection('${field.radioGroup}', this.value)"
+                        class="form-control form-control-sm"
+                        style="width: auto; display: inline-block; margin-left: 10px;">
+                  ${options}
+                </select>
+              </div>
+          ` : '';
+
+          div.innerHTML = `
+            <h6 class="field-header" onclick="toggleField('${field.radioGroup}')" style="cursor: pointer; user-select: none;">
+              <span class="toggle-icon" id="toggle-${field.radioGroup}">▶</span> ${groupLabel}
+            </h6>
+            <div class="field-controls" id="controls-${field.radioGroup}">
+              ${selectorHtml}
+              <div id="radiogroup-fields-${field.radioGroup}"></div>
+            </div>
+          `;
+
+          container.appendChild(div);
+          updateRadioGroupSelection(field.radioGroup, selectedKey);
+          return;
+        }
+
+        if (field.radioGroup) {
+          return;
+        }
+
+        // 通常フィールドの処理
         processedKeys.add(key);
         const div = document.createElement('div');
         div.className = 'field-group';
