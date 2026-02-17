@@ -101,7 +101,7 @@
     "templateFile": "同意書（あんま･マッサージ）.pdf",
     "templateDir": "acupuncture_and_massage",
     "serviceClass": "ConsentMassagePdfService",
-    "fieldsFile": ""
+    "fieldsFile": "consent_massage.js"
   },
   "treatment_fee_list_self": {
     "name": "施術料金一覧表（自費）",
