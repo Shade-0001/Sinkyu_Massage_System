@@ -250,6 +250,140 @@ class ConsentMassagePdfService extends BasePdfService
       $this->drawTextByKey($pdf, 'consenting_date', $consentingDateText);
     }
 
+    // === 症状カテゴリ ===
+    // 筋麻痺･委縮（楕円描画）
+    $this->drawSymptomFields($pdf, $consent, 'muscle_paralysis', ['躯幹' => 'trunk', '右上肢' => 'upper_limb_r', '左上肢' => 'upper_limb_l', '右下肢' => 'lower_limb_r', '左下肢' => 'lower_limb_l'], 'is_symptom_1');
+
+    // 関節拘縮（サークル）
+    $jointContractureMap = [
+      '右肩' => 'right_shoulder',
+      '右肘' => 'right_elbow',
+      '右手首' => 'right_wrist',
+      '右股関節' => 'right_hip',
+      '右膝' => 'right_knee',
+      '右足首' => 'right_ankle',
+      '左肩' => 'left_shoulder',
+      '左肘' => 'left_elbow',
+      '左手首' => 'left_wrist',
+      '左股関節' => 'left_hip',
+      '左膝' => 'left_knee',
+      '左足首' => 'left_ankle',
+      'その他' => 'other'
+    ];
+    $this->drawSymptomFields($pdf, $consent, 'joint_contracture', $jointContractureMap, 'is_symptom_2');
+
+    // 関節拘縮（その他の内容）
+    if (isset($this->customSampleData['joint_contracture_other_text']) && $this->customSampleData['joint_contracture_other_text']) {
+      $pdf->SetFontSize($this->coord('joint_contracture_other_text', 'fontSize'));
+      $this->drawTextByKey($pdf, 'joint_contracture_other_text', (string)$this->customSampleData['joint_contracture_other_text']);
+    } elseif ($consent && $consent->is_symptom_2 && $consent->symtom_2_addendum) {
+      $pdf->SetFontSize($this->coord('joint_contracture_other_text', 'fontSize'));
+      $this->drawTextByKey($pdf, 'joint_contracture_other_text', $consent->symtom_2_addendum);
+    }
+
+    // その他
+    if (isset($this->customSampleData['symptom_other']) && $this->customSampleData['symptom_other']) {
+      $pdf->SetFontSize($this->coord('symptom_other', 'fontSize'));
+      $this->drawTextByKey($pdf, 'symptom_other', (string)$this->customSampleData['symptom_other']);
+    } elseif ($consent && $consent->is_symptom_3 && $consent->symtom_3_addendum) {
+      $pdf->SetFontSize($this->coord('symptom_other', 'fontSize'));
+      $this->drawTextByKey($pdf, 'symptom_other', $consent->symtom_3_addendum);
+    }
+
+    // === 施術種類･部位カテゴリ ===
+    // マッサージ（楕円描画）
+    $this->drawSymptomFields($pdf, $consent, 'massage', ['躯幹' => 'trunk', '右上肢' => 'upper_limb_r', '左上肢' => 'upper_limb_l', '右下肢' => 'lower_limb_r', '左下肢' => 'lower_limb_l'], 'is_therapy_type_1');
+
+    // 変形徒手矯正術（楕円描画）
+    $this->drawSymptomFields($pdf, $consent, 'manual_correction', ['右上肢' => 'upper_limb_r', '左上肢' => 'upper_limb_l', '右下肢' => 'lower_limb_r', '左下肢' => 'lower_limb_l'], 'is_therapy_type_2');
+
+    // === 往療カテゴリ ===
+    // 必要有無（楕円描画）
+    if (isset($this->customSampleData['housecall_required']) && $this->customSampleData['housecall_required']) {
+      $useSampleMode = true;
+      foreach (['housecall_required', 'housecall_not_required'] as $key) {
+        if ($this->hasCoord($key) && isset($this->coordinates[$key]['isSelected']) && $this->coordinates[$key]['isSelected']) {
+          $x = $this->coord($key, 'x');
+          $y = $this->coord($key, 'y');
+          $ellipseWidth = $this->coord($key, 'ellipseWidth') ?: 6;
+          $ellipseHeight = $this->coord($key, 'ellipseHeight') ?: 3;
+          $lineWidth = $this->coord($key, 'lineWidth') ?: 0.5;
+          $pdf->SetLineWidth($lineWidth);
+          $pdf->Ellipse($x, $y, $ellipseWidth, $ellipseHeight, 0, 0, 360, 'D');
+        }
+      }
+    } elseif ($consent) {
+      $isRequired = $consent->is_housecall_required ?? null;
+      $fieldKey = null;
+      if ($isRequired === 1) {
+        $fieldKey = 'housecall_required';
+      } elseif ($isRequired === 0) {
+        $fieldKey = 'housecall_not_required';
+      }
+      if ($fieldKey && $this->hasCoord($fieldKey)) {
+        $x = $this->coord($fieldKey, 'x');
+        $y = $this->coord($fieldKey, 'y');
+        $ellipseWidth = $this->coord($fieldKey, 'ellipseWidth') ?: 6;
+        $ellipseHeight = $this->coord($fieldKey, 'ellipseHeight') ?: 3;
+        $lineWidth = $this->coord($fieldKey, 'lineWidth') ?: 0.5;
+        $pdf->SetLineWidth($lineWidth);
+        $pdf->Ellipse($x, $y, $ellipseWidth, $ellipseHeight, 0, 0, 360, 'D');
+      }
+    }
+
+    // 往療必要の理由（サークル）
+    $useSampleMode = false;
+    for ($i = 1; $i <= 3; $i++) {
+      $key = 'housecall_reason_' . $i;
+      if ($this->hasCoord($key) && isset($this->coordinates[$key]['isSelected'])) {
+        $useSampleMode = true;
+        break;
+      }
+    }
+
+    if ($useSampleMode) {
+      for ($i = 1; $i <= 3; $i++) {
+        $key = 'housecall_reason_' . $i;
+        if ($this->hasCoord($key)) {
+          $isSelected = $this->coordinates[$key]['isSelected'] ?? false;
+          if ($isSelected) {
+            $x = $this->coord($key, 'x');
+            $y = $this->coord($key, 'y');
+            $ellipseWidth = $this->coord($key, 'ellipseWidth') ?: 2.5;
+            $ellipseHeight = $this->coord($key, 'ellipseHeight') ?: 2.5;
+            $lineWidth = $this->coord($key, 'lineWidth') ?: 0.5;
+            $pdf->SetLineWidth($lineWidth);
+            $pdf->Ellipse($x, $y, $ellipseWidth, $ellipseHeight, 0, 0, 360, 'D');
+          }
+        }
+      }
+    } elseif ($consent && $consent->housecall_reason_id) {
+      $reasonId = $consent->housecall_reason_id;
+      for ($i = 1; $i <= 3; $i++) {
+        $key = 'housecall_reason_' . $i;
+        if ($this->hasCoord($key)) {
+          if ($reasonId == $i) {
+            $x = $this->coord($key, 'x');
+            $y = $this->coord($key, 'y');
+            $ellipseWidth = $this->coord($key, 'ellipseWidth') ?: 2.5;
+            $ellipseHeight = $this->coord($key, 'ellipseHeight') ?: 2.5;
+            $lineWidth = $this->coord($key, 'lineWidth') ?: 0.5;
+            $pdf->SetLineWidth($lineWidth);
+            $pdf->Ellipse($x, $y, $ellipseWidth, $ellipseHeight, 0, 0, 360, 'D');
+          }
+        }
+      }
+    }
+
+    // 往療必要の理由（その他の内容）
+    if (isset($this->customSampleData['housecall_reason_other_text']) && $this->customSampleData['housecall_reason_other_text']) {
+      $pdf->SetFontSize($this->coord('housecall_reason_other_text', 'fontSize'));
+      $this->drawTextByKey($pdf, 'housecall_reason_other_text', (string)$this->customSampleData['housecall_reason_other_text']);
+    } elseif ($consent && $consent->housecall_reason_addendum) {
+      $pdf->SetFontSize($this->coord('housecall_reason_other_text', 'fontSize'));
+      $this->drawTextByKey($pdf, 'housecall_reason_other_text', $consent->housecall_reason_addendum);
+    }
+
     // 14. 提出年月日（元号*年 *月 *日形式）
     if (isset($this->customSampleData['submission_date']) && $this->customSampleData['submission_date']) {
       $pdf->SetFontSize($this->coord('submission_date', 'fontSize'));
@@ -289,6 +423,52 @@ class ConsentMassagePdfService extends BasePdfService
       $doctorName = ($doctor->last_name ?? '') . ' ' . ($doctor->first_name ?? '');
       $pdf->SetFontSize($this->coord('consenting_doctor_name', 'fontSize'));
       $this->drawTextByKey($pdf, 'consenting_doctor_name', $doctorName);
+    }
+  }
+
+  /**
+   * 症状・施術種類の楕円描画ヘルパー
+   */
+  protected function drawSymptomFields(Fpdi $pdf, $consent, string $fieldPrefix, array $optionsMap, string $dbFlagField): void
+  {
+    $useSampleMode = false;
+    foreach ($optionsMap as $optionLabel => $suffix) {
+      $key = $fieldPrefix . '_' . $suffix;
+      if ($this->hasCoord($key) && isset($this->coordinates[$key]['isSelected'])) {
+        $useSampleMode = true;
+        break;
+      }
+    }
+
+    if ($useSampleMode) {
+      foreach ($optionsMap as $optionLabel => $suffix) {
+        $key = $fieldPrefix . '_' . $suffix;
+        if ($this->hasCoord($key)) {
+          $isSelected = $this->coordinates[$key]['isSelected'] ?? false;
+          if ($isSelected) {
+            $x = $this->coord($key, 'x');
+            $y = $this->coord($key, 'y');
+            $ellipseWidth = $this->coord($key, 'ellipseWidth') ?: 6;
+            $ellipseHeight = $this->coord($key, 'ellipseHeight') ?: 3;
+            $lineWidth = $this->coord($key, 'lineWidth') ?: 0.5;
+            $pdf->SetLineWidth($lineWidth);
+            $pdf->Ellipse($x, $y, $ellipseWidth, $ellipseHeight, 0, 0, 360, 'D');
+          }
+        }
+      }
+    } elseif ($consent && isset($consent->$dbFlagField) && $consent->$dbFlagField) {
+      foreach ($optionsMap as $optionLabel => $suffix) {
+        $key = $fieldPrefix . '_' . $suffix;
+        if ($this->hasCoord($key)) {
+          $x = $this->coord($key, 'x');
+          $y = $this->coord($key, 'y');
+          $ellipseWidth = $this->coord($key, 'ellipseWidth') ?: 6;
+          $ellipseHeight = $this->coord($key, 'ellipseHeight') ?: 3;
+          $lineWidth = $this->coord($key, 'lineWidth') ?: 0.5;
+          $pdf->SetLineWidth($lineWidth);
+          $pdf->Ellipse($x, $y, $ellipseWidth, $ellipseHeight, 0, 0, 360, 'D');
+        }
+      }
     }
   }
 }
