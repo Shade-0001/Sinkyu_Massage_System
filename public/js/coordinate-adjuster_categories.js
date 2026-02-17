@@ -430,7 +430,11 @@ const categoryLabels = {
     "doctor_info": "医師情報",
     "guarantor_info": "保証人情報",
     "payment_institution": "支払機関欄",
-    "signature": "委任欄"
+    "signature": "委任欄",
+    "symptom_category": "症状",
+    "therapy_bodypart_category": "施術種類･部位",
+    "housecall_category": "往療",
+    "submission_info": "提出日"
 };
 
 const categoryOrderTherapyBenefitAcupuncture = [
@@ -469,11 +473,68 @@ const fieldCategoriesConsentAcupuncture = {};
 // カテゴリ順序（同意書（はり・きゅう）用）- カテゴライズなし
 const categoryOrderConsentAcupuncture = [];
 
-// フィールドカテゴリマッピング（同意書（あんま・マッサージ）用）- カテゴライズなし
-const fieldCategoriesConsentMassage = {};
+// フィールドカテゴリマッピング（同意書（あんま・マッサージ）用）
+const fieldCategoriesConsentMassage = {
+  "patient_name": "basic_info",
+  "patient_kana": "basic_info",
+  "patient_birthday": "basic_info",
+  "patient_address": "basic_info",
+  "injury_name": "basic_info",
+  "injury_other": "basic_info",
+  "consultation_hospital": "basic_info",
+  "hospital_address": "basic_info",
+  "hospital_phone": "basic_info",
+  "doctor_name": "basic_info",
+  "consenting_date": "basic_info",
 
-// カテゴリ順序（同意書（あんま・マッサージ）用）- カテゴライズなし
-const categoryOrderConsentMassage = [];
+  "muscle_paralysis_trunk": "symptom_category",
+  "muscle_paralysis_upper_limb_r": "symptom_category",
+  "muscle_paralysis_upper_limb_l": "symptom_category",
+  "muscle_paralysis_lower_limb_r": "symptom_category",
+  "muscle_paralysis_lower_limb_l": "symptom_category",
+  "joint_contracture_right_shoulder": "symptom_category",
+  "joint_contracture_right_elbow": "symptom_category",
+  "joint_contracture_right_wrist": "symptom_category",
+  "joint_contracture_right_hip": "symptom_category",
+  "joint_contracture_right_knee": "symptom_category",
+  "joint_contracture_right_ankle": "symptom_category",
+  "joint_contracture_left_shoulder": "symptom_category",
+  "joint_contracture_left_elbow": "symptom_category",
+  "joint_contracture_left_wrist": "symptom_category",
+  "joint_contracture_left_hip": "symptom_category",
+  "joint_contracture_left_knee": "symptom_category",
+  "joint_contracture_left_ankle": "symptom_category",
+  "joint_contracture_others": "symptom_category",
+  "joint_contracture_others_text": "symptom_category",
+  "symptom_others_text": "symptom_category",
+
+  "therapy_massage_trunk": "therapy_bodypart_category",
+  "therapy_massage_upper_limb_r": "therapy_bodypart_category",
+  "therapy_massage_upper_limb_l": "therapy_bodypart_category",
+  "therapy_massage_lower_limb_r": "therapy_bodypart_category",
+  "therapy_massage_lower_limb_l": "therapy_bodypart_category",
+  "therapy_manual_correction_upper_limb_r": "therapy_bodypart_category",
+  "therapy_manual_correction_upper_limb_l": "therapy_bodypart_category",
+  "therapy_manual_correction_lower_limb_r": "therapy_bodypart_category",
+  "therapy_manual_correction_lower_limb_l": "therapy_bodypart_category",
+
+  "housecall_required": "housecall_category",
+  "housecall_reason_1": "housecall_category",
+  "housecall_reason_2": "housecall_category",
+  "housecall_reason_3": "housecall_category",
+  "housecall_reason_others_text": "housecall_category",
+
+  "submission_date": "submission_info"
+};
+
+// カテゴリ順序（同意書（あんま・マッサージ）用）
+const categoryOrderConsentMassage = [
+  "basic_info",
+  "symptom_category",
+  "therapy_bodypart_category",
+  "housecall_category",
+  "submission_info"
+];
 
 // フィールドカテゴリマッピング（同意書依頼状サンプル版はり･きゅう用）- カテゴライズなし
 const fieldCategoriesConsentRequestLetterSampleAcupuncture = {};
