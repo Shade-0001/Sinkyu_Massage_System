@@ -320,9 +320,9 @@ function adjustValue(key, property, delta) {
   coordinates[key][property] = newValue;
 
   // postal_codeタイプの場合、x/y/postalCodeGap変更時にfirstX/firstY/lastXも同期
-  const fieldMapping = getFieldDefinitions();
-  const mapping = fieldMapping[key];
-  if (mapping && mapping.type === 'postal_code') {
+  const fieldDefs = getFieldDefinitions();
+  const fieldMapping = fieldDefs[key];
+  if (fieldMapping && fieldMapping.type === 'postal_code') {
     if (property === 'x') {
       coordinates[key]['firstX'] = newValue;
       // lastXも再計算
@@ -340,8 +340,6 @@ function adjustValue(key, property, delta) {
 
   // 該当のinput要素を data-property 属性で探して更新
   // ラジオグループとcompositeGroupの場合とそうでない場合の両方に対応
-  const fieldDefs = getFieldDefinitions();
-  const fieldMapping = fieldDefs[key];
   const controlsId = 'controls-' + key;
   const radioGroupName = fieldMapping?.radioGroup;
   const compositeGroupName = coordinates[key].compositeGroup;
