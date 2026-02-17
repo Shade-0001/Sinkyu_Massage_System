@@ -475,16 +475,12 @@ const categoryOrderConsentAcupuncture = [];
 
 // フィールドカテゴリマッピング（同意書（あんま・マッサージ）用）
 const fieldCategoriesConsentMassage = {
-  "patient_name": "basic_info",
-  "patient_kana": "basic_info",
-  "patient_birthday": "basic_info",
-  "patient_address": "basic_info",
-  "injury_name": "basic_info",
-  "injury_other": "basic_info",
-  "consultation_hospital": "basic_info",
-  "hospital_address": "basic_info",
-  "hospital_phone": "basic_info",
-  "doctor_name": "basic_info",
+  "user_address": "basic_info",
+  "user_name": "basic_info",
+  "user_birthday": "basic_info",
+  "consent_massage_illness_name": "basic_info",
+  "onset_date": "basic_info",
+  "consent_category": "basic_info",
   "consenting_date": "basic_info",
 
   "muscle_paralysis_trunk": "symptom_category",
@@ -504,27 +500,31 @@ const fieldCategoriesConsentMassage = {
   "joint_contracture_left_hip": "symptom_category",
   "joint_contracture_left_knee": "symptom_category",
   "joint_contracture_left_ankle": "symptom_category",
-  "joint_contracture_others": "symptom_category",
-  "joint_contracture_others_text": "symptom_category",
-  "symptom_others_text": "symptom_category",
+  "joint_contracture_other": "symptom_category",
+  "joint_contracture_other_text": "symptom_category",
+  "symptom_other": "symptom_category",
 
-  "therapy_massage_trunk": "therapy_bodypart_category",
-  "therapy_massage_upper_limb_r": "therapy_bodypart_category",
-  "therapy_massage_upper_limb_l": "therapy_bodypart_category",
-  "therapy_massage_lower_limb_r": "therapy_bodypart_category",
-  "therapy_massage_lower_limb_l": "therapy_bodypart_category",
-  "therapy_manual_correction_upper_limb_r": "therapy_bodypart_category",
-  "therapy_manual_correction_upper_limb_l": "therapy_bodypart_category",
-  "therapy_manual_correction_lower_limb_r": "therapy_bodypart_category",
-  "therapy_manual_correction_lower_limb_l": "therapy_bodypart_category",
+  "massage_trunk": "therapy_bodypart_category",
+  "massage_upper_limb_r": "therapy_bodypart_category",
+  "massage_upper_limb_l": "therapy_bodypart_category",
+  "massage_lower_limb_r": "therapy_bodypart_category",
+  "massage_lower_limb_l": "therapy_bodypart_category",
+  "manual_correction_upper_limb_r": "therapy_bodypart_category",
+  "manual_correction_upper_limb_l": "therapy_bodypart_category",
+  "manual_correction_lower_limb_r": "therapy_bodypart_category",
+  "manual_correction_lower_limb_l": "therapy_bodypart_category",
 
   "housecall_required": "housecall_category",
+  "housecall_not_required": "housecall_category",
   "housecall_reason_1": "housecall_category",
   "housecall_reason_2": "housecall_category",
   "housecall_reason_3": "housecall_category",
-  "housecall_reason_others_text": "housecall_category",
+  "housecall_reason_other_text": "housecall_category",
 
-  "submission_date": "submission_info"
+  "submission_date": "submission_info",
+  "consenting_doctor_medical_institution_name": "submission_info",
+  "consenting_doctor_address": "submission_info",
+  "consenting_doctor_name": "submission_info"
 };
 
 // カテゴリ順序（同意書（あんま・マッサージ）用）
