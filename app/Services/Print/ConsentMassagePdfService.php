@@ -73,10 +73,40 @@ class ConsentMassagePdfService extends BasePdfService
         ->first();
     }
 
+    // 部位情報取得
+    $bodyparts = [];
+    if ($consent) {
+      $bodypartsRecords = DB::table('bodyparts-consents_massage')
+        ->leftJoin('bodyparts', 'bodyparts-consents_massage.symtom_1_bodyparts_id', '=', 'bodyparts.id')
+        ->where('bodyparts-consents_massage.consents_massage_id', $consent->id)
+        ->select('bodyparts-consents_massage.*', 'bodyparts.bodypart as symtom_1_bodypart')
+        ->get();
+
+      foreach ($bodypartsRecords as $record) {
+        if ($record->symtom_1_bodyparts_id) {
+          $bp = DB::table('bodyparts')->where('id', $record->symtom_1_bodyparts_id)->first();
+          $bodyparts['symtom_1'][] = $bp ? $bp->bodypart : null;
+        }
+        if ($record->symtom_2_bodyparts_id) {
+          $bp = DB::table('bodyparts')->where('id', $record->symtom_2_bodyparts_id)->first();
+          $bodyparts['symtom_2'][] = $bp ? $bp->bodypart : null;
+        }
+        if ($record->therapy_type_1_bodyparts_id) {
+          $bp = DB::table('bodyparts')->where('id', $record->therapy_type_1_bodyparts_id)->first();
+          $bodyparts['therapy_type_1'][] = $bp ? $bp->bodypart : null;
+        }
+        if ($record->therapy_type_2_bodyparts_id) {
+          $bp = DB::table('bodyparts')->where('id', $record->therapy_type_2_bodyparts_id)->first();
+          $bodyparts['therapy_type_2'][] = $bp ? $bp->bodypart : null;
+        }
+      }
+    }
+
     return [
       'clinic_user' => $clinicUser,
       'consent' => $consent,
       'doctor' => $doctor,
+      'bodyparts' => $bodyparts,
       'submission_date' => $submissionDate,
     ];
   }
@@ -113,6 +143,7 @@ class ConsentMassagePdfService extends BasePdfService
     $clinicUser = $data['clinic_user'];
     $consent = $data['consent'];
     $doctor = $data['doctor'];
+    $bodyparts = $data['bodyparts'] ?? [];
 
     // 1. 利用者住所
     if (isset($this->customSampleData['user_address']) && $this->customSampleData['user_address']) {
@@ -252,25 +283,25 @@ class ConsentMassagePdfService extends BasePdfService
 
     // === 症状カテゴリ ===
     // 筋麻痺･委縮（楕円描画）
-    $this->drawSymptomFields($pdf, $consent, 'muscle_paralysis', ['躯幹' => 'trunk', '右上肢' => 'upper_limb_r', '左上肢' => 'upper_limb_l', '右下肢' => 'lower_limb_r', '左下肢' => 'lower_limb_l'], 'is_symptom_1');
+    $this->drawBodypartFields($pdf, 'muscle_paralysis', ['trunk', 'upper_limb_r', 'upper_limb_l', 'lower_limb_r', 'lower_limb_l'], $bodyparts['symtom_1'] ?? []);
 
     // 関節拘縮（サークル）
-    $jointContractureMap = [
-      '右肩' => 'right_shoulder',
-      '右肘' => 'right_elbow',
-      '右手首' => 'right_wrist',
-      '右股関節' => 'right_hip',
-      '右膝' => 'right_knee',
-      '右足首' => 'right_ankle',
-      '左肩' => 'left_shoulder',
-      '左肘' => 'left_elbow',
-      '左手首' => 'left_wrist',
-      '左股関節' => 'left_hip',
-      '左膝' => 'left_knee',
-      '左足首' => 'left_ankle',
-      'その他' => 'other'
-    ];
-    $this->drawSymptomFields($pdf, $consent, 'joint_contracture', $jointContractureMap, 'is_symptom_2');
+    $jointContractureBodyparts = ['shoulder_r', 'elbow_r', 'wrist_r', 'coxa_r', 'knee_r', 'ankle_r', 'shoulder_l', 'elbow_l', 'wrist_l', 'coxa_l', 'knee_l', 'ankle_l', 'others'];
+    $this->drawBodypartFields($pdf, 'joint_contracture', $jointContractureBodyparts, $bodyparts['symtom_2'] ?? [], [
+      'shoulder_r' => 'right_shoulder',
+      'elbow_r' => 'right_elbow',
+      'wrist_r' => 'right_wrist',
+      'coxa_r' => 'right_hip',
+      'knee_r' => 'right_knee',
+      'ankle_r' => 'right_ankle',
+      'shoulder_l' => 'left_shoulder',
+      'elbow_l' => 'left_elbow',
+      'wrist_l' => 'left_wrist',
+      'coxa_l' => 'left_hip',
+      'knee_l' => 'left_knee',
+      'ankle_l' => 'left_ankle',
+      'others' => 'other'
+    ]);
 
     // 関節拘縮（その他の内容）
     if (isset($this->customSampleData['joint_contracture_other_text']) && $this->customSampleData['joint_contracture_other_text']) {
@@ -292,10 +323,10 @@ class ConsentMassagePdfService extends BasePdfService
 
     // === 施術種類･部位カテゴリ ===
     // マッサージ（楕円描画）
-    $this->drawSymptomFields($pdf, $consent, 'massage', ['躯幹' => 'trunk', '右上肢' => 'upper_limb_r', '左上肢' => 'upper_limb_l', '右下肢' => 'lower_limb_r', '左下肢' => 'lower_limb_l'], 'is_therapy_type_1');
+    $this->drawBodypartFields($pdf, 'massage', ['trunk', 'upper_limb_r', 'upper_limb_l', 'lower_limb_r', 'lower_limb_l'], $bodyparts['therapy_type_1'] ?? []);
 
     // 変形徒手矯正術（楕円描画）
-    $this->drawSymptomFields($pdf, $consent, 'manual_correction', ['右上肢' => 'upper_limb_r', '左上肢' => 'upper_limb_l', '右下肢' => 'lower_limb_r', '左下肢' => 'lower_limb_l'], 'is_therapy_type_2');
+    $this->drawBodypartFields($pdf, 'manual_correction', ['upper_limb_r', 'upper_limb_l', 'lower_limb_r', 'lower_limb_l'], $bodyparts['therapy_type_2'] ?? []);
 
     // === 往療カテゴリ ===
     // 必要有無（楕円描画）
@@ -427,12 +458,20 @@ class ConsentMassagePdfService extends BasePdfService
   }
 
   /**
-   * 症状・施術種類の楕円描画ヘルパー
+   * 部位ごとの楕円描画ヘルパー
+   *
+   * @param Fpdi $pdf PDFオブジェクト
+   * @param string $fieldPrefix フィールドプレフィックス（例: muscle_paralysis, massage）
+   * @param array $allBodyparts すべての可能な部位のリスト（例: ['trunk', 'upper_limb_r']）
+   * @param array $selectedBodyparts DBから取得した選択済み部位のリスト
+   * @param array $bodypartMapping DB部位名→フィールドサフィックスのマッピング（オプション）
    */
-  protected function drawSymptomFields(Fpdi $pdf, $consent, string $fieldPrefix, array $optionsMap, string $dbFlagField): void
+  protected function drawBodypartFields(Fpdi $pdf, string $fieldPrefix, array $allBodyparts, array $selectedBodyparts, array $bodypartMapping = []): void
   {
+    // サンプルモードチェック
     $useSampleMode = false;
-    foreach ($optionsMap as $optionLabel => $suffix) {
+    foreach ($allBodyparts as $bodypart) {
+      $suffix = $bodypartMapping[$bodypart] ?? $bodypart;
       $key = $fieldPrefix . '_' . $suffix;
       if ($this->hasCoord($key) && isset($this->coordinates[$key]['isSelected'])) {
         $useSampleMode = true;
@@ -441,7 +480,9 @@ class ConsentMassagePdfService extends BasePdfService
     }
 
     if ($useSampleMode) {
-      foreach ($optionsMap as $optionLabel => $suffix) {
+      // サンプルモード: isSelectedフラグで描画
+      foreach ($allBodyparts as $bodypart) {
+        $suffix = $bodypartMapping[$bodypart] ?? $bodypart;
         $key = $fieldPrefix . '_' . $suffix;
         if ($this->hasCoord($key)) {
           $isSelected = $this->coordinates[$key]['isSelected'] ?? false;
@@ -456,9 +497,14 @@ class ConsentMassagePdfService extends BasePdfService
           }
         }
       }
-    } elseif ($consent && isset($consent->$dbFlagField) && $consent->$dbFlagField) {
-      foreach ($optionsMap as $optionLabel => $suffix) {
+    } else {
+      // 通常モード: DBから取得した部位のみ描画
+      foreach ($selectedBodyparts as $selectedBodypart) {
+        if (!$selectedBodypart) continue;
+
+        $suffix = $bodypartMapping[$selectedBodypart] ?? $selectedBodypart;
         $key = $fieldPrefix . '_' . $suffix;
+
         if ($this->hasCoord($key)) {
           $x = $this->coord($key, 'x');
           $y = $this->coord($key, 'y');
