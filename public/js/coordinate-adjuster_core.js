@@ -256,8 +256,11 @@ function updateCoordinate(key, property, value) {
   }
 
   // テキスト配置更新の場合はボタンのアクティブ状態を更新
+  const fieldDefs = getFieldDefinitions();
+  const fieldMapping = fieldDefs[key];
+
   if (property === 'textAlign') {
-    const radioGroupName = coordinates[key].radioGroup;
+    const radioGroupName = fieldMapping?.radioGroup;
     const compositeGroupName = coordinates[key].compositeGroup;
 
     let controls = document.getElementById('controls-' + key);
@@ -276,6 +279,28 @@ function updateCoordinate(key, property, value) {
       if (activeIndex >= 0 && buttons[activeIndex]) {
         buttons[activeIndex].classList.add('active');
       }
+    }
+  }
+
+  // UI要素（input）を更新
+  const radioGroupName = fieldMapping?.radioGroup;
+  const compositeGroupName = coordinates[key].compositeGroup;
+
+  let controls = document.getElementById('controls-' + key);
+  if (!controls && radioGroupName) {
+    controls = document.getElementById('radiogroup-fields-' + radioGroupName);
+  }
+  if (!controls && compositeGroupName) {
+    controls = document.getElementById('compositegroup-fields-' + compositeGroupName);
+  }
+  if (!controls && key.startsWith('treatment_days_')) {
+    controls = document.getElementById('selected-day-controls');
+  }
+
+  if (controls) {
+    const input = controls.querySelector(`input[data-property="${property}"]`);
+    if (input && property !== 'textAlign' && property !== 'sampleText') {
+      input.value = parseFloat(value);
     }
   }
 
@@ -320,8 +345,10 @@ function adjustValue(key, property, delta) {
 
   // 該当のinput要素を data-property 属性で探して更新
   // ラジオグループとcompositeGroupの場合とそうでない場合の両方に対応
+  const fieldDefs = getFieldDefinitions();
+  const fieldMapping = fieldDefs[key];
   const controlsId = 'controls-' + key;
-  const radioGroupName = coordinates[key].radioGroup;
+  const radioGroupName = fieldMapping?.radioGroup;
   const compositeGroupName = coordinates[key].compositeGroup;
 
   let controls = document.getElementById(controlsId);
