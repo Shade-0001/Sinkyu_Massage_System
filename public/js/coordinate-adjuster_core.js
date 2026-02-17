@@ -237,9 +237,9 @@ function updateCoordinate(key, property, value) {
   }
 
   // postal_codeタイプの場合、x/y/postalCodeGap変更時にfirstX/firstY/lastXも同期
-  const fieldMapping = getFieldDefinitions();
-  const mapping = fieldMapping[key];
-  if (mapping && mapping.type === 'postal_code') {
+  const fieldDefs = getFieldDefinitions();
+  const fieldMapping = fieldDefs[key];
+  if (fieldMapping && fieldMapping.type === 'postal_code') {
     if (property === 'x') {
       coordinates[key]['firstX'] = parseFloat(value);
       // lastXも再計算
@@ -255,14 +255,12 @@ function updateCoordinate(key, property, value) {
     }
   }
 
+  // radioGroupとcompositeGroup名を取得
+  const radioGroupName = fieldMapping?.radioGroup;
+  const compositeGroupName = coordinates[key].compositeGroup;
+
   // テキスト配置更新の場合はボタンのアクティブ状態を更新
-  const fieldDefs = getFieldDefinitions();
-  const fieldMapping = fieldDefs[key];
-
   if (property === 'textAlign') {
-    const radioGroupName = fieldMapping?.radioGroup;
-    const compositeGroupName = coordinates[key].compositeGroup;
-
     let controls = document.getElementById('controls-' + key);
     if (!controls && radioGroupName) {
       controls = document.getElementById('radiogroup-fields-' + radioGroupName);
@@ -283,9 +281,6 @@ function updateCoordinate(key, property, value) {
   }
 
   // UI要素（input）を更新
-  const radioGroupName = fieldMapping?.radioGroup;
-  const compositeGroupName = coordinates[key].compositeGroup;
-
   let controls = document.getElementById('controls-' + key);
   if (!controls && radioGroupName) {
     controls = document.getElementById('radiogroup-fields-' + radioGroupName);
