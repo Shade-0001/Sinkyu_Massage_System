@@ -546,9 +546,7 @@ abstract class BasePdfService
         $pdf->SetTextColor(100, 100, 100);
         $pdf->MultiCell(170, 10,
           "【情報】\n\n" .
-          "このPDFタイプにはテンプレートファイルが設定されていません。\n\n" .
-          "空白ページのまま座標設定を実施してください。",
-          0, 'L'
+          "このPDFタイプにはテンプレートファイルが設定されていません。\n\n"
         );
       }
     }

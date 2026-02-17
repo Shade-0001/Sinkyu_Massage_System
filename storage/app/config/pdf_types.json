@@ -104,7 +104,7 @@
     "fieldsFile": "consent_massage.js"
   },
   "treatment_fee_list_self": {
-    "name": "施術料金一覧表（自費）",
+    "name": "施術料金一覧表",
     "coordinatesFile": "treatment_fee_list_self_coordinates.json",
     "templateFile": "",
     "templateDir": "",

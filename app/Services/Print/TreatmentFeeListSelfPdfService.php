@@ -3,7 +3,7 @@
 namespace App\Services\Print;
 
 /**
- * 施術料金一覧表（自費）PDF生成サービス
+ * 施術料金一覧表PDF生成サービス
  */
 class TreatmentFeeListSelfPdfService extends BasePdfService
 {
