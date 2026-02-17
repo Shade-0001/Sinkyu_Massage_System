@@ -454,6 +454,67 @@ function submitTreatmentFeeList() {
 }
 
 /**
+ * 施術料金一覧表（自費）モーダルを開く
+ */
+function openSelfFeeListModal() {
+  const modalElement = document.getElementById('selfFeeListModal');
+  if (!modalElement) return;
+
+  // フォームをリセット
+  resetFormToDefault('selfFeeListForm');
+
+  // モーダルをbodyに追加（必要な場合）
+  if (modalElement.parentElement !== document.body) {
+    document.body.appendChild(modalElement);
+  }
+
+  // Bootstrapモーダルインスタンスを取得または作成
+  const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
+  modalInstance.show();
+}
+
+/**
+ * 施術料金一覧表（自費）PDF出力
+ */
+function submitSelfFeeList() {
+  const form = document.getElementById('selfFeeListForm');
+
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
+  // 現在日時からファイル名を生成
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  const filename = `施術料金一覧表（自費）_${year}-${month}-${day}_${hours}-${minutes}-${seconds}.pdf`;
+
+  // フォームのアクションURLにファイル名を含める
+  form.action = `/prints/self-fee-list/${encodeURIComponent(filename)}`;
+
+  // フォームを新しいタブで送信
+  form.target = '_blank';
+  form.submit();
+
+  // モーダルを閉じる
+  setTimeout(() => {
+    const modalElement = document.getElementById('selfFeeListModal');
+    if (modalElement) {
+      const modalInstance = bootstrap.Modal.getInstance(modalElement);
+      if (modalInstance) {
+        modalInstance.hide();
+      }
+    }
+  }, 100);
+}
+
+/**
  * 医療助成費支給申請書モーダルを開く
  * @param {string} type - 'acupuncture'（はり・きゅう）または 'massage'（あんま・マッサージ）
  */

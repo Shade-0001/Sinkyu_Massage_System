@@ -401,6 +401,50 @@ class PrintsController extends Controller
   }
 
   /**
+   * 施術料金一覧表（自費）PDF出力
+   *
+   * @param Request $request
+   * @param \App\Services\Print\SelfFeeListPdfService $service
+   * @param string $filename
+   * @return \Illuminate\Http\Response
+   */
+  public function selfFeeList(Request $request, \App\Services\Print\SelfFeeListPdfService $service, string $filename)
+  {
+    try {
+      $validated = $request->validate([
+        'service_year_month' => 'required|date_format:Y-m',
+      ]);
+
+      \Log::info("施術料金一覧表（自費）PDF生成開始", [
+        'service_year_month' => $validated['service_year_month'],
+      ]);
+
+      $pdfBinary = $service->generate($validated['service_year_month']);
+
+      \Log::info("施術料金一覧表（自費）PDF生成完了", ['size' => strlen($pdfBinary)]);
+
+      return response($pdfBinary, 200, [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'inline',
+      ]);
+    } catch (\Exception $e) {
+      \Log::error("施術料金一覧表（自費）PDF生成エラー", [
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+        'trace' => $e->getTraceAsString(),
+      ]);
+
+      return response()->json([
+        'error' => 'PDF生成に失敗しました',
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+      ], 500);
+    }
+  }
+
+  /**
    * 同意書依頼状（サンプル版）PDF出力
    *
    * @param Request $request

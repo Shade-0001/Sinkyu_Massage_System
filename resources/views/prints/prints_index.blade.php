@@ -21,7 +21,7 @@
   <button type="button" class="btn btn-primary" onclick="openConsentRequestDesignatedModal('acupuncture')">同意書依頼状 (医師指定)</button>
   <button type="button" class="btn btn-primary" onclick="openConsentFormModal('acupuncture')">同意書</button>
   <button type="button" class="btn btn-primary" onclick="openTreatmentFeeListModal('acupuncture')">施術料金一覧表(保険)</button>
-  <button>施術料金一覧表(自費)</button>
+  <button type="button" class="btn btn-primary" onclick="openSelfFeeListModal()">施術料金一覧表(自費)</button>
   <button>施術録</button>
   <button>総括表</button>
   <br><br>
@@ -35,7 +35,7 @@
   <button type="button" class="btn btn-primary" onclick="openConsentRequestDesignatedModal('massage')">同意書依頼状 (医師指定)</button>
   <button type="button" class="btn btn-primary" onclick="openConsentFormModal('massage')">同意書</button>
   <button type="button" class="btn btn-primary" onclick="openTreatmentFeeListModal('massage')">施術料金一覧表(保険)</button>
-  <button>施術料金一覧表(自費)</button>
+  <button type="button" class="btn btn-primary" onclick="openSelfFeeListModal()">施術料金一覧表(自費)</button>
   <button>施術録</button>
   <button>総括表</button>
   <br><br>
@@ -455,6 +455,44 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
           <button type="button" class="btn btn-primary" onclick="submitTreatmentFeeList()">印刷</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 施術料金一覧表（自費）モーダル -->
+  <div class="modal fade" id="selfFeeListModal" tabindex="-1" aria-labelledby="selfFeeListModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="selfFeeListModalLabel">施術料金一覧表（自費） 出力設定</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="selfFeeListForm" method="POST">
+            @csrf
+
+            <!-- サービス提供年月 -->
+            <div class="mb-3">
+              <label for="self_fee_list_service_year_month" class="form-label">サービス提供年月 <span class="text-danger">*</span></label>
+              <select class="form-select" id="self_fee_list_service_year_month" name="service_year_month" required>
+                @php
+                  $currentDate = now();
+                  for ($i = 0; $i < 24; $i++) {
+                    $date = $currentDate->copy()->subMonths($i);
+                    $value = $date->format('Y-m');
+                    $display = $date->format('Y年m月');
+                    $selected = ($i === 0) ? 'selected' : '';
+                    echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
+                  }
+                @endphp
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-primary" onclick="submitSelfFeeList()">印刷</button>
         </div>
       </div>
     </div>
