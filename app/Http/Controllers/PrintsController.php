@@ -663,6 +663,13 @@ class PrintsController extends Controller
 
     // PDFタイプ設定を取得
     $pdfTypes = $this->getPdfTypesConfig();
+
+    // 座標調整ツールには表示不要なPDFタイプを除外
+    $excludedTypes = ['treatment_fee_list'];
+    $pdfTypes = array_filter($pdfTypes, function($key) use ($excludedTypes) {
+      return !in_array($key, $excludedTypes);
+    }, ARRAY_FILTER_USE_KEY);
+
     $pdfTypeConfig = $this->getPdfTypeConfig($pdfType);
     $pdfTypeName = $pdfTypeConfig['name'] ?? 'はり・きゅう療養費支給申請書';
 

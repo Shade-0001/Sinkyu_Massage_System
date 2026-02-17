@@ -436,7 +436,14 @@ const categoryLabels = {
     "housecall_category": "往療",
     "submission_info": "提出日",
     "basic_fields": "基本情報",
-    "submission_fields": "提出情報"
+    "submission_fields": "提出情報",
+    // 施術録（はり・きゅう）用カテゴリラベル
+    "various_numbers": "各種番号",
+    "insured_person_info": "被保険者情報",
+    "user_info": "利用者情報",
+    "clinic_info": "事業所情報",
+    "insurer_info": "保険者情報",
+    "treatment_injury_info": "傷病･施術情報"
 };
 
 const categoryOrderTherapyBenefitAcupuncture = [
@@ -792,6 +799,75 @@ const categoryOrderMedicalAssistance = [
 ];
 
 // ============================================================
+// 施術録（はり・きゅう）用のフィールドカテゴリマッピング
+// ============================================================
+const fieldCategoriesTreatmentRecordAcupuncture = {
+  // === 各種番号 ===
+  "locality_code": "various_numbers",
+  "recipient_number": "various_numbers",
+  "public_funds_payer_number": "various_numbers",
+  "public_funds_recipient_number": "various_numbers",
+
+  // === 被保険者情報 ===
+  "insurance_symbol_code": "insured_person_info",
+  "insurance_symbol_number": "insured_person_info",
+  "insured_person_name": "insured_person_info",
+  "insured_person_gender_male": "insured_person_info",
+  "insured_person_gender_female": "insured_person_info",
+  "insured_person_birthday": "insured_person_info",
+  "insurance_valid_until": "insured_person_info",
+  "insured_person_postal_code": "insured_person_info",
+  "insured_person_address": "insured_person_info",
+  "insurance_qualification_date": "insured_person_info",
+
+  // === 利用者情報 ===
+  "user_name": "user_info",
+  "user_gender_male": "user_info",
+  "user_gender_female": "user_info",
+  "user_birthday": "user_info",
+  "user_relationship": "user_info",
+
+  // === 事業所情報 ===
+  "clinic_address": "clinic_info",
+  "clinic_name": "clinic_info",
+
+  // === 保険者情報 ===
+  "insurer_address": "insurer_info",
+  "insurer_name": "insurer_info",
+  "insurer_number": "insurer_info",
+
+  // === 傷病･施術情報 ===
+  "illness_name": "treatment_injury_info",
+  "onset_date": "treatment_injury_info",
+  "first_treatment_date": "treatment_injury_info",
+  "treatment_end_date": "treatment_injury_info",
+  "treatment_days_count": "treatment_injury_info",
+  "treatment_count": "treatment_injury_info",
+  "outcome": "treatment_injury_info",
+
+  // === 同意記録 ===
+  "medical_institution_name": "consent_record",
+  "medical_institution_address": "consent_record",
+  "medical_institution_phone": "consent_record",
+  "doctor_name_kana": "consent_record",
+  "doctor_name": "consent_record",
+  "consent_category": "consent_record",
+  "treatment_period": "consent_record",
+  "onset_cause": "consent_record"
+};
+
+// カテゴリ順序（施術録（はり・きゅう）用）
+const categoryOrderTreatmentRecordAcupuncture = [
+  "various_numbers",
+  "insured_person_info",
+  "user_info",
+  "clinic_info",
+  "insurer_info",
+  "treatment_injury_info",
+  "consent_record"
+];
+
+// ============================================================
 // PDFタイプに応じたfieldCategoriesを取得
 // ============================================================
 // ⚠️ 必読: storage/app/config/PDF_TYPES_README.md
@@ -822,6 +898,8 @@ function getFieldCategories(pdfType) {
     return fieldCategoriesMedicalAssistanceMassage;
   } else if (pdfType === 'elderly_therapy_benefit_acupuncture') {
     return fieldCategoriesMedicalAssistanceAcupuncture;
+  } else if (pdfType === 'treatment_record_acupuncture') {
+    return fieldCategoriesTreatmentRecordAcupuncture;
   }
   return fieldCategoriesTherapyBenefitAcupuncture;
 }
@@ -853,6 +931,8 @@ function getCategoryOrder(pdfType) {
     return categoryOrderConsentRequestLetterSampleAcupuncture;
   } else if (pdfType === 'medical_assistance_acupuncture' || pdfType === 'medical_assistance_massage' || pdfType === 'elderly_therapy_benefit_acupuncture' || pdfType === 'elderly_therapy_benefit_massage') {
     return categoryOrderMedicalAssistance;
+  } else if (pdfType === 'treatment_record_acupuncture') {
+    return categoryOrderTreatmentRecordAcupuncture;
   }
   return categoryOrderTherapyBenefitAcupuncture;
 }

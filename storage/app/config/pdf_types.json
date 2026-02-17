@@ -117,7 +117,7 @@
     "templateFile": "施術録（はり・きゅう）.pdf",
     "templateDir": "acupuncture_and_massage",
     "serviceClass": "TreatmentRecordAcupuncturePdfService",
-    "fieldsFile": ""
+    "fieldsFile": "treatment_record_acupuncture.js"
   },
   "treatment_record_massage": {
     "name": "施術録（あんま･マッサージ）",

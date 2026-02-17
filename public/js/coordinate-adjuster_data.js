@@ -242,6 +242,24 @@ let customSampleData = {
   consent_record_date_day: '25',
   // 傷病名（同意記録）
   consent_record_illness_name: '腰痛症',
+  // 施術録（はり・きゅう）専用フィールド
+  insured_person_name: '田中 花子', // 被保険者氏名
+  insured_person_gender: '女', // 被保険者性別
+  insured_person_birthday: '昭和30年 5月 10日', // 被保険者生年月日
+  insurance_valid_until: '令和10年 3月 31日', // 保険有効期限
+  insured_person_postal_code: '1600022', // 被保険者郵便番号
+  insured_person_address: '東京都新宿区新宿2-3-4', // 被保険者住所
+  insurance_qualification_date: '令和7年 4月 1日', // 保険資格取得年月日
+  user_name: '田中 太郎', // 利用者氏名
+  user_gender: '男', // 利用者性別
+  user_birthday: '昭和55年 3月 15日', // 利用者生年月日
+  user_relationship: '子', // 利用者続柄
+  insurer_address: '東京都千代田区霞が関1-1-1', // 保険者所在地
+  treatment_count: '15', // 施術回数
+  medical_institution_phone: '03-3456-7890', // 医療機関電話番号
+  doctor_name_kana: 'ヤマダ タロウ', // 医師氏名カナ
+  consent_category: '新規同意', // 同意区分
+  onset_cause: '階段からの転落', // 発病原因
   // 要加療期間
   required_treatment_period: '2026/08/20',
   // 委任年月日

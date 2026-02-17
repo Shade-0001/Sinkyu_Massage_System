@@ -97,6 +97,11 @@ function getFieldDefinitions() {
     return fieldDefinitionsConsentRequestLetterSampleAcupuncture;
   }
 
+  // 施術録（はり・きゅう）用
+  if (currentPdfType === 'treatment_record_acupuncture') {
+    return fieldDefinitionsTreatmentRecordAcupuncture;
+  }
+
   // fieldsFileが空の場合は空オブジェクトを返す
   if (!currentConfig.fieldsFile || currentConfig.fieldsFile === '') {
     return {};

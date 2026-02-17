@@ -547,3 +547,63 @@ const fieldDefinitionsConsentRequestLetterSampleAcupuncture = {
   'clinic_name': { field: 'clinic_name', label: '施設名', type: 'text' },
   'clinic_owner_name': { field: 'clinic_owner_name', label: '施設代表者氏名', type: 'text' }
 };
+
+// ============================================================
+// 施術録（はり・きゅう）用のフィールド定義
+// ============================================================
+// PDFタイプ: treatment_record_acupuncture
+// ============================================================
+const fieldDefinitionsTreatmentRecordAcupuncture = {
+  // === 各種番号 ===
+  'locality_code': { field: 'locality_code', label: '市町村番号', type: 'text' },
+  'recipient_number': { field: 'recipient_number', label: '受給者番号', type: 'text' },
+  'public_funds_payer_number': { field: 'public_funds_payer_number', label: '公費負担者番号', type: 'text' },
+  'public_funds_recipient_number': { field: 'public_funds_recipient_number', label: '公費受給者番号', type: 'text' },
+
+  // === 被保険者情報 ===
+  'insurance_symbol_code': { field: 'insurance_symbol_code', label: '被保険者証記号', type: 'text' },
+  'insurance_symbol_number': { field: 'insurance_symbol_number', label: '被保険者証番号', type: 'text' },
+  'insured_person_name': { field: 'insured_person_name', label: '被保険者氏名', type: 'text' },
+  'insured_person_gender_male': { field: 'insured_person_gender', label: '被保険者性別', type: 'select', radioGroup: 'insured_person_gender', optionLabel: '男', ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5 },
+  'insured_person_gender_female': { field: 'insured_person_gender', label: '被保険者性別', type: 'select', radioGroup: 'insured_person_gender', optionLabel: '女', ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5 },
+  'insured_person_birthday': { field: 'insured_person_birthday', label: '被保険者生年月日', type: 'text' },
+  'insurance_valid_until': { field: 'insurance_valid_until', label: '保険有効期限', type: 'text' },
+  'insured_person_postal_code': { field: 'insured_person_postal_code', label: '被保険者郵便番号', type: 'postal_code', postalCodeGap: 2 },
+  'insured_person_address': { field: 'insured_person_address', label: '被保険者住所', type: 'text' },
+  'insurance_qualification_date': { field: 'insurance_qualification_date', label: '保険資格取得年月日', type: 'text' },
+
+  // === 利用者情報 ===
+  'user_name': { field: 'user_name', label: '利用者氏名', type: 'text' },
+  'user_gender_male': { field: 'user_gender', label: '利用者性別', type: 'select', radioGroup: 'user_gender', optionLabel: '男', ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5 },
+  'user_gender_female': { field: 'user_gender', label: '利用者性別', type: 'select', radioGroup: 'user_gender', optionLabel: '女', ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5 },
+  'user_birthday': { field: 'user_birthday', label: '利用者生年月日', type: 'text' },
+  'user_relationship': { field: 'user_relationship', label: '利用者続柄', type: 'select', masterKey: 'relationships', valueField: 'relationship' },
+
+  // === 事業所情報 ===
+  'clinic_address': { field: 'clinic_address', label: '事業所所在地', type: 'text' },
+  'clinic_name': { field: 'clinic_name', label: '事業所名称', type: 'text' },
+
+  // === 保険者情報 ===
+  'insurer_address': { field: 'insurer_address', label: '保険者所在地', type: 'text' },
+  'insurer_name': { field: 'insurer_name', label: '保険者名称', type: 'text' },
+  'insurer_number': { field: 'insurer_number', label: '番号', type: 'text' },
+
+  // === 傷病･施術情報 ===
+  'illness_name': { field: 'illness_name', label: '傷病名', type: 'text' },
+  'onset_date': { field: 'onset_date', label: '発病年月日', type: 'text' },
+  'first_treatment_date': { field: 'first_treatment_date', label: '初療年月日', type: 'text' },
+  'treatment_end_date': { field: 'treatment_end_date', label: '施術終了年月日', type: 'text' },
+  'treatment_days_count': { field: 'treatment_days_count', label: '日数', type: 'number' },
+  'treatment_count': { field: 'treatment_count', label: '施術回数', type: 'number' },
+  'outcome': { field: 'outcome', label: '転帰', type: 'text' },
+
+  // === 同意記録 ===
+  'medical_institution_name': { field: 'medical_institution_name', label: '医療機関名', type: 'text' },
+  'medical_institution_address': { field: 'medical_institution_address', label: '医療機関住所', type: 'text' },
+  'medical_institution_phone': { field: 'medical_institution_phone', label: '医療機関電話番号', type: 'text' },
+  'doctor_name_kana': { field: 'doctor_name_kana', label: '医師氏名カナ', type: 'text' },
+  'doctor_name': { field: 'doctor_name', label: '医師氏名', type: 'text' },
+  'consent_category': { field: 'consent_category', label: '同意区分', type: 'text' },
+  'treatment_period': { field: 'treatment_period', label: '施術期間', type: 'text' },
+  'onset_cause': { field: 'onset_cause', label: '発病原因', type: 'text' }
+};
