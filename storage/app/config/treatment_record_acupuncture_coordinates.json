@@ -1,1 +1,158 @@
-[]
+{
+  "locality_code": {
+    "x": 18,
+    "y": 34
+  },
+  "recipient_number": {
+    "x": 18,
+    "y": 44
+  },
+  "public_funds_payer_number": {
+    "x": 95,
+    "y": 34
+  },
+  "public_funds_recipient_number": {
+    "x": 95,
+    "y": 44
+  },
+  "insurance_symbol_code": {
+    "x": 38,
+    "y": 63
+  },
+  "insurance_symbol_number": {
+    "x": 38,
+    "y": 72
+  },
+  "insured_person_name": {
+    "x": 38,
+    "y": 83
+  },
+  "insured_person_gender_male": {
+    "x": 110,
+    "y": 83
+  },
+  "insured_person_gender_female": {
+    "x": 120,
+    "y": 83
+  },
+  "insured_person_birthday": {
+    "x": 38,
+    "y": 93
+  },
+  "insurance_valid_until": {
+    "x": 110,
+    "y": 93
+  },
+  "insured_person_postal_code": {
+    "x": 38,
+    "y": 104
+  },
+  "insured_person_address": {
+    "x": 38,
+    "y": 112
+  },
+  "insurance_qualification_date": {
+    "x": 110,
+    "y": 104
+  },
+  "user_name": {
+    "x": 38,
+    "y": 130
+  },
+  "user_gender_male": {
+    "x": 110,
+    "y": 130
+  },
+  "user_gender_female": {
+    "x": 120,
+    "y": 130
+  },
+  "user_birthday": {
+    "x": 38,
+    "y": 140
+  },
+  "user_relationship": {
+    "x": 110,
+    "y": 140
+  },
+  "clinic_name": {
+    "x": 38,
+    "y": 156
+  },
+  "clinic_address": {
+    "x": 38,
+    "y": 165
+  },
+  "insurer_address": {
+    "x": 110,
+    "y": 156
+  },
+  "insurer_name": {
+    "x": 110,
+    "y": 165
+  },
+  "insurer_number": {
+    "x": 110,
+    "y": 175
+  },
+  "illness_name": {
+    "x": 18,
+    "y": 192
+  },
+  "onset_date": {
+    "x": 60,
+    "y": 192
+  },
+  "first_treatment_date": {
+    "x": 90,
+    "y": 192
+  },
+  "treatment_end_date": {
+    "x": 120,
+    "y": 192
+  },
+  "treatment_days_count": {
+    "x": 150,
+    "y": 192
+  },
+  "treatment_count": {
+    "x": 170,
+    "y": 192
+  },
+  "outcome": {
+    "x": 190,
+    "y": 192
+  },
+  "medical_institution_name": {
+    "x": 38,
+    "y": 208
+  },
+  "medical_institution_address": {
+    "x": 38,
+    "y": 218
+  },
+  "medical_institution_phone": {
+    "x": 110,
+    "y": 218
+  },
+  "doctor_name_kana": {
+    "x": 38,
+    "y": 230
+  },
+  "doctor_name": {
+    "x": 38,
+    "y": 240
+  },
+  "consent_category": {
+    "x": 110,
+    "y": 230
+  },
+  "treatment_period": {
+    "x": 110,
+    "y": 240
+  },
+  "onset_cause": {
+    "x": 38,
+    "y": 258
+  }
+}
