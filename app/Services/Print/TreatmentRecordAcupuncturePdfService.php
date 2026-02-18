@@ -283,7 +283,10 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
       case 'illness_name': return $consent->illness_name_acupuncture_addendum ?? null;
       case 'onset_date': return $consent->onset_and_injury_date ?? null;
       case 'first_treatment_date': return $consent->first_treatment_date ?? null;
-      case 'treatment_end_date': return $records->last()->date ?? null;
+      case 'treatment_end_date':
+        if ($records->isEmpty()) return null;
+        $lastDate = $records->last()->date;
+        return $this->convertToJapaneseDate($lastDate);
       case 'treatment_days_count': return (string)$records->count();
       case 'treatment_count': return (string)$records->count();
       case 'outcome': return $consent->outcome ?? null;

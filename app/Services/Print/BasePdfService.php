@@ -471,7 +471,7 @@ abstract class BasePdfService
     $japanese = $this->convertToJapaneseYear($year, $month);
 
     return sprintf(
-      '%s%d年%d月%d日',
+      '%s%d年 %d月 %d日',
       $japanese['era'],
       $japanese['year'],
       $month,
