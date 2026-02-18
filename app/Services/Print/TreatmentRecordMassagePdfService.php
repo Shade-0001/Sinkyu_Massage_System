@@ -93,8 +93,8 @@ class TreatmentRecordMassagePdfService extends BasePdfService
       ->leftJoin('doctors', 'consents_massage.consenting_doctor_id', '=', 'doctors.id')
       ->leftJoin('medical_institutions', 'doctors.medical_institutions_id', '=', 'medical_institutions.id')
       ->leftJoin('bill_categories', 'consents_massage.bill_category_id', '=', 'bill_categories.id')
-      ->leftJoin('illnesses_massage', 'consents_massage.illness_name_massage_id', '=', 'illnesses_massage.id')
-      ->leftJoin('conditions', 'consents_massage.condition', '=', 'conditions.id')
+      ->leftJoin('illnesses_massage', 'consents_massage.injury_and_illness_name_id', '=', 'illnesses_massage.id')
+      ->leftJoin('conditions', 'consents_massage.condition_id', '=', 'conditions.id')
       ->where('consents_massage.clinic_user_id', $clinicUserId)
       ->orderBy('consents_massage.consenting_date', 'desc')
       ->select(
@@ -173,7 +173,6 @@ class TreatmentRecordMassagePdfService extends BasePdfService
 
     $consent = (object)[
       'illness_name' => '変形性膝関節症',
-      'illness_name_addendum' => '',
       'onset_and_injury_date' => '2025-11-15',
       'first_care_date' => '2025-11-20',
       'therapy_period' => $custom['treatment_period'] ?? '3ヶ月',
@@ -350,17 +349,7 @@ class TreatmentRecordMassagePdfService extends BasePdfService
       // 傷病･施術情報
       case 'illness_name':
         if (!$consent) return null;
-        $illnessName = $consent->illness_name ?? '';
-        $addendum = $consent->illness_name_addendum ?? '';
-        // マスタ傷病名と追記を組み合わせ
-        if (!empty($illnessName) && !empty($addendum)) {
-          return $illnessName . '（' . $addendum . '）';
-        } elseif (!empty($illnessName)) {
-          return $illnessName;
-        } elseif (!empty($addendum)) {
-          return $addendum;
-        }
-        return null;
+        return $consent->illness_name ?? null;
       case 'onset_date':
         if ($consent && isset($consent->onset_and_injury_date)) {
           return $this->convertToJapaneseDate($consent->onset_and_injury_date);
