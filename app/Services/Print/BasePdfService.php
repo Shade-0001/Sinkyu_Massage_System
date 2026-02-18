@@ -273,7 +273,7 @@ abstract class BasePdfService
   }
 
   /**
-   * 座標キーで指定された位置にテキストを描画（文字間隔・配置対応）
+   * 座標キーで指定された位置にテキストを描画（文字間隔・配置・複数行対応）
    */
   protected function drawTextByKey(Fpdi $pdf, string $key, string $text): void
   {
@@ -287,10 +287,47 @@ abstract class BasePdfService
     $fontWeight = $this->coord($key, 'fontWeight') ?: 'normal';
     $letterSpacing = $this->coord($key, 'letterSpacing') ?: 0;
     $textAlign = $this->coord($key, 'textAlign') ?: 'left';
+    $maxCharsPerLine = $this->coord($key, 'maxCharsPerLine') ?: 0;
+    $lineHeight = $this->coord($key, 'lineHeight') ?: 5;
 
     // フォント設定
     $pdf->SetFont('kozgopromedium', $fontWeight === 'bold' ? 'B' : '', $fontSize);
 
+    // maxCharsPerLineが設定されている場合は折り返し処理
+    if ($maxCharsPerLine > 0 && mb_strlen($text) > $maxCharsPerLine) {
+      $lines = [];
+      $currentLine = '';
+      $chars = preg_split('//u', $text, -1, PREG_SPLIT_NO_EMPTY);
+
+      foreach ($chars as $char) {
+        if (mb_strlen($currentLine) >= $maxCharsPerLine) {
+          $lines[] = $currentLine;
+          $currentLine = $char;
+        } else {
+          $currentLine .= $char;
+        }
+      }
+      if ($currentLine !== '') {
+        $lines[] = $currentLine;
+      }
+
+      // 各行を描画
+      foreach ($lines as $i => $line) {
+        $currentY = $y + ($i * $lineHeight);
+        $this->drawSingleLineText($pdf, $x, $currentY, $line, $letterSpacing, $textAlign);
+      }
+      return;
+    }
+
+    // 通常の1行描画
+    $this->drawSingleLineText($pdf, $x, $y, $text, $letterSpacing, $textAlign);
+  }
+
+  /**
+   * 1行テキストを描画
+   */
+  protected function drawSingleLineText(Fpdi $pdf, float $x, float $y, string $text, float $letterSpacing, string $textAlign): void
+  {
     // 文字間隔が指定されている場合は文字ごとに描画（配置対応）
     if ($letterSpacing > 0) {
       // A4幅を配置幅として使用（210mm）
@@ -301,7 +338,6 @@ abstract class BasePdfService
       $textWidth = $pdf->GetStringWidth($text);
       $alignedX = $x;
       $pageWidth = 210; // A4幅（mm）
-      $rightMargin = 10; // 右マージン（mm）
 
       if ($textAlign === 'center') {
         // 中央揃え：X座標を起点としてページ幅内で中央配置

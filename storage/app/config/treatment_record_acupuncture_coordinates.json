@@ -116,8 +116,8 @@
     },
     "insured_person_address": {
         "x": 38,
-        "y": 83,
-        "fontSize": 27.5,
+        "y": 112.5,
+        "fontSize": 12,
         "textAlign": "left",
         "field": "insured_person_address",
         "label": "被保険者住所",
