@@ -221,7 +221,7 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
     $records = $data['records'];
     $clinicInfo = $data['clinic_info'] ?? null;
 
-    $pdf->SetFont('ipaexg', '', 10);
+    $pdf->SetFont('kozminproregular', '', 10);
     $pdf->SetTextColor(0, 0, 0);
 
     foreach ($this->coordinates as $key => $coord) {
