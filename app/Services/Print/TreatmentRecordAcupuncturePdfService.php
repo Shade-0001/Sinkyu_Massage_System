@@ -90,11 +90,26 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
     // 同意書情報取得
     $consent = DB::table('consents_acupuncture')
       ->leftJoin('outcomes', 'consents_acupuncture.outcome_id', '=', 'outcomes.id')
+      ->leftJoin('doctors', 'consents_acupuncture.consenting_doctor_id', '=', 'doctors.id')
+      ->leftJoin('medical_institutions', 'doctors.medical_institutions_id', '=', 'medical_institutions.id')
+      ->leftJoin('bill_categories', 'consents_acupuncture.bill_category_id', '=', 'bill_categories.id')
+      ->leftJoin('illnesses_acupuncture', 'consents_acupuncture.illness_name_acupuncture_id', '=', 'illnesses_acupuncture.id')
       ->where('consents_acupuncture.clinic_user_id', $clinicUserId)
       ->orderBy('consents_acupuncture.consenting_date', 'desc')
       ->select(
         'consents_acupuncture.*',
-        'outcomes.outcome'
+        'outcomes.outcome',
+        'doctors.last_name as doctor_last_name',
+        'doctors.first_name as doctor_first_name',
+        'doctors.last_name_kana as doctor_last_name_kana',
+        'doctors.first_name_kana as doctor_first_name_kana',
+        'doctors.address_1 as doctor_address_1',
+        'doctors.address_2 as doctor_address_2',
+        'doctors.address_3 as doctor_address_3',
+        'doctors.phone as doctor_phone',
+        'medical_institutions.medical_institution_name',
+        'bill_categories.bill_category',
+        'illnesses_acupuncture.illness_name_acupuncture'
       )
       ->first();
 
@@ -129,43 +144,48 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
       'last_name' => $custom['last_name'] ?? '田中',
       'first_name' => $custom['first_name'] ?? '太郎',
       'gender' => $custom['user_gender'] ?? '男',
-      'birthday' => $custom['user_birthday'] ?? '昭和55年 3月 15日',
+      'birthday' => '1980-03-15',
+      'postal_code' => '1600022',
+      'address_1' => '東京都新宿区新宿2-3-4',
+      'address_2' => '',
+      'address_3' => '',
     ];
 
     $insurance = (object)[
       'code_number' => $custom['insurance_symbol_code'] ?? '12345',
       'account_number' => $custom['insurance_symbol_number'] ?? '67890',
-      'insured_person_name' => $custom['insured_person_name'] ?? '田中 花子',
-      'insured_person_gender' => $custom['insured_person_gender'] ?? '女',
-      'insured_person_birthday' => $custom['insured_person_birthday'] ?? '昭和30年 5月 10日',
-      'insurance_valid_until' => $custom['insurance_valid_until'] ?? '令和10年 3月 31日',
-      'insured_person_postal_code' => $custom['insured_person_postal_code'] ?? '1600022',
-      'insured_person_address' => $custom['insured_person_address'] ?? '東京都新宿区新宿2-3-4',
-      'insurance_qualification_date' => $custom['insurance_qualification_date'] ?? '令和7年 4月 1日',
-      'relationship' => $custom['user_relationship'] ?? '子',
+      'insured_name' => $custom['insured_person_name'] ?? '田中 太郎',
+      'subject_type' => '本人',
+      'expiry_date' => '2035-03-31',
+      'license_acquisition_date' => '2026-04-01',
+      'relationship' => $custom['user_relationship'] ?? '本人',
       'public_funds_payer_code' => $custom['public_funds_payer_number'] ?? '12345678',
       'public_funds_recipient_code' => $custom['public_funds_recipient_number'] ?? '1234567',
       'locality_code' => $custom['locality_code'] ?? '123456',
       'recipient_code' => $custom['recipient_number'] ?? '123456',
       'insurer_number' => $custom['insurer_number'] ?? '12345678',
       'insurer_name' => $custom['insurer_name'] ?? 'サンプル健康保険組合',
-      'insurer_postal_code' => $custom['payment_institution_postal_code'] ?? '1000005',
       'insurer_address' => $custom['insurer_address'] ?? '東京都千代田区霞が関1-1-1',
     ];
 
     $consent = (object)[
-      'illness_name_acupuncture_addendum' => $custom['disease'] ?? '腰痛症',
-      'onset_and_injury_date' => $custom['onset_date'] ?? '令和7年 11月 15日',
-      'first_treatment_date' => $custom['first_treatment_date'] ?? '令和7年 11月 20日',
+      'illness_name_acupuncture' => '腰痛症',
+      'illness_name_acupuncture_addendum' => '',
+      'onset_and_injury_date' => '2025-11-15',
+      'first_care_date' => '2025-11-20',
       'therapy_period' => $custom['treatment_period'] ?? '3ヶ月',
       'outcome' => $custom['outcome'] ?? '継続',
-      'consenting_doctor_name' => $custom['doctor_name'] ?? '山田太郎',
-      'consenting_doctor_name_kana' => $custom['doctor_name_kana'] ?? 'ヤマダ タロウ',
+      'doctor_last_name' => '山田',
+      'doctor_first_name' => '太郎',
+      'doctor_last_name_kana' => 'ヤマダ',
+      'doctor_first_name_kana' => 'タロウ',
+      'doctor_address_1' => $custom['doctor_address'] ?? '東京都新宿区〇〇1-2-3',
+      'doctor_address_2' => '',
+      'doctor_address_3' => '',
+      'doctor_phone' => $custom['medical_institution_phone'] ?? '03-3456-7890',
       'medical_institution_name' => $custom['medical_institution'] ?? '〇〇病院',
-      'medical_institution_address' => $custom['doctor_address'] ?? '東京都新宿区〇〇1-2-3',
-      'medical_institution_phone' => $custom['medical_institution_phone'] ?? '03-3456-7890',
-      'consent_category' => $custom['consent_category'] ?? '新規同意',
-      'onset_cause' => $custom['onset_cause'] ?? '階段からの転落',
+      'bill_category' => $custom['consent_category'] ?? '新規',
+      'condition' => $custom['onset_cause'] ?? '階段からの転落',
     ];
 
     $records = collect([
@@ -179,7 +199,9 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
     $clinicInfo = (object)[
       'clinic_name' => $custom['clinic_name'] ?? 'サンプル鍼灸院',
       'postal_code' => $custom['clinic_postal_code'] ?? '1500001',
-      'address_1' => $custom['clinic_address'] ?? '東京都渋谷区〇〇1-2-3',
+      'address_1' => '東京都渋谷区',
+      'address_2' => '〇〇1-2-3',
+      'address_3' => '',
     ];
 
     return [
@@ -310,7 +332,10 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
 
       // 事業所情報
       case 'clinic_name': return $clinicInfo->clinic_name ?? null;
-      case 'clinic_address': return $clinicInfo->address_1 ?? null;
+      case 'clinic_address':
+        if (!$clinicInfo) return null;
+        $address = ($clinicInfo->address_1 ?? '') . ($clinicInfo->address_2 ?? '') . ($clinicInfo->address_3 ?? '');
+        return !empty($address) ? $address : null;
 
       // 保険者情報
       case 'insurer_address': return $insurance->insurer_address ?? null;
@@ -318,7 +343,19 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
       case 'insurer_number': return $insurance->insurer_number ?? null;
 
       // 傷病･施術情報
-      case 'illness_name': return $consent->illness_name_acupuncture_addendum ?? null;
+      case 'illness_name':
+        if (!$consent) return null;
+        $illnessName = $consent->illness_name_acupuncture ?? '';
+        $addendum = $consent->illness_name_acupuncture_addendum ?? '';
+        // マスタ傷病名と追記を組み合わせ
+        if (!empty($illnessName) && !empty($addendum)) {
+          return $illnessName . '（' . $addendum . '）';
+        } elseif (!empty($illnessName)) {
+          return $illnessName;
+        } elseif (!empty($addendum)) {
+          return $addendum;
+        }
+        return null;
       case 'onset_date':
         if ($consent && isset($consent->onset_and_injury_date)) {
           return $this->convertToJapaneseDate($consent->onset_and_injury_date);
@@ -339,13 +376,20 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
 
       // 同意記録
       case 'medical_institution_name': return $consent->medical_institution_name ?? null;
-      case 'medical_institution_address': return $consent->medical_institution_address ?? null;
-      case 'medical_institution_phone': return $consent->medical_institution_phone ?? null;
-      case 'doctor_name_kana': return $consent->consenting_doctor_name_kana ?? null;
-      case 'doctor_name': return $consent->consenting_doctor_name ?? null;
-      case 'consent_category': return $consent->consent_category ?? null;
+      case 'medical_institution_address':
+        if (!$consent) return null;
+        $address = ($consent->doctor_address_1 ?? '') . ($consent->doctor_address_2 ?? '') . ($consent->doctor_address_3 ?? '');
+        return !empty($address) ? $address : null;
+      case 'medical_institution_phone': return $consent->doctor_phone ?? null;
+      case 'doctor_name_kana':
+        if (!$consent) return null;
+        return trim(($consent->doctor_last_name_kana ?? '') . ' ' . ($consent->doctor_first_name_kana ?? ''));
+      case 'doctor_name':
+        if (!$consent) return null;
+        return trim(($consent->doctor_last_name ?? '') . ' ' . ($consent->doctor_first_name ?? ''));
+      case 'consent_category': return $consent->bill_category ?? null;
       case 'treatment_period': return $consent->therapy_period ?? null;
-      case 'onset_cause': return $consent->onset_cause ?? null;
+      case 'onset_cause': return $consent->condition ?? null;
 
       default: return null;
     }
