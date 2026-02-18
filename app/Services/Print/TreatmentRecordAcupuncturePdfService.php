@@ -230,9 +230,8 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
       $value = $this->getFieldValue($key, $data);
       if ($value === null || $value === '') continue;
 
-      $pdf->SetXY($coord['x'], $coord['y']);
-      $pdf->SetFontSize($coord['fontSize'] ?? 10);
-      $pdf->Cell(0, 0, $value, 0, 0, $coord['textAlign'] ?? 'L');
+      // drawTextByKey()を使用してletterSpacingを適用
+      $this->drawTextByKey($pdf, $key, $value);
     }
   }
 
