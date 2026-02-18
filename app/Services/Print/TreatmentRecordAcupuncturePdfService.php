@@ -271,9 +271,11 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
         }
         return null;
       case 'insured_person_birthday':
-        // 本人の場合は利用者の生年月日
+        // 本人の場合は利用者の生年月日を和暦変換
         if ($insurance && isset($insurance->subject_type) && $insurance->subject_type === '本人') {
-          return $clinicUser->birthday ?? null;
+          if (isset($clinicUser->birthday)) {
+            return $this->convertToJapaneseDate($clinicUser->birthday);
+          }
         }
         return null;
       case 'insurance_valid_until':
@@ -298,7 +300,11 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
       // 利用者情報
       case 'user_name': return ($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? '');
       case 'user_gender': return $clinicUser->gender ?? null;
-      case 'user_birthday': return $clinicUser->birthday ?? null;
+      case 'user_birthday':
+        if (isset($clinicUser->birthday)) {
+          return $this->convertToJapaneseDate($clinicUser->birthday);
+        }
+        return null;
       case 'user_relationship': return $insurance->relationship ?? null;
 
       // 事業所情報
@@ -312,8 +318,16 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
 
       // 傷病･施術情報
       case 'illness_name': return $consent->illness_name_acupuncture_addendum ?? null;
-      case 'onset_date': return $consent->onset_and_injury_date ?? null;
-      case 'first_treatment_date': return $consent->first_treatment_date ?? null;
+      case 'onset_date':
+        if ($consent && isset($consent->onset_and_injury_date)) {
+          return $this->convertToJapaneseDate($consent->onset_and_injury_date);
+        }
+        return null;
+      case 'first_treatment_date':
+        if ($consent && isset($consent->first_care_date)) {
+          return $this->convertToJapaneseDate($consent->first_care_date);
+        }
+        return null;
       case 'treatment_end_date':
         if ($records->isEmpty()) return null;
         $lastDate = $records->last()->date;
