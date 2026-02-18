@@ -27,12 +27,8 @@
     "x": 38,
     "y": 83
   },
-  "insured_person_gender_male": {
+  "insured_person_gender": {
     "x": 110,
-    "y": 83
-  },
-  "insured_person_gender_female": {
-    "x": 120,
     "y": 83
   },
   "insured_person_birthday": {
@@ -59,12 +55,8 @@
     "x": 38,
     "y": 130
   },
-  "user_gender_male": {
+  "user_gender": {
     "x": 110,
-    "y": 130
-  },
-  "user_gender_female": {
-    "x": 120,
     "y": 130
   },
   "user_birthday": {

@@ -812,8 +812,7 @@ const fieldCategoriesTreatmentRecordAcupuncture = {
   "insurance_symbol_code": "insured_person_info",
   "insurance_symbol_number": "insured_person_info",
   "insured_person_name": "insured_person_info",
-  "insured_person_gender_male": "insured_person_info",
-  "insured_person_gender_female": "insured_person_info",
+  "insured_person_gender": "insured_person_info",
   "insured_person_birthday": "insured_person_info",
   "insurance_valid_until": "insured_person_info",
   "insured_person_postal_code": "insured_person_info",
@@ -822,8 +821,7 @@ const fieldCategoriesTreatmentRecordAcupuncture = {
 
   // === 利用者情報 ===
   "user_name": "user_info",
-  "user_gender_male": "user_info",
-  "user_gender_female": "user_info",
+  "user_gender": "user_info",
   "user_birthday": "user_info",
   "user_relationship": "user_info",
 
