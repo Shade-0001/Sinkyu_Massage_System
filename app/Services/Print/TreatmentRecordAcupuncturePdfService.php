@@ -73,6 +73,7 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
     $insurance = DB::table('insurances')
       ->leftJoin('insurers', 'insurances.insurers_id', '=', 'insurers.id')
       ->leftJoin('relationships_with_clinic_user', 'insurances.relationship_with_clinic_user_id', '=', 'relationships_with_clinic_user.id')
+      ->leftJoin('self_or_family', 'insurances.self_or_family_id', '=', 'self_or_family.id')
       ->where('insurances.clinic_user_id', $clinicUserId)
       ->orderBy('insurances.created_at', 'desc')
       ->select(
@@ -81,7 +82,8 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
         'insurers.insurer_name',
         'insurers.postal_code as insurer_postal_code',
         'insurers.address as insurer_address',
-        'relationships_with_clinic_user.relationship'
+        'relationships_with_clinic_user.relationship',
+        'self_or_family.subject_type'
       )
       ->first();
 
@@ -253,17 +255,42 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
       case 'public_funds_payer_number': return $insurance->public_funds_payer_code ?? null;
       case 'public_funds_recipient_number': return $insurance->public_funds_recipient_code ?? null;
 
-      // 被保険者情報
+      // 被保険者情報（本人の場合は利用者情報を使用）
       case 'insurance_symbol_code': return $insurance->code_number ?? null;
       case 'insurance_symbol_number': return $insurance->account_number ?? null;
-      case 'insured_person_name': return $insurance->insured_name ?? null;
-      case 'insured_person_gender': return null; // DBに該当カラムなし
-      case 'insured_person_birthday': return null; // DBに該当カラムなし
+      case 'insured_person_name':
+        // 本人の場合は利用者氏名、それ以外はinsured_name
+        if ($insurance && isset($insurance->subject_type) && $insurance->subject_type === '本人') {
+          return ($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? '');
+        }
+        return $insurance->insured_name ?? null;
+      case 'insured_person_gender':
+        // 本人の場合は利用者の性別
+        if ($insurance && isset($insurance->subject_type) && $insurance->subject_type === '本人') {
+          return $clinicUser->gender ?? null;
+        }
+        return null;
+      case 'insured_person_birthday':
+        // 本人の場合は利用者の生年月日
+        if ($insurance && isset($insurance->subject_type) && $insurance->subject_type === '本人') {
+          return $clinicUser->birthday ?? null;
+        }
+        return null;
       case 'insurance_valid_until':
         if (!$insurance || !isset($insurance->expiry_date)) return null;
         return $this->convertToJapaneseDate($insurance->expiry_date);
-      case 'insured_person_postal_code': return null; // DBに該当カラムなし
-      case 'insured_person_address': return null; // DBに該当カラムなし
+      case 'insured_person_postal_code':
+        // 本人の場合は利用者の郵便番号
+        if ($insurance && isset($insurance->subject_type) && $insurance->subject_type === '本人') {
+          return $clinicUser->postal_code ?? null;
+        }
+        return null;
+      case 'insured_person_address':
+        // 本人の場合は利用者の住所
+        if ($insurance && isset($insurance->subject_type) && $insurance->subject_type === '本人') {
+          return $clinicUser->address ?? null;
+        }
+        return null;
       case 'insurance_qualification_date':
         if (!$insurance || !isset($insurance->license_acquisition_date)) return null;
         return $this->convertToJapaneseDate($insurance->license_acquisition_date);

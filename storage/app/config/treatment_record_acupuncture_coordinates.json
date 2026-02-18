@@ -60,19 +60,19 @@
         "letterSpacing": 1
     },
     "insured_person_name": {
-        "x": 38,
-        "y": 83,
-        "fontSize": 15,
-        "textAlign": "left",
+        "x": -88,
+        "y": 85,
+        "fontSize": 16,
+        "textAlign": "center",
         "field": "insured_person_name",
         "label": "被保険者氏名",
         "type": "text",
         "letterSpacing": 0
     },
     "insured_person_gender": {
-        "x": 22.5,
-        "y": 83,
-        "fontSize": 15,
+        "x": 5,
+        "y": 77,
+        "fontSize": 14,
         "textAlign": "center",
         "field": "insured_person_gender",
         "label": "被保険者性別",
@@ -80,10 +80,10 @@
         "letterSpacing": 0
     },
     "insured_person_birthday": {
-        "x": 38,
-        "y": 93,
+        "x": 17,
+        "y": 82,
         "fontSize": 15,
-        "textAlign": "left",
+        "textAlign": "center",
         "field": "insured_person_birthday",
         "label": "被保険者生年月日",
         "type": "text",
@@ -141,9 +141,9 @@
         "letterSpacing": 0
     },
     "user_gender": {
-        "x": 118.5,
-        "y": 64,
-        "fontSize": 15,
+        "x": 127,
+        "y": 65,
+        "fontSize": 14,
         "textAlign": "center",
         "field": "user_gender",
         "label": "利用者性別",
