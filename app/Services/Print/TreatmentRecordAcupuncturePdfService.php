@@ -116,10 +116,11 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
       )
       ->first();
 
-    // 施術実績取得
+    // 施術実績取得（はり・きゅう: therapy_content_id 11-16）
     $records = DB::table('records')
       ->where('clinic_user_id', $clinicUserId)
       ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$serviceYearMonth])
+      ->whereIn('therapy_content_id', [11, 12, 13, 14, 15, 16])
       ->orderBy('date')
       ->get();
 
