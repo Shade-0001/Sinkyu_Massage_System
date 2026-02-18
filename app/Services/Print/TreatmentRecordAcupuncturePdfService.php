@@ -288,9 +288,10 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
         }
         return null;
       case 'insured_person_address':
-        // 本人の場合は利用者の住所
+        // 本人の場合は利用者の住所（address_1, address_2, address_3を結合）
         if ($insurance && isset($insurance->subject_type) && $insurance->subject_type === '本人') {
-          return $clinicUser->address ?? null;
+          $address = ($clinicUser->address_1 ?? '') . ($clinicUser->address_2 ?? '') . ($clinicUser->address_3 ?? '');
+          return !empty($address) ? $address : null;
         }
         return null;
       case 'insurance_qualification_date':

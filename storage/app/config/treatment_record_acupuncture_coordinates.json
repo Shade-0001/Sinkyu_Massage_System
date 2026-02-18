@@ -80,9 +80,9 @@
         "letterSpacing": 0
     },
     "insured_person_birthday": {
-        "x": 17,
-        "y": 82,
-        "fontSize": 22.5,
+        "x": -80,
+        "y": 94.8,
+        "fontSize": 11,
         "textAlign": "center",
         "field": "insured_person_birthday",
         "label": "被保険者生年月日",
@@ -90,17 +90,17 @@
         "letterSpacing": 0
     },
     "insurance_valid_until": {
-        "x": 110,
-        "y": 93,
-        "fontSize": 15,
-        "textAlign": "left",
+        "x": -80,
+        "y": 100.3,
+        "fontSize": 11,
+        "textAlign": "center",
         "field": "insurance_valid_until",
         "label": "保険有効期限",
         "type": "text",
         "letterSpacing": 0
     },
     "insured_person_postal_code": {
-        "x": 46,
+        "x": 47,
         "y": 106,
         "fontSize": 12,
         "textAlign": "left",
@@ -111,13 +111,13 @@
         "postalCodeGap": 2,
         "firstY": 106,
         "lastY": 106,
-        "firstX": 46,
-        "lastX": 48
+        "firstX": 47,
+        "lastX": 49
     },
     "insured_person_address": {
         "x": 38,
-        "y": 112,
-        "fontSize": 12,
+        "y": 83,
+        "fontSize": 27.5,
         "textAlign": "left",
         "field": "insured_person_address",
         "label": "被保険者住所",
