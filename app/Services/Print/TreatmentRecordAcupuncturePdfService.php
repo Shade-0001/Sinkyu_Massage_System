@@ -79,8 +79,8 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
         'insurances.*',
         'insurers.insurer_number',
         'insurers.insurer_name',
-        'insurers.insurer_postal_code',
-        'insurers.insurer_address',
+        'insurers.postal_code as insurer_postal_code',
+        'insurers.address as insurer_address',
         'relationships_with_clinic_user.relationship'
       )
       ->first();
