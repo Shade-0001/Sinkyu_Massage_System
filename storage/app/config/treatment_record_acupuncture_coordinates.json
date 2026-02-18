@@ -361,9 +361,9 @@
         "letterSpacing": 0.5
     },
     "treatment_period": {
-        "x": 110,
-        "y": 183.5,
-        "fontSize": 15,
+        "x": -80,
+        "y": 201.5,
+        "fontSize": 13,
         "textAlign": "center",
         "field": "treatment_period",
         "label": "施術期間",
@@ -371,9 +371,9 @@
         "letterSpacing": 0
     },
     "onset_cause": {
-        "x": 2,
-        "y": 219,
-        "fontSize": 15,
+        "x": 98,
+        "y": 155,
+        "fontSize": 10,
         "textAlign": "center",
         "field": "onset_cause",
         "label": "発病原因",

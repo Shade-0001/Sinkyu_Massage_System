@@ -1207,4 +1207,60 @@ class PrintsController extends Controller
       ], 500);
     }
   }
+
+  public function treatmentRecord(Request $request, string $filename)
+  {
+    try {
+      $validated = $request->validate([
+        'clinic_user_ids' => 'required|array',
+        'clinic_user_ids.*' => 'exists:clinic_users,id',
+        'record_type' => 'required|in:acupuncture,massage',
+        'service_year_month' => 'required|date_format:Y-m',
+        'submission_date' => 'required|date',
+      ]);
+
+      $recordType = $validated['record_type'];
+      $typeName = $recordType === 'acupuncture' ? '施術録（はり・きゅう）' : '施術録（あんま・マッサージ）';
+
+      \Log::info("{$typeName}PDF生成開始", [
+        'clinic_user_ids' => $validated['clinic_user_ids'],
+        'record_type' => $recordType,
+        'service_year_month' => $validated['service_year_month'],
+        'submission_date' => $validated['submission_date'],
+      ]);
+
+      $serviceClass = $recordType === 'acupuncture'
+        ? \App\Services\Print\TreatmentRecordAcupuncturePdfService::class
+        : \App\Services\Print\TreatmentRecordMassagePdfService::class;
+
+      $service = new $serviceClass();
+
+      $pdfBinary = $service->generate(
+        $validated['clinic_user_ids'],
+        $validated['service_year_month'],
+        $validated['submission_date']
+      );
+
+      \Log::info("{$typeName}PDF生成完了", ['size' => strlen($pdfBinary)]);
+
+      return response($pdfBinary, 200, [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'inline',
+      ]);
+    } catch (\Exception $e) {
+      \Log::error("施術録PDF生成エラー", [
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+        'trace' => $e->getTraceAsString(),
+      ]);
+
+      return response()->json([
+        'error' => 'PDF生成に失敗しました',
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+      ], 500);
+    }
+  }
 }

@@ -1,1 +1,383 @@
-[]
+{
+    "locality_code": {
+        "x": 139,
+        "y": 24,
+        "fontSize": 20,
+        "textAlign": "left",
+        "field": "locality_code",
+        "label": "市町村番号",
+        "type": "text",
+        "letterSpacing": 3.4
+    },
+    "recipient_number": {
+        "x": 139,
+        "y": 33,
+        "fontSize": 20,
+        "textAlign": "left",
+        "field": "recipient_number",
+        "label": "受給者番号",
+        "type": "text",
+        "letterSpacing": 3.4
+    },
+    "public_funds_payer_number": {
+        "x": 139,
+        "y": 42,
+        "fontSize": 20,
+        "textAlign": "left",
+        "field": "public_funds_payer_number",
+        "label": "公費負担者番号",
+        "type": "text",
+        "letterSpacing": 3.4
+    },
+    "public_funds_recipient_number": {
+        "x": 139,
+        "y": 50.5,
+        "fontSize": 20,
+        "textAlign": "left",
+        "field": "public_funds_recipient_number",
+        "label": "公費受給者番号",
+        "type": "text",
+        "letterSpacing": 3.4
+    },
+    "insurance_symbol_code": {
+        "x": -39.5,
+        "y": 61.5,
+        "fontSize": 18,
+        "textAlign": "center",
+        "field": "insurance_symbol_code",
+        "label": "被保険者証記号",
+        "type": "text",
+        "letterSpacing": 1
+    },
+    "insurance_symbol_number": {
+        "x": -39.5,
+        "y": 73,
+        "fontSize": 18,
+        "textAlign": "center",
+        "field": "insurance_symbol_number",
+        "label": "被保険者証番号",
+        "type": "text",
+        "letterSpacing": 1
+    },
+    "insured_person_name": {
+        "x": -88,
+        "y": 85,
+        "fontSize": 16,
+        "textAlign": "center",
+        "field": "insured_person_name",
+        "label": "被保険者氏名",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "insured_person_gender": {
+        "x": -36.5,
+        "y": 85.5,
+        "fontSize": 14,
+        "textAlign": "center",
+        "field": "insured_person_gender",
+        "label": "被保険者性別",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "insured_person_birthday": {
+        "x": -80,
+        "y": 94.8,
+        "fontSize": 11,
+        "textAlign": "center",
+        "field": "insured_person_birthday",
+        "label": "被保険者生年月日",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "insurance_valid_until": {
+        "x": -80,
+        "y": 100.3,
+        "fontSize": 11,
+        "textAlign": "center",
+        "field": "insurance_valid_until",
+        "label": "保険有効期限",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "insured_person_postal_code": {
+        "x": 47,
+        "y": 106,
+        "fontSize": 12,
+        "textAlign": "left",
+        "field": "insured_person_postal_code",
+        "label": "被保険者郵便番号",
+        "type": "postal_code",
+        "letterSpacing": 0,
+        "postalCodeGap": 2,
+        "firstY": 106,
+        "lastY": 106,
+        "firstX": 47,
+        "lastX": 49
+    },
+    "insured_person_address": {
+        "x": 41,
+        "y": 112,
+        "fontSize": 10.5,
+        "textAlign": "left",
+        "field": "insured_person_address",
+        "label": "被保険者住所",
+        "type": "text",
+        "letterSpacing": 0,
+        "maxCharsPerLine": 15,
+        "lineHeight": 4
+    },
+    "insurance_qualification_date": {
+        "x": -80,
+        "y": 123.5,
+        "fontSize": 11,
+        "textAlign": "center",
+        "field": "insurance_qualification_date",
+        "label": "保険資格取得年月日",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "user_name": {
+        "x": 71.5,
+        "y": 64,
+        "fontSize": 18,
+        "textAlign": "center",
+        "field": "user_name",
+        "label": "利用者氏名",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "user_gender": {
+        "x": 127,
+        "y": 65,
+        "fontSize": 14,
+        "textAlign": "center",
+        "field": "user_gender",
+        "label": "利用者性別",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "user_birthday": {
+        "x": 82,
+        "y": 77,
+        "fontSize": 11,
+        "textAlign": "center",
+        "field": "user_birthday",
+        "label": "利用者生年月日",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "user_relationship": {
+        "x": 168,
+        "y": 68,
+        "fontSize": 13,
+        "textAlign": "center",
+        "field": "user_relationship",
+        "label": "利用者続柄",
+        "type": "select",
+        "letterSpacing": 0,
+        "masterKey": "relationships",
+        "valueField": "relationship"
+    },
+    "clinic_name": {
+        "x": 105.5,
+        "y": 97,
+        "fontSize": 12,
+        "textAlign": "center",
+        "field": "clinic_name",
+        "label": "事業所名称",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "clinic_address": {
+        "x": 121,
+        "y": 86.5,
+        "fontSize": 10.5,
+        "textAlign": "left",
+        "field": "clinic_address",
+        "label": "事業所所在地",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "insurer_address": {
+        "x": 120,
+        "y": 106,
+        "fontSize": 10,
+        "textAlign": "left",
+        "field": "insurer_address",
+        "label": "保険者所在地",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "insurer_name": {
+        "x": 104,
+        "y": 114,
+        "fontSize": 12,
+        "textAlign": "center",
+        "field": "insurer_name",
+        "label": "保険者名称",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "insurer_number": {
+        "x": 52,
+        "y": 123.5,
+        "fontSize": 12,
+        "textAlign": "center",
+        "field": "insurer_number",
+        "label": "番号",
+        "type": "text",
+        "letterSpacing": 0.5
+    },
+    "illness_name": {
+        "x": -153.5,
+        "y": 140,
+        "fontSize": 10,
+        "textAlign": "center",
+        "field": "illness_name",
+        "label": "傷病名",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "onset_date": {
+        "x": -93,
+        "y": 140.5,
+        "fontSize": 9,
+        "textAlign": "center",
+        "field": "onset_date",
+        "label": "発病年月日",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "first_treatment_date": {
+        "x": -35.5,
+        "y": 140.5,
+        "fontSize": 9,
+        "textAlign": "center",
+        "field": "first_treatment_date",
+        "label": "初療年月日",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "treatment_end_date": {
+        "x": 19,
+        "y": 140.5,
+        "fontSize": 9,
+        "textAlign": "center",
+        "field": "treatment_end_date",
+        "label": "施術終了年月日",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "treatment_days_count": {
+        "x": 66,
+        "y": 140,
+        "fontSize": 12,
+        "textAlign": "center",
+        "field": "treatment_days_count",
+        "label": "日数",
+        "type": "number",
+        "letterSpacing": 0
+    },
+    "treatment_count": {
+        "x": 104,
+        "y": 140,
+        "fontSize": 12,
+        "textAlign": "center",
+        "field": "treatment_count",
+        "label": "施術回数",
+        "type": "number",
+        "letterSpacing": 0
+    },
+    "outcome": {
+        "x": 76.5,
+        "y": 139.5,
+        "fontSize": 12,
+        "textAlign": "center",
+        "field": "outcome",
+        "label": "転帰",
+        "type": "text",
+        "letterSpacing": 0.5
+    },
+    "medical_institution_name": {
+        "x": -80,
+        "y": 156,
+        "fontSize": 10,
+        "textAlign": "center",
+        "field": "medical_institution_name",
+        "label": "医療機関名",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "medical_institution_address": {
+        "x": 40.5,
+        "y": 162.5,
+        "fontSize": 10,
+        "textAlign": "left",
+        "field": "medical_institution_address",
+        "label": "医療機関住所",
+        "type": "text",
+        "letterSpacing": 0,
+        "maxCharsPerLine": 18,
+        "lineHeight": 4
+    },
+    "medical_institution_phone": {
+        "x": -80,
+        "y": 172,
+        "fontSize": 10,
+        "textAlign": "center",
+        "field": "medical_institution_phone",
+        "label": "医療機関電話番号",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "doctor_name_kana": {
+        "x": -80,
+        "y": 177,
+        "fontSize": 10,
+        "textAlign": "center",
+        "field": "doctor_name_kana",
+        "label": "医師氏名カナ",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "doctor_name": {
+        "x": -80,
+        "y": 184.5,
+        "fontSize": 14,
+        "textAlign": "center",
+        "field": "doctor_name",
+        "label": "医師氏名",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "consent_category": {
+        "x": -41,
+        "y": 194,
+        "fontSize": 10,
+        "textAlign": "center",
+        "field": "consent_category",
+        "label": "同意区分",
+        "type": "text",
+        "letterSpacing": 0.5
+    },
+    "treatment_period": {
+        "x": -80,
+        "y": 201.5,
+        "fontSize": 13,
+        "textAlign": "center",
+        "field": "treatment_period",
+        "label": "施術期間",
+        "type": "text",
+        "letterSpacing": 0
+    },
+    "onset_cause": {
+        "x": 98,
+        "y": 155,
+        "fontSize": 10,
+        "textAlign": "center",
+        "field": "onset_cause",
+        "label": "発病原因",
+        "type": "text",
+        "letterSpacing": 0
+    }
+}

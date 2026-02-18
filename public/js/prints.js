@@ -110,6 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
   enableClickToggleSelect('consent_request_designated_clinic_user_ids');
   enableClickToggleSelect('consent_request_designated_doctor_ids');
   enableClickToggleSelect('consent_form_clinic_user_ids');
+  enableClickToggleSelect('treatment_record_clinic_user_ids');
 });
 
 /**
@@ -1038,6 +1039,93 @@ function submitConsentForm() {
   // モーダルを閉じる
   setTimeout(() => {
     const modalElement = document.getElementById('consentFormModal');
+    if (modalElement) {
+      const modalInstance = bootstrap.Modal.getInstance(modalElement);
+      if (modalInstance) {
+        modalInstance.hide();
+      }
+    }
+  }, 100);
+}
+
+/**
+ * 施術録モーダルを開く
+ * @param {string} type - 'acupuncture'（はり・きゅう）または 'massage'（あんま・マッサージ）
+ */
+function openTreatmentRecordModal(type) {
+  const modalElement = document.getElementById('treatmentRecordModal');
+  if (!modalElement) return;
+
+  // フォームをリセット
+  resetFormToDefault('treatmentRecordForm');
+
+  // タイプを設定
+  const recordType = document.getElementById('treatment_record_type');
+  if (recordType) {
+    recordType.value = type;
+  }
+
+  // モーダルタイトルを更新
+  const modalTitle = document.getElementById('treatmentRecordModalLabel');
+  if (modalTitle) {
+    if (type === 'acupuncture') {
+      modalTitle.textContent = 'はり・きゅう施術録 出力設定';
+    } else {
+      modalTitle.textContent = 'あんま・マッサージ施術録 出力設定';
+    }
+  }
+
+  // 提出年月日を今日に設定
+  const submissionDate = document.getElementById('treatment_record_submission_date');
+  if (submissionDate) {
+    submissionDate.value = new Date().toISOString().split('T')[0];
+  }
+
+  // モーダルをbodyに追加（必要な場合）
+  if (modalElement.parentElement !== document.body) {
+    document.body.appendChild(modalElement);
+  }
+
+  // Bootstrapモーダルインスタンスを取得または作成
+  const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
+  modalInstance.show();
+}
+
+/**
+ * 施術録PDF出力
+ */
+function submitTreatmentRecord() {
+  const form = document.getElementById('treatmentRecordForm');
+
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
+  const recordType = document.getElementById('treatment_record_type').value;
+
+  // 現在日時からファイル名を生成
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  const typeName = recordType === 'acupuncture' ? 'はり・きゅう' : 'あんま・マッサージ';
+  const filename = `${typeName}施術録_${year}-${month}-${day}_${hours}-${minutes}-${seconds}.pdf`;
+
+  // フォームのアクションURLにファイル名を含める
+  form.action = `/prints/treatment-record/${encodeURIComponent(filename)}`;
+
+  // フォームを新しいタブで送信
+  form.target = '_blank';
+  form.submit();
+
+  // モーダルを閉じる
+  setTimeout(() => {
+    const modalElement = document.getElementById('treatmentRecordModal');
     if (modalElement) {
       const modalInstance = bootstrap.Modal.getInstance(modalElement);
       if (modalInstance) {

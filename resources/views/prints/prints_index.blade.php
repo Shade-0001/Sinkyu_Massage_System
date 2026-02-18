@@ -22,7 +22,7 @@
   <button type="button" class="btn btn-primary" onclick="openConsentFormModal('acupuncture')">同意書</button>
   <button type="button" class="btn btn-primary" onclick="openTreatmentFeeListModal('acupuncture')">施術料金一覧表(保険)</button>
   <button type="button" class="btn btn-primary" onclick="openSelfFeeListModal()">施術料金一覧表(自費)</button>
-  <button>施術録</button>
+  <button type="button" class="btn btn-primary" onclick="openTreatmentRecordModal('acupuncture')">施術録</button>
   <button>総括表</button>
   <br><br>
 
@@ -36,7 +36,7 @@
   <button type="button" class="btn btn-primary" onclick="openConsentFormModal('massage')">同意書</button>
   <button type="button" class="btn btn-primary" onclick="openTreatmentFeeListModal('massage')">施術料金一覧表(保険)</button>
   <button type="button" class="btn btn-primary" onclick="openSelfFeeListModal()">施術料金一覧表(自費)</button>
-  <button>施術録</button>
+  <button type="button" class="btn btn-primary" onclick="openTreatmentRecordModal('massage')">施術録</button>
   <button>総括表</button>
   <br><br>
 
@@ -598,6 +598,68 @@
     </div>
   </div>
 
+  <!-- 施術録モーダル（はり・きゅう / あんま・マッサージ共通） -->
+  <div class="modal fade" id="treatmentRecordModal" tabindex="-1" aria-labelledby="treatmentRecordModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="treatmentRecordModalLabel">施術録 出力設定</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="treatmentRecordForm" method="POST">
+            @csrf
+            <input type="hidden" id="treatment_record_type" name="record_type" value="">
+
+            <!-- サービス提供年月 -->
+            <div class="mb-3">
+              <label for="treatment_record_service_year_month" class="form-label">サービス提供年月 <span class="text-danger">*</span></label>
+              <select class="form-select" id="treatment_record_service_year_month" name="service_year_month" required>
+                <option value="">選択してください</option>
+                @php
+                  $currentDate = now();
+                  for ($i = 0; $i < 24; $i++) {
+                    $date = $currentDate->copy()->subMonths($i);
+                    $value = $date->format('Y-m');
+                    $display = $date->format('Y年m月');
+                    $selected = ($i === 0) ? 'selected' : '';
+                    echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
+                  }
+                @endphp
+              </select>
+            </div>
+
+            <!-- 利用者選択 -->
+            <div class="mb-3">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <label for="treatment_record_clinic_user_ids" class="form-label mb-0">利用者 <span class="text-danger">*</span></label>
+                <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('treatment_record_clinic_user_ids')">全て選択 / 解除</button>
+              </div>
+              <select class="form-select" id="treatment_record_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
+                @foreach($clinicUsers as $user)
+                  <option value="{{ $user->id }}">
+                    {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
+                  </option>
+                @endforeach
+              </select>
+              <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
+            </div>
+
+            <!-- 提出年月日 -->
+            <div class="mb-3">
+              <label for="treatment_record_submission_date" class="form-label">提出年月日 <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" id="treatment_record_submission_date" name="submission_date" value="{{ now()->format('Y-m-d') }}" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-primary" onclick="submitTreatmentRecord()">印刷</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- 同意書モーダル（はり・きゅう / あんま・マッサージ共通） -->
   <div class="modal fade" id="consentFormModal" tabindex="-1" aria-labelledby="consentFormModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -688,7 +750,8 @@
         #consent_request_sample_clinic_user_ids,
         #consent_request_designated_clinic_user_ids,
         #consent_request_designated_doctor_ids,
-        #consent_form_clinic_user_ids {
+        #consent_form_clinic_user_ids,
+        #treatment_record_clinic_user_ids {
           scroll-behavior: auto;
         }
       </style>
