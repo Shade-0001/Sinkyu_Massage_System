@@ -94,6 +94,7 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
       ->leftJoin('medical_institutions', 'doctors.medical_institutions_id', '=', 'medical_institutions.id')
       ->leftJoin('bill_categories', 'consents_acupuncture.bill_category_id', '=', 'bill_categories.id')
       ->leftJoin('illnesses_acupuncture', 'consents_acupuncture.illness_name_acupuncture_id', '=', 'illnesses_acupuncture.id')
+      ->leftJoin('conditions', 'consents_acupuncture.condition', '=', 'conditions.id')
       ->where('consents_acupuncture.clinic_user_id', $clinicUserId)
       ->orderBy('consents_acupuncture.consenting_date', 'desc')
       ->select(
@@ -110,7 +111,8 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
         'doctors.cell_phone as doctor_cell_phone',
         'medical_institutions.medical_institution_name',
         'bill_categories.bill_category',
-        'illnesses_acupuncture.illness_name_acupuncture'
+        'illnesses_acupuncture.illness_name_acupuncture',
+        'conditions.condition_name'
       )
       ->first();
 
@@ -188,7 +190,7 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
       'doctor_cell_phone' => '090-1234-5678',
       'medical_institution_name' => $custom['medical_institution'] ?? '〇〇病院',
       'bill_category' => $custom['consent_category'] ?? '新規',
-      'condition' => $custom['onset_cause'] ?? '階段からの転落',
+      'condition_name' => '階段からの転落',
     ];
 
     $records = collect([
@@ -396,7 +398,7 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
         return trim(($consent->doctor_last_name ?? '') . ' ' . ($consent->doctor_first_name ?? ''));
       case 'consent_category': return $consent->bill_category ?? null;
       case 'treatment_period': return $consent->therapy_period ?? null;
-      case 'onset_cause': return $consent->condition ?? null;
+      case 'onset_cause': return $consent->condition_name ?? null;
 
       default: return null;
     }
