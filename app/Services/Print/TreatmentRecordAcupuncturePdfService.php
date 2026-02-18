@@ -107,6 +107,7 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
         'doctors.address_2 as doctor_address_2',
         'doctors.address_3 as doctor_address_3',
         'doctors.phone as doctor_phone',
+        'doctors.cell_phone as doctor_cell_phone',
         'medical_institutions.medical_institution_name',
         'bill_categories.bill_category',
         'illnesses_acupuncture.illness_name_acupuncture'
@@ -183,7 +184,8 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
       'doctor_address_1' => $custom['doctor_address'] ?? '東京都新宿区〇〇1-2-3',
       'doctor_address_2' => '',
       'doctor_address_3' => '',
-      'doctor_phone' => $custom['medical_institution_phone'] ?? '03-3456-7890',
+      'doctor_phone' => '03-3456-7890',
+      'doctor_cell_phone' => '090-1234-5678',
       'medical_institution_name' => $custom['medical_institution'] ?? '〇〇病院',
       'bill_category' => $custom['consent_category'] ?? '新規',
       'condition' => $custom['onset_cause'] ?? '階段からの転落',
@@ -382,7 +384,10 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
         if (!$consent) return null;
         $address = ($consent->doctor_address_1 ?? '') . ($consent->doctor_address_2 ?? '') . ($consent->doctor_address_3 ?? '');
         return !empty($address) ? $address : null;
-      case 'medical_institution_phone': return $consent->doctor_phone ?? null;
+      case 'medical_institution_phone':
+        if (!$consent) return null;
+        // 固定電話優先、なければ携帯電話
+        return $consent->doctor_phone ?? $consent->doctor_cell_phone ?? null;
       case 'doctor_name_kana':
         if (!$consent) return null;
         return trim(($consent->doctor_last_name_kana ?? '') . ' ' . ($consent->doctor_first_name_kana ?? ''));

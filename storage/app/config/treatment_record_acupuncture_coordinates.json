@@ -316,12 +316,14 @@
         "field": "medical_institution_address",
         "label": "医療機関住所",
         "type": "text",
-        "letterSpacing": 0
+        "letterSpacing": 0,
+        "maxCharsPerLine": 18,
+        "lineHeight": 4
     },
     "medical_institution_phone": {
-        "x": 110,
+        "x": 1,
         "y": 218,
-        "fontSize": 12,
+        "fontSize": 50,
         "textAlign": "center",
         "field": "medical_institution_phone",
         "label": "医療機関電話番号",
