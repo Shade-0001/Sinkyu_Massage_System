@@ -256,13 +256,17 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
       // 被保険者情報
       case 'insurance_symbol_code': return $insurance->code_number ?? null;
       case 'insurance_symbol_number': return $insurance->account_number ?? null;
-      case 'insured_person_name': return $insurance->insured_person_name ?? null;
-      case 'insured_person_gender': return $insurance->insured_person_gender ?? null;
-      case 'insured_person_birthday': return $insurance->insured_person_birthday ?? null;
-      case 'insurance_valid_until': return $insurance->insurance_valid_until ?? null;
-      case 'insured_person_postal_code': return $insurance->insured_person_postal_code ?? null;
-      case 'insured_person_address': return $insurance->insured_person_address ?? null;
-      case 'insurance_qualification_date': return $insurance->insurance_qualification_date ?? null;
+      case 'insured_person_name': return $insurance->insured_name ?? null;
+      case 'insured_person_gender': return null; // DBに該当カラムなし
+      case 'insured_person_birthday': return null; // DBに該当カラムなし
+      case 'insurance_valid_until':
+        if (!$insurance || !isset($insurance->expiry_date)) return null;
+        return $this->convertToJapaneseDate($insurance->expiry_date);
+      case 'insured_person_postal_code': return null; // DBに該当カラムなし
+      case 'insured_person_address': return null; // DBに該当カラムなし
+      case 'insurance_qualification_date':
+        if (!$insurance || !isset($insurance->license_acquisition_date)) return null;
+        return $this->convertToJapaneseDate($insurance->license_acquisition_date);
 
       // 利用者情報
       case 'user_name': return ($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? '');
