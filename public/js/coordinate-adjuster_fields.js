@@ -564,8 +564,7 @@ const fieldDefinitionsTreatmentRecordAcupuncture = {
   'insurance_symbol_code': { field: 'insurance_symbol_code', label: '被保険者証記号', type: 'text' },
   'insurance_symbol_number': { field: 'insurance_symbol_number', label: '被保険者証番号', type: 'text' },
   'insured_person_name': { field: 'insured_person_name', label: '被保険者氏名', type: 'text' },
-  'insured_person_gender_male': { field: 'insured_person_gender_male', label: '被保険者性別（男）', type: 'text' },
-  'insured_person_gender_female': { field: 'insured_person_gender_female', label: '被保険者性別（女）', type: 'text' },
+  'insured_person_gender': { field: 'insured_person_gender', label: '被保険者性別', type: 'text' },
   'insured_person_birthday': { field: 'insured_person_birthday', label: '被保険者生年月日', type: 'text' },
   'insurance_valid_until': { field: 'insurance_valid_until', label: '保険有効期限', type: 'text' },
   'insured_person_postal_code': { field: 'insured_person_postal_code', label: '被保険者郵便番号', type: 'postal_code', postalCodeGap: 2 },
@@ -574,8 +573,7 @@ const fieldDefinitionsTreatmentRecordAcupuncture = {
 
   // === 利用者情報 ===
   'user_name': { field: 'user_name', label: '利用者氏名', type: 'text' },
-  'user_gender_male': { field: 'user_gender_male', label: '利用者性別（男）', type: 'text' },
-  'user_gender_female': { field: 'user_gender_female', label: '利用者性別（女）', type: 'text' },
+  'user_gender': { field: 'user_gender', label: '利用者性別', type: 'text' },
   'user_birthday': { field: 'user_birthday', label: '利用者生年月日', type: 'text' },
   'user_relationship': { field: 'user_relationship', label: '利用者続柄', type: 'select', masterKey: 'relationships', valueField: 'relationship' },
 

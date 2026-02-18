@@ -258,8 +258,7 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
       case 'insurance_symbol_code': return $insurance->code_number ?? null;
       case 'insurance_symbol_number': return $insurance->account_number ?? null;
       case 'insured_person_name': return $insurance->insured_person_name ?? null;
-      case 'insured_person_gender_male': return ($insurance->insured_person_gender ?? '') === '男' ? '男' : null;
-      case 'insured_person_gender_female': return ($insurance->insured_person_gender ?? '') === '女' ? '女' : null;
+      case 'insured_person_gender': return $insurance->insured_person_gender ?? null;
       case 'insured_person_birthday': return $insurance->insured_person_birthday ?? null;
       case 'insurance_valid_until': return $insurance->insurance_valid_until ?? null;
       case 'insured_person_postal_code': return $insurance->insured_person_postal_code ?? null;
@@ -268,8 +267,7 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
 
       // 利用者情報
       case 'user_name': return ($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? '');
-      case 'user_gender_male': return ($clinicUser->gender ?? '') === '男' ? '男' : null;
-      case 'user_gender_female': return ($clinicUser->gender ?? '') === '女' ? '女' : null;
+      case 'user_gender': return $clinicUser->gender ?? null;
       case 'user_birthday': return $clinicUser->birthday ?? null;
       case 'user_relationship': return $insurance->relationship ?? null;
 
