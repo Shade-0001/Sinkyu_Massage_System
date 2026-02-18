@@ -309,8 +309,8 @@
         "letterSpacing": 0
     },
     "medical_institution_address": {
-        "x": 38,
-        "y": 163,
+        "x": 40.5,
+        "y": 162.5,
         "fontSize": 10,
         "textAlign": "left",
         "field": "medical_institution_address",
@@ -322,7 +322,7 @@
         "x": 110,
         "y": 218,
         "fontSize": 12,
-        "textAlign": "left",
+        "textAlign": "center",
         "field": "medical_institution_phone",
         "label": "医療機関電話番号",
         "type": "text",
