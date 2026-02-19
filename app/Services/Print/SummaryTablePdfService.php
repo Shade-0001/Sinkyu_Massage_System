@@ -417,6 +417,10 @@ class SummaryTablePdfService extends BasePdfService
     // 行間（benefit_ratioフィールドのrowLineHeightプロパティから取得、デフォルト7mm）
     $rowLineHeight = $this->coord('benefit_ratio', 'rowLineHeight') ?: 7;
 
+    $totalCount = 0;
+    $totalCost  = 0;
+    $totalClaim = 0;
+
     foreach ($costSummary as $index => $row) {
       $offsetY = $index * $rowLineHeight;
 
@@ -432,7 +436,16 @@ class SummaryTablePdfService extends BasePdfService
 
       // 申請額（費用額と同値）
       $this->drawFieldOffset($pdf, 'claim_amount', (string)$row['cost'], 0, $offsetY);
+
+      $totalCount += $row['count'];
+      $totalCost  += $row['cost'];
+      $totalClaim += $row['claim'];
     }
+
+    // 合計行
+    $this->drawField($pdf, 'total_treatment_count', (string)$totalCount);
+    $this->drawField($pdf, 'total_cost_amount',     (string)$totalCost);
+    $this->drawField($pdf, 'total_claim_amount',    (string)$totalClaim);
   }
 
   /**
