@@ -865,6 +865,44 @@ const categoryOrderTreatmentRecordAcupuncture = [
   "consent_record"
 ];
 
+// フィールドカテゴリマッピング（総括表用）
+const fieldCategoriesSummaryTable = {
+  // ヘッダー情報
+  'submission_date':    'header_info',
+  'service_year_month': 'header_info',
+  'therapy_category':   'header_info',
+  'insurer_name':       'header_info',
+
+  // 事業所情報
+  'clinic_postal_code': 'clinic_info',
+  'clinic_address':     'clinic_info',
+  'clinic_name':        'clinic_info',
+  'clinic_owner_name':  'clinic_info',
+  'clinic_phone':       'clinic_info',
+
+  // 集計情報
+  'benefit_ratio':                 'cost_summary',
+  'treatment_count':               'cost_summary',
+  'cost_amount':                   'cost_summary',
+  'claim_amount':                  'cost_summary',
+  'benefit_ratio_row_line_height': 'cost_summary',
+
+  // 金融機関情報
+  'bank_name':           'bank_info',
+  'bank_branch_name':    'bank_info',
+  'bank_account_type':   'bank_info',
+  'bank_account_number': 'bank_info',
+  'bank_account_name':   'bank_info',
+};
+
+// カテゴリ順序（総括表用）
+const categoryOrderSummaryTable = [
+  'header_info',
+  'clinic_info',
+  'cost_summary',
+  'bank_info',
+];
+
 // ============================================================
 // PDFタイプに応じたfieldCategoriesを取得
 // ============================================================
@@ -898,6 +936,8 @@ function getFieldCategories(pdfType) {
     return fieldCategoriesMedicalAssistanceAcupuncture;
   } else if (pdfType === 'treatment_record_acupuncture' || pdfType === 'treatment_record_massage') {
     return fieldCategoriesTreatmentRecordAcupuncture;
+  } else if (pdfType === 'summary_table') {
+    return fieldCategoriesSummaryTable;
   }
   return fieldCategoriesTherapyBenefitAcupuncture;
 }
@@ -931,6 +971,8 @@ function getCategoryOrder(pdfType) {
     return categoryOrderMedicalAssistance;
   } else if (pdfType === 'treatment_record_acupuncture' || pdfType === 'treatment_record_massage') {
     return categoryOrderTreatmentRecordAcupuncture;
+  } else if (pdfType === 'summary_table') {
+    return categoryOrderSummaryTable;
   }
   return categoryOrderTherapyBenefitAcupuncture;
 }

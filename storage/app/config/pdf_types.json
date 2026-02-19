@@ -133,7 +133,7 @@
     "templateFile": "総括表.pdf",
     "templateDir": "acupuncture_and_massage",
     "serviceClass": "SummaryTablePdfService",
-    "fieldsFile": ""
+    "fieldsFile": "summary_table.js"
   },
   "first_experience_material": {
     "name": "初回体験用資料",

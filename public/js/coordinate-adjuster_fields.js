@@ -603,5 +603,13 @@ const fieldDefinitionsTreatmentRecordAcupuncture = {
   'doctor_name': { field: 'doctor_name', label: '医師氏名', type: 'text' },
   'consent_category': { field: 'consent_category', label: '同意区分', type: 'text' },
   'treatment_period': { field: 'treatment_period', label: '施術期間', type: 'text' },
-  'onset_cause': { field: 'onset_cause', label: '発病原因', type: 'text' }
+  'onset_cause': { field: 'onset_cause', label: '発病原因', type: 'text' },
+
+  // === 総括表専用フィールド ===
+  'service_year_month': { field: 'service_year_month', label: 'サービス提供年月', type: 'text' },
+  'therapy_category': { field: 'therapy_category', label: '施術カテゴリ', type: 'text' },
+  'benefit_ratio': { field: 'benefit_ratio', label: '支給割合区分（1行目）', type: 'text' },
+  'cost_amount': { field: 'cost_amount', label: '費用額（1行目）', type: 'text' },
+  'claim_amount': { field: 'claim_amount', label: '申請額（1行目）', type: 'text' },
+  'benefit_ratio_row_line_height': { field: 'benefit_ratio_row_line_height', label: '支給割合区分 行間（mm）', type: 'number' }
 };

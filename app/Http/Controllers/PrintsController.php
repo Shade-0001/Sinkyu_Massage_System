@@ -1021,6 +1021,11 @@ class PrintsController extends Controller
         \Log::info('[PrintsController] setCustomTitleText実行完了', ['custom_title_text' => $customTitleText]);
       }
 
+      // 総括表の場合はデフォルト施術タイプを設定（プレビュー時ははり・きゅう）
+      if ($pdfType === 'summary_table' && method_exists($service, 'setTherapyType')) {
+        $service->setTherapyType('acupuncture');
+      }
+
       // 医師指定版の場合はダミー医師IDを渡す
       if (in_array($pdfType, ['consent_request_letter_designated_acupuncture', 'consent_request_letter_designated_massage'])) {
         // 最初の医師IDを取得（なければ空配列）
@@ -1204,6 +1209,75 @@ class PrintsController extends Controller
         'message' => $e->getMessage(),
         'file' => $e->getFile(),
         'line' => $e->getLine(),
+      ], 500);
+    }
+  }
+
+  /**
+   * 総括表PDF出力
+   *
+   * @param Request $request
+   * @param string  $filename
+   * @return \Illuminate\Http\Response
+   */
+  public function summaryTable(Request $request, string $filename)
+  {
+    try {
+      $validated = $request->validate([
+        'service_year_month' => 'required|date_format:Y-m',
+        'submission_date'    => 'required|date',
+        'summary_type'       => 'required|in:acupuncture,massage',
+      ]);
+
+      $summaryType = $validated['summary_type'];
+      $typeName = $summaryType === 'acupuncture' ? '総括表（はり・きゅう）' : '総括表（あんま・マッサージ）';
+
+      \Log::info("{$typeName}PDF生成開始", [
+        'service_year_month' => $validated['service_year_month'],
+        'submission_date'    => $validated['submission_date'],
+        'summary_type'       => $summaryType,
+      ]);
+
+      $service = new \App\Services\Print\SummaryTablePdfService();
+      $service->setTherapyType($summaryType);
+
+      // 座標ファイル・テンプレートをpdf_types.jsonから設定
+      $config = $this->getPdfTypeConfig('summary_table');
+      if ($config) {
+        if (!empty($config['coordinatesFile'])) {
+          $service->setCoordinatesPath(storage_path('app/config/' . $config['coordinatesFile']));
+        }
+        if (!empty($config['templateFile'])) {
+          $templateDir = $config['templateDir'] ?? 'acupuncture_and_massage';
+          $service->setTemplatePath(storage_path('app/templates/' . $templateDir . '/' . $config['templateFile']));
+        }
+      }
+
+      $pdfBinary = $service->generate(
+        [],
+        $validated['service_year_month'],
+        $validated['submission_date']
+      );
+
+      \Log::info("{$typeName}PDF生成完了", ['size' => strlen($pdfBinary)]);
+
+      return response($pdfBinary, 200, [
+        'Content-Type'        => 'application/pdf',
+        'Content-Disposition' => 'inline',
+      ]);
+    } catch (\Exception $e) {
+      \Log::error("総括表PDF生成エラー", [
+        'message' => $e->getMessage(),
+        'file'    => $e->getFile(),
+        'line'    => $e->getLine(),
+        'trace'   => $e->getTraceAsString(),
+      ]);
+
+      return response()->json([
+        'error'   => 'PDF生成に失敗しました',
+        'message' => $e->getMessage(),
+        'file'    => $e->getFile(),
+        'line'    => $e->getLine(),
       ], 500);
     }
   }
