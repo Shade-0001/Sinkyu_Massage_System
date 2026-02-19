@@ -1134,8 +1134,10 @@ function openSummaryTableModal(type) {
       const baseLabel = option.value.replace(/^(\d{4})-(\d{2})$/, (_, y, m) => `${y}年${m}月`);
       if (hasDataMonths.includes(option.value)) {
         option.textContent = baseLabel;
+        option.disabled = false;
       } else {
         option.textContent = baseLabel + '（該当データなし）';
+        option.disabled = true;
       }
     });
   }
