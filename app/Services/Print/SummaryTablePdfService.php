@@ -434,8 +434,8 @@ class SummaryTablePdfService extends BasePdfService
       // 費用額
       $this->drawFieldOffset($pdf, 'cost_amount', (string)$row['cost'], 0, $offsetY);
 
-      // 申請額（費用額と同値）
-      $this->drawFieldOffset($pdf, 'claim_amount', (string)$row['cost'], 0, $offsetY);
+      // 申請額
+      $this->drawFieldOffset($pdf, 'claim_amount', (string)$row['claim'], 0, $offsetY);
 
       $totalCount += $row['count'];
       $totalCost  += $row['cost'];
