@@ -220,8 +220,16 @@ function loadCoordinates() {
               coordinates[key].fontSize = 10;
               coordinates[key].letterSpacing = 0;
             }
+          } else {
+            // 既存フィールドにはUI調整プロパティのみフィールド定義からマージ
+            // （座標JSONにないがフィールド定義で定義されているプロパティを補完）
+            const uiOnlyProps = ['rowLineHeight', 'verticalSpacing', 'lineHeight', 'maxCharsPerLine'];
+            uiOnlyProps.forEach(prop => {
+              if (definition[prop] !== undefined && coordinates[key][prop] === undefined) {
+                coordinates[key][prop] = definition[prop];
+              }
+            });
           }
-          // 既存フィールドには何もしない（JSONの値をそのまま保持）
         });
         
         originalCoordinates = JSON.parse(JSON.stringify(coordinates));
