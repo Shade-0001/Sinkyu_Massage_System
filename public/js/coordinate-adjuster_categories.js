@@ -443,7 +443,11 @@ const categoryLabels = {
     "user_info": "利用者情報",
     "clinic_info": "事業所情報",
     "insurer_info": "保険者情報",
-    "treatment_injury_info": "傷病･施術情報"
+    "treatment_injury_info": "傷病･施術情報",
+    // 総括表用カテゴリラベル
+    "header_info":  "ヘッダー情報",
+    "cost_summary": "集計情報",
+    "bank_info":    "金融機関情報"
 };
 
 const categoryOrderTherapyBenefitAcupuncture = [

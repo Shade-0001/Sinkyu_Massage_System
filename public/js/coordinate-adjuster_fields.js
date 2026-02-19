@@ -605,11 +605,36 @@ const fieldDefinitionsTreatmentRecordAcupuncture = {
   'treatment_period': { field: 'treatment_period', label: '施術期間', type: 'text' },
   'onset_cause': { field: 'onset_cause', label: '発病原因', type: 'text' },
 
-  // === 総括表専用フィールド ===
-  'service_year_month': { field: 'service_year_month', label: 'サービス提供年月', type: 'text' },
-  'therapy_category': { field: 'therapy_category', label: '施術カテゴリ', type: 'text' },
-  'benefit_ratio': { field: 'benefit_ratio', label: '支給割合区分（1行目）', type: 'text' },
-  'cost_amount': { field: 'cost_amount', label: '費用額（1行目）', type: 'text' },
-  'claim_amount': { field: 'claim_amount', label: '申請額（1行目）', type: 'text' },
-  'benefit_ratio_row_line_height': { field: 'benefit_ratio_row_line_height', label: '支給割合区分 行間（mm）', type: 'number' }
+};
+
+// ============================================================
+// 総括表専用フィールド定義
+// ============================================================
+const fieldDefinitionsSummaryTable = {
+  // === ヘッダー情報 ===
+  'submission_date':    { field: 'submission_date',    label: '提出年月日',         type: 'text', category: 'header_info' },
+  'service_year_month': { field: 'service_year_month', label: 'サービス提供年月',   type: 'text', category: 'header_info' },
+  'therapy_category':   { field: 'therapy_category',   label: '施術カテゴリ',       type: 'text', category: 'header_info' },
+  'insurer_name':       { field: 'insurer_name',       label: '保険機関名',         type: 'text', category: 'header_info' },
+
+  // === 事業所情報 ===
+  'clinic_postal_code': { field: 'clinic_postal_code', label: '事業所郵便番号',     type: 'text', category: 'clinic_info' },
+  'clinic_address':     { field: 'clinic_address',     label: '事業所住所',         type: 'text', category: 'clinic_info' },
+  'clinic_name':        { field: 'clinic_name',        label: '事業所名',           type: 'text', category: 'clinic_info' },
+  'clinic_owner_name':  { field: 'clinic_owner_name',  label: '事業所代表者氏名',   type: 'text', category: 'clinic_info' },
+  'clinic_phone':       { field: 'clinic_phone',       label: '事業所電話番号',     type: 'text', category: 'clinic_info' },
+
+  // === 集計情報 ===
+  'benefit_ratio':                 { field: 'benefit_ratio',                 label: '支給割合区分（1行目）',  type: 'text',   category: 'cost_summary' },
+  'treatment_count':               { field: 'treatment_count',               label: '施術件数（1行目）',      type: 'text',   category: 'cost_summary' },
+  'cost_amount':                   { field: 'cost_amount',                   label: '費用額（1行目）',        type: 'text',   category: 'cost_summary' },
+  'claim_amount':                  { field: 'claim_amount',                  label: '申請額（1行目）',        type: 'text',   category: 'cost_summary' },
+  'benefit_ratio_row_line_height': { field: 'benefit_ratio_row_line_height', label: '支給割合区分 行間（mm）', type: 'number', category: 'cost_summary' },
+
+  // === 金融機関情報 ===
+  'bank_name':           { field: 'bank_name',           label: '金融機関名（コード）', type: 'text', category: 'bank_info' },
+  'bank_branch_name':    { field: 'bank_branch_name',    label: '支店名（コード）',    type: 'text', category: 'bank_info' },
+  'bank_account_type':   { field: 'bank_account_type',   label: '預金種別',           type: 'text', category: 'bank_info' },
+  'bank_account_number': { field: 'bank_account_number', label: '口座番号',           type: 'text', category: 'bank_info' },
+  'bank_account_name':   { field: 'bank_account_name',   label: '口座名義',           type: 'text', category: 'bank_info' },
 };
