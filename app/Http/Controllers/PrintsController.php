@@ -47,6 +47,36 @@ class PrintsController extends Controller
   }
 
   /**
+   * 総括表用：施術タイプ別にデータが存在する年月セットを返す
+   *
+   * @return array ['acupuncture' => ['2026-02', ...], 'massage' => ['2026-02', ...]]
+   */
+  protected function getSummaryTableDataMonths(): array
+  {
+    $acupunctureIds = [11, 12, 13, 14, 15, 16];
+    $massageIds     = [18, 19, 20, 21];
+
+    $acupunctureMonths = DB::table('records')
+      ->whereIn('therapy_content_id', $acupunctureIds)
+      ->selectRaw("DATE_FORMAT(date, '%Y-%m') as ym")
+      ->distinct()
+      ->pluck('ym')
+      ->toArray();
+
+    $massageMonths = DB::table('records')
+      ->whereIn('therapy_content_id', $massageIds)
+      ->selectRaw("DATE_FORMAT(date, '%Y-%m') as ym")
+      ->distinct()
+      ->pluck('ym')
+      ->toArray();
+
+    return [
+      'acupuncture' => $acupunctureMonths,
+      'massage'     => $massageMonths,
+    ];
+  }
+
+  /**
    * PDFタイプから座標ファイルパスを取得
    *
    * @param string $pdfType
@@ -107,7 +137,10 @@ class PrintsController extends Controller
     // PDFタイプ一覧をビューに渡す
     $pdfTypes = $this->getPdfTypesConfig();
 
-    return view('prints.prints_index', compact('clinicUsers', 'doctors', 'pdfTypes'));
+    // 総括表用：施術タイプ別にデータが存在する年月セットを取得
+    $summaryTableDataMonths = $this->getSummaryTableDataMonths();
+
+    return view('prints.prints_index', compact('clinicUsers', 'doctors', 'pdfTypes', 'summaryTableDataMonths'));
   }
 
   /**

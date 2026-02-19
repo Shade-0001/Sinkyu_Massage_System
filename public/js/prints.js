@@ -1124,6 +1124,22 @@ function openSummaryTableModal(type) {
     submissionDate.value = new Date().toISOString().split('T')[0];
   }
 
+  // サービス提供年月のオプションラベルを更新（該当データなし表示）
+  const ymSelect = document.getElementById('summary_table_service_year_month');
+  if (ymSelect) {
+    const dataAttr = type === 'acupuncture' ? 'acupunctureMonths' : 'massageMonths';
+    const hasDataMonths = JSON.parse(ymSelect.dataset[dataAttr] || '[]');
+    Array.from(ymSelect.options).forEach(option => {
+      if (!option.value) return;
+      const baseLabel = option.value.replace(/^(\d{4})-(\d{2})$/, (_, y, m) => `${y}年${m}月`);
+      if (hasDataMonths.includes(option.value)) {
+        option.textContent = baseLabel;
+      } else {
+        option.textContent = baseLabel + '（該当データなし）';
+      }
+    });
+  }
+
   // モーダルをbodyに追加（必要な場合）
   if (modalElement.parentElement !== document.body) {
     document.body.appendChild(modalElement);

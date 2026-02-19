@@ -676,7 +676,9 @@
             <!-- サービス提供年月 -->
             <div class="mb-3">
               <label for="summary_table_service_year_month" class="form-label">サービス提供年月 <span class="text-danger">*</span></label>
-              <select class="form-select" id="summary_table_service_year_month" name="service_year_month" required>
+              <select class="form-select" id="summary_table_service_year_month" name="service_year_month" required
+                data-acupuncture-months="{{ json_encode($summaryTableDataMonths['acupuncture']) }}"
+                data-massage-months="{{ json_encode($summaryTableDataMonths['massage']) }}">
                 <option value="">選択してください</option>
                 @php
                   $currentDate = now();
