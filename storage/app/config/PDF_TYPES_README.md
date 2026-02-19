@@ -39,6 +39,16 @@
 
 例: `storage/app/config/consent_request_letter_designated_acupuncture_coordinates.json`
 
+**【重要】初期値は必ず `{}` にすること（`[]` は絶対NG）**
+
+```json
+{}
+```
+
+- `[]`（JSON配列）で作成すると、座標調整画面で調整してもリロードすると全てリセットされる
+- 原因：PHPで `json_decode('[]', true)` → 空配列 → JSに `[]`（JS配列）として渡る → 文字列キーが `JSON.stringify` で消える → 保存リクエストが空になる → `[]` がファイルに書き込まれる（永久ループ）
+- 他の座標JSONを参考にする場合も、必ず `{}` から始まっているか確認すること
+
 ### 3. フィールド定義ファイルを作成（または既存を使い回し）
 
 `public/js/coordinate-adjuster_fields.js` にフィールド定義オブジェクトを追加。
@@ -149,6 +159,21 @@ function getCategoryOrder(pdfType) {
 **解決方法**:
 1. 座標JSONファイルを作成
 2. フィールド定義とカテゴリ定義を確認
+
+### 座標を調整してもリロードすると全てリセットされる
+
+**原因**:
+座標JSONファイルの初期値が `{}` ではなく `[]`（JSON配列）になっている。
+
+**バグの連鎖メカニズム**:
+1. PHPが `json_decode('[]', true)` → 空のPHP配列 `[]`
+2. `response()->json(['coordinates' => []])` → JSに `[]`（JS配列）として渡る
+3. JSで `coordinates = []`（配列）に `coordinates['field_key'] = {...}` と文字列キーをセット
+4. 保存時に `JSON.stringify(coordinates)` → JS配列は数値インデックスしかシリアライズしないため文字列キーが消えて `[]` が送信される
+5. PHPで受け取った空配列を `json_encode([])` → `[]` がファイルに書き込まれる（元の状態に戻る）
+
+**解決方法**:
+座標JSONファイルの内容を `[]` から `{}` に修正する。
 
 ---
 

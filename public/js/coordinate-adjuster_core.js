@@ -23,6 +23,8 @@ let customTitleText = '';
 //    【重要】fieldsFile を空文字列 "" にしない！（フィールドラベルが英語になる）
 //
 // 2. storage/app/config/ に座標設定JSONファイルを作成
+//    【重要】初期値は必ず {} にすること（[] にすると座標がリロードのたびにリセットされる）
+//    原因：[] はJSで配列として扱われ、文字列キーがJSON.stringifyで消えるため保存が機能しない
 //
 // 3. public/js/coordinate-adjuster_fields.js に専用のフィールド定義オブジェクトを追加
 //    （または既存のフィールド定義を使い回す）
