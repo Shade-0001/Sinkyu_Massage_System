@@ -65,19 +65,8 @@ class SummaryTablePdfService extends BasePdfService
       // 実データモード：保険機関ごとにページ生成
       $insurerGroups = $this->fetchInsurerGroups($serviceYearMonth);
 
-      if (empty($insurerGroups)) {
-        // データなしの場合：集計情報は空、事業所情報等は描画
-        $clinicInfo = DB::table('clinic_info')->first();
-        $this->addPage($pdf, [
-          'insurer_name'       => '',
-          'service_year_month' => $serviceYearMonth,
-          'clinic_info'        => $clinicInfo,
-          'cost_summary'       => [],
-        ], $submissionDate);
-      } else {
-        foreach ($insurerGroups as $insurerData) {
-          $this->addPage($pdf, $insurerData, $submissionDate);
-        }
+      foreach ($insurerGroups as $insurerData) {
+        $this->addPage($pdf, $insurerData, $submissionDate);
       }
     }
 
