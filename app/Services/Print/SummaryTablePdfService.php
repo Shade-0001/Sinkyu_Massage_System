@@ -528,7 +528,9 @@ class SummaryTablePdfService extends BasePdfService
       if ($textAlign === 'right') {
         $alignedX = $x - $textWidth;
       } elseif ($textAlign === 'center') {
-        $alignedX = $x - ($textWidth / 2);
+        // drawTextByKey（BasePdfService）と同じロジック：X座標を左端として右端(210mm)までの範囲で中央配置
+        $alignmentWidth = 210 - $x;
+        $alignedX = $x + ($alignmentWidth - $textWidth) / 2;
       }
 
       $pdf->SetXY($alignedX, $y);
