@@ -735,9 +735,14 @@ class PrintsController extends Controller
       $json = file_get_contents($configPath);
       $coordinates = json_decode($json, true);
 
+      // 空配列・null の場合は空オブジェクト相当として扱う
+      if (empty($coordinates)) {
+        $coordinates = new \stdClass();
+      }
+
       // デバッグ：x=0,y=0のフィールドをチェック
       $zeroFields = [];
-      foreach ($coordinates as $key => $value) {
+      foreach ((array)$coordinates as $key => $value) {
         if (isset($value['x']) && isset($value['y']) && $value['x'] === 0 && $value['y'] === 0) {
           $zeroFields[] = $key;
         }
@@ -841,7 +846,12 @@ class PrintsController extends Controller
         ]);
       }
 
-      file_put_contents($configPath, json_encode($filteredCoordinates, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+      // 空配列の場合は JSON_FORCE_OBJECT で {} として保存（[] だとJS側で配列扱いされ文字列キーが消える）
+      $jsonFlags = JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE;
+      if (empty($filteredCoordinates)) {
+        $jsonFlags |= JSON_FORCE_OBJECT;
+      }
+      file_put_contents($configPath, json_encode($filteredCoordinates, $jsonFlags));
 
       \Log::info('saveCoordinates: 座標保存完了', [
         'pdf_type' => $pdfType,
