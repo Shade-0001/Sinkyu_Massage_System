@@ -625,11 +625,10 @@ const fieldDefinitionsSummaryTable = {
   'clinic_phone':       { field: 'clinic_phone',       label: '事業所電話番号',     type: 'text', category: 'clinic_info' },
 
   // === 集計情報 ===
-  'benefit_ratio':                 { field: 'benefit_ratio',                 label: '支給割合区分（1行目）',  type: 'text',   category: 'cost_summary' },
-  'treatment_count':               { field: 'treatment_count',               label: '施術件数（1行目）',      type: 'text',   category: 'cost_summary' },
-  'cost_amount':                   { field: 'cost_amount',                   label: '費用額（1行目）',        type: 'text',   category: 'cost_summary' },
-  'claim_amount':                  { field: 'claim_amount',                  label: '申請額（1行目）',        type: 'text',   category: 'cost_summary' },
-  'benefit_ratio_row_line_height': { field: 'benefit_ratio_row_line_height', label: '支給割合区分 行間（mm）', type: 'number', category: 'cost_summary' },
+  'benefit_ratio':   { field: 'benefit_ratio',   label: '支給割合区分（1行目）', type: 'text', category: 'cost_summary', rowLineHeight: 7 },
+  'treatment_count': { field: 'treatment_count', label: '施術件数（1行目）',     type: 'text', category: 'cost_summary' },
+  'cost_amount':     { field: 'cost_amount',     label: '費用額（1行目）',       type: 'text', category: 'cost_summary' },
+  'claim_amount':    { field: 'claim_amount',    label: '申請額（1行目）',       type: 'text', category: 'cost_summary' },
 
   // === 金融機関情報 ===
   'bank_name':           { field: 'bank_name',           label: '金融機関名（コード）', type: 'text', category: 'bank_info' },

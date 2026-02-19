@@ -414,8 +414,8 @@ class SummaryTablePdfService extends BasePdfService
       }
     }
 
-    // 行間（座標設定から取得、デフォルト7mm）
-    $rowLineHeight = $this->coord('benefit_ratio_row_line_height', 'value') ?: 7;
+    // 行間（benefit_ratioフィールドのrowLineHeightプロパティから取得、デフォルト7mm）
+    $rowLineHeight = $this->coord('benefit_ratio', 'rowLineHeight') ?: 7;
 
     foreach ($costSummary as $index => $row) {
       $offsetY = $index * $rowLineHeight;

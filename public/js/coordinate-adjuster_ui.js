@@ -1237,6 +1237,27 @@ function renderSingleFieldHTML(key, field) {
       </div>
       ` : ''}
 
+      ${field.rowLineHeight !== undefined ? `
+      <div class="coordinate-input">
+        <label>行間（mm）:</label>
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'rowLineHeight', -0.5)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'rowLineHeight', -0.5)"
+                ontouchend="stopLongPress()">−</button>
+        <input type="number" step="0.5" value="${field.rowLineHeight}"
+               onchange="updateCoordinate('${key}', 'rowLineHeight', this.value)"
+               class="form-control form-control-sm" style="width: 80px;" data-property="rowLineHeight">
+        <button class="btn btn-sm btn-outline-secondary btn-adjust"
+                onmousedown="startLongPress('${key}', 'rowLineHeight', 0.5)"
+                onmouseup="stopLongPress()"
+                onmouseleave="stopLongPress()"
+                ontouchstart="startLongPress('${key}', 'rowLineHeight', 0.5)"
+                ontouchend="stopLongPress()">+</button>
+      </div>
+      ` : ''}
+
       ${(() => {
         // custom_title_text専用の入力ボックス（常に表示）
         if (key === 'custom_title_text') {

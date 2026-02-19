@@ -885,11 +885,10 @@ const fieldCategoriesSummaryTable = {
   'clinic_phone':       'clinic_info',
 
   // 集計情報
-  'benefit_ratio':                 'cost_summary',
-  'treatment_count':               'cost_summary',
-  'cost_amount':                   'cost_summary',
-  'claim_amount':                  'cost_summary',
-  'benefit_ratio_row_line_height': 'cost_summary',
+  'benefit_ratio':   'cost_summary',
+  'treatment_count': 'cost_summary',
+  'cost_amount':     'cost_summary',
+  'claim_amount':    'cost_summary',
 
   // 金融機関情報
   'bank_name':           'bank_info',
