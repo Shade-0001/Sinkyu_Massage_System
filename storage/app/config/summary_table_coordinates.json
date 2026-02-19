@@ -1,1 +1,202 @@
-{}
+{
+    "submission_date": {
+        "x": 123,
+        "y": 8,
+        "textAlign": "center",
+        "field": "submission_date",
+        "label": "提出年月日",
+        "type": "text",
+        "category": "header_info",
+        "fontSize": 12,
+        "letterSpacing": 0
+    },
+    "service_year_month": {
+        "x": 81.5,
+        "y": 18,
+        "textAlign": "center",
+        "field": "service_year_month",
+        "label": "サービス提供年月",
+        "type": "text",
+        "category": "header_info",
+        "fontSize": 14,
+        "letterSpacing": 0
+    },
+    "therapy_category": {
+        "x": -41.5,
+        "y": 25,
+        "textAlign": "center",
+        "field": "therapy_category",
+        "label": "施術カテゴリ",
+        "type": "text",
+        "category": "header_info",
+        "fontSize": 14,
+        "letterSpacing": 0
+    },
+    "insurer_name": {
+        "x": 16,
+        "y": 40,
+        "textAlign": "left",
+        "field": "insurer_name",
+        "label": "保険機関名",
+        "type": "text",
+        "category": "header_info",
+        "fontSize": 17,
+        "letterSpacing": 0
+    },
+    "clinic_postal_code": {
+        "x": 126,
+        "y": 56.3,
+        "textAlign": "left",
+        "field": "clinic_postal_code",
+        "label": "事業所郵便番号",
+        "type": "text",
+        "category": "clinic_info",
+        "fontSize": 12,
+        "letterSpacing": 0.2
+    },
+    "clinic_address": {
+        "x": 121.5,
+        "y": 64.5,
+        "textAlign": "left",
+        "field": "clinic_address",
+        "label": "事業所住所",
+        "type": "text",
+        "category": "clinic_info",
+        "lineHeight": 5.5,
+        "maxCharsPerLine": 15,
+        "fontSize": 12,
+        "letterSpacing": 0
+    },
+    "clinic_name": {
+        "x": 121.5,
+        "y": 82.5,
+        "textAlign": "left",
+        "field": "clinic_name",
+        "label": "事業所名",
+        "type": "text",
+        "category": "clinic_info",
+        "fontSize": 12,
+        "letterSpacing": 0
+    },
+    "clinic_owner_name": {
+        "x": 121.5,
+        "y": 99,
+        "textAlign": "left",
+        "field": "clinic_owner_name",
+        "label": "事業所代表者氏名",
+        "type": "text",
+        "category": "clinic_info",
+        "fontSize": 12,
+        "letterSpacing": 0
+    },
+    "clinic_phone": {
+        "x": 121.5,
+        "y": 112,
+        "textAlign": "left",
+        "field": "clinic_phone",
+        "label": "事業所電話番号",
+        "type": "text",
+        "category": "clinic_info",
+        "fontSize": 12,
+        "letterSpacing": 0
+    },
+    "benefit_ratio": {
+        "x": -158,
+        "y": 153.5,
+        "textAlign": "center",
+        "field": "benefit_ratio",
+        "label": "支給割合区分（1行目）",
+        "type": "text",
+        "category": "cost_summary",
+        "fontSize": 14,
+        "letterSpacing": 0
+    },
+    "treatment_count": {
+        "x": -112,
+        "y": 153.5,
+        "textAlign": "center",
+        "field": "treatment_count",
+        "label": "施術件数（1行目）",
+        "type": "text",
+        "category": "cost_summary",
+        "fontSize": 14,
+        "letterSpacing": 0
+    },
+    "bank_name": {
+        "x": 87,
+        "y": 220,
+        "textAlign": "left",
+        "field": "bank_name",
+        "label": "金融機関名（コード）",
+        "type": "text",
+        "category": "bank_info",
+        "fontSize": 14,
+        "letterSpacing": 0
+    },
+    "cost_amount": {
+        "x": -22,
+        "y": 153.5,
+        "textAlign": "center",
+        "field": "cost_amount",
+        "label": "費用額（1行目）",
+        "type": "text",
+        "category": "cost_summary",
+        "fontSize": 14,
+        "letterSpacing": 0
+    },
+    "claim_amount": {
+        "x": 106.5,
+        "y": 153.5,
+        "textAlign": "center",
+        "field": "claim_amount",
+        "label": "申請額（1行目）",
+        "type": "text",
+        "category": "cost_summary",
+        "fontSize": 14,
+        "letterSpacing": 0
+    },
+    "bank_branch_name": {
+        "x": 87,
+        "y": 229.5,
+        "textAlign": "left",
+        "field": "bank_branch_name",
+        "label": "支店名（コード）",
+        "type": "text",
+        "category": "bank_info",
+        "fontSize": 14,
+        "letterSpacing": 0
+    },
+    "bank_account_type": {
+        "x": 87,
+        "y": 239,
+        "textAlign": "left",
+        "field": "bank_account_type",
+        "label": "預金種別",
+        "type": "text",
+        "category": "bank_info",
+        "fontSize": 14,
+        "letterSpacing": 0
+    },
+    "bank_account_number": {
+        "x": 87,
+        "y": 248.5,
+        "textAlign": "left",
+        "field": "bank_account_number",
+        "label": "口座番号",
+        "type": "text",
+        "category": "bank_info",
+        "fontSize": 14,
+        "letterSpacing": 0
+    },
+    "bank_account_name": {
+        "x": 87,
+        "y": 258,
+        "textAlign": "left",
+        "field": "bank_account_name",
+        "label": "口座名義",
+        "type": "text",
+        "category": "bank_info",
+        "fontSize": 14,
+        "letterSpacing": 0
+    }
+}
