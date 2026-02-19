@@ -23,7 +23,7 @@
   <button type="button" class="btn btn-primary" onclick="openTreatmentFeeListModal('acupuncture')">施術料金一覧表(保険)</button>
   <button type="button" class="btn btn-primary" onclick="openSelfFeeListModal()">施術料金一覧表(自費)</button>
   <button type="button" class="btn btn-primary" onclick="openTreatmentRecordModal('acupuncture')">施術録</button>
-  <button>総括表</button>
+  <button type="button" class="btn btn-primary" onclick="openSummaryTableModal('acupuncture')">総括表</button>
   <br><br>
 
   <h3>あんま・マッサージ関連</h3>
@@ -37,7 +37,7 @@
   <button type="button" class="btn btn-primary" onclick="openTreatmentFeeListModal('massage')">施術料金一覧表(保険)</button>
   <button type="button" class="btn btn-primary" onclick="openSelfFeeListModal()">施術料金一覧表(自費)</button>
   <button type="button" class="btn btn-primary" onclick="openTreatmentRecordModal('massage')">施術録</button>
-  <button>総括表</button>
+  <button type="button" class="btn btn-primary" onclick="openSummaryTableModal('massage')">総括表</button>
   <br><br>
 
   <h3>その他１</h3>
@@ -655,6 +655,52 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
           <button type="button" class="btn btn-primary" onclick="submitTreatmentRecord()">印刷</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 総括表モーダル（はり・きゅう / あんま・マッサージ共通） -->
+  <div class="modal fade" id="summaryTableModal" tabindex="-1" aria-labelledby="summaryTableModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="summaryTableModalLabel">総括表 出力設定</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="summaryTableForm" method="POST">
+            @csrf
+            <input type="hidden" id="summary_table_type" name="summary_type" value="">
+
+            <!-- サービス提供年月 -->
+            <div class="mb-3">
+              <label for="summary_table_service_year_month" class="form-label">サービス提供年月 <span class="text-danger">*</span></label>
+              <select class="form-select" id="summary_table_service_year_month" name="service_year_month" required>
+                <option value="">選択してください</option>
+                @php
+                  $currentDate = now();
+                  for ($i = 0; $i < 24; $i++) {
+                    $date = $currentDate->copy()->subMonths($i);
+                    $value = $date->format('Y-m');
+                    $display = $date->format('Y年m月');
+                    $selected = ($i === 0) ? 'selected' : '';
+                    echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
+                  }
+                @endphp
+              </select>
+            </div>
+
+            <!-- 提出年月日 -->
+            <div class="mb-3">
+              <label for="summary_table_submission_date" class="form-label">提出年月日 <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" id="summary_table_submission_date" name="submission_date" value="{{ now()->format('Y-m-d') }}" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-primary" onclick="submitSummaryTable()">印刷</button>
         </div>
       </div>
     </div>

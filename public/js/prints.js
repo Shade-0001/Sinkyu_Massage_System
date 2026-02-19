@@ -1092,6 +1092,93 @@ function openTreatmentRecordModal(type) {
 }
 
 /**
+ * 総括表モーダルを開く
+ * @param {string} type - 'acupuncture'（はり・きゅう）または 'massage'（あんま・マッサージ）
+ */
+function openSummaryTableModal(type) {
+  const modalElement = document.getElementById('summaryTableModal');
+  if (!modalElement) return;
+
+  // フォームをリセット
+  resetFormToDefault('summaryTableForm');
+
+  // タイプを設定
+  const summaryType = document.getElementById('summary_table_type');
+  if (summaryType) {
+    summaryType.value = type;
+  }
+
+  // モーダルタイトルを更新
+  const modalTitle = document.getElementById('summaryTableModalLabel');
+  if (modalTitle) {
+    if (type === 'acupuncture') {
+      modalTitle.textContent = 'はり・きゅう総括表 出力設定';
+    } else {
+      modalTitle.textContent = 'あんま・マッサージ総括表 出力設定';
+    }
+  }
+
+  // 提出年月日を今日に設定
+  const submissionDate = document.getElementById('summary_table_submission_date');
+  if (submissionDate) {
+    submissionDate.value = new Date().toISOString().split('T')[0];
+  }
+
+  // モーダルをbodyに追加（必要な場合）
+  if (modalElement.parentElement !== document.body) {
+    document.body.appendChild(modalElement);
+  }
+
+  // Bootstrapモーダルインスタンスを取得または作成
+  const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
+  modalInstance.show();
+}
+
+/**
+ * 総括表PDF出力
+ */
+function submitSummaryTable() {
+  const form = document.getElementById('summaryTableForm');
+
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
+  const summaryType = document.getElementById('summary_table_type').value;
+
+  // 現在日時からファイル名を生成
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  const typeName = summaryType === 'acupuncture' ? 'はり・きゅう' : 'あんま・マッサージ';
+  const filename = `${typeName}総括表_${year}-${month}-${day}_${hours}-${minutes}-${seconds}.pdf`;
+
+  // フォームのアクションURLにファイル名を含める
+  form.action = `/prints/summary-table/${encodeURIComponent(filename)}`;
+
+  // フォームを新しいタブで送信
+  form.target = '_blank';
+  form.submit();
+
+  // モーダルを閉じる
+  setTimeout(() => {
+    const modalElement = document.getElementById('summaryTableModal');
+    if (modalElement) {
+      const modalInstance = bootstrap.Modal.getInstance(modalElement);
+      if (modalInstance) {
+        modalInstance.hide();
+      }
+    }
+  }, 100);
+}
+
+/**
  * 施術録PDF出力
  */
 function submitTreatmentRecord() {
