@@ -109,7 +109,8 @@
         "type": "text",
         "category": "cost_summary",
         "fontSize": 14,
-        "letterSpacing": 0
+        "letterSpacing": 0,
+        "rowLineHeight": 9.5
     },
     "treatment_count": {
         "x": -112,
@@ -196,6 +197,39 @@
         "label": "口座名義",
         "type": "text",
         "category": "bank_info",
+        "fontSize": 14,
+        "letterSpacing": 0
+    },
+    "total_treatment_count": {
+        "x": -112,
+        "y": 182.5,
+        "textAlign": "center",
+        "field": "total_treatment_count",
+        "label": "合計（件数）",
+        "type": "text",
+        "category": "cost_summary",
+        "fontSize": 14,
+        "letterSpacing": 0
+    },
+    "total_cost_amount": {
+        "x": -22,
+        "y": 182.5,
+        "textAlign": "center",
+        "field": "total_cost_amount",
+        "label": "合計（費用額）",
+        "type": "text",
+        "category": "cost_summary",
+        "fontSize": 14,
+        "letterSpacing": 0
+    },
+    "total_claim_amount": {
+        "x": 106.5,
+        "y": 182.5,
+        "textAlign": "center",
+        "field": "total_claim_amount",
+        "label": "合計（申請額）",
+        "type": "text",
+        "category": "cost_summary",
         "fontSize": 14,
         "letterSpacing": 0
     }
