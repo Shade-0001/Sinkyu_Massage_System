@@ -120,6 +120,19 @@ class SummaryTablePdfService extends BasePdfService
       ->orderBy('created_at', 'desc')
       ->first();
 
+    // あんま・マッサージの場合、部位情報を一括取得（record_id => [bodypart_id, ...] のマップ）
+    $bodypartsMap = [];
+    if ($this->therapyType === 'massage') {
+      $recordIds = $records->pluck('id')->toArray();
+      $bodypartRows = DB::select(
+        'SELECT `records_id`, `therapy_type_bodyparts_id` FROM `bodyparts-records` WHERE `records_id` IN (' . implode(',', array_fill(0, count($recordIds), '?')) . ')',
+        $recordIds
+      );
+      foreach ($bodypartRows as $row) {
+        $bodypartsMap[$row->records_id][] = $row->therapy_type_bodyparts_id;
+      }
+    }
+
     // 保険機関ごとにグループ化
     $grouped = [];
     foreach ($records as $record) {
@@ -142,7 +155,7 @@ class SummaryTablePdfService extends BasePdfService
     // 各グループの費用額を計算
     $result = [];
     foreach ($grouped as $group) {
-      $group['cost_summary'] = $this->calculateCostSummary($group['records'], $group['treatment_fees']);
+      $group['cost_summary'] = $this->calculateCostSummary($group['records'], $group['treatment_fees'], $bodypartsMap);
       $result[] = $group;
     }
 
@@ -152,11 +165,12 @@ class SummaryTablePdfService extends BasePdfService
   /**
    * 支給割合区分ごとの施術件数・費用額を計算
    *
-   * @param array      $records       施術実績レコード配列
+   * @param array       $records       施術実績レコード配列
    * @param object|null $treatmentFees 施術料金マスタ
+   * @param array       $bodypartsMap  record_id => [bodypart_id, ...] のマップ（マッサージ用）
    * @return array [ ratio => [ count, cost, claim ], ... ] 降順ソート済み
    */
-  protected function calculateCostSummary(array $records, ?object $treatmentFees): array
+  protected function calculateCostSummary(array $records, ?object $treatmentFees, array $bodypartsMap = []): array
   {
     // 支給割合区分ごとに集計
     // expenses_borne_ratio（負担割合テキスト）→ 支給割合（10 - 負担割合）
@@ -183,7 +197,8 @@ class SummaryTablePdfService extends BasePdfService
       $byRatio[$benefitPercent]['count']++;
 
       // 1件あたりの費用額を計算
-      $recordFee = $this->calculateRecordFee($record, $treatmentFees);
+      $bodypartIds = $bodypartsMap[$record->id] ?? [];
+      $recordFee = $this->calculateRecordFee($record, $treatmentFees, $bodypartIds);
       $byRatio[$benefitPercent]['cost'] += $recordFee;
     }
 
@@ -204,9 +219,10 @@ class SummaryTablePdfService extends BasePdfService
    *
    * @param object      $record        施術実績
    * @param object|null $treatmentFees 施術料金マスタ
+   * @param array       $bodypartIds   部位IDリスト（マッサージ用）
    * @return int 費用額
    */
-  protected function calculateRecordFee(object $record, ?object $treatmentFees): int
+  protected function calculateRecordFee(object $record, ?object $treatmentFees, array $bodypartIds = []): int
   {
     if (!$treatmentFees) {
       return 0;
@@ -225,12 +241,20 @@ class SummaryTablePdfService extends BasePdfService
       16 => 'fomentation_and_elec_ray_normal', // 電気光線器具
     ];
 
-    // あんま・マッサージ系
+    // あんま・マッサージ系（マッサージ以外は部位不問）
     $massageMap = [
-      18 => 'massage_trunk_normal',       // マッサージ
-      19 => 'manual_correction_normal',   // 変形徒手矯正術
-      20 => 'fomentation_normal',          // 温罨法
+      19 => 'manual_correction_normal',        // 変形徒手矯正術
+      20 => 'fomentation_normal',              // 温罨法
       21 => 'fomentation_and_elec_ray_normal', // 温罨法･電気光線器具
+    ];
+
+    // マッサージ部位（bodypart.id）→ treatment_fees カラム
+    $massageBodypartFeeMap = [
+      1 => 'massage_trunk_normal',       // trunk（体幹）
+      2 => 'massage_upper_limb_r_normal', // upper_limb_r（上肢右）
+      3 => 'massage_upper_limb_l_normal', // upper_limb_l（上肢左）
+      4 => 'massage_lower_limb_r_normal', // lower_limb_r（下肢右）
+      5 => 'massage_lower_limb_l_normal', // lower_limb_l（下肢左）
     ];
 
     $fee = 0;
@@ -238,6 +262,14 @@ class SummaryTablePdfService extends BasePdfService
     if (isset($acupunctureMap[$therapyContentId])) {
       $feeKey = $acupunctureMap[$therapyContentId];
       $fee = (int)($treatmentFees->$feeKey ?? 0);
+    } elseif ($therapyContentId === 18) {
+      // マッサージ：部位ごとの料金を加算
+      foreach ($bodypartIds as $bodypartId) {
+        if (isset($massageBodypartFeeMap[$bodypartId])) {
+          $feeKey = $massageBodypartFeeMap[$bodypartId];
+          $fee += (int)($treatmentFees->$feeKey ?? 0);
+        }
+      }
     } elseif (isset($massageMap[$therapyContentId])) {
       $feeKey = $massageMap[$therapyContentId];
       $fee = (int)($treatmentFees->$feeKey ?? 0);
