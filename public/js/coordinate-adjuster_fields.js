@@ -619,7 +619,7 @@ const fieldDefinitionsSummaryTable = {
 
   // === 事業所情報 ===
   'clinic_postal_code': { field: 'clinic_postal_code', label: '事業所郵便番号',     type: 'text', category: 'clinic_info' },
-  'clinic_address':     { field: 'clinic_address',     label: '事業所住所',         type: 'text', category: 'clinic_info' },
+  'clinic_address':     { field: 'clinic_address',     label: '事業所住所',         type: 'text', category: 'clinic_info', lineHeight: 5, maxCharsPerLine: 20 },
   'clinic_name':        { field: 'clinic_name',        label: '事業所名',           type: 'text', category: 'clinic_info' },
   'clinic_owner_name':  { field: 'clinic_owner_name',  label: '事業所代表者氏名',   type: 'text', category: 'clinic_info' },
   'clinic_phone':       { field: 'clinic_phone',       label: '事業所電話番号',     type: 'text', category: 'clinic_info' },

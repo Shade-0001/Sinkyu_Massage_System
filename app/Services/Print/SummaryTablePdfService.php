@@ -356,9 +356,9 @@ class SummaryTablePdfService extends BasePdfService
       }
       $this->drawField($pdf, 'clinic_postal_code', $postalCode);
 
-      // 住所
+      // 住所（maxCharsPerLineで折り返し）
       $address = ($clinicInfo->address_1 ?? '') . ($clinicInfo->address_2 ?? '') . ($clinicInfo->address_3 ?? '');
-      $this->drawField($pdf, 'clinic_address', $address);
+      $this->drawMultilineField($pdf, 'clinic_address', $address);
 
       // 事業所名
       $this->drawField($pdf, 'clinic_name', $clinicInfo->clinic_name ?? '');
@@ -451,6 +451,49 @@ class SummaryTablePdfService extends BasePdfService
     $fontSize = $this->coord($key, 'fontSize') ?: 10;
     $pdf->SetFont('kozminproregular', '', $fontSize);
     $this->drawTextByKey($pdf, $key, $text);
+  }
+
+  /**
+   * maxCharsPerLine・lineHeightを参照して複数行テキストを描画
+   *
+   * @param Fpdi   $pdf
+   * @param string $key
+   * @param string $text
+   */
+  protected function drawMultilineField(Fpdi $pdf, string $key, string $text): void
+  {
+    if (!$this->hasCoord($key) || $text === '') {
+      return;
+    }
+
+    $x              = $this->coord($key, 'x');
+    $y              = $this->coord($key, 'y');
+    $fontSize       = $this->coord($key, 'fontSize') ?: 10;
+    $lineHeight     = $this->coord($key, 'lineHeight') ?: 5;
+    $maxCharsPerLine = $this->coord($key, 'maxCharsPerLine') ?: 20;
+
+    $pdf->SetFont('kozminproregular', '', $fontSize);
+
+    // 改行で分割した上で、各行が maxCharsPerLine を超える場合はさらに分割
+    $originalLines = preg_split('/\r\n|\r|\n/', $text);
+    $allLines = [];
+    foreach ($originalLines as $originalLine) {
+      if (mb_strlen($originalLine) > $maxCharsPerLine) {
+        $chunks = mb_str_split($originalLine, $maxCharsPerLine);
+        foreach ($chunks as $chunk) {
+          $allLines[] = $chunk;
+        }
+      } else {
+        $allLines[] = $originalLine;
+      }
+    }
+
+    $currentY = $y;
+    foreach ($allLines as $line) {
+      $pdf->SetXY($x, $currentY);
+      $pdf->Cell(0, 0, $line, 0, 0, 'L', false);
+      $currentY += $lineHeight;
+    }
   }
 
   /**
