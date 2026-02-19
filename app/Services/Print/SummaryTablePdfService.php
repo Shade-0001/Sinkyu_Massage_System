@@ -88,7 +88,7 @@ class SummaryTablePdfService extends BasePdfService
   {
     // 施術カテゴリに応じた therapy_content_id を決定
     $therapyContentIds = $this->therapyType === 'massage'
-      ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]   // あんま・マッサージ
+      ? [18, 19, 20, 21]      // あんま・マッサージ（マッサージ/変形徒手矯正術/温罨法/温罨法･電気光線器具）
       : [11, 12, 13, 14, 15, 16];            // はり・きゅう
 
     // 対象月の施術実績を取得（利用者・保険情報JOIN）
@@ -227,16 +227,10 @@ class SummaryTablePdfService extends BasePdfService
 
     // あんま・マッサージ系
     $massageMap = [
-      1  => 'massage_trunk_normal',
-      2  => 'massage_trunk_normal',
-      3  => 'massage_trunk_normal',
-      4  => 'massage_trunk_normal',
-      5  => 'massage_trunk_normal',
-      6  => 'massage_upper_limb_r_normal',
-      7  => 'massage_upper_limb_l_normal',
-      8  => 'massage_lower_limb_r_normal',
-      9  => 'massage_lower_limb_l_normal',
-      10 => 'manual_correction_normal',
+      18 => 'massage_trunk_normal',       // マッサージ
+      19 => 'manual_correction_normal',   // 変形徒手矯正術
+      20 => 'fomentation_normal',          // 温罨法
+      21 => 'fomentation_and_elec_ray_normal', // 温罨法･電気光線器具
     ];
 
     $fee = 0;
