@@ -369,7 +369,7 @@ class SummaryTablePdfService extends BasePdfService
 
       // 電話番号
       $phone = $clinicInfo->phone ?? $clinicInfo->cellphone ?? '';
-      $this->drawField($pdf, 'clinic_phone', $phone);
+      $this->drawField($pdf, 'clinic_phone', $this->formatPhoneNumber($phone));
 
       // 金融機関名（コード）
       $bankName = ($clinicInfo->bank_name ?? '') . '（' . ($clinicInfo->bank_code ?? '') . '）';
@@ -574,5 +574,32 @@ class SummaryTablePdfService extends BasePdfService
         ['benefit_percent' => 70, 'count' => 2, 'cost' => 6000,  'claim' => 4200],
       ],
     ];
+  }
+
+  /**
+   * 電話番号をXXX-XXXX-XXXX形式にフォーマット
+   */
+  protected function formatPhoneNumber(string $phone): string
+  {
+    $digitsOnly = preg_replace('/[^0-9]/', '', $phone);
+
+    if (empty($digitsOnly)) {
+      return '';
+    }
+
+    // 10桁: 03始まりは2-4-4、それ以外は3-3-4
+    if (strlen($digitsOnly) === 10) {
+      if (substr($digitsOnly, 0, 2) === '03') {
+        return substr($digitsOnly, 0, 2) . ' - ' . substr($digitsOnly, 2, 4) . ' - ' . substr($digitsOnly, 6);
+      }
+      return substr($digitsOnly, 0, 3) . ' - ' . substr($digitsOnly, 3, 3) . ' - ' . substr($digitsOnly, 6);
+    }
+
+    // 11桁: 3-4-4
+    if (strlen($digitsOnly) === 11) {
+      return substr($digitsOnly, 0, 3) . ' - ' . substr($digitsOnly, 3, 4) . ' - ' . substr($digitsOnly, 7);
+    }
+
+    return $phone;
   }
 }
