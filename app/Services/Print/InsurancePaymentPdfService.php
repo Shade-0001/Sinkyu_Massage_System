@@ -231,7 +231,14 @@ class InsurancePaymentPdfService
 
     $rows = $data['rows'];
 
+    $grandTotal        = 0;
+    $grandSelfpay      = 0;
+    $grandBilling      = 0;
+
     foreach ($rows as $i => $row) {
+      $grandTotal   += $row['total_amount'];
+      $grandSelfpay += $row['selfpay_amount'];
+      $grandBilling += $row['insurance_billing_amount'];
       // A4横向きの有効高：210mm、下マージン10mm → 200mm まで
       if ($currentY + $rowHeight > 200) {
         $pdf->AddPage();
@@ -289,6 +296,45 @@ class InsurancePaymentPdfService
       }
 
       $currentY += $rowHeight;
+    }
+
+    // 総計行（施術・療養費・自己負担額・保険請求額のみ描画、他は枠線も不要）
+    if ($currentY + $rowHeight > 200) {
+      $pdf->AddPage();
+      $currentY = 20;
+    }
+
+    $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
+
+    // 総計行で描画するカラムとその内容
+    $totalCells = [
+      'therapy' => '総計',
+      'total'   => number_format($grandTotal),
+      'selfpay' => number_format($grandSelfpay),
+      'billing' => number_format($grandBilling),
+    ];
+
+    $x = $startX;
+    foreach ($headers as $header) {
+      $key = $header['key'];
+      $w   = $colWidths[$key];
+
+      if (array_key_exists($key, $totalCells)) {
+        $text    = $totalCells[$key];
+        $align   = ($key === 'therapy') ? 'C' : 'R';
+        $padding = ($key !== 'therapy') ? 1 : 0;
+
+        $pdf->SetXY($x + $padding, $currentY);
+        $pdf->Cell($w - $padding * 2, $rowHeight, $text, 0, 0, $align, false);
+
+        // 枠線
+        $pdf->Line($x,      $currentY,             $x + $w, $currentY);
+        $pdf->Line($x,      $currentY + $rowHeight, $x + $w, $currentY + $rowHeight);
+        $pdf->Line($x,      $currentY,             $x,      $currentY + $rowHeight);
+        $pdf->Line($x + $w, $currentY,             $x + $w, $currentY + $rowHeight);
+      }
+
+      $x += $w;
     }
   }
 
