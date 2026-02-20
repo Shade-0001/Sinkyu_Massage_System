@@ -42,8 +42,8 @@
 
   <h3>その他１</h3>
   <button type="button" class="btn btn-primary" onclick="submitFirstExperienceMaterial()">初回体験用資料</button>
-  <button>委任状（申請・受領）</button>
-  <button>委任状（同意書取得）</button>
+  <button type="button" class="btn btn-primary" onclick="submitPowerOfAttorneyApplication()">委任状（申請・受領）</button>
+  <button type="button" class="btn btn-primary" onclick="submitPowerOfAttorneyConsent()">委任状（同意書取得）</button>
   <button type="button" class="btn btn-primary" onclick="openInsurancePaymentModal()">入金管理票（保険）</button>
   <button>医師への御礼状</button>
   <button>紹介者への御礼状</button>

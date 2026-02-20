@@ -271,6 +271,8 @@ Route::middleware('auth')->group(function () {
   Route::post('/prints/summary-table/{filename}', [PrintsController::class, 'summaryTable'])->name('prints.summary-table');
   Route::post('/prints/insurance-payment/{filename}', [PrintsController::class, 'insurancePayment'])->name('prints.insurance-payment');
   Route::get('/prints/first-experience-material', [PrintsController::class, 'firstExperienceMaterial'])->name('prints.first-experience-material');
+  Route::get('/prints/power-of-attorney-application', [PrintsController::class, 'powerOfAttorneyApplication'])->name('prints.power-of-attorney-application');
+  Route::get('/prints/power-of-attorney-consent', [PrintsController::class, 'powerOfAttorneyConsent'])->name('prints.power-of-attorney-consent');
 
   // PDFレイアウト調整ツール
   Route::get('/prints/coordinate-adjuster', [PrintsController::class, 'coordinateAdjuster'])->name('prints.coordinate-adjuster');

@@ -1405,6 +1405,60 @@ class PrintsController extends Controller
     }
   }
 
+  /**
+   * 委任状（申請･受領）PDF出力
+   */
+  public function powerOfAttorneyApplication()
+  {
+    try {
+      $service = new \App\Services\Print\PowerOfAttorneyApplicationPdfService();
+      $pdfBinary = $service->generate([], '', '');
+
+      return response($pdfBinary, 200, [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'inline',
+      ]);
+    } catch (\Exception $e) {
+      \Log::error('委任状（申請･受領）PDF生成エラー', [
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+      ]);
+
+      return response()->json([
+        'error' => 'PDF生成に失敗しました',
+        'message' => $e->getMessage(),
+      ], 500);
+    }
+  }
+
+  /**
+   * 委任状（同意書取得）PDF出力
+   */
+  public function powerOfAttorneyConsent()
+  {
+    try {
+      $service = new \App\Services\Print\PowerOfAttorneyConsentPdfService();
+      $pdfBinary = $service->generate([], '', '');
+
+      return response($pdfBinary, 200, [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'inline',
+      ]);
+    } catch (\Exception $e) {
+      \Log::error('委任状（同意書取得）PDF生成エラー', [
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+      ]);
+
+      return response()->json([
+        'error' => 'PDF生成に失敗しました',
+        'message' => $e->getMessage(),
+      ], 500);
+    }
+  }
+
   public function treatmentRecord(Request $request, string $filename)
   {
     try {

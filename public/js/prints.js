@@ -8,6 +8,20 @@ function submitFirstExperienceMaterial() {
 }
 
 /**
+ * 委任状（申請･受領）PDF出力
+ */
+function submitPowerOfAttorneyApplication() {
+  window.open('/prints/power-of-attorney-application', '_blank');
+}
+
+/**
+ * 委任状（同意書取得）PDF出力
+ */
+function submitPowerOfAttorneyConsent() {
+  window.open('/prints/power-of-attorney-consent', '_blank');
+}
+
+/**
  * 複数選択リストでクリックによるトグル選択＆長押しドラッグ選択を有効化
  * @param {string} selectId - select要素のID
  */
