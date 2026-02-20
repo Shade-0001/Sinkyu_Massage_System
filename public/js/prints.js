@@ -1,6 +1,13 @@
 // public/js/prints.js
 
 /**
+ * 初回体験用資料PDF出力
+ */
+function submitFirstExperienceMaterial() {
+  window.open('/prints/first-experience-material', '_blank');
+}
+
+/**
  * 複数選択リストでクリックによるトグル選択＆長押しドラッグ選択を有効化
  * @param {string} selectId - select要素のID
  */

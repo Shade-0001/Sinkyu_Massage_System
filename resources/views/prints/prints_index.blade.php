@@ -41,7 +41,7 @@
   <br><br>
 
   <h3>その他１</h3>
-  <button>初回体験用資料</button>
+  <button type="button" class="btn btn-primary" onclick="submitFirstExperienceMaterial()">初回体験用資料</button>
   <button>委任状（申請・受領）</button>
   <button>委任状（同意書取得）</button>
   <button>入金管理票（保険）</button>

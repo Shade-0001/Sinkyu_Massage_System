@@ -1325,6 +1325,42 @@ class PrintsController extends Controller
     }
   }
 
+  /**
+   * 初回体験用資料PDF出力
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function firstExperienceMaterial()
+  {
+    try {
+      \Log::info('初回体験用資料PDF生成開始');
+
+      $service = new \App\Services\Print\FirstExperienceMaterialPdfService();
+      $pdfBinary = $service->generate([], '', '');
+
+      \Log::info('初回体験用資料PDF生成完了', ['size' => strlen($pdfBinary)]);
+
+      return response($pdfBinary, 200, [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'inline',
+      ]);
+    } catch (\Exception $e) {
+      \Log::error('初回体験用資料PDF生成エラー', [
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+        'trace' => $e->getTraceAsString(),
+      ]);
+
+      return response()->json([
+        'error' => 'PDF生成に失敗しました',
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+      ], 500);
+    }
+  }
+
   public function treatmentRecord(Request $request, string $filename)
   {
     try {

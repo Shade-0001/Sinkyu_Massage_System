@@ -269,6 +269,7 @@ Route::middleware('auth')->group(function () {
   Route::post('/prints/consent-form/{filename}', [PrintsController::class, 'consentForm'])->name('prints.consent-form');
   Route::post('/prints/treatment-record/{filename}', [PrintsController::class, 'treatmentRecord'])->name('prints.treatment-record');
   Route::post('/prints/summary-table/{filename}', [PrintsController::class, 'summaryTable'])->name('prints.summary-table');
+  Route::get('/prints/first-experience-material', [PrintsController::class, 'firstExperienceMaterial'])->name('prints.first-experience-material');
 
   // PDFレイアウト調整ツール
   Route::get('/prints/coordinate-adjuster', [PrintsController::class, 'coordinateAdjuster'])->name('prints.coordinate-adjuster');
