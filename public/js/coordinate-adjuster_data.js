@@ -103,6 +103,8 @@ let customSampleData = {
   clinic_name: '〇〇鍼灸マッサージ院',
   clinic_address: '東京都渋谷区〇〇1-2-3',
   clinic_manager: '田中 一郎',
+  clinic_owner_name: '田中 一郎',
+  clinic_owner_birthday: '昭和45年 5月 1日',
   clinic_phone: '03-9876-5432',
   institution_code: '1234567',
   health_center_registration: '施術所所在地',

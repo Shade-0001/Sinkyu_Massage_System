@@ -474,6 +474,12 @@ const categoryOrderTherapyBenefitMassage = [
     "signature"
 ];
 
+// フィールドカテゴリマッピング（委任状（申請･受領）用）- カテゴライズなし
+const fieldCategoriesPowerOfAttorneyApplication = {};
+
+// カテゴリ順序（委任状（申請･受領）用）- カテゴライズなし
+const categoryOrderPowerOfAttorneyApplication = [];
+
 // フィールドカテゴリマッピング（施術料金領収書用）- カテゴライズなし
 const fieldCategoriesTreatmentReceipt = {};
 
@@ -924,7 +930,9 @@ function getFieldCategories(pdfType) {
     return {};
   }
 
-  if (pdfType === 'therapy_benefit_massage') {
+  if (pdfType === 'power_of_attorney_application') {
+    return fieldCategoriesPowerOfAttorneyApplication;
+  } else if (pdfType === 'therapy_benefit_massage') {
     return fieldCategoriesTherapyBenefitMassage;
   } else if (pdfType === 'treatment_receipt') {
     return fieldCategoriesTreatmentReceipt;
@@ -963,7 +971,9 @@ function getCategoryOrder(pdfType) {
     return [];
   }
 
-  if (pdfType === 'therapy_benefit_massage') {
+  if (pdfType === 'power_of_attorney_application') {
+    return categoryOrderPowerOfAttorneyApplication;
+  } else if (pdfType === 'therapy_benefit_massage') {
     return categoryOrderTherapyBenefitMassage;
   } else if (pdfType === 'treatment_receipt') {
     return categoryOrderTreatmentReceipt;

@@ -149,7 +149,7 @@
     "templateFile": "委任状（申請･受領）.pdf",
     "templateDir": "others_1",
     "serviceClass": "PowerOfAttorneyApplicationPdfService",
-    "fieldsFile": ""
+    "fieldsFile": "power_of_attorney_application.js"
   },
   "power_of_attorney_consent": {
     "name": "委任状（同意書取得）",

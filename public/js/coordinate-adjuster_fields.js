@@ -640,3 +640,12 @@ const fieldDefinitionsSummaryTable = {
   'bank_account_number': { field: 'bank_account_number', label: '口座番号',           type: 'text', category: 'bank_info' },
   'bank_account_name':   { field: 'bank_account_name',   label: '口座名義',           type: 'text', category: 'bank_info' },
 };
+
+// ============================================================
+// 委任状（申請･受領）専用フィールド定義
+// ============================================================
+const fieldDefinitionsPowerOfAttorneyApplication = {
+  'clinic_address':       { field: 'clinic_address',       label: '事業所住所',       type: 'text' },
+  'clinic_owner_name':    { field: 'clinic_owner_name',    label: '代表者氏名',       type: 'text' },
+  'clinic_owner_birthday': { field: 'clinic_owner_birthday', label: '代表者生年月日', type: 'text' },
+};

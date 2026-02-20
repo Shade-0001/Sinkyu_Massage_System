@@ -71,6 +71,10 @@ function getFieldDefinitions() {
   const currentConfig = pdfTypes[currentPdfType] || {};
 
   // PDFタイプ別のフィールド定義を優先的に返す
+  if (currentPdfType === 'power_of_attorney_application') {
+    return fieldDefinitionsPowerOfAttorneyApplication;
+  }
+
   if (currentPdfType === 'treatment_receipt') {
     return fieldDefinitionsTreatmentReceipt;
   }
