@@ -86,18 +86,68 @@ class DepositsController extends Controller
    */
   public function getMonthData($yearMonth)
   {
+    // 施術料金マスタを取得（最新）
+    $treatmentFees = DB::table('treatment_fees')->orderBy('id', 'desc')->first();
+
+    // therapy_content_id → treatment_feesカラム名マッピング（通常料金）
+    $columnMap = [
+      11 => 'hari_normal',
+      12 => 'kyu_normal',
+      13 => 'hari_and_kyu_normal',
+      14 => 'hari_and_elec_needle_normal',
+      15 => 'kyu_and_elec_moxa_heater_normal',
+      16 => 'hari_and_kyu_elec_ray_normal',
+      18 => 'massage_trunk_normal',
+      19 => 'manual_correction_normal',
+      20 => 'fomentation_normal',
+      21 => 'fomentation_and_elec_ray_normal',
+    ];
+
+    // 負担割合マップ
+    $ratioMap = [1 => 0.1, 2 => 0.2, 3 => 0.3];
 
     $deposits = Deposit::where('year_month', $yearMonth)
       ->with(['clinicUser', 'insurer'])
       ->orderBy('id')
       ->get()
-      ->map(function ($deposit) {
+      ->map(function ($deposit) use ($treatmentFees, $columnMap, $ratioMap) {
         // 治療日を縦並びで表示用にフォーマット
         $treatmentDatesFormatted = collect($deposit->treatment_dates)
           ->map(function ($date) {
             return date('Y/m/d', strtotime($date));
           })
           ->join("\n");
+
+        // 療養費合計を算出：該当施術レコードのtherapy_content_id単価×件数の合計
+        $totalAmount = 0;
+        if ($deposit->clinic_user_id && !empty($deposit->treatment_dates) && $treatmentFees) {
+          $records = DB::table('records')
+            ->where('clinic_user_id', $deposit->clinic_user_id)
+            ->whereIn('date', $deposit->treatment_dates)
+            ->where('therapy_type', $deposit->treatment_type)
+            ->get();
+
+          foreach ($records as $record) {
+            $column = $columnMap[$record->therapy_content_id] ?? null;
+            if ($column && isset($treatmentFees->$column)) {
+              $totalAmount += (int)$treatmentFees->$column;
+            }
+          }
+        }
+
+        // 負担割合を取得
+        $insurance = DB::table('insurances')
+          ->where('clinic_user_id', $deposit->clinic_user_id)
+          ->orderBy('id', 'desc')
+          ->first();
+        $ratioId = $insurance->expenses_borne_ratio_id ?? 1;
+        $ratio = $ratioMap[$ratioId] ?? 0.1;
+
+        // 自己負担額：療養費合計 × 負担割合（10円単位四捨五入）
+        $selfpayAmount = (int)round($totalAmount * $ratio, -1);
+
+        // 保険請求額：療養費合計 − 自己負担額
+        $insuranceBillingAmount = $totalAmount - $selfpayAmount;
 
         return [
           'id' => $deposit->id,
@@ -106,9 +156,9 @@ class DepositsController extends Controller
           'clinic_user_name' => $deposit->clinicUser ? ($deposit->clinicUser->last_name . ' ' . $deposit->clinicUser->first_name) : '',
           'treatment_dates' => $treatmentDatesFormatted,
           'treatment_type' => $deposit->treatment_type == 1 ? '鍼灸' : 'マッサージ',
-          'total_amount' => $deposit->total_amount ?? 0,
-          'selfpay_amount' => $deposit->selfpay_amount ?? 0,
-          'insurance_billing_amount' => $deposit->insurance_billing_amount ?? 0,
+          'total_amount' => $totalAmount,
+          'selfpay_amount' => $selfpayAmount,
+          'insurance_billing_amount' => $insuranceBillingAmount,
           'deposit_amount' => $deposit->deposit_amount ?? 0,
           'deposit_date' => $deposit->deposit_date ? $deposit->deposit_date->format('Y-m-d') : '',
         ];
@@ -131,9 +181,6 @@ class DepositsController extends Controller
   {
 
     $validated = $request->validate([
-      'total_amount' => 'nullable|integer|min:0',
-      'selfpay_amount' => 'nullable|integer|min:0',
-      'insurance_billing_amount' => 'nullable|integer|min:0',
       'deposit_amount' => 'nullable|integer|min:0',
       'deposit_date' => 'nullable|date',
     ]);
@@ -142,9 +189,6 @@ class DepositsController extends Controller
       $deposit = Deposit::findOrFail($id);
 
       $deposit->update([
-        'total_amount' => $validated['total_amount'] ?? 0,
-        'selfpay_amount' => $validated['selfpay_amount'] ?? 0,
-        'insurance_billing_amount' => $validated['insurance_billing_amount'] ?? 0,
         'deposit_amount' => $validated['deposit_amount'] ?? 0,
         'deposit_date' => $validated['deposit_date'] ?? null,
       ]);

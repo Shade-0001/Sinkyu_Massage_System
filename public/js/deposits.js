@@ -170,9 +170,9 @@ function renderDepositsTable(deposits) {
     html += `<td class="align-middle text-truncate" style="max-width: 120px;" title="${deposit.clinic_user_name}">${deposit.clinic_user_name}</td>`;
     html += `<td class="align-middle small" style="white-space: pre-line; word-break: break-word;">${deposit.treatment_dates}</td>`;
     html += `<td class="text-center align-middle">${deposit.treatment_type}</td>`;
-    html += `<td class="align-middle p-1"><input type="number" class="form-control form-control-sm w-100" data-id="${deposit.id}" data-field="total_amount" value="${deposit.total_amount}" min="0"></td>`;
-    html += `<td class="align-middle p-1"><input type="number" class="form-control form-control-sm w-100" data-id="${deposit.id}" data-field="selfpay_amount" value="${deposit.selfpay_amount}" min="0"></td>`;
-    html += `<td class="align-middle p-1"><input type="number" class="form-control form-control-sm w-100" data-id="${deposit.id}" data-field="insurance_billing_amount" value="${deposit.insurance_billing_amount}" min="0"></td>`;
+    html += `<td class="text-end align-middle px-2">${deposit.total_amount.toLocaleString()}</td>`;
+    html += `<td class="text-end align-middle px-2">${deposit.selfpay_amount.toLocaleString()}</td>`;
+    html += `<td class="text-end align-middle px-2">${deposit.insurance_billing_amount.toLocaleString()}</td>`;
     html += `<td class="align-middle p-1"><input type="number" class="form-control form-control-sm w-100" data-id="${deposit.id}" data-field="deposit_amount" value="${deposit.deposit_amount}" min="0"></td>`;
     html += `<td class="align-middle p-1"><input type="date" class="form-control form-control-sm w-100" data-id="${deposit.id}" data-field="deposit_date" value="${deposit.deposit_date}"></td>`;
     html += `<td class="text-center align-middle p-1"><button type="button" class="btn btn-sm btn-primary" onclick="saveDeposit(${deposit.id})">登録</button></td>`;
