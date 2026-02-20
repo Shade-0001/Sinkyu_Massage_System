@@ -1204,6 +1204,66 @@ function submitSummaryTable() {
 }
 
 /**
+ * 入金管理表（保険）モーダルを開く
+ */
+function openInsurancePaymentModal() {
+  const modalElement = document.getElementById('insurancePaymentModal');
+  if (!modalElement) return;
+
+  // フォームをリセット
+  resetFormToDefault('insurancePaymentForm');
+
+  // モーダルをbodyに追加（必要な場合）
+  if (modalElement.parentElement !== document.body) {
+    document.body.appendChild(modalElement);
+  }
+
+  // Bootstrapモーダルインスタンスを取得または作成
+  const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
+  modalInstance.show();
+}
+
+/**
+ * 入金管理表（保険）PDF出力
+ */
+function submitInsurancePayment() {
+  const form = document.getElementById('insurancePaymentForm');
+
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
+  // 現在日時からファイル名を生成
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+  const filename = `入金管理表（保険）_${year}-${month}-${day}_${hours}-${minutes}-${seconds}.pdf`;
+
+  // フォームのアクションURLにファイル名を含める
+  form.action = `/prints/insurance-payment/${encodeURIComponent(filename)}`;
+
+  // フォームを新しいタブで送信
+  form.target = '_blank';
+  form.submit();
+
+  // モーダルを閉じる
+  setTimeout(() => {
+    const modalElement = document.getElementById('insurancePaymentModal');
+    if (modalElement) {
+      const modalInstance = bootstrap.Modal.getInstance(modalElement);
+      if (modalInstance) {
+        modalInstance.hide();
+      }
+    }
+  }, 100);
+}
+
+/**
  * 施術録PDF出力
  */
 function submitTreatmentRecord() {
