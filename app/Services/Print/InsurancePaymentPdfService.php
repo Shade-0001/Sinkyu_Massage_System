@@ -160,7 +160,7 @@ class InsurancePaymentPdfService
 
     // タイトル（左上）
     $pdf->SetFont('kozgopromedium', '', 17);
-    $pdf->Text($startX, 15, '入金管理票');
+    $pdf->Text($startX, 15, '入金管理票（保険扱い）');
 
     // 元号年月（右上）
     $titleYearMonth = $this->formatJapaneseYearMonth($serviceYearMonth);
@@ -244,7 +244,7 @@ class InsurancePaymentPdfService
         'insurer'  => $row['insurer_name'],
         'insured'  => $row['insured_name'],
         'user'     => $row['clinic_user_name'],
-        'period'   => $row['period_start'] . ' ~ ' . $row['period_end'],
+        'period'   => $row['period_start'] . ' ～ ' . $row['period_end'],
         'therapy'  => $row['therapy_text'],
         'total'    => $row['total_amount'] > 0 ? number_format($row['total_amount']) : '',
         'selfpay'  => $row['selfpay_amount'] > 0 ? number_format($row['selfpay_amount']) : '',
