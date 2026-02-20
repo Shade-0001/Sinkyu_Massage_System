@@ -75,6 +75,10 @@ function getFieldDefinitions() {
     return fieldDefinitionsPowerOfAttorneyApplication;
   }
 
+  if (currentPdfType === 'power_of_attorney_consent') {
+    return fieldDefinitionsPowerOfAttorneyConsent;
+  }
+
   if (currentPdfType === 'treatment_receipt') {
     return fieldDefinitionsTreatmentReceipt;
   }

@@ -1,1 +1,26 @@
-{}
+{
+    "clinic_address": {
+        "x": 62,
+        "y": 69.5,
+        "fontSize": 13,
+        "letterSpacing": 0,
+        "textAlign": "left",
+        "type": "text"
+    },
+    "clinic_owner_name": {
+        "x": 62,
+        "y": 88,
+        "fontSize": 14,
+        "letterSpacing": 0,
+        "textAlign": "left",
+        "type": "text"
+    },
+    "clinic_owner_birthday": {
+        "x": 62,
+        "y": 102.5,
+        "fontSize": 14,
+        "letterSpacing": 0,
+        "textAlign": "left",
+        "type": "text"
+    }
+}

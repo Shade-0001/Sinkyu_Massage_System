@@ -157,7 +157,7 @@
     "templateFile": "委任状（同意書取得）.pdf",
     "templateDir": "others_1",
     "serviceClass": "PowerOfAttorneyConsentPdfService",
-    "fieldsFile": ""
+    "fieldsFile": "power_of_attorney_consent.js"
   },
   "deposit_management_insurance": {
     "name": "入金管理票（保険）",

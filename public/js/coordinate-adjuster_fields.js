@@ -649,3 +649,12 @@ const fieldDefinitionsPowerOfAttorneyApplication = {
   'clinic_owner_name':    { field: 'clinic_owner_name',    label: '代表者氏名',       type: 'text' },
   'clinic_owner_birthday': { field: 'clinic_owner_birthday', label: '代表者生年月日', type: 'text' },
 };
+
+// ============================================================
+// 委任状（同意書取得）専用フィールド定義
+// ============================================================
+const fieldDefinitionsPowerOfAttorneyConsent = {
+  'clinic_address':       { field: 'clinic_address',       label: '事業所住所',       type: 'text' },
+  'clinic_owner_name':    { field: 'clinic_owner_name',    label: '代表者氏名',       type: 'text' },
+  'clinic_owner_birthday': { field: 'clinic_owner_birthday', label: '代表者生年月日', type: 'text' },
+};
