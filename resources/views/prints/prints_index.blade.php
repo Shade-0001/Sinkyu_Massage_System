@@ -961,7 +961,8 @@
             <!-- サービス提供年月 -->
             <div class="mb-3">
               <label for="user_count_summary_service_year_month" class="form-label">サービス提供年月 <span class="text-danger">*</span></label>
-              <select class="form-select" id="user_count_summary_service_year_month" name="service_year_month" required>
+              <select class="form-select" id="user_count_summary_service_year_month" name="service_year_month" required
+                data-months="{{ json_encode($userCountDataMonths) }}">
                 <option value="">選択してください</option>
                 @php
                   $currentDate = now();

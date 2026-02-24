@@ -77,6 +77,21 @@ class PrintsController extends Controller
   }
 
   /**
+   * 利用者数集計表用：データが存在する年月セットを返す
+   *
+   * @return array ['2026-02', ...]
+   */
+  protected function getUserCountDataMonths(): array
+  {
+    return DB::table('records')
+      ->whereNull('self_fee_id')
+      ->selectRaw("DATE_FORMAT(date, '%Y-%m') as ym")
+      ->distinct()
+      ->pluck('ym')
+      ->toArray();
+  }
+
+  /**
    * PDFタイプから座標ファイルパスを取得
    *
    * @param string $pdfType
@@ -145,7 +160,10 @@ class PrintsController extends Controller
     // 総括表用：施術タイプ別にデータが存在する年月セットを取得
     $summaryTableDataMonths = $this->getSummaryTableDataMonths();
 
-    return view('prints.prints_index', compact('clinicUsers', 'doctors', 'caremanagers', 'pdfTypes', 'summaryTableDataMonths'));
+    // 利用者数集計表用：データが存在する年月セットを取得
+    $userCountDataMonths = $this->getUserCountDataMonths();
+
+    return view('prints.prints_index', compact('clinicUsers', 'doctors', 'caremanagers', 'pdfTypes', 'summaryTableDataMonths', 'userCountDataMonths'));
   }
 
   /**

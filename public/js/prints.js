@@ -1448,6 +1448,22 @@ function openUserCountSummaryModal() {
 
   resetFormToDefault('userCountSummaryForm');
 
+  const ymSelect = document.getElementById('user_count_summary_service_year_month');
+  if (ymSelect) {
+    const hasDataMonths = JSON.parse(ymSelect.dataset.months || '[]');
+    Array.from(ymSelect.options).forEach(option => {
+      if (!option.value) return;
+      const baseLabel = option.value.replace(/^(\d{4})-(\d{2})$/, (_, y, m) => `${y}年${m}月`);
+      if (hasDataMonths.includes(option.value)) {
+        option.textContent = baseLabel;
+        option.disabled = false;
+      } else {
+        option.textContent = baseLabel + '（該当データなし）';
+        option.disabled = true;
+      }
+    });
+  }
+
   if (modalElement.parentElement !== document.body) {
     document.body.appendChild(modalElement);
   }
