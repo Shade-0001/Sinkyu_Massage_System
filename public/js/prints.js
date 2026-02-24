@@ -1455,10 +1455,10 @@ function openUserCountSummaryModal() {
       if (!option.value) return;
       const baseLabel = option.value.replace(/^(\d{4})-(\d{2})$/, (_, y, m) => `${y}年${m}月`);
       if (option.value in dataMonthsMap) {
-        option.textContent = baseLabel + `｜該当データ：${dataMonthsMap[option.value]}件`;
+        option.textContent = baseLabel + ` ｜ 該当データ：${dataMonthsMap[option.value]}件`;
         option.disabled = false;
       } else {
-        option.textContent = baseLabel + '｜該当データ：なし';
+        option.textContent = baseLabel + ' ｜ 該当データ：なし';
         option.disabled = true;
       }
     });
