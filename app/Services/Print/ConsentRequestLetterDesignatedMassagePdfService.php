@@ -266,10 +266,11 @@ class ConsentRequestLetterDesignatedMassagePdfService extends BasePdfService
       $this->drawTextByKey($pdf, 'medical_institution_name', $data['medical_institution_name']);
     }
 
-    // 4. 医師氏名
+    // 4. 医師氏名（末尾に「　先生御侍史」を挿入）
     if (isset($data['doctor_name']) && $this->hasCoord('doctor_name')) {
+      $doctorNameWithSuffix = $data['doctor_name'] . '　先生御侍史';
       $pdf->SetFontSize($this->coord('doctor_name', 'fontSize'));
-      $this->drawTextByKey($pdf, 'doctor_name', $data['doctor_name']);
+      $this->drawTextByKey($pdf, 'doctor_name', $doctorNameWithSuffix);
     }
 
     // 5. 本文（文面関連付けで取得した内容）
