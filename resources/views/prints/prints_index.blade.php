@@ -87,7 +87,7 @@
                   for ($i = 0; $i < 24; $i++) {
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
-                    $display = $date->format('Y年m月');
+                    $display = $date->format('Y年') . str_pad($date->format('n'), 2, ' ', STR_PAD_LEFT) . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -149,7 +149,7 @@
                   for ($i = 0; $i < 24; $i++) {
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
-                    $display = $date->format('Y年m月');
+                    $display = $date->format('Y年') . str_pad($date->format('n'), 2, ' ', STR_PAD_LEFT) . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -224,7 +224,7 @@
                   for ($i = 0; $i < 24; $i++) {
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
-                    $display = $date->format('Y年m月');
+                    $display = $date->format('Y年') . str_pad($date->format('n'), 2, ' ', STR_PAD_LEFT) . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -286,7 +286,7 @@
                   for ($i = 0; $i < 24; $i++) {
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
-                    $display = $date->format('Y年m月');
+                    $display = $date->format('Y年') . str_pad($date->format('n'), 2, ' ', STR_PAD_LEFT) . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -365,7 +365,7 @@
                   for ($i = 0; $i < 24; $i++) {
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
-                    $display = $date->format('Y年m月');
+                    $display = $date->format('Y年') . str_pad($date->format('n'), 2, ' ', STR_PAD_LEFT) . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -443,7 +443,7 @@
                   for ($i = 0; $i < 24; $i++) {
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
-                    $display = $date->format('Y年m月');
+                    $display = $date->format('Y年') . str_pad($date->format('n'), 2, ' ', STR_PAD_LEFT) . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -481,7 +481,7 @@
                   for ($i = 0; $i < 24; $i++) {
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
-                    $display = $date->format('Y年m月');
+                    $display = $date->format('Y年') . str_pad($date->format('n'), 2, ' ', STR_PAD_LEFT) . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -621,7 +621,7 @@
                   for ($i = 0; $i < 24; $i++) {
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
-                    $display = $date->format('Y年m月');
+                    $display = $date->format('Y年') . str_pad($date->format('n'), 2, ' ', STR_PAD_LEFT) . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -685,7 +685,7 @@
                   for ($i = 0; $i < 24; $i++) {
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
-                    $display = $date->format('Y年m月');
+                    $display = $date->format('Y年') . str_pad($date->format('n'), 2, ' ', STR_PAD_LEFT) . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -730,7 +730,7 @@
                   for ($i = 0; $i < 24; $i++) {
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
-                    $display = $date->format('Y年m月');
+                    $display = $date->format('Y年') . str_pad($date->format('n'), 2, ' ', STR_PAD_LEFT) . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -969,7 +969,7 @@
                   for ($i = 0; $i < 24; $i++) {
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
-                    $display = $date->format('Y年m月');
+                    $display = $date->format('Y年') . str_pad($date->format('n'), 2, ' ', STR_PAD_LEFT) . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
