@@ -1192,7 +1192,7 @@ function openSummaryTableModal(type) {
     const dataMonthsMap = JSON.parse(ymSelect.dataset[dataAttr] || '{}');
     Array.from(ymSelect.options).forEach(option => {
       if (!option.value) return;
-      const baseLabel = option.value.replace(/^(\d{4})-(\d{2})$/, (_, y, m) => { const n = parseInt(m); return `${y}年${n < 10 ? '\u00a0\u00a0\u00a0' : ''}${n}月`; });
+      const baseLabel = option.value.replace(/^(\d{4})-(\d{2})$/, (_, y, m) => { const n = parseInt(m); return `${y}年${n < 10 ? '\u00a0\u00a0' : ''}${n}月`; });
       if (option.value in dataMonthsMap) {
         option.textContent = baseLabel + ` ｜ 該当データ：${dataMonthsMap[option.value]}件`;
         option.disabled = false;
@@ -1453,7 +1453,7 @@ function openUserCountSummaryModal() {
     const dataMonthsMap = JSON.parse(ymSelect.dataset.months || '{}');
     Array.from(ymSelect.options).forEach(option => {
       if (!option.value) return;
-      const baseLabel = option.value.replace(/^(\d{4})-(\d{2})$/, (_, y, m) => { const n = parseInt(m); return `${y}年${n < 10 ? '\u00a0\u00a0\u00a0' : ''}${n}月`; });
+      const baseLabel = option.value.replace(/^(\d{4})-(\d{2})$/, (_, y, m) => { const n = parseInt(m); return `${y}年${n < 10 ? '\u00a0\u00a0' : ''}${n}月`; });
       if (option.value in dataMonthsMap) {
         option.textContent = baseLabel + ` ｜ 該当データ：${dataMonthsMap[option.value]}件`;
         option.disabled = false;
