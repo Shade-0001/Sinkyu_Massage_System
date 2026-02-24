@@ -1536,4 +1536,20 @@ class PrintsController extends Controller
     // TODO: PDFサービス実装後にここで生成・返却
     abort(501, '医師への御礼状PDF生成は未実装です');
   }
+
+  /**
+   * 紹介者への御礼状PDF出力
+   */
+  public function referrerThankYou(Request $request, string $filename)
+  {
+    $validated = $request->validate([
+      'clinic_user_ids'   => 'required|array',
+      'clinic_user_ids.*' => 'exists:clinic_users,id',
+      'caremanager_id'    => 'required|exists:caremanagers,id',
+      'submission_date'   => 'required|date',
+    ]);
+
+    // TODO: PDFサービス実装後にここで生成・返却
+    abort(501, '紹介者への御礼状PDF生成は未実装です');
+  }
 }

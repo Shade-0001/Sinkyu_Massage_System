@@ -1322,6 +1322,55 @@ function submitTreatmentRecord() {
 }
 
 /**
+ * 紹介者への御礼状モーダルを開く
+ */
+function openReferrerThankYouModal() {
+  const modalElement = document.getElementById('referrerThankYouModal');
+  resetFormToDefault('referrerThankYouForm');
+
+  enableClickToggleSelect('referrer_thank_you_clinic_user_ids');
+
+  const modal = new bootstrap.Modal(modalElement);
+  modal.show();
+}
+
+/**
+ * 紹介者への御礼状PDF出力
+ */
+function submitReferrerThankYou() {
+  const form = document.getElementById('referrerThankYouForm');
+
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  const filename = `紹介者への御礼状_${year}-${month}-${day}_${hours}-${minutes}-${seconds}.pdf`;
+
+  form.action = `/prints/referrer-thank-you/${encodeURIComponent(filename)}`;
+  form.target = '_blank';
+  form.submit();
+
+  setTimeout(() => {
+    const modalElement = document.getElementById('referrerThankYouModal');
+    if (modalElement) {
+      const modalInstance = bootstrap.Modal.getInstance(modalElement);
+      if (modalInstance) {
+        modalInstance.hide();
+      }
+    }
+  }, 100);
+}
+
+/**
  * 医師への御礼状モーダルを開く
  */
 function openDoctorThankYouModal() {
