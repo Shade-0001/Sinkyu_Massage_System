@@ -100,7 +100,8 @@
       "Bash(git mv:*)",
       "Bash(/tmp/check_insurers_columns.php:*)",
       "Bash(git --no-pager log -1 --stat)",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "Bash(git stash:*)"
     ],
     "deny": [],
     "ask": []
