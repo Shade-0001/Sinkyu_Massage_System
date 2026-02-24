@@ -678,3 +678,23 @@ const fieldDefinitionsThankYouLetterDoctor = {
   'clinic_name':              { field: 'clinic_name',              label: '施設名',           type: 'text' },
   'clinic_owner_name':        { field: 'clinic_owner_name',        label: '施設代表者氏名',   type: 'text' },
 };
+
+// ============================================================
+// 紹介者への御礼状用のフィールド定義
+// ============================================================
+// PDFタイプ: thank_you_letter_referrer
+// ============================================================
+const fieldDefinitionsThankYouLetterReferrer = {
+  'custom_title_text':      { field: 'custom_title_text',      label: 'タイトル',         type: 'text' },
+  'submission_date':        { field: 'submission_date',        label: '提出年月日',       type: 'text' },
+  'service_provider_name':  { field: 'service_provider_name',  label: '事業所名',         type: 'text' },
+  'caremanager_name':       { field: 'caremanager_name',       label: 'ケアマネ氏名',     type: 'text' },
+  'document_content':       { field: 'document_content',       label: '本文',             type: 'text', lineHeight: 5, maxCharsPerLine: 40 },
+  'user_name':              { field: 'user_name',              label: '利用者氏名',       type: 'text' },
+  'illness_name':           { field: 'illness_name',           label: '傷病名',           type: 'text' },
+  'clinic_postal_code':     { field: 'clinic_postal_code',     label: '施設郵便番号',     type: 'text' },
+  'clinic_address':         { field: 'clinic_address',         label: '施設住所',         type: 'text' },
+  'clinic_phone':           { field: 'clinic_phone',           label: '施設電話番号',     type: 'text' },
+  'clinic_name':            { field: 'clinic_name',            label: '施設名',           type: 'text' },
+  'clinic_owner_name':      { field: 'clinic_owner_name',      label: '施設代表者氏名',   type: 'text' },
+};

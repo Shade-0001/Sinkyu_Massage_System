@@ -1129,6 +1129,16 @@ class PrintsController extends Controller
           '',
           $doctorIds
         );
+      } elseif ($pdfType === 'thank_you_letter_referrer') {
+        // 御礼状（紹介者）の場合はダミーケアマネIDを渡す
+        $caremanagerIds = DB::table('caremanagers')->limit(1)->pluck('id')->toArray();
+        $pdfBinary = $service->generate(
+          $clinicUsers,
+          $yearMonth,
+          $yearMonth . '-01',
+          '',
+          $caremanagerIds
+        );
       } else {
         $pdfBinary = $service->generate(
           $clinicUsers,

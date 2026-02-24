@@ -122,6 +122,11 @@ function getFieldDefinitions() {
     return fieldDefinitionsThankYouLetterDoctor;
   }
 
+  // 紹介者への御礼状用
+  if (currentPdfType === 'thank_you_letter_referrer') {
+    return fieldDefinitionsThankYouLetterReferrer;
+  }
+
   // fieldsFileが空の場合は空オブジェクトを返す
   if (!currentConfig.fieldsFile || currentConfig.fieldsFile === '') {
     return {};
