@@ -87,7 +87,8 @@
                   for ($i = 0; $i < 24; $i++) {
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
-                    $display = $date->format('Y年') . str_pad($date->format('n'), 2, ' ', STR_PAD_LEFT) . '月';
+                    $m = (int)$date->format('n');
+                    $display = $date->format('Y年') . ($m < 10 ? '   ' : '') . $m . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -149,7 +150,8 @@
                   for ($i = 0; $i < 24; $i++) {
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
-                    $display = $date->format('Y年') . str_pad($date->format('n'), 2, ' ', STR_PAD_LEFT) . '月';
+                    $m = (int)$date->format('n');
+                    $display = $date->format('Y年') . ($m < 10 ? '   ' : '') . $m . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -224,7 +226,8 @@
                   for ($i = 0; $i < 24; $i++) {
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
-                    $display = $date->format('Y年') . str_pad($date->format('n'), 2, ' ', STR_PAD_LEFT) . '月';
+                    $m = (int)$date->format('n');
+                    $display = $date->format('Y年') . ($m < 10 ? '   ' : '') . $m . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -286,7 +289,8 @@
                   for ($i = 0; $i < 24; $i++) {
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
-                    $display = $date->format('Y年') . str_pad($date->format('n'), 2, ' ', STR_PAD_LEFT) . '月';
+                    $m = (int)$date->format('n');
+                    $display = $date->format('Y年') . ($m < 10 ? '   ' : '') . $m . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -365,7 +369,8 @@
                   for ($i = 0; $i < 24; $i++) {
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
-                    $display = $date->format('Y年') . str_pad($date->format('n'), 2, ' ', STR_PAD_LEFT) . '月';
+                    $m = (int)$date->format('n');
+                    $display = $date->format('Y年') . ($m < 10 ? '   ' : '') . $m . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -443,7 +448,8 @@
                   for ($i = 0; $i < 24; $i++) {
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
-                    $display = $date->format('Y年') . str_pad($date->format('n'), 2, ' ', STR_PAD_LEFT) . '月';
+                    $m = (int)$date->format('n');
+                    $display = $date->format('Y年') . ($m < 10 ? '   ' : '') . $m . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -481,7 +487,8 @@
                   for ($i = 0; $i < 24; $i++) {
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
-                    $display = $date->format('Y年') . str_pad($date->format('n'), 2, ' ', STR_PAD_LEFT) . '月';
+                    $m = (int)$date->format('n');
+                    $display = $date->format('Y年') . ($m < 10 ? '   ' : '') . $m . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -621,7 +628,8 @@
                   for ($i = 0; $i < 24; $i++) {
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
-                    $display = $date->format('Y年') . str_pad($date->format('n'), 2, ' ', STR_PAD_LEFT) . '月';
+                    $m = (int)$date->format('n');
+                    $display = $date->format('Y年') . ($m < 10 ? '   ' : '') . $m . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -685,7 +693,8 @@
                   for ($i = 0; $i < 24; $i++) {
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
-                    $display = $date->format('Y年') . str_pad($date->format('n'), 2, ' ', STR_PAD_LEFT) . '月';
+                    $m = (int)$date->format('n');
+                    $display = $date->format('Y年') . ($m < 10 ? '   ' : '') . $m . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -730,7 +739,8 @@
                   for ($i = 0; $i < 24; $i++) {
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
-                    $display = $date->format('Y年') . str_pad($date->format('n'), 2, ' ', STR_PAD_LEFT) . '月';
+                    $m = (int)$date->format('n');
+                    $display = $date->format('Y年') . ($m < 10 ? '   ' : '') . $m . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -969,7 +979,8 @@
                   for ($i = 0; $i < 24; $i++) {
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
-                    $display = $date->format('Y年') . str_pad($date->format('n'), 2, ' ', STR_PAD_LEFT) . '月';
+                    $m = (int)$date->format('n');
+                    $display = $date->format('Y年') . ($m < 10 ? '   ' : '') . $m . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -993,20 +1004,6 @@
         .modal { z-index: 2000; }
         .modal-backdrop { z-index: 1990; }
         .modal .modal-content { background-color: #fff; }
-        /* 年月セレクトを等幅フォントにしてスペースパディングで幅を揃える */
-        #service_year_month,
-        #receipt_service_year_month,
-        #massage_service_year_month,
-        #medical_assistance_service_year_month,
-        #late_elderly_medical_service_year_month,
-        #fee_list_service_year_month,
-        #self_fee_list_service_year_month,
-        #treatment_record_service_year_month,
-        #summary_table_service_year_month,
-        #insurance_payment_service_year_month,
-        #user_count_summary_service_year_month {
-          font-family: monospace;
-        }
         /* 利用者選択リストのスクロールアニメーションを無効化 */
         #clinic_user_ids,
         #massage_clinic_user_ids,
