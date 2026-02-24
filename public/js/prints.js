@@ -22,6 +22,16 @@ function submitPowerOfAttorneyConsent() {
 }
 
 /**
+ * select要素の高さをオプション数に合わせて調整（最大10行）
+ * @param {string} selectId - select要素のID
+ */
+function adjustSelectSize(selectId) {
+  const select = document.getElementById(selectId);
+  if (!select) return;
+  select.size = Math.min(select.options.length, 10) || 1;
+}
+
+/**
  * 複数選択リストでクリックによるトグル選択＆長押しドラッグ選択を有効化
  * @param {string} selectId - select要素のID
  */
@@ -191,6 +201,9 @@ function openAcupunctureBenefitModal() {
     submissionDate.value = new Date().toISOString().split('T')[0];
   }
 
+  // 選択ボックスの高さをオプション数に合わせて調整
+  adjustSelectSize('clinic_user_ids');
+
   // モーダルをbodyに追加（必要な場合）
   if (modalElement.parentElement !== document.body) {
     document.body.appendChild(modalElement);
@@ -256,6 +269,9 @@ function openMassageBenefitModal() {
   if (submissionDate) {
     submissionDate.value = new Date().toISOString().split('T')[0];
   }
+
+  // 選択ボックスの高さをオプション数に合わせて調整
+  adjustSelectSize('massage_clinic_user_ids');
 
   // モーダルをbodyに追加（必要な場合）
   if (modalElement.parentElement !== document.body) {
@@ -339,6 +355,9 @@ function openTreatmentReceiptModal(type) {
   if (submissionDate) {
     submissionDate.value = new Date().toISOString().split('T')[0];
   }
+
+  // 選択ボックスの高さをオプション数に合わせて調整
+  adjustSelectSize('receipt_clinic_user_ids');
 
   // モーダルをbodyに追加（必要な場合）
   if (modalElement.parentElement !== document.body) {
@@ -575,6 +594,9 @@ function openMedicalAssistanceModal(type) {
   // チェックボックスの排他制御を設定
   setupSignatureOptionCheckboxes();
 
+  // 選択ボックスの高さをオプション数に合わせて調整
+  adjustSelectSize('medical_assistance_clinic_user_ids');
+
   // モーダルをbodyに追加（必要な場合）
   if (modalElement.parentElement !== document.body) {
     document.body.appendChild(modalElement);
@@ -688,6 +710,9 @@ function openLateElderlyMedicalModal(type) {
   // チェックボックスの排他制御を設定
   setupLateElderlySignatureOptionCheckboxes();
 
+  // 選択ボックスの高さをオプション数に合わせて調整
+  adjustSelectSize('late_elderly_medical_clinic_user_ids');
+
   // モーダルをbodyに追加（必要な場合）
   if (modalElement.parentElement !== document.body) {
     document.body.appendChild(modalElement);
@@ -797,6 +822,9 @@ function openConsentRequestSampleModal(type) {
     const month = String(now.getMonth() + 1).padStart(2, '0');
     submissionMonth.value = `${year}-${month}`;
   }
+
+  // 選択ボックスの高さをオプション数に合わせて調整
+  adjustSelectSize('consent_request_sample_clinic_user_ids');
 
   // モーダルをbodyに追加（必要な場合）
   if (modalElement.parentElement !== document.body) {
@@ -908,6 +936,10 @@ function openConsentRequestDesignatedModal(type) {
     submissionMonth.value = `${year}-${month}`;
   }
 
+  // 選択ボックスの高さをオプション数に合わせて調整
+  adjustSelectSize('consent_request_designated_clinic_user_ids');
+  adjustSelectSize('consent_request_designated_doctor_ids');
+
   // モーダルをbodyに追加（必要な場合）
   if (modalElement.parentElement !== document.body) {
     document.body.appendChild(modalElement);
@@ -1015,6 +1047,9 @@ function openConsentFormModal(type) {
     submissionDate.value = new Date().toISOString().split('T')[0];
   }
 
+  // 選択ボックスの高さをオプション数に合わせて調整
+  adjustSelectSize('consent_form_clinic_user_ids');
+
   // モーダルをbodyに追加（必要な場合）
   if (modalElement.parentElement !== document.body) {
     document.body.appendChild(modalElement);
@@ -1101,6 +1136,9 @@ function openTreatmentRecordModal(type) {
   if (submissionDate) {
     submissionDate.value = new Date().toISOString().split('T')[0];
   }
+
+  // 選択ボックスの高さをオプション数に合わせて調整
+  adjustSelectSize('treatment_record_clinic_user_ids');
 
   // モーダルをbodyに追加（必要な場合）
   if (modalElement.parentElement !== document.body) {
@@ -1330,13 +1368,11 @@ function openReferrerThankYouModal() {
 
   resetFormToDefault('referrerThankYouForm');
 
-  // ケアマネ選択ボックスの高さをオプション数に合わせて調整（最大10行）
-  const caremanagerSelect = document.getElementById('referrer_thank_you_caremanager_id');
-  if (caremanagerSelect) {
-    caremanagerSelect.size = Math.min(caremanagerSelect.options.length, 10) || 1;
-  }
-
   enableClickToggleSelect('referrer_thank_you_clinic_user_ids');
+
+  // 選択ボックスの高さをオプション数に合わせて調整
+  adjustSelectSize('referrer_thank_you_clinic_user_ids');
+  adjustSelectSize('referrer_thank_you_caremanager_id');
 
   if (modalElement.parentElement !== document.body) {
     document.body.appendChild(modalElement);
@@ -1392,6 +1428,10 @@ function openDoctorThankYouModal() {
   resetFormToDefault('doctorThankYouForm');
 
   enableClickToggleSelect('doctor_thank_you_clinic_user_ids');
+
+  // 選択ボックスの高さをオプション数に合わせて調整
+  adjustSelectSize('doctor_thank_you_clinic_user_ids');
+  adjustSelectSize('doctor_thank_you_doctor_id');
 
   if (modalElement.parentElement !== document.body) {
     document.body.appendChild(modalElement);
