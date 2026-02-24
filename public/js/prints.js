@@ -1450,15 +1450,15 @@ function openUserCountSummaryModal() {
 
   const ymSelect = document.getElementById('user_count_summary_service_year_month');
   if (ymSelect) {
-    const hasDataMonths = JSON.parse(ymSelect.dataset.months || '[]');
+    const dataMonthsMap = JSON.parse(ymSelect.dataset.months || '{}');
     Array.from(ymSelect.options).forEach(option => {
       if (!option.value) return;
       const baseLabel = option.value.replace(/^(\d{4})-(\d{2})$/, (_, y, m) => `${y}年${m}月`);
-      if (hasDataMonths.includes(option.value)) {
-        option.textContent = baseLabel;
+      if (option.value in dataMonthsMap) {
+        option.textContent = baseLabel + `（該当データ：${dataMonthsMap[option.value]}件）`;
         option.disabled = false;
       } else {
-        option.textContent = baseLabel + '（該当データなし）';
+        option.textContent = baseLabel + '（該当データ：なし）';
         option.disabled = true;
       }
     });

@@ -77,18 +77,23 @@ class PrintsController extends Controller
   }
 
   /**
-   * 利用者数集計表用：データが存在する年月セットを返す
+   * 利用者数集計表用：年月ごとのDISTINCT利用者数マップを返す
    *
-   * @return array ['2026-02', ...]
+   * @return array ['2026-02' => 5, ...]
    */
   protected function getUserCountDataMonths(): array
   {
-    return DB::table('records')
+    $rows = DB::table('records')
       ->whereNull('self_fee_id')
-      ->selectRaw("DATE_FORMAT(date, '%Y-%m') as ym")
-      ->distinct()
-      ->pluck('ym')
-      ->toArray();
+      ->selectRaw("DATE_FORMAT(date, '%Y-%m') as ym, COUNT(DISTINCT clinic_user_id) as cnt")
+      ->groupByRaw("DATE_FORMAT(date, '%Y-%m')")
+      ->get();
+
+    $map = [];
+    foreach ($rows as $row) {
+      $map[$row->ym] = (int)$row->cnt;
+    }
+    return $map;
   }
 
   /**
