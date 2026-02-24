@@ -88,7 +88,7 @@
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
                     $m = (int)$date->format('n');
-                    $display = $date->format('Y年') . ($m < 10 ? '&nbsp;&nbsp;&nbsp;' : '') . $m . '月';
+                    $display = $date->format('Y年') . ($m < 10 ? "\u{00A0}\u{00A0}\u{00A0}" : '') . $m . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -151,7 +151,7 @@
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
                     $m = (int)$date->format('n');
-                    $display = $date->format('Y年') . ($m < 10 ? '&nbsp;&nbsp;&nbsp;' : '') . $m . '月';
+                    $display = $date->format('Y年') . ($m < 10 ? "\u{00A0}\u{00A0}\u{00A0}" : '') . $m . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -227,7 +227,7 @@
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
                     $m = (int)$date->format('n');
-                    $display = $date->format('Y年') . ($m < 10 ? '&nbsp;&nbsp;&nbsp;' : '') . $m . '月';
+                    $display = $date->format('Y年') . ($m < 10 ? "\u{00A0}\u{00A0}\u{00A0}" : '') . $m . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -290,7 +290,7 @@
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
                     $m = (int)$date->format('n');
-                    $display = $date->format('Y年') . ($m < 10 ? '&nbsp;&nbsp;&nbsp;' : '') . $m . '月';
+                    $display = $date->format('Y年') . ($m < 10 ? "\u{00A0}\u{00A0}\u{00A0}" : '') . $m . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -370,7 +370,7 @@
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
                     $m = (int)$date->format('n');
-                    $display = $date->format('Y年') . ($m < 10 ? '&nbsp;&nbsp;&nbsp;' : '') . $m . '月';
+                    $display = $date->format('Y年') . ($m < 10 ? "\u{00A0}\u{00A0}\u{00A0}" : '') . $m . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -449,7 +449,7 @@
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
                     $m = (int)$date->format('n');
-                    $display = $date->format('Y年') . ($m < 10 ? '&nbsp;&nbsp;&nbsp;' : '') . $m . '月';
+                    $display = $date->format('Y年') . ($m < 10 ? "\u{00A0}\u{00A0}\u{00A0}" : '') . $m . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -488,7 +488,7 @@
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
                     $m = (int)$date->format('n');
-                    $display = $date->format('Y年') . ($m < 10 ? '&nbsp;&nbsp;&nbsp;' : '') . $m . '月';
+                    $display = $date->format('Y年') . ($m < 10 ? "\u{00A0}\u{00A0}\u{00A0}" : '') . $m . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -629,7 +629,7 @@
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
                     $m = (int)$date->format('n');
-                    $display = $date->format('Y年') . ($m < 10 ? '&nbsp;&nbsp;&nbsp;' : '') . $m . '月';
+                    $display = $date->format('Y年') . ($m < 10 ? "\u{00A0}\u{00A0}\u{00A0}" : '') . $m . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -694,7 +694,7 @@
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
                     $m = (int)$date->format('n');
-                    $display = $date->format('Y年') . ($m < 10 ? '&nbsp;&nbsp;&nbsp;' : '') . $m . '月';
+                    $display = $date->format('Y年') . ($m < 10 ? "\u{00A0}\u{00A0}\u{00A0}" : '') . $m . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -740,7 +740,7 @@
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
                     $m = (int)$date->format('n');
-                    $display = $date->format('Y年') . ($m < 10 ? '&nbsp;&nbsp;&nbsp;' : '') . $m . '月';
+                    $display = $date->format('Y年') . ($m < 10 ? "\u{00A0}\u{00A0}\u{00A0}" : '') . $m . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
@@ -980,7 +980,7 @@
                     $date = $currentDate->copy()->subMonths($i);
                     $value = $date->format('Y-m');
                     $m = (int)$date->format('n');
-                    $display = $date->format('Y年') . ($m < 10 ? '&nbsp;&nbsp;&nbsp;' : '') . $m . '月';
+                    $display = $date->format('Y年') . ($m < 10 ? "\u{00A0}\u{00A0}\u{00A0}" : '') . $m . '月';
                     $selected = ($i === 0) ? 'selected' : '';
                     echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
