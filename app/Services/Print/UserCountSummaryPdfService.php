@@ -39,7 +39,7 @@ class UserCountSummaryPdfService
    */
   protected function fetchData(string $serviceYearMonth): array
   {
-    // 全保险者を取得（0件でも描画するため）
+    // 全保険者を取得
     $insurers = DB::table('insurers')
       ->orderBy('insurer_name')
       ->get();
@@ -144,18 +144,27 @@ class UserCountSummaryPdfService
       2 => 'あんま・マッサージ',
     ];
 
-    $insurerList  = $insurers->all();
-    $insurerCount = count($insurerList);
+    $insurerList = $insurers->all();
 
     foreach ($therapyTypes as $therapyTypeValue => $therapyTypeLabel) {
+      // 該当人数が1以上の保険者のみ描画対象とする
+      $visibleInsurers = array_filter($insurerList, function ($insurer) use ($countMap, $therapyTypeValue) {
+        return ($countMap[$insurer->id][$therapyTypeValue] ?? 0) > 0;
+      });
+
+      // 描画対象が0件の施術種類はブロックごとスキップ
+      if (empty($visibleInsurers)) {
+        continue;
+      }
+
       $blockStartY  = $currentY;
-      $blockHeight  = $rowHeight * $insurerCount;
+      $blockHeight  = $rowHeight * count($visibleInsurers);
       $firstInsurer = true;
 
-      foreach ($insurerList as $insurer) {
+      foreach ($visibleInsurers as $insurer) {
         $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
 
-        $userCount = $countMap[$insurer->id][$therapyTypeValue] ?? 0;
+        $userCount = $countMap[$insurer->id][$therapyTypeValue];
 
         $x = $startX;
 
@@ -170,7 +179,7 @@ class UserCountSummaryPdfService
         }
         $x += $colWidths['therapy_type'];
 
-        // 保险者名称
+        // 保険者名称
         $pdf->SetXY($x, $currentY);
         $pdf->Cell($colWidths['insurer_name'], $rowHeight, $insurer->insurer_name, 0, 0, 'L', false);
         $pdf->Line($x, $currentY,              $x + $colWidths['insurer_name'], $currentY);
@@ -187,7 +196,7 @@ class UserCountSummaryPdfService
         $pdf->Line($x, $currentY,              $x, $currentY + $rowHeight);
         $pdf->Line($x + $colWidths['user_count'], $currentY, $x + $colWidths['user_count'], $currentY + $rowHeight);
 
-        $currentY   += $rowHeight;
+        $currentY    += $rowHeight;
         $firstInsurer = false;
 
         // ページ末尾チェック
