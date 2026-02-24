@@ -87,10 +87,14 @@ class SummaryTablePdfService extends BasePdfService
       : [11, 12, 13, 14, 15, 16];            // はり・きゅう
 
     // 対象月の施術実績を取得（利用者・保険情報JOIN）
+    // insurancesは施術日時点で有効な1件のみに絞る（license_acquisition_date <= 施術日 の中で最新）
     $records = DB::table('records')
       ->whereRaw("DATE_FORMAT(records.date, '%Y-%m') = ?", [$serviceYearMonth])
       ->whereIn('records.therapy_content_id', $therapyContentIds)
-      ->leftJoin('insurances', 'records.clinic_user_id', '=', 'insurances.clinic_user_id')
+      ->leftJoin('insurances', function ($join) {
+        $join->on('insurances.clinic_user_id', '=', 'records.clinic_user_id')
+          ->whereRaw('insurances.id = (SELECT id FROM insurances i2 WHERE i2.clinic_user_id = records.clinic_user_id AND i2.license_acquisition_date <= records.date ORDER BY i2.license_acquisition_date DESC LIMIT 1)');
+      })
       ->leftJoin('insurers', 'insurances.insurers_id', '=', 'insurers.id')
       ->leftJoin('expenses_borne_ratios', 'insurances.expenses_borne_ratio_id', '=', 'expenses_borne_ratios.id')
       ->select(
