@@ -140,8 +140,8 @@ class UserCountSummaryPdfService
 
     // 施術種類の定義
     $therapyTypes = [
-      1 => 'はり・きゅう',
-      2 => 'あんま・マッサージ',
+      1 => 'はり･きゅう',
+      2 => 'あんま･マッサージ',
     ];
 
     $insurerList = $insurers->all();
