@@ -1543,8 +1543,46 @@ class PrintsController extends Controller
       'submission_date'   => 'required|date',
     ]);
 
-    // TODO: PDFサービス実装後にここで生成・返却
-    abort(501, '医師への御礼状PDF生成は未実装です');
+    try {
+      \Log::info('医師への御礼状PDF生成開始', [
+        'clinic_user_ids'  => $validated['clinic_user_ids'],
+        'doctor_id'        => $validated['doctor_id'],
+        'thank_you_option' => $validated['thank_you_option'],
+        'submission_date'  => $validated['submission_date'],
+      ]);
+
+      $service = new \App\Services\Print\ThankYouLetterDoctorPdfService();
+      $service->setThankYouOption($validated['thank_you_option']);
+
+      $pdfBinary = $service->generate(
+        $validated['clinic_user_ids'],
+        '',
+        $validated['submission_date'],
+        '',
+        [$validated['doctor_id']]
+      );
+
+      \Log::info('医師への御礼状PDF生成完了', ['size' => strlen($pdfBinary)]);
+
+      return response($pdfBinary, 200, [
+        'Content-Type'        => 'application/pdf',
+        'Content-Disposition' => 'inline; filename="' . $filename . '"',
+      ]);
+    } catch (\Exception $e) {
+      \Log::error('医師への御礼状PDF生成エラー', [
+        'message' => $e->getMessage(),
+        'file'    => $e->getFile(),
+        'line'    => $e->getLine(),
+        'trace'   => $e->getTraceAsString(),
+      ]);
+
+      return response()->json([
+        'error'   => 'PDF生成に失敗しました',
+        'message' => $e->getMessage(),
+        'file'    => $e->getFile(),
+        'line'    => $e->getLine(),
+      ], 500);
+    }
   }
 
   /**

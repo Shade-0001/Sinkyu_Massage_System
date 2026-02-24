@@ -24,6 +24,17 @@ use Illuminate\Support\Facades\DB;
  */
 class ThankYouLetterDoctorPdfService extends BasePdfService
 {
+  /**
+   * 御礼状オプション（consent: 同意書発行, general: 一般）
+   * document_id_1との対応：consent=5, general=6
+   */
+  protected string $thankYouOption = 'consent';
+
+  public function setThankYouOption(string $option): void
+  {
+    $this->thankYouOption = $option;
+  }
+
   protected function getDefaultCoordinatesPath(): string
   {
     return storage_path('app/config/thank_you_letter_doctor_coordinates.json');
@@ -134,9 +145,10 @@ class ThankYouLetterDoctorPdfService extends BasePdfService
       \Log::error('施術所情報が見つかりません');
     }
 
-    // 文書関連付け情報取得（document_id_1 = 5: 医師への御礼状（同意書発行））
+    // 文書関連付け情報取得（consent=5: 同意書発行, general=6: 一般）
+    $documentId1 = ($this->thankYouOption === 'general') ? 6 : 5;
     $documentAssociation = DB::table('document_association')
-      ->where('document_id_1', 5)
+      ->where('document_id_1', $documentId1)
       ->first();
 
     $documentContent = '';
