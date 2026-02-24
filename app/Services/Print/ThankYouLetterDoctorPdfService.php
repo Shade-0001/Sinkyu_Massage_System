@@ -108,7 +108,7 @@ class ThankYouLetterDoctorPdfService extends BasePdfService
       ->first();
 
     $consentMassage = DB::table('consents_massage')
-      ->leftJoin('illnesses_massage', 'consents_massage.illness_name_massage_id', '=', 'illnesses_massage.id')
+      ->leftJoin('illnesses_massage', 'consents_massage.injury_and_illness_name_id', '=', 'illnesses_massage.id')
       ->where('consents_massage.clinic_user_id', $clinicUserId)
       ->orderBy('consents_massage.consenting_date', 'desc')
       ->select('illnesses_massage.illness_name', 'consents_massage.consenting_date')
