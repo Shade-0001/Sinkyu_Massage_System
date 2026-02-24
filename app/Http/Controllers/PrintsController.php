@@ -1118,8 +1118,8 @@ class PrintsController extends Controller
         $service->setTherapyType('acupuncture');
       }
 
-      // 医師指定版の場合はダミー医師IDを渡す
-      if (in_array($pdfType, ['consent_request_letter_designated_acupuncture', 'consent_request_letter_designated_massage'])) {
+      // 医師指定版・御礼状（医師）の場合はダミー医師IDを渡す
+      if (in_array($pdfType, ['consent_request_letter_designated_acupuncture', 'consent_request_letter_designated_massage', 'thank_you_letter_doctor'])) {
         // 最初の医師IDを取得（なければ空配列）
         $doctorIds = DB::table('doctors')->limit(1)->pluck('id')->toArray();
         $pdfBinary = $service->generate(

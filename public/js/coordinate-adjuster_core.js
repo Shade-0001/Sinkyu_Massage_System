@@ -117,6 +117,11 @@ function getFieldDefinitions() {
     return fieldDefinitionsSummaryTable;
   }
 
+  // 医師への御礼状用
+  if (currentPdfType === 'thank_you_letter_doctor') {
+    return fieldDefinitionsThankYouLetterDoctor;
+  }
+
   // fieldsFileが空の場合は空オブジェクトを返す
   if (!currentConfig.fieldsFile || currentConfig.fieldsFile === '') {
     return {};
