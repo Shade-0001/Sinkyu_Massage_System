@@ -1604,13 +1604,39 @@ class PrintsController extends Controller
   /**
    * 利用者数集計表PDF出力
    */
-  public function userCountSummary(Request $request, string $filename)
+  public function userCountSummary(Request $request, \App\Services\Print\UserCountSummaryPdfService $service, string $filename)
   {
-    $validated = $request->validate([
-      'service_year_month' => 'required|date_format:Y-m',
-    ]);
+    try {
+      $validated = $request->validate([
+        'service_year_month' => 'required|date_format:Y-m',
+      ]);
 
-    // TODO: PDFサービス実装後にここで生成・返却
-    abort(501, '利用者数集計表PDF生成は未実装です');
+      \Log::info('利用者数集計表PDF生成開始', [
+        'service_year_month' => $validated['service_year_month'],
+      ]);
+
+      $pdfBinary = $service->generate($validated['service_year_month']);
+
+      \Log::info('利用者数集計表PDF生成完了', ['size' => strlen($pdfBinary)]);
+
+      return response($pdfBinary, 200, [
+        'Content-Type'        => 'application/pdf',
+        'Content-Disposition' => 'inline',
+      ]);
+    } catch (\Exception $e) {
+      \Log::error('利用者数集計表PDF生成エラー', [
+        'message' => $e->getMessage(),
+        'file'    => $e->getFile(),
+        'line'    => $e->getLine(),
+        'trace'   => $e->getTraceAsString(),
+      ]);
+
+      return response()->json([
+        'error'   => 'PDF生成に失敗しました',
+        'message' => $e->getMessage(),
+        'file'    => $e->getFile(),
+        'line'    => $e->getLine(),
+      ], 500);
+    }
   }
 }
