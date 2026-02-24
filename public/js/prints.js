@@ -142,6 +142,8 @@ document.addEventListener('DOMContentLoaded', function() {
   enableClickToggleSelect('consent_request_designated_doctor_ids');
   enableClickToggleSelect('consent_form_clinic_user_ids');
   enableClickToggleSelect('treatment_record_clinic_user_ids');
+  enableClickToggleSelect('doctor_thank_you_clinic_user_ids');
+  enableClickToggleSelect('referrer_thank_you_clinic_user_ids');
 });
 
 /**
@@ -1368,8 +1370,6 @@ function openReferrerThankYouModal() {
 
   resetFormToDefault('referrerThankYouForm');
 
-  enableClickToggleSelect('referrer_thank_you_clinic_user_ids');
-
   // 選択ボックスの高さをオプション数に合わせて調整
   adjustSelectSize('referrer_thank_you_clinic_user_ids');
   adjustSelectSize('referrer_thank_you_caremanager_id');
@@ -1426,8 +1426,6 @@ function openDoctorThankYouModal() {
   if (!modalElement) return;
 
   resetFormToDefault('doctorThankYouForm');
-
-  enableClickToggleSelect('doctor_thank_you_clinic_user_ids');
 
   // 選択ボックスの高さをオプション数に合わせて調整
   adjustSelectSize('doctor_thank_you_clinic_user_ids');
