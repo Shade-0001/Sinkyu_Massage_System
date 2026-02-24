@@ -1320,3 +1320,52 @@ function submitTreatmentRecord() {
     }
   }, 100);
 }
+
+/**
+ * 医師への御礼状モーダルを開く
+ */
+function openDoctorThankYouModal() {
+  const modalElement = document.getElementById('doctorThankYouModal');
+  resetFormToDefault('doctorThankYouForm');
+
+  enableClickToggleSelect('doctor_thank_you_clinic_user_ids');
+
+  const modal = new bootstrap.Modal(modalElement);
+  modal.show();
+}
+
+/**
+ * 医師への御礼状PDF出力
+ */
+function submitDoctorThankYou() {
+  const form = document.getElementById('doctorThankYouForm');
+
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  const filename = `医師への御礼状_${year}-${month}-${day}_${hours}-${minutes}-${seconds}.pdf`;
+
+  form.action = `/prints/doctor-thank-you/${encodeURIComponent(filename)}`;
+  form.target = '_blank';
+  form.submit();
+
+  setTimeout(() => {
+    const modalElement = document.getElementById('doctorThankYouModal');
+    if (modalElement) {
+      const modalInstance = bootstrap.Modal.getInstance(modalElement);
+      if (modalInstance) {
+        modalInstance.hide();
+      }
+    }
+  }, 100);
+}

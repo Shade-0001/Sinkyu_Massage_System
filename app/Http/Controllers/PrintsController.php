@@ -134,13 +134,18 @@ class PrintsController extends Controller
       ->orderBy('last_name_kana')
       ->get();
 
+    $caremanagers = DB::table('caremanagers')
+      ->select('id', 'last_name', 'first_name', 'last_name_kana', 'first_name_kana')
+      ->orderBy('last_name_kana')
+      ->get();
+
     // PDFタイプ一覧をビューに渡す
     $pdfTypes = $this->getPdfTypesConfig();
 
     // 総括表用：施術タイプ別にデータが存在する年月セットを取得
     $summaryTableDataMonths = $this->getSummaryTableDataMonths();
 
-    return view('prints.prints_index', compact('clinicUsers', 'doctors', 'pdfTypes', 'summaryTableDataMonths'));
+    return view('prints.prints_index', compact('clinicUsers', 'doctors', 'caremanagers', 'pdfTypes', 'summaryTableDataMonths'));
   }
 
   /**
@@ -1513,5 +1518,22 @@ class PrintsController extends Controller
         'line' => $e->getLine(),
       ], 500);
     }
+  }
+
+  /**
+   * 医師への御礼状PDF出力
+   */
+  public function doctorThankYou(Request $request, string $filename)
+  {
+    $validated = $request->validate([
+      'clinic_user_ids'   => 'required|array',
+      'clinic_user_ids.*' => 'exists:clinic_users,id',
+      'doctor_id'         => 'required|exists:doctors,id',
+      'thank_you_option'  => 'required|in:consent,general',
+      'submission_date'   => 'required|date',
+    ]);
+
+    // TODO: PDFサービス実装後にここで生成・返却
+    abort(501, '医師への御礼状PDF生成は未実装です');
   }
 }

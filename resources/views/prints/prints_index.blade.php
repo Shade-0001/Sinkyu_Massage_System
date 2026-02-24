@@ -45,8 +45,8 @@
   <button type="button" class="btn btn-primary" onclick="submitPowerOfAttorneyApplication()">委任状（申請・受領）</button>
   <button type="button" class="btn btn-primary" onclick="submitPowerOfAttorneyConsent()">委任状（同意書取得）</button>
   <button type="button" class="btn btn-primary" onclick="openInsurancePaymentModal()">入金管理票（保険）</button>
-  <button>医師への御礼状</button>
-  <button>紹介者への御礼状</button>
+  <button type="button" class="btn btn-primary" onclick="openDoctorThankYouModal()">医師への御礼状</button>
+  <button type="button" class="btn btn-primary" onclick="openReferrerThankYouModal()">紹介者への御礼状</button>
   <button>利用者数集計表</button>
   <button>実施計画書</button>
   <button>報告書挨拶文</button>
@@ -821,6 +821,131 @@
     </div>
   </div>
 
+  <!-- 医師への御礼状モーダル -->
+  <div class="modal fade" id="doctorThankYouModal" tabindex="-1" aria-labelledby="doctorThankYouModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="doctorThankYouModalLabel">医師への御礼状 出力設定</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="doctorThankYouForm" method="POST">
+            @csrf
+
+            <!-- 利用者選択 -->
+            <div class="mb-3">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <label for="doctor_thank_you_clinic_user_ids" class="form-label mb-0">利用者 <span class="text-danger">*</span></label>
+                <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('doctor_thank_you_clinic_user_ids')">全て選択 / 解除</button>
+              </div>
+              <select class="form-select" id="doctor_thank_you_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
+                @foreach($clinicUsers as $user)
+                  <option value="{{ $user->id }}">
+                    {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
+                  </option>
+                @endforeach
+              </select>
+              <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
+            </div>
+
+            <!-- 医師選択 -->
+            <div class="mb-3">
+              <label for="doctor_thank_you_doctor_id" class="form-label">医師 <span class="text-danger">*</span></label>
+              <select class="form-select" id="doctor_thank_you_doctor_id" name="doctor_id" size="10" required>
+                @foreach($doctors as $doctor)
+                  <option value="{{ $doctor->id }}">
+                    {{ $doctor->last_name }} {{ $doctor->first_name }} ({{ $doctor->last_name_kana }} {{ $doctor->first_name_kana }})
+                  </option>
+                @endforeach
+              </select>
+            </div>
+
+            <!-- オプション -->
+            <div class="mb-3">
+              <label class="form-label">オプション <span class="text-danger">*</span></label>
+              <div class="d-flex gap-3">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="thank_you_option" id="thank_you_option_consent" value="consent" checked>
+                  <label class="form-check-label" for="thank_you_option_consent">同意書発行</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="thank_you_option" id="thank_you_option_general" value="general">
+                  <label class="form-check-label" for="thank_you_option_general">一般</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- 提出年月日 -->
+            <div class="mb-3">
+              <label for="doctor_thank_you_submission_date" class="form-label">提出年月日 <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" id="doctor_thank_you_submission_date" name="submission_date" value="{{ now()->format('Y-m-d') }}" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-primary" onclick="submitDoctorThankYou()">印刷</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 紹介者への御礼状モーダル -->
+  <div class="modal fade" id="referrerThankYouModal" tabindex="-1" aria-labelledby="referrerThankYouModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="referrerThankYouModalLabel">紹介者への御礼状 出力設定</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="referrerThankYouForm" method="POST">
+            @csrf
+
+            <!-- 利用者選択 -->
+            <div class="mb-3">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <label for="referrer_thank_you_clinic_user_ids" class="form-label mb-0">利用者 <span class="text-danger">*</span></label>
+                <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('referrer_thank_you_clinic_user_ids')">全て選択 / 解除</button>
+              </div>
+              <select class="form-select" id="referrer_thank_you_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
+                @foreach($clinicUsers as $user)
+                  <option value="{{ $user->id }}">
+                    {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
+                  </option>
+                @endforeach
+              </select>
+              <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
+            </div>
+
+            <!-- ケアマネ選択 -->
+            <div class="mb-3">
+              <label for="referrer_thank_you_caremanager_id" class="form-label">ケアマネ <span class="text-danger">*</span></label>
+              <select class="form-select" id="referrer_thank_you_caremanager_id" name="caremanager_id" size="10" required>
+                @foreach($caremanagers as $cm)
+                  <option value="{{ $cm->id }}">
+                    {{ $cm->last_name }} {{ $cm->first_name }} ({{ $cm->last_name_kana }} {{ $cm->first_name_kana }})
+                  </option>
+                @endforeach
+              </select>
+            </div>
+
+            <!-- 提出年月日 -->
+            <div class="mb-3">
+              <label for="referrer_thank_you_submission_date" class="form-label">提出年月日 <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" id="referrer_thank_you_submission_date" name="submission_date" value="{{ now()->format('Y-m-d') }}" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-primary" onclick="submitReferrerThankYou()">印刷</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   @push('scripts')
     @push('styles')
       <style>
@@ -838,7 +963,11 @@
         #consent_request_designated_clinic_user_ids,
         #consent_request_designated_doctor_ids,
         #consent_form_clinic_user_ids,
-        #treatment_record_clinic_user_ids {
+        #treatment_record_clinic_user_ids,
+        #doctor_thank_you_clinic_user_ids,
+        #doctor_thank_you_doctor_id,
+        #referrer_thank_you_clinic_user_ids,
+        #referrer_thank_you_caremanager_id {
           scroll-behavior: auto;
         }
       </style>
