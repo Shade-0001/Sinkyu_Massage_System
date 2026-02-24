@@ -1330,6 +1330,12 @@ function openReferrerThankYouModal() {
 
   resetFormToDefault('referrerThankYouForm');
 
+  // ケアマネ選択ボックスの高さをオプション数に合わせて調整（最大10行）
+  const caremanagerSelect = document.getElementById('referrer_thank_you_caremanager_id');
+  if (caremanagerSelect) {
+    caremanagerSelect.size = Math.min(caremanagerSelect.options.length, 10) || 1;
+  }
+
   enableClickToggleSelect('referrer_thank_you_clinic_user_ids');
 
   if (modalElement.parentElement !== document.body) {
