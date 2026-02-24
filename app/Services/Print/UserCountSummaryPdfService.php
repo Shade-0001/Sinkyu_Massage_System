@@ -6,7 +6,7 @@ use setasign\Fpdi\Tcpdf\Fpdi;
 use Illuminate\Support\Facades\DB;
 
 /**
- * 利用者数集計表（保险者名称毎）PDF生成サービス
+ * 利用者数集計表（保険者名称毎）PDF生成サービス
  */
 class UserCountSummaryPdfService
 {
@@ -35,7 +35,7 @@ class UserCountSummaryPdfService
 
   /**
    * データベースからデータを取得
-   * 保险者×施術種類ごとのDISTINCT利用者数を集計
+   * 保険者×施術種類ごとのDISTINCT利用者数を集計
    */
   protected function fetchData(string $serviceYearMonth): array
   {
@@ -44,7 +44,7 @@ class UserCountSummaryPdfService
       ->orderBy('insurer_name')
       ->get();
 
-    // 指定年月の施術記録から、保险者×施術種類ごとのDISTINCT利用者IDを集計
+    // 指定年月の施術記録から、保険者×施術種類ごとのDISTINCT利用者IDを集計
     $counts = DB::table('records')
       ->whereNull('records.self_fee_id')
       ->whereRaw("DATE_FORMAT(records.date, '%Y-%m') = ?", [$serviceYearMonth])
@@ -87,7 +87,7 @@ class UserCountSummaryPdfService
 
     // タイトル（左上）
     $pdf->SetFont('kozgopromedium', '', 17);
-    $pdf->Text($startX, 15, '利用者数集計表（保险者名称毎）');
+    $pdf->Text($startX, 15, '利用者数集計表（保険者名称毎）');
 
     // サービス提供年月（右上）
     $titleYearMonth      = $this->formatJapaneseYearMonth($serviceYearMonth);
@@ -113,7 +113,7 @@ class UserCountSummaryPdfService
 
     $headers = [
       ['text' => '施術種類',   'width' => $colWidths['therapy_type']],
-      ['text' => '保险者名称', 'width' => $colWidths['insurer_name']],
+      ['text' => '保険者名称', 'width' => $colWidths['insurer_name']],
       ['text' => '該当人数',   'width' => $colWidths['user_count']],
     ];
 
