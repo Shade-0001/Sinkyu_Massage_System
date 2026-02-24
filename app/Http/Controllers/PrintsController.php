@@ -77,21 +77,31 @@ class PrintsController extends Controller
   }
 
   /**
-   * 利用者数集計表用：年月ごとのDISTINCT利用者数マップを返す
+   * 利用者数集計表用：年月ごとの表示件数マップを返す
+   * PDF書面の行数と一致させるため、施術種類×保険者ごとのDISTINCT利用者数を合算する
    *
    * @return array ['2026-02' => 5, ...]
    */
   protected function getUserCountDataMonths(): array
   {
     $rows = DB::table('records')
-      ->whereNull('self_fee_id')
-      ->selectRaw("DATE_FORMAT(date, '%Y-%m') as ym, COUNT(DISTINCT clinic_user_id) as cnt")
-      ->groupByRaw("DATE_FORMAT(date, '%Y-%m')")
+      ->whereNull('records.self_fee_id')
+      ->join('insurances', function ($join) {
+        $join->on('insurances.clinic_user_id', '=', 'records.clinic_user_id')
+          ->whereRaw('insurances.id = (SELECT MAX(id) FROM insurances WHERE clinic_user_id = records.clinic_user_id)');
+      })
+      ->whereNotNull('insurances.insurers_id')
+      ->selectRaw("DATE_FORMAT(records.date, '%Y-%m') as ym, records.therapy_type, insurances.insurers_id, COUNT(DISTINCT records.clinic_user_id) as cnt")
+      ->groupByRaw("DATE_FORMAT(records.date, '%Y-%m'), records.therapy_type, insurances.insurers_id")
       ->get();
 
+    // 年月ごとに、0件超の組み合わせの利用者数を合算
     $map = [];
     foreach ($rows as $row) {
-      $map[$row->ym] = (int)$row->cnt;
+      $cnt = (int)$row->cnt;
+      if ($cnt > 0) {
+        $map[$row->ym] = ($map[$row->ym] ?? 0) + $cnt;
+      }
     }
     return $map;
   }
