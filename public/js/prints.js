@@ -1185,7 +1185,7 @@ function openSummaryTableModal(type) {
     submissionDate.value = new Date().toISOString().split('T')[0];
   }
 
-  // サービス提供年月のオプションラベルを更新（該当データなし表示）
+  // サービス提供年月のオプションラベルを更新（該当データなし・件数表示）
   const ymSelect = document.getElementById('summary_table_service_year_month');
   if (ymSelect) {
     const dataAttr = type === 'acupuncture' ? 'acupunctureMonths' : 'massageMonths';
