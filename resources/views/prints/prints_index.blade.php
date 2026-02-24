@@ -47,7 +47,7 @@
   <button type="button" class="btn btn-primary" onclick="openInsurancePaymentModal()">入金管理票（保険）</button>
   <button type="button" class="btn btn-primary" onclick="openDoctorThankYouModal()">医師への御礼状</button>
   <button type="button" class="btn btn-primary" onclick="openReferrerThankYouModal()">紹介者への御礼状</button>
-  <button>利用者数集計表</button>
+  <button type="button" class="btn btn-primary" onclick="openUserCountSummaryModal()">利用者数集計表</button>
   <button>実施計画書</button>
   <button>報告書挨拶文</button>
   <button>報告書</button>
@@ -941,6 +941,45 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
           <button type="button" class="btn btn-primary" onclick="submitReferrerThankYou()">印刷</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 利用者数集計表モーダル -->
+  <div class="modal fade" id="userCountSummaryModal" tabindex="-1" aria-labelledby="userCountSummaryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="userCountSummaryModalLabel">利用者数集計表 出力設定</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="userCountSummaryForm" method="POST">
+            @csrf
+
+            <!-- サービス提供年月 -->
+            <div class="mb-3">
+              <label for="user_count_summary_service_year_month" class="form-label">サービス提供年月 <span class="text-danger">*</span></label>
+              <select class="form-select" id="user_count_summary_service_year_month" name="service_year_month" required>
+                <option value="">選択してください</option>
+                @php
+                  $currentDate = now();
+                  for ($i = 0; $i < 24; $i++) {
+                    $date = $currentDate->copy()->subMonths($i);
+                    $value = $date->format('Y-m');
+                    $display = $date->format('Y年m月');
+                    $selected = ($i === 0) ? 'selected' : '';
+                    echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
+                  }
+                @endphp
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-primary" onclick="submitUserCountSummary()">印刷</button>
         </div>
       </div>
     </div>

@@ -1384,6 +1384,52 @@ function openDoctorThankYouModal() {
 }
 
 /**
+ * 利用者数集計表モーダルを開く
+ */
+function openUserCountSummaryModal() {
+  const modalElement = document.getElementById('userCountSummaryModal');
+  resetFormToDefault('userCountSummaryForm');
+  const modal = new bootstrap.Modal(modalElement);
+  modal.show();
+}
+
+/**
+ * 利用者数集計表PDF出力
+ */
+function submitUserCountSummary() {
+  const form = document.getElementById('userCountSummaryForm');
+
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  const filename = `利用者数集計表_${year}-${month}-${day}_${hours}-${minutes}-${seconds}.pdf`;
+
+  form.action = `/prints/user-count-summary/${encodeURIComponent(filename)}`;
+  form.target = '_blank';
+  form.submit();
+
+  setTimeout(() => {
+    const modalElement = document.getElementById('userCountSummaryModal');
+    if (modalElement) {
+      const modalInstance = bootstrap.Modal.getInstance(modalElement);
+      if (modalInstance) {
+        modalInstance.hide();
+      }
+    }
+  }, 100);
+}
+
+/**
  * 医師への御礼状PDF出力
  */
 function submitDoctorThankYou() {

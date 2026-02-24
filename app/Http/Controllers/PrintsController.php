@@ -1552,4 +1552,17 @@ class PrintsController extends Controller
     // TODO: PDFサービス実装後にここで生成・返却
     abort(501, '紹介者への御礼状PDF生成は未実装です');
   }
+
+  /**
+   * 利用者数集計表PDF出力
+   */
+  public function userCountSummary(Request $request, string $filename)
+  {
+    $validated = $request->validate([
+      'service_year_month' => 'required|date_format:Y-m',
+    ]);
+
+    // TODO: PDFサービス実装後にここで生成・返却
+    abort(501, '利用者数集計表PDF生成は未実装です');
+  }
 }

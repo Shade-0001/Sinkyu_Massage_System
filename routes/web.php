@@ -272,6 +272,7 @@ Route::middleware('auth')->group(function () {
   Route::post('/prints/insurance-payment/{filename}', [PrintsController::class, 'insurancePayment'])->name('prints.insurance-payment');
   Route::post('/prints/doctor-thank-you/{filename}', [PrintsController::class, 'doctorThankYou'])->name('prints.doctor-thank-you');
   Route::post('/prints/referrer-thank-you/{filename}', [PrintsController::class, 'referrerThankYou'])->name('prints.referrer-thank-you');
+  Route::post('/prints/user-count-summary/{filename}', [PrintsController::class, 'userCountSummary'])->name('prints.user-count-summary');
   Route::get('/prints/first-experience-material', [PrintsController::class, 'firstExperienceMaterial'])->name('prints.first-experience-material');
   Route::get('/prints/power-of-attorney-application', [PrintsController::class, 'powerOfAttorneyApplication'])->name('prints.power-of-attorney-application');
   Route::get('/prints/power-of-attorney-consent', [PrintsController::class, 'powerOfAttorneyConsent'])->name('prints.power-of-attorney-consent');
