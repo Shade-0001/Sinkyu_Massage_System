@@ -1326,11 +1326,17 @@ function submitTreatmentRecord() {
  */
 function openReferrerThankYouModal() {
   const modalElement = document.getElementById('referrerThankYouModal');
+  if (!modalElement) return;
+
   resetFormToDefault('referrerThankYouForm');
 
   enableClickToggleSelect('referrer_thank_you_clinic_user_ids');
 
-  const modal = new bootstrap.Modal(modalElement);
+  if (modalElement.parentElement !== document.body) {
+    document.body.appendChild(modalElement);
+  }
+
+  const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
   modal.show();
 }
 
@@ -1375,11 +1381,17 @@ function submitReferrerThankYou() {
  */
 function openDoctorThankYouModal() {
   const modalElement = document.getElementById('doctorThankYouModal');
+  if (!modalElement) return;
+
   resetFormToDefault('doctorThankYouForm');
 
   enableClickToggleSelect('doctor_thank_you_clinic_user_ids');
 
-  const modal = new bootstrap.Modal(modalElement);
+  if (modalElement.parentElement !== document.body) {
+    document.body.appendChild(modalElement);
+  }
+
+  const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
   modal.show();
 }
 
@@ -1388,8 +1400,15 @@ function openDoctorThankYouModal() {
  */
 function openUserCountSummaryModal() {
   const modalElement = document.getElementById('userCountSummaryModal');
+  if (!modalElement) return;
+
   resetFormToDefault('userCountSummaryForm');
-  const modal = new bootstrap.Modal(modalElement);
+
+  if (modalElement.parentElement !== document.body) {
+    document.body.appendChild(modalElement);
+  }
+
+  const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
   modal.show();
 }
 
