@@ -47,9 +47,10 @@ class PrintsController extends Controller
   }
 
   /**
-   * 総括表用：施術タイプ別に年月ごとのDISTINCT利用者数マップを返す
+   * 総括表用：施術タイプ別に年月ごとの施術レコード件数マップを返す
+   * モーダルの件数表示はPDF総括表と同じ「施術レコード数」でカウントする
    *
-   * @return array ['acupuncture' => ['2026-02' => 3, ...], 'massage' => ['2026-02' => 2, ...]]
+   * @return array ['acupuncture' => ['2026-02' => 5, ...], 'massage' => ['2026-02' => 3, ...]]
    */
   protected function getSummaryTableDataMonths(): array
   {
@@ -58,13 +59,13 @@ class PrintsController extends Controller
 
     $acupunctureRows = DB::table('records')
       ->whereIn('therapy_content_id', $acupunctureIds)
-      ->selectRaw("DATE_FORMAT(date, '%Y-%m') as ym, COUNT(DISTINCT clinic_user_id) as cnt")
+      ->selectRaw("DATE_FORMAT(date, '%Y-%m') as ym, COUNT(*) as cnt")
       ->groupByRaw("DATE_FORMAT(date, '%Y-%m')")
       ->get();
 
     $massageRows = DB::table('records')
       ->whereIn('therapy_content_id', $massageIds)
-      ->selectRaw("DATE_FORMAT(date, '%Y-%m') as ym, COUNT(DISTINCT clinic_user_id) as cnt")
+      ->selectRaw("DATE_FORMAT(date, '%Y-%m') as ym, COUNT(*) as cnt")
       ->groupByRaw("DATE_FORMAT(date, '%Y-%m')")
       ->get();
 
