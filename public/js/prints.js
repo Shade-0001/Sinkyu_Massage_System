@@ -1565,6 +1565,68 @@ function openImplementationPlanModal() {
 }
 
 /**
+ * 報告書挨拶文モーダルを開く
+ */
+function openReportGreetingModal() {
+  const modalElement = document.getElementById('reportGreetingModal');
+  if (!modalElement) return;
+
+  resetFormToDefault('reportGreetingForm');
+
+  // 提出年月日を今日の日付でデフォルト設定
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate()).padStart(2, '0');
+  const submissionDateEl = document.getElementById('report_greeting_submission_date');
+  if (submissionDateEl && !submissionDateEl.value) {
+    submissionDateEl.value = `${yyyy}-${mm}-${dd}`;
+  }
+
+  if (modalElement.parentElement !== document.body) {
+    document.body.appendChild(modalElement);
+  }
+
+  const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
+  modal.show();
+}
+
+/**
+ * 報告書挨拶文PDF出力
+ */
+function submitReportGreeting() {
+  const form = document.getElementById('reportGreetingForm');
+
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  const filename = `報告書挨拶文_${year}-${month}-${day}_${hours}-${minutes}-${seconds}.pdf`;
+  form.action = `/prints/report-greeting/${encodeURIComponent(filename)}`;
+  form.target = '_blank';
+  form.submit();
+
+  setTimeout(() => {
+    const modalElement = document.getElementById('reportGreetingModal');
+    if (modalElement) {
+      const modalInstance = bootstrap.Modal.getInstance(modalElement);
+      if (modalInstance) {
+        modalInstance.hide();
+      }
+    }
+  }, 100);
+}
+
+/**
  * 実施計画書PDF出力
  */
 function submitImplementationPlan() {

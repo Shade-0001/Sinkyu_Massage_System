@@ -1687,6 +1687,23 @@ class PrintsController extends Controller
   }
 
   /**
+   * 報告書挨拶文PDF出力（stub）
+   */
+  public function reportGreeting(Request $request, string $filename)
+  {
+    $validated = $request->validate([
+      'greeting_type'   => 'required|in:doctor,caremanager,user',
+      'clinic_user_id'  => 'required|integer|exists:clinic_users,id',
+      'doctor_id'       => 'nullable|integer|exists:doctors,id',
+      'caremanager_id'  => 'nullable|integer|exists:caremanagers,id',
+      'submission_date' => 'required|date',
+    ]);
+
+    // TODO: PDF生成サービス実装後に置き換える
+    return response()->json(['message' => '報告書挨拶文PDF生成はまだ実装されていません', 'params' => $validated], 501);
+  }
+
+  /**
    * 利用者数集計表PDF出力
    */
   public function userCountSummary(Request $request, \App\Services\Print\UserCountSummaryPdfService $service, string $filename)

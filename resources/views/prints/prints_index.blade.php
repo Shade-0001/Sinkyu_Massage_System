@@ -49,7 +49,7 @@
   <button type="button" class="btn btn-primary" onclick="openReferrerThankYouModal()">紹介者への御礼状</button>
   <button type="button" class="btn btn-primary" onclick="openUserCountSummaryModal()">利用者数集計表</button>
   <button type="button" class="btn btn-primary" onclick="openImplementationPlanModal()">実施計画書</button>
-  <button>報告書挨拶文</button>
+  <button type="button" class="btn btn-primary" onclick="openReportGreetingModal()">報告書挨拶文</button>
   <button>報告書</button>
   <button>翌月予定表</button>
   <button>要加療期限切れリスト</button>
@@ -1012,6 +1012,91 @@
     </div>
   </div>
 
+  <!-- 報告書挨拶文モーダル -->
+  <div class="modal fade" id="reportGreetingModal" tabindex="-1" aria-labelledby="reportGreetingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="reportGreetingModalLabel">報告書挨拶文 出力設定</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="reportGreetingForm" method="POST">
+            @csrf
+
+            <!-- オプション -->
+            <div class="mb-3">
+              <label class="form-label">オプション <span class="text-danger">*</span></label>
+              <div class="d-flex gap-4">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="greeting_type" id="greeting_type_doctor" value="doctor" required>
+                  <label class="form-check-label" for="greeting_type_doctor">医師向け</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="greeting_type" id="greeting_type_caremanager" value="caremanager">
+                  <label class="form-check-label" for="greeting_type_caremanager">ケアマネ向け</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="greeting_type" id="greeting_type_user" value="user">
+                  <label class="form-check-label" for="greeting_type_user">利用者向け</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- 利用者 -->
+            <div class="mb-3">
+              <label for="report_greeting_clinic_user_id" class="form-label">利用者 <span class="text-danger">*</span></label>
+              <select class="form-select" id="report_greeting_clinic_user_id" name="clinic_user_id" required>
+                <option value="">選択してください</option>
+                @foreach($clinicUsers as $user)
+                  <option value="{{ $user->id }}">
+                    {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
+                  </option>
+                @endforeach
+              </select>
+            </div>
+
+            <!-- 医師 -->
+            <div class="mb-3">
+              <label for="report_greeting_doctor_id" class="form-label">医師</label>
+              <select class="form-select" id="report_greeting_doctor_id" name="doctor_id">
+                <option value="">選択してください</option>
+                @foreach($doctors as $doctor)
+                  <option value="{{ $doctor->id }}">
+                    {{ $doctor->last_name }} {{ $doctor->first_name }} ({{ $doctor->last_name_kana }} {{ $doctor->first_name_kana }})
+                  </option>
+                @endforeach
+              </select>
+            </div>
+
+            <!-- ケアマネ -->
+            <div class="mb-3">
+              <label for="report_greeting_caremanager_id" class="form-label">ケアマネ</label>
+              <select class="form-select" id="report_greeting_caremanager_id" name="caremanager_id">
+                <option value="">選択してください</option>
+                @foreach($caremanagers as $cm)
+                  <option value="{{ $cm->id }}">
+                    {{ $cm->last_name }} {{ $cm->first_name }} ({{ $cm->last_name_kana }} {{ $cm->first_name_kana }})
+                  </option>
+                @endforeach
+              </select>
+            </div>
+
+            <!-- 提出年月日 -->
+            <div class="mb-3">
+              <label for="report_greeting_submission_date" class="form-label">提出年月日 <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" id="report_greeting_submission_date" name="submission_date" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-primary" onclick="submitReportGreeting()">印刷</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- 利用者数集計表モーダル -->
   <div class="modal fade" id="userCountSummaryModal" tabindex="-1" aria-labelledby="userCountSummaryModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -1075,6 +1160,9 @@
         #doctor_thank_you_doctor_id,
         #referrer_thank_you_clinic_user_ids,
         #implementation_plan_clinic_user_ids,
+        #report_greeting_clinic_user_id,
+        #report_greeting_doctor_id,
+        #report_greeting_caremanager_id,
         #referrer_thank_you_caremanager_id {
           scroll-behavior: auto;
         }
