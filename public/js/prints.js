@@ -1587,13 +1587,17 @@ function updateImplementationPlanUserLabels() {
 
     if (!selectedYm) {
       option.textContent = baseName;
+      option.disabled = false;
       return;
     }
 
     if (planMonths.includes(selectedYm)) {
       option.textContent = baseName + ' ｜ 該当データ：あり';
+      option.disabled = false;
     } else {
       option.textContent = baseName + ' ｜ 該当データ：なし';
+      option.disabled = true;
+      option.selected = false;
     }
   });
 }
