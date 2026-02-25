@@ -132,6 +132,11 @@ function getFieldDefinitions() {
     return fieldDefinitionsThankYouLetterReferrer;
   }
 
+  // 報告書挨拶状用
+  if (currentPdfType === 'report_greeting') {
+    return fieldDefinitionsReportGreeting;
+  }
+
   // fieldsFileが空の場合は空オブジェクトを返す
   if (!currentConfig.fieldsFile || currentConfig.fieldsFile === '') {
     return {};

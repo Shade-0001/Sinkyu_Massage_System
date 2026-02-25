@@ -1168,8 +1168,12 @@ class PrintsController extends Controller
         $service->setTherapyType('acupuncture');
       }
 
-      // 医師指定版・御礼状（医師）の場合はダミー医師IDを渡す
-      if (in_array($pdfType, ['consent_request_letter_designated_acupuncture', 'consent_request_letter_designated_massage', 'thank_you_letter_doctor'])) {
+      // 医師指定版・御礼状（医師）・報告書挨拶状の場合はダミー医師IDを渡す
+      if (in_array($pdfType, ['consent_request_letter_designated_acupuncture', 'consent_request_letter_designated_massage', 'thank_you_letter_doctor', 'report_greeting'])) {
+        // report_greetingのpreviewはdoctor向けとして表示
+        if ($pdfType === 'report_greeting' && method_exists($service, 'setGreetingType')) {
+          $service->setGreetingType('doctor');
+        }
         // 最初の医師IDを取得（なければ空配列）
         $doctorIds = DB::table('doctors')->limit(1)->pluck('id')->toArray();
         $pdfBinary = $service->generate(
@@ -1696,7 +1700,7 @@ class PrintsController extends Controller
   }
 
   /**
-   * 報告書挨拶文PDF出力（stub）
+   * 報告書挨拶状PDF出力
    */
   public function reportGreeting(Request $request, string $filename)
   {
@@ -1708,8 +1712,59 @@ class PrintsController extends Controller
       'submission_date' => 'required|date',
     ]);
 
-    // TODO: PDF生成サービス実装後に置き換える
-    return response()->json(['message' => '報告書挨拶文PDF生成はまだ実装されていません', 'params' => $validated], 501);
+    try {
+      \Log::info('報告書挨拶状PDF生成開始', $validated);
+
+      $greetingType   = $validated['greeting_type'];
+      $clinicUserId   = (int)$validated['clinic_user_id'];
+      $doctorId       = isset($validated['doctor_id'])      ? (int)$validated['doctor_id']      : null;
+      $caremanagerId  = isset($validated['caremanager_id']) ? (int)$validated['caremanager_id'] : null;
+      $submissionDate = $validated['submission_date'];
+
+      $service = new \App\Services\Print\ReportGreetingPdfService();
+      $service->setGreetingType($greetingType);
+
+      $coordinatesPath = storage_path('app/config/report_greeting_coordinates.json');
+      $service->setCoordinatesPath($coordinatesPath);
+
+      $templatePath = storage_path('app/templates/汎用文書.pdf');
+      if (file_exists($templatePath)) {
+        $service->setTemplatePath($templatePath);
+      }
+
+      $doctorIds      = $doctorId      ? [$doctorId]      : [];
+      $caremanagerIds = $caremanagerId ? [$caremanagerId] : [];
+
+      $pdfBinary = $service->generate(
+        [$clinicUserId],
+        '',
+        $submissionDate,
+        '',
+        $doctorIds,
+        $caremanagerIds
+      );
+
+      \Log::info('報告書挨拶状PDF生成完了', ['size' => strlen($pdfBinary)]);
+
+      return response($pdfBinary, 200, [
+        'Content-Type'        => 'application/pdf',
+        'Content-Disposition' => 'inline; filename="' . $filename . '"',
+      ]);
+    } catch (\Exception $e) {
+      \Log::error('報告書挨拶状PDF生成エラー', [
+        'message' => $e->getMessage(),
+        'file'    => $e->getFile(),
+        'line'    => $e->getLine(),
+        'trace'   => $e->getTraceAsString(),
+      ]);
+
+      return response()->json([
+        'error'   => 'PDF生成に失敗しました',
+        'message' => $e->getMessage(),
+        'file'    => $e->getFile(),
+        'line'    => $e->getLine(),
+      ], 500);
+    }
   }
 
   /**
