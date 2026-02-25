@@ -749,8 +749,10 @@ const fieldDefinitionsThankYouLetterReferrer = {
 const fieldDefinitionsReportGreeting = {
   'custom_title_text':        { field: 'custom_title_text',        label: 'タイトル',         type: 'text' },
   'submission_date':          { field: 'submission_date',          label: '提出年月日',       type: 'text' },
-  'medical_institution_name': { field: 'medical_institution_name', label: '医療機関名',       type: 'text' },
-  'doctor_name':              { field: 'doctor_name',              label: '医師氏名',         type: 'text' },
+  'medical_institution_name': { field: 'medical_institution_name', label: '医療機関名（医師向け）',       type: 'text' },
+  'doctor_name':              { field: 'doctor_name',              label: '医師氏名（医師向け）',         type: 'text' },
+  'service_provider_name':    { field: 'service_provider_name',    label: '事業所名（ケアマネ向け）',       type: 'text' },
+  'caremanager_name':         { field: 'caremanager_name',         label: 'ケアマネ氏名（ケアマネ向け）',     type: 'text' },
   'document_content':         { field: 'document_content',         label: '本文',             type: 'text', lineHeight: 5, maxCharsPerLine: 40 },
   'user_name':                { field: 'user_name',                label: '利用者氏名',       type: 'text' },
   'illness_name':             { field: 'illness_name',             label: '傷病名',           type: 'text' },

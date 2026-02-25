@@ -109,7 +109,9 @@ class ReportGreetingPdfService extends BasePdfService
 
     // 宛先情報取得
     $medicalInstitutionName = '';
-    $recipientName          = '';
+    $doctorName             = '';
+    $serviceProviderName    = '';
+    $caremanagerName        = '';
 
     if ($this->greetingType === 'doctor' && $doctorId) {
       $doctor = DB::table('doctors')
@@ -120,7 +122,7 @@ class ReportGreetingPdfService extends BasePdfService
 
       if ($doctor) {
         $medicalInstitutionName = $doctor->medical_institution_name ?? '';
-        $recipientName          = trim(($doctor->last_name ?? '') . ' ' . ($doctor->first_name ?? ''));
+        $doctorName             = trim(($doctor->last_name ?? '') . ' ' . ($doctor->first_name ?? ''));
       }
     } elseif ($this->greetingType === 'caremanager' && $caremanagerId) {
       $caremanager = DB::table('caremanagers')
@@ -130,11 +132,11 @@ class ReportGreetingPdfService extends BasePdfService
         ->first();
 
       if ($caremanager) {
-        $medicalInstitutionName = $caremanager->service_provider_name ?? '';
-        $recipientName          = trim(($caremanager->last_name ?? '') . ' ' . ($caremanager->first_name ?? ''));
+        $serviceProviderName = $caremanager->service_provider_name ?? '';
+        $caremanagerName     = trim(($caremanager->last_name ?? '') . ' ' . ($caremanager->first_name ?? ''));
       }
     }
-    // user の場合は recipientName を空のままにし、fillFormFields で利用者名を使用
+    // user の場合は先方情報なし
 
     // 傷病名取得（はり・きゅう同意書から最新のものを優先、なければマッサージ同意書から取得）
     $illnessName = '';
@@ -199,7 +201,9 @@ class ReportGreetingPdfService extends BasePdfService
       'document_content'         => $documentContent,
       'submission_date'          => $submissionDate,
       'medical_institution_name' => $medicalInstitutionName,
-      'recipient_name'           => $recipientName,
+      'doctor_name'              => $doctorName,
+      'service_provider_name'    => $serviceProviderName,
+      'caremanager_name'         => $caremanagerName,
     ];
   }
 
@@ -232,15 +236,19 @@ class ReportGreetingPdfService extends BasePdfService
     $documentContent = $custom['document_content'] ?? "拝啓　時下ますますご清栄のこととお慶び申し上げます。\n\nさて、このたびは下記の方の報告書をお送りいたします。\nご査収のほどよろしくお願い申し上げます。\n\n敬具";
 
     // greeting_typeに応じたサンプル宛先
+    $medicalInstitutionName = '';
+    $doctorName             = '';
+    $serviceProviderName    = '';
+    $caremanagerName        = '';
+
     if ($this->greetingType === 'caremanager') {
-      $medicalInstitutionName = $custom['medical_institution_name'] ?? '〇〇居宅介護支援事業所';
-      $recipientName          = $custom['recipient_name'] ?? '佐藤 花子';
+      $serviceProviderName = $custom['service_provider_name'] ?? '〇〇居宅介護支援事業所';
+      $caremanagerName     = $custom['caremanager_name'] ?? '佐藤 花子';
     } elseif ($this->greetingType === 'user') {
-      $medicalInstitutionName = '';
-      $recipientName          = '';
+      // 利用者向けは宛先情報なし
     } else {
       $medicalInstitutionName = $custom['medical_institution_name'] ?? '〇〇病院';
-      $recipientName          = $custom['recipient_name'] ?? '田中医師';
+      $doctorName             = $custom['doctor_name'] ?? '田中医師';
     }
 
     return [
@@ -250,7 +258,9 @@ class ReportGreetingPdfService extends BasePdfService
       'document_content'         => $documentContent,
       'submission_date'          => $submissionDate,
       'medical_institution_name' => $medicalInstitutionName,
-      'recipient_name'           => $recipientName,
+      'doctor_name'              => $doctorName,
+      'service_provider_name'    => $serviceProviderName,
+      'caremanager_name'         => $caremanagerName,
     ];
   }
 
@@ -301,34 +311,43 @@ class ReportGreetingPdfService extends BasePdfService
       $this->drawTextByKey($pdf, 'submission_date', $dateText);
     }
 
-    // 3. 医療機関名 または 事業所名（medical_institution_nameフィールド位置）
-    if ($this->greetingType === 'doctor' || $this->greetingType === 'caremanager') {
+    // 3. 医療機関名（医師向け）
+    if ($this->greetingType === 'doctor') {
       if (!empty($data['medical_institution_name']) && $this->hasCoord('medical_institution_name')) {
         $pdf->SetFontSize($this->coord('medical_institution_name', 'fontSize'));
         $this->drawTextByKey($pdf, 'medical_institution_name', $data['medical_institution_name']);
       }
     }
 
-    // 4. 宛名（doctor_nameフィールド位置）
-    //    - doctor:      「医師名　先生御侍史」
-    //    - caremanager: 「ケアマネ名　様」
-    //    - user:        「利用者名　様」
-    if ($this->hasCoord('doctor_name')) {
-      if ($this->greetingType === 'doctor') {
-        if (!empty($data['recipient_name'])) {
-          $pdf->SetFontSize($this->coord('doctor_name', 'fontSize'));
-          $this->drawTextByKey($pdf, 'doctor_name', $data['recipient_name'] . '　先生御侍史');
-        }
-      } else {
-        // caremanager / user → 「* 様」表記
-        if ($this->greetingType === 'user') {
-          $userName = ($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? '');
-          $nameText = $userName . '　様';
-        } else {
-          $nameText = (!empty($data['recipient_name']) ? $data['recipient_name'] : '') . '　様';
-        }
+    // 3b. 事業所名（ケアマネ向け）
+    if ($this->greetingType === 'caremanager') {
+      if (!empty($data['service_provider_name']) && $this->hasCoord('service_provider_name')) {
+        $pdf->SetFontSize($this->coord('service_provider_name', 'fontSize'));
+        $this->drawTextByKey($pdf, 'service_provider_name', $data['service_provider_name']);
+      }
+    }
+
+    // 4. 宛名
+    //    - doctor:      医師名「先生御侍史」（doctor_nameフィールド）
+    //    - caremanager: ケアマネ名「　様」（caremanager_nameフィールド）
+    //    - user:        利用者名「　様」（doctor_nameフィールド位置）
+    if ($this->greetingType === 'doctor') {
+      if (!empty($data['doctor_name']) && $this->hasCoord('doctor_name')) {
         $pdf->SetFontSize($this->coord('doctor_name', 'fontSize'));
-        $this->drawTextByKey($pdf, 'doctor_name', $nameText);
+        $this->drawTextByKey($pdf, 'doctor_name', $data['doctor_name'] . '　先生御侍史');
+      }
+    } elseif ($this->greetingType === 'caremanager') {
+      if ($this->hasCoord('caremanager_name')) {
+        $nameText = (!empty($data['caremanager_name']) ? $data['caremanager_name'] : '') . '　様';
+        $pdf->SetFontSize($this->coord('caremanager_name', 'fontSize'));
+        $this->drawTextByKey($pdf, 'caremanager_name', $nameText);
+      }
+    } else {
+      // user → 利用者名「　様」（doctor_nameフィールド位置）
+      if ($this->hasCoord('doctor_name')) {
+        $userDisplayName = ($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? '');
+        $pdf->SetFontSize($this->coord('doctor_name', 'fontSize'));
+        $this->drawTextByKey($pdf, 'doctor_name', $userDisplayName . '　様');
       }
     }
 
