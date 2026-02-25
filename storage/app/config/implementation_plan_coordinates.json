@@ -1,1 +1,137 @@
-{}
+{
+    "ip_assessment_date": {
+        "x": 153.5,
+        "y": 31,
+        "textAlign": "center",
+        "field": "ip_assessment_date",
+        "label": "評価日",
+        "type": "text",
+        "fontSize": 12,
+        "letterSpacing": 0
+    },
+    "ip_patient_name": {
+        "x": 28,
+        "y": 36.5,
+        "textAlign": "left",
+        "field": "ip_patient_name",
+        "label": "利用者氏名",
+        "type": "text",
+        "fontSize": 15,
+        "letterSpacing": 0
+    },
+    "ip_gender": {
+        "x": 79,
+        "y": 38.5,
+        "textAlign": "center",
+        "field": "ip_gender",
+        "label": "性別",
+        "type": "text",
+        "fontSize": 11,
+        "letterSpacing": 0
+    },
+    "ip_birthdate": {
+        "x": 158,
+        "y": 38.5,
+        "textAlign": "center",
+        "field": "ip_birthdate",
+        "label": "生年月日",
+        "type": "text",
+        "fontSize": 11,
+        "letterSpacing": 0
+    },
+    "ip_communication_note": {
+        "x": 44,
+        "y": 156.5,
+        "textAlign": "left",
+        "field": "ip_communication_note",
+        "label": "コミュニケーション",
+        "type": "text",
+        "maxCharsPerLine": 30,
+        "lineHeight": 5,
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "ip_wish_of_user_and_family": {
+        "x": 55,
+        "y": 169,
+        "textAlign": "left",
+        "field": "ip_wish_of_user_and_family",
+        "label": "本人・家族の希望",
+        "type": "text",
+        "maxCharsPerLine": 30,
+        "lineHeight": 4,
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "ip_adl_level": {
+        "x": 0,
+        "y": 0.5,
+        "textAlign": "left",
+        "field": "ip_adl_level",
+        "label": "ADL評価値",
+        "type": "text",
+        "rowLineHeight": 7,
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "ip_care_purpose": {
+        "x": 55,
+        "y": 180,
+        "textAlign": "left",
+        "field": "ip_care_purpose",
+        "label": "治療目的",
+        "type": "text",
+        "maxCharsPerLine": 39,
+        "lineHeight": 4,
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "ip_rehabilitation_program": {
+        "x": 55,
+        "y": 191,
+        "textAlign": "left",
+        "field": "ip_rehabilitation_program",
+        "label": "リハビリプログラム",
+        "type": "text",
+        "maxCharsPerLine": 39,
+        "lineHeight": 4,
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "ip_home_rehabilitation": {
+        "x": 55,
+        "y": 202,
+        "textAlign": "left",
+        "field": "ip_home_rehabilitation",
+        "label": "自主訓練",
+        "type": "text",
+        "maxCharsPerLine": 39,
+        "lineHeight": 4,
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "ip_change_since_previous_planning": {
+        "x": 55,
+        "y": 213,
+        "textAlign": "left",
+        "field": "ip_change_since_previous_planning",
+        "label": "前回計画からの変化",
+        "type": "text",
+        "maxCharsPerLine": 39,
+        "lineHeight": 4,
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "ip_note": {
+        "x": 55,
+        "y": 224,
+        "textAlign": "left",
+        "field": "ip_note",
+        "label": "注意事項",
+        "type": "text",
+        "maxCharsPerLine": 39,
+        "lineHeight": 4,
+        "fontSize": 10,
+        "letterSpacing": 0
+    }
+}
