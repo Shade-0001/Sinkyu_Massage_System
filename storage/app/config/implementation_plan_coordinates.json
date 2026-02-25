@@ -40,13 +40,13 @@
         "letterSpacing": 0
     },
     "ip_illness_name": {
-        "x": 28,
-        "y": 45,
-        "textAlign": "left",
+        "x": -97,
+        "y": 55,
+        "textAlign": "center",
         "field": "ip_illness_name",
         "label": "傷病名",
         "type": "text",
-        "fontSize": 11,
+        "fontSize": 13,
         "letterSpacing": 0
     },
     "ip_adl_total": {
