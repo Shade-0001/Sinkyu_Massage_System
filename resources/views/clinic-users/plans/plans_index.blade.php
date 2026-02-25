@@ -39,7 +39,8 @@
     <tr>
     <th>評価日</th>
     <th>評価者</th>
-    <th>同意日</th>
+    <th>聴衆者</th>
+    <th>ADL合計</th>
     <th>データ登録日</th>
     <th>複製</th>
     <th>削除</th>
@@ -57,11 +58,8 @@
       </a>
       </td>
       <td>{{ $planInfo->assessor }}</td>
-      <td data-order="{{ $planInfo->user_and_family_consent_date ? strtotime($planInfo->user_and_family_consent_date) : 0 }}">
-      @if($planInfo->user_and_family_consent_date)
-        {{ \Carbon\Carbon::parse($planInfo->user_and_family_consent_date)->format('Y/n/j') }}
-      @endif
-      </td>
+      <td>{{ $planInfo->audience }}</td>
+      <td>{{ $planInfo->adl_total ?? '' }}</td>
       <td data-order="{{ strtotime($planInfo->created_at) }}">
       {{ \Carbon\Carbon::parse($planInfo->created_at)->format('Y/n/j') }}
       </td>
@@ -78,7 +76,7 @@
     </tr>
     @empty
     <tr>
-      <td colspan="6" class="text-center">データがありません</td>
+      <td colspan="7" class="text-center">データがありません</td>
     </tr>
     @endforelse
   </tbody>
