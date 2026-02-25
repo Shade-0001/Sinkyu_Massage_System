@@ -671,17 +671,8 @@ const fieldDefinitionsImplementationPlan = {
   'ip_gender':                         { field: 'ip_gender',                         label: '性別',                type: 'text' },
   'ip_birthdate':                      { field: 'ip_birthdate',                      label: '生年月日',            type: 'text' },
 
-  // === グループ２: ADL評価値（行間調整あり） ===
-  'ip_adl_eating_level':               { field: 'ip_adl_eating_level',               label: '食事介助（評価）',         type: 'text', rowLineHeight: 7 },
-  'ip_adl_moving_level':               { field: 'ip_adl_moving_level',               label: '移動介助（評価）',         type: 'text', rowLineHeight: 7 },
-  'ip_adl_personal_grooming_level':    { field: 'ip_adl_personal_grooming_level',    label: '身だしなみ介助（評価）',   type: 'text', rowLineHeight: 7 },
-  'ip_adl_using_toilet_level':         { field: 'ip_adl_using_toilet_level',         label: 'トイレ使用介助（評価）',   type: 'text', rowLineHeight: 7 },
-  'ip_adl_bathing_level':              { field: 'ip_adl_bathing_level',              label: '入浴介助（評価）',         type: 'text', rowLineHeight: 7 },
-  'ip_adl_walking_level':              { field: 'ip_adl_walking_level',              label: '歩行介助（評価）',         type: 'text', rowLineHeight: 7 },
-  'ip_adl_using_stairs_level':         { field: 'ip_adl_using_stairs_level',         label: '階段使用介助（評価）',     type: 'text', rowLineHeight: 7 },
-  'ip_adl_changing_clothes_level':     { field: 'ip_adl_changing_clothes_level',     label: '着替え介助（評価）',       type: 'text', rowLineHeight: 7 },
-  'ip_adl_defecation_level':           { field: 'ip_adl_defecation_level',           label: '排便介助（評価）',         type: 'text', rowLineHeight: 7 },
-  'ip_adl_urination_level':            { field: 'ip_adl_urination_level',            label: '排尿介助（評価）',         type: 'text', rowLineHeight: 7 },
+  // === グループ２: ADL評価値（行間調整あり・全10項目を縦列挙） ===
+  'ip_adl_level':                      { field: 'ip_adl_level',                      label: 'ADL評価値',               type: 'text', rowLineHeight: 7 },
 
   // === グループ２: ADL備考（行間はADL評価値と自動同期） ===
   'ip_adl_eating_note':                { field: 'ip_adl_eating_note',                label: '食事介助（備考）',         type: 'text' },

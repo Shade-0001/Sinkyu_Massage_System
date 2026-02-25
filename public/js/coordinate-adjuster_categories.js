@@ -935,16 +935,7 @@ const fieldCategoriesImplementationPlan = {
   'ip_birthdate':                      'ip_patient_info',
 
   // グループ２: ADL評価値・備考・コミュニケーション
-  'ip_adl_eating_level':               'ip_adl_info',
-  'ip_adl_moving_level':               'ip_adl_info',
-  'ip_adl_personal_grooming_level':    'ip_adl_info',
-  'ip_adl_using_toilet_level':         'ip_adl_info',
-  'ip_adl_bathing_level':              'ip_adl_info',
-  'ip_adl_walking_level':              'ip_adl_info',
-  'ip_adl_using_stairs_level':         'ip_adl_info',
-  'ip_adl_changing_clothes_level':     'ip_adl_info',
-  'ip_adl_defecation_level':           'ip_adl_info',
-  'ip_adl_urination_level':            'ip_adl_info',
+  'ip_adl_level':                      'ip_adl_info',
   'ip_adl_eating_note':                'ip_adl_info',
   'ip_adl_moving_note':                'ip_adl_info',
   'ip_adl_personal_grooming_note':     'ip_adl_info',

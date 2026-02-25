@@ -245,92 +245,83 @@ class ImplementationPlanPdfService extends BasePdfService
 
     $adlItems = [
       [
-        'level_key'    => 'ip_adl_eating_level',
         'note_key'     => 'ip_adl_eating_note',
         'level_id_col' => 'eating_assistance_level_id',
         'note_col'     => 'eating_assistance_note',
       ],
       [
-        'level_key'    => 'ip_adl_moving_level',
         'note_key'     => 'ip_adl_moving_note',
         'level_id_col' => 'moving_assistance_level_id',
         'note_col'     => 'moving_assistance_note',
       ],
       [
-        'level_key'    => 'ip_adl_personal_grooming_level',
         'note_key'     => 'ip_adl_personal_grooming_note',
         'level_id_col' => 'personal_grooming_assistance_level_id',
         'note_col'     => 'personal_grooming_assistance_note',
       ],
       [
-        'level_key'    => 'ip_adl_using_toilet_level',
         'note_key'     => 'ip_adl_using_toilet_note',
         'level_id_col' => 'using_toilet_assistance_level_id',
         'note_col'     => 'using_toilet_assistance_note',
       ],
       [
-        'level_key'    => 'ip_adl_bathing_level',
         'note_key'     => 'ip_adl_bathing_note',
         'level_id_col' => 'bathing_assistance_level_id',
         'note_col'     => 'bathing_assistance_note',
       ],
       [
-        'level_key'    => 'ip_adl_walking_level',
         'note_key'     => 'ip_adl_walking_note',
         'level_id_col' => 'walking_assistance_level_id',
         'note_col'     => 'walking_assistance_note',
       ],
       [
-        'level_key'    => 'ip_adl_using_stairs_level',
         'note_key'     => 'ip_adl_using_stairs_note',
         'level_id_col' => 'using_stairs_assistance_level_id',
         'note_col'     => 'using_stairs_assistance_note',
       ],
       [
-        'level_key'    => 'ip_adl_changing_clothes_level',
         'note_key'     => 'ip_adl_changing_clothes_note',
         'level_id_col' => 'changing_clothes_assistance_level_id',
         'note_col'     => 'changing_clothes_assistance_note',
       ],
       [
-        'level_key'    => 'ip_adl_defecation_level',
         'note_key'     => 'ip_adl_defecation_note',
         'level_id_col' => 'defecation_assistance_level_id',
         'note_col'     => 'defecation_assistance_note',
       ],
       [
-        'level_key'    => 'ip_adl_urination_level',
         'note_key'     => 'ip_adl_urination_note',
         'level_id_col' => 'urination_assistance_level_id',
         'note_col'     => 'urination_assistance_note',
       ],
     ];
 
-    // rowLineHeight で行間オフセットを計算（座標が未設定の場合は 7mm をデフォルト）
-    $rowLineHeight = $this->coord('ip_adl_eating_level', 'rowLineHeight', 7);
+    // ADL評価値：1フィールド(ip_adl_level)の座標を基点に rowLineHeight で縦列挙
+    if ($this->hasCoord('ip_adl_level')) {
+      $adlX          = $this->coord('ip_adl_level', 'x');
+      $adlBaseY      = $this->coord('ip_adl_level', 'y');
+      $rowLineHeight = $this->coord('ip_adl_level', 'rowLineHeight', 7);
+      $adlFontSize   = $this->coord('ip_adl_level', 'fontSize', 10);
 
-    foreach ($adlItems as $i => $item) {
-      $offsetY = $i * $rowLineHeight;
+      foreach ($adlItems as $i => $item) {
+        $offsetY = $i * $rowLineHeight;
 
-      // 評価値テキスト
-      if ($sampleAdlLevels) {
-        // サンプルモード：テキスト直接指定
-        $levelText = $sampleAdlLevels[$item['level_id_col']] ?? '';
-      } else {
-        $levelId   = $plan->{$item['level_id_col']} ?? null;
-        $levelText = $levelId ? ($levels[$levelId] ?? '') : '';
-      }
+        if ($sampleAdlLevels) {
+          $levelText = $sampleAdlLevels[$item['level_id_col']] ?? '';
+        } else {
+          $levelId   = $plan->{$item['level_id_col']} ?? null;
+          $levelText = $levelId ? ($levels[$levelId] ?? '') : '';
+        }
 
-      if ($this->hasCoord($item['level_key'])) {
-        $x        = $this->coord($item['level_key'], 'x');
-        $y        = $this->coord($item['level_key'], 'y') + $offsetY;
-        $fontSize = $this->coord($item['level_key'], 'fontSize', 10);
-        $pdf->SetFont('kozgopromedium', '', $fontSize);
-        $pdf->SetXY($x, $y);
+        $pdf->SetFont('kozgopromedium', '', $adlFontSize);
+        $pdf->SetXY($adlX, $adlBaseY + $offsetY);
         $pdf->Cell(0, 0, $levelText, 0, 0, 'L', false);
       }
+    }
 
-      // 備考（同じ offsetY を適用）
+    // ADL備考（各行は ip_adl_*_note の座標を使用）
+    foreach ($adlItems as $i => $item) {
+      $offsetY  = $i * ($this->coord('ip_adl_level', 'rowLineHeight', 7));
       $noteText = $plan->{$item['note_col']} ?? '';
       if ($this->hasCoord($item['note_key'])) {
         $x        = $this->coord($item['note_key'], 'x');
