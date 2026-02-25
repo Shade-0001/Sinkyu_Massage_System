@@ -302,6 +302,7 @@ let customSampleData = {
   // グループ２（ADL評価）
   ip_adl_level: '10',  // バーセルインデックス点数（サンプル）
   ip_adl_note: 'T字济使用',  // ADL備考（サンプル）
+  ip_adl_total: '85',
   ip_communication_note: '意思疎通可能',
   // グループ３（計画情報）
   ip_wish_of_user_and_family: '自宅での生活を継続したい',

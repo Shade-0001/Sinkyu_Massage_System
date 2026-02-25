@@ -937,6 +937,7 @@ const fieldCategoriesImplementationPlan = {
   // グループ２: ADL評価値・備考・コミュニケーション
   'ip_adl_level':                      'ip_adl_info',
   'ip_adl_note':                       'ip_adl_info',
+  'ip_adl_total':                      'ip_adl_info',
   'ip_communication_note':             'ip_adl_info',
 
   // グループ３: 計画情報

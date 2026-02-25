@@ -336,6 +336,22 @@ class ImplementationPlanPdfService extends BasePdfService
       }
     }
 
+    // ADL合計値
+    if ($this->hasCoord('ip_adl_total')) {
+      $total = 0;
+      foreach ($adlItems as $item) {
+        if ($sampleAdlLevels) {
+          $levelId = (int) ($sampleAdlLevels[$item['level_id_col']] ?? 0);
+        } else {
+          $levelId = (int) ($plan->{$item['level_id_col']} ?? 0);
+        }
+        if ($levelId) {
+          $total += $this->getBarthelScore($item['bi_item'], $levelId);
+        }
+      }
+      $this->drawTextByKey($pdf, 'ip_adl_total', (string) $total);
+    }
+
     // コミュニケーション
     $this->drawTextByKey($pdf, 'ip_communication_note', $plan->communication_note ?? '');
 

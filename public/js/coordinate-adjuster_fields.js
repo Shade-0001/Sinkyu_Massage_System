@@ -677,6 +677,9 @@ const fieldDefinitionsImplementationPlan = {
   // === グループ２: ADL備考（行間はADL評価値と自動同期） ===
   'ip_adl_note':                       { field: 'ip_adl_note',                       label: 'ADL備考',               type: 'text', rowLineHeight: 7 },
 
+  // === グループ２: ADL合計値 ===
+  'ip_adl_total':                      { field: 'ip_adl_total',                      label: 'ADL合計値',                type: 'text' },
+
   // === グループ２: コミュニケーション ===
   'ip_communication_note':             { field: 'ip_communication_note',             label: 'コミュニケーション',       type: 'text', maxCharsPerLine: 30, lineHeight: 5 },
 

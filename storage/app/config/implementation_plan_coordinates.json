@@ -39,6 +39,17 @@
         "fontSize": 11,
         "letterSpacing": 0
     },
+    "ip_adl_total": {
+        "x": 32.5,
+        "y": 150.5,
+        "textAlign": "center",
+        "width": 15,
+        "field": "ip_adl_total",
+        "label": "ADL合計値",
+        "type": "text",
+        "fontSize": 12,
+        "letterSpacing": 0
+    },
     "ip_communication_note": {
         "x": 44,
         "y": 156.5,
@@ -64,7 +75,7 @@
         "letterSpacing": 0
     },
     "ip_adl_level": {
-        "x": 32.5,
+        "x": 27,
         "y": 85.5,
         "textAlign": "center",
         "width": 15,
@@ -73,17 +84,6 @@
         "type": "text",
         "rowLineHeight": 6.5,
         "fontSize": 12,
-        "letterSpacing": 0
-    },
-    "ip_adl_note": {
-        "x": 52,
-        "y": 85.5,
-        "textAlign": "left",
-        "field": "ip_adl_note",
-        "label": "ADL備考",
-        "type": "text",
-        "rowLineHeight": 6.5,
-        "fontSize": 10,
         "letterSpacing": 0
     },
     "ip_care_purpose": {
