@@ -449,10 +449,10 @@ const categoryLabels = {
     "cost_summary": "集計情報",
     "bank_info":    "金融機関情報",
     // 実施計画書用カテゴリラベル
-    "ip_patient_info": "グループ１（基本情報）",
-    "ip_adl_info":     "グループ２（ADL評価）",
-    "ip_plan_info":    "グループ３（計画情報）",
-    "ip_clinic_info":  "グループ４（事業所情報）"
+    "ip_patient_info": "グループ１",
+    "ip_adl_info":     "グループ２",
+    "ip_plan_info":    "グループ３",
+    "ip_clinic_info":  "グループ４"
 };
 
 const categoryOrderTherapyBenefitAcupuncture = [
