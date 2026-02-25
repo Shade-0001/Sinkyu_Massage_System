@@ -1621,12 +1621,51 @@ function openReportGreetingModal() {
     submissionDateEl.value = `${yyyy}-${mm}-${dd}`;
   }
 
+  // オプションに応じたフィールド表示制御
+  updateReportGreetingFields();
+
   if (modalElement.parentElement !== document.body) {
     document.body.appendChild(modalElement);
   }
 
   const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
   modal.show();
+}
+
+/**
+ * 報告書挨拶状モーダルのオプション切り替え時に医師・ケアマネフィールドを切り替え
+ */
+function updateReportGreetingFields() {
+  const greetingType = document.querySelector('input[name="greeting_type"]:checked')?.value || 'doctor';
+
+  const doctorSection      = document.getElementById('report_greeting_doctor_section');
+  const caremanagerSection = document.getElementById('report_greeting_caremanager_section');
+  const doctorSelect       = document.getElementById('report_greeting_doctor_id');
+  const caremanagerSelect  = document.getElementById('report_greeting_caremanager_id');
+
+  if (!doctorSection || !caremanagerSection) return;
+
+  if (greetingType === 'doctor') {
+    doctorSection.classList.remove('d-none');
+    caremanagerSection.classList.add('d-none');
+    doctorSelect.required     = true;
+    caremanagerSelect.required = false;
+    caremanagerSelect.value   = '';
+  } else if (greetingType === 'caremanager') {
+    doctorSection.classList.add('d-none');
+    caremanagerSection.classList.remove('d-none');
+    doctorSelect.required     = false;
+    caremanagerSelect.required = true;
+    doctorSelect.value        = '';
+  } else {
+    // user
+    doctorSection.classList.add('d-none');
+    caremanagerSection.classList.add('d-none');
+    doctorSelect.required     = false;
+    caremanagerSelect.required = false;
+    doctorSelect.value        = '';
+    caremanagerSelect.value   = '';
+  }
 }
 
 /**

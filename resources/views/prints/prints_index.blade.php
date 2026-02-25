@@ -1029,15 +1029,15 @@
               <label class="form-label">オプション <span class="text-danger">*</span></label>
               <div class="d-flex gap-4">
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="greeting_type" id="greeting_type_doctor" value="doctor" required checked>
+                  <input class="form-check-input" type="radio" name="greeting_type" id="greeting_type_doctor" value="doctor" required checked onchange="updateReportGreetingFields()">
                   <label class="form-check-label" for="greeting_type_doctor">医師向け</label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="greeting_type" id="greeting_type_caremanager" value="caremanager">
+                  <input class="form-check-input" type="radio" name="greeting_type" id="greeting_type_caremanager" value="caremanager" onchange="updateReportGreetingFields()">
                   <label class="form-check-label" for="greeting_type_caremanager">ケアマネ向け</label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="greeting_type" id="greeting_type_user" value="user">
+                  <input class="form-check-input" type="radio" name="greeting_type" id="greeting_type_user" value="user" onchange="updateReportGreetingFields()">
                   <label class="form-check-label" for="greeting_type_user">利用者向け</label>
                 </div>
               </div>
@@ -1057,9 +1057,9 @@
             </div>
 
             <!-- 医師 -->
-            <div class="mb-3">
-              <label for="report_greeting_doctor_id" class="form-label">医師</label>
-              <select class="form-select" id="report_greeting_doctor_id" name="doctor_id">
+            <div class="mb-3" id="report_greeting_doctor_section">
+              <label for="report_greeting_doctor_id" class="form-label">医師 <span class="text-danger">*</span></label>
+              <select class="form-select" id="report_greeting_doctor_id" name="doctor_id" required>
                 <option value="">選択してください</option>
                 @foreach($doctors as $doctor)
                   <option value="{{ $doctor->id }}">
@@ -1070,8 +1070,8 @@
             </div>
 
             <!-- ケアマネ -->
-            <div class="mb-3">
-              <label for="report_greeting_caremanager_id" class="form-label">ケアマネ</label>
+            <div class="mb-3 d-none" id="report_greeting_caremanager_section">
+              <label for="report_greeting_caremanager_id" class="form-label">ケアマネ <span class="text-danger">*</span></label>
               <select class="form-select" id="report_greeting_caremanager_id" name="caremanager_id">
                 <option value="">選択してください</option>
                 @foreach($caremanagers as $cm)
