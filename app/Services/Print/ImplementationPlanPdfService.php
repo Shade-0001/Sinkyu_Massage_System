@@ -46,7 +46,7 @@ class ImplementationPlanPdfService extends BasePdfService
       $this->addPage($pdf, $this->getSampleData());
     } else {
       foreach ($clinicUserIds as $clinicUserId) {
-        $data = $this->fetchData((int) $clinicUserId);
+        $data = $this->fetchData((int) $clinicUserId, $serviceYearMonth);
         if ($data) {
           $this->addPage($pdf, $data);
         }
@@ -59,7 +59,7 @@ class ImplementationPlanPdfService extends BasePdfService
   /**
    * 利用者データ取得
    */
-  protected function fetchData(int $clinicUserId): ?array
+  protected function fetchData(int $clinicUserId, string $serviceYearMonth = ''): ?array
   {
     // 利用者情報（性別JOIN）
     $clinicUser = DB::table('clinic_users')
@@ -72,11 +72,12 @@ class ImplementationPlanPdfService extends BasePdfService
       return null;
     }
 
-    // 実施計画（最新）
-    $plan = DB::table('plans')
-      ->where('clinic_user_id', $clinicUserId)
-      ->orderBy('assessment_date', 'desc')
-      ->first();
+    // 実施計画（指定年月のassessment_dateのうちcreated_at最新）
+    $planQuery = DB::table('plans')->where('clinic_user_id', $clinicUserId);
+    if (!empty($serviceYearMonth)) {
+      $planQuery->whereRaw("DATE_FORMAT(assessment_date, '%Y-%m') = ?", [$serviceYearMonth]);
+    }
+    $plan = $planQuery->orderBy('created_at', 'desc')->first();
 
     if (!$plan) {
       return null;
