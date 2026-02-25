@@ -933,6 +933,7 @@ const fieldCategoriesImplementationPlan = {
   'ip_patient_name':                   'ip_patient_info',
   'ip_gender':                         'ip_patient_info',
   'ip_birthdate':                      'ip_patient_info',
+  'ip_illness_name':                   'ip_patient_info',
 
   // グループ２: ADL評価値・備考・コミュニケーション
   'ip_adl_level':                      'ip_adl_info',

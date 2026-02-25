@@ -670,6 +670,7 @@ const fieldDefinitionsImplementationPlan = {
   'ip_patient_name':                   { field: 'ip_patient_name',                   label: '利用者氏名',          type: 'text' },
   'ip_gender':                         { field: 'ip_gender',                         label: '性別',                type: 'text' },
   'ip_birthdate':                      { field: 'ip_birthdate',                      label: '生年月日',            type: 'text' },
+  'ip_illness_name':                   { field: 'ip_illness_name',                   label: '傷病名',              type: 'text' },
 
   // === グループ２: ADL評価値（行間調整あり・全10項目を縦列挙） ===
   'ip_adl_level':                      { field: 'ip_adl_level',                      label: 'ADL評価値',               type: 'text', rowLineHeight: 7 },

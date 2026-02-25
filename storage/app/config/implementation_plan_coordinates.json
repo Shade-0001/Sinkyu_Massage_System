@@ -39,9 +39,19 @@
         "fontSize": 11,
         "letterSpacing": 0
     },
+    "ip_illness_name": {
+        "x": 28,
+        "y": 45,
+        "textAlign": "left",
+        "field": "ip_illness_name",
+        "label": "傷病名",
+        "type": "text",
+        "fontSize": 11,
+        "letterSpacing": 0
+    },
     "ip_adl_total": {
-        "x": 32.5,
-        "y": 150.5,
+        "x": -142,
+        "y": 150.3,
         "textAlign": "center",
         "width": 15,
         "field": "ip_adl_total",
@@ -57,7 +67,7 @@
         "field": "ip_communication_note",
         "label": "コミュニケーション",
         "type": "text",
-        "maxCharsPerLine": 30,
+        "maxCharsPerLine": 43,
         "lineHeight": 5,
         "fontSize": 10,
         "letterSpacing": 0
@@ -75,7 +85,7 @@
         "letterSpacing": 0
     },
     "ip_adl_level": {
-        "x": 27,
+        "x": 27.5,
         "y": 85.5,
         "textAlign": "center",
         "width": 15,
@@ -143,6 +153,77 @@
         "type": "text",
         "maxCharsPerLine": 39,
         "lineHeight": 4,
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "ip_adl_note": {
+        "x": 87,
+        "y": 86,
+        "textAlign": "left",
+        "field": "ip_adl_note",
+        "label": "ADL備考",
+        "type": "text",
+        "rowLineHeight": 6.45,
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "ip_assessor": {
+        "x": 55,
+        "y": 234.5,
+        "textAlign": "left",
+        "field": "ip_assessor",
+        "label": "評価者",
+        "type": "text",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "ip_clinic_postal_code": {
+        "x": 135,
+        "y": 255,
+        "textAlign": "left",
+        "field": "ip_clinic_postal_code",
+        "label": "事業所郵便番号",
+        "type": "text",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "ip_clinic_address": {
+        "x": 135,
+        "y": 260,
+        "textAlign": "left",
+        "field": "ip_clinic_address",
+        "label": "事業所住所",
+        "type": "text",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "ip_clinic_phone": {
+        "x": 135,
+        "y": 266,
+        "textAlign": "left",
+        "field": "ip_clinic_phone",
+        "label": "事業所電話番号",
+        "type": "text",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "ip_clinic_name": {
+        "x": 135,
+        "y": 271.5,
+        "textAlign": "left",
+        "field": "ip_clinic_name",
+        "label": "事業所名",
+        "type": "text",
+        "fontSize": 12,
+        "letterSpacing": 0
+    },
+    "ip_clinic_owner_name": {
+        "x": 135,
+        "y": 278,
+        "textAlign": "left",
+        "field": "ip_clinic_owner_name",
+        "label": "事業所代表者氏名",
+        "type": "text",
         "fontSize": 10,
         "letterSpacing": 0
     }

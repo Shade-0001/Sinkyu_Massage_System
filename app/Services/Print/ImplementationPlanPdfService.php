@@ -89,11 +89,21 @@ class ImplementationPlanPdfService extends BasePdfService
     // 事業所情報
     $clinicInfo = DB::table('clinic_info')->first();
 
+    // 傷病名（consents_massage から最新のレコードをJOINして取得）
+    $consentMassage = DB::table('consents_massage')
+      ->leftJoin('illnesses_massage', 'consents_massage.injury_and_illness_name_id', '=', 'illnesses_massage.id')
+      ->where('consents_massage.clinic_user_id', $clinicUserId)
+      ->orderBy('consents_massage.created_at', 'desc')
+      ->select('illnesses_massage.illness_name')
+      ->first();
+    $illnessName = $consentMassage->illness_name ?? '';
+
     return [
-      'clinic_user' => $clinicUser,
-      'plan'        => $plan,
-      'levels'      => $levels,
-      'clinic_info' => $clinicInfo,
+      'clinic_user'  => $clinicUser,
+      'plan'         => $plan,
+      'levels'       => $levels,
+      'clinic_info'  => $clinicInfo,
+      'illness_name' => $illnessName,
     ];
   }
 
@@ -162,8 +172,7 @@ class ImplementationPlanPdfService extends BasePdfService
         'clinic_name'      => $c['ip_clinic_name']        ?? 'サンプル鍼灸マッサージ院',
         'owner_last_name'  => '鈴木',
         'owner_first_name' => '一郎',
-      ],
-      // サンプルデータでのADL評価値（assistance_levels の level_id 数値で指定）
+      ],      'illness_name' => $c['ip_illness_name'] ?? '腰痛・肩こり',      // サンプルデータでのADL評価値（assistance_levels の level_id 数値で指定）
       'sample_adl_levels' => [
         'eating_assistance_level_id'            => 8,  // 自立
         'moving_assistance_level_id'            => 3,  // 部分介助
@@ -209,6 +218,7 @@ class ImplementationPlanPdfService extends BasePdfService
     $plan           = $data['plan'];
     $levels         = $data['levels'];
     $clinicInfo     = $data['clinic_info'];
+    $illnessName    = $data['illness_name'] ?? '';
     $sampleAdlLevels = $data['sample_adl_levels'] ?? null;
 
     // =====================
@@ -239,6 +249,9 @@ class ImplementationPlanPdfService extends BasePdfService
     if (!empty($clinicUser->birthday)) {
       $this->drawTextByKey($pdf, 'ip_birthdate', $this->convertToJapaneseDate($clinicUser->birthday));
     }
+
+    // 傷病名
+    $this->drawTextByKey($pdf, 'ip_illness_name', $illnessName);
 
     // =====================
     // グループ２：ADL評価
