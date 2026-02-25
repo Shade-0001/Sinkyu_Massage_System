@@ -1672,6 +1672,11 @@ class PrintsController extends Controller
         'clinic_user_ids'    => $validated['clinic_user_ids'],
       ]);
 
+      $templatePath = storage_path('app/templates/others_1/実施計画書.pdf');
+      if (file_exists($templatePath)) {
+        $service->setTemplatePath($templatePath);
+      }
+
       $pdfBinary = $service->generate(
         $validated['clinic_user_ids'],
         $validated['service_year_month'],
