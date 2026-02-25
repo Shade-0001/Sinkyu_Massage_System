@@ -312,6 +312,8 @@ class ImplementationPlanPdfService extends BasePdfService
       $adlBaseY      = $this->coord('ip_adl_level', 'y');
       $rowLineHeight = $this->coord('ip_adl_level', 'rowLineHeight', 7);
       $adlFontSize   = $this->coord('ip_adl_level', 'fontSize', 10);
+      $adlWidth      = $this->coord('ip_adl_level', 'width', 15);
+      $adlAlign      = strtoupper(substr($this->coord('ip_adl_level', 'textAlign', 'L'), 0, 1));
 
       foreach ($adlItems as $i => $item) {
         $offsetY = $i * $rowLineHeight;
@@ -325,7 +327,7 @@ class ImplementationPlanPdfService extends BasePdfService
 
         $pdf->SetFont('kozgopromedium', '', $adlFontSize);
         $pdf->SetXY($adlX, $adlBaseY + $offsetY);
-        $pdf->Cell(0, 0, $scoreText, 0, 0, 'L', false);
+        $pdf->Cell($adlWidth, 0, $scoreText, 0, 0, $adlAlign, false);
       }
     }
 
