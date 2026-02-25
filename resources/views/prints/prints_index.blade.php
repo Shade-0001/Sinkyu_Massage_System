@@ -1029,7 +1029,7 @@
               <label class="form-label">オプション <span class="text-danger">*</span></label>
               <div class="d-flex gap-4">
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="greeting_type" id="greeting_type_doctor" value="doctor" required>
+                  <input class="form-check-input" type="radio" name="greeting_type" id="greeting_type_doctor" value="doctor" required checked>
                   <label class="form-check-label" for="greeting_type_doctor">医師向け</label>
                 </div>
                 <div class="form-check">
