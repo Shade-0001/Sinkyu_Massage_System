@@ -301,16 +301,7 @@ let customSampleData = {
   ip_birthdate: '昭和30年 3月 15日',
   // グループ２（ADL評価）
   ip_adl_level: '10',  // バーセルインデックス点数（サンプル）
-  ip_adl_eating_note: '',
-  ip_adl_moving_note: 'T字杖使用',
-  ip_adl_personal_grooming_note: '',
-  ip_adl_using_toilet_note: '一部見守り',
-  ip_adl_bathing_note: '全介助',
-  ip_adl_walking_note: '',
-  ip_adl_using_stairs_note: '',
-  ip_adl_changing_clothes_note: '',
-  ip_adl_defecation_note: '',
-  ip_adl_urination_note: '',
+  ip_adl_note: 'T字济使用',  // ADL備考（サンプル）
   ip_communication_note: '意思疎通可能',
   // グループ３（計画情報）
   ip_wish_of_user_and_family: '自宅での生活を継続したい',

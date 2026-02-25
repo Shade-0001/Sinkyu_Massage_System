@@ -245,61 +245,51 @@ class ImplementationPlanPdfService extends BasePdfService
 
     $adlItems = [
       [
-        'note_key'     => 'ip_adl_eating_note',
         'level_id_col' => 'eating_assistance_level_id',
         'note_col'     => 'eating_assistance_note',
         'bi_item'      => 'eating',
       ],
       [
-        'note_key'     => 'ip_adl_moving_note',
         'level_id_col' => 'moving_assistance_level_id',
         'note_col'     => 'moving_assistance_note',
         'bi_item'      => 'moving',
       ],
       [
-        'note_key'     => 'ip_adl_personal_grooming_note',
         'level_id_col' => 'personal_grooming_assistance_level_id',
         'note_col'     => 'personal_grooming_assistance_note',
         'bi_item'      => 'personal_grooming',
       ],
       [
-        'note_key'     => 'ip_adl_using_toilet_note',
         'level_id_col' => 'using_toilet_assistance_level_id',
         'note_col'     => 'using_toilet_assistance_note',
         'bi_item'      => 'using_toilet',
       ],
       [
-        'note_key'     => 'ip_adl_bathing_note',
         'level_id_col' => 'bathing_assistance_level_id',
         'note_col'     => 'bathing_assistance_note',
         'bi_item'      => 'bathing',
       ],
       [
-        'note_key'     => 'ip_adl_walking_note',
         'level_id_col' => 'walking_assistance_level_id',
         'note_col'     => 'walking_assistance_note',
         'bi_item'      => 'walking',
       ],
       [
-        'note_key'     => 'ip_adl_using_stairs_note',
         'level_id_col' => 'using_stairs_assistance_level_id',
         'note_col'     => 'using_stairs_assistance_note',
         'bi_item'      => 'using_stairs',
       ],
       [
-        'note_key'     => 'ip_adl_changing_clothes_note',
         'level_id_col' => 'changing_clothes_assistance_level_id',
         'note_col'     => 'changing_clothes_assistance_note',
         'bi_item'      => 'changing_clothes',
       ],
       [
-        'note_key'     => 'ip_adl_defecation_note',
         'level_id_col' => 'defecation_assistance_level_id',
         'note_col'     => 'defecation_assistance_note',
         'bi_item'      => 'defecation',
       ],
       [
-        'note_key'     => 'ip_adl_urination_note',
         'level_id_col' => 'urination_assistance_level_id',
         'note_col'     => 'urination_assistance_note',
         'bi_item'      => 'urination',
@@ -331,16 +321,17 @@ class ImplementationPlanPdfService extends BasePdfService
       }
     }
 
-    // ADL備考（各行は ip_adl_*_note の座標を使用）
-    foreach ($adlItems as $i => $item) {
-      $offsetY  = $i * ($this->coord('ip_adl_level', 'rowLineHeight', 7));
-      $noteText = $plan->{$item['note_col']} ?? '';
-      if ($this->hasCoord($item['note_key'])) {
-        $x        = $this->coord($item['note_key'], 'x');
-        $y        = $this->coord($item['note_key'], 'y') + $offsetY;
-        $fontSize = $this->coord($item['note_key'], 'fontSize', 10);
-        $pdf->SetFont('kozgopromedium', '', $fontSize);
-        $pdf->SetXY($x, $y);
+    // ADL備考（1フィールド ip_adl_note の座標を基点に rowLineHeight で縦列挙）
+    if ($this->hasCoord('ip_adl_note')) {
+      $noteX          = $this->coord('ip_adl_note', 'x');
+      $noteBaseY      = $this->coord('ip_adl_note', 'y');
+      $noteLineHeight = $this->coord('ip_adl_note', 'rowLineHeight', 7);
+      $noteFontSize   = $this->coord('ip_adl_note', 'fontSize', 10);
+
+      foreach ($adlItems as $i => $item) {
+        $noteText = $plan->{$item['note_col']} ?? '';
+        $pdf->SetFont('kozgopromedium', '', $noteFontSize);
+        $pdf->SetXY($noteX, $noteBaseY + $i * $noteLineHeight);
         $pdf->Cell(0, 0, $noteText, 0, 0, 'L', false);
       }
     }

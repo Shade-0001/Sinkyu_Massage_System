@@ -675,16 +675,7 @@ const fieldDefinitionsImplementationPlan = {
   'ip_adl_level':                      { field: 'ip_adl_level',                      label: 'ADL評価値',               type: 'text', rowLineHeight: 7 },
 
   // === グループ２: ADL備考（行間はADL評価値と自動同期） ===
-  'ip_adl_eating_note':                { field: 'ip_adl_eating_note',                label: '食事介助（備考）',         type: 'text' },
-  'ip_adl_moving_note':                { field: 'ip_adl_moving_note',                label: '移動介助（備考）',         type: 'text' },
-  'ip_adl_personal_grooming_note':     { field: 'ip_adl_personal_grooming_note',     label: '身だしなみ介助（備考）',   type: 'text' },
-  'ip_adl_using_toilet_note':          { field: 'ip_adl_using_toilet_note',          label: 'トイレ使用介助（備考）',   type: 'text' },
-  'ip_adl_bathing_note':               { field: 'ip_adl_bathing_note',               label: '入浴介助（備考）',         type: 'text' },
-  'ip_adl_walking_note':               { field: 'ip_adl_walking_note',               label: '歩行介助（備考）',         type: 'text' },
-  'ip_adl_using_stairs_note':          { field: 'ip_adl_using_stairs_note',          label: '階段使用介助（備考）',     type: 'text' },
-  'ip_adl_changing_clothes_note':      { field: 'ip_adl_changing_clothes_note',      label: '着替え介助（備考）',       type: 'text' },
-  'ip_adl_defecation_note':            { field: 'ip_adl_defecation_note',            label: '排便介助（備考）',         type: 'text' },
-  'ip_adl_urination_note':             { field: 'ip_adl_urination_note',             label: '排尿介助（備考）',         type: 'text' },
+  'ip_adl_note':                       { field: 'ip_adl_note',                       label: 'ADL備考',               type: 'text', rowLineHeight: 7 },
 
   // === グループ２: コミュニケーション ===
   'ip_communication_note':             { field: 'ip_communication_note',             label: 'コミュニケーション',       type: 'text', maxCharsPerLine: 30, lineHeight: 5 },
