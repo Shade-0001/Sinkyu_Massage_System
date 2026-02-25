@@ -292,7 +292,49 @@ let customSampleData = {
   submission_date: '令和7年 12月 31日',
   consenting_doctor_medical_institution_name: '〇〇病院',
   consenting_doctor_address: '東京都新宿区〇〇1-2-3',
-  consenting_doctor_name: '山田 太郎'
+  consenting_doctor_name: '山田 太郎',
+  // === 実施計画書用 ===
+  // グループ１（基本情報）
+  ip_assessment_date: '令和7年 1月 15日',
+  ip_patient_name: '田中 太郎　様',
+  ip_gender: '男',
+  ip_birthdate: '昭和30年 3月 15日',
+  // グループ２（ADL評価）
+  ip_adl_eating_level: '自立',
+  ip_adl_moving_level: '部分介助',
+  ip_adl_personal_grooming_level: '自立',
+  ip_adl_using_toilet_level: '部分介助',
+  ip_adl_bathing_level: '要介助',
+  ip_adl_walking_level: '要監視又は軽監視',
+  ip_adl_using_stairs_level: '部分介助',
+  ip_adl_changing_clothes_level: '自立',
+  ip_adl_defecation_level: '自立',
+  ip_adl_urination_level: '自立',
+  ip_adl_eating_note: '',
+  ip_adl_moving_note: 'T字杖使用',
+  ip_adl_personal_grooming_note: '',
+  ip_adl_using_toilet_note: '一部見守り',
+  ip_adl_bathing_note: '全介助',
+  ip_adl_walking_note: '',
+  ip_adl_using_stairs_note: '',
+  ip_adl_changing_clothes_note: '',
+  ip_adl_defecation_note: '',
+  ip_adl_urination_note: '',
+  ip_communication_note: '意思疎通可能',
+  // グループ３（計画情報）
+  ip_wish_of_user_and_family: '自宅での生活を継続したい',
+  ip_care_purpose: '筋力維持・関節可動域の拡大',
+  ip_rehabilitation_program: 'ROM訓練・筋力強化訓練',
+  ip_home_rehabilitation: '毎日30分の体操',
+  ip_change_since_previous_planning: '歩行能力が向上',
+  ip_note: '転倒に注意',
+  ip_assessor: '鈴木 一郎',
+  // グループ４（事業所情報）
+  ip_clinic_postal_code: '〒100-0001',
+  ip_clinic_address: '東京都千代田区千代田1-1-1',
+  ip_clinic_phone: '03-1234-5678',
+  ip_clinic_name: 'サンプル鍼灸マッサージ院',
+  ip_clinic_owner_name: '鈴木 一郎'
 };
 
 // サンプルデータ取得関数（combine対応）

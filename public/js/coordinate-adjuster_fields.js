@@ -660,6 +660,62 @@ const fieldDefinitionsPowerOfAttorneyConsent = {
 };
 
 // ============================================================
+// 実施計画書用のフィールド定義
+// ============================================================
+// PDFタイプ: implementation_plan
+// ============================================================
+const fieldDefinitionsImplementationPlan = {
+  // === グループ１: 基本情報 ===
+  'ip_assessment_date':                { field: 'ip_assessment_date',                label: '評価日',              type: 'text' },
+  'ip_patient_name':                   { field: 'ip_patient_name',                   label: '利用者氏名',          type: 'text' },
+  'ip_gender':                         { field: 'ip_gender',                         label: '性別',                type: 'text' },
+  'ip_birthdate':                      { field: 'ip_birthdate',                      label: '生年月日',            type: 'text' },
+
+  // === グループ２: ADL評価値（行間調整あり） ===
+  'ip_adl_eating_level':               { field: 'ip_adl_eating_level',               label: '食事介助（評価）',         type: 'text', rowLineHeight: 7 },
+  'ip_adl_moving_level':               { field: 'ip_adl_moving_level',               label: '移動介助（評価）',         type: 'text', rowLineHeight: 7 },
+  'ip_adl_personal_grooming_level':    { field: 'ip_adl_personal_grooming_level',    label: '身だしなみ介助（評価）',   type: 'text', rowLineHeight: 7 },
+  'ip_adl_using_toilet_level':         { field: 'ip_adl_using_toilet_level',         label: 'トイレ使用介助（評価）',   type: 'text', rowLineHeight: 7 },
+  'ip_adl_bathing_level':              { field: 'ip_adl_bathing_level',              label: '入浴介助（評価）',         type: 'text', rowLineHeight: 7 },
+  'ip_adl_walking_level':              { field: 'ip_adl_walking_level',              label: '歩行介助（評価）',         type: 'text', rowLineHeight: 7 },
+  'ip_adl_using_stairs_level':         { field: 'ip_adl_using_stairs_level',         label: '階段使用介助（評価）',     type: 'text', rowLineHeight: 7 },
+  'ip_adl_changing_clothes_level':     { field: 'ip_adl_changing_clothes_level',     label: '着替え介助（評価）',       type: 'text', rowLineHeight: 7 },
+  'ip_adl_defecation_level':           { field: 'ip_adl_defecation_level',           label: '排便介助（評価）',         type: 'text', rowLineHeight: 7 },
+  'ip_adl_urination_level':            { field: 'ip_adl_urination_level',            label: '排尿介助（評価）',         type: 'text', rowLineHeight: 7 },
+
+  // === グループ２: ADL備考（行間はADL評価値と自動同期） ===
+  'ip_adl_eating_note':                { field: 'ip_adl_eating_note',                label: '食事介助（備考）',         type: 'text' },
+  'ip_adl_moving_note':                { field: 'ip_adl_moving_note',                label: '移動介助（備考）',         type: 'text' },
+  'ip_adl_personal_grooming_note':     { field: 'ip_adl_personal_grooming_note',     label: '身だしなみ介助（備考）',   type: 'text' },
+  'ip_adl_using_toilet_note':          { field: 'ip_adl_using_toilet_note',          label: 'トイレ使用介助（備考）',   type: 'text' },
+  'ip_adl_bathing_note':               { field: 'ip_adl_bathing_note',               label: '入浴介助（備考）',         type: 'text' },
+  'ip_adl_walking_note':               { field: 'ip_adl_walking_note',               label: '歩行介助（備考）',         type: 'text' },
+  'ip_adl_using_stairs_note':          { field: 'ip_adl_using_stairs_note',          label: '階段使用介助（備考）',     type: 'text' },
+  'ip_adl_changing_clothes_note':      { field: 'ip_adl_changing_clothes_note',      label: '着替え介助（備考）',       type: 'text' },
+  'ip_adl_defecation_note':            { field: 'ip_adl_defecation_note',            label: '排便介助（備考）',         type: 'text' },
+  'ip_adl_urination_note':             { field: 'ip_adl_urination_note',             label: '排尿介助（備考）',         type: 'text' },
+
+  // === グループ２: コミュニケーション ===
+  'ip_communication_note':             { field: 'ip_communication_note',             label: 'コミュニケーション',       type: 'text', maxCharsPerLine: 30, lineHeight: 5 },
+
+  // === グループ３: 計画情報（maxCharsPerLine調整あり） ===
+  'ip_wish_of_user_and_family':        { field: 'ip_wish_of_user_and_family',        label: '本人・家族の希望',         type: 'text', maxCharsPerLine: 30, lineHeight: 5 },
+  'ip_care_purpose':                   { field: 'ip_care_purpose',                   label: '治療目的',                 type: 'text', maxCharsPerLine: 30, lineHeight: 5 },
+  'ip_rehabilitation_program':         { field: 'ip_rehabilitation_program',         label: 'リハビリプログラム',       type: 'text', maxCharsPerLine: 30, lineHeight: 5 },
+  'ip_home_rehabilitation':            { field: 'ip_home_rehabilitation',            label: '自主訓練',                 type: 'text', maxCharsPerLine: 30, lineHeight: 5 },
+  'ip_change_since_previous_planning': { field: 'ip_change_since_previous_planning', label: '前回計画からの変化',       type: 'text', maxCharsPerLine: 30, lineHeight: 5 },
+  'ip_note':                           { field: 'ip_note',                           label: '注意事項',                 type: 'text', maxCharsPerLine: 30, lineHeight: 5 },
+  'ip_assessor':                       { field: 'ip_assessor',                       label: '評価者',                   type: 'text' },
+
+  // === グループ４: 事業所情報 ===
+  'ip_clinic_postal_code':             { field: 'ip_clinic_postal_code',             label: '事業所郵便番号',           type: 'text' },
+  'ip_clinic_address':                 { field: 'ip_clinic_address',                 label: '事業所住所',               type: 'text' },
+  'ip_clinic_phone':                   { field: 'ip_clinic_phone',                   label: '事業所電話番号',           type: 'text' },
+  'ip_clinic_name':                    { field: 'ip_clinic_name',                    label: '事業所名',                 type: 'text' },
+  'ip_clinic_owner_name':              { field: 'ip_clinic_owner_name',              label: '事業所代表者氏名',         type: 'text' },
+};
+
+// ============================================================
 // 医師への御礼状用のフィールド定義
 // ============================================================
 // PDFタイプ: thank_you_letter_doctor

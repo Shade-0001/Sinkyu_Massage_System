@@ -117,6 +117,11 @@ function getFieldDefinitions() {
     return fieldDefinitionsSummaryTable;
   }
 
+  // 実施計画書用
+  if (currentPdfType === 'implementation_plan') {
+    return fieldDefinitionsImplementationPlan;
+  }
+
   // 医師への御礼状用
   if (currentPdfType === 'thank_you_letter_doctor') {
     return fieldDefinitionsThankYouLetterDoctor;

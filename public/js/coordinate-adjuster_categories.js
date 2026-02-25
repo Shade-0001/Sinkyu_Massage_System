@@ -447,7 +447,12 @@ const categoryLabels = {
     // 総括表用カテゴリラベル
     "header_info":  "ヘッダー情報",
     "cost_summary": "集計情報",
-    "bank_info":    "金融機関情報"
+    "bank_info":    "金融機関情報",
+    // 実施計画書用カテゴリラベル
+    "ip_patient_info": "グループ１（基本情報）",
+    "ip_adl_info":     "グループ２（ADL評価）",
+    "ip_plan_info":    "グループ３（計画情報）",
+    "ip_clinic_info":  "グループ４（事業所情報）"
 };
 
 const categoryOrderTherapyBenefitAcupuncture = [
@@ -921,6 +926,62 @@ const categoryOrderSummaryTable = [
   'bank_info',
 ];
 
+// フィールドカテゴリマッピング（実施計画書用）
+const fieldCategoriesImplementationPlan = {
+  // グループ１: 基本情報
+  'ip_assessment_date':                'ip_patient_info',
+  'ip_patient_name':                   'ip_patient_info',
+  'ip_gender':                         'ip_patient_info',
+  'ip_birthdate':                      'ip_patient_info',
+
+  // グループ２: ADL評価値・備考・コミュニケーション
+  'ip_adl_eating_level':               'ip_adl_info',
+  'ip_adl_moving_level':               'ip_adl_info',
+  'ip_adl_personal_grooming_level':    'ip_adl_info',
+  'ip_adl_using_toilet_level':         'ip_adl_info',
+  'ip_adl_bathing_level':              'ip_adl_info',
+  'ip_adl_walking_level':              'ip_adl_info',
+  'ip_adl_using_stairs_level':         'ip_adl_info',
+  'ip_adl_changing_clothes_level':     'ip_adl_info',
+  'ip_adl_defecation_level':           'ip_adl_info',
+  'ip_adl_urination_level':            'ip_adl_info',
+  'ip_adl_eating_note':                'ip_adl_info',
+  'ip_adl_moving_note':                'ip_adl_info',
+  'ip_adl_personal_grooming_note':     'ip_adl_info',
+  'ip_adl_using_toilet_note':          'ip_adl_info',
+  'ip_adl_bathing_note':               'ip_adl_info',
+  'ip_adl_walking_note':               'ip_adl_info',
+  'ip_adl_using_stairs_note':          'ip_adl_info',
+  'ip_adl_changing_clothes_note':      'ip_adl_info',
+  'ip_adl_defecation_note':            'ip_adl_info',
+  'ip_adl_urination_note':             'ip_adl_info',
+  'ip_communication_note':             'ip_adl_info',
+
+  // グループ３: 計画情報
+  'ip_wish_of_user_and_family':        'ip_plan_info',
+  'ip_care_purpose':                   'ip_plan_info',
+  'ip_rehabilitation_program':         'ip_plan_info',
+  'ip_home_rehabilitation':            'ip_plan_info',
+  'ip_change_since_previous_planning': 'ip_plan_info',
+  'ip_note':                           'ip_plan_info',
+  'ip_assessor':                       'ip_plan_info',
+
+  // グループ４: 事業所情報
+  'ip_clinic_postal_code':             'ip_clinic_info',
+  'ip_clinic_address':                 'ip_clinic_info',
+  'ip_clinic_phone':                   'ip_clinic_info',
+  'ip_clinic_name':                    'ip_clinic_info',
+  'ip_clinic_owner_name':              'ip_clinic_info',
+};
+
+// カテゴリ順序（実施計画書用）
+const categoryOrderImplementationPlan = [
+  'ip_patient_info',
+  'ip_adl_info',
+  'ip_plan_info',
+  'ip_clinic_info',
+];
+
 // ============================================================
 // PDFタイプに応じたfieldCategoriesを取得
 // ============================================================
@@ -962,6 +1023,8 @@ function getFieldCategories(pdfType) {
     return fieldCategoriesTreatmentRecordAcupuncture;
   } else if (pdfType === 'summary_table') {
     return fieldCategoriesSummaryTable;
+  } else if (pdfType === 'implementation_plan') {
+    return fieldCategoriesImplementationPlan;
   }
   return fieldCategoriesTherapyBenefitAcupuncture;
 }
@@ -1003,6 +1066,8 @@ function getCategoryOrder(pdfType) {
     return categoryOrderTreatmentRecordAcupuncture;
   } else if (pdfType === 'summary_table') {
     return categoryOrderSummaryTable;
+  } else if (pdfType === 'implementation_plan') {
+    return categoryOrderImplementationPlan;
   }
   return categoryOrderTherapyBenefitAcupuncture;
 }

@@ -197,7 +197,7 @@
     "templateFile": "実施計画書.pdf",
     "templateDir": "others_1",
     "serviceClass": "ImplementationPlanPdfService",
-    "fieldsFile": ""
+    "fieldsFile": "implementation_plan.js"
   },
   "report_greeting": {
     "name": "報告書挨拶状",
