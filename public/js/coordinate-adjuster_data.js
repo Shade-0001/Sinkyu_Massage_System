@@ -300,7 +300,7 @@ let customSampleData = {
   ip_gender: '男',
   ip_birthdate: '昭和30年 3月 15日',
   // グループ２（ADL評価）
-  ip_adl_level: '自立',
+  ip_adl_level: '10',  // バーセルインデックス点数（サンプル）
   ip_adl_eating_note: '',
   ip_adl_moving_note: 'T字杖使用',
   ip_adl_personal_grooming_note: '',

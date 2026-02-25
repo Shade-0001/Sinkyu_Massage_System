@@ -162,18 +162,18 @@ class ImplementationPlanPdfService extends BasePdfService
         'owner_last_name'  => '鈴木',
         'owner_first_name' => '一郎',
       ],
-      // サンプルデータでのADL評価値（level_idがnullの場合のフォールバック用）
+      // サンプルデータでのADL評価値（assistance_levels の level_id 数値で指定）
       'sample_adl_levels' => [
-        'eating_assistance_level_id'            => $c['ip_adl_eating_level']            ?? '自立',
-        'moving_assistance_level_id'            => $c['ip_adl_moving_level']            ?? '部分介助',
-        'personal_grooming_assistance_level_id' => $c['ip_adl_personal_grooming_level'] ?? '自立',
-        'using_toilet_assistance_level_id'      => $c['ip_adl_using_toilet_level']      ?? '部分介助',
-        'bathing_assistance_level_id'           => $c['ip_adl_bathing_level']           ?? '要介助',
-        'walking_assistance_level_id'           => $c['ip_adl_walking_level']           ?? '要監視又は軽監視',
-        'using_stairs_assistance_level_id'      => $c['ip_adl_using_stairs_level']      ?? '部分介助',
-        'changing_clothes_assistance_level_id'  => $c['ip_adl_changing_clothes_level']  ?? '自立',
-        'defecation_assistance_level_id'        => $c['ip_adl_defecation_level']        ?? '自立',
-        'urination_assistance_level_id'         => $c['ip_adl_urination_level']         ?? '自立',
+        'eating_assistance_level_id'            => 8,  // 自立
+        'moving_assistance_level_id'            => 3,  // 部分介助
+        'personal_grooming_assistance_level_id' => 8,  // 自立
+        'using_toilet_assistance_level_id'      => 3,  // 部分介助
+        'bathing_assistance_level_id'           => 1,  // 要介助
+        'walking_assistance_level_id'           => 6,  // 要監視又は軽監視
+        'using_stairs_assistance_level_id'      => 3,  // 部分介助
+        'changing_clothes_assistance_level_id'  => 8,  // 自立
+        'defecation_assistance_level_id'        => 8,  // 自立
+        'urination_assistance_level_id'         => 8,  // 自立
       ],
     ];
   }
@@ -248,51 +248,61 @@ class ImplementationPlanPdfService extends BasePdfService
         'note_key'     => 'ip_adl_eating_note',
         'level_id_col' => 'eating_assistance_level_id',
         'note_col'     => 'eating_assistance_note',
+        'bi_item'      => 'eating',
       ],
       [
         'note_key'     => 'ip_adl_moving_note',
         'level_id_col' => 'moving_assistance_level_id',
         'note_col'     => 'moving_assistance_note',
+        'bi_item'      => 'moving',
       ],
       [
         'note_key'     => 'ip_adl_personal_grooming_note',
         'level_id_col' => 'personal_grooming_assistance_level_id',
         'note_col'     => 'personal_grooming_assistance_note',
+        'bi_item'      => 'personal_grooming',
       ],
       [
         'note_key'     => 'ip_adl_using_toilet_note',
         'level_id_col' => 'using_toilet_assistance_level_id',
         'note_col'     => 'using_toilet_assistance_note',
+        'bi_item'      => 'using_toilet',
       ],
       [
         'note_key'     => 'ip_adl_bathing_note',
         'level_id_col' => 'bathing_assistance_level_id',
         'note_col'     => 'bathing_assistance_note',
+        'bi_item'      => 'bathing',
       ],
       [
         'note_key'     => 'ip_adl_walking_note',
         'level_id_col' => 'walking_assistance_level_id',
         'note_col'     => 'walking_assistance_note',
+        'bi_item'      => 'walking',
       ],
       [
         'note_key'     => 'ip_adl_using_stairs_note',
         'level_id_col' => 'using_stairs_assistance_level_id',
         'note_col'     => 'using_stairs_assistance_note',
+        'bi_item'      => 'using_stairs',
       ],
       [
         'note_key'     => 'ip_adl_changing_clothes_note',
         'level_id_col' => 'changing_clothes_assistance_level_id',
         'note_col'     => 'changing_clothes_assistance_note',
+        'bi_item'      => 'changing_clothes',
       ],
       [
         'note_key'     => 'ip_adl_defecation_note',
         'level_id_col' => 'defecation_assistance_level_id',
         'note_col'     => 'defecation_assistance_note',
+        'bi_item'      => 'defecation',
       ],
       [
         'note_key'     => 'ip_adl_urination_note',
         'level_id_col' => 'urination_assistance_level_id',
         'note_col'     => 'urination_assistance_note',
+        'bi_item'      => 'urination',
       ],
     ];
 
@@ -307,15 +317,15 @@ class ImplementationPlanPdfService extends BasePdfService
         $offsetY = $i * $rowLineHeight;
 
         if ($sampleAdlLevels) {
-          $levelText = $sampleAdlLevels[$item['level_id_col']] ?? '';
+          $levelId = (int) ($sampleAdlLevels[$item['level_id_col']] ?? 0);
         } else {
-          $levelId   = $plan->{$item['level_id_col']} ?? null;
-          $levelText = $levelId ? ($levels[$levelId] ?? '') : '';
+          $levelId = (int) ($plan->{$item['level_id_col']} ?? 0);
         }
+        $scoreText = $levelId ? (string) $this->getBarthelScore($item['bi_item'], $levelId) : '';
 
         $pdf->SetFont('kozgopromedium', '', $adlFontSize);
         $pdf->SetXY($adlX, $adlBaseY + $offsetY);
-        $pdf->Cell(0, 0, $levelText, 0, 0, 'L', false);
+        $pdf->Cell(0, 0, $scoreText, 0, 0, 'L', false);
       }
     }
 
@@ -369,5 +379,77 @@ class ImplementationPlanPdfService extends BasePdfService
       $ownerName = trim(($clinicInfo->owner_last_name ?? '') . ' ' . ($clinicInfo->owner_first_name ?? ''));
       $this->drawTextByKey($pdf, 'ip_clinic_owner_name', $ownerName);
     }
+  }
+
+  /**
+   * バーセルインデックス（BI）スコアを返す
+   *
+   * assistance_levels の id と ADL項目名を元に点数を計算する。
+   *
+   * assistance_levels の id 対応:
+   *   1=要介助, 2=全介助, 3=部分介助, 4=中等度介助,
+   *   5=中等度以上の介助又は不能, 6=要監視又は軽監視,
+   *   7=車椅子使用, 8=自立, 9=昼夜問わず自立
+   *
+   * @param string $item    ADL項目キー（eating, moving, ... など）
+   * @param int    $levelId assistance_levels.id
+   * @return int            バーセルインデックス点数
+   */
+  protected function getBarthelScore(string $item, int $levelId): int
+  {
+    $map = [
+      // 食事（max 10）: 0 / 5 / 10
+      'eating' => [
+        1 => 0,  2 => 0,  3 => 5,  4 => 5,  5 => 0,
+        6 => 5,  7 => 10, 8 => 10, 9 => 10,
+      ],
+      // 移乗（max 15）: 0 / 5 / 10 / 15
+      'moving' => [
+        1 => 0,  2 => 0,  3 => 10, 4 => 5,  5 => 0,
+        6 => 5,  7 => 5,  8 => 15, 9 => 15,
+      ],
+      // 整容（max 5）: 0 / 5
+      'personal_grooming' => [
+        1 => 0,  2 => 0,  3 => 0,  4 => 0,  5 => 0,
+        6 => 5,  7 => 5,  8 => 5,  9 => 5,
+      ],
+      // トイレ動作（max 10）: 0 / 5 / 10
+      'using_toilet' => [
+        1 => 0,  2 => 0,  3 => 5,  4 => 5,  5 => 0,
+        6 => 5,  7 => 5,  8 => 10, 9 => 10,
+      ],
+      // 入浴（max 5）: 0 / 5
+      'bathing' => [
+        1 => 0,  2 => 0,  3 => 0,  4 => 0,  5 => 0,
+        6 => 5,  7 => 5,  8 => 5,  9 => 5,
+      ],
+      // 歩行（max 15）: 0 / 5 / 10 / 15
+      'walking' => [
+        1 => 0,  2 => 0,  3 => 5,  4 => 5,  5 => 0,
+        6 => 10, 7 => 5,  8 => 15, 9 => 15,
+      ],
+      // 階段昇降（max 10）: 0 / 5 / 10
+      'using_stairs' => [
+        1 => 0,  2 => 0,  3 => 5,  4 => 5,  5 => 0,
+        6 => 5,  7 => 0,  8 => 10, 9 => 10,
+      ],
+      // 着替え（max 10）: 0 / 5 / 10
+      'changing_clothes' => [
+        1 => 0,  2 => 0,  3 => 5,  4 => 5,  5 => 0,
+        6 => 5,  7 => 5,  8 => 10, 9 => 10,
+      ],
+      // 排便コントロール（max 10）: 0 / 5 / 10
+      'defecation' => [
+        1 => 0,  2 => 0,  3 => 5,  4 => 5,  5 => 0,
+        6 => 5,  7 => 5,  8 => 10, 9 => 10,
+      ],
+      // 排尿コントロール（max 10）: 0 / 5 / 10
+      'urination' => [
+        1 => 0,  2 => 0,  3 => 5,  4 => 5,  5 => 0,
+        6 => 5,  7 => 5,  8 => 10, 9 => 10,
+      ],
+    ];
+
+    return $map[$item][$levelId] ?? 0;
   }
 }
