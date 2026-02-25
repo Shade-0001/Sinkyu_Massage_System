@@ -385,7 +385,7 @@ class ImplementationPlanPdfService extends BasePdfService
       $address = ($clinicInfo->address_1 ?? '') . ($clinicInfo->address_2 ?? '') . ($clinicInfo->address_3 ?? '');
       $this->drawTextByKey($pdf, 'ip_clinic_address', $address);
 
-      $this->drawTextByKey($pdf, 'ip_clinic_phone', $clinicInfo->phone ?? '');
+      $this->drawTextByKey($pdf, 'ip_clinic_phone', $this->formatPhoneNumber($clinicInfo->phone ?? ''));
       $this->drawTextByKey($pdf, 'ip_clinic_name', $clinicInfo->clinic_name ?? '');
 
       $ownerName = trim(($clinicInfo->owner_last_name ?? '') . ' ' . ($clinicInfo->owner_first_name ?? ''));
@@ -463,5 +463,34 @@ class ImplementationPlanPdfService extends BasePdfService
     ];
 
     return $map[$item][$levelId] ?? 0;
+  }
+
+  /**
+   * 電話番号フォーマット（ハイフンを挿入）
+   */
+  protected function formatPhoneNumber(string $phone): string
+  {
+    $digitsOnly = preg_replace('/[^0-9]/', '', $phone);
+
+    if (empty($digitsOnly)) {
+      return '';
+    }
+
+    // 10桁: 03は2-4-4、それ以外は3-3-4
+    if (strlen($digitsOnly) === 10) {
+      if (substr($digitsOnly, 0, 2) === '03') {
+        return substr($digitsOnly, 0, 2) . '-' . substr($digitsOnly, 2, 4) . '-' . substr($digitsOnly, 6);
+      } else {
+        return substr($digitsOnly, 0, 3) . '-' . substr($digitsOnly, 3, 3) . '-' . substr($digitsOnly, 6);
+      }
+    }
+
+    // 11桁: 3-4-4
+    if (strlen($digitsOnly) === 11) {
+      return substr($digitsOnly, 0, 3) . '-' . substr($digitsOnly, 3, 4) . '-' . substr($digitsOnly, 7);
+    }
+
+    // その他はそのまま返す
+    return $phone;
   }
 }
