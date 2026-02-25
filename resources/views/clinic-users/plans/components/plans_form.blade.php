@@ -20,7 +20,7 @@
   </div>
 
   <div class="mb-3">
-    <label class="fw-semibold" for="audience">疾呼吸</label><br>
+    <label class="fw-semibold" for="audience">聴衆者</label><br>
     <input type="text" id="audience" name="audience" value="{{ old('audience', $planInfo?->audience ?? '') }}">
     @error('audience')
       <div class="text-danger">{{ $message }}</div>
