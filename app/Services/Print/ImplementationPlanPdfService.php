@@ -372,10 +372,13 @@ class ImplementationPlanPdfService extends BasePdfService
     // =====================
 
     if ($clinicInfo) {
-      // 郵便番号（〒XXX-XXXX 形式に整形）
+      // 郵便番号（〒XXX-XXXX 形式に整形、ハイフンあり/なし両方対応）
       $postalCode = (string) ($clinicInfo->postal_code ?? '');
-      if (strlen($postalCode) === 7 && ctype_digit($postalCode)) {
-        $postalCode = '〒' . substr($postalCode, 0, 3) . '-' . substr($postalCode, 3);
+      $postalCodeNumbers = preg_replace('/[^0-9]/', '', $postalCode);
+      if (strlen($postalCodeNumbers) === 7) {
+        $postalCode = '〒' . substr($postalCodeNumbers, 0, 3) . '-' . substr($postalCodeNumbers, 3, 4);
+      } elseif ($postalCode !== '') {
+        $postalCode = '〒' . $postalCode;
       }
       $this->drawTextByKey($pdf, 'ip_clinic_postal_code', $postalCode);
 
