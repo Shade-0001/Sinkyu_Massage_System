@@ -1543,3 +1543,58 @@ function submitDoctorThankYou() {
     }
   }, 100);
 }
+
+/**
+ * 実施計画書モーダルを開く
+ */
+function openImplementationPlanModal() {
+  const modalElement = document.getElementById('implementationPlanModal');
+  if (!modalElement) return;
+
+  resetFormToDefault('implementationPlanForm');
+
+  // 選択ボックスの高さをオプション数に合わせて調整
+  adjustSelectSize('implementation_plan_clinic_user_ids');
+
+  if (modalElement.parentElement !== document.body) {
+    document.body.appendChild(modalElement);
+  }
+
+  const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
+  modal.show();
+}
+
+/**
+ * 実施計画書PDF出力
+ */
+function submitImplementationPlan() {
+  const form = document.getElementById('implementationPlanForm');
+
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  const filename = `実施計画書_${year}-${month}-${day}_${hours}-${minutes}-${seconds}.pdf`;
+  form.action = `/prints/implementation-plan/${encodeURIComponent(filename)}`;
+  form.target = '_blank';
+  form.submit();
+
+  setTimeout(() => {
+    const modalElement = document.getElementById('implementationPlanModal');
+    if (modalElement) {
+      const modalInstance = bootstrap.Modal.getInstance(modalElement);
+      if (modalInstance) {
+        modalInstance.hide();
+      }
+    }
+  }, 100);
+}

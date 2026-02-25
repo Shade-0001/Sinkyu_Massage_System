@@ -1643,6 +1643,50 @@ class PrintsController extends Controller
   }
 
   /**
+   * 実施計画書PDF出力
+   */
+  public function implementationPlan(Request $request, \App\Services\Print\ImplementationPlanPdfService $service, string $filename)
+  {
+    try {
+      $validated = $request->validate([
+        'service_year_month' => 'required|date_format:Y-m',
+        'clinic_user_ids'    => 'required|array|min:1',
+        'clinic_user_ids.*'  => 'integer|exists:clinic_users,id',
+      ]);
+
+      \Log::info('実施計画書PDF生成開始', [
+        'service_year_month' => $validated['service_year_month'],
+        'clinic_user_ids'    => $validated['clinic_user_ids'],
+      ]);
+
+      $pdfBinary = $service->generate(
+        $validated['clinic_user_ids'],
+        $validated['service_year_month'],
+        now()->format('Y-m-d')
+      );
+
+      \Log::info('実施計画書PDF生成完了', ['size' => strlen($pdfBinary)]);
+
+      return response($pdfBinary, 200, [
+        'Content-Type'        => 'application/pdf',
+        'Content-Disposition' => 'inline',
+      ]);
+    } catch (\Exception $e) {
+      \Log::error('実施計画書PDF生成エラー', [
+        'message' => $e->getMessage(),
+        'file'    => $e->getFile(),
+        'line'    => $e->getLine(),
+      ]);
+      return response()->json([
+        'error'   => 'PDF生成に失敗しました',
+        'message' => $e->getMessage(),
+        'file'    => $e->getFile(),
+        'line'    => $e->getLine(),
+      ], 500);
+    }
+  }
+
+  /**
    * 利用者数集計表PDF出力
    */
   public function userCountSummary(Request $request, \App\Services\Print\UserCountSummaryPdfService $service, string $filename)

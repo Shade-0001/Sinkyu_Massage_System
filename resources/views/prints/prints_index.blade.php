@@ -48,7 +48,7 @@
   <button type="button" class="btn btn-primary" onclick="openDoctorThankYouModal()">医師への御礼状</button>
   <button type="button" class="btn btn-primary" onclick="openReferrerThankYouModal()">紹介者への御礼状</button>
   <button type="button" class="btn btn-primary" onclick="openUserCountSummaryModal()">利用者数集計表</button>
-  <button>実施計画書</button>
+  <button type="button" class="btn btn-primary" onclick="openImplementationPlanModal()">実施計画書</button>
   <button>報告書挨拶文</button>
   <button>報告書</button>
   <button>翌月予定表</button>
@@ -956,6 +956,62 @@
     </div>
   </div>
 
+  <!-- 実施計画書モーダル -->
+  <div class="modal fade" id="implementationPlanModal" tabindex="-1" aria-labelledby="implementationPlanModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="implementationPlanModalLabel">実施計画書 出力設定</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="implementationPlanForm" method="POST">
+            @csrf
+
+            <!-- サービス提供年月 -->
+            <div class="mb-3">
+              <label for="implementation_plan_service_year_month" class="form-label">サービス提供年月 <span class="text-danger">*</span></label>
+              <select class="form-select" id="implementation_plan_service_year_month" name="service_year_month" required>
+                <option value="">選択してください</option>
+                @php
+                  $currentDate = now();
+                  for ($i = 0; $i < 24; $i++) {
+                    $date = $currentDate->copy()->subMonths($i);
+                    $value = $date->format('Y-m');
+                    $m = (int)$date->format('n');
+                    $display = $date->format('Y年') . ($m < 10 ? "\u{00A0}\u{00A0}" : '') . $m . '月';
+                    $selected = ($i === 0) ? 'selected' : '';
+                    echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
+                  }
+                @endphp
+              </select>
+            </div>
+
+            <!-- 利用者選択 -->
+            <div class="mb-3">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <label for="implementation_plan_clinic_user_ids" class="form-label mb-0">利用者 <span class="text-danger">*</span></label>
+                <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('implementation_plan_clinic_user_ids')">全て選択 / 解除</button>
+              </div>
+              <select class="form-select" id="implementation_plan_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
+                @foreach($clinicUsers as $user)
+                  <option value="{{ $user->id }}">
+                    {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
+                  </option>
+                @endforeach
+              </select>
+              <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-primary" onclick="submitImplementationPlan()">印刷</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- 利用者数集計表モーダル -->
   <div class="modal fade" id="userCountSummaryModal" tabindex="-1" aria-labelledby="userCountSummaryModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -1018,6 +1074,7 @@
         #doctor_thank_you_clinic_user_ids,
         #doctor_thank_you_doctor_id,
         #referrer_thank_you_clinic_user_ids,
+        #implementation_plan_clinic_user_ids,
         #referrer_thank_you_caremanager_id {
           scroll-behavior: auto;
         }
