@@ -15,7 +15,6 @@ use App\Http\Traits\SessionConfirmationTrait;
  * 利用者に紐づくリハビリテーション計画情報のCRUD操作を担当する。
  * - 計画情報の一覧・登録・編集・削除
  * - 計画情報の複製
- * - 計画情報の印刷
  */
 class PlanController extends Controller
 {
@@ -293,66 +292,6 @@ class PlanController extends Controller
 
         return redirect()->route('clinic-users.plans.index', $id)
             ->with('success', '計画情報を削除しました。');
-    }
-
-    /**
-     * 計画情報印刷
-     */
-    public function print($id)
-    {
-        $user = ClinicUser::findOrFail($id);
-
-        // 計画情報を新しい順に取得（リレーションを含む）
-        $planInfos = Plan::where('clinic_user_id', $id)
-            ->with([
-                'eatingAssistanceLevel',
-                'movingAssistanceLevel',
-                'personalGroomingAssistanceLevel',
-                'usingToiletAssistanceLevel',
-                'bathingAssistanceLevel',
-                'walkingAssistanceLevel',
-                'usingStairsAssistanceLevel',
-                'changingClothesAssistanceLevel',
-                'defecationAssistanceLevel',
-                'urinationAssistanceLevel'
-            ])
-            ->orderBy('assessment_date', 'desc')
-            ->get();
-
-        // TCPDFを使用してPDFを生成
-        $pdf = new \TCPDF('L', 'mm', 'A4', true, 'UTF-8');
-
-        // PDFメタデータ設定
-        $pdf->SetCreator('Sinkyu Massage System');
-        $pdf->SetAuthor('System');
-        $pdf->SetTitle('計画情報履歴一覧表');
-
-        // ヘッダー・フッターを削除
-        $pdf->setPrintHeader(false);
-        $pdf->setPrintFooter(false);
-
-        // マージン設定
-        $pdf->SetMargins(10, 10, 10);
-        $pdf->SetAutoPageBreak(TRUE, 10);
-
-        // 日本語フォント設定（M+ 1 Medium）
-        $pdf->SetFont('mplus1medium', '', 9);
-
-        // ページ追加
-        $pdf->AddPage();
-
-        // HTMLコンテンツを生成
-        $html = view('clinic-users.plans.plans_pdf', [
-            'user' => $user,
-            'planInfos' => $planInfos
-        ])->render();
-
-        // HTMLをPDFに出力
-        $pdf->writeHTML($html, true, false, true, false, '');
-
-        // PDFを新規ウィンドウで表示
-        return response($pdf->Output('計画情報履歴一覧表_' . $user->clinic_user_name . '.pdf', 'I'))
-            ->header('Content-Type', 'application/pdf');
     }
 
     /**

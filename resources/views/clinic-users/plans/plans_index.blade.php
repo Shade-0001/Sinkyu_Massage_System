@@ -29,8 +29,6 @@
   <button>計画情報新規登録</button>
   </a>
 
-  <!-- 計画情報印刷ボタン -->
-  <button type="button" id="printPlanInfos" data-print-url="{{ route('clinic-users.plans.print-history', $id) }}" style="margin-left: 10px;">計画情報印刷</button>
   <br><br>
 
   <!-- 計画情報一覧テーブル -->

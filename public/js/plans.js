@@ -31,14 +31,4 @@ $(document).ready(function() {
     }
   });
 
-  // 計画情報印刷（動的にURLを取得）
-  $('#printPlanInfos').on('click', function() {
-    const url = $(this).data('print-url');
-    if (!url) {
-      return;
-    }
-    const windowName = 'PlanInfosPDF_' + new Date().getTime();
-    const windowFeatures = 'popup=yes,width=1200,height=800,left=100,top=100,menubar=yes,toolbar=yes,location=yes,status=yes,scrollbars=yes,resizable=yes';
-    window.open(url, windowName, windowFeatures);
-  });
 });

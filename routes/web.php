@@ -217,7 +217,6 @@ Route::middleware('auth')->group(function () {
   Route::post('/master/clinic-users/{id}/plans/{plan_id}/duplicate/store', [PlanController::class, 'duplicateStore'])->name('clinic-users.plans.duplicate.store');
 
   Route::delete('/master/clinic-users/{id}/plans/{plan_id}', [PlanController::class, 'destroy'])->name('clinic-users.plans.delete');
-  Route::get('/master/clinic-users/{id}/plans/print-history', [PlanController::class, 'print'])->name('clinic-users.plans.print-history');
 
   // 実績データ
   Route::get('/records/index', [RecordsController::class, 'index'])->name('records.index');
