@@ -403,7 +403,7 @@ class PlanController extends Controller
         return [
             'assessment_date' => '評価日',
             'assessor' => '評価者',
-            'audience' => '疾呼吸',
+            'audience' => '聴衆者',
             'eating_assistance_level_id' => '食事介助レベル',
             'eating_assistance_note' => '食事介助備考',
             'moving_assistance_level_id' => '起居移動レベル',
