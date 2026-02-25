@@ -35,7 +35,7 @@
           <td class="value-cell">{{ $plan->assessor ?? '' }}</td>
         </tr>
         <tr>
-          <th class="label-cell">疾呼吸</th>
+          <th class="label-cell">聴衆者</th>
           <td class="value-cell" colspan="3">{{ $plan->audience ?? '' }}</td>
         </tr>
         <tr>
