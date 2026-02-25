@@ -971,7 +971,7 @@
             <!-- サービス提供年月 -->
             <div class="mb-3">
               <label for="implementation_plan_service_year_month" class="form-label">サービス提供年月 <span class="text-danger">*</span></label>
-              <select class="form-select" id="implementation_plan_service_year_month" name="service_year_month" required>
+              <select class="form-select" id="implementation_plan_service_year_month" name="service_year_month" required onchange="updateImplementationPlanUserLabels()">
                 <option value="">選択してください</option>
                 @php
                   $currentDate = now();
@@ -995,7 +995,7 @@
               </div>
               <select class="form-select" id="implementation_plan_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">
+                  <option value="{{ $user->id }}" data-plan-months="{{ json_encode($implementationPlanUserMonths[$user->id] ?? []) }}">
                     {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
                   </option>
                 @endforeach

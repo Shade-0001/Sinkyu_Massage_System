@@ -186,7 +186,16 @@ class PrintsController extends Controller
     // 利用者数集計表用：データが存在する年月セットを取得
     $userCountDataMonths = $this->getUserCountDataMonths();
 
-    return view('prints.prints_index', compact('clinicUsers', 'doctors', 'caremanagers', 'pdfTypes', 'summaryTableDataMonths', 'userCountDataMonths'));
+    // 実施計画書用：利用者ごとにplansが存在する年月セットを取得
+    $implementationPlanUserMonths = DB::table('plans')
+      ->selectRaw('clinic_user_id, DATE_FORMAT(assessment_date, "%Y-%m") as ym')
+      ->whereNotNull('assessment_date')
+      ->groupBy('clinic_user_id', 'ym')
+      ->get()
+      ->groupBy('clinic_user_id')
+      ->map(fn($rows) => $rows->pluck('ym')->values()->all());
+
+    return view('prints.prints_index', compact('clinicUsers', 'doctors', 'caremanagers', 'pdfTypes', 'summaryTableDataMonths', 'userCountDataMonths', 'implementationPlanUserMonths'));
   }
 
   /**

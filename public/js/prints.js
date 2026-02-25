@@ -1553,6 +1553,9 @@ function openImplementationPlanModal() {
 
   resetFormToDefault('implementationPlanForm');
 
+  // 利用者のあり/なしラベルを更新
+  updateImplementationPlanUserLabels();
+
   // 選択ボックスの高さをオプション数に合わせて調整
   adjustSelectSize('implementation_plan_clinic_user_ids');
 
@@ -1562,6 +1565,37 @@ function openImplementationPlanModal() {
 
   const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
   modal.show();
+}
+
+/**
+ * 実施計画書モーダルの利用者オプションに「該当データ：あり/なし」を表示
+ */
+function updateImplementationPlanUserLabels() {
+  const ymSelect = document.getElementById('implementation_plan_service_year_month');
+  const userSelect = document.getElementById('implementation_plan_clinic_user_ids');
+  if (!ymSelect || !userSelect) return;
+
+  const selectedYm = ymSelect.value;
+
+  Array.from(userSelect.options).forEach(option => {
+    const planMonths = JSON.parse(option.dataset.planMonths || '[]');
+    // ベース名を初回取得・キャッシュ
+    if (!option.dataset.baseName) {
+      option.dataset.baseName = option.textContent.trim();
+    }
+    const baseName = option.dataset.baseName;
+
+    if (!selectedYm) {
+      option.textContent = baseName;
+      return;
+    }
+
+    if (planMonths.includes(selectedYm)) {
+      option.textContent = baseName + ' ｜ 該当データ：あり';
+    } else {
+      option.textContent = baseName + ' ｜ 該当データ：なし';
+    }
+  });
 }
 
 /**
