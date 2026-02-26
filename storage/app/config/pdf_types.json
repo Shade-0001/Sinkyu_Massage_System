@@ -216,7 +216,7 @@
     "fieldsFile": "report.js"
   },
   "next_month_schedule": {
-    "name": "翌月予定表",
+    "name": "予定表",
     "coordinatesFile": "next_month_schedule_coordinates.json",
     "templateFile": "",
     "templateDir": "",

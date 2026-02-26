@@ -3,7 +3,7 @@
 namespace App\Services\Print;
 
 /**
- * 翌月予定表PDF生成サービス
+ * 予定表PDF生成サービス
  */
 class NextMonthSchedulePdfService extends BasePdfService
 {

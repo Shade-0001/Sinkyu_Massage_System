@@ -1704,7 +1704,7 @@ function submitReportGreeting() {
 }
 
 /**
- * 翌月予定表モーダルを開く
+ * 予定表モーダルを開く
  */
 function openNextMonthScheduleModal() {
   const modalElement = document.getElementById('nextMonthScheduleModal');
@@ -1722,7 +1722,7 @@ function openNextMonthScheduleModal() {
 }
 
 /**
- * 翌月予定表PDF出力
+ * 予定表PDF出力
  */
 function submitNextMonthSchedule() {
   const form = document.getElementById('nextMonthScheduleForm');
@@ -1740,7 +1740,7 @@ function submitNextMonthSchedule() {
   const minutes = String(now.getMinutes()).padStart(2, '0');
   const seconds = String(now.getSeconds()).padStart(2, '0');
 
-  const filename = `翌月予定表_${year}-${month}-${day}_${hours}-${minutes}-${seconds}.pdf`;
+  const filename = `予定表_${year}-${month}-${day}_${hours}-${minutes}-${seconds}.pdf`;
   form.action = `/prints/next-month-schedule/${encodeURIComponent(filename)}`;
   form.target = '_blank';
   form.submit();

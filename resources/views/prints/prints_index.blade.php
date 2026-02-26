@@ -51,7 +51,7 @@
   <button type="button" class="btn btn-primary" onclick="openImplementationPlanModal()">実施計画書</button>
   <button type="button" class="btn btn-primary" onclick="openReportGreetingModal()">報告書挨拶文</button>
   <button type="button" class="btn btn-primary" onclick="openReportModal()">報告書</button>
-  <button type="button" class="btn btn-primary" onclick="openNextMonthScheduleModal()">翌月予定表</button>
+  <button type="button" class="btn btn-primary" onclick="openNextMonthScheduleModal()">予定表</button>
   <button>要加療期限切れリスト</button>
   <br><br>
 
@@ -1184,12 +1184,12 @@
     </div>
   </div>
 
-  <!-- 翌月予定表モーダル -->
+  <!-- 予定表モーダル -->
   <div class="modal fade" id="nextMonthScheduleModal" tabindex="-1" aria-labelledby="nextMonthScheduleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="nextMonthScheduleModalLabel">翌月予定表 出力設定</h5>
+          <h5 class="modal-title" id="nextMonthScheduleModalLabel">予定表 出力設定</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
