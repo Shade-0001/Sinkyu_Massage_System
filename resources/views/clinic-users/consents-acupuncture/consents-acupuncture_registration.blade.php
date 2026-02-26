@@ -60,5 +60,35 @@
 
   @push('scripts')
   <script src="{{ asset('js/utility.js') }}"></script>
+  <script>
+    (function () {
+      // 同意日の月末（N ヶ月後）を YYYY-MM-DD で返す
+      function endOfMonthAfter(dateStr, months) {
+        const d = new Date(dateStr);
+        // N ヶ月後の翌月1日の前日 = N ヶ月後の月末
+        const end = new Date(d.getFullYear(), d.getMonth() + months + 1, 0);
+        const yyyy = end.getFullYear();
+        const mm = String(end.getMonth() + 1).padStart(2, '0');
+        const dd = String(end.getDate()).padStart(2, '0');
+        return `${yyyy}-${mm}-${dd}`;
+      }
+
+      document.getElementById('consenting_date').addEventListener('change', function () {
+        const val = this.value;
+        if (!val) return;
+
+        // 同意日と同じ日を入力
+        document.getElementById('consenting_start_date').value = val;
+        document.getElementById('benefit_period_start_date').value = val;
+
+        // 同意日の6ヶ月後の月末を入力
+        const endDate = endOfMonthAfter(val, 6);
+        document.getElementById('consenting_end_date').value = endDate;
+        document.getElementById('benefit_period_end_date').value = endDate;
+        document.getElementById('reconsenting_expiry').value = endDate;
+        document.getElementById('therapy_period_end_date').value = endDate;
+      });
+    })();
+  </script>
   @endpush
 </x-app-layout>
