@@ -101,7 +101,13 @@
       "Bash(/tmp/check_insurers_columns.php:*)",
       "Bash(git --no-pager log -1 --stat)",
       "Bash(python3:*)",
-      "Bash(git stash:*)"
+      "Bash(git stash:*)",
+      "Bash(sqlite3 \"i:/XAMPP/htdocs/Sinkyu_Massage_System/database/database.sqlite\":*)",
+      "Bash(git log --all --oneline --grep=\"clinic_users\\\\|consents\\\\|doctors\\\\|medical\" -i)",
+      "Bash(xargs sed -i \"s/string $submissionDate, string $remarks/string $submissionDate = '''', string $remarks/g\")",
+      "Bash(date /t)",
+      "Bash(time /t)",
+      "Bash(\"i:/XAMPP/mysql/bin/mysqldump.exe\" -u root sinkyu_massage_system_db)"
     ],
     "deny": [],
     "ask": []
