@@ -53,7 +53,7 @@
       <td>
       <a href="{{ route('clinic-users.consents-massage.edit', ['id' => $id, 'history_id' => $history->id]) }}">
         @if($history->consentingDoctor)
-          {{ $history->consentingDoctor->last_name }}\u{2000}{{ $history->consentingDoctor->first_name }}
+          {{ $history->consentingDoctor->doctor_name }}
         @else
           同意医師未設定
         @endif
