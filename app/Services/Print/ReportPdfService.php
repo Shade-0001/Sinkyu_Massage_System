@@ -50,7 +50,7 @@ class ReportPdfService extends BasePdfService
     $report = DB::table('reports')
       ->where('clinic_user_id', $clinicUserId)
       ->when($serviceYearMonth !== '', function ($q) use ($serviceYearMonth) {
-        $q->where('service_provide_month', $serviceYearMonth);
+        $q->whereRaw("DATE_FORMAT(service_provide_month, '%Y-%m') = ?", [$serviceYearMonth]);
       })
       ->orderBy('updated_at', 'desc')
       ->first();
