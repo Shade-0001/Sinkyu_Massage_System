@@ -115,6 +115,12 @@ class ReportPdfService extends BasePdfService
 
   /**
    * サンプルデータ
+   *
+   * 【注意】$this->customSampleData を必ず参照すること。
+   * 座標調整ツールのサンプルモードで入力されたテキストは
+   * JS(customSampleData) → POST(custom_sample_data) → setCustomSampleData()
+   * の流れで $this->customSampleData に格納される。
+   * ここで参照しないと、入力・指定したテキストがPDFに反映されない。
    */
   protected function getSampleData(): array
   {

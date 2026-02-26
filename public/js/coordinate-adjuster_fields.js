@@ -11,9 +11,12 @@
 // 1. このファイル（coordinate-adjuster_fields.js）にフィールド定義を追加
 // 2. 座標JSONファイル（*_coordinates.json）に座標情報を追加
 // 3. coordinate-adjuster_categories.js にカテゴリ定義を追加
-// 4. PHPサービスクラス（*FormFieldsTrait.php）に描画ロジックを追加
+// 4. PHPサービスクラス（*PdfService.php）に描画ロジックを追加
+// 5. coordinate-adjuster_data.js の customSampleData にキーを追加
+//    ※ここに追加しないとサンプルモードでの入力テキストが描画されない
+//    ※PHPの getSampleData() も $this->customSampleData を参照する実装にすること
 //
-// ※1~4全て必須。どれか1つでも欠けると正しく動作しない
+// ※1~5全て必須。どれか1つでも欠けると正しく動作しない
 // ============================================================
 //
 // ============================================================
