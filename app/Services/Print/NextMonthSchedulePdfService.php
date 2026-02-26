@@ -214,30 +214,10 @@ class NextMonthSchedulePdfService extends BasePdfService
       $pdf->Cell($colWidths['date'], $blockH, $dateText, 0, 0, 'C', false);
       $this->drawCellBorder($pdf, $x, $currentY, $colWidths['date'], $blockH);
 
-      // 施術種類の縦結合グループを事前に計算
-      // 同じtherapy_typeが連続する行をまとめる
-      // 例：[type1, type1, type2] → [{type:1, start:0, count:2}, {type:2, start:2, count:1}]
-      $therapyTypeGroups = [];
-      if (!empty($dayRecords)) {
-        $gi = 0;
-        $therapyTypeGroups[] = [
-          'therapy_type' => $dayRecords[0]['therapy_type'],
-          'start'        => 0,
-          'count'        => 1,
-        ];
-        for ($ri = 1; $ri < count($dayRecords); $ri++) {
-          if ($dayRecords[$ri]['therapy_type'] === $therapyTypeGroups[$gi]['therapy_type']) {
-            $therapyTypeGroups[$gi]['count']++;
-          } else {
-            $gi++;
-            $therapyTypeGroups[] = [
-              'therapy_type' => $dayRecords[$ri]['therapy_type'],
-              'start'        => $ri,
-              'count'        => 1,
-            ];
-          }
-        }
-      }
+      // 施術種類・施術内容の縦結合グループを事前に計算
+      // 同じ値が連続する行をまとめる
+      $therapyTypeGroups    = $this->buildMergeGroups($dayRecords, 'therapy_type');
+      $therapyContentGroups = $this->buildMergeGroups($dayRecords, 'therapy_content');
 
       // 施術データ各行
       for ($ri = 0; $ri < $rowCount; $ri++) {
@@ -268,7 +248,7 @@ class NextMonthSchedulePdfService extends BasePdfService
         }
         if ($groupForThisRow !== null) {
           $mergedH         = $rowHeight * $groupForThisRow['count'];
-          $therapyTypeText = $therapyTypeMap[$groupForThisRow['therapy_type']] ?? '';
+          $therapyTypeText = $therapyTypeMap[$groupForThisRow['value']] ?? '';
           if ($fillStyle) {
             $pdf->Rect($x, $rowY, $colWidths['therapy_type'], $mergedH, $fillStyle);
           }
@@ -277,19 +257,54 @@ class NextMonthSchedulePdfService extends BasePdfService
           $this->drawCellBorder($pdf, $x, $rowY, $colWidths['therapy_type'], $mergedH);
         }
 
-        // 施術内容列
+        // 施術内容列：グループの先頭行のみ結合セルを描画
         $x += $colWidths['therapy_type'];
-        if ($fillStyle) {
-          $pdf->Rect($x, $rowY, $colWidths['therapy_content'], $rowHeight, $fillStyle);
+        $contentGroupForThisRow = null;
+        foreach ($therapyContentGroups as $grp) {
+          if ($grp['start'] === $ri) {
+            $contentGroupForThisRow = $grp;
+            break;
+          }
         }
-        $therapyContentText = $rec['therapy_content'] ?? '';
-        $pdf->SetXY($x + 1, $rowY);
-        $pdf->Cell($colWidths['therapy_content'] - 2, $rowHeight, $therapyContentText, 0, 0, 'L', false);
-        $this->drawCellBorder($pdf, $x, $rowY, $colWidths['therapy_content'], $rowHeight);
+        if ($contentGroupForThisRow !== null) {
+          $mergedH            = $rowHeight * $contentGroupForThisRow['count'];
+          $therapyContentText = $contentGroupForThisRow['value'] ?? '';
+          if ($fillStyle) {
+            $pdf->Rect($x, $rowY, $colWidths['therapy_content'], $mergedH, $fillStyle);
+          }
+          $pdf->SetXY($x + 1, $rowY);
+          $pdf->Cell($colWidths['therapy_content'] - 2, $mergedH, $therapyContentText, 0, 0, 'L', false);
+          $this->drawCellBorder($pdf, $x, $rowY, $colWidths['therapy_content'], $mergedH);
+        }
       }
 
       $currentY += $blockH;
     }
+  }
+
+  /**
+   * 連続する同一値の行をグループ化
+   *
+   * @param array  $rows   施術データの配列
+   * @param string $key    グループ化対象のキー名
+   * @return array  [{value, start, count}, ...]
+   */
+  protected function buildMergeGroups(array $rows, string $key): array
+  {
+    if (empty($rows)) {
+      return [];
+    }
+    $groups = [['value' => $rows[0][$key], 'start' => 0, 'count' => 1]];
+    $gi     = 0;
+    for ($i = 1; $i < count($rows); $i++) {
+      if ($rows[$i][$key] === $groups[$gi]['value']) {
+        $groups[$gi]['count']++;
+      } else {
+        $gi++;
+        $groups[] = ['value' => $rows[$i][$key], 'start' => $i, 'count' => 1];
+      }
+    }
+    return $groups;
   }
 
   /**
