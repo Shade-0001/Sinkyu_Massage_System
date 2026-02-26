@@ -52,7 +52,7 @@
   <button type="button" class="btn btn-primary" onclick="openReportGreetingModal()">報告書挨拶文</button>
   <button type="button" class="btn btn-primary" onclick="openReportModal()">報告書</button>
   <button type="button" class="btn btn-primary" onclick="openNextMonthScheduleModal()">予定表</button>
-  <button>要加療期限切れリスト</button>
+  <button type="button" class="btn btn-primary" onclick="openTreatmentExpiryListModal()">要加療期限切れリスト</button>
   <br><br>
 
   <h3>その他２</h3>
@@ -1235,6 +1235,52 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
           <button type="button" class="btn btn-primary" onclick="submitNextMonthSchedule()">印刷</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 要加療期限切れリストモーダル -->
+  <div class="modal fade" id="treatmentExpiryListModal" tabindex="-1" aria-labelledby="treatmentExpiryListModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="treatmentExpiryListModalLabel">要加療期限切れリスト 出力設定</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="treatmentExpiryListForm" method="POST">
+            @csrf
+
+            <!-- 対象年月 -->
+            <div class="mb-3">
+              <label for="treatment_expiry_list_target_year_month" class="form-label">対象年月 <span class="text-danger">*</span></label>
+              <select class="form-select" id="treatment_expiry_list_target_year_month" name="target_year_month" required>
+                <option value="">選択してください</option>
+                @php
+                  $currentDate = now();
+                  for ($i = -1; $i < 23; $i++) {
+                    $date = $currentDate->copy()->subMonths($i);
+                    $value = $date->format('Y-m');
+                    $m = (int)$date->format('n');
+                    $display = $date->format('Y年') . ($m < 10 ? "\u{00A0}\u{00A0}" : '') . $m . '月';
+                    $selected = ($i === 0) ? 'selected' : '';
+                    echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
+                  }
+                @endphp
+              </select>
+            </div>
+
+            <!-- 出力年月日 -->
+            <div class="mb-3">
+              <label for="treatment_expiry_list_output_date" class="form-label">出力年月日 <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" id="treatment_expiry_list_output_date" name="output_date" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-primary" onclick="submitTreatmentExpiryList()">印刷</button>
         </div>
       </div>
     </div>

@@ -276,6 +276,7 @@ Route::middleware('auth')->group(function () {
   Route::post('/prints/report-greeting/{filename}', [PrintsController::class, 'reportGreeting'])->name('prints.report-greeting');
   Route::post('/prints/report/{filename}', [PrintsController::class, 'report'])->name('prints.report');
   Route::post('/prints/next-month-schedule/{filename}', [PrintsController::class, 'nextMonthSchedule'])->name('prints.next-month-schedule');
+  Route::post('/prints/treatment-expiry-list/{filename}', [PrintsController::class, 'treatmentExpiryList'])->name('prints.treatment-expiry-list');
   Route::get('/prints/first-experience-material', [PrintsController::class, 'firstExperienceMaterial'])->name('prints.first-experience-material');
   Route::get('/prints/power-of-attorney-application', [PrintsController::class, 'powerOfAttorneyApplication'])->name('prints.power-of-attorney-application');
   Route::get('/prints/power-of-attorney-consent', [PrintsController::class, 'powerOfAttorneyConsent'])->name('prints.power-of-attorney-consent');

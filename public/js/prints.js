@@ -1859,3 +1859,62 @@ function submitReport() {
     }
   }, 100);
 }
+
+/**
+ * 要加療期限切れリストモーダルを開く
+ */
+function openTreatmentExpiryListModal() {
+  const modalElement = document.getElementById('treatmentExpiryListModal');
+  if (!modalElement) return;
+
+  resetFormToDefault('treatmentExpiryListForm');
+
+  const today = new Date();
+  const y = today.getFullYear();
+  const m = String(today.getMonth() + 1).padStart(2, '0');
+  const d = String(today.getDate()).padStart(2, '0');
+  const outputDateEl = document.getElementById('treatment_expiry_list_output_date');
+  if (outputDateEl) outputDateEl.value = `${y}-${m}-${d}`;
+
+  if (modalElement.parentElement !== document.body) {
+    document.body.appendChild(modalElement);
+  }
+
+  const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
+  modalInstance.show();
+}
+
+/**
+ * 要加療期限切れリストPDF出力
+ */
+function submitTreatmentExpiryList() {
+  const form = document.getElementById('treatmentExpiryListForm');
+
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  const filename = `要加療期限切れリスト_${year}-${month}-${day}_${hours}-${minutes}-${seconds}.pdf`;
+  form.action = `/prints/treatment-expiry-list/${encodeURIComponent(filename)}`;
+  form.target = '_blank';
+  form.submit();
+
+  setTimeout(() => {
+    const modalElement = document.getElementById('treatmentExpiryListModal');
+    if (modalElement) {
+      const modalInstance = bootstrap.Modal.getInstance(modalElement);
+      if (modalInstance) {
+        modalInstance.hide();
+      }
+    }
+  }, 100);
+}

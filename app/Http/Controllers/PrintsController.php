@@ -1906,4 +1906,14 @@ class PrintsController extends Controller
       ], 500);
     }
   }
+
+  public function treatmentExpiryList(Request $request, string $filename)
+  {
+    $request->validate([
+      'target_year_month' => 'required|date_format:Y-m',
+      'output_date'       => 'required|date_format:Y-m-d',
+    ]);
+
+    abort(501, '要加療期限切れリストPDF出力は未実装です');
+  }
 }
