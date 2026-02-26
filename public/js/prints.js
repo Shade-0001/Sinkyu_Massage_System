@@ -1807,11 +1807,6 @@ function openReportModal() {
   const dd = String(today.getDate()).padStart(2, '0');
   const todayStr = `${yyyy}-${mm}-${dd}`;
 
-  const serviceDateEl = document.getElementById('report_service_date');
-  if (serviceDateEl && !serviceDateEl.value) {
-    serviceDateEl.value = todayStr;
-  }
-
   const submissionDateEl = document.getElementById('report_submission_date');
   if (submissionDateEl && !submissionDateEl.value) {
     submissionDateEl.value = todayStr;

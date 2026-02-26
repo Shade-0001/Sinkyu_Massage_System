@@ -1814,9 +1814,9 @@ class PrintsController extends Controller
   public function report(Request $request, string $filename)
   {
     $validated = $request->validate([
-      'clinic_user_id'  => 'required|integer|exists:clinic_users,id',
-      'service_date'    => 'required|date',
-      'submission_date' => 'required|date',
+      'clinic_user_id'     => 'required|integer|exists:clinic_users,id',
+      'service_year_month' => 'required|date_format:Y-m',
+      'submission_date'    => 'required|date',
     ]);
 
     // TODO: 報告書PDFサービス実装後に差し替え

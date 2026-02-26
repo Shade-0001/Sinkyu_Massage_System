@@ -1037,10 +1037,23 @@
               </select>
             </div>
 
-            <!-- サービス提供年月日 -->
+            <!-- サービス提供年月 -->
             <div class="mb-3">
-              <label for="report_service_date" class="form-label">サービス提供年月日 <span class="text-danger">*</span></label>
-              <input type="date" class="form-control" id="report_service_date" name="service_date" required>
+              <label for="report_service_year_month" class="form-label">サービス提供年月 <span class="text-danger">*</span></label>
+              <select class="form-select" id="report_service_year_month" name="service_year_month" required>
+                <option value="">選択してください</option>
+                @php
+                  $reportCurrentDate = now();
+                  for ($i = -1; $i < 23; $i++) {
+                    $reportDate = $reportCurrentDate->copy()->subMonths($i);
+                    $reportValue = $reportDate->format('Y-m');
+                    $reportM = (int)$reportDate->format('n');
+                    $reportDisplay = $reportDate->format('Y年') . ($reportM < 10 ? "\u{00A0}\u{00A0}" : '') . $reportM . '月';
+                    $reportSelected = ($i === 0) ? 'selected' : '';
+                    echo "<option value=\"{$reportValue}\" {$reportSelected}>{$reportDisplay}</option>";
+                  }
+                @endphp
+              </select>
             </div>
 
             <!-- 提出年月日 -->
@@ -1196,9 +1209,9 @@
           <form id="nextMonthScheduleForm" method="POST">
             @csrf
 
-            <!-- サービス提供年月日 -->
+            <!-- サービス提供年月 -->
             <div class="mb-3">
-              <label for="next_month_schedule_service_year_month" class="form-label">サービス提供年月日 <span class="text-danger">*</span></label>
+              <label for="next_month_schedule_service_year_month" class="form-label">サービス提供年月 <span class="text-danger">*</span></label>
               <select class="form-select" id="next_month_schedule_service_year_month" name="service_year_month" required>
                 <option value="">選択してください</option>
                 @php
