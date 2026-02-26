@@ -226,9 +226,6 @@ class NextMonthSchedulePdfService extends BasePdfService
 
         // 時刻列
         $x = $startX + $colWidths['date'];
-        if ($fillStyle) {
-          $pdf->Rect($x, $rowY, $colWidths['time'], $rowHeight, $fillStyle);
-        }
         $timeText = '';
         if ($rec && $rec['start_time'] && $rec['end_time']) {
           $timeText = $this->formatTime($rec['start_time']) . ' ～ ' . $this->formatTime($rec['end_time']);
@@ -249,18 +246,12 @@ class NextMonthSchedulePdfService extends BasePdfService
         if ($groupForThisRow !== null) {
           $mergedH         = $rowHeight * $groupForThisRow['count'];
           $therapyTypeText = $therapyTypeMap[$groupForThisRow['value']] ?? '';
-          if ($fillStyle) {
-            $pdf->Rect($x, $rowY, $colWidths['therapy_type'], $mergedH, $fillStyle);
-          }
           $pdf->SetXY($x, $rowY);
           $pdf->Cell($colWidths['therapy_type'], $mergedH, $therapyTypeText, 0, 0, 'C', false);
           $this->drawCellBorder($pdf, $x, $rowY, $colWidths['therapy_type'], $mergedH);
         } else {
           // 途中行ではなくデータ無し行（$dayRecords 空）の空セル
           if (empty($dayRecords)) {
-            if ($fillStyle) {
-              $pdf->Rect($x, $rowY, $colWidths['therapy_type'], $rowHeight, $fillStyle);
-            }
             $this->drawCellBorder($pdf, $x, $rowY, $colWidths['therapy_type'], $rowHeight);
           }
         }
@@ -277,18 +268,12 @@ class NextMonthSchedulePdfService extends BasePdfService
         if ($contentGroupForThisRow !== null) {
           $mergedH            = $rowHeight * $contentGroupForThisRow['count'];
           $therapyContentText = $contentGroupForThisRow['value'] ?? '';
-          if ($fillStyle) {
-            $pdf->Rect($x, $rowY, $colWidths['therapy_content'], $mergedH, $fillStyle);
-          }
           $pdf->SetXY($x + 1, $rowY);
           $pdf->Cell($colWidths['therapy_content'] - 2, $mergedH, $therapyContentText, 0, 0, 'L', false);
           $this->drawCellBorder($pdf, $x, $rowY, $colWidths['therapy_content'], $mergedH);
         } else {
           // 途中行ではなくデータ無し行（$dayRecords 空）の空セル
           if (empty($dayRecords)) {
-            if ($fillStyle) {
-              $pdf->Rect($x, $rowY, $colWidths['therapy_content'], $rowHeight, $fillStyle);
-            }
             $this->drawCellBorder($pdf, $x, $rowY, $colWidths['therapy_content'], $rowHeight);
           }
         }
