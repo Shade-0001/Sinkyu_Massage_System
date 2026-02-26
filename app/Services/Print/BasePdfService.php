@@ -593,5 +593,5 @@ abstract class BasePdfService
   /**
    * PDF生成（サブクラスで実装）
    */
-  abstract public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate): string;
+  abstract public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate = ''): string;
 }

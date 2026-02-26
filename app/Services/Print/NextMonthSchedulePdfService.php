@@ -27,7 +27,7 @@ class NextMonthSchedulePdfService extends BasePdfService
    * @param string $serviceYearMonth  サービス提供年月（Y-m形式）
    * @return string PDFバイナリ
    */
-  public function generate(array $clinicUserIds, string $serviceYearMonth): string
+  public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate = ''): string
   {
     $pdf = new Fpdi('P', 'mm', 'A4', true, 'UTF-8', false);
     $pdf->SetAutoPageBreak(false);
