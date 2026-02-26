@@ -1809,6 +1809,21 @@ class PrintsController extends Controller
   }
 
   /**
+   * 報告書PDF出力
+   */
+  public function report(Request $request, string $filename)
+  {
+    $validated = $request->validate([
+      'clinic_user_id'  => 'required|integer|exists:clinic_users,id',
+      'service_date'    => 'required|date',
+      'submission_date' => 'required|date',
+    ]);
+
+    // TODO: 報告書PDFサービス実装後に差し替え
+    abort(501, '報告書PDF出力は未実装です');
+  }
+
+  /**
    * 利用者数集計表PDF出力
    */
   public function userCountSummary(Request $request, \App\Services\Print\UserCountSummaryPdfService $service, string $filename)

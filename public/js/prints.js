@@ -1790,3 +1790,72 @@ function submitImplementationPlan() {
     }
   }, 100);
 }
+
+/**
+ * 報告書モーダルを開く
+ */
+function openReportModal() {
+  const modalElement = document.getElementById('reportModal');
+  if (!modalElement) return;
+
+  resetFormToDefault('reportForm');
+
+  // 提出年月日を今日の日付でデフォルト設定
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate()).padStart(2, '0');
+  const todayStr = `${yyyy}-${mm}-${dd}`;
+
+  const serviceDateEl = document.getElementById('report_service_date');
+  if (serviceDateEl && !serviceDateEl.value) {
+    serviceDateEl.value = todayStr;
+  }
+
+  const submissionDateEl = document.getElementById('report_submission_date');
+  if (submissionDateEl && !submissionDateEl.value) {
+    submissionDateEl.value = todayStr;
+  }
+
+  if (modalElement.parentElement !== document.body) {
+    document.body.appendChild(modalElement);
+  }
+
+  const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
+  modal.show();
+}
+
+/**
+ * 報告書PDF出力
+ */
+function submitReport() {
+  const form = document.getElementById('reportForm');
+
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  const filename = `報告書_${year}-${month}-${day}_${hours}-${minutes}-${seconds}.pdf`;
+  form.action = `/prints/report/${encodeURIComponent(filename)}`;
+  form.target = '_blank';
+  form.submit();
+
+  setTimeout(() => {
+    const modalElement = document.getElementById('reportModal');
+    if (modalElement) {
+      const modalInstance = bootstrap.Modal.getInstance(modalElement);
+      if (modalInstance) {
+        modalInstance.hide();
+      }
+    }
+  }, 100);
+}
