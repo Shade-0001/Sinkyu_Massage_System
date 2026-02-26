@@ -237,7 +237,7 @@ class NextMonthSchedulePdfService extends BasePdfService
         $pdf->Cell($colWidths['time'], $rowHeight, $timeText, 0, 0, 'C', false);
         $this->drawCellBorder($pdf, $x, $rowY, $colWidths['time'], $rowHeight);
 
-        // 施術種類列：グループの先頭行のみ結合セルを描画
+        // 施術種類列：グループの先頭行のみ結合セルを描画、データ無しは空セル
         $x += $colWidths['time'];
         $groupForThisRow = null;
         foreach ($therapyTypeGroups as $grp) {
@@ -255,9 +255,17 @@ class NextMonthSchedulePdfService extends BasePdfService
           $pdf->SetXY($x, $rowY);
           $pdf->Cell($colWidths['therapy_type'], $mergedH, $therapyTypeText, 0, 0, 'C', false);
           $this->drawCellBorder($pdf, $x, $rowY, $colWidths['therapy_type'], $mergedH);
+        } else {
+          // 途中行ではなくデータ無し行（$dayRecords 空）の空セル
+          if (empty($dayRecords)) {
+            if ($fillStyle) {
+              $pdf->Rect($x, $rowY, $colWidths['therapy_type'], $rowHeight, $fillStyle);
+            }
+            $this->drawCellBorder($pdf, $x, $rowY, $colWidths['therapy_type'], $rowHeight);
+          }
         }
 
-        // 施術内容列：グループの先頭行のみ結合セルを描画
+        // 施術内容列：グループの先頭行のみ結合セルを描画、データ無しは空セル
         $x += $colWidths['therapy_type'];
         $contentGroupForThisRow = null;
         foreach ($therapyContentGroups as $grp) {
@@ -275,6 +283,14 @@ class NextMonthSchedulePdfService extends BasePdfService
           $pdf->SetXY($x + 1, $rowY);
           $pdf->Cell($colWidths['therapy_content'] - 2, $mergedH, $therapyContentText, 0, 0, 'L', false);
           $this->drawCellBorder($pdf, $x, $rowY, $colWidths['therapy_content'], $mergedH);
+        } else {
+          // 途中行ではなくデータ無し行（$dayRecords 空）の空セル
+          if (empty($dayRecords)) {
+            if ($fillStyle) {
+              $pdf->Rect($x, $rowY, $colWidths['therapy_content'], $rowHeight, $fillStyle);
+            }
+            $this->drawCellBorder($pdf, $x, $rowY, $colWidths['therapy_content'], $rowHeight);
+          }
         }
       }
 
