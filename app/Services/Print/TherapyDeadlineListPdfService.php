@@ -28,7 +28,7 @@ class TherapyDeadlineListPdfService extends BasePdfService
    * @param string $submissionDate   未使用（BasePdfServiceシグネチャ互換）
    * @return string PDFバイナリ
    */
-  public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate = ''): string
+  public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate = '', string $remarks = ''): string
   {
     $pdf = new Fpdi('P', 'mm', 'A4', true, 'UTF-8', false);
     $pdf->SetAutoPageBreak(false);
