@@ -213,9 +213,16 @@ class NextMonthSchedulePdfService extends BasePdfService
 
       $blockH = $rowHeight * $rowCount;
 
+      // 定休日は行全体を塗りつぶし、それ以外（土日）は日付列のみ
+      $isClosedDay = $closedDays[$dow] ?? false;
+      if ($isClosedDay && $fillStyle) {
+        $totalW = $colWidths['date'] + $colWidths['time'] + $colWidths['therapy_type'] + $colWidths['therapy_content'];
+        $pdf->Rect($startX, $currentY, $totalW, $blockH, $fillStyle);
+      }
+
       // 日付列（縦結合）
       $x = $startX;
-      if ($fillStyle) {
+      if (!$isClosedDay && $fillStyle) {
         $pdf->Rect($x, $currentY, $colWidths['date'], $blockH, $fillStyle);
       }
       $pdf->SetXY($x, $currentY);
