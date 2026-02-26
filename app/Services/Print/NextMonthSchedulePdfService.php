@@ -214,6 +214,31 @@ class NextMonthSchedulePdfService extends BasePdfService
       $pdf->Cell($colWidths['date'], $blockH, $dateText, 0, 0, 'C', false);
       $this->drawCellBorder($pdf, $x, $currentY, $colWidths['date'], $blockH);
 
+      // 施術種類の縦結合グループを事前に計算
+      // 同じtherapy_typeが連続する行をまとめる
+      // 例：[type1, type1, type2] → [{type:1, start:0, count:2}, {type:2, start:2, count:1}]
+      $therapyTypeGroups = [];
+      if (!empty($dayRecords)) {
+        $gi = 0;
+        $therapyTypeGroups[] = [
+          'therapy_type' => $dayRecords[0]['therapy_type'],
+          'start'        => 0,
+          'count'        => 1,
+        ];
+        for ($ri = 1; $ri < count($dayRecords); $ri++) {
+          if ($dayRecords[$ri]['therapy_type'] === $therapyTypeGroups[$gi]['therapy_type']) {
+            $therapyTypeGroups[$gi]['count']++;
+          } else {
+            $gi++;
+            $therapyTypeGroups[] = [
+              'therapy_type' => $dayRecords[$ri]['therapy_type'],
+              'start'        => $ri,
+              'count'        => 1,
+            ];
+          }
+        }
+      }
+
       // 施術データ各行
       for ($ri = 0; $ri < $rowCount; $ri++) {
         $rec       = $dayRecords[$ri] ?? null;
@@ -232,18 +257,25 @@ class NextMonthSchedulePdfService extends BasePdfService
         $pdf->Cell($colWidths['time'], $rowHeight, $timeText, 0, 0, 'C', false);
         $this->drawCellBorder($pdf, $x, $rowY, $colWidths['time'], $rowHeight);
 
-        // 施術種類列
+        // 施術種類列：グループの先頭行のみ結合セルを描画
         $x += $colWidths['time'];
-        if ($fillStyle) {
-          $pdf->Rect($x, $rowY, $colWidths['therapy_type'], $rowHeight, $fillStyle);
+        $groupForThisRow = null;
+        foreach ($therapyTypeGroups as $grp) {
+          if ($grp['start'] === $ri) {
+            $groupForThisRow = $grp;
+            break;
+          }
         }
-        $therapyTypeText = '';
-        if ($rec) {
-          $therapyTypeText = $therapyTypeMap[$rec['therapy_type']] ?? '';
+        if ($groupForThisRow !== null) {
+          $mergedH         = $rowHeight * $groupForThisRow['count'];
+          $therapyTypeText = $therapyTypeMap[$groupForThisRow['therapy_type']] ?? '';
+          if ($fillStyle) {
+            $pdf->Rect($x, $rowY, $colWidths['therapy_type'], $mergedH, $fillStyle);
+          }
+          $pdf->SetXY($x, $rowY);
+          $pdf->Cell($colWidths['therapy_type'], $mergedH, $therapyTypeText, 0, 0, 'C', false);
+          $this->drawCellBorder($pdf, $x, $rowY, $colWidths['therapy_type'], $mergedH);
         }
-        $pdf->SetXY($x, $rowY);
-        $pdf->Cell($colWidths['therapy_type'], $rowHeight, $therapyTypeText, 0, 0, 'C', false);
-        $this->drawCellBorder($pdf, $x, $rowY, $colWidths['therapy_type'], $rowHeight);
 
         // 施術内容列
         $x += $colWidths['therapy_type'];
