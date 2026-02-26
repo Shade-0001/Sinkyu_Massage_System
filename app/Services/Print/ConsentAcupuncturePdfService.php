@@ -20,7 +20,7 @@ class ConsentAcupuncturePdfService extends BasePdfService
     return [];
   }
 
-  public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate, string $remarks = ''): string
+  public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate = '', string $remarks = ''): string
   {
     $pdf = new Fpdi('P', 'mm', 'A4', true, 'UTF-8', false);
     $pdf->SetAutoPageBreak(false);
@@ -84,7 +84,7 @@ class ConsentAcupuncturePdfService extends BasePdfService
   /**
    * PDFページ追加
    */
-  protected function addPage(Fpdi $pdf, array $data, string $submissionDate, string $remarks): void
+  protected function addPage(Fpdi $pdf, array $data, string $submissionDate = '', string $remarks): void
   {
     $pdf->AddPage();
 
@@ -108,7 +108,7 @@ class ConsentAcupuncturePdfService extends BasePdfService
   /**
    * フォームフィールド埋め込み
    */
-  protected function fillFormFields(Fpdi $pdf, array $data, string $submissionDate, string $remarks): void
+  protected function fillFormFields(Fpdi $pdf, array $data, string $submissionDate = '', string $remarks): void
   {
     $clinicUser = $data['clinic_user'];
     $consent = $data['consent'];

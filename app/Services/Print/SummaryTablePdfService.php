@@ -50,7 +50,7 @@ class SummaryTablePdfService extends BasePdfService
    * @param string $remarks          備考（未使用）
    * @return string PDFバイナリデータ
    */
-  public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate, string $remarks = ''): string
+  public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate = '', string $remarks = ''): string
   {
     $pdf = new Fpdi('P', 'mm', 'A4', true, 'UTF-8', false);
     $pdf->SetAutoPageBreak(false);

@@ -56,7 +56,7 @@ class LateElderlyMedicalMassagePdfService extends BasePdfService
    * @param string $submissionDate 提出年月日 (YYYY-MM-DD)
    * @return string PDFバイナリデータ
    */
-  public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate): string
+  public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate = '', string $remarks = ''): string
   {
     // 暫定実装：簡易的なPDFを生成
     $pdf = new Fpdi('P', 'mm', 'A4', true, 'UTF-8', false);

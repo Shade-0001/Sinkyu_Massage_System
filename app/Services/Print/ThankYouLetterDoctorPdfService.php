@@ -45,7 +45,7 @@ class ThankYouLetterDoctorPdfService extends BasePdfService
     return [];
   }
 
-  public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate, string $remarks = '', array $doctorIds = []): string
+  public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate = '', string $remarks = '', array $doctorIds = []): string
   {
     $pdf = new Fpdi('P', 'mm', 'A4', true, 'UTF-8', false);
     $pdf->SetAutoPageBreak(false);

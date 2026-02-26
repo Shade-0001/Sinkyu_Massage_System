@@ -99,7 +99,7 @@ class TreatmentReceiptPdfService
    * @param string $remarks 備考
    * @return string PDFバイナリ
    */
-  public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate, string $remarks = ''): string
+  public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate = '', string $remarks = ''): string
   {
     $pdf = new Fpdi('P', 'mm', 'A4', true, 'UTF-8', false);
     $pdf->SetAutoPageBreak(false);
@@ -221,7 +221,7 @@ class TreatmentReceiptPdfService
   /**
    * フィールド描画
    */
-  protected function renderFields(Fpdi $pdf, array $data, string $serviceYearMonth, string $submissionDate, string $remarks = ''): void
+  protected function renderFields(Fpdi $pdf, array $data, string $serviceYearMonth, string $submissionDate = '', string $remarks = ''): void
   {
     $clinicUser = $data['clinicUser'];
     $insurance = $data['insurance'];
