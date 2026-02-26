@@ -80,6 +80,7 @@
         // 同意日と同じ日を入力
         document.getElementById('consenting_start_date').value = val;
         document.getElementById('benefit_period_start_date').value = val;
+        document.getElementById('therapy_period_start_date').value = val;
 
         // 同意日の6ヶ月後の月末を入力
         const endDate = endOfMonthAfter(val, 6);
