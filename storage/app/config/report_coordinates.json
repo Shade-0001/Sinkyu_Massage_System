@@ -1,50 +1,62 @@
 {
-  "subjective_symptom_and_wish": {
-    "x": 15,
-    "y": 100,
-    "textAlign": "left",
-    "field": "subjective_symptom_and_wish",
-    "label": "自覚症状・希望",
-    "type": "text",
-    "fontSize": 11,
-    "letterSpacing": 0,
-    "maxCharsPerLine": 38,
-    "lineHeight": 6
-  },
-  "objective_symptom": {
-    "x": 15,
-    "y": 150,
-    "textAlign": "left",
-    "field": "objective_symptom",
-    "label": "客観症状",
-    "type": "text",
-    "fontSize": 11,
-    "letterSpacing": 0,
-    "maxCharsPerLine": 38,
-    "lineHeight": 6
-  },
-  "therapy_content": {
-    "x": 15,
-    "y": 200,
-    "textAlign": "left",
-    "field": "therapy_content",
-    "label": "施術内容",
-    "type": "text",
-    "fontSize": 11,
-    "letterSpacing": 0,
-    "maxCharsPerLine": 38,
-    "lineHeight": 6
-  },
-  "therapy_plan": {
-    "x": 15,
-    "y": 240,
-    "textAlign": "left",
-    "field": "therapy_plan",
-    "label": "治療計画",
-    "type": "text",
-    "fontSize": 11,
-    "letterSpacing": 0,
-    "maxCharsPerLine": 38,
-    "lineHeight": 6
-  }
+    "submission_date": {
+        "x": 100,
+        "y": 20,
+        "textAlign": "left",
+        "field": "submission_date",
+        "label": "提出年月日",
+        "type": "text",
+        "fontSize": 11,
+        "letterSpacing": 0,
+        "maxCharsPerLine": 40,
+        "lineHeight": 6
+    },
+    "subjective_symptom_and_wish": {
+        "x": 33,
+        "y": 71.5,
+        "textAlign": "left",
+        "field": "subjective_symptom_and_wish",
+        "label": "自覚症状・希望",
+        "type": "text",
+        "fontSize": 11,
+        "letterSpacing": 0,
+        "maxCharsPerLine": 40,
+        "lineHeight": 6
+    },
+    "objective_symptom": {
+        "x": 33,
+        "y": 126.5,
+        "textAlign": "left",
+        "field": "objective_symptom",
+        "label": "客観症状",
+        "type": "text",
+        "fontSize": 11,
+        "letterSpacing": 0,
+        "maxCharsPerLine": 40,
+        "lineHeight": 6
+    },
+    "therapy_content": {
+        "x": 33,
+        "y": 182.5,
+        "textAlign": "left",
+        "field": "therapy_content",
+        "label": "施術内容",
+        "type": "text",
+        "fontSize": 11,
+        "letterSpacing": 0,
+        "maxCharsPerLine": 40,
+        "lineHeight": 6
+    },
+    "therapy_plan": {
+        "x": 33,
+        "y": 238.5,
+        "textAlign": "left",
+        "field": "therapy_plan",
+        "label": "治療計画",
+        "type": "text",
+        "fontSize": 11,
+        "letterSpacing": 0,
+        "maxCharsPerLine": 40,
+        "lineHeight": 6
+    }
 }

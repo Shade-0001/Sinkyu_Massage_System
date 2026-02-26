@@ -29,7 +29,7 @@ class ReportPdfService extends BasePdfService
     $pdf->SetMargins(0, 0, 0);
 
     foreach ($clinicUserIds as $clinicUserId) {
-      $data = $this->fetchData((int)$clinicUserId, $serviceYearMonth);
+      $data = $this->fetchData((int)$clinicUserId, $serviceYearMonth, $submissionDate);
       if ($data) {
         $this->addPage($pdf, $data);
       }
@@ -41,7 +41,7 @@ class ReportPdfService extends BasePdfService
   /**
    * データ取得
    */
-  protected function fetchData(int $clinicUserId, string $serviceYearMonth): ?array
+  protected function fetchData(int $clinicUserId, string $serviceYearMonth, string $submissionDate = ''): ?array
   {
     if ($this->sampleDataMode) {
       return $this->getSampleData();
@@ -57,6 +57,7 @@ class ReportPdfService extends BasePdfService
 
     if (!$report) {
       return [
+        'submission_date'             => $this->convertToJapaneseDate($submissionDate),
         'subjective_symptom_and_wish' => '',
         'objective_symptom'           => '',
         'therapy_content'             => '',
@@ -65,6 +66,7 @@ class ReportPdfService extends BasePdfService
     }
 
     return [
+      'submission_date'             => $this->convertToJapaneseDate($submissionDate),
       'subjective_symptom_and_wish' => $report->subjective_symptom_and_wish ?? '',
       'objective_symptom'           => $report->objective_symptom ?? '',
       'therapy_content'             => $report->therapy_content ?? '',
@@ -82,8 +84,8 @@ class ReportPdfService extends BasePdfService
     $templatePath = $this->customTemplatePath ?? storage_path('app/templates/others_1/報告書.pdf');
 
     if (file_exists($templatePath)) {
-      $pageCount = $pdf->setSourceFile($templatePath);
-      $tplId     = $pdf->importPage(1);
+      $pdf->setSourceFile($templatePath);
+      $tplId = $pdf->importPage(1);
       $pdf->useTemplate($tplId, 0, 0, null, null, true);
     }
 
@@ -99,6 +101,7 @@ class ReportPdfService extends BasePdfService
   protected function fillFormFields(Fpdi $pdf, array $data): void
   {
     $fields = [
+      'submission_date',
       'subjective_symptom_and_wish',
       'objective_symptom',
       'therapy_content',
@@ -127,6 +130,7 @@ class ReportPdfService extends BasePdfService
     $custom = $this->customSampleData ?? [];
 
     return [
+      'submission_date'             => $custom['report_submission_date']      ?? '令和7年 2月 26日',
       'subjective_symptom_and_wish' => $custom['subjective_symptom_and_wish'] ?? '腰痛・肩こりの改善を希望。特に朝起きた際の痛みを軽減したい。',
       'objective_symptom'           => $custom['objective_symptom']           ?? '腰部筋緊張、肩甲骨周囲筋の拘縮あり。可動域制限を認める。',
       'therapy_content'             => $custom['therapy_content']             ?? 'マッサージ療法（腰部・肩部中心）、ストレッチ指導。',
