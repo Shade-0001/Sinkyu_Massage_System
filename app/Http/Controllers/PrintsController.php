@@ -1193,6 +1193,8 @@ class PrintsController extends Controller
           '',
           $caremanagerIds
         );
+      } elseif ($pdfType === 'user_count_summary') {
+        $pdfBinary = $service->generate($yearMonth);
       } else {
         $pdfBinary = $service->generate(
           $clinicUsers,
