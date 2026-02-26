@@ -118,11 +118,13 @@ class ReportPdfService extends BasePdfService
    */
   protected function getSampleData(): array
   {
+    $custom = $this->customSampleData ?? [];
+
     return [
-      'subjective_symptom_and_wish' => '腰痛・肩こりの改善を希望。特に朝起きた際の痛みを軽減したい。',
-      'objective_symptom'           => '腰部筋緊張、肩甲骨周囲筋の拘縮あり。可動域制限を認める。',
-      'therapy_content'             => 'マッサージ療法（腰部・肩部中心）、ストレッチ指導。',
-      'therapy_plan'                => '週2回の施術継続。3ヶ月後に再評価予定。',
+      'subjective_symptom_and_wish' => $custom['subjective_symptom_and_wish'] ?? '腰痛・肩こりの改善を希望。特に朝起きた際の痛みを軽減したい。',
+      'objective_symptom'           => $custom['objective_symptom']           ?? '腰部筋緊張、肩甲骨周囲筋の拘縮あり。可動域制限を認める。',
+      'therapy_content'             => $custom['therapy_content']             ?? 'マッサージ療法（腰部・肩部中心）、ストレッチ指導。',
+      'therapy_plan'                => $custom['therapy_plan']                ?? '週2回の施術継続。3ヶ月後に再評価予定。',
     ];
   }
 }
