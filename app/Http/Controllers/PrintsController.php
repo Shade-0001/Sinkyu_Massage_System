@@ -1819,8 +1819,31 @@ class PrintsController extends Controller
       'submission_date'    => 'required|date',
     ]);
 
-    // TODO: 報告書PDFサービス実装後に差し替え
-    abort(501, '報告書PDF出力は未実装です');
+    try {
+      $service = new \App\Services\Print\ReportPdfService();
+
+      $pdfBinary = $service->generate(
+        [(int)$validated['clinic_user_id']],
+        $validated['service_year_month'],
+        $validated['submission_date']
+      );
+
+      return response($pdfBinary, 200, [
+        'Content-Type'        => 'application/pdf',
+        'Content-Disposition' => 'inline; filename="' . $filename . '"',
+      ]);
+    } catch (\Exception $e) {
+      \Log::error('報告書PDF生成エラー', [
+        'message' => $e->getMessage(),
+        'file'    => $e->getFile(),
+        'line'    => $e->getLine(),
+      ]);
+
+      return response()->json([
+        'error'   => 'PDF生成に失敗しました',
+        'message' => $e->getMessage(),
+      ], 500);
+    }
   }
 
   /**
