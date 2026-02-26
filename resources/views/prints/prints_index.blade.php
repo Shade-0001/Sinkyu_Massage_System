@@ -50,8 +50,8 @@
   <button type="button" class="btn btn-primary" onclick="openUserCountSummaryModal()">利用者数集計表</button>
   <button type="button" class="btn btn-primary" onclick="openImplementationPlanModal()">実施計画書</button>
   <button type="button" class="btn btn-primary" onclick="openReportGreetingModal()">報告書挨拶文</button>
-  <button>報告書</button>
-  <button>翌月予定表</button>
+  <button type="button" class="btn btn-primary" onclick="openReportModal()">報告書</button>
+  <button type="button" class="btn btn-primary" onclick="openNextMonthScheduleModal()">翌月予定表</button>
   <button>要加療期限切れリスト</button>
   <br><br>
 
@@ -1012,6 +1012,52 @@
     </div>
   </div>
 
+  <!-- 報告書モーダル -->
+  <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="reportModalLabel">報告書 出力設定</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="reportForm" method="POST">
+            @csrf
+
+            <!-- 利用者 -->
+            <div class="mb-3">
+              <label for="report_clinic_user_id" class="form-label">利用者 <span class="text-danger">*</span></label>
+              <select class="form-select" id="report_clinic_user_id" name="clinic_user_id" required>
+                <option value="">選択してください</option>
+                @foreach($clinicUsers as $user)
+                  <option value="{{ $user->id }}">
+                    {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
+                  </option>
+                @endforeach
+              </select>
+            </div>
+
+            <!-- サービス提供年月日 -->
+            <div class="mb-3">
+              <label for="report_service_date" class="form-label">サービス提供年月日 <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" id="report_service_date" name="service_date" required>
+            </div>
+
+            <!-- 提出年月日 -->
+            <div class="mb-3">
+              <label for="report_submission_date" class="form-label">提出年月日 <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" id="report_submission_date" name="submission_date" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-primary" onclick="submitReport()">印刷</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- 報告書挨拶文モーダル -->
   <div class="modal fade" id="reportGreetingModal" tabindex="-1" aria-labelledby="reportGreetingModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -1138,6 +1184,62 @@
     </div>
   </div>
 
+  <!-- 翌月予定表モーダル -->
+  <div class="modal fade" id="nextMonthScheduleModal" tabindex="-1" aria-labelledby="nextMonthScheduleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="nextMonthScheduleModalLabel">翌月予定表 出力設定</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="nextMonthScheduleForm" method="POST">
+            @csrf
+
+            <!-- サービス提供年月日 -->
+            <div class="mb-3">
+              <label for="next_month_schedule_service_year_month" class="form-label">サービス提供年月日 <span class="text-danger">*</span></label>
+              <select class="form-select" id="next_month_schedule_service_year_month" name="service_year_month" required>
+                <option value="">選択してください</option>
+                @php
+                  $currentDate = now();
+                  for ($i = -1; $i < 23; $i++) {
+                    $date = $currentDate->copy()->subMonths($i);
+                    $value = $date->format('Y-m');
+                    $m = (int)$date->format('n');
+                    $display = $date->format('Y年') . ($m < 10 ? "\u{00A0}\u{00A0}" : '') . $m . '月';
+                    $selected = ($i === -1) ? 'selected' : '';
+                    echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
+                  }
+                @endphp
+              </select>
+            </div>
+
+            <!-- 利用者選択 -->
+            <div class="mb-3">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <label for="next_month_schedule_clinic_user_ids" class="form-label mb-0">利用者 <span class="text-danger">*</span></label>
+                <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('next_month_schedule_clinic_user_ids')">全て選択 / 解除</button>
+              </div>
+              <select class="form-select" id="next_month_schedule_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
+                @foreach($clinicUsers as $user)
+                  <option value="{{ $user->id }}">
+                    {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
+                  </option>
+                @endforeach
+              </select>
+              <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-primary" onclick="submitNextMonthSchedule()">印刷</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   @push('scripts')
     @push('styles')
       <style>
@@ -1163,7 +1265,8 @@
         #report_greeting_clinic_user_id,
         #report_greeting_doctor_id,
         #report_greeting_caremanager_id,
-        #referrer_thank_you_caremanager_id {
+        #referrer_thank_you_caremanager_id,
+        #next_month_schedule_clinic_user_ids {
           scroll-behavior: auto;
         }
       </style>

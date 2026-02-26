@@ -1704,6 +1704,59 @@ function submitReportGreeting() {
 }
 
 /**
+ * 翌月予定表モーダルを開く
+ */
+function openNextMonthScheduleModal() {
+  const modalElement = document.getElementById('nextMonthScheduleModal');
+  if (!modalElement) return;
+
+  resetFormToDefault('nextMonthScheduleForm');
+  adjustSelectSize('next_month_schedule_clinic_user_ids');
+
+  if (modalElement.parentElement !== document.body) {
+    document.body.appendChild(modalElement);
+  }
+
+  const modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
+  modalInstance.show();
+}
+
+/**
+ * 翌月予定表PDF出力
+ */
+function submitNextMonthSchedule() {
+  const form = document.getElementById('nextMonthScheduleForm');
+
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  const filename = `翌月予定表_${year}-${month}-${day}_${hours}-${minutes}-${seconds}.pdf`;
+  form.action = `/prints/next-month-schedule/${encodeURIComponent(filename)}`;
+  form.target = '_blank';
+  form.submit();
+
+  setTimeout(() => {
+    const modalElement = document.getElementById('nextMonthScheduleModal');
+    if (modalElement) {
+      const modalInstance = bootstrap.Modal.getInstance(modalElement);
+      if (modalInstance) {
+        modalInstance.hide();
+      }
+    }
+  }, 100);
+}
+
+/**
  * 実施計画書PDF出力
  */
 function submitImplementationPlan() {

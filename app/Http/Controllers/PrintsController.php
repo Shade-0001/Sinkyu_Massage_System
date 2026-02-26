@@ -1846,4 +1846,49 @@ class PrintsController extends Controller
       ], 500);
     }
   }
+
+  /**
+   * 翌月予定表PDF出力
+   */
+  public function nextMonthSchedule(Request $request, \App\Services\Print\NextMonthSchedulePdfService $service, string $filename)
+  {
+    try {
+      $validated = $request->validate([
+        'service_year_month' => 'required|date_format:Y-m',
+        'clinic_user_ids'    => 'required|array|min:1',
+        'clinic_user_ids.*'  => 'integer|exists:clinic_users,id',
+      ]);
+
+      \Log::info('翌月予定表PDF生成開始', [
+        'service_year_month' => $validated['service_year_month'],
+        'clinic_user_ids'    => $validated['clinic_user_ids'],
+      ]);
+
+      $pdfBinary = $service->generate(
+        $validated['clinic_user_ids'],
+        $validated['service_year_month'],
+      );
+
+      \Log::info('翌月予定表PDF生成完了', ['size' => strlen($pdfBinary)]);
+
+      return response($pdfBinary, 200, [
+        'Content-Type'        => 'application/pdf',
+        'Content-Disposition' => 'inline',
+      ]);
+    } catch (\Exception $e) {
+      \Log::error('翌月予定表PDF生成エラー', [
+        'message' => $e->getMessage(),
+        'file'    => $e->getFile(),
+        'line'    => $e->getLine(),
+        'trace'   => $e->getTraceAsString(),
+      ]);
+
+      return response()->json([
+        'error'   => 'PDF生成に失敗しました',
+        'message' => $e->getMessage(),
+        'file'    => $e->getFile(),
+        'line'    => $e->getLine(),
+      ], 500);
+    }
+  }
 }
