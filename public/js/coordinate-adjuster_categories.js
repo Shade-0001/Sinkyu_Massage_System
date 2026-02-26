@@ -995,6 +995,8 @@ function getFieldCategories(pdfType) {
     return fieldCategoriesConsentMassage;
   } else if (pdfType === 'consent_request_letter_sample_acupuncture' || pdfType === 'consent_request_letter_designated_acupuncture' || pdfType === 'consent_request_letter_sample_massage' || pdfType === 'consent_request_letter_designated_massage') {
     return fieldCategoriesConsentRequestLetterSampleAcupuncture;
+  } else if (pdfType === 'report') {
+    return {};
   } else if (pdfType === 'thank_you_letter_doctor' || pdfType === 'thank_you_letter_referrer' || pdfType === 'report_greeting') {
     return {};
   } else if (pdfType === 'medical_assistance_acupuncture') {
@@ -1042,6 +1044,8 @@ function getCategoryOrder(pdfType) {
     return categoryOrderConsentMassage;
   } else if (pdfType === 'consent_request_letter_sample_acupuncture' || pdfType === 'consent_request_letter_designated_acupuncture' || pdfType === 'consent_request_letter_sample_massage' || pdfType === 'consent_request_letter_designated_massage') {
     return categoryOrderConsentRequestLetterSampleAcupuncture;
+  } else if (pdfType === 'report') {
+    return [];
   } else if (pdfType === 'thank_you_letter_doctor' || pdfType === 'thank_you_letter_referrer' || pdfType === 'report_greeting') {
     return [];
   } else if (pdfType === 'medical_assistance_acupuncture' || pdfType === 'medical_assistance_massage' || pdfType === 'elderly_therapy_benefit_acupuncture' || pdfType === 'elderly_therapy_benefit_massage') {

@@ -213,7 +213,7 @@
     "templateFile": "報告書.pdf",
     "templateDir": "others_1",
     "serviceClass": "ReportPdfService",
-    "fieldsFile": ""
+    "fieldsFile": "report.js"
   },
   "next_month_schedule": {
     "name": "翌月予定表",

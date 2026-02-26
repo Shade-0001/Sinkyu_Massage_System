@@ -132,6 +132,11 @@ function getFieldDefinitions() {
     return fieldDefinitionsThankYouLetterReferrer;
   }
 
+  // 報告書用
+  if (currentPdfType === 'report') {
+    return fieldDefinitionsReport;
+  }
+
   // 報告書挨拶状用
   if (currentPdfType === 'report_greeting') {
     return fieldDefinitionsReportGreeting;
