@@ -1909,11 +1909,40 @@ class PrintsController extends Controller
 
   public function treatmentExpiryList(Request $request, string $filename)
   {
-    $request->validate([
+    $validated = $request->validate([
       'target_year_month' => 'required|date_format:Y-m',
       'output_date'       => 'required|date_format:Y-m-d',
     ]);
 
-    abort(501, '要加療期限切れリストPDF出力は未実装です');
+    try {
+      $service = new \App\Services\Print\TherapyDeadlineListPdfService();
+
+      \Log::info('要加療期限切れリストPDF生成開始', [
+        'target_year_month' => $validated['target_year_month'],
+      ]);
+
+      $pdfBinary = $service->generate($validated['target_year_month']);
+
+      \Log::info('要加療期限切れリストPDF生成完了', ['size' => strlen($pdfBinary)]);
+
+      return response($pdfBinary, 200, [
+        'Content-Type'        => 'application/pdf',
+        'Content-Disposition' => 'inline',
+      ]);
+    } catch (\Exception $e) {
+      \Log::error('要加療期限切れリストPDF生成エラー', [
+        'message' => $e->getMessage(),
+        'file'    => $e->getFile(),
+        'line'    => $e->getLine(),
+        'trace'   => $e->getTraceAsString(),
+      ]);
+
+      return response()->json([
+        'error'   => 'PDF生成に失敗しました',
+        'message' => $e->getMessage(),
+        'file'    => $e->getFile(),
+        'line'    => $e->getLine(),
+      ], 500);
+    }
   }
 }
