@@ -35,18 +35,21 @@ class NextMonthSchedulePdfService extends BasePdfService
     $pdf->setPrintHeader(false);
     $pdf->setPrintFooter(false);
 
+    // 定休日情報を取得（曜日番号 0=日〜6=土 → bool のマップ）
+    $closedDays = $this->fetchClosedDays();
+
     foreach ($clinicUserIds as $clinicUserId) {
       $user = DB::table('clinic_users')->where('id', $clinicUserId)->first();
       if (!$user) {
         continue;
       }
 
-      $records   = $this->fetchRecords($clinicUserId, $serviceYearMonth);
+      $records     = $this->fetchRecords($clinicUserId, $serviceYearMonth);
       $daysInMonth = (int)(new \DateTime($serviceYearMonth . '-01'))->format('t');
 
       // 1ページ目を追加して描画
       $pdf->AddPage();
-      $this->renderUserSchedule($pdf, $user, $records, $serviceYearMonth, $daysInMonth);
+      $this->renderUserSchedule($pdf, $user, $records, $serviceYearMonth, $daysInMonth, $closedDays);
     }
 
     return $pdf->Output('', 'S');
@@ -96,7 +99,8 @@ class NextMonthSchedulePdfService extends BasePdfService
     object $user,
     array  $records,
     string $serviceYearMonth,
-    int    $daysInMonth
+    int    $daysInMonth,
+    array  $closedDays = []
   ): void {
     // A4縦：210mm × 297mm、左右マージン12mm、有効幅186mm
     $startX         = 12;
@@ -173,8 +177,12 @@ class NextMonthSchedulePdfService extends BasePdfService
       $dateKey  = $dateObj->format('Y-m-d');
       $dow      = (int)$dateObj->format('w'); // 0=日, 6=土
 
-      // 行の背景色
-      if ($dow === 6) {
+      // 行の背景色（定休日 > 土日の優先順）
+      if ($closedDays[$dow] ?? false) {
+        // 定休日：濃いグレー
+        $pdf->SetFillColor(180, 180, 180);
+        $fillStyle = 'F';
+      } elseif ($dow === 6) {
         // 土曜：薄青
         $pdf->SetFillColor(210, 230, 255);
         $fillStyle = 'F';
@@ -281,6 +289,33 @@ class NextMonthSchedulePdfService extends BasePdfService
 
       $currentY += $blockH;
     }
+  }
+
+  /**
+   * 定休日情報を取得
+   *
+   * @return array  曜日番号(0=日〜6=土) => bool(true=定休)
+   */
+  protected function fetchClosedDays(): array
+  {
+    $info = DB::table('clinic_info')->first();
+
+    // closed_day_* カラムを曜日番号にマッピング
+    $map = [
+      0 => 'closed_day_sunday',
+      1 => 'closed_day_monday',
+      2 => 'closed_day_tuesday',
+      3 => 'closed_day_wednesday',
+      4 => 'closed_day_thursday',
+      5 => 'closed_day_friday',
+      6 => 'closed_day_saturday',
+    ];
+
+    $result = [];
+    foreach ($map as $dow => $col) {
+      $result[$dow] = $info ? (bool)($info->$col ?? false) : false;
+    }
+    return $result;
   }
 
   /**
