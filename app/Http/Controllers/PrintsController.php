@@ -1921,7 +1921,7 @@ class PrintsController extends Controller
         'target_year_month' => $validated['target_year_month'],
       ]);
 
-      $pdfBinary = $service->generate($validated['target_year_month']);
+      $pdfBinary = $service->generate([], $validated['target_year_month']);
 
       \Log::info('要加療期限切れリストPDF生成完了', ['size' => strlen($pdfBinary)]);
 

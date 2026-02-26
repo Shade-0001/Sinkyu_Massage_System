@@ -23,10 +23,12 @@ class TherapyDeadlineListPdfService extends BasePdfService
   /**
    * PDF生成
    *
-   * @param string $targetYearMonth 対象年月（Y-m形式）
+   * @param array  $clinicUserIds    未使用（BasePdfServiceシグネチャ互換）
+   * @param string $serviceYearMonth 対象年月（Y-m形式）
+   * @param string $submissionDate   未使用（BasePdfServiceシグネチャ互換）
    * @return string PDFバイナリ
    */
-  public function generate(string $targetYearMonth): string
+  public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate = ''): string
   {
     $pdf = new Fpdi('P', 'mm', 'A4', true, 'UTF-8', false);
     $pdf->SetAutoPageBreak(false);
@@ -36,8 +38,8 @@ class TherapyDeadlineListPdfService extends BasePdfService
 
     $pdf->AddPage();
 
-    $data = $this->fetchData($targetYearMonth);
-    $this->renderPdf($pdf, $data, $targetYearMonth);
+    $data = $this->fetchData($serviceYearMonth);
+    $this->renderPdf($pdf, $data, $serviceYearMonth);
 
     return $pdf->Output('', 'S');
   }
