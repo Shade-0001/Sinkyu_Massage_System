@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
  * - データカラム幅：27mm
  * - 1ページあたりのデータカラム数：floor((194 - 22) / 27) = 6
  * - 行構成：14行（ROW1〜ROW14）
+ * - 1ページあたりのリスト数：2（上段・下段）
  */
 class ClinicUserInsuranceInfoListPdfService extends BasePdfService
 {
@@ -28,9 +29,12 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
   const LINE_PITCH        = 3.2;
   const FONT_SIZE         = 7;
 
+  const LISTS_PER_PAGE    = 2;   // 1ページあたりのリスト数
+
   // ページ座標
   const START_Y_PAGE1 = 30;
   const START_Y_OTHER = 12;
+  const LIST_GAP      = 8;   // 上段・下段リスト間の縦間隔 mm
 
   protected function getDefaultCoordinatesPath(): string
   {
@@ -60,20 +64,34 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
 
     $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
 
-    $rowHeights = $this->calcRowHeights($pdf, $rowDefs, $users);
+    $rowHeights  = $this->calcRowHeights($pdf, $rowDefs, $users);
+    $tableH      = array_sum($rowHeights);
 
     $chunks      = array_chunk($users, self::MAX_COLS_PER_PAGE);
+    $totalLists  = count($chunks);
+    // ページグループ：LISTS_PER_PAGE チャンクずつ1ページに収める
+    $pageGroups  = array_chunk($chunks, self::LISTS_PER_PAGE);
     $isFirstPage = true;
 
-    foreach ($chunks as $chunk) {
+    foreach ($pageGroups as $pageIndex => $group) {
       $pdf->AddPage();
-      $startY = $isFirstPage ? self::START_Y_PAGE1 : self::START_Y_OTHER;
+      $topStartY = $isFirstPage ? self::START_Y_PAGE1 : self::START_Y_OTHER;
 
       if ($isFirstPage) {
         $this->drawTitleAndDate($pdf, $outputDate);
       }
 
-      $this->drawTable($pdf, $rowDefs, $rowHeights, $chunk, $startY);
+      foreach ($group as $slotIndex => $chunk) {
+        $listIndex = $pageIndex * self::LISTS_PER_PAGE + $slotIndex;
+        $startY    = $topStartY + $slotIndex * ($tableH + self::LIST_GAP);
+
+        $this->drawTable($pdf, $rowDefs, $rowHeights, $chunk, $startY);
+
+        $tableBottomY = $startY + $tableH;
+        $tableRightX  = self::MARGIN_X + self::HEADER_W + count($chunk) * self::DATA_COL_W;
+        $this->drawListNumber($pdf, $listIndex + 1, $totalLists, $tableBottomY, $tableRightX, self::FONT_SIZE);
+      }
+
       $isFirstPage = false;
     }
 
