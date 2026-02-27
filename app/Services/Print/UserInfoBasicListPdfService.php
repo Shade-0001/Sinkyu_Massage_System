@@ -421,8 +421,13 @@ class UserInfoBasicListPdfService extends BasePdfService
       $rowY = $rowYs[$i];
       $rowH = $rowHeights[$i];
 
-      // 第2カラム（ヘッダー）
-      $this->drawCell($pdf, $col2X, $rowY, self::COL2_W, $rowH, $col2Label, true, 'C');
+      // basicセクション：第1カラムと第2カラムを横結合（幅 HEADER_W = 30mm）
+      // acu/masセクション：第2カラムのみ（幅 COL2_W = 22mm）、第1カラムは後でセクション縦結合
+      if ($section === 'basic') {
+        $this->drawCell($pdf, $col1X, $rowY, self::HEADER_W, $rowH, $col2Label, true, 'C');
+      } else {
+        $this->drawCell($pdf, $col2X, $rowY, self::COL2_W, $rowH, $col2Label, true, 'C');
+      }
 
       // データカラム
       foreach ($users as $j => $user) {
@@ -432,20 +437,21 @@ class UserInfoBasicListPdfService extends BasePdfService
       }
     }
 
-    // ---- 第1カラムを描画（セクションごとに縦結合） ----
+    // ---- 第1カラムを描画（acu/masセクションのみ縦結合） ----
     foreach ($sectionRanges as $sec => [$secStart, $secEnd]) {
+      if ($sec === 'basic') {
+        continue; // basicは横結合済みのためスキップ
+      }
       $secY = $rowYs[$secStart];
       $secH = $sectionHeights[$sec];
-      $label = ($sec === 'acu') ? 'はり・きゅう' : (($sec === 'mas') ? 'あんま・マッサージ' : '');
+      $label = ($sec === 'acu') ? 'はり・きゅう' : 'あんま・マッサージ';
 
       // セル背景
       $pdf->SetFillColor(230, 230, 230);
       $pdf->Rect($col1X, $secY, self::COL1_W, $secH, 'FD');
 
-      // 縦書きテキスト（basicは空白）
-      if ($label !== '') {
-        $this->drawVerticalText($pdf, $col1X, $secY, self::COL1_W, $secH, $label);
-      }
+      // 縦書きテキスト
+      $this->drawVerticalText($pdf, $col1X, $secY, self::COL1_W, $secH, $label);
     }
 
     // ---- 右端の縦線（データカラムの最後） ----
