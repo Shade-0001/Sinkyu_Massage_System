@@ -527,13 +527,14 @@ class UserInfoBasicListPdfService extends BasePdfService
 
     // 垂直中央揃え
     $startCharY = $y + ($h - $totalH) / 2;
-    // 水平中央揃え
-    $charX      = $x + ($w - $pdf->GetStringWidth('あ')) / 2;
 
     foreach ($chars as $ci => $ch) {
-      $charY = $startCharY + $ci * ($charH + $gap);
+      $charY  = $startCharY + $ci * ($charH + $gap);
+      // 各文字の実幅でセル内水平中央を計算
+      $charW  = $pdf->GetStringWidth($ch);
+      $charX  = $x + ($w - $charW) / 2;
       $pdf->SetXY($charX, $charY);
-      $pdf->Cell(self::COL1_W, 0, $ch, 0, 0, 'C', false);
+      $pdf->Cell($charW, 0, $ch, 0, 0, 'L', false);
     }
   }
 
