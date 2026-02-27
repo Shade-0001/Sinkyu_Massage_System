@@ -222,7 +222,7 @@ class UserInfoBasicListPdfService extends BasePdfService
         // はり・きゅう
         'acu_first_care_date'     => $this->formatJapaneseDate($a->first_care_date ?? null),
         'acu_onset_date'          => $this->formatJapaneseDate($a->onset_and_injury_date ?? null),
-        'acu_work_scope_type'     => $a->work_scope_type ?? '',
+        'acu_work_scope_type'     => str_replace('第三者行為である', '第三者行為', $a->work_scope_type ?? ''),
         'acu_reconsenting_expiry' => $this->formatJapaneseDate($a->reconsenting_expiry ?? null),
         'acu_first_therapy'       => $a->first_therapy_content ?? '',
         'acu_first_doc'           => $af ? ($af->doc_last . ' ' . $af->doc_first) : '',
@@ -232,7 +232,7 @@ class UserInfoBasicListPdfService extends BasePdfService
         // あんま・マッサージ
         'mas_first_care_date'     => $this->formatJapaneseDate($m->first_care_date ?? null),
         'mas_onset_date'          => $this->formatJapaneseDate($m->onset_and_injury_date ?? null),
-        'mas_work_scope_type'     => $m->work_scope_type ?? '',
+        'mas_work_scope_type'     => str_replace('第三者行為である', '第三者行為', $m->work_scope_type ?? ''),
         'mas_reconsenting_expiry' => $this->formatJapaneseDate($m->reconsenting_expiry ?? null),
         'mas_first_therapy'       => $m->first_therapy_content ?? '',
         'mas_first_doc'           => $mf ? ($mf->doc_last . ' ' . $mf->doc_first) : '',
