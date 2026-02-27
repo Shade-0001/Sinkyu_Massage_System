@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
  * - ヘッダー合計：30mm
  * - データカラム幅：32mm（最大16文字）
  * - 1ページあたりのデータカラム数：floor((194 - 30) / 32) = 5
+ * - 1ページあたりのリスト数：2（上段・下段）
  * - 行構成：
  *   - ROW1〜2  ：利用者ID・利用者氏名（COL1+COL2 結合）
  *   - ROW3〜9  ：はり・きゅう（COL1縦書き、COL2行ラベル）
@@ -36,10 +37,12 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
   const FONT_SIZE         = 7;    // データフォント
   const HEADER_FONT       = 7;    // ヘッダーフォント
 
+  const LISTS_PER_PAGE    = 2;    // 1ページあたりのリスト数
+
   // ページ座標
   const START_Y_PAGE1  = 30;   // 1ページ目の開始Y（タイトル分）
   const START_Y_OTHER  = 12;   // 2ページ目以降の開始Y
-  const BOTTOM_MARGIN  = 285;  // 下マージン
+  const LIST_GAP       = 14;   // 上段・下段リスト間の縦間隔 mm（上側6mm + 下側8mm）
 
   protected function getDefaultCoordinatesPath(): string
   {
@@ -69,21 +72,38 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
 
     $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
 
-    $rowHeights = $this->calcRowHeights($pdf, $rowDefs, $users);
-    $chunks     = array_chunk($users, self::MAX_COLS_PER_PAGE);
+    $rowHeights  = $this->calcRowHeights($pdf, $rowDefs, $users);
+    $tableH      = array_sum($rowHeights);
 
+    $chunks      = array_chunk($users, self::MAX_COLS_PER_PAGE);
     $totalLists  = count($chunks);
+    $pageGroups  = array_chunk($chunks, self::LISTS_PER_PAGE);
     $isFirstPage = true;
-    foreach ($chunks as $listIndex => $chunk) {
+
+    foreach ($pageGroups as $pageIndex => $group) {
       $pdf->AddPage();
-      $startY = $isFirstPage ? self::START_Y_PAGE1 : self::START_Y_OTHER;
+      $topStartY = $isFirstPage ? self::START_Y_PAGE1 : self::START_Y_OTHER;
 
       if ($isFirstPage) {
         $this->drawTitleAndDate($pdf, $outputDate);
       }
 
-      $this->drawTable($pdf, $rowDefs, $rowHeights, $chunk, $startY);
-      $this->drawListNumber($pdf, $listIndex + 1, $totalLists, $startY, self::MARGIN_X, self::FONT_SIZE);
+      foreach ($group as $slotIndex => $chunk) {
+        $listIndex = $pageIndex * self::LISTS_PER_PAGE + $slotIndex;
+        $startY    = $topStartY + $slotIndex * ($tableH + self::LIST_GAP);
+
+        $this->drawTable($pdf, $rowDefs, $rowHeights, $chunk, $startY);
+        $this->drawListNumber($pdf, $listIndex + 1, $totalLists, $startY, self::MARGIN_X, self::FONT_SIZE);
+
+        // 上段と下段の間に破線を描画（上段の直後のみ）
+        if ($slotIndex === 0 && count($group) > 1) {
+          $sepY = $startY + $tableH + 6; // 上側6mm、下側8mm
+          $pdf->SetLineStyle(['width' => 0.3, 'dash' => '4,4', 'color' => [100, 100, 100]]);
+          $pdf->Line(self::MARGIN_X, $sepY, self::MARGIN_X + self::AVAILABLE_W, $sepY);
+          $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
+        }
+      }
+
       $isFirstPage = false;
     }
 
@@ -185,16 +205,16 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
       ['はり・きゅう', '初療年月日',       'acu_first_care_date',       'acu'],
       ['はり・きゅう', '同意開始年月日',   'acu_consenting_start_date', 'acu'],
       ['はり・きゅう', '同意終了年月日',   'acu_consenting_end_date',   'acu'],
-      ['はり・きゅう', '支給期間（開始）', 'acu_benefit_start',         'acu'],
-      ['はり・きゅう', '支給期間（終了）', 'acu_benefit_end',           'acu'],
+      ['はり・きゅう', '支給期間開始日', 'acu_benefit_start',         'acu'],
+      ['はり・きゅう', '支給期間終了日', 'acu_benefit_end',           'acu'],
       ['はり・きゅう', '再同意有効期限',   'acu_reconsenting_expiry',   'acu'],
       // ROW10〜16：あんま・マッサージ（COL1縦書き）
       ['あんま・マッサージ', '同意年月日',       'mas_consenting_date',       'mas'],
       ['あんま・マッサージ', '初療年月日',       'mas_first_care_date',       'mas'],
       ['あんま・マッサージ', '同意開始年月日',   'mas_consenting_start_date', 'mas'],
       ['あんま・マッサージ', '同意終了年月日',   'mas_consenting_end_date',   'mas'],
-      ['あんま・マッサージ', '支給期間（開始）', 'mas_benefit_start',         'mas'],
-      ['あんま・マッサージ', '支給期間（終了）', 'mas_benefit_end',           'mas'],
+      ['あんま・マッサージ', '支給期間開始日', 'mas_benefit_start',         'mas'],
+      ['あんま・マッサージ', '支給期間終了日', 'mas_benefit_end',           'mas'],
       ['あんま・マッサージ', '再同意有効期限',   'mas_reconsenting_expiry',   'mas'],
     ];
   }
