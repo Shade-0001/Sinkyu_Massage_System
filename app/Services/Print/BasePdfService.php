@@ -429,6 +429,22 @@ abstract class BasePdfService
   }
 
   /**
+   * リスト番号を描画（テーブル枠外下・右端揃え）
+   * 表示形式：［ A/B ］（A=現在のリスト番号、B=リスト総数）
+   *
+   * @param float $bottomY  テーブル下端のY座標
+   * @param float $rightX   テーブル右端のX座標
+   * @param int   $fontSize フォントサイズ（pt）
+   */
+  protected function drawListNumber(Fpdi $pdf, int $current, int $total, float $bottomY, float $rightX, int $fontSize = 7): void
+  {
+    $text  = '［ ' . $current . '/' . $total . ' ］';
+    $pdf->SetFont('kozgopromedium', '', $fontSize);
+    $textW = $pdf->GetStringWidth($text);
+    $pdf->Text($rightX - $textW, $bottomY + 3, $text);
+  }
+
+  /**
    * デバッグ用グリッド描画
    */
   protected function drawDebugGrid(Fpdi $pdf): void
