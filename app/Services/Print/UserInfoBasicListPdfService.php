@@ -26,8 +26,8 @@ class UserInfoBasicListPdfService extends BasePdfService
   const COL1_W         = 8;    // 第1カラム（縦書きラベル）幅
   const COL2_W         = 22;   // 第2カラム（行ラベル）幅
   const HEADER_W       = 30;   // COL1 + COL2
-  const DATA_COL_W     = 22;   // データカラム幅
-  const MAX_COLS_PER_PAGE = 7; // 1ページのデータカラム数 floor((194-30)/22)
+  const DATA_COL_W     = 25;   // データカラム幅
+  const MAX_COLS_PER_PAGE = 6; // 1ページのデータカラム数 floor((194-30)/25)
   const CELL_PADDING_X = 1.6; // セル左右パディング合計 mm
   const BASE_ROW_H     = 6;    // 行の基本高さ mm（1行分）
   const FONT_SIZE      = 7;    // データフォント
