@@ -28,7 +28,7 @@ class UserInfoBasicListPdfService extends BasePdfService
   const HEADER_W       = 30;   // COL1 + COL2
   const DATA_COL_W     = 22;   // データカラム幅
   const MAX_COLS_PER_PAGE = 7; // 1ページのデータカラム数 floor((194-30)/22)
-  const MAX_CHARS      = 12;   // 1行あたりの最大文字数
+  const CELL_PADDING_X = 1.6; // セル左右パディング合計 mm
   const BASE_ROW_H     = 6;    // 行の基本高さ mm（1行分）
   const FONT_SIZE      = 7;    // データフォント
   const HEADER_FONT    = 7;    // ヘッダーフォント
@@ -72,7 +72,7 @@ class UserInfoBasicListPdfService extends BasePdfService
     // 各行の最大行数を事前計算（全利用者のデータを一括処理）
     // rowHeights[rowIndex] = その行の基本行高 mm
     // （データカラムは全利用者で同じ行高なので、各rowDef単位でmax行数を算出）
-    $rowHeights = $this->calcRowHeights($rowDefs, $users);
+    $rowHeights = $this->calcRowHeights($pdf, $rowDefs, $users);
 
     // ページ分割：1ページあたり MAX_COLS_PER_PAGE 人ずつ
     $chunks     = array_chunk($users, self::MAX_COLS_PER_PAGE);
@@ -295,7 +295,7 @@ class UserInfoBasicListPdfService extends BasePdfService
    *
    * @return float[] 行高の配列（rowDefs のインデックスに対応）
    */
-  protected function calcRowHeights(array $rowDefs, array $users): array
+  protected function calcRowHeights(Fpdi $pdf, array $rowDefs, array $users): array
   {
     $heights = [];
     foreach ($rowDefs as $i => $row) {
@@ -303,7 +303,7 @@ class UserInfoBasicListPdfService extends BasePdfService
       $maxLines = 1;
       foreach ($users as $u) {
         $text  = (string)($u[$dataKey] ?? '');
-        $lines = $this->countLines($text);
+        $lines = count($this->wrapText($pdf, $text, self::DATA_COL_W));
         if ($lines > $maxLines) {
           $maxLines = $lines;
         }
@@ -314,30 +314,21 @@ class UserInfoBasicListPdfService extends BasePdfService
   }
 
   /**
-   * テキストが何行になるかを計算
+   * セル幅に応じてテキストを折り返した行配列を返す
+   *
+   * @param float $cellWidth セル幅 mm
    */
-  protected function countLines(string $text): int
-  {
-    if ($text === '') {
-      return 1;
-    }
-    $len = mb_strlen($text);
-    return (int)ceil($len / self::MAX_CHARS);
-  }
-
-  /**
-   * テキストを MAX_CHARS で折り返した行配列を返す
-   */
-  protected function wrapText(string $text): array
+  protected function wrapText(Fpdi $pdf, string $text, float $cellWidth): array
   {
     if ($text === '') {
       return [''];
     }
+    $maxW   = $cellWidth - self::CELL_PADDING_X;
     $lines  = [];
     $chars  = preg_split('//u', $text, -1, PREG_SPLIT_NO_EMPTY);
     $line   = '';
     foreach ($chars as $ch) {
-      if (mb_strlen($line) >= self::MAX_CHARS) {
+      if ($pdf->GetStringWidth($line . $ch) > $maxW) {
         $lines[] = $line;
         $line    = $ch;
       } else {
@@ -487,7 +478,7 @@ class UserInfoBasicListPdfService extends BasePdfService
 
     // テキスト描画
     $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
-    $lines      = $this->wrapText($text);
+    $lines      = $this->wrapText($pdf, $text, $w);
     $lineCount  = count($lines);
     $fontMm     = self::FONT_SIZE * 0.352; // pt → mm 近似換算
 
