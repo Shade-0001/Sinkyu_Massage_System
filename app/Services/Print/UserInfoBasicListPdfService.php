@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\DB;
  * - 第1カラム（縦書きラベル）：8mm
  * - 第2カラム（行ラベル）：22mm
  * - ヘッダー合計：30mm
- * - データカラム幅：22mm（最大11文字）
- * - 1ページあたりのデータカラム数：floor((194 - 30) / 22) = 7
+ * - データカラム幅：32mm（最大16文字）
+ * - 1ページあたりのデータカラム数：floor((194 - 30) / 32) = 5
  * - 行構成：34行（1〜16：基本情報、17〜25：はり・きゅう、26〜34：あんま・マッサージ）
  * - 各行高は最大文字数11を超えた場合に行が増加する（可変高）
  */
@@ -26,8 +26,8 @@ class UserInfoBasicListPdfService extends BasePdfService
   const COL1_W         = 8;    // 第1カラム（縦書きラベル）幅
   const COL2_W         = 22;   // 第2カラム（行ラベル）幅
   const HEADER_W       = 30;   // COL1 + COL2
-  const DATA_COL_W     = 27;   // データカラム幅 floor((194-30)/6)=27
-  const MAX_COLS_PER_PAGE = 6; // 1ページのデータカラム数
+  const DATA_COL_W     = 32;   // データカラム幅 floor((194-30)/5)=32
+  const MAX_COLS_PER_PAGE = 5; // 1ページのデータカラム数
   const CELL_PADDING_X = 2.4; // セル左右パディング合計 mm（左1.6 + 右0.8）
   const BASE_ROW_H     = 6;    // 行の基本高さ mm（1行分）
   const LINE_PITCH     = 3.2; // 折り返し行のピッチ mm（FONT_SIZE 7pt ≈ 2.46mm + 字間）
