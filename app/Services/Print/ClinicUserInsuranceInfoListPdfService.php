@@ -10,11 +10,9 @@ use Illuminate\Support\Facades\DB;
  *
  * レイアウト概要：
  * - A4縦 (210mm × 297mm)、左右マージン 8mm → 利用可能幅 194mm
- * - 第1カラム（縦書きラベル）：8mm（全行を縦結合、「医療保険情報」）
- * - 第2カラム（行ラベル）：22mm
- * - ヘッダー合計：30mm
+ * - 行ラベルカラム：22mm（COL1のみ、縦書きセクションラベル列なし）
  * - データカラム幅：27mm
- * - 1ページあたりのデータカラム数：6
+ * - 1ページあたりのデータカラム数：floor((194 - 22) / 27) = 6
  * - 行構成：14行（ROW1〜ROW14）
  */
 class ClinicUserInsuranceInfoListPdfService extends BasePdfService
@@ -22,9 +20,7 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
   // レイアウト定数
   const MARGIN_X          = 8;
   const AVAILABLE_W       = 194;
-  const COL1_W            = 8;
-  const COL2_W            = 22;
-  const HEADER_W          = 30;
+  const HEADER_W          = 22;  // 行ラベルカラム幅（COL1のみ）
   const DATA_COL_W        = 27;
   const MAX_COLS_PER_PAGE = 6;
   const CELL_PADDING_X    = 2.4;
@@ -160,25 +156,25 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
 
   /**
    * 行定義を返す
-   * [col1Label, col2Label, dataKey, section]
+   * [rowLabel, dataKey]
    */
   protected function getRowDefinitions(): array
   {
     return [
-      ['医療保険情報', '利用者ID',         'id',                        'insurance'],
-      ['医療保険情報', '利用者氏名',        'name',                      'insurance'],
-      ['医療保険情報', '保険区分',          'insurance_type',            'insurance'],
-      ['医療保険情報', '被保険者番号',      'insured_number',            'insurance'],
-      ['医療保険情報', '資格取得年月日',    'license_acquisition_date',  'insurance'],
-      ['医療保険情報', '認定年月日',        'certification_date',        'insurance'],
-      ['医療保険情報', '発行年月日',        'issue_date',                'insurance'],
-      ['医療保険情報', '一部負担金割合',    'expenses_borne_ratio',      'insurance'],
-      ['医療保険情報', '医療助成対象',      'is_healthcare_subsidized',  'insurance'],
-      ['医療保険情報', '公費負担者番号',    'public_funds_payer_code',   'insurance'],
-      ['医療保険情報', '公費受給者番号',    'public_funds_recipient_code', 'insurance'],
-      ['医療保険情報', '保険者番号',        'insurer_number',            'insurance'],
-      ['医療保険情報', '保険者名称',        'insurer_name',              'insurance'],
-      ['医療保険情報', '被保険者氏名',      'insured_name',              'insurance'],
+      ['利用者ID',         'id'],
+      ['利用者氏名',        'name'],
+      ['保険区分',          'insurance_type'],
+      ['被保険者番号',      'insured_number'],
+      ['資格取得年月日',    'license_acquisition_date'],
+      ['認定年月日',        'certification_date'],
+      ['発行年月日',        'issue_date'],
+      ['一部負担金割合',    'expenses_borne_ratio'],
+      ['医療助成対象',      'is_healthcare_subsidized'],
+      ['公費負担者番号',    'public_funds_payer_code'],
+      ['公費受給者番号',    'public_funds_recipient_code'],
+      ['保険者番号',        'insurer_number'],
+      ['保険者名称',        'insurer_name'],
+      ['被保険者氏名',      'insured_name'],
     ];
   }
 
@@ -189,7 +185,7 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
   {
     $heights = [];
     foreach ($rowDefs as $i => $row) {
-      $dataKey  = $row[2];
+      $dataKey  = $row[1];
       $maxLines = 1;
       foreach ($users as $u) {
         $text  = (string)($u[$dataKey] ?? '');
@@ -259,8 +255,7 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
     $pdf->SetTextColor(0, 0, 0);
 
     $startX     = self::MARGIN_X;
-    $col1X      = $startX;
-    $col2X      = $startX + self::COL1_W;
+    $headerX    = $startX;
     $dataStartX = $startX + self::HEADER_W;
 
     // 各行のY座標を事前計算
@@ -272,17 +267,14 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
     }
     $tableBottom = $y;
 
-    // COL1の縦結合高さ（全行）
-    $totalH = $tableBottom - $startY;
-
-    // ---- 行を描画（COL2 + データカラム） ----
+    // ---- 行を描画（行ラベル + データカラム） ----
     foreach ($rowDefs as $i => $rowDef) {
-      [, $col2Label, $dataKey] = $rowDef;
+      [$rowLabel, $dataKey] = $rowDef;
       $rowY = $rowYs[$i];
       $rowH = $rowHeights[$i];
 
-      // 第2カラム（行ラベル）
-      $this->drawCell($pdf, $col2X, $rowY, self::COL2_W, $rowH, $col2Label, true, 'C');
+      // 行ラベルカラム
+      $this->drawCell($pdf, $headerX, $rowY, self::HEADER_W, $rowH, $rowLabel, true, 'C');
 
       // データカラム
       foreach ($users as $j => $user) {
@@ -292,20 +284,15 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
       }
     }
 
-    // ---- 第1カラム（縦結合、「医療保険情報」縦書き） ----
-    $pdf->SetFillColor(230, 230, 230);
-    $pdf->Rect($col1X, $startY, self::COL1_W, $totalH, 'FD');
-    $this->drawVerticalText($pdf, $col1X, $startY, self::COL1_W, $totalH, '医療保険情報');
-
     // ---- 右端の縦線 ----
     $rightX = $dataStartX + count($users) * self::DATA_COL_W;
     $pdf->Line($rightX, $startY, $rightX, $tableBottom);
 
     // ---- テーブル全体の左端縦線 ----
-    $pdf->Line($col1X, $startY, $col1X, $tableBottom);
+    $pdf->Line($headerX, $startY, $headerX, $tableBottom);
 
     // ---- テーブル下端横線 ----
-    $pdf->Line($col1X, $tableBottom, $rightX, $tableBottom);
+    $pdf->Line($headerX, $tableBottom, $rightX, $tableBottom);
   }
 
   /**
@@ -345,29 +332,6 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
         $lineX = $x + 1.6;
         $pdf->Text($lineX, $lineY, $line);
       }
-    }
-  }
-
-  /**
-   * 縦書きテキストを描画（第1カラム用）
-   */
-  protected function drawVerticalText(Fpdi $pdf, float $x, float $y, float $w, float $h, string $text): void
-  {
-    $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
-    $pdf->setCellPaddings(0, 0, 0, 0);
-
-    $chars  = preg_split('//u', $text, -1, PREG_SPLIT_NO_EMPTY);
-    $count  = count($chars);
-    $charH  = self::FONT_SIZE * 0.352;
-    $gap    = 1.0;
-    $totalH = $count * ($charH + $gap) - $gap;
-
-    $startCharY = $y + ($h - $totalH) / 2;
-
-    foreach ($chars as $ci => $ch) {
-      $charY = $startCharY + $ci * ($charH + $gap);
-      $pdf->SetXY($x, $charY);
-      $pdf->Cell($w, $charH, $ch, 0, 0, 'C', false);
     }
   }
 
