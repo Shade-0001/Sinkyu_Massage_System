@@ -490,17 +490,18 @@ class UserInfoBasicListPdfService extends BasePdfService
     $lineCount  = count($lines);
     $fontMm     = self::FONT_SIZE * 0.352; // pt → mm 近似換算
 
+    $pdf->setCellPaddings(0, 0, 0, 0);
     if ($isHeader) {
       // ヘッダー：セル全体に対して水平・垂直ともに中央揃え
+      // 水平中央は Cell('C') に任せる（GetStringWidth のズレを回避）
       $totalTextH = $lineCount > 1
         ? $fontMm + ($lineCount - 1) * self::LINE_PITCH
         : $fontMm;
       $offsetY    = ($h - $totalTextH) / 2;
       foreach ($lines as $li => $line) {
         $lineY = $y + $offsetY + $li * self::LINE_PITCH;
-        $textW = $pdf->GetStringWidth($line);
-        $lineX = $x + ($w - $textW) / 2;
-        $pdf->Text($lineX, $lineY, $line);
+        $pdf->SetXY($x, $lineY);
+        $pdf->Cell($w, $fontMm, $line, 0, 0, 'C', false);
       }
     } else {
       // データ：垂直は先頭から（上パディング分オフセット）、水平は左揃え
