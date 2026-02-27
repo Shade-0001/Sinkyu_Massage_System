@@ -28,7 +28,7 @@ class UserInfoBasicListPdfService extends BasePdfService
   const HEADER_W       = 30;   // COL1 + COL2
   const DATA_COL_W     = 22;   // データカラム幅
   const MAX_COLS_PER_PAGE = 7; // 1ページのデータカラム数 floor((194-30)/22)
-  const MAX_CHARS      = 11;   // 1行あたりの最大文字数
+  const MAX_CHARS      = 12;   // 1行あたりの最大文字数
   const BASE_ROW_H     = 6;    // 行の基本高さ mm（1行分）
   const FONT_SIZE      = 7;    // データフォント
   const HEADER_FONT    = 7;    // ヘッダーフォント
@@ -203,7 +203,7 @@ class UserInfoBasicListPdfService extends BasePdfService
         'name'         => $u->last_name . '  ' . $u->first_name,
         'kana'         => $u->last_kana . '  ' . $u->first_kana,
         'birthday'     => $this->formatJapaneseDate($u->birthday),
-        'age'          => ($u->age !== null ? $u->age . '歳' : ''),
+        'age'          => ($u->age !== null ? (string)$u->age : ''),
         'gender'       => $u->gender_label ?? '',
         'postal_code'  => $this->formatPostalCode($u->postal_code ?? ''),
         'address'      => $address,
