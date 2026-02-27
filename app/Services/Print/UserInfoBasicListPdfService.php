@@ -265,7 +265,7 @@ class UserInfoBasicListPdfService extends BasePdfService
       ['', '電話番号',       'phone',              'basic'],
       ['', '携帯番号',       'cell_phone',         'basic'],
       ['', 'FAX番号',        'fax',                'basic'],
-      ['', 'メール',         'email',              'basic'],
+      ['', 'メールアドレス',  'email',              'basic'],
       ['', '往療距離',       'housecall_distance', 'basic'],
       ['', '往療加算距離',   'housecall_add_dist', 'basic'],
       ['', '請求区分',       'bill_category',      'basic'],
