@@ -30,6 +30,7 @@ class UserInfoBasicListPdfService extends BasePdfService
   const MAX_COLS_PER_PAGE = 6; // 1ページのデータカラム数 floor((194-30)/25)
   const CELL_PADDING_X = 1.6; // セル左右パディング合計 mm
   const BASE_ROW_H     = 6;    // 行の基本高さ mm（1行分）
+  const LINE_PITCH     = 3.2; // 折り返し行のピッチ mm（FONT_SIZE 7pt ≈ 2.46mm + 字間）
   const FONT_SIZE      = 7;    // データフォント
   const HEADER_FONT    = 7;    // ヘッダーフォント
 
@@ -311,7 +312,11 @@ class UserInfoBasicListPdfService extends BasePdfService
           $maxLines = $lines;
         }
       }
-      $heights[$i] = $maxLines * self::BASE_ROW_H;
+      $fontMm      = self::FONT_SIZE * 0.352;
+      $textH       = $maxLines > 1
+        ? $fontMm + ($maxLines - 1) * self::LINE_PITCH
+        : $fontMm;
+      $heights[$i] = max(self::BASE_ROW_H, $textH + (self::BASE_ROW_H - $fontMm));
     }
     return $heights;
   }
@@ -487,18 +492,21 @@ class UserInfoBasicListPdfService extends BasePdfService
 
     if ($isHeader) {
       // ヘッダー：セル全体に対して水平・垂直ともに中央揃え
-      $totalTextH = $lineCount * self::BASE_ROW_H;
+      $totalTextH = $lineCount > 1
+        ? $fontMm + ($lineCount - 1) * self::LINE_PITCH
+        : $fontMm;
       $offsetY    = ($h - $totalTextH) / 2;
       foreach ($lines as $li => $line) {
-        $lineY = $y + $offsetY + $li * self::BASE_ROW_H + (self::BASE_ROW_H - $fontMm) / 2;
+        $lineY = $y + $offsetY + $li * self::LINE_PITCH;
         $textW = $pdf->GetStringWidth($line);
         $lineX = $x + ($w - $textW) / 2;
         $pdf->Text($lineX, $lineY, $line);
       }
     } else {
-      // データ：垂直は先頭から、水平は左揃え
+      // データ：垂直は先頭から（上パディング分オフセット）、水平は左揃え
+      $paddingTop = (self::BASE_ROW_H - $fontMm) / 2;
       foreach ($lines as $li => $line) {
-        $lineY = $y + $li * self::BASE_ROW_H + (self::BASE_ROW_H - $fontMm) / 2;
+        $lineY = $y + $paddingTop + $li * self::LINE_PITCH;
         $lineX = $x + 0.8;
         $pdf->Text($lineX, $lineY, $line);
       }
