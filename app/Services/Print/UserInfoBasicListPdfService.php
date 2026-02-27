@@ -533,8 +533,7 @@ class UserInfoBasicListPdfService extends BasePdfService
       // 各文字の実幅でセル内水平中央を計算
       $charW  = $pdf->GetStringWidth($ch);
       $charX  = $x + ($w - $charW) / 2;
-      $pdf->SetXY($charX, $charY);
-      $pdf->Cell($charW, 0, $ch, 0, 0, 'L', false);
+      $pdf->Text($charX, $charY, $ch);
     }
   }
 
