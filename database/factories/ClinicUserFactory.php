@@ -40,33 +40,53 @@ class ClinicUserFactory extends Factory
             '広島市中区', '福岡市博多区', '福岡市中央区', '熊本市中央区',
         ];
 
-        $idx       = array_rand($lastNames);
-        $firstIdx  = array_rand($firstNames);
+        $buildingPrefixes = ['グリーン', 'サンシャイン', 'パークサイド', 'コート', 'ハイツ', 'プラザ', 'ガーデン', 'メゾン', 'ビレッジ', 'テラス'];
+        $buildingTypes    = ['マンション', 'アパート', 'コーポ', 'ハイツ', 'ビル'];
+
+        $idx      = array_rand($lastNames);
+        $firstIdx = array_rand($firstNames);
         $birthYear = $this->faker->numberBetween(1930, 1980);
         $birthday  = $this->faker->dateTimeBetween("{$birthYear}-01-01", "{$birthYear}-12-31")->format('Y-m-d');
         $age       = (int) date('Y') - $birthYear;
 
+        // address_3: 50%の確率でマンション名・部屋番号を生成
+        $address3 = $this->faker->boolean(50)
+            ? $this->faker->randomElement($buildingPrefixes) . $this->faker->randomElement($buildingTypes)
+              . $this->faker->numerify('##') . '号室'
+            : null;
+
+        // fax: 20%の確率で生成
+        $fax = $this->faker->boolean(20)
+            ? $this->faker->numerify('0#-####-####')
+            : null;
+
+        // note: 20%の確率で短いメモを生成
+        $noteOptions = ['緊急連絡先：別途確認', '家族同居', '独居', '要配慮', '訪問時インターホン使用不可', '玄関に鍵あり'];
+        $note = $this->faker->boolean(20)
+            ? $this->faker->randomElement($noteOptions)
+            : null;
+
         return [
-            'last_name'                    => $lastNames[$idx],
-            'first_name'                   => $firstNames[$firstIdx],
-            'last_kana'                    => $lastKanas[$idx],
-            'first_kana'                   => $firstKanas[$firstIdx],
-            'birthday'                     => $birthday,
-            'age'                          => $age,
-            'gender_id'                    => $this->faker->numberBetween(1, 2),
-            'postal_code'                  => $this->faker->numerify('###-####'),
-            'address_1'                    => $this->faker->randomElement(['東京都', '大阪府', '神奈川県', '愛知県', '福岡県', '北海道', '宮城県', '広島県']),
-            'address_2'                    => $this->faker->randomElement($cities) . $this->faker->numerify('#丁目#番'),
-            'address_3'                    => null,
-            'phone'                        => $this->faker->numerify('0#-####-####'),
-            'cell_phone'                   => $this->faker->numerify('0##-####-####'),
-            'fax'                          => null,
-            'email'                        => $this->faker->unique()->safeEmail(),
-            'housecall_distance'           => $this->faker->numberBetween(1, 20),
+            'last_name'                     => $lastNames[$idx],
+            'first_name'                    => $firstNames[$firstIdx],
+            'last_kana'                     => $lastKanas[$idx],
+            'first_kana'                    => $firstKanas[$firstIdx],
+            'birthday'                      => $birthday,
+            'age'                           => $age,
+            'gender_id'                     => $this->faker->numberBetween(1, 2),
+            'postal_code'                   => $this->faker->numerify('###-####'),
+            'address_1'                     => $this->faker->randomElement(['東京都', '大阪府', '神奈川県', '愛知県', '福岡県', '北海道', '宮城県', '広島県']),
+            'address_2'                     => $this->faker->randomElement($cities) . $this->faker->numerify('#丁目#番'),
+            'address_3'                     => $address3,
+            'phone'                         => $this->faker->numerify('0#-####-####'),
+            'cell_phone'                    => $this->faker->numerify('0##-####-####'),
+            'fax'                           => $fax,
+            'email'                         => $this->faker->unique()->safeEmail(),
+            'housecall_distance'            => $this->faker->numberBetween(1, 20),
             'housecall_additional_distance' => $this->faker->numberBetween(0, 5),
-            'is_redeemed'                  => false,
-            'application_count'            => $this->faker->numberBetween(1, 30),
-            'note'                         => null,
+            'is_redeemed'                   => false,
+            'application_count'             => $this->faker->numberBetween(1, 30),
+            'note'                          => $note,
         ];
     }
 }

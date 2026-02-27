@@ -27,6 +27,17 @@ class RecordFactory extends Factory
     $endMinutes     = $startHour * 60 + $startMinute + $durationMins;
     $endTime        = sprintf('%02d:%02d', intdiv($endMinutes, 60), $endMinutes % 60);
 
+    $abstractOptions = [
+      '状態安定。前回より可動域改善。',
+      '疼痛の訴えあり。施術後軽減。',
+      '浮腫あり。下肢を中心に施術。',
+      '体調良好。通常通り施術。',
+      '血圧高め。安静後施術開始。',
+      '家族より状態悪化の報告あり。',
+      '前回より筋緊張軽減を確認。',
+      '施術後、本人より楽になったとのこと。',
+    ];
+
     return [
       'clinic_user_id'      => null,
       'date'                => $date->format('Y-m-d'),
@@ -42,7 +53,9 @@ class RecordFactory extends Factory
       'self_fee_id'         => null,
       'bill_category_id'    => null,
       'therapist_id'        => null,
-      'abstract'            => null,
+      'abstract'            => $this->faker->boolean(30)
+        ? $this->faker->randomElement($abstractOptions)
+        : null,
     ];
   }
 }

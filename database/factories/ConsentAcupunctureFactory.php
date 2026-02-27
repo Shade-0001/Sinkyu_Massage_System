@@ -17,6 +17,9 @@ class ConsentAcupunctureFactory extends Factory
     $therapyPeriodStart = $consentingDate;
     $therapyPeriodEnd   = (clone $consentingDate)->modify('+3 months');
 
+    $addendumOptions = ['詳細は別紙参照', '再評価後に変更あり', '前回同様'];
+    $reasonAddendums = ['2階以上のため', 'エレベーターなし', '歩行困難なため', '車椅子使用のため'];
+
     return [
       'clinic_user_id'                       => null,
       'consenting_doctor_id'                 => null,
@@ -30,15 +33,21 @@ class ConsentAcupunctureFactory extends Factory
       'bill_category_id'                     => null,
       'outcome_id'                           => null,
       'illness_name_acupuncture_id'          => $this->faker->randomElement([1, 2, 3, 4, 5]),
-      'illness_name_acupuncture_addendum'    => null,
+      'illness_name_acupuncture_addendum'    => $this->faker->boolean(30)
+        ? $this->faker->randomElement($addendumOptions)
+        : null,
       'is_housecall_required'                => true,
       'housecall_reason_id'                  => null,
-      'housecall_reason_addendum'            => null,
+      'housecall_reason_addendum'            => $this->faker->boolean(40)
+        ? $this->faker->randomElement($reasonAddendums)
+        : null,
       'therapy_period'                       => '3ヶ月',
       'therapy_period_start_date'            => $therapyPeriodStart->format('Y-m-d'),
       'therapy_period_end_date'              => $therapyPeriodEnd->format('Y-m-d'),
       'first_therapy_content_id'             => null,
-      'condition'                            => null,
+      'condition'                            => $this->faker->boolean(30)
+        ? $this->faker->randomElement([1, 2, 3, 4, 5, 6, 7])
+        : null,
       'work_scope_type_id'                   => null,
       'onset_and_injury_date'                => $this->faker->dateTimeBetween('-5 years', '-2 years')->format('Y-m-d'),
     ];
