@@ -215,7 +215,7 @@ class UserInfoBasicListPdfService extends BasePdfService
         'cell_phone'   => $this->formatPhoneNumber($u->cell_phone ?? ''),
         'fax'          => $this->formatPhoneNumber($u->fax ?? ''),
         'email'        => $u->email ?? '',
-        'housecall_distance' => ($hd > 0 ? $hd . 'km' : ''),
+        'housecall_distance' => ($u->housecall_distance !== null ? $hd . 'km' : ''),
         'housecall_add_dist' => $addDist . 'km',
         'bill_category'      => $billCategory,
         'outcome'            => $outcome,
