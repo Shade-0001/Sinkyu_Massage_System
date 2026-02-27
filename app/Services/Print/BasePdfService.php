@@ -438,10 +438,10 @@ abstract class BasePdfService
    */
   protected function drawListNumber(Fpdi $pdf, int $current, int $total, float $topY, float $leftX, int $fontSize = 7): void
   {
-    $text     = '［ ' . $current . '/' . $total . ' ］';
-    $fontMm   = $fontSize * 0.352;
+    $text   = '［ ' . $current . '/' . $total . ' ］';
+    $fontMm = $fontSize * 0.352;
     $pdf->SetFont('kozgopromedium', '', $fontSize);
-    $pdf->Text($leftX, $topY - $fontMm - 1, $text);
+    $pdf->Text($leftX, $topY - $fontMm - 5, $text);
   }
 
   /**
