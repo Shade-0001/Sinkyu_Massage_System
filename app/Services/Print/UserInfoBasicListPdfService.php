@@ -565,9 +565,9 @@ class UserInfoBasicListPdfService extends BasePdfService
   {
     $nums = preg_replace('/[^0-9]/', '', $postalCode);
     if (strlen($nums) === 7) {
-      return '〒' . substr($nums, 0, 3) . '-' . substr($nums, 3, 4);
+      return '〒 ' . substr($nums, 0, 3) . '-' . substr($nums, 3, 4);
     } elseif ($postalCode !== '') {
-      return '〒' . $postalCode;
+      return '〒 ' . $postalCode;
     }
     return '';
   }
