@@ -517,23 +517,23 @@ class UserInfoBasicListPdfService extends BasePdfService
   protected function drawVerticalText(Fpdi $pdf, float $x, float $y, float $w, float $h, string $text): void
   {
     $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
+    $pdf->setCellPaddings(0, 0, 0, 0);
 
-    $chars    = preg_split('//u', $text, -1, PREG_SPLIT_NO_EMPTY);
-    $count    = count($chars);
-    // 各文字の高さ（フォントサイズ mm換算 + 間隔）
-    $charH    = self::FONT_SIZE * 0.4;
-    $gap      = 0.8;
-    $totalH   = $count * ($charH + $gap) - $gap;
+    $chars  = preg_split('//u', $text, -1, PREG_SPLIT_NO_EMPTY);
+    $count  = count($chars);
+    // 各文字の描画高さ（フォントサイズ mm換算）＋字間
+    $charH  = self::FONT_SIZE * 0.352; // pt → mm
+    $gap    = 1.0;
+    $totalH = $count * ($charH + $gap) - $gap;
 
     // 垂直中央揃え
     $startCharY = $y + ($h - $totalH) / 2;
 
     foreach ($chars as $ci => $ch) {
-      $charY  = $startCharY + $ci * ($charH + $gap);
-      // 各文字の実幅でセル内水平中央を計算
-      $charW  = $pdf->GetStringWidth($ch);
-      $charX  = $x + ($w - $charW) / 2;
-      $pdf->Text($charX, $charY, $ch);
+      // SetXY でセルX起点を渡し Cell('C') に任せる → TCPDFが正確に水平中央配置
+      $charY = $startCharY + $ci * ($charH + $gap);
+      $pdf->SetXY($x, $charY);
+      $pdf->Cell($w, $charH, $ch, 0, 0, 'C', false);
     }
   }
 
