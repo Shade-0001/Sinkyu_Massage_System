@@ -25,9 +25,19 @@ class ConsentAcupunctureSeeder extends Seeder
     $acuContentIds   = DB::connection('sinkyu_massage_system_db')
       ->table('therapy_contents')->where('therapy_type', 1)->pluck('id')->toArray();
 
-    // 約40%のclinic_userに同意書を付与
-    shuffle($clinicUserIds);
-    $targetIds = array_slice($clinicUserIds, 0, (int) round(count($clinicUserIds) * 0.4));
+    // すでにマッサージ同意書がある利用者IDを取得
+    $hasMassageIds = DB::connection('sinkyu_massage_system_db')
+      ->table('consents_massage')->pluck('clinic_user_id')->toArray();
+
+    // マッサージ同意書がない利用者（必ず鍼灸を付与する）
+    $mustTargetIds = array_values(array_diff($clinicUserIds, $hasMassageIds));
+
+    // マッサージ同意書がある利用者から約40%を鍼灸にも付与（両方持つケース）
+    $mayTargetIds = array_values(array_intersect($clinicUserIds, $hasMassageIds));
+    shuffle($mayTargetIds);
+    $optionalIds = array_slice($mayTargetIds, 0, (int) round(count($mayTargetIds) * 0.4));
+
+    $targetIds = array_merge($mustTargetIds, $optionalIds);
 
     $data = [];
     foreach ($targetIds as $userId) {
