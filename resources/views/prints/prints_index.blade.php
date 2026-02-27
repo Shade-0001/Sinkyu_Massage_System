@@ -58,7 +58,7 @@
   <h3>その他２</h3>
   <button type="button" class="btn btn-primary" onclick="submitUserInfoBasicList()">利用者情報一覧（基本情報）</button>
   <button type="button" class="btn btn-primary" onclick="submitUserInfoInsuranceList()">利用者情報一覧（医療保険情報）</button>
-  <button>利用者情報一覧（同意医師情報）</button>
+  <button type="button" class="btn btn-primary" onclick="submitClinicUserConsentInfoList()">利用者情報一覧（同意医師情報）</button>
   <button>医師情報一覧</button>
   <button>ケアマネ情報一覧</button>
   <button>施術者情報一覧</button>
