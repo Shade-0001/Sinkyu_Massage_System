@@ -28,7 +28,7 @@ class UserInfoBasicListPdfService extends BasePdfService
   const HEADER_W       = 30;   // COL1 + COL2
   const DATA_COL_W     = 27;   // データカラム幅 floor((194-30)/6)=27
   const MAX_COLS_PER_PAGE = 6; // 1ページのデータカラム数
-  const CELL_PADDING_X = 1.6; // セル左右パディング合計 mm
+  const CELL_PADDING_X = 2.4; // セル左右パディング合計 mm（左1.6 + 右0.8）
   const BASE_ROW_H     = 6;    // 行の基本高さ mm（1行分）
   const LINE_PITCH     = 3.2; // 折り返し行のピッチ mm（FONT_SIZE 7pt ≈ 2.46mm + 字間）
   const FONT_SIZE      = 7;    // データフォント
@@ -508,7 +508,7 @@ class UserInfoBasicListPdfService extends BasePdfService
       $paddingTop = (self::BASE_ROW_H - $fontMm) / 2;
       foreach ($lines as $li => $line) {
         $lineY = $y + $paddingTop + $li * self::LINE_PITCH;
-        $lineX = $x + 0.8;
+        $lineX = $x + 1.6;
         $pdf->Text($lineX, $lineY, $line);
       }
     }
