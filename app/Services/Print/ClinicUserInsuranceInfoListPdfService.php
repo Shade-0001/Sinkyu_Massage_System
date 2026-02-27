@@ -2,11 +2,40 @@
 
 namespace App\Services\Print;
 
+use setasign\Fpdi\Tcpdf\Fpdi;
+use Illuminate\Support\Facades\DB;
+
 /**
  * 利用者情報一覧（医療保険情報）PDF生成サービス
+ *
+ * レイアウト概要：
+ * - A4縦 (210mm × 297mm)、左右マージン 8mm → 利用可能幅 194mm
+ * - 第1カラム（縦書きラベル）：8mm（全行を縦結合、「医療保険情報」）
+ * - 第2カラム（行ラベル）：22mm
+ * - ヘッダー合計：30mm
+ * - データカラム幅：27mm
+ * - 1ページあたりのデータカラム数：6
+ * - 行構成：14行（ROW1〜ROW14）
  */
 class ClinicUserInsuranceInfoListPdfService extends BasePdfService
 {
+  // レイアウト定数
+  const MARGIN_X          = 8;
+  const AVAILABLE_W       = 194;
+  const COL1_W            = 8;
+  const COL2_W            = 22;
+  const HEADER_W          = 30;
+  const DATA_COL_W        = 27;
+  const MAX_COLS_PER_PAGE = 6;
+  const CELL_PADDING_X    = 2.4;
+  const BASE_ROW_H        = 6;
+  const LINE_PITCH        = 3.2;
+  const FONT_SIZE         = 7;
+
+  // ページ座標
+  const START_Y_PAGE1 = 30;
+  const START_Y_OTHER = 12;
+
   protected function getDefaultCoordinatesPath(): string
   {
     return storage_path('app/config/clinic_user_insurance_info_list_coordinates.json');
@@ -17,9 +46,362 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
     return [];
   }
 
+  /**
+   * PDF生成
+   */
   public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate = '', string $remarks = ''): string
   {
-    // 未実装：テンプレートのみ表示
-    return $this->generateTemplatePdf();
+    $pdf = new Fpdi('P', 'mm', 'A4', true, 'UTF-8', false);
+    $pdf->SetAutoPageBreak(false);
+    $pdf->SetMargins(0, 0, 0);
+    $pdf->setPrintHeader(false);
+    $pdf->setPrintFooter(false);
+    $pdf->SetTextColor(0, 0, 0);
+
+    $outputDate = $submissionDate ?: date('Y-m-d');
+    $users      = $this->fetchUsers();
+    $rowDefs    = $this->getRowDefinitions();
+
+    $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
+
+    $rowHeights = $this->calcRowHeights($pdf, $rowDefs, $users);
+
+    $chunks      = array_chunk($users, self::MAX_COLS_PER_PAGE);
+    $isFirstPage = true;
+
+    foreach ($chunks as $chunk) {
+      $pdf->AddPage();
+      $startY = $isFirstPage ? self::START_Y_PAGE1 : self::START_Y_OTHER;
+
+      if ($isFirstPage) {
+        $this->drawTitleAndDate($pdf, $outputDate);
+      }
+
+      $this->drawTable($pdf, $rowDefs, $rowHeights, $chunk, $startY);
+      $isFirstPage = false;
+    }
+
+    return $pdf->Output('', 'S');
+  }
+
+  /**
+   * 全利用者データを取得（医療保険情報）
+   */
+  protected function fetchUsers(): array
+  {
+    $users = DB::table('clinic_users')
+      ->orderBy('clinic_users.id')
+      ->get();
+
+    // insurances（最新1件）
+    $insurances = DB::table('insurances as ins')
+      ->leftJoin('insurance_types_1 as it1', 'it1.id', '=', 'ins.insurance_type_1_id')
+      ->leftJoin('insurance_types_2 as it2', 'it2.id', '=', 'ins.insurance_type_2_id')
+      ->leftJoin('insurance_types_3 as it3', 'it3.id', '=', 'ins.insurance_type_3_id')
+      ->leftJoin('expenses_borne_ratios as ebr', 'ebr.id', '=', 'ins.expenses_borne_ratio_id')
+      ->leftJoin('insurers', 'insurers.id', '=', 'ins.insurers_id')
+      ->whereRaw('ins.id = (SELECT MAX(id) FROM insurances WHERE clinic_user_id = ins.clinic_user_id)')
+      ->select(
+        'ins.clinic_user_id',
+        'it1.insurance_type_1',
+        'it2.insurance_type_2',
+        'it3.insurance_type_3',
+        'ins.insured_number',
+        'ins.license_acquisition_date',
+        'ins.certification_date',
+        'ins.issue_date',
+        'ebr.expenses_borne_ratio',
+        'ins.is_healthcare_subsidized',
+        'ins.public_funds_payer_code',
+        'ins.public_funds_recipient_code',
+        'insurers.insurer_number',
+        'insurers.insurer_name',
+        'ins.insured_name'
+      )
+      ->get()
+      ->keyBy('clinic_user_id');
+
+    $result = [];
+    foreach ($users as $u) {
+      $uid = $u->id;
+      $ins = $insurances[$uid] ?? null;
+
+      // 保険区分：insurance_type_1 + insurance_type_2 + insurance_type_3 を結合
+      $insType = '';
+      if ($ins) {
+        $parts = array_filter([
+          $ins->insurance_type_1 ?? '',
+          $ins->insurance_type_2 ?? '',
+          $ins->insurance_type_3 ?? '',
+        ]);
+        $insType = implode(' ', $parts);
+      }
+
+      $result[] = [
+        'id'                       => $uid,
+        'name'                     => $u->last_name . ' ' . $u->first_name,
+        'insurance_type'           => $insType,
+        'insured_number'           => $ins ? ($ins->insured_number ?? '') : '',
+        'license_acquisition_date' => $this->formatJapaneseDate($ins->license_acquisition_date ?? null),
+        'certification_date'       => $this->formatJapaneseDate($ins->certification_date ?? null),
+        'issue_date'               => $this->formatJapaneseDate($ins->issue_date ?? null),
+        'expenses_borne_ratio'     => $ins ? ($ins->expenses_borne_ratio ?? '') : '',
+        'is_healthcare_subsidized' => $ins ? ($ins->is_healthcare_subsidized ? '○' : '✕') : '',
+        'public_funds_payer_code'  => $ins ? ($ins->public_funds_payer_code ?? '') : '',
+        'public_funds_recipient_code' => $ins ? ($ins->public_funds_recipient_code ?? '') : '',
+        'insurer_number'           => $ins ? ($ins->insurer_number ?? '') : '',
+        'insurer_name'             => $ins ? ($ins->insurer_name ?? '') : '',
+        'insured_name'             => $ins ? ($ins->insured_name ?? '') : '',
+      ];
+    }
+
+    return $result;
+  }
+
+  /**
+   * 行定義を返す
+   * [col1Label, col2Label, dataKey, section]
+   */
+  protected function getRowDefinitions(): array
+  {
+    return [
+      ['医療保険情報', '利用者ID',         'id',                        'insurance'],
+      ['医療保険情報', '利用者氏名',        'name',                      'insurance'],
+      ['医療保険情報', '保険区分',          'insurance_type',            'insurance'],
+      ['医療保険情報', '被保険者番号',      'insured_number',            'insurance'],
+      ['医療保険情報', '資格取得年月日',    'license_acquisition_date',  'insurance'],
+      ['医療保険情報', '認定年月日',        'certification_date',        'insurance'],
+      ['医療保険情報', '発行年月日',        'issue_date',                'insurance'],
+      ['医療保険情報', '一部負担金割合',    'expenses_borne_ratio',      'insurance'],
+      ['医療保険情報', '医療助成対象',      'is_healthcare_subsidized',  'insurance'],
+      ['医療保険情報', '公費負担者番号',    'public_funds_payer_code',   'insurance'],
+      ['医療保険情報', '公費受給者番号',    'public_funds_recipient_code', 'insurance'],
+      ['医療保険情報', '保険者番号',        'insurer_number',            'insurance'],
+      ['医療保険情報', '保険者名称',        'insurer_name',              'insurance'],
+      ['医療保険情報', '被保険者氏名',      'insured_name',              'insurance'],
+    ];
+  }
+
+  /**
+   * 各行の描画高さを計算
+   */
+  protected function calcRowHeights(Fpdi $pdf, array $rowDefs, array $users): array
+  {
+    $heights = [];
+    foreach ($rowDefs as $i => $row) {
+      $dataKey  = $row[2];
+      $maxLines = 1;
+      foreach ($users as $u) {
+        $text  = (string)($u[$dataKey] ?? '');
+        $lines = count($this->wrapText($pdf, $text, self::DATA_COL_W));
+        if ($lines > $maxLines) {
+          $maxLines = $lines;
+        }
+      }
+      $fontMm      = self::FONT_SIZE * 0.352;
+      $textH       = $maxLines > 1
+        ? $fontMm + ($maxLines - 1) * self::LINE_PITCH
+        : $fontMm;
+      $heights[$i] = max(self::BASE_ROW_H, $textH + (self::BASE_ROW_H - $fontMm));
+    }
+    return $heights;
+  }
+
+  /**
+   * セル幅に応じてテキストを折り返した行配列を返す
+   */
+  protected function wrapText(Fpdi $pdf, string $text, float $cellWidth): array
+  {
+    if ($text === '') {
+      return [''];
+    }
+    $maxW  = $cellWidth - self::CELL_PADDING_X;
+    $lines = [];
+    $chars = preg_split('//u', $text, -1, PREG_SPLIT_NO_EMPTY);
+    $line  = '';
+    foreach ($chars as $ch) {
+      if ($pdf->GetStringWidth($line . $ch) > $maxW) {
+        $lines[] = $line;
+        $line    = $ch;
+      } else {
+        $line .= $ch;
+      }
+    }
+    if ($line !== '') {
+      $lines[] = $line;
+    }
+    return $lines;
+  }
+
+  /**
+   * タイトルと出力日を描画（1ページ目のみ）
+   */
+  protected function drawTitleAndDate(Fpdi $pdf, string $outputDate): void
+  {
+    $x = self::MARGIN_X;
+
+    $pdf->SetFont('kozgopromedium', '', 15);
+    $pdf->Text($x, 13, '利用者情報一覧（医療保険情報）');
+
+    $dateStr = 'PDF出力日：' . $this->formatJapaneseDate($outputDate);
+    $pdf->SetFont('kozgopromedium', '', 10);
+    $dateW = $pdf->GetStringWidth($dateStr);
+    $pdf->Text($x + self::AVAILABLE_W - $dateW, 13, $dateStr);
+  }
+
+  /**
+   * テーブルを描画（1チャンク分）
+   */
+  protected function drawTable(Fpdi $pdf, array $rowDefs, array $rowHeights, array $users, float $startY): void
+  {
+    $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
+    $pdf->SetFillColor(230, 230, 230);
+    $pdf->SetTextColor(0, 0, 0);
+
+    $startX     = self::MARGIN_X;
+    $col1X      = $startX;
+    $col2X      = $startX + self::COL1_W;
+    $dataStartX = $startX + self::HEADER_W;
+
+    // 各行のY座標を事前計算
+    $rowYs = [];
+    $y     = $startY;
+    foreach ($rowDefs as $i => $row) {
+      $rowYs[$i] = $y;
+      $y        += $rowHeights[$i];
+    }
+    $tableBottom = $y;
+
+    // COL1の縦結合高さ（全行）
+    $totalH = $tableBottom - $startY;
+
+    // ---- 行を描画（COL2 + データカラム） ----
+    foreach ($rowDefs as $i => $rowDef) {
+      [, $col2Label, $dataKey] = $rowDef;
+      $rowY = $rowYs[$i];
+      $rowH = $rowHeights[$i];
+
+      // 第2カラム（行ラベル）
+      $this->drawCell($pdf, $col2X, $rowY, self::COL2_W, $rowH, $col2Label, true, 'C');
+
+      // データカラム
+      foreach ($users as $j => $user) {
+        $cellX = $dataStartX + $j * self::DATA_COL_W;
+        $text  = (string)($user[$dataKey] ?? '');
+        $this->drawCell($pdf, $cellX, $rowY, self::DATA_COL_W, $rowH, $text, false, 'L');
+      }
+    }
+
+    // ---- 第1カラム（縦結合、「医療保険情報」縦書き） ----
+    $pdf->SetFillColor(230, 230, 230);
+    $pdf->Rect($col1X, $startY, self::COL1_W, $totalH, 'FD');
+    $this->drawVerticalText($pdf, $col1X, $startY, self::COL1_W, $totalH, '医療保険情報');
+
+    // ---- 右端の縦線 ----
+    $rightX = $dataStartX + count($users) * self::DATA_COL_W;
+    $pdf->Line($rightX, $startY, $rightX, $tableBottom);
+
+    // ---- テーブル全体の左端縦線 ----
+    $pdf->Line($col1X, $startY, $col1X, $tableBottom);
+
+    // ---- テーブル下端横線 ----
+    $pdf->Line($col1X, $tableBottom, $rightX, $tableBottom);
+  }
+
+  /**
+   * セルを描画（枠線＋テキスト）
+   */
+  protected function drawCell(Fpdi $pdf, float $x, float $y, float $w, float $h, string $text, bool $isHeader, string $align): void
+  {
+    if ($isHeader) {
+      $pdf->SetFillColor(230, 230, 230);
+      $pdf->Rect($x, $y, $w, $h, 'F');
+    }
+
+    $pdf->Line($x, $y, $x + $w, $y);
+    $pdf->Line($x, $y, $x, $y + $h);
+    $pdf->Line($x + $w, $y, $x + $w, $y + $h);
+
+    $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
+    $lines     = $this->wrapText($pdf, $text, $w);
+    $lineCount = count($lines);
+    $fontMm    = self::FONT_SIZE * 0.352;
+
+    $pdf->setCellPaddings(0, 0, 0, 0);
+    if ($isHeader) {
+      $totalTextH = $lineCount > 1
+        ? $fontMm + ($lineCount - 1) * self::LINE_PITCH
+        : $fontMm;
+      $offsetY = ($h - $totalTextH) / 2;
+      foreach ($lines as $li => $line) {
+        $lineY = $y + $offsetY + $li * self::LINE_PITCH;
+        $pdf->SetXY($x, $lineY);
+        $pdf->Cell($w, $fontMm, $line, 0, 0, 'C', false);
+      }
+    } else {
+      $paddingTop = (self::BASE_ROW_H - $fontMm) / 2;
+      foreach ($lines as $li => $line) {
+        $lineY = $y + $paddingTop + $li * self::LINE_PITCH;
+        $lineX = $x + 1.6;
+        $pdf->Text($lineX, $lineY, $line);
+      }
+    }
+  }
+
+  /**
+   * 縦書きテキストを描画（第1カラム用）
+   */
+  protected function drawVerticalText(Fpdi $pdf, float $x, float $y, float $w, float $h, string $text): void
+  {
+    $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
+    $pdf->setCellPaddings(0, 0, 0, 0);
+
+    $chars  = preg_split('//u', $text, -1, PREG_SPLIT_NO_EMPTY);
+    $count  = count($chars);
+    $charH  = self::FONT_SIZE * 0.352;
+    $gap    = 1.0;
+    $totalH = $count * ($charH + $gap) - $gap;
+
+    $startCharY = $y + ($h - $totalH) / 2;
+
+    foreach ($chars as $ci => $ch) {
+      $charY = $startCharY + $ci * ($charH + $gap);
+      $pdf->SetXY($x, $charY);
+      $pdf->Cell($w, $charH, $ch, 0, 0, 'C', false);
+    }
+  }
+
+  /**
+   * 日付を和暦フォーマットに変換
+   */
+  protected function formatJapaneseDate(?string $date): string
+  {
+    if (!$date) {
+      return '';
+    }
+    $ts    = strtotime($date);
+    $year  = (int)date('Y', $ts);
+    $month = (int)date('n', $ts);
+    $day   = (int)date('j', $ts);
+    $era   = $this->getJapaneseEra($year, $month, $day);
+    return $era['era'] . $era['year'] . '年 ' . $month . '月 ' . $day . '日';
+  }
+
+  /**
+   * 和暦情報を取得
+   */
+  protected function getJapaneseEra(int $year, int $month, int $day): array
+  {
+    $date = sprintf('%04d%02d%02d', $year, $month, $day);
+    if ($date >= '20190501') {
+      return ['era' => '令和', 'year' => $year - 2018];
+    } elseif ($date >= '19890108') {
+      return ['era' => '平成', 'year' => $year - 1988];
+    } elseif ($date >= '19261225') {
+      return ['era' => '昭和', 'year' => $year - 1925];
+    } elseif ($date >= '19120730') {
+      return ['era' => '大正', 'year' => $year - 1911];
+    }
+    return ['era' => '明治', 'year' => $year - 1867];
   }
 }
