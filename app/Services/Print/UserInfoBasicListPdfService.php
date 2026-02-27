@@ -81,8 +81,9 @@ class UserInfoBasicListPdfService extends BasePdfService
     // ページ分割：1ページあたり MAX_COLS_PER_PAGE 人ずつ
     $chunks     = array_chunk($users, self::MAX_COLS_PER_PAGE);
 
+    $totalPages  = count($chunks);
     $isFirstPage = true;
-    foreach ($chunks as $chunk) {
+    foreach ($chunks as $pageIndex => $chunk) {
       $pdf->AddPage();
       $startY = $isFirstPage ? self::START_Y_PAGE1 : self::START_Y_OTHER;
 
@@ -91,6 +92,7 @@ class UserInfoBasicListPdfService extends BasePdfService
       }
 
       $this->drawTable($pdf, $rowDefs, $rowHeights, $chunk, $startY);
+      $this->drawPageNumber($pdf, $pageIndex + 1, $totalPages, $rowHeights, $startY);
       $isFirstPage = false;
     }
 
@@ -347,6 +349,20 @@ class UserInfoBasicListPdfService extends BasePdfService
       $lines[] = $line;
     }
     return $lines;
+  }
+
+  /**
+   * ページ番号を描画（テーブル枠外下・右端）
+   * 表示形式：［ A/B ］
+   */
+  protected function drawPageNumber(Fpdi $pdf, int $current, int $total, array $rowHeights, float $startY): void
+  {
+    $tableBottom = $startY + array_sum($rowHeights);
+    $text        = '［ ' . $current . '/' . $total . ' ］';
+    $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
+    $textW = $pdf->GetStringWidth($text);
+    $rightX = self::MARGIN_X + self::AVAILABLE_W;
+    $pdf->Text($rightX - $textW, $tableBottom + 3, $text);
   }
 
   /**
