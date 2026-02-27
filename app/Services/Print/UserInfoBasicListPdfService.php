@@ -92,7 +92,7 @@ class UserInfoBasicListPdfService extends BasePdfService
       }
 
       $this->drawTable($pdf, $rowDefs, $rowHeights, $chunk, $startY);
-      $this->drawListNumber($pdf, $listIndex + 1, $totalLists, $rowHeights, $startY);
+      $this->drawListNumber($pdf, $listIndex + 1, $totalLists, $rowHeights, $startY, count($chunk));
       $isFirstPage = false;
     }
 
@@ -352,17 +352,17 @@ class UserInfoBasicListPdfService extends BasePdfService
   }
 
   /**
-   * リスト番号を描画（テーブル枠外下・右端）
+   * リスト番号を描画（テーブル枠外下・右端揃え）
    * 表示形式：［ A/B ］（A=現在のリスト番号、B=リスト総数）
    */
-  protected function drawListNumber(Fpdi $pdf, int $current, int $total, array $rowHeights, float $startY): void
+  protected function drawListNumber(Fpdi $pdf, int $current, int $total, array $rowHeights, float $startY, int $userCount): void
   {
     $tableBottom = $startY + array_sum($rowHeights);
+    $tableRightX = self::MARGIN_X + self::HEADER_W + $userCount * self::DATA_COL_W;
     $text        = '［ ' . $current . '/' . $total . ' ］';
     $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
     $textW = $pdf->GetStringWidth($text);
-    $rightX = self::MARGIN_X + self::AVAILABLE_W;
-    $pdf->Text($rightX - $textW, $tableBottom + 3, $text);
+    $pdf->Text($tableRightX - $textW, $tableBottom + 3, $text);
   }
 
   /**
