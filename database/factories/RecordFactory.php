@@ -46,7 +46,7 @@ class RecordFactory extends Factory
       'therapy_type'        => $therapyType,
       'therapy_category'    => $this->faker->randomElement([1, 2]),
       'insurance_category'  => $this->faker->randomElement([1, 2, 3]),
-      'housecall_distance'  => $this->faker->randomFloat(1, 1.0, 15.0),
+      'housecall_distance'  => $this->faker->boolean(50) ? $this->faker->randomFloat(1, 1.0, 15.0) : 0,
       'therapy_days'        => $this->faker->numberBetween(1, 30),
       'consent_expiry'      => $this->faker->dateTimeBetween('now', '+1 year')->format('Y-m-d'),
       'therapy_content_id'  => $contentId,

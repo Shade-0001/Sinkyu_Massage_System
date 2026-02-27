@@ -82,7 +82,7 @@ class ClinicUserFactory extends Factory
             'cell_phone'                    => $this->faker->numerify('0##-####-####'),
             'fax'                           => $fax,
             'email'                         => $this->faker->unique()->safeEmail(),
-            'housecall_distance'            => $this->faker->numberBetween(1, 20),
+            'housecall_distance'            => $this->faker->boolean(50) ? $this->faker->numberBetween(1, 20) : 0,
             'housecall_additional_distance' => $this->faker->numberBetween(0, 5),
             'is_redeemed'                   => false,
             'application_count'             => $this->faker->numberBetween(1, 30),
