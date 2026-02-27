@@ -487,16 +487,27 @@ class UserInfoBasicListPdfService extends BasePdfService
 
     // テキスト描画
     $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
-    $lines = $this->wrapText($text);
-    foreach ($lines as $li => $line) {
-      $lineY = $y + $li * self::BASE_ROW_H + (self::BASE_ROW_H - self::FONT_SIZE * 0.352) / 2;
-      if ($align === 'C') {
-        $textW  = $pdf->GetStringWidth($line);
-        $lineX  = $x + ($w - $textW) / 2;
-      } else {
-        $lineX  = $x + 0.8; // 左揃えの小パディング
+    $lines      = $this->wrapText($text);
+    $lineCount  = count($lines);
+    $fontMm     = self::FONT_SIZE * 0.352; // pt → mm 近似換算
+
+    if ($isHeader) {
+      // ヘッダー：セル全体に対して水平・垂直ともに中央揃え
+      $totalTextH = $lineCount * self::BASE_ROW_H;
+      $offsetY    = ($h - $totalTextH) / 2;
+      foreach ($lines as $li => $line) {
+        $lineY = $y + $offsetY + $li * self::BASE_ROW_H + (self::BASE_ROW_H - $fontMm) / 2;
+        $textW = $pdf->GetStringWidth($line);
+        $lineX = $x + ($w - $textW) / 2;
+        $pdf->Text($lineX, $lineY, $line);
       }
-      $pdf->Text($lineX, $lineY, $line);
+    } else {
+      // データ：垂直は先頭から、水平は左揃え
+      foreach ($lines as $li => $line) {
+        $lineY = $y + $li * self::BASE_ROW_H + (self::BASE_ROW_H - $fontMm) / 2;
+        $lineX = $x + 0.8;
+        $pdf->Text($lineX, $lineY, $line);
+      }
     }
   }
 
