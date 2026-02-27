@@ -441,7 +441,7 @@ abstract class BasePdfService
     $text   = '［ ' . $current . '/' . $total . ' ］';
     $fontMm = $fontSize * 0.352;
     $pdf->SetFont('kozgopromedium', '', $fontSize);
-    $pdf->Text($leftX, $topY - $fontMm - 5, $text);
+    $pdf->Text($leftX, $topY - $fontMm - 2, $text);
   }
 
   /**
