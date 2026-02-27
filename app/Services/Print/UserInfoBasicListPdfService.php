@@ -522,6 +522,8 @@ class UserInfoBasicListPdfService extends BasePdfService
     $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
     $pdf->setCellPaddings(0, 0, 0, 0);
 
+    // 縦書き：長音符「ー」を縦棒「｜」に変換
+    $text   = str_replace('ー', '｜', $text);
     $chars  = preg_split('//u', $text, -1, PREG_SPLIT_NO_EMPTY);
     $count  = count($chars);
     // 各文字の描画高さ（フォントサイズ mm換算）＋字間
