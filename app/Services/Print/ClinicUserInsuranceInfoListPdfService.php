@@ -86,10 +86,15 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
         $startY    = $topStartY + $slotIndex * ($tableH + self::LIST_GAP);
 
         $this->drawTable($pdf, $rowDefs, $rowHeights, $chunk, $startY);
+        $this->drawListNumber($pdf, $listIndex + 1, $totalLists, $startY, self::MARGIN_X, self::FONT_SIZE);
 
-        $tableBottomY = $startY + $tableH;
-        $tableRightX  = self::MARGIN_X + self::HEADER_W + count($chunk) * self::DATA_COL_W;
-        $this->drawListNumber($pdf, $listIndex + 1, $totalLists, $tableBottomY, $tableRightX, self::FONT_SIZE);
+        // 上段と下段の間に破線を描画（上段の直後のみ）
+        if ($slotIndex === 0 && count($group) > 1) {
+          $sepY = $startY + $tableH + self::LIST_GAP / 2;
+          $pdf->SetLineStyle(['width' => 0.3, 'dash' => '2,2', 'color' => [150, 150, 150]]);
+          $pdf->Line(self::MARGIN_X, $sepY, self::MARGIN_X + self::AVAILABLE_W, $sepY);
+          $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
+        }
       }
 
       $isFirstPage = false;

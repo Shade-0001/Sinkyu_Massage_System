@@ -92,9 +92,7 @@ class UserInfoBasicListPdfService extends BasePdfService
       }
 
       $this->drawTable($pdf, $rowDefs, $rowHeights, $chunk, $startY);
-      $tableBottomY = $startY + array_sum($rowHeights);
-      $tableRightX  = self::MARGIN_X + self::HEADER_W + count($chunk) * self::DATA_COL_W;
-      $this->drawListNumber($pdf, $listIndex + 1, $totalLists, $tableBottomY, $tableRightX, self::FONT_SIZE);
+      $this->drawListNumber($pdf, $listIndex + 1, $totalLists, $startY, self::MARGIN_X, self::FONT_SIZE);
       $isFirstPage = false;
     }
 
