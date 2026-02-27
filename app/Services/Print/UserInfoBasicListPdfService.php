@@ -69,6 +69,9 @@ class UserInfoBasicListPdfService extends BasePdfService
     $users      = $this->fetchUsers();
     $rowDefs    = $this->getRowDefinitions();
 
+    // GetStringWidth() のためにフォントを事前設定（calcRowHeights内で使用）
+    $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
+
     // 各行の最大行数を事前計算（全利用者のデータを一括処理）
     // rowHeights[rowIndex] = その行の基本行高 mm
     // （データカラムは全利用者で同じ行高なので、各rowDef単位でmax行数を算出）
