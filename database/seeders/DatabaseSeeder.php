@@ -3,25 +3,47 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
-    public function run(): void
-    {
-        // User::factory(10)->create();
+  /**
+   * Seed the application's database.
+   */
+  public function run(): void
+  {
+    // Group A: マスタ固定データ（データ未挿入の2テーブル）
+    $this->call([
+      ConditionSeeder::class,
+      IllnessMassageSeeder::class,
+    ]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+    // Group B: マスタダミーデータ
+    $this->call([
+      InsurerSeeder::class,
+      SelfFeeSeeder::class,
+    ]);
 
-        // Add ClinicUserSeeder call
-        $this->call(ClinicUserSeeder::class);
-    }
+    // Group C: 人物マスタ
+    $this->call([
+      TherapistSeeder::class,
+      DoctorSeeder::class,
+      CareManagerSeeder::class,
+    ]);
+
+    // clinic_users（既存Seeder）
+    $this->call(ClinicUserSeeder::class);
+
+    // Group D: トランザクション（依存関係順）
+    $this->call([
+      InsuranceSeeder::class,
+      ConsentMassageSeeder::class,
+      BodypartConsentMassageSeeder::class,
+      ConsentAcupunctureSeeder::class,
+      RecordSeeder::class,
+      DepositSeeder::class,
+      PlanSeeder::class,
+      PlanInfoSeeder::class,
+    ]);
+  }
 }
