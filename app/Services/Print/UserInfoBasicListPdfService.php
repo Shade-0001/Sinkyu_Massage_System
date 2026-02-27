@@ -225,9 +225,9 @@ class UserInfoBasicListPdfService extends BasePdfService
         'acu_work_scope_type'     => $a->work_scope_type ?? '',
         'acu_reconsenting_expiry' => $this->formatJapaneseDate($a->reconsenting_expiry ?? null),
         'acu_first_therapy'       => $a->first_therapy_content ?? '',
-        'acu_first_doc'           => $af ? ($af->doc_last . '  ' . $af->doc_first) : '',
+        'acu_first_doc'           => $af ? ($af->doc_last . ' ' . $af->doc_first) : '',
         'acu_first_consent_date'  => $this->formatJapaneseDate($af->first_consenting_date ?? null),
-        'acu_doc'                 => $a ? ($a->doc_last . '  ' . $a->doc_first) : '',
+        'acu_doc'                 => $a ? ($a->doc_last . ' ' . $a->doc_first) : '',
         'acu_consent_date'        => $this->formatJapaneseDate($a->consenting_date ?? null),
         // あんま・マッサージ
         'mas_first_care_date'     => $this->formatJapaneseDate($m->first_care_date ?? null),
@@ -235,9 +235,9 @@ class UserInfoBasicListPdfService extends BasePdfService
         'mas_work_scope_type'     => $m->work_scope_type ?? '',
         'mas_reconsenting_expiry' => $this->formatJapaneseDate($m->reconsenting_expiry ?? null),
         'mas_first_therapy'       => $m->first_therapy_content ?? '',
-        'mas_first_doc'           => $mf ? ($mf->doc_last . '  ' . $mf->doc_first) : '',
+        'mas_first_doc'           => $mf ? ($mf->doc_last . ' ' . $mf->doc_first) : '',
         'mas_first_consent_date'  => $this->formatJapaneseDate($mf->first_consenting_date ?? null),
-        'mas_doc'                 => $m ? ($m->doc_last . '  ' . $m->doc_first) : '',
+        'mas_doc'                 => $m ? ($m->doc_last . ' ' . $m->doc_first) : '',
         'mas_consent_date'        => $this->formatJapaneseDate($m->consenting_date ?? null),
       ];
     }
