@@ -1915,6 +1915,22 @@ function submitTreatmentExpiryList() {
 }
 
 /**
+ * 利用者情報一覧（同意医師情報）PDF出力
+ */
+function submitClinicUserConsentInfoList() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  const filename = `利用者情報一覧（同意医師情報）_${year}-${month}-${day}_${hours}-${minutes}-${seconds}.pdf`;
+  window.open(`/prints/clinic-user-consent-info-list/${encodeURIComponent(filename)}`, '_blank');
+}
+
+/**
  * 利用者情報一覧（基本情報）PDF出力
  */
 function submitUserInfoBasicList() {
