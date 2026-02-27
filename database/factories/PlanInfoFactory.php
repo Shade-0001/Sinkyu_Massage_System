@@ -9,12 +9,17 @@ class PlanInfoFactory extends Factory
 {
   private const ADL_LEVELS = ['全介助', '一部介助', '監視', '自立'];
 
+  private const STAFF_NAMES = [
+    '田中 太郎', '鈴木 花子', '佐藤 健一', '山田 美咲', '伊藤 誠',
+    '渡辺 直子', '中村 義雄', '小林 由美', '加藤 浩', '吉田 恵子',
+  ];
+
   public function definition(): array
   {
     return [
       'clinic_user_id'          => null,
       'evaluation_date'         => $this->faker->dateTimeBetween('-1 year', 'now')->format('Y-m-d'),
-      'evaluator'               => $this->faker->name(),
+      'evaluator'               => $this->faker->randomElement(self::STAFF_NAMES),
       'respiration'             => $this->faker->randomElement(['自立', '要観察', null]),
       'meal_assistance_level'   => $this->faker->randomElement(self::ADL_LEVELS),
       'meal_assistance_note'    => null,

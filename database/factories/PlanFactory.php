@@ -21,12 +21,17 @@ class PlanFactory extends Factory
     'urination'       => [2, 1, 9],
   ];
 
+  private const STAFF_NAMES = [
+    '田中 太郎', '鈴木 花子', '佐藤 健一', '山田 美咲', '伊藤 誠',
+    '渡辺 直子', '中村 義雄', '小林 由美', '加藤 浩', '吉田 恵子',
+  ];
+
   public function definition(): array
   {
     return [
       'clinic_user_id'                          => null,
       'assessment_date'                         => $this->faker->dateTimeBetween('-1 year', 'now')->format('Y-m-d'),
-      'assessor'                                => $this->faker->name(),
+      'assessor'                                => $this->faker->randomElement(self::STAFF_NAMES),
       'audience'                                => $this->faker->randomElement(['本人', '本人・家族', '家族']),
       'eating_assistance_level_id'              => $this->faker->randomElement(self::ADL_OPTIONS['eating']),
       'eating_assistance_note'                  => null,

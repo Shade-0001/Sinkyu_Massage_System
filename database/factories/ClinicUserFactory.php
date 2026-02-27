@@ -31,6 +31,15 @@ class ClinicUserFactory extends Factory
         $firstKanas = ['タロウ', 'ハナコ', 'ケンイチ', 'ミサキ', 'マコト', 'ナオコ', 'ヨシオ', 'ユミ', 'ヒロシ', 'ケイコ',
                        'タカシ', 'ノリコ', 'イサム', 'トモコ', 'タケシ', 'ジュンコ', 'ヒロシ', 'マユミ', 'カズヒコ', 'メグミ'];
 
+        $cities = [
+            '札幌市北区', '仙台市青葉区', 'さいたま市大宮区', '千葉市中央区',
+            '新宿区', '渋谷区', '世田谷区', '江東区', '品川区', '練馬区',
+            '横浜市西区', '横浜市港北区', '川崎市中原区', '相模原市中央区',
+            '名古屋市中区', '名古屋市千種区', '京都市左京区', '京都市伏見区',
+            '大阪市中央区', '大阪市北区', '堺市堺区', '神戸市兵庫区',
+            '広島市中区', '福岡市博多区', '福岡市中央区', '熊本市中央区',
+        ];
+
         $idx       = array_rand($lastNames);
         $firstIdx  = array_rand($firstNames);
         $birthYear = $this->faker->numberBetween(1930, 1980);
@@ -47,7 +56,7 @@ class ClinicUserFactory extends Factory
             'gender_id'                    => $this->faker->numberBetween(1, 2),
             'postal_code'                  => $this->faker->numerify('###-####'),
             'address_1'                    => $this->faker->randomElement(['東京都', '大阪府', '神奈川県', '愛知県', '福岡県', '北海道', '宮城県', '広島県']),
-            'address_2'                    => $this->faker->city() . $this->faker->numerify('#丁目#番'),
+            'address_2'                    => $this->faker->randomElement($cities) . $this->faker->numerify('#丁目#番'),
             'address_3'                    => null,
             'phone'                        => $this->faker->numerify('0#-####-####'),
             'cell_phone'                   => $this->faker->numerify('0##-####-####'),
