@@ -81,9 +81,9 @@ class UserInfoBasicListPdfService extends BasePdfService
     // ページ分割：1ページあたり MAX_COLS_PER_PAGE 人ずつ
     $chunks     = array_chunk($users, self::MAX_COLS_PER_PAGE);
 
-    $totalPages  = count($chunks);
+    $totalLists  = count($chunks);
     $isFirstPage = true;
-    foreach ($chunks as $pageIndex => $chunk) {
+    foreach ($chunks as $listIndex => $chunk) {
       $pdf->AddPage();
       $startY = $isFirstPage ? self::START_Y_PAGE1 : self::START_Y_OTHER;
 
@@ -92,7 +92,7 @@ class UserInfoBasicListPdfService extends BasePdfService
       }
 
       $this->drawTable($pdf, $rowDefs, $rowHeights, $chunk, $startY);
-      $this->drawPageNumber($pdf, $pageIndex + 1, $totalPages, $rowHeights, $startY);
+      $this->drawListNumber($pdf, $listIndex + 1, $totalLists, $rowHeights, $startY);
       $isFirstPage = false;
     }
 
@@ -352,10 +352,10 @@ class UserInfoBasicListPdfService extends BasePdfService
   }
 
   /**
-   * ページ番号を描画（テーブル枠外下・右端）
-   * 表示形式：［ A/B ］
+   * リスト番号を描画（テーブル枠外下・右端）
+   * 表示形式：［ A/B ］（A=現在のリスト番号、B=リスト総数）
    */
-  protected function drawPageNumber(Fpdi $pdf, int $current, int $total, array $rowHeights, float $startY): void
+  protected function drawListNumber(Fpdi $pdf, int $current, int $total, array $rowHeights, float $startY): void
   {
     $tableBottom = $startY + array_sum($rowHeights);
     $text        = '［ ' . $current . '/' . $total . ' ］';
