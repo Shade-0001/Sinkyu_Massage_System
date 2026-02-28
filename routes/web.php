@@ -280,6 +280,7 @@ Route::middleware('auth')->group(function () {
   Route::get('/prints/clinic-user-consent-info-list/{filename}', [PrintsController::class, 'clinicUserConsentInfoList'])->name('prints.clinic-user-consent-info-list');
   Route::get('/prints/doctor-info-list/{filename}', [PrintsController::class, 'doctorInfoList'])->name('prints.doctor-info-list');
   Route::get('/prints/care-manager-info-list/{filename}', [PrintsController::class, 'careManagerInfoList'])->name('prints.care-manager-info-list');
+  Route::get('/prints/therapist-info-list/{filename}', [PrintsController::class, 'therapistInfoList'])->name('prints.therapist-info-list');
   Route::get('/prints/user-info-basic-list/{filename}', [PrintsController::class, 'userInfoBasicList'])->name('prints.user-info-basic-list');
   Route::get('/prints/user-info-insurance-list/{filename}', [PrintsController::class, 'userInfoInsuranceList'])->name('prints.user-info-insurance-list');
   Route::get('/prints/first-experience-material', [PrintsController::class, 'firstExperienceMaterial'])->name('prints.first-experience-material');
