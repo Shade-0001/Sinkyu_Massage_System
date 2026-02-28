@@ -158,7 +158,7 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
 
       $result[] = [
         'id'                       => $uid,
-        'name'                     => $u->last_name . ' ' . $u->first_name,
+        'name'                     => $u->last_name . '  ' . $u->first_name,
         'insurance_type'           => $insType,
         'insured_number'           => $ins ? ($ins->insured_number ?? '') : '',
         'license_acquisition_date' => $this->formatJapaneseDate($ins->license_acquisition_date ?? null),

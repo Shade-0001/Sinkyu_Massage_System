@@ -150,7 +150,7 @@ class DoctorInfoListPdfService extends BasePdfService
     if ($first === '') {
       return $last;
     }
-    return $last . ' ' . $first;
+    return $last . '  ' . $first;
   }
 
   /**

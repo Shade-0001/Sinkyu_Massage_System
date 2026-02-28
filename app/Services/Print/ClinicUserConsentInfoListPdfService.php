@@ -218,7 +218,7 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
 
       $result[] = [
         'id'   => $uid,
-        'name' => $u->last_name . ' ' . $u->first_name,
+        'name' => $u->last_name . '  ' . $u->first_name,
         // はり・きゅう
         'acu_consenting_date'        => $this->formatJapaneseDate($a->consenting_date ?? null),
         'acu_first_care_date'        => $this->formatJapaneseDate($a->first_care_date ?? null),

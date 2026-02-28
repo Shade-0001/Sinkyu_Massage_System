@@ -206,8 +206,8 @@ class UserInfoBasicListPdfService extends BasePdfService
 
       $result[] = [
         'id'           => $uid,
-        'name'         => $u->last_name . ' ' . $u->first_name,
-        'kana'         => $u->last_kana . ' ' . $u->first_kana,
+        'name'         => $u->last_name . '  ' . $u->first_name,
+        'kana'         => $u->last_kana . '  ' . $u->first_kana,
         'birthday'     => $this->formatJapaneseDate($u->birthday),
         'age'          => ($u->age !== null ? (string)$u->age : ''),
         'gender'       => $u->gender_label ?? '',
