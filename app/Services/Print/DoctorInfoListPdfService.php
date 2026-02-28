@@ -144,7 +144,13 @@ class DoctorInfoListPdfService extends BasePdfService
     if ($last === '' && $first === '') {
       return '';
     }
-    return trim($last . "\u{3000}" . $first);
+    if ($last === '') {
+      return $first;
+    }
+    if ($first === '') {
+      return $last;
+    }
+    return $last . "\u{3000}" . $first;
   }
 
   /**
