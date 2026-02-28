@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
  * ケアマネ情報一覧PDF生成サービス
  *
  * レイアウト概要：
- * - A4縦 (210mm × 297mm)、左右マージン 8mm → 利用可能幅 194mm
+ * - A4横 (297mm × 210mm)、左右マージン 8mm → 利用可能幅 281mm
  * - ヘッダーカラム幅：COL1=14mm, COL2=30mm, COL3=24mm, COL4=22mm, COL5=44mm, COL6=30mm, COL7=30mm 合計=194mm
  * - 1ページあたりのデータ行数：可変高のため行ごとに判定
  */
@@ -35,7 +35,7 @@ class CareManagerInfoListPdfService extends BasePdfService
   // ページ座標
   const START_Y_PAGE1  = 30;  // 1ページ目の開始Y（タイトル分）
   const START_Y_OTHER  = 12;  // 2ページ目以降の開始Y
-  const BOTTOM_MARGIN  = 285; // 下マージン mm（これを超えたら改ページ）
+  const BOTTOM_MARGIN  = 198; // 下マージン mm（これを超えたら改ページ）
 
   protected function getDefaultCoordinatesPath(): string
   {
@@ -57,7 +57,7 @@ class CareManagerInfoListPdfService extends BasePdfService
    */
   public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate = '', string $remarks = ''): string
   {
-    $pdf = new Fpdi('P', 'mm', 'A4', true, 'UTF-8', false);
+    $pdf = new Fpdi('L', 'mm', 'A4', true, 'UTF-8', false);
     $pdf->SetAutoPageBreak(false);
     $pdf->SetMargins(0, 0, 0);
     $pdf->setPrintHeader(false);

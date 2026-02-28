@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
  * 施術者情報一覧PDF生成サービス
  *
  * レイアウト概要：
- * - A4縦 (210mm × 297mm)、左右マージン 8mm → 利用可能幅 194mm
+ * - A4横 (297mm × 210mm)、左右マージン 8mm → 利用可能幅 281mm
  * - 2段ヘッダー構造：COL1~6はROW1+ROW2結合、COL7~12はROW1にグループ名・ROW2に個別ラベル
  * - カラム幅合計：194mm
  */
@@ -77,7 +77,7 @@ class TherapistInfoListPdfService extends BasePdfService
   // ページ座標
   const START_Y_PAGE1  = 30;  // 1ページ目の開始Y（タイトル分）
   const START_Y_OTHER  = 12;  // 2ページ目以降の開始Y
-  const BOTTOM_MARGIN  = 285; // 下マージン mm
+  const BOTTOM_MARGIN  = 198; // 下マージン mm
 
   protected function getDefaultCoordinatesPath(): string
   {
@@ -94,7 +94,7 @@ class TherapistInfoListPdfService extends BasePdfService
    */
   public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate = '', string $remarks = ''): string
   {
-    $pdf = new Fpdi('P', 'mm', 'A4', true, 'UTF-8', false);
+    $pdf = new Fpdi('L', 'mm', 'A4', true, 'UTF-8', false);
     $pdf->SetAutoPageBreak(false);
     $pdf->SetMargins(0, 0, 0);
     $pdf->setPrintHeader(false);
