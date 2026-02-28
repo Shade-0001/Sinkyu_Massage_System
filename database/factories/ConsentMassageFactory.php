@@ -14,10 +14,14 @@ class ConsentMassageFactory extends Factory
     $endDate            = (clone $consentingDate)->modify('+6 months');
     $benefitStart       = $consentingDate;
     $benefitEnd         = (clone $consentingDate)->modify('+6 months');
-    $isSymptom2 = $this->faker->boolean(40);
+    // 症状2：「関節拘縮」か「その他」どちらか1つ、またはどちらも選択されない
+    // is_symptom_2 = 関節拘縮フラグ、symtom_2_addendum = 「その他」テキスト（両立しない）
+    $symptom2Pattern = $this->faker->randomElement(['joint_disorder', 'other', 'none', 'none']); // none多め
+    $isSymptom2      = ($symptom2Pattern === 'joint_disorder');
+    $symptom2AddendumOptions = ['上肢の拘縮', '下肢の拘縮', '体幹の拘縮', '頸部の拘縮'];
+
     $isSymptom3 = $this->faker->boolean(20);
 
-    $symptom2Addendums = ['上肢の拘縮', '下肢の拘縮', '体幹の拘縮', '頸部の拘縮'];
     $symptom3Addendums = ['右片麻痺', '左片麻痺', '対麻痺', '四肢麻痺'];
     $reasonAddendums   = ['2階以上のため', 'エレベーターなし', '歩行困難なため', '車椅子使用のため'];
     $notesOptions      = ['前回より状態改善', '訪問時家族立会い', '状態変化なし確認', '次回再評価予定'];
@@ -37,11 +41,13 @@ class ConsentMassageFactory extends Factory
       'outcome_id'                 => null,
       'is_symptom_1'               => $this->faker->boolean(80),
       'is_symptom_2'               => $isSymptom2,
-      'symtom_2_addendum'          => ($isSymptom2 && $this->faker->boolean(50))
-        ? $this->faker->randomElement($symptom2Addendums)
+      // 「その他」選択時のみ設定。「関節拘縮」選択時はnull（両立しない）
+      'symtom_2_addendum'          => ($symptom2Pattern === 'other')
+        ? $this->faker->randomElement($symptom2AddendumOptions)
         : null,
       'is_symptom_3'               => $isSymptom3,
-      'symtom_3_addendum'          => ($isSymptom3 && $this->faker->boolean(50))
+      // 症状3が選択された場合は必ずaddendumを設定
+      'symtom_3_addendum'          => $isSymptom3
         ? $this->faker->randomElement($symptom3Addendums)
         : null,
       'is_therapy_type_1'          => $this->faker->boolean(70),
