@@ -17,9 +17,13 @@ use Illuminate\Support\Facades\DB;
  * - 1ページあたりのデータカラム数：floor((194 - 30) / 32) = 5
  * - 1ページあたりのリスト数：2（上段・下段）
  * - 行構成：
- *   - ROW1〜2  ：利用者ID・利用者氏名（COL1+COL2 結合）
- *   - ROW3〜9  ：はり・きゅう（COL1縦書き、COL2行ラベル）
- *   - ROW10〜16：あんま・マッサージ（COL1縦書き、COL2行ラベル）
+ *   - ROW1〜2   ：利用者ID・利用者氏名（COL1+COL2 結合）
+ *   - ROW3〜13  ：はり・きゅう（COL1縦書き、COL2行ラベル）
+ *   - ROW14〜49 ：あんま・マッサージ（COL1縦書き、COL2行ラベル）
+ *
+ * 関節拘縮 部位とbodypartsテーブルのマッピング：
+ *   右肩=shoulder_r, 右肘=elbow_r, 右手=wrist_r,
+ *   右関節周囲=coxa_r, 右腰=knee_r, 右膝=ankle_r（左版も同様）
  */
 class ClinicUserConsentInfoListPdfService extends BasePdfService
 {
@@ -32,17 +36,17 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
   const DATA_COL_W        = 32;   // データカラム幅
   const MAX_COLS_PER_PAGE = 5;    // 1ページのデータカラム数
   const CELL_PADDING_X    = 2.4;  // セル左右パディング合計 mm
-  const BASE_ROW_H        = 6;    // 行の基本高さ mm
+  const BASE_ROW_H        = 5;    // 行の基本高さ mm
   const LINE_PITCH        = 3.2;  // 折り返し行のピッチ mm
   const FONT_SIZE         = 7;    // データフォント
   const HEADER_FONT       = 7;    // ヘッダーフォント
 
-  const LISTS_PER_PAGE    = 2;    // 1ページあたりのリスト数
+  const LISTS_PER_PAGE    = 1;    // 1ページあたりのリスト数（行数が多いため1ページ1リスト）
 
   // ページ座標
   const START_Y_PAGE1  = 30;   // 1ページ目の開始Y（タイトル分）
   const START_Y_OTHER  = 12;   // 2ページ目以降の開始Y
-  const LIST_GAP       = 26;   // 上段・下段リスト間の縦間隔 mm（上側12mm + 下側14mm）
+  const LIST_GAP       = 0;    // 使用しない（LISTS_PER_PAGE=1のため）
 
   protected function getDefaultCoordinatesPath(): string
   {
@@ -123,6 +127,9 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
     // はり・きゅう同意（最新）
     $acu = DB::table('consents_acupuncture as ca')
       ->leftJoin('doctors as d', 'd.id', '=', 'ca.consenting_doctor_id')
+      ->leftJoin('illnesses_acupuncture as ia', 'ia.id', '=', 'ca.illness_name_acupuncture_id')
+      ->leftJoin('bill_categories as bc', 'bc.id', '=', 'ca.bill_category_id')
+      ->leftJoin('outcomes as oc', 'oc.id', '=', 'ca.outcome_id')
       ->whereRaw('ca.id = (SELECT MAX(id) FROM consents_acupuncture WHERE clinic_user_id = ca.clinic_user_id)')
       ->select(
         'ca.clinic_user_id',
@@ -133,6 +140,11 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
         'ca.benefit_period_start_date',
         'ca.benefit_period_end_date',
         'ca.reconsenting_expiry',
+        'ca.is_housecall_required',
+        'ca.therapy_period',
+        'ia.illness_name_acupuncture',
+        'bc.bill_category',
+        'oc.outcome',
         'd.last_name as doc_last',
         'd.first_name as doc_first'
       )
@@ -142,9 +154,13 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
     // あんま・マッサージ同意（最新）
     $mas = DB::table('consents_massage as cm')
       ->leftJoin('doctors as d', 'd.id', '=', 'cm.consenting_doctor_id')
+      ->leftJoin('illnesses_massage as im', 'im.id', '=', 'cm.injury_and_illness_name_id')
+      ->leftJoin('bill_categories as bc', 'bc.id', '=', 'cm.bill_category_id')
+      ->leftJoin('outcomes as oc', 'oc.id', '=', 'cm.outcome_id')
       ->whereRaw('cm.id = (SELECT MAX(id) FROM consents_massage WHERE clinic_user_id = cm.clinic_user_id)')
       ->select(
         'cm.clinic_user_id',
+        'cm.id as consent_id',
         'cm.consenting_date',
         'cm.first_care_date',
         'cm.consenting_start_date',
@@ -152,17 +168,29 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
         'cm.benefit_period_start_date',
         'cm.benefit_period_end_date',
         'cm.reconsenting_expiry',
+        'cm.is_housecall_required',
+        'cm.therapy_period',
+        'im.illness_name',
+        'bc.bill_category',
+        'oc.outcome',
         'd.last_name as doc_last',
         'd.first_name as doc_first'
       )
       ->get()
       ->keyBy('clinic_user_id');
 
+    // あんま・マッサージ 部位情報（最新同意IDごとに取得）
+    $masIds = $mas->pluck('consent_id')->filter()->values()->all();
+    $bodypartsMap = $this->fetchBodypartsMap($masIds);
+
     $result = [];
     foreach ($users as $u) {
       $uid = $u->id;
       $a   = $acu[$uid] ?? null;
       $m   = $mas[$uid] ?? null;
+
+      $mid  = $m->consent_id ?? null;
+      $bp   = $mid ? ($bodypartsMap[$mid] ?? []) : [];
 
       $result[] = [
         'id'   => $uid,
@@ -175,6 +203,11 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
         'acu_benefit_start'          => $this->formatJapaneseDate($a->benefit_period_start_date ?? null),
         'acu_benefit_end'            => $this->formatJapaneseDate($a->benefit_period_end_date ?? null),
         'acu_reconsenting_expiry'    => $this->formatJapaneseDate($a->reconsenting_expiry ?? null),
+        'acu_illness_name'           => $a->illness_name_acupuncture ?? '',
+        'acu_housecall'              => isset($a->is_housecall_required) ? ($a->is_housecall_required ? '○' : '✕') : '',
+        'acu_bill_category'          => $a->bill_category ?? '',
+        'acu_outcome'                => $a->outcome ?? '',
+        'acu_therapy_period'         => $a->therapy_period ?? '',
         // あんま・マッサージ
         'mas_consenting_date'        => $this->formatJapaneseDate($m->consenting_date ?? null),
         'mas_first_care_date'        => $this->formatJapaneseDate($m->first_care_date ?? null),
@@ -183,10 +216,107 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
         'mas_benefit_start'          => $this->formatJapaneseDate($m->benefit_period_start_date ?? null),
         'mas_benefit_end'            => $this->formatJapaneseDate($m->benefit_period_end_date ?? null),
         'mas_reconsenting_expiry'    => $this->formatJapaneseDate($m->reconsenting_expiry ?? null),
+        'mas_illness_name'           => $m->illness_name ?? '',
+        'mas_housecall'              => isset($m->is_housecall_required) ? ($m->is_housecall_required ? '○' : '✕') : '',
+        // 筋麻痺･萎縮（symtom_1）
+        'mas_sym1_upper_r'           => in_array('upper_limb_r', $bp['symtom_1'] ?? []) ? '○' : '',
+        'mas_sym1_lower_r'           => in_array('lower_limb_r', $bp['symtom_1'] ?? []) ? '○' : '',
+        'mas_sym1_upper_l'           => in_array('upper_limb_l', $bp['symtom_1'] ?? []) ? '○' : '',
+        'mas_sym1_lower_l'           => in_array('lower_limb_l', $bp['symtom_1'] ?? []) ? '○' : '',
+        // 関節拘縮（symtom_2）右版
+        'mas_sym2_shoulder_r'        => in_array('shoulder_r', $bp['symtom_2'] ?? []) ? '○' : '',
+        'mas_sym2_elbow_r'           => in_array('elbow_r',    $bp['symtom_2'] ?? []) ? '○' : '',
+        'mas_sym2_wrist_r'           => in_array('wrist_r',    $bp['symtom_2'] ?? []) ? '○' : '',
+        'mas_sym2_coxa_r'            => in_array('coxa_r',     $bp['symtom_2'] ?? []) ? '○' : '',
+        'mas_sym2_knee_r'            => in_array('knee_r',     $bp['symtom_2'] ?? []) ? '○' : '',
+        'mas_sym2_ankle_r'           => in_array('ankle_r',    $bp['symtom_2'] ?? []) ? '○' : '',
+        // 関節拘縮（symtom_2）左版
+        'mas_sym2_shoulder_l'        => in_array('shoulder_l', $bp['symtom_2'] ?? []) ? '○' : '',
+        'mas_sym2_elbow_l'           => in_array('elbow_l',    $bp['symtom_2'] ?? []) ? '○' : '',
+        'mas_sym2_wrist_l'           => in_array('wrist_l',    $bp['symtom_2'] ?? []) ? '○' : '',
+        'mas_sym2_coxa_l'            => in_array('coxa_l',     $bp['symtom_2'] ?? []) ? '○' : '',
+        'mas_sym2_knee_l'            => in_array('knee_l',     $bp['symtom_2'] ?? []) ? '○' : '',
+        'mas_sym2_ankle_l'           => in_array('ankle_l',    $bp['symtom_2'] ?? []) ? '○' : '',
+        // マッサージ（therapy_type_1）
+        'mas_thera1_upper_r'         => in_array('upper_limb_r', $bp['therapy_type_1'] ?? []) ? '○' : '',
+        'mas_thera1_lower_r'         => in_array('lower_limb_r', $bp['therapy_type_1'] ?? []) ? '○' : '',
+        'mas_thera1_upper_l'         => in_array('upper_limb_l', $bp['therapy_type_1'] ?? []) ? '○' : '',
+        'mas_thera1_lower_l'         => in_array('lower_limb_l', $bp['therapy_type_1'] ?? []) ? '○' : '',
+        // 変形徒手矯正術（therapy_type_2）
+        'mas_thera2_upper_r'         => in_array('upper_limb_r', $bp['therapy_type_2'] ?? []) ? '○' : '',
+        'mas_thera2_lower_r'         => in_array('lower_limb_r', $bp['therapy_type_2'] ?? []) ? '○' : '',
+        'mas_thera2_upper_l'         => in_array('upper_limb_l', $bp['therapy_type_2'] ?? []) ? '○' : '',
+        'mas_thera2_lower_l'         => in_array('lower_limb_l', $bp['therapy_type_2'] ?? []) ? '○' : '',
+        // 請求区分・転帰・要加療期間
+        'mas_bill_category'          => $m->bill_category ?? '',
+        'mas_outcome'                => $m->outcome ?? '',
+        'mas_therapy_period'         => $m->therapy_period ?? '',
       ];
     }
 
     return $result;
+  }
+
+  /**
+   * 複数のあんま・マッサージ同意IDに対応する部位情報を一括取得
+   * @param  int[]  $consentIds
+   * @return array  [consent_id => ['symtom_1' => [...], 'symtom_2' => [...], ...]]
+   */
+  protected function fetchBodypartsMap(array $consentIds): array
+  {
+    if (empty($consentIds)) {
+      return [];
+    }
+
+    $records = DB::table('bodyparts-consents_massage')
+      ->whereIn('consents_massage_id', $consentIds)
+      ->select(
+        'consents_massage_id',
+        'symtom_1_bodyparts_id',
+        'symtom_2_bodyparts_id',
+        'therapy_type_1_bodyparts_id',
+        'therapy_type_2_bodyparts_id'
+      )
+      ->get();
+
+    // 使用されている全bodypart IDを収集し一括取得
+    $allIds = [];
+    foreach ($records as $r) {
+      foreach (['symtom_1_bodyparts_id', 'symtom_2_bodyparts_id', 'therapy_type_1_bodyparts_id', 'therapy_type_2_bodyparts_id'] as $col) {
+        if ($r->$col) {
+          $allIds[] = $r->$col;
+        }
+      }
+    }
+    $allIds = array_unique($allIds);
+
+    $bodypartNames = [];
+    if (!empty($allIds)) {
+      foreach (DB::table('bodyparts')->whereIn('id', $allIds)->get() as $bp) {
+        $bodypartNames[$bp->id] = $bp->bodypart;
+      }
+    }
+
+    $map = [];
+    foreach ($records as $r) {
+      $cid = $r->consents_massage_id;
+      if (!isset($map[$cid])) {
+        $map[$cid] = ['symtom_1' => [], 'symtom_2' => [], 'therapy_type_1' => [], 'therapy_type_2' => []];
+      }
+      $cols = [
+        'symtom_1_bodyparts_id'      => 'symtom_1',
+        'symtom_2_bodyparts_id'      => 'symtom_2',
+        'therapy_type_1_bodyparts_id' => 'therapy_type_1',
+        'therapy_type_2_bodyparts_id' => 'therapy_type_2',
+      ];
+      foreach ($cols as $col => $key) {
+        if ($r->$col && isset($bodypartNames[$r->$col])) {
+          $map[$cid][$key][] = $bodypartNames[$r->$col];
+        }
+      }
+    }
+
+    return $map;
   }
 
   /**
@@ -200,22 +330,56 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
       // ROW1〜2：基本情報（COL1+COL2 結合）
       ['', '利用者ID',   'id',   'basic'],
       ['', '利用者氏名', 'name', 'basic'],
-      // ROW3〜9：はり・きゅう（COL1縦書き）
-      ['はり・きゅう', '同意年月日',       'acu_consenting_date',       'acu'],
-      ['はり・きゅう', '初療年月日',       'acu_first_care_date',       'acu'],
-      ['はり・きゅう', '同意開始年月日',   'acu_consenting_start_date', 'acu'],
-      ['はり・きゅう', '同意終了年月日',   'acu_consenting_end_date',   'acu'],
-      ['はり・きゅう', '支給期間開始日', 'acu_benefit_start',         'acu'],
-      ['はり・きゅう', '支給期間終了日', 'acu_benefit_end',           'acu'],
-      ['はり・きゅう', '再同意有効期限',   'acu_reconsenting_expiry',   'acu'],
-      // ROW10〜16：あんま・マッサージ（COL1縦書き）
-      ['あんま・マッサージ', '同意年月日',       'mas_consenting_date',       'mas'],
-      ['あんま・マッサージ', '初療年月日',       'mas_first_care_date',       'mas'],
-      ['あんま・マッサージ', '同意開始年月日',   'mas_consenting_start_date', 'mas'],
-      ['あんま・マッサージ', '同意終了年月日',   'mas_consenting_end_date',   'mas'],
-      ['あんま・マッサージ', '支給期間開始日', 'mas_benefit_start',         'mas'],
-      ['あんま・マッサージ', '支給期間終了日', 'mas_benefit_end',           'mas'],
-      ['あんま・マッサージ', '再同意有効期限',   'mas_reconsenting_expiry',   'mas'],
+      // ROW3〜13：はり・きゅう（COL1縦書き）
+      ['はり・きゅう', '同意年月日',             'acu_consenting_date',       'acu'],
+      ['はり・きゅう', '初療年月日',             'acu_first_care_date',       'acu'],
+      ['はり・きゅう', '同意開始年月日',         'acu_consenting_start_date', 'acu'],
+      ['はり・きゅう', '同意終了年月日',         'acu_consenting_end_date',   'acu'],
+      ['はり・きゅう', '支給期間開始日',         'acu_benefit_start',         'acu'],
+      ['はり・きゅう', '支給期間終了日',         'acu_benefit_end',           'acu'],
+      ['はり・きゅう', '再同意有効期限',         'acu_reconsenting_expiry',   'acu'],
+      ['はり・きゅう', '傷病名',               'acu_illness_name',          'acu'],
+      ['はり・きゅう', '往療必要',             'acu_housecall',             'acu'],
+      ['はり・きゅう', '請求区分',             'acu_bill_category',         'acu'],
+      ['はり・きゅう', '転帰',               'acu_outcome',               'acu'],
+      ['はり・きゅう', '要加療期間',           'acu_therapy_period',        'acu'],
+      // ROW14〜49：あんま・マッサージ（COL1縦書き）
+      ['あんま・マッサージ', '同意年月日',             'mas_consenting_date',       'mas'],
+      ['あんま・マッサージ', '初療年月日',             'mas_first_care_date',       'mas'],
+      ['あんま・マッサージ', '同意開始年月日',         'mas_consenting_start_date', 'mas'],
+      ['あんま・マッサージ', '同意終了年月日',         'mas_consenting_end_date',   'mas'],
+      ['あんま・マッサージ', '支給期間開始日',         'mas_benefit_start',         'mas'],
+      ['あんま・マッサージ', '支給期間終了日',         'mas_benefit_end',           'mas'],
+      ['あんま・マッサージ', '再同意有効期限',         'mas_reconsenting_expiry',   'mas'],
+      ['あんま・マッサージ', '傷病名',               'mas_illness_name',          'mas'],
+      ['あんま・マッサージ', '往療必要',             'mas_housecall',             'mas'],
+      ['あんま・マッサージ', '筋麻痺･萎縮｜右上肢',   'mas_sym1_upper_r',          'mas'],
+      ['あんま・マッサージ', '筋麻痺･萎縮｜右下肢',   'mas_sym1_lower_r',          'mas'],
+      ['あんま・マッサージ', '筋麻痺･萎縮｜左上肢',   'mas_sym1_upper_l',          'mas'],
+      ['あんま・マッサージ', '筋麻痺･萎縮｜左下肢',   'mas_sym1_lower_l',          'mas'],
+      ['あんま・マッサージ', '関節拘縮｜右肩',       'mas_sym2_shoulder_r',       'mas'],
+      ['あんま・マッサージ', '関節拘縮｜右肘',       'mas_sym2_elbow_r',          'mas'],
+      ['あんま・マッサージ', '関節拘縮｜右手',       'mas_sym2_wrist_r',          'mas'],
+      ['あんま・マッサージ', '関節拘縮｜右関節周囲', 'mas_sym2_coxa_r',           'mas'],
+      ['あんま・マッサージ', '関節拘縮｜右腰',       'mas_sym2_knee_r',           'mas'],
+      ['あんま・マッサージ', '関節拘縮｜右膝',       'mas_sym2_ankle_r',          'mas'],
+      ['あんま・マッサージ', '関節拘縮｜左肩',       'mas_sym2_shoulder_l',       'mas'],
+      ['あんま・マッサージ', '関節拘縮｜左肘',       'mas_sym2_elbow_l',          'mas'],
+      ['あんま・マッサージ', '関節拘縮｜左手',       'mas_sym2_wrist_l',          'mas'],
+      ['あんま・マッサージ', '関節拘縮｜左関節周囲', 'mas_sym2_coxa_l',           'mas'],
+      ['あんま・マッサージ', '関節拘縮｜左腰',       'mas_sym2_knee_l',           'mas'],
+      ['あんま・マッサージ', '関節拘縮｜左膝',       'mas_sym2_ankle_l',          'mas'],
+      ['あんま・マッサージ', 'マッサージ｜右上肢',   'mas_thera1_upper_r',        'mas'],
+      ['あんま・マッサージ', 'マッサージ｜右下肢',   'mas_thera1_lower_r',        'mas'],
+      ['あんま・マッサージ', 'マッサージ｜左上肢',   'mas_thera1_upper_l',        'mas'],
+      ['あんま・マッサージ', 'マッサージ｜左下肢',   'mas_thera1_lower_l',        'mas'],
+      ['あんま・マッサージ', '変形徒手矯正術｜右上肢', 'mas_thera2_upper_r',      'mas'],
+      ['あんま・マッサージ', '変形徒手矯正術｜右下肢', 'mas_thera2_lower_r',      'mas'],
+      ['あんま・マッサージ', '変形徒手矯正術｜左上肢', 'mas_thera2_upper_l',      'mas'],
+      ['あんま・マッサージ', '変形徒手矯正術｜左下肢', 'mas_thera2_lower_l',      'mas'],
+      ['あんま・マッサージ', '請求区分',             'mas_bill_category',         'mas'],
+      ['あんま・マッサージ', '転帰',               'mas_outcome',               'mas'],
+      ['あんま・マッサージ', '要加療期間',           'mas_therapy_period',        'mas'],
     ];
   }
 
