@@ -327,7 +327,12 @@ class TherapistInfoListPdfService extends BasePdfService
     $pdf->SetFont('kozgopromedium', '', 15);
     $pdf->Text($x, 13, '施術者情報一覧表');
 
-    $dateStr = 'PDF出力日：' . date('Y年n月j日', strtotime($outputDate));
+    $ts      = strtotime($outputDate);
+    $year    = (int)date('Y', $ts);
+    $month   = (int)date('n', $ts);
+    $day     = (int)date('j', $ts);
+    $era     = $this->getJapaneseEra($year, $month, $day);
+    $dateStr = 'PDF出力日：' . $era['era'] . $era['year'] . '年' . $month . '月' . $day . '日';
     $pdf->SetFont('kozgopromedium', '', 10);
     $dateW   = $pdf->GetStringWidth($dateStr);
     $pdf->Text($x + self::AVAILABLE_W - $dateW, 13, $dateStr);

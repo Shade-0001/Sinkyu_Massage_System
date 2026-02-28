@@ -257,7 +257,12 @@ class DoctorInfoListPdfService extends BasePdfService
     $pdf->SetFont('kozgopromedium', '', 15);
     $pdf->Text($x, 13, '医師情報一覧表');
 
-    $dateStr = 'PDF出力日：' . date('Y年n月j日', strtotime($outputDate));
+    $ts      = strtotime($outputDate);
+    $year    = (int)date('Y', $ts);
+    $month   = (int)date('n', $ts);
+    $day     = (int)date('j', $ts);
+    $era     = $this->getJapaneseEra($year, $month, $day);
+    $dateStr = 'PDF出力日：' . $era['era'] . $era['year'] . '年' . $month . '月' . $day . '日';
     $pdf->SetFont('kozgopromedium', '', 10);
     $dateW   = $pdf->GetStringWidth($dateStr);
     $pdf->Text($x + self::AVAILABLE_W - $dateW, 13, $dateStr);
@@ -403,5 +408,23 @@ class DoctorInfoListPdfService extends BasePdfService
       $lines[] = $line;
     }
     return $lines;
+  }
+
+  /**
+   * 和暦情報を取得
+   */
+  protected function getJapaneseEra(int $year, int $month, int $day): array
+  {
+    $date = sprintf('%04d%02d%02d', $year, $month, $day);
+    if ($date >= '20190501') {
+      return ['era' => '令和', 'year' => $year - 2018];
+    } elseif ($date >= '19890108') {
+      return ['era' => '平成', 'year' => $year - 1988];
+    } elseif ($date >= '19261225') {
+      return ['era' => '昭和', 'year' => $year - 1925];
+    } elseif ($date >= '19120730') {
+      return ['era' => '大正', 'year' => $year - 1911];
+    }
+    return ['era' => '明治', 'year' => $year - 1867];
   }
 }
