@@ -135,7 +135,7 @@ class DoctorInfoListPdfService extends BasePdfService
   }
 
   /**
-   * 医師氏名フォーマット（姓と名を全角スペースで結合）
+   * 医師氏名フォーマット（姓と名を半角スペースで結合）
    */
   protected function formatDoctorName(?string $lastName, ?string $firstName): string
   {
@@ -150,7 +150,7 @@ class DoctorInfoListPdfService extends BasePdfService
     if ($first === '') {
       return $last;
     }
-    return $last . "\u{3000}" . $first;
+    return $last . ' ' . $first;
   }
 
   /**
