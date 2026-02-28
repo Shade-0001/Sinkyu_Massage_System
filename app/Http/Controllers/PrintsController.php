@@ -2078,4 +2078,40 @@ class PrintsController extends Controller
       ], 500);
     }
   }
+
+  /**
+   * 医師情報一覧PDF出力
+   */
+  public function doctorInfoList(Request $request, string $filename)
+  {
+    try {
+      $service    = new \App\Services\Print\DoctorInfoListPdfService();
+      $outputDate = now()->format('Y-m-d');
+
+      \Log::info('医師情報一覧PDF生成開始');
+
+      $pdfBinary = $service->generate([], '', $outputDate);
+
+      \Log::info('医師情報一覧PDF生成完了', ['size' => strlen($pdfBinary)]);
+
+      return response($pdfBinary, 200, [
+        'Content-Type'        => 'application/pdf',
+        'Content-Disposition' => 'inline; filename="' . $filename . '"',
+      ]);
+    } catch (\Exception $e) {
+      \Log::error('医師情報一覧PDF生成エラー', [
+        'message' => $e->getMessage(),
+        'file'    => $e->getFile(),
+        'line'    => $e->getLine(),
+        'trace'   => $e->getTraceAsString(),
+      ]);
+
+      return response()->json([
+        'error'   => 'PDF生成に失敗しました',
+        'message' => $e->getMessage(),
+        'file'    => $e->getFile(),
+        'line'    => $e->getLine(),
+      ], 500);
+    }
+  }
 }
