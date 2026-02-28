@@ -11,13 +11,13 @@ use Illuminate\Support\Facades\DB;
  * レイアウト概要：
  * - A4横 (297mm × 210mm)、左右マージン 8mm → 利用可能幅 281mm
  * - 2段ヘッダー構造：COL1~6はROW1+ROW2結合、COL7~12はROW1にグループ名・ROW2に個別ラベル
- * - カラム幅合計：194mm
+ * - カラム幅：ID=12, 氏名=36, 郵便番号=20, 住所=63, 電話=26, 携帯=26, はり(14+18), きゅう(14+18), あんまマ(18+16) 合計=281mm
  */
 class TherapistInfoListPdfService extends BasePdfService
 {
   // レイアウト定数
   const MARGIN_X         = 8;    // 左右マージン mm
-  const AVAILABLE_W      = 194;  // 利用可能幅 mm
+  const AVAILABLE_W      = 281;  // 利用可能幅 mm（A4横: 297-8×2）
   const CELL_PADDING_X   = 2.4;  // セル左右パディング合計 mm
   const BASE_ROW_H       = 6;    // 行の基本高さ mm
   const LINE_PITCH       = 3.2;  // 折り返し行のピッチ mm
@@ -27,9 +27,9 @@ class TherapistInfoListPdfService extends BasePdfService
   const HEADER_H2        = 8;    // 下段ヘッダー行高 mm (ROW2)
   const HEADER_H         = 13;   // ヘッダー合計高さ mm (HEADER_H1 + HEADER_H2)
 
-  // カラム幅（COL1~12）合計194mm
-  // COL1~6合計:118mm, COL7~12合計:76mm
-  const COL_WIDTHS = [10, 22, 20, 26, 20, 20, 12, 13, 12, 13, 12, 14];
+  // カラム幅（COL1~12）合計281mm
+  // COL1~6合計:183mm, COL7~12合計:98mm
+  const COL_WIDTHS = [12, 36, 20, 63, 26, 26, 14, 18, 14, 18, 18, 16];
 
   // データキー（COL1~12に対応）
   const DATA_KEYS = [

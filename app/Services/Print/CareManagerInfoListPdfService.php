@@ -10,14 +10,14 @@ use Illuminate\Support\Facades\DB;
  *
  * レイアウト概要：
  * - A4横 (297mm × 210mm)、左右マージン 8mm → 利用可能幅 281mm
- * - ヘッダーカラム幅：COL1=14mm, COL2=30mm, COL3=24mm, COL4=22mm, COL5=44mm, COL6=30mm, COL7=30mm 合計=194mm
+ * - カラム幅：ID=16, ケアマネ氏名=45, 事業所名=55, 郵便番号=22, 住所=80, 電話番号=32, 携帯番号=31 合計=281mm
  * - 1ページあたりのデータ行数：可変高のため行ごとに判定
  */
 class CareManagerInfoListPdfService extends BasePdfService
 {
   // レイアウト定数
   const MARGIN_X         = 8;    // 左右マージン mm
-  const AVAILABLE_W      = 194;  // 利用可能幅 mm
+  const AVAILABLE_W      = 281;  // 利用可能幅 mm（A4横: 297-8×2）
   const CELL_PADDING_X   = 2.4;  // セル左右パディング合計 mm
   const BASE_ROW_H       = 6;    // 行の基本高さ mm
   const LINE_PITCH       = 3.2;  // 折り返し行のピッチ mm
@@ -25,8 +25,8 @@ class CareManagerInfoListPdfService extends BasePdfService
   const HEADER_FONT      = 7;    // ヘッダーフォント pt
   const HEADER_H         = 8;    // ヘッダー行高 mm
 
-  // カラム幅
-  const COL_WIDTHS = [14, 30, 24, 22, 44, 30, 30];
+  // カラム幅（合計281mm）
+  const COL_WIDTHS = [16, 45, 55, 22, 80, 32, 31];
   // カラムラベル
   const COL_LABELS = ['ID', 'ケアマネ氏名', '事業所名', '郵便番号', '住所', '電話番号', '携帯番号'];
   // データキー
