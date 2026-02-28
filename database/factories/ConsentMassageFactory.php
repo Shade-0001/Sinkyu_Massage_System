@@ -55,7 +55,9 @@ class ConsentMassageFactory extends Factory
       'notes'                      => $this->faker->boolean(30)
         ? $this->faker->randomElement($notesOptions)
         : null,
-      'therapy_period'             => '3ヶ月',
+      'therapy_period'             => $this->faker->boolean(90)
+        ? $this->faker->randomElement(['1ヶ月', '2ヶ月', '3ヶ月', '3ヶ月', '3ヶ月', '4ヶ月', '4ヶ月', '5ヶ月', '6ヶ月'])
+        : $this->faker->randomElement(['1週間', '2週間', '3週間']),
       'first_therapy_content_id'   => null,
       'condition_id'               => null,
       'work_scope_type_id'         => null,
