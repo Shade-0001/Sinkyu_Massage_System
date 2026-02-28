@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
  * レイアウト概要：
  * - A4横 (297mm × 210mm)、左右マージン 8mm → 利用可能幅 281mm
  * - 2段ヘッダー構造：COL1~6はROW1+ROW2結合、COL7~12はROW1にグループ名・ROW2に個別ラベル
- * - カラム幅：ID=12, 氏名=36, 郵便番号=20, 住所=63, 電話=26, 携帯=26, はり(14+18), きゅう(14+18), あんまマ(18+16) 合計=281mm
+ * - カラム幅：ID=12, 氏名=36, 郵便番号=20, 住所=59, 電話=26, 携帯=26, はり(12+22), きゅう(12+22), あんまマ(12+22) 合計=281mm
  */
 class TherapistInfoListPdfService extends BasePdfService
 {
@@ -28,8 +28,8 @@ class TherapistInfoListPdfService extends BasePdfService
   const HEADER_H         = 13;   // ヘッダー合計高さ mm (HEADER_H1 + HEADER_H2)
 
   // カラム幅（COL1~12）合計281mm
-  // COL1~6合計:183mm, COL7~12合計:98mm
-  const COL_WIDTHS = [12, 36, 20, 63, 26, 26, 14, 18, 14, 18, 18, 16];
+  // COL1~6合計:179mm, COL7~12合計:102mm
+  const COL_WIDTHS = [12, 36, 20, 59, 26, 26, 12, 22, 12, 22, 12, 22];
 
   // データキー（COL1~12に対応）
   const DATA_KEYS = [
@@ -245,7 +245,7 @@ class TherapistInfoListPdfService extends BasePdfService
     $month = (int)date('n', $ts);
     $day   = (int)date('j', $ts);
     $era   = $this->getJapaneseEra($year, $month, $day);
-    return $era['era'] . $era['year'] . '年 ' . $month . '月 ' . $day . '日';
+    return $era['era'] . $era['year'] . '年' . $month . '月' . $day . '日';
   }
 
   /**
