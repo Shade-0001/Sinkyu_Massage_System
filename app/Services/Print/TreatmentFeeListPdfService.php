@@ -208,7 +208,7 @@ class TreatmentFeeListPdfService
       $clinicUser = $clinicUsers[$clinicUserId] ?? null;
       if (!$clinicUser) continue;
 
-      $fullName = ($clinicUser->last_name ?? '') . '  ' . ($clinicUser->first_name ?? '');
+      $fullName = ($clinicUser->last_name ?? '') . "\u{2002}" . ($clinicUser->first_name ?? '');
       $ratioId = $clinicUser->ratio_id ?? 1;
       $ratioMap = [1 => 0.1, 2 => 0.2, 3 => 0.3];
       $ratio = $ratioMap[$ratioId] ?? 0.1;
