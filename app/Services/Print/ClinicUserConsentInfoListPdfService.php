@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\DB;
  * - 行構成：
  *   - ROW1〜2   ：利用者ID・利用者氏名（COL1+COL2 結合）
  *   - ROW3〜13  ：はり・きゅう（COL1縦書き、COL2行ラベル）
- *   - ROW14〜49 ：あんま・マッサージ（COL1縦書き、COL2行ラベル）
+ *   - ROW14〜30 ：あんま・マッサージ（COL1縦書き、COL2行ラベル）
  *
  * 関節拘縮 部位とbodypartsテーブルのマッピング：
  *   右肩=shoulder_r, 右肘=elbow_r, 右手首=wrist_r,
@@ -42,6 +42,30 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
   const HEADER_FONT       = 7;    // ヘッダーフォント
 
   const LISTS_PER_PAGE    = 1;    // 1ページあたりのリスト数（行数が多いため1ページ1リスト）
+
+  // 上下肢系 bodypart→日本語ラベル（筋麻痺･萎縮 / マッサージ / 変形徒手矯正術 共通）
+  const LIMB_LABELS = [
+    'upper_limb_r' => '右上肢',
+    'lower_limb_r' => '右下肢',
+    'upper_limb_l' => '左上肢',
+    'lower_limb_l' => '左下肢',
+  ];
+
+  // 関節拘縮 bodypart→日本語ラベル
+  const JOINT_LABELS = [
+    'shoulder_r' => '右肩',
+    'elbow_r'    => '右肘',
+    'wrist_r'    => '右手首',
+    'coxa_r'     => '右股関節',
+    'knee_r'     => '右膝',
+    'ankle_r'    => '右足首',
+    'shoulder_l' => '左肩',
+    'elbow_l'    => '左肘',
+    'wrist_l'    => '左手首',
+    'coxa_l'     => '左股関節',
+    'knee_l'     => '左膝',
+    'ankle_l'    => '左足首',
+  ];
 
   // ページ座標
   const START_Y_PAGE1  = 30;   // 1ページ目の開始Y（タイトル分）
@@ -218,35 +242,11 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
         'mas_reconsenting_expiry'    => $this->formatJapaneseDate($m->reconsenting_expiry ?? null),
         'mas_illness_name'           => $m->illness_name ?? '',
         'mas_housecall'              => isset($m->is_housecall_required) ? ($m->is_housecall_required ? '○' : '✕') : '',
-        // 筋麻痺･萎縮（symtom_1）
-        'mas_sym1_upper_r'           => in_array('upper_limb_r', $bp['symtom_1'] ?? []) ? '○' : '',
-        'mas_sym1_lower_r'           => in_array('lower_limb_r', $bp['symtom_1'] ?? []) ? '○' : '',
-        'mas_sym1_upper_l'           => in_array('upper_limb_l', $bp['symtom_1'] ?? []) ? '○' : '',
-        'mas_sym1_lower_l'           => in_array('lower_limb_l', $bp['symtom_1'] ?? []) ? '○' : '',
-        // 関節拘縮（symtom_2）右版
-        'mas_sym2_shoulder_r'        => in_array('shoulder_r', $bp['symtom_2'] ?? []) ? '○' : '',
-        'mas_sym2_elbow_r'           => in_array('elbow_r',    $bp['symtom_2'] ?? []) ? '○' : '',
-        'mas_sym2_wrist_r'           => in_array('wrist_r',    $bp['symtom_2'] ?? []) ? '○' : '',
-        'mas_sym2_coxa_r'            => in_array('coxa_r',     $bp['symtom_2'] ?? []) ? '○' : '',
-        'mas_sym2_knee_r'            => in_array('knee_r',     $bp['symtom_2'] ?? []) ? '○' : '',
-        'mas_sym2_ankle_r'           => in_array('ankle_r',    $bp['symtom_2'] ?? []) ? '○' : '',
-        // 関節拘縮（symtom_2）左版
-        'mas_sym2_shoulder_l'        => in_array('shoulder_l', $bp['symtom_2'] ?? []) ? '○' : '',
-        'mas_sym2_elbow_l'           => in_array('elbow_l',    $bp['symtom_2'] ?? []) ? '○' : '',
-        'mas_sym2_wrist_l'           => in_array('wrist_l',    $bp['symtom_2'] ?? []) ? '○' : '',
-        'mas_sym2_coxa_l'            => in_array('coxa_l',     $bp['symtom_2'] ?? []) ? '○' : '',
-        'mas_sym2_knee_l'            => in_array('knee_l',     $bp['symtom_2'] ?? []) ? '○' : '',
-        'mas_sym2_ankle_l'           => in_array('ankle_l',    $bp['symtom_2'] ?? []) ? '○' : '',
-        // マッサージ（therapy_type_1）
-        'mas_thera1_upper_r'         => in_array('upper_limb_r', $bp['therapy_type_1'] ?? []) ? '○' : '',
-        'mas_thera1_lower_r'         => in_array('lower_limb_r', $bp['therapy_type_1'] ?? []) ? '○' : '',
-        'mas_thera1_upper_l'         => in_array('upper_limb_l', $bp['therapy_type_1'] ?? []) ? '○' : '',
-        'mas_thera1_lower_l'         => in_array('lower_limb_l', $bp['therapy_type_1'] ?? []) ? '○' : '',
-        // 変形徒手矯正術（therapy_type_2）
-        'mas_thera2_upper_r'         => in_array('upper_limb_r', $bp['therapy_type_2'] ?? []) ? '○' : '',
-        'mas_thera2_lower_r'         => in_array('lower_limb_r', $bp['therapy_type_2'] ?? []) ? '○' : '',
-        'mas_thera2_upper_l'         => in_array('upper_limb_l', $bp['therapy_type_2'] ?? []) ? '○' : '',
-        'mas_thera2_lower_l'         => in_array('lower_limb_l', $bp['therapy_type_2'] ?? []) ? '○' : '',
+        // 部位系（選択済み部位をカンマ区切りテキストで集約）
+        'mas_sym1'                   => $this->formatBodyparts($bp['symtom_1'] ?? [], self::LIMB_LABELS),
+        'mas_sym2'                   => $this->formatBodyparts($bp['symtom_2'] ?? [], self::JOINT_LABELS),
+        'mas_thera1'                 => $this->formatBodyparts($bp['therapy_type_1'] ?? [], self::LIMB_LABELS),
+        'mas_thera2'                 => $this->formatBodyparts($bp['therapy_type_2'] ?? [], self::LIMB_LABELS),
         // 請求区分・転帰・要加療期間
         'mas_bill_category'          => $m->bill_category ?? '',
         'mas_outcome'                => $m->outcome ?? '',
@@ -320,6 +320,23 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
   }
 
   /**
+   * 選択済み部位をカンマ区切りの日本語テキストに変換
+   * @param  string[] $selected  DBから取得した bodypart 名のリスト
+   * @param  array    $labelMap  bodypart→日本語ラベルのマッピング定数
+   * @return string              例: "右上肢, 左下肢"（未選択なら空文字）
+   */
+  protected function formatBodyparts(array $selected, array $labelMap): string
+  {
+    $labels = [];
+    foreach ($labelMap as $key => $label) {
+      if (in_array($key, $selected, true)) {
+        $labels[] = $label;
+      }
+    }
+    return implode(', ', $labels);
+  }
+
+  /**
    * 行定義を返す
    * [col1Label, col2Label, dataKey, section]
    * section: 'basic'|'acu'|'mas'
@@ -343,7 +360,7 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
       ['はり・きゅう', '請求区分',             'acu_bill_category',         'acu'],
       ['はり・きゅう', '転帰',               'acu_outcome',               'acu'],
       ['はり・きゅう', '要加療期間',           'acu_therapy_period',        'acu'],
-      // ROW14〜49：あんま・マッサージ（COL1縦書き）
+      // ROW14〜30：あんま・マッサージ（COL1縦書き）
       ['あんま・マッサージ', '同意年月日',             'mas_consenting_date',       'mas'],
       ['あんま・マッサージ', '初療年月日',             'mas_first_care_date',       'mas'],
       ['あんま・マッサージ', '同意開始年月日',         'mas_consenting_start_date', 'mas'],
@@ -352,31 +369,11 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
       ['あんま・マッサージ', '支給期間終了日',         'mas_benefit_end',           'mas'],
       ['あんま・マッサージ', '再同意有効期限',         'mas_reconsenting_expiry',   'mas'],
       ['あんま・マッサージ', '傷病名',               'mas_illness_name',          'mas'],
-      ['あんま・マッサージ', '往療必要',             'mas_housecall',             'mas'],
-      ['あんま・マッサージ', '筋麻痺･萎縮｜右上肢',   'mas_sym1_upper_r',          'mas'],
-      ['あんま・マッサージ', '筋麻痺･萎縮｜右下肢',   'mas_sym1_lower_r',          'mas'],
-      ['あんま・マッサージ', '筋麻痺･萎縮｜左上肢',   'mas_sym1_upper_l',          'mas'],
-      ['あんま・マッサージ', '筋麻痺･萎縮｜左下肢',   'mas_sym1_lower_l',          'mas'],
-      ['あんま・マッサージ', '関節拘縮｜右肩',       'mas_sym2_shoulder_r',       'mas'],
-      ['あんま・マッサージ', '関節拘縮｜右肘',       'mas_sym2_elbow_r',          'mas'],
-      ['あんま・マッサージ', '関節拘縮｜右手首',     'mas_sym2_wrist_r',          'mas'],
-      ['あんま・マッサージ', '関節拘縮｜右股関節',   'mas_sym2_coxa_r',           'mas'],
-      ['あんま・マッサージ', '関節拘縮｜右膝',       'mas_sym2_knee_r',           'mas'],
-      ['あんま・マッサージ', '関節拘縮｜右足首',     'mas_sym2_ankle_r',          'mas'],
-      ['あんま・マッサージ', '関節拘縮｜左肩',       'mas_sym2_shoulder_l',       'mas'],
-      ['あんま・マッサージ', '関節拘縮｜左肘',       'mas_sym2_elbow_l',          'mas'],
-      ['あんま・マッサージ', '関節拘縮｜左手首',     'mas_sym2_wrist_l',          'mas'],
-      ['あんま・マッサージ', '関節拘縮｜左股関節',   'mas_sym2_coxa_l',           'mas'],
-      ['あんま・マッサージ', '関節拘縮｜左膝',       'mas_sym2_knee_l',           'mas'],
-      ['あんま・マッサージ', '関節拘縮｜左足首',     'mas_sym2_ankle_l',          'mas'],
-      ['あんま・マッサージ', 'マッサージ｜右上肢',   'mas_thera1_upper_r',        'mas'],
-      ['あんま・マッサージ', 'マッサージ｜右下肢',   'mas_thera1_lower_r',        'mas'],
-      ['あんま・マッサージ', 'マッサージ｜左上肢',   'mas_thera1_upper_l',        'mas'],
-      ['あんま・マッサージ', 'マッサージ｜左下肢',   'mas_thera1_lower_l',        'mas'],
-      ['あんま・マッサージ', '変形徒手矯正術｜右上肢', 'mas_thera2_upper_r',      'mas'],
-      ['あんま・マッサージ', '変形徒手矯正術｜右下肢', 'mas_thera2_lower_r',      'mas'],
-      ['あんま・マッサージ', '変形徒手矯正術｜左上肢', 'mas_thera2_upper_l',      'mas'],
-      ['あんま・マッサージ', '変形徒手矯正術｜左下肢', 'mas_thera2_lower_l',      'mas'],
+      ['あんま・マッサージ', '往療必要',         'mas_housecall',  'mas'],
+      ['あんま・マッサージ', '筋麻痺･萎縮',     'mas_sym1',       'mas'],
+      ['あんま・マッサージ', '関節拘縮',         'mas_sym2',       'mas'],
+      ['あんま・マッサージ', 'マッサージ',       'mas_thera1',     'mas'],
+      ['あんま・マッサージ', '変形徒手矯正術',   'mas_thera2',     'mas'],
       ['あんま・マッサージ', '請求区分',             'mas_bill_category',         'mas'],
       ['あんま・マッサージ', '転帰',               'mas_outcome',               'mas'],
       ['あんま・マッサージ', '要加療期間',           'mas_therapy_period',        'mas'],
