@@ -230,18 +230,40 @@ class TherapistInfoListPdfService extends BasePdfService
   }
 
   /**
-   * 日付フォーマット（YYYY/MM/DD 形式）
+   * 日付フォーマット（和暦形式：例 令和6年 3月 1日）
    */
-  protected function formatDate(string $date): string
+  protected function formatDate(?string $date): string
   {
-    if ($date === '' || $date === null) {
+    if (!$date) {
       return '';
     }
     $ts = strtotime($date);
     if ($ts === false) {
       return $date;
     }
-    return date('Y/m/d', $ts);
+    $year  = (int)date('Y', $ts);
+    $month = (int)date('n', $ts);
+    $day   = (int)date('j', $ts);
+    $era   = $this->getJapaneseEra($year, $month, $day);
+    return $era['era'] . $era['year'] . '年 ' . $month . '月 ' . $day . '日';
+  }
+
+  /**
+   * 和暦情報を取得
+   */
+  protected function getJapaneseEra(int $year, int $month, int $day): array
+  {
+    $date = sprintf('%04d%02d%02d', $year, $month, $day);
+    if ($date >= '20190501') {
+      return ['era' => '令和', 'year' => $year - 2018];
+    } elseif ($date >= '19890108') {
+      return ['era' => '平成', 'year' => $year - 1988];
+    } elseif ($date >= '19261225') {
+      return ['era' => '昭和', 'year' => $year - 1925];
+    } elseif ($date >= '19120730') {
+      return ['era' => '大正', 'year' => $year - 1911];
+    }
+    return ['era' => '明治', 'year' => $year - 1867];
   }
 
   /**
