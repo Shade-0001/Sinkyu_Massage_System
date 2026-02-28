@@ -155,9 +155,7 @@ class ConsentDataConverter
             'housecall_reason_addendum' => '往療理由（その他詳細）',
             'care_level' => '介護保険の要介護度',
             'notes' => '注意事項等',
-            'therapy_period' => '要加除期間',
-            'therapy_period_start_date' => '要加療期間 開始',
-            'therapy_period_end_date' => '要加療期間 終了',
+            'therapy_period' => '要加療期間',
             'first_therapy_content_id' => '初回施術内容',
             // マッサージ用
             'condition_id' => '発病負傷経過',

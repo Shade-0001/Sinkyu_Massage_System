@@ -177,7 +177,6 @@ class TreatmentRecordMassagePdfService extends BasePdfService
       'onset_and_injury_date' => '2025-11-15',
       'first_care_date' => '2025-11-20',
       'therapy_period' => $custom['treatment_period'] ?? '3ヶ月',
-      'therapy_period_end_date' => '2026-02-20',
       'outcome' => $custom['outcome'] ?? '継続',
       'doctor_last_name' => '山田',
       'doctor_first_name' => '太郎',
@@ -362,9 +361,6 @@ class TreatmentRecordMassagePdfService extends BasePdfService
         }
         return null;
       case 'treatment_end_date':
-        if ($consent && isset($consent->therapy_period_end_date)) {
-          return $this->convertToJapaneseDate($consent->therapy_period_end_date);
-        }
         return null;
       case 'treatment_days_count': return (string)$records->count();
       case 'treatment_count': return (string)$records->count();

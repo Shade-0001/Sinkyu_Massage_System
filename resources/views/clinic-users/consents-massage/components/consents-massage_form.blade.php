@@ -328,16 +328,9 @@
   </div>
 
   <div class="mb-3">
-    <label class="fw-semibold">要加療期間</label><br>
-    <div style="display: flex; align-items: center; gap: 10px;">
-      <input type="date" id="therapy_period_start_date" name="therapy_period_start_date" value="{{ old('therapy_period_start_date', is_string($history?->therapy_period_start_date ?? null) ? $history->therapy_period_start_date : ($history?->therapy_period_start_date?->format('Y-m-d') ?? '')) }}">
-      <span>～</span>
-      <input type="date" id="therapy_period_end_date" name="therapy_period_end_date" value="{{ old('therapy_period_end_date', is_string($history?->therapy_period_end_date ?? null) ? $history->therapy_period_end_date : ($history?->therapy_period_end_date?->format('Y-m-d') ?? '')) }}">
-    </div>
-    @error('therapy_period_start_date')
-      <div class="text-danger">{{ $message }}</div>
-    @enderror
-    @error('therapy_period_end_date')
+    <label class="fw-semibold" for="therapy_period">要加療期間</label><br>
+    <input type="text" id="therapy_period" name="therapy_period" placeholder="例：3ヶ月、6週間" value="{{ old('therapy_period', $history?->therapy_period ?? '') }}">
+    @error('therapy_period')
       <div class="text-danger">{{ $message }}</div>
     @enderror
   </div>

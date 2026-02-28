@@ -14,9 +14,6 @@ class ConsentMassageFactory extends Factory
     $endDate            = (clone $consentingDate)->modify('+6 months');
     $benefitStart       = $consentingDate;
     $benefitEnd         = (clone $consentingDate)->modify('+6 months');
-    $therapyPeriodStart = $consentingDate;
-    $therapyPeriodEnd   = (clone $consentingDate)->modify('+3 months');
-
     $isSymptom2 = $this->faker->boolean(40);
     $isSymptom3 = $this->faker->boolean(20);
 
@@ -59,8 +56,6 @@ class ConsentMassageFactory extends Factory
         ? $this->faker->randomElement($notesOptions)
         : null,
       'therapy_period'             => '3ヶ月',
-      'therapy_period_start_date'  => $therapyPeriodStart->format('Y-m-d'),
-      'therapy_period_end_date'    => $therapyPeriodEnd->format('Y-m-d'),
       'first_therapy_content_id'   => null,
       'condition_id'               => null,
       'work_scope_type_id'         => null,

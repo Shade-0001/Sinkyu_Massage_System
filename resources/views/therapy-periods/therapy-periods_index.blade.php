@@ -46,11 +46,7 @@
       </a>
       </td>
       <td>{{ $period->category }}</td>
-      <td data-order="{{ $period->therapy_period_start_date ? strtotime($period->therapy_period_start_date) : 0 }}">
-      @if($period->therapy_period_start_date && $period->therapy_period_end_date)
-        {{ \Carbon\Carbon::parse($period->therapy_period_start_date)->format('Y/n/j') }} ~ {{ \Carbon\Carbon::parse($period->therapy_period_end_date)->format('Y/n/j') }}
-      @endif
-      </td>
+      <td>{{ $period->therapy_period }}</td>
       <td>
       @if($period->consenting_start_date && $period->consenting_end_date)
         {{ \Carbon\Carbon::parse($period->consenting_start_date)->format('Y/n/j') }} ~ {{ \Carbon\Carbon::parse($period->consenting_end_date)->format('Y/n/j') }}
@@ -93,7 +89,7 @@
     // データがある場合のみDataTableを初期化
     @if($therapyPeriods->count() > 0)
     $('#therapyPeriodsTable').DataTable({
-      order: [[2, 'desc']], // 要加療期間開始年月日が新しい順
+      order: [[3, 'desc']], // 同意終了日が新しい順
       language: {
         url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/ja.json'
       },
