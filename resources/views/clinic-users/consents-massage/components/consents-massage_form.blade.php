@@ -166,17 +166,17 @@
       <input type="checkbox" id="symptom2_right_elbow" name="symptom2[]" value="右肘" {{ (is_array(old('symptom2', $history?->symptom2 ?? [])) && in_array('右肘', old('symptom2', $history?->symptom2 ?? []))) ? 'checked' : '' }}>
       <label for="symptom2_right_elbow">右肘</label>
 
-      <input type="checkbox" id="symptom2_right_hand" name="symptom2[]" value="右手" {{ (is_array(old('symptom2', $history?->symptom2 ?? [])) && in_array('右手', old('symptom2', $history?->symptom2 ?? []))) ? 'checked' : '' }}>
-      <label for="symptom2_right_hand">右手</label>
+      <input type="checkbox" id="symptom2_right_wrist" name="symptom2[]" value="右手首" {{ (is_array(old('symptom2', $history?->symptom2 ?? [])) && in_array('右手首', old('symptom2', $history?->symptom2 ?? []))) ? 'checked' : '' }}>
+      <label for="symptom2_right_wrist">右手首</label>
 
-      <input type="checkbox" id="symptom2_right_related_joint" name="symptom2[]" value="右関節周囲" {{ (is_array(old('symptom2', $history?->symptom2 ?? [])) && in_array('右関節周囲', old('symptom2', $history?->symptom2 ?? []))) ? 'checked' : '' }}>
-      <label for="symptom2_right_related_joint">右関節周囲</label>
-
-      <input type="checkbox" id="symptom2_right_hip" name="symptom2[]" value="右腰" {{ (is_array(old('symptom2', $history?->symptom2 ?? [])) && in_array('右腰', old('symptom2', $history?->symptom2 ?? []))) ? 'checked' : '' }}>
-      <label for="symptom2_right_hip">右腰</label>
+      <input type="checkbox" id="symptom2_right_hip_joint" name="symptom2[]" value="右股関節" {{ (is_array(old('symptom2', $history?->symptom2 ?? [])) && in_array('右股関節', old('symptom2', $history?->symptom2 ?? []))) ? 'checked' : '' }}>
+      <label for="symptom2_right_hip_joint">右股関節</label>
 
       <input type="checkbox" id="symptom2_right_knee" name="symptom2[]" value="右膝" {{ (is_array(old('symptom2', $history?->symptom2 ?? [])) && in_array('右膝', old('symptom2', $history?->symptom2 ?? []))) ? 'checked' : '' }}>
       <label for="symptom2_right_knee">右膝</label>
+
+      <input type="checkbox" id="symptom2_right_ankle" name="symptom2[]" value="右足首" {{ (is_array(old('symptom2', $history?->symptom2 ?? [])) && in_array('右足首', old('symptom2', $history?->symptom2 ?? []))) ? 'checked' : '' }}>
+      <label for="symptom2_right_ankle">右足首</label>
     </div>
     <div class="mt-2">
       <input type="checkbox" id="symptom2_left_shoulder" name="symptom2[]" value="左肩" {{ (is_array(old('symptom2', $history?->symptom2 ?? [])) && in_array('左肩', old('symptom2', $history?->symptom2 ?? []))) ? 'checked' : '' }}>
@@ -185,17 +185,17 @@
       <input type="checkbox" id="symptom2_left_elbow" name="symptom2[]" value="左肘" {{ (is_array(old('symptom2', $history?->symptom2 ?? [])) && in_array('左肘', old('symptom2', $history?->symptom2 ?? []))) ? 'checked' : '' }}>
       <label for="symptom2_left_elbow">左肘</label>
 
-      <input type="checkbox" id="symptom2_left_hand" name="symptom2[]" value="左手" {{ (is_array(old('symptom2', $history?->symptom2 ?? [])) && in_array('左手', old('symptom2', $history?->symptom2 ?? []))) ? 'checked' : '' }}>
-      <label for="symptom2_left_hand">左手</label>
+      <input type="checkbox" id="symptom2_left_wrist" name="symptom2[]" value="左手首" {{ (is_array(old('symptom2', $history?->symptom2 ?? [])) && in_array('左手首', old('symptom2', $history?->symptom2 ?? []))) ? 'checked' : '' }}>
+      <label for="symptom2_left_wrist">左手首</label>
 
-      <input type="checkbox" id="symptom2_left_related_joint" name="symptom2[]" value="左関節周囲" {{ (is_array(old('symptom2', $history?->symptom2 ?? [])) && in_array('左関節周囲', old('symptom2', $history?->symptom2 ?? []))) ? 'checked' : '' }}>
-      <label for="symptom2_left_related_joint">左関節周囲</label>
-
-      <input type="checkbox" id="symptom2_left_hip" name="symptom2[]" value="左腰" {{ (is_array(old('symptom2', $history?->symptom2 ?? [])) && in_array('左腰', old('symptom2', $history?->symptom2 ?? []))) ? 'checked' : '' }}>
-      <label for="symptom2_left_hip">左腰</label>
+      <input type="checkbox" id="symptom2_left_hip_joint" name="symptom2[]" value="左股関節" {{ (is_array(old('symptom2', $history?->symptom2 ?? [])) && in_array('左股関節', old('symptom2', $history?->symptom2 ?? []))) ? 'checked' : '' }}>
+      <label for="symptom2_left_hip_joint">左股関節</label>
 
       <input type="checkbox" id="symptom2_left_knee" name="symptom2[]" value="左膝" {{ (is_array(old('symptom2', $history?->symptom2 ?? [])) && in_array('左膝', old('symptom2', $history?->symptom2 ?? []))) ? 'checked' : '' }}>
       <label for="symptom2_left_knee">左膝</label>
+
+      <input type="checkbox" id="symptom2_left_ankle" name="symptom2[]" value="左足首" {{ (is_array(old('symptom2', $history?->symptom2 ?? [])) && in_array('左足首', old('symptom2', $history?->symptom2 ?? []))) ? 'checked' : '' }}>
+      <label for="symptom2_left_ankle">左足首</label>
     </div>
     <div class="mt-2">
       <input type="checkbox" id="symptom2_other" name="symptom2_other" value="1" {{ old('symptom2_other', $history?->symptom2_other ?? false) ? 'checked' : '' }}>

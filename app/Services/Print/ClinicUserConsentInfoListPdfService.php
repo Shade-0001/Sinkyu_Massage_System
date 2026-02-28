@@ -22,8 +22,8 @@ use Illuminate\Support\Facades\DB;
  *   - ROW14〜49 ：あんま・マッサージ（COL1縦書き、COL2行ラベル）
  *
  * 関節拘縮 部位とbodypartsテーブルのマッピング：
- *   右肩=shoulder_r, 右肘=elbow_r, 右手=wrist_r,
- *   右関節周囲=coxa_r, 右腰=knee_r, 右膝=ankle_r（左版も同様）
+ *   右肩=shoulder_r, 右肘=elbow_r, 右手首=wrist_r,
+ *   右股関節=coxa_r, 右膝=knee_r, 右足首=ankle_r（左版も同様）
  */
 class ClinicUserConsentInfoListPdfService extends BasePdfService
 {
@@ -359,16 +359,16 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
       ['あんま・マッサージ', '筋麻痺･萎縮｜左下肢',   'mas_sym1_lower_l',          'mas'],
       ['あんま・マッサージ', '関節拘縮｜右肩',       'mas_sym2_shoulder_r',       'mas'],
       ['あんま・マッサージ', '関節拘縮｜右肘',       'mas_sym2_elbow_r',          'mas'],
-      ['あんま・マッサージ', '関節拘縮｜右手',       'mas_sym2_wrist_r',          'mas'],
-      ['あんま・マッサージ', '関節拘縮｜右関節周囲', 'mas_sym2_coxa_r',           'mas'],
-      ['あんま・マッサージ', '関節拘縮｜右腰',       'mas_sym2_knee_r',           'mas'],
-      ['あんま・マッサージ', '関節拘縮｜右膝',       'mas_sym2_ankle_r',          'mas'],
+      ['あんま・マッサージ', '関節拘縮｜右手首',     'mas_sym2_wrist_r',          'mas'],
+      ['あんま・マッサージ', '関節拘縮｜右股関節',   'mas_sym2_coxa_r',           'mas'],
+      ['あんま・マッサージ', '関節拘縮｜右膝',       'mas_sym2_knee_r',           'mas'],
+      ['あんま・マッサージ', '関節拘縮｜右足首',     'mas_sym2_ankle_r',          'mas'],
       ['あんま・マッサージ', '関節拘縮｜左肩',       'mas_sym2_shoulder_l',       'mas'],
       ['あんま・マッサージ', '関節拘縮｜左肘',       'mas_sym2_elbow_l',          'mas'],
-      ['あんま・マッサージ', '関節拘縮｜左手',       'mas_sym2_wrist_l',          'mas'],
-      ['あんま・マッサージ', '関節拘縮｜左関節周囲', 'mas_sym2_coxa_l',           'mas'],
-      ['あんま・マッサージ', '関節拘縮｜左腰',       'mas_sym2_knee_l',           'mas'],
-      ['あんま・マッサージ', '関節拘縮｜左膝',       'mas_sym2_ankle_l',          'mas'],
+      ['あんま・マッサージ', '関節拘縮｜左手首',     'mas_sym2_wrist_l',          'mas'],
+      ['あんま・マッサージ', '関節拘縮｜左股関節',   'mas_sym2_coxa_l',           'mas'],
+      ['あんま・マッサージ', '関節拘縮｜左膝',       'mas_sym2_knee_l',           'mas'],
+      ['あんま・マッサージ', '関節拘縮｜左足首',     'mas_sym2_ankle_l',          'mas'],
       ['あんま・マッサージ', 'マッサージ｜右上肢',   'mas_thera1_upper_r',        'mas'],
       ['あんま・マッサージ', 'マッサージ｜右下肢',   'mas_thera1_lower_r',        'mas'],
       ['あんま・マッサージ', 'マッサージ｜左上肢',   'mas_thera1_upper_l',        'mas'],
