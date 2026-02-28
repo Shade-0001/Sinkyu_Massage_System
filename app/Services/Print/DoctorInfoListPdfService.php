@@ -28,7 +28,7 @@ class DoctorInfoListPdfService extends BasePdfService
   // カラム幅
   const COL_WIDTHS = [14, 30, 24, 22, 44, 30, 30];
   // カラムラベル
-  const COL_LABELS = ['医師ID', '医師氏名', '医療機関名', '郵便番号', '住所', '電話番号', '携帯番号'];
+  const COL_LABELS = ['ID', '医師氏名', '医療機関名', '郵便番号', '住所', '電話番号', '携帯番号'];
   // データキー
   const DATA_KEYS  = ['id', 'name', 'medical_institution', 'postal_code', 'address', 'phone', 'cell_phone'];
 
@@ -324,7 +324,7 @@ class DoctorInfoListPdfService extends BasePdfService
     foreach (self::DATA_KEYS as $ci => $key) {
       $w    = self::COL_WIDTHS[$ci];
       $text = (string)($doctor[$key] ?? '');
-      // 医師IDは中央揃え、その他は左揃え
+      // IDは中央揃え、その他は左揃え
       $align = ($key === 'id') ? 'C' : 'L';
       $this->drawCell($pdf, $x, $y, $w, $rowH, $text, false, $align);
       $x += $w;
