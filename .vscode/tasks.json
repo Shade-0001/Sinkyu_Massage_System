@@ -23,7 +23,11 @@
       "type": "shell",
       "command": "php artisan serve",
       "options": {
-        "cwd": "${workspaceFolder}"
+        "cwd": "${workspaceFolder}",
+        "shell": {
+          "executable": "cmd",
+          "args": ["/d", "/c"]
+        }
       },
       "presentation": {
         "reveal": "always",
@@ -37,7 +41,11 @@
       "type": "shell",
       "command": "npm run dev",
       "options": {
-        "cwd": "${workspaceFolder}"
+        "cwd": "${workspaceFolder}",
+        "shell": {
+          "executable": "cmd",
+          "args": ["/d", "/c"]
+        }
       },
       "presentation": {
         "reveal": "always",
