@@ -1,0 +1,61 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Setup .env",
+      "type": "shell",
+      "command": "if (-not (Test-Path .env)) { Copy-Item .env.example .env; php artisan key:generate }",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "shell": {
+          "executable": "powershell",
+          "args": ["-Command"]
+        }
+      },
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared",
+        "close": true
+      }
+    },
+    {
+      "label": "Laravel Serve",
+      "type": "shell",
+      "command": "php artisan serve",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new",
+        "label": "Laravel"
+      },
+      "dependsOn": ["Setup .env"]
+    },
+    {
+      "label": "Vite Dev",
+      "type": "shell",
+      "command": "npm run dev",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new",
+        "label": "Vite"
+      },
+      "dependsOn": ["Setup .env"]
+    },
+    {
+      "label": "Dev: Start All",
+      "dependsOn": ["Laravel Serve", "Vite Dev"],
+      "dependsOrder": "parallel",
+      "runOptions": {
+        "runOn": "folderOpen"
+      },
+      "presentation": {
+        "reveal": "silent"
+      }
+    }
+  ]
+}
