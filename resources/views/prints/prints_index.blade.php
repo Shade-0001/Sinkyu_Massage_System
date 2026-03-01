@@ -59,9 +59,9 @@
   <button type="button" class="btn btn-primary" onclick="submitUserInfoBasicList()">利用者情報一覧（基本情報）</button>
   <button type="button" class="btn btn-primary" onclick="submitUserInfoInsuranceList()">利用者情報一覧（医療保険情報）</button>
   <button type="button" class="btn btn-primary" onclick="submitClinicUserConsentInfoList()">利用者情報一覧（同意医師情報）</button>
-  <button>医師情報一覧</button>
-  <button>ケアマネ情報一覧</button>
-  <button>施術者情報一覧</button>
+  <button type="button" class="btn btn-primary" onclick="submitDoctorInfoList()">医師情報一覧</button>
+  <button type="button" class="btn btn-primary" onclick="submitCareManagerInfoList()">ケアマネ情報一覧</button>
+  <button type="button" class="btn btn-primary" onclick="submitTherapistInfoList()">施術者情報一覧</button>
   <button>宛名シール・住所データCSV出力</button>
   <button>FAX送信表表示</button>
 

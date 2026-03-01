@@ -1961,3 +1961,48 @@ function submitUserInfoInsuranceList() {
   const filename = `利用者情報一覧（医療保険情報）_${year}-${month}-${day}_${hours}-${minutes}-${seconds}.pdf`;
   window.open(`/prints/user-info-insurance-list/${encodeURIComponent(filename)}`, '_blank');
 }
+
+/**
+ * 医師情報一覧PDF出力
+ */
+function submitDoctorInfoList() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  const filename = `医師情報一覧_${year}-${month}-${day}_${hours}-${minutes}-${seconds}.pdf`;
+  window.open(`/prints/doctor-info-list/${encodeURIComponent(filename)}`, '_blank');
+}
+
+function submitCareManagerInfoList() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  const filename = `ケアマネ情報一覧_${year}-${month}-${day}_${hours}-${minutes}-${seconds}.pdf`;
+  window.open(`/prints/care-manager-info-list/${encodeURIComponent(filename)}`, '_blank');
+}
+
+/**
+ * 施術者情報一覧PDF出力
+ */
+function submitTherapistInfoList() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  const filename = `施術者情報一覧_${year}-${month}-${day}_${hours}-${minutes}-${seconds}.pdf`;
+  window.open(`/prints/therapist-info-list/${encodeURIComponent(filename)}`, '_blank');
+}

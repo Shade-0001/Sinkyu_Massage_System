@@ -85,11 +85,11 @@ class TherapyDeadlineListPdfService extends BasePdfService
       foreach ($records as $rec) {
         $rows[] = [
           'user_id'                  => $rec->user_id,
-          'user_name'                => $rec->user_last_name . '　' . $rec->user_first_name,
+          'user_name'                => $rec->user_last_name . "\u{2002}" . $rec->user_first_name,
           'consenting_date'          => $rec->consenting_date,
           'consenting_start_date'    => $rec->consenting_start_date,
           'consenting_end_date'      => $rec->consenting_end_date,
-          'doctor_name'              => $rec->doctor_last_name . '　' . $rec->doctor_first_name,
+          'doctor_name'              => $rec->doctor_last_name . "\u{2002}" . $rec->doctor_first_name,
           'medical_institution_name' => $rec->medical_institution_name,
           'division'                 => $division,
         ];

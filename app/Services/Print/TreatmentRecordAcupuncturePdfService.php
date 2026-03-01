@@ -178,7 +178,6 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
       'onset_and_injury_date' => '2025-11-15',
       'first_care_date' => '2025-11-20',
       'therapy_period' => $custom['treatment_period'] ?? '3ヶ月',
-      'therapy_period_end_date' => '2026-02-20',
       'outcome' => $custom['outcome'] ?? '継続',
       'doctor_last_name' => '山田',
       'doctor_first_name' => '太郎',
@@ -289,7 +288,7 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
       case 'insured_person_name':
         // 本人の場合は利用者氏名、それ以外はinsured_name
         if ($insurance && isset($insurance->subject_type) && $insurance->subject_type === '本人') {
-          return ($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? '');
+          return ($clinicUser->last_name ?? '') . "\u{2002}" . ($clinicUser->first_name ?? '');
         }
         return $insurance->insured_name ?? null;
       case 'insured_person_gender':
@@ -327,7 +326,7 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
         return $this->convertToJapaneseDate($insurance->license_acquisition_date);
 
       // 利用者情報
-      case 'user_name': return ($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? '');
+      case 'user_name': return ($clinicUser->last_name ?? '') . "\u{2002}" . ($clinicUser->first_name ?? '');
       case 'user_gender': return $clinicUser->gender ?? null;
       case 'user_birthday':
         if (isset($clinicUser->birthday)) {
@@ -373,9 +372,6 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
         }
         return null;
       case 'treatment_end_date':
-        if ($consent && isset($consent->therapy_period_end_date)) {
-          return $this->convertToJapaneseDate($consent->therapy_period_end_date);
-        }
         return null;
       case 'treatment_days_count': return (string)$records->count();
       case 'treatment_count': return (string)$records->count();
@@ -393,10 +389,10 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
         return $consent->doctor_phone ?? $consent->doctor_cell_phone ?? null;
       case 'doctor_name_kana':
         if (!$consent) return null;
-        return trim(($consent->doctor_last_name_kana ?? '') . ' ' . ($consent->doctor_first_name_kana ?? ''));
+        return trim(($consent->doctor_last_name_kana ?? '') . "\u{2002}" . ($consent->doctor_first_name_kana ?? ''));
       case 'doctor_name':
         if (!$consent) return null;
-        return trim(($consent->doctor_last_name ?? '') . ' ' . ($consent->doctor_first_name ?? ''));
+        return trim(($consent->doctor_last_name ?? '') . "\u{2002}" . ($consent->doctor_first_name ?? ''));
       case 'consent_category': return $consent->bill_category ?? null;
       case 'treatment_period': return $consent->therapy_period ?? null;
       case 'onset_cause': return $consent->condition_name ?? null;

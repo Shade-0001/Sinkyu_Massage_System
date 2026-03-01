@@ -31,8 +31,6 @@ class ConsentAcupuncture extends Model
     'housecall_reason_id',
     'housecall_reason_addendum',
     'therapy_period',
-    'therapy_period_start_date',
-    'therapy_period_end_date',
     'first_therapy_content_id',
     'condition',
     'work_scope_type_id',
@@ -47,8 +45,6 @@ class ConsentAcupuncture extends Model
     'benefit_period_end_date' => 'date',
     'first_care_date' => 'date',
     'reconsenting_expiry' => 'date',
-    'therapy_period_start_date' => 'date',
-    'therapy_period_end_date' => 'date',
     'onset_and_injury_date' => 'date',
     'is_housecall_required' => 'boolean'
   ];

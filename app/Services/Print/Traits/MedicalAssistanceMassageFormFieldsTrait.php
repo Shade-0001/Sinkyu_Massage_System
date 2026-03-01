@@ -1653,19 +1653,10 @@ trait MedicalAssistanceMassageFormFieldsTrait
     // 要加療期間 - required_treatment_period
     if ($this->hasCoord('required_treatment_period')) {
       $therapyPeriodText = '';
-      // サンプルデータモード
       if ($this->sampleDataMode && isset($this->customSampleData['required_treatment_period'])) {
         $therapyPeriodText = $this->customSampleData['required_treatment_period'];
-      }
-      // ノーマルモード: therapy_period_end_dateをYYYY/m/d形式で表示
-      if (!$therapyPeriodText && $consent) {
-        if (isset($consent->therapy_period_end_date)) {
-          $endDate = new \DateTime($consent->therapy_period_end_date);
-          $therapyPeriodText = $endDate->format('Y/m/d');
-        } elseif (isset($consent->therapy_period) && $consent->therapy_period) {
-          // フォールバック: therapy_periodフィールドがある場合はそのまま使用
-          $therapyPeriodText = $consent->therapy_period;
-        }
+      } elseif ($consent) {
+        $therapyPeriodText = $consent->therapy_period ?? '';
       }
       if ($therapyPeriodText) {
         $pdf->SetFontSize($this->coord('required_treatment_period', 'fontSize'));
@@ -1674,38 +1665,22 @@ trait MedicalAssistanceMassageFormFieldsTrait
       }
     }
 
-    // 施術期間（開始） - therapy_period_start
+    // 施術期間（開始） - therapy_period_start（サンプルデータモードのみ）
     if ($this->hasCoord('therapy_period_start')) {
       if ($this->sampleDataMode && isset($this->customSampleData['therapy_period_start'])) {
-        // サンプルデータモード
         $therapyPeriodStart = $this->customSampleData['therapy_period_start'];
         $pdf->SetFontSize($this->coord('therapy_period_start', 'fontSize'));
         $this->drawTextByKey($pdf, 'therapy_period_start', (string)$therapyPeriodStart);
         $pdf->SetFontSize(10);
-      } elseif ($consent && isset($consent->therapy_period_start_date) && $consent->therapy_period_start_date) {
-        // 通常モード：therapy_period_start_dateをYYYY/m/d形式で表示
-        $startDate = new \DateTime($consent->therapy_period_start_date);
-        $formattedStartDate = $startDate->format('Y/m/d');
-        $pdf->SetFontSize($this->coord('therapy_period_start', 'fontSize'));
-        $this->drawTextByKey($pdf, 'therapy_period_start', $formattedStartDate);
-        $pdf->SetFontSize(10);
       }
     }
 
-    // 施術期間（終了） - therapy_period_end
+    // 施術期間（終了） - therapy_period_end（サンプルデータモードのみ）
     if ($this->hasCoord('therapy_period_end')) {
       if ($this->sampleDataMode && isset($this->customSampleData['therapy_period_end'])) {
-        // サンプルデータモード
         $therapyPeriodEnd = $this->customSampleData['therapy_period_end'];
         $pdf->SetFontSize($this->coord('therapy_period_end', 'fontSize'));
         $this->drawTextByKey($pdf, 'therapy_period_end', (string)$therapyPeriodEnd);
-        $pdf->SetFontSize(10);
-      } elseif ($consent && isset($consent->therapy_period_end_date) && $consent->therapy_period_end_date) {
-        // 通常モード：therapy_period_end_dateをYYYY/m/d形式で表示
-        $endDate = new \DateTime($consent->therapy_period_end_date);
-        $formattedEndDate = $endDate->format('Y/m/d');
-        $pdf->SetFontSize($this->coord('therapy_period_end', 'fontSize'));
-        $this->drawTextByKey($pdf, 'therapy_period_end', $formattedEndDate);
         $pdf->SetFontSize(10);
       }
     }

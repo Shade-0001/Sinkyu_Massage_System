@@ -14,9 +14,6 @@ class ConsentAcupunctureFactory extends Factory
     $endDate            = (clone $consentingDate)->modify('+6 months');
     $benefitStart       = $consentingDate;
     $benefitEnd         = (clone $consentingDate)->modify('+6 months');
-    $therapyPeriodStart = $consentingDate;
-    $therapyPeriodEnd   = (clone $consentingDate)->modify('+3 months');
-
     $addendumOptions = ['詳細は別紙参照', '再評価後に変更あり', '前回同様'];
     $reasonAddendums = ['2階以上のため', 'エレベーターなし', '歩行困難なため', '車椅子使用のため'];
 
@@ -41,9 +38,9 @@ class ConsentAcupunctureFactory extends Factory
       'housecall_reason_addendum'            => $this->faker->boolean(40)
         ? $this->faker->randomElement($reasonAddendums)
         : null,
-      'therapy_period'                       => '3ヶ月',
-      'therapy_period_start_date'            => $therapyPeriodStart->format('Y-m-d'),
-      'therapy_period_end_date'              => $therapyPeriodEnd->format('Y-m-d'),
+      'therapy_period'                       => $this->faker->boolean(90)
+        ? $this->faker->randomElement(['1ヶ月', '2ヶ月', '3ヶ月', '3ヶ月', '3ヶ月', '4ヶ月', '4ヶ月', '5ヶ月', '6ヶ月'])
+        : $this->faker->randomElement(['1週間', '2週間', '3週間']),
       'first_therapy_content_id'             => null,
       'condition'                            => $this->faker->boolean(30)
         ? $this->faker->randomElement([1, 2, 3, 4, 5, 6, 7])

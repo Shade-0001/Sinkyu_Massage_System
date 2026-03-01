@@ -25,16 +25,16 @@ class BodypartService
         '右下肢' => 'lower_limb_r',
         '右肩' => 'shoulder_r',
         '右肘' => 'elbow_r',
-        '右手' => 'wrist_r',
-        '右関節周囲' => 'coxa_r',
-        '右腰' => 'coxa_r',
+        '右手首' => 'wrist_r',
+        '右股関節' => 'coxa_r',
         '右膝' => 'knee_r',
+        '右足首' => 'ankle_r',
         '左肩' => 'shoulder_l',
         '左肘' => 'elbow_l',
-        '左手' => 'wrist_l',
-        '左関節周囲' => 'coxa_l',
-        '左腰' => 'coxa_l',
-        '左膝' => 'knee_l'
+        '左手首' => 'wrist_l',
+        '左股関節' => 'coxa_l',
+        '左膝' => 'knee_l',
+        '左足首' => 'ankle_l'
     ];
 
     /**

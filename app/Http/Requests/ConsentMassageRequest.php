@@ -58,8 +58,6 @@ class ConsentMassageRequest extends FormRequest
       'care_level' => 'nullable|string|max:255',
       'notes' => 'nullable|string|max:255',
       'therapy_period' => 'nullable|string|max:255',
-      'therapy_period_start_date' => 'nullable|date',
-      'therapy_period_end_date' => 'nullable|date',
       'first_therapy_content_id' => 'nullable|integer|exists:therapy_contents,id',
       // マッサージ用
       'condition_id' => 'nullable|integer|exists:conditions,id',
@@ -106,8 +104,6 @@ class ConsentMassageRequest extends FormRequest
       'work_scope_type_id.exists' => '選択された業務上外等区分が無効です。',
       'onset_and_injury_date.date' => '発症・負傷日は正しい日付形式で入力してください。',
       'notes.max' => '備考は255文字以内で入力してください。',
-      'therapy_period_start_date.date' => '要加療期間の開始日は正しい日付形式で入力してください。',
-      'therapy_period_end_date.date' => '要加療期間の終了日は正しい日付形式で入力してください。',
     ];
   }
 }

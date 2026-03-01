@@ -30,7 +30,7 @@
         {{ $data[$key] ? 'あり' : 'なし' }}
       @elseif(is_array($data[$key]))
         {{ implode('、', $data[$key]) }}
-      @elseif(in_array($key, ['birthday', 'qualification_date', 'certification_date', 'issue_date', 'expiration_date', 'license_acquisition_date', 'expiry_date', 'consenting_date', 'consenting_start_date', 'consenting_end_date', 'benefit_period_start_date', 'benefit_period_end_date', 'first_care_date', 'reconsenting_expiry', 'onset_and_injury_date', 'therapy_period_start_date', 'therapy_period_end_date']))
+      @elseif(in_array($key, ['birthday', 'qualification_date', 'certification_date', 'issue_date', 'expiration_date', 'license_acquisition_date', 'expiry_date', 'consenting_date', 'consenting_start_date', 'consenting_end_date', 'benefit_period_start_date', 'benefit_period_end_date', 'first_care_date', 'reconsenting_expiry', 'onset_and_injury_date']))
         @php
           $dateValue = $data[$key];
           if (is_object($dateValue) && method_exists($dateValue, 'format')) {
