@@ -2027,7 +2027,11 @@ function submitFaxCoverSheet() {
  * 宛名シール・住所データCSV出力モーダルを開く
  */
 function openAddressLabelModal() {
-  const modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('addressLabelModal'));
+  const modalElement = document.getElementById('addressLabelModal');
+  if (modalElement.parentElement !== document.body) {
+    document.body.appendChild(modalElement);
+  }
+  const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
   modal.show();
 }
 
