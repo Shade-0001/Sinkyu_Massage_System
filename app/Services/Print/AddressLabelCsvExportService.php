@@ -55,11 +55,6 @@ class AddressLabelCsvExportService extends BasePdfService
   const PAD_X               = 3;
   const PAD_Y               = 2;
 
-  // ---------- 境界線色（利用者ラベル用）----------
-  const BORDER_R            = 240;
-  const BORDER_G            = 240;
-  const BORDER_B            = 240;
-
   // -------------------------------------------------------
 
   protected function getDefaultCoordinatesPath(): string
@@ -348,13 +343,6 @@ class AddressLabelCsvExportService extends BasePdfService
     string $fontName,
     string $dataType = ''
   ): void {
-    // 利用者ラベルのみ境界線を描画
-    if ($dataType === 'clinic_user') {
-      $pdf->SetDrawColor(self::BORDER_R, self::BORDER_G, self::BORDER_B);
-      $pdf->SetLineWidth(0.2);
-      $pdf->Rect($x, $y, $w, $h, 'D');
-    }
-
     $px     = $x + self::PAD_X;
     $py     = $y + self::PAD_Y;
     $innerW = $w - self::PAD_X * 2;
