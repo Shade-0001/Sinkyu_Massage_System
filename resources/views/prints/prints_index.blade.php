@@ -63,7 +63,7 @@
   <button type="button" class="btn btn-primary" onclick="submitCareManagerInfoList()">ケアマネ情報一覧</button>
   <button type="button" class="btn btn-primary" onclick="submitTherapistInfoList()">施術者情報一覧</button>
   <button>宛名シール・住所データCSV出力</button>
-  <button>FAX送信表表示</button>
+  <button type="button" class="btn btn-primary" onclick="submitFaxCoverSheet()">FAX送信票表示</button>
 
   <!-- はり・きゅう療養費支給申請書モーダル -->
   <div class="modal fade" id="acupunctureBenefitModal" tabindex="-1" aria-labelledby="acupunctureBenefitModalLabel" aria-hidden="true">

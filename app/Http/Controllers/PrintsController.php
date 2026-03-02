@@ -2148,6 +2148,41 @@ class PrintsController extends Controller
     }
   }
 
+  /**
+   * FAX送信票PDF出力
+   */
+  public function faxCoverSheet(Request $request, string $filename)
+  {
+    try {
+      $service = new \App\Services\Print\FaxCoverSheetPdfService();
+
+      \Log::info('FAX送信票PDF生成開始');
+
+      $pdfBinary = $service->generate([], '');
+
+      \Log::info('FAX送信票PDF生成完了', ['size' => strlen($pdfBinary)]);
+
+      return response($pdfBinary, 200, [
+        'Content-Type'        => 'application/pdf',
+        'Content-Disposition' => 'inline; filename="' . $filename . '"',
+      ]);
+    } catch (\Exception $e) {
+      \Log::error('FAX送信票PDF生成エラー', [
+        'message' => $e->getMessage(),
+        'file'    => $e->getFile(),
+        'line'    => $e->getLine(),
+        'trace'   => $e->getTraceAsString(),
+      ]);
+
+      return response()->json([
+        'error'   => 'PDF生成に失敗しました',
+        'message' => $e->getMessage(),
+        'file'    => $e->getFile(),
+        'line'    => $e->getLine(),
+      ], 500);
+    }
+  }
+
   public function therapistInfoList(Request $request, string $filename)
   {
     try {
