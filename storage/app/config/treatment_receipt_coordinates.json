@@ -28,7 +28,7 @@
         "y": 25.5,
         "ellipseWidth": 2.5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "gender",
         "type": "select",
         "isSelected": true
@@ -38,7 +38,7 @@
         "y": 25.5,
         "ellipseWidth": 2.5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "gender",
         "type": "select",
         "isSelected": false

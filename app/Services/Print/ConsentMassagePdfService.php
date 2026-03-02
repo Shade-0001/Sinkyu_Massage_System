@@ -208,7 +208,7 @@ class ConsentMassagePdfService extends BasePdfService
             $y = $this->coord($key, 'y');
             $ellipseWidth = $this->coord($key, 'ellipseWidth') ?: 2.5;
             $ellipseHeight = $this->coord($key, 'ellipseHeight') ?: 2.5;
-            $lineWidth = $this->coord($key, 'lineWidth') ?: 0.5;
+            $lineWidth = $this->coord($key, 'lineWidth') ?: 0.4;
 
             $pdf->SetLineWidth($lineWidth);
             $pdf->Ellipse($x, $y, $ellipseWidth, $ellipseHeight, 0, 0, 360, 'D');
@@ -232,7 +232,7 @@ class ConsentMassagePdfService extends BasePdfService
             $y = $this->coord($key, 'y');
             $ellipseWidth = $this->coord($key, 'ellipseWidth') ?: 2.5;
             $ellipseHeight = $this->coord($key, 'ellipseHeight') ?: 2.5;
-            $lineWidth = $this->coord($key, 'lineWidth') ?: 0.5;
+            $lineWidth = $this->coord($key, 'lineWidth') ?: 0.4;
 
             $pdf->SetLineWidth($lineWidth);
             $pdf->Ellipse($x, $y, $ellipseWidth, $ellipseHeight, 0, 0, 360, 'D');
@@ -338,7 +338,7 @@ class ConsentMassagePdfService extends BasePdfService
           $y = $this->coord($key, 'y');
           $ellipseWidth = $this->coord($key, 'ellipseWidth') ?: 6;
           $ellipseHeight = $this->coord($key, 'ellipseHeight') ?: 3;
-          $lineWidth = $this->coord($key, 'lineWidth') ?: 0.5;
+          $lineWidth = $this->coord($key, 'lineWidth') ?: 0.4;
           $pdf->SetLineWidth($lineWidth);
           $pdf->Ellipse($x, $y, $ellipseWidth, $ellipseHeight, 0, 0, 360, 'D');
         }
@@ -356,7 +356,7 @@ class ConsentMassagePdfService extends BasePdfService
         $y = $this->coord($fieldKey, 'y');
         $ellipseWidth = $this->coord($fieldKey, 'ellipseWidth') ?: 6;
         $ellipseHeight = $this->coord($fieldKey, 'ellipseHeight') ?: 3;
-        $lineWidth = $this->coord($fieldKey, 'lineWidth') ?: 0.5;
+        $lineWidth = $this->coord($fieldKey, 'lineWidth') ?: 0.4;
         $pdf->SetLineWidth($lineWidth);
         $pdf->Ellipse($x, $y, $ellipseWidth, $ellipseHeight, 0, 0, 360, 'D');
       }
@@ -382,7 +382,7 @@ class ConsentMassagePdfService extends BasePdfService
             $y = $this->coord($key, 'y');
             $ellipseWidth = $this->coord($key, 'ellipseWidth') ?: 2.5;
             $ellipseHeight = $this->coord($key, 'ellipseHeight') ?: 2.5;
-            $lineWidth = $this->coord($key, 'lineWidth') ?: 0.5;
+            $lineWidth = $this->coord($key, 'lineWidth') ?: 0.4;
             $pdf->SetLineWidth($lineWidth);
             $pdf->Ellipse($x, $y, $ellipseWidth, $ellipseHeight, 0, 0, 360, 'D');
           }
@@ -398,7 +398,7 @@ class ConsentMassagePdfService extends BasePdfService
             $y = $this->coord($key, 'y');
             $ellipseWidth = $this->coord($key, 'ellipseWidth') ?: 2.5;
             $ellipseHeight = $this->coord($key, 'ellipseHeight') ?: 2.5;
-            $lineWidth = $this->coord($key, 'lineWidth') ?: 0.5;
+            $lineWidth = $this->coord($key, 'lineWidth') ?: 0.4;
             $pdf->SetLineWidth($lineWidth);
             $pdf->Ellipse($x, $y, $ellipseWidth, $ellipseHeight, 0, 0, 360, 'D');
           }
@@ -491,7 +491,7 @@ class ConsentMassagePdfService extends BasePdfService
             $y = $this->coord($key, 'y');
             $ellipseWidth = $this->coord($key, 'ellipseWidth') ?: 6;
             $ellipseHeight = $this->coord($key, 'ellipseHeight') ?: 3;
-            $lineWidth = $this->coord($key, 'lineWidth') ?: 0.5;
+            $lineWidth = $this->coord($key, 'lineWidth') ?: 0.4;
             $pdf->SetLineWidth($lineWidth);
             $pdf->Ellipse($x, $y, $ellipseWidth, $ellipseHeight, 0, 0, 360, 'D');
           }
@@ -510,7 +510,7 @@ class ConsentMassagePdfService extends BasePdfService
           $y = $this->coord($key, 'y');
           $ellipseWidth = $this->coord($key, 'ellipseWidth') ?: 6;
           $ellipseHeight = $this->coord($key, 'ellipseHeight') ?: 3;
-          $lineWidth = $this->coord($key, 'lineWidth') ?: 0.5;
+          $lineWidth = $this->coord($key, 'lineWidth') ?: 0.4;
           $pdf->SetLineWidth($lineWidth);
           $pdf->Ellipse($x, $y, $ellipseWidth, $ellipseHeight, 0, 0, 360, 'D');
         }

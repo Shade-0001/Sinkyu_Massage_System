@@ -111,7 +111,7 @@ trait MassageDrawingHelpersTrait
     $y = $this->coordinates[$key]['ellipseY'] ?? $this->coordinates[$key]['y'] ?? 0;
     $ellipseWidth = $this->coordinates[$key]['ellipseWidth'] ?? 2.5;
     $ellipseHeight = $this->coordinates[$key]['ellipseHeight'] ?? 2.5;
-    $lineWidth = $this->coordinates[$key]['lineWidth'] ?? 0.5;
+    $lineWidth = $this->coordinates[$key]['lineWidth'] ?? 0.4;
 
     // デバッグ：楕円描画成功ログ
     \Log::info("楕円描画実行", [

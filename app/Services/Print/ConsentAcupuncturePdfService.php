@@ -168,7 +168,7 @@ class ConsentAcupuncturePdfService extends BasePdfService
             $y = $this->coord($key, 'y');
             $ellipseWidth = $this->coord($key, 'ellipseWidth') ?: 2.5;
             $ellipseHeight = $this->coord($key, 'ellipseHeight') ?: 2.5;
-            $lineWidth = $this->coord($key, 'lineWidth') ?: 0.5;
+            $lineWidth = $this->coord($key, 'lineWidth') ?: 0.4;
 
             $pdf->SetLineWidth($lineWidth);
             $pdf->Ellipse($x, $y, $ellipseWidth, $ellipseHeight, 0, 0, 360, 'D');
@@ -192,7 +192,7 @@ class ConsentAcupuncturePdfService extends BasePdfService
             $y = $this->coord($key, 'y');
             $ellipseWidth = $this->coord($key, 'ellipseWidth') ?: 2.5;
             $ellipseHeight = $this->coord($key, 'ellipseHeight') ?: 2.5;
-            $lineWidth = $this->coord($key, 'lineWidth') ?: 0.5;
+            $lineWidth = $this->coord($key, 'lineWidth') ?: 0.4;
 
             $pdf->SetLineWidth($lineWidth);
             $pdf->Ellipse($x, $y, $ellipseWidth, $ellipseHeight, 0, 0, 360, 'D');
