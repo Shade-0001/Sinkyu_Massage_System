@@ -2061,8 +2061,7 @@ function submitAddressLabel() {
   const dataLabel = labelMap[dataType] || dataType;
 
   if (outputType === 'csv') {
-    const filename = `住所データ_${dataLabel}_${ts}.csv`;
-    window.open(`/prints/address-label-csv/${encodeURIComponent(filename)}?data_type=${encodeURIComponent(dataType)}`, '_blank');
+    window.open(`/prints/address-label-csv?data_type=${encodeURIComponent(dataType)}`, '_blank');
   } else {
     const faces   = outputType === 'label_12' ? 12 : 10;
     const filename = `宛名シール_${faces}面_${dataLabel}_${ts}.pdf`;

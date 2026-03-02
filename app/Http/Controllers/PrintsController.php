@@ -2183,15 +2183,26 @@ class PrintsController extends Controller
     }
   }
 
-  public function addressLabelCsv(Request $request, string $filename)
+  public function addressLabelCsv(Request $request)
   {
     $dataType = $request->query('data_type', 'clinic_user');
 
     try {
       $service = new \App\Services\Print\AddressLabelCsvExportService();
-      $csv     = $service->generateCsv($dataType);
+      $result  = $service->generateCsv($dataType);
 
-      return response($csv, 200, [
+      $labelMap = [
+        'clinic_user' => '利用者',
+        'doctor'      => '同意医師',
+        'insurer'     => '保険者',
+        'caremanager' => 'ケアマネ',
+      ];
+      $label    = $labelMap[$dataType] ?? $dataType;
+      $count    = $result['count'];
+      $ts       = now()->format('Y-m-d_H-i-s');
+      $filename = "住所データ_{$label}_{$count}件_{$ts}.csv";
+
+      return response($result['csv'], 200, [
         'Content-Type'        => 'text/csv; charset=UTF-8',
         'Content-Disposition' => 'attachment; filename="' . $filename . '"',
       ]);

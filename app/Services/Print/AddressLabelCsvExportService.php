@@ -171,7 +171,7 @@ class AddressLabelCsvExportService extends BasePdfService
   // CSV生成
   // -------------------------------------------------------
 
-  public function generateCsv(string $dataType): string
+  public function generateCsv(string $dataType): array
   {
     $records = $this->fetchRecords($dataType);
 
@@ -219,7 +219,7 @@ class AddressLabelCsvExportService extends BasePdfService
       }
     }
 
-    return $output;
+    return ['csv' => $output, 'count' => count($records)];
   }
 
   // -------------------------------------------------------
