@@ -361,70 +361,115 @@ class AddressLabelCsvExportService extends BasePdfService
 
     if ($dataType === 'clinic_user') {
       // 利用者フォーマット: 郵便番号 → 住所 → 氏名（大）
+      // フォントサイズ(pt) → 行高(mm): pt * 0.3528 + 余白
+      $bottomY = $y + $h - self::PAD_Y;
+
       $postal = $record['postal_code'] ?? '';
       if ($postal !== '' && $postal !== null) {
         $postalDisplay = '〒 ' . $this->formatPostalCode($postal);
         $pdf->SetFont($fontName, '', self::FONT_POSTAL);
-        $pdf->SetXY($px, $py);
-        $pdf->Cell($innerW, 5, $postalDisplay, 0, 0, 'L');
-        $py += 5;
+        $lineH = round(self::FONT_POSTAL * 0.3528 + 1.5, 2);
+        if ($py + $lineH <= $bottomY) {
+          $pdf->SetXY($px, $py);
+          $pdf->Cell($innerW, $lineH, $postalDisplay, 0, 0, 'L');
+          $py += $lineH;
+        }
       }
 
       $address = $record['address'] ?? '';
       if ($address !== '' && $address !== null) {
         $pdf->SetFont($fontName, '', self::FONT_ADDRESS);
-        $pdf->SetXY($px, $py);
-        $pdf->MultiCell($innerW, 4, $address, 0, 'L');
-        $lineCount = ceil(mb_strlen($address) / max(1, intdiv((int)$innerW, 3)));
-        $py += max(4, $lineCount * 4);
+        $lineH = round(self::FONT_ADDRESS * 0.3528 + 1.5, 2);
+        $strW  = $pdf->GetStringWidth($address);
+        $lines = max(1, (int)ceil($strW / $innerW));
+        $blockH = $lineH * $lines;
+        if ($py + $blockH <= $bottomY) {
+          $pdf->SetXY($px, $py);
+          $pdf->MultiCell($innerW, $lineH, $address, 0, 'L');
+          $py += $blockH;
+        } elseif ($py < $bottomY) {
+          // 入る分だけ描画
+          $pdf->SetXY($px, $py);
+          $pdf->MultiCell($innerW, $lineH, $address, 0, 'L');
+          $py = $bottomY;
+        }
       }
 
       // 氏名（大フォント）
       $name = $record['name'] ?? '';
       if ($name !== '' && $name !== null) {
         $pdf->SetFont($fontName, '', self::FONT_NAME);
+        $lineH = round(self::FONT_NAME * 0.3528 + 1.5, 2);
         $py += 1;
-        $pdf->SetXY($px, $py);
-        $pdf->Cell($innerW, 7, $name, 0, 0, 'L');
+        if ($py + $lineH <= $bottomY) {
+          $pdf->SetXY($px, $py);
+          $pdf->Cell($innerW, $lineH, $name, 0, 0, 'L');
+        }
       }
 
       return;
     }
 
     // 利用者以外の共通フォーマット
+    $bottomY = $y + $h - self::PAD_Y;
+
     $postal = $record['postal_code'] ?? '';
     if ($postal !== '' && $postal !== null) {
       $postalDisplay = '〒 ' . $this->formatPostalCode($postal);
       $pdf->SetFont($fontName, '', self::FONT_POSTAL);
-      $pdf->SetXY($px, $py);
-      $pdf->Cell($innerW, 5, $postalDisplay, 0, 0, 'L');
-      $py += 5;
+      $lineH = round(self::FONT_POSTAL * 0.3528 + 1.5, 2);
+      if ($py + $lineH <= $bottomY) {
+        $pdf->SetXY($px, $py);
+        $pdf->Cell($innerW, $lineH, $postalDisplay, 0, 0, 'L');
+        $py += $lineH;
+      }
     }
 
     $address = $record['address'] ?? '';
     if ($address !== '' && $address !== null) {
       $pdf->SetFont($fontName, '', self::FONT_ADDRESS);
-      $pdf->SetXY($px, $py);
-      $pdf->MultiCell($innerW, 4.5, $address, 0, 'L');
-      $lineCount = ceil(mb_strlen($address) / max(1, intdiv((int)$innerW, 3)));
-      $py += max(4.5, $lineCount * 4.5);
+      $lineH  = round(self::FONT_ADDRESS * 0.3528 + 1.5, 2);
+      $strW   = $pdf->GetStringWidth($address);
+      $lines  = max(1, (int)ceil($strW / $innerW));
+      $blockH = $lineH * $lines;
+      if ($py + $blockH <= $bottomY) {
+        $pdf->SetXY($px, $py);
+        $pdf->MultiCell($innerW, $lineH, $address, 0, 'L');
+        $py += $blockH;
+      } elseif ($py < $bottomY) {
+        $pdf->SetXY($px, $py);
+        $pdf->MultiCell($innerW, $lineH, $address, 0, 'L');
+        $py = $bottomY;
+      }
     }
 
     $org = $record['organization'] ?? '';
     if ($org !== '' && $org !== null) {
       $pdf->SetFont($fontName, '', self::FONT_ADDRESS);
-      $pdf->SetXY($px, $py);
-      $pdf->MultiCell($innerW, 4.5, $org, 0, 'L');
-      $lineCount = ceil(mb_strlen($org) / max(1, intdiv((int)$innerW, 3)));
-      $py += max(4.5, $lineCount * 4.5);
+      $lineH  = round(self::FONT_ADDRESS * 0.3528 + 1.5, 2);
+      $strW   = $pdf->GetStringWidth($org);
+      $lines  = max(1, (int)ceil($strW / $innerW));
+      $blockH = $lineH * $lines;
+      if ($py + $blockH <= $bottomY) {
+        $pdf->SetXY($px, $py);
+        $pdf->MultiCell($innerW, $lineH, $org, 0, 'L');
+        $py += $blockH;
+      } elseif ($py < $bottomY) {
+        $pdf->SetXY($px, $py);
+        $pdf->MultiCell($innerW, $lineH, $org, 0, 'L');
+        $py = $bottomY;
+      }
     }
 
     $name = $record['name'] ?? '';
     if ($name !== '' && $name !== null) {
       $pdf->SetFont($fontName, '', self::FONT_NAME);
-      $nameY = $y + $h - self::PAD_Y - 8;
-      $pdf->SetXY($px, $nameY);
-      $pdf->Cell($innerW, 8, $name, 0, 0, 'L');
+      $lineH = round(self::FONT_NAME * 0.3528 + 1.5, 2);
+      $py += 1;
+      if ($py + $lineH <= $bottomY) {
+        $pdf->SetXY($px, $py);
+        $pdf->Cell($innerW, $lineH, $name, 0, 0, 'L');
+      }
     }
   }
 
