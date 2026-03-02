@@ -84,7 +84,7 @@ class ClinicUserFactory extends Factory
             'email'                         => $this->faker->unique()->safeEmail(),
             'housecall_distance'            => $this->faker->boolean(50) ? $this->faker->numberBetween(1, 20) : 0,
             'housecall_additional_distance' => $this->faker->numberBetween(0, 5),
-            'is_redeemed'                   => false,
+            'is_redeemed'                   => $this->faker->boolean(10),
             'application_count'             => $this->faker->numberBetween(1, 30),
             'note'                          => $note,
         ];
