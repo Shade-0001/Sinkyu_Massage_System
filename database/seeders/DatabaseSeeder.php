@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
     $this->call([
       InsurerSeeder::class,
       SelfFeeSeeder::class,
+      MedicalInstitutionSeeder::class,
     ]);
 
     // Group C: 人物マスタ
