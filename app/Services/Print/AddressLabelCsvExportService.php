@@ -128,11 +128,12 @@ class AddressLabelCsvExportService extends BasePdfService
           ->get(['id', 'insurer_name', 'insurer_number', 'postal_code', 'address', 'recipient_name']);
         return array_map(function ($r) {
           return [
-            'name'        => ($r->recipient_name ? $r->recipient_name . ' 御中' : $r->insurer_name . ' 御中'),
-            'organization' => $r->insurer_name,
-            'postal_code' => $r->postal_code,
-            'address'     => $r->address,
-            'phone'       => '',
+            'name'           => ($r->recipient_name ? $r->recipient_name . ' 御中' : $r->insurer_name . ' 御中'),
+            'organization'   => $r->insurer_name,
+            'postal_code'    => $r->postal_code,
+            'address'        => $r->address,
+            'recipient_name' => $r->recipient_name ?? '',
+            'phone'          => '',
           ];
         }, $rows->toArray());
 
@@ -178,10 +179,12 @@ class AddressLabelCsvExportService extends BasePdfService
     // BOM付きUTF-8（Excel対応）
     $output = "\xEF\xBB\xBF";
 
-    $hasOrg = in_array($dataType, ['doctor', 'insurer', 'caremanager']);
+    $hasOrg = in_array($dataType, ['doctor', 'caremanager']);
 
     if ($dataType === 'clinic_user') {
       $output .= '"氏名","郵便番号","住所１","住所２","住所３","電話番号"' . "\n";
+    } elseif ($dataType === 'insurer') {
+      $output .= '"保険者名称","郵便番号","住所","提出先名称"' . "\n";
     } elseif ($hasOrg) {
       $output .= '"氏名/宛名","組織名","郵便番号","住所","電話番号"' . "\n";
     } else {
@@ -205,6 +208,13 @@ class AddressLabelCsvExportService extends BasePdfService
           . '"' . str_replace('"', '""', $addr2) . '",'
           . '"' . str_replace('"', '""', $addr3) . '",'
           . '"' . str_replace('"', '""', $phone) . '"' . "\n";
+      } elseif ($dataType === 'insurer') {
+        $insurer_name   = $r['organization'] ?? '';
+        $recipient_name = $r['recipient_name'] ?? '';
+        $output .= '"' . str_replace('"', '""', $insurer_name) . '",'
+          . '"' . str_replace('"', '""', $postal) . '",'
+          . '"' . str_replace('"', '""', $address) . '",'
+          . '"' . str_replace('"', '""', $recipient_name) . '"' . "\n";
       } elseif ($hasOrg) {
         $output .= '"' . str_replace('"', '""', $name) . '",'
           . '"' . str_replace('"', '""', $org) . '",'
