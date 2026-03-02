@@ -455,6 +455,9 @@ const categoryLabels = {
     "clinic_info": "事業所情報",
     "insurer_info": "保険者情報",
     "treatment_injury_info": "傷病･施術情報",
+    // 同意書用カテゴリラベル
+    "illness_info": "傷病情報",
+    "consent_info": "同意情報",
     // 総括表用カテゴリラベル
     "header_info":  "ヘッダー情報",
     "cost_summary": "集計情報",
@@ -509,10 +512,37 @@ const fieldCategoriesTreatmentReceipt = {};
 const categoryOrderTreatmentReceipt = [];
 
 // フィールドカテゴリマッピング（同意書（はり・きゅう）用）- カテゴライズなし
-const fieldCategoriesConsentAcupuncture = {};
+const fieldCategoriesConsentAcupuncture = {
+  "user_address": "user_info",
+  "user_name": "user_info",
+  "user_birthday": "user_info",
 
-// カテゴリ順序（同意書（はり・きゅう）用）- カテゴライズなし
-const categoryOrderConsentAcupuncture = [];
+  "illness_name_1": "illness_info",
+  "illness_name_2": "illness_info",
+  "illness_name_3": "illness_info",
+  "illness_name_4": "illness_info",
+  "illness_name_5": "illness_info",
+  "illness_name_6": "illness_info",
+  "illness_name_7": "illness_info",
+  "illness_name_other_text": "illness_info",
+  "onset_date": "illness_info",
+
+  "consent_category": "consent_info",
+  "consenting_date": "consent_info",
+  "submission_date": "consent_info",
+
+  "consenting_doctor_medical_institution_name": "doctor_info",
+  "consenting_doctor_address": "doctor_info",
+  "consenting_doctor_name": "doctor_info"
+};
+
+// カテゴリ順序（同意書（はり・きゅう）用）
+const categoryOrderConsentAcupuncture = [
+  "user_info",
+  "illness_info",
+  "consent_info",
+  "doctor_info"
+];
 
 // フィールドカテゴリマッピング（同意書（あんま・マッサージ）用）
 const fieldCategoriesConsentMassage = {

@@ -130,6 +130,9 @@ function renderFieldSettings() {
         'fee_massage_unit', 'fee_massage_count', 'fee_massage_total'
       ];
       return !acupunctureOnlyFields.includes(key);
+    } else if (pdfType === 'consent_acupuncture' || pdfType === 'consent_massage') {
+      // 同意書系：fieldCategoriesに登録されているキーのみ表示
+      return fieldCategories.hasOwnProperty(key);
     }
     return true;
   }
@@ -151,120 +154,6 @@ function renderFieldSettings() {
     // orderedKeys の順序で push されるため、カテゴリ内の順序は保持される
     categorizedFields[category].push(key);
   });
-
-  // consent_massage専用：診察日までのuncategorizedフィールドを先に表示
-  if (currentPdfType === 'consent_massage' && categorizedFields['uncategorized']) {
-    const uncategorizedFields = categorizedFields['uncategorized'];
-    const consentingDateIndex = uncategorizedFields.indexOf('consenting_date');
-
-    if (consentingDateIndex !== -1) {
-      // 診察日までのフィールド（診察日含む）を表示
-      const fieldsBeforeCategories = uncategorizedFields.slice(0, consentingDateIndex + 1);
-
-      fieldsBeforeCategories.forEach(key => {
-        if (processedKeys.has(key)) return;
-
-        let field = coordinates[key];
-        if (!field && fieldDefs[key]) {
-          const mappingField = fieldDefs[key];
-          const isEllipseField = mappingField.radioGroup !== undefined && (mappingField.ellipseWidth !== undefined || mappingField.ellipseHeight !== undefined);
-          field = {
-            x: 0,
-            y: 0,
-            textAlign: 'left',
-            ...fieldDefs[key]
-          };
-          if (!isEllipseField) {
-            field.fontSize = 10;
-            field.letterSpacing = 0;
-          }
-          coordinates[key] = field;
-        }
-        if (!field) return;
-
-        // radioGroupの処理（fieldDefinitionsから取得）
-        const fieldMapping = fieldDefs[key];
-        if (fieldMapping?.radioGroup && !processedGroups.has(fieldMapping.radioGroup)) {
-          processedGroups.add(fieldMapping.radioGroup);
-
-          const groupFields = Object.entries(coordinates)
-            .filter(([k, v]) => {
-              const km = fieldDefs[k];
-              return km?.radioGroup === fieldMapping.radioGroup && fieldsBeforeCategories.includes(k);
-            })
-            .sort((a, b) => {
-              const indexA = orderedKeys.indexOf(a[0]);
-              const indexB = orderedKeys.indexOf(b[0]);
-              if (indexA !== -1 && indexB !== -1) return indexA - indexB;
-              const numA = parseInt(a[0].match(/\d+$/)?.[0] || 0);
-              const numB = parseInt(b[0].match(/\d+$/)?.[0] || 0);
-              return numA - numB;
-            });
-
-          groupFields.forEach(([k]) => processedKeys.add(k));
-
-          const firstKey = groupFields[0][0];
-          let selectedKey = firstKey;
-          for (const [k, v] of groupFields) {
-            if (v.isSelected) {
-              selectedKey = k;
-              break;
-            }
-          }
-
-          const div = document.createElement('div');
-          div.className = 'field-group';
-          div.setAttribute('data-radio-group', fieldMapping.radioGroup);
-
-          const firstFieldMapping = fieldDefs[firstKey];
-          const groupLabel = firstFieldMapping?.label || fieldMapping.radioGroup;
-
-          const options = groupFields.map(([k, v]) => {
-            const mapping = fieldDefs[k];
-            const optionLabel = mapping?.optionLabel || mapping?.label || k;
-            return `<option value="${k}" ${selectedKey === k ? 'selected' : ''}>${optionLabel}</option>`;
-          }).join('');
-
-          const showSampleData = document.getElementById('show-sample-data')?.checked;
-          const selectorHtml = showSampleData ? `
-              <div class="coordinate-input">
-                <label>選択:</label>
-                <select onchange="updateRadioGroupSelection('${fieldMapping.radioGroup}', this.value)"
-                        class="form-control form-control-sm"
-                        style="width: auto; display: inline-block; margin-left: 10px;">
-                  ${options}
-                </select>
-              </div>
-          ` : '';
-
-          div.innerHTML = `
-            <h6 class="field-header" onclick="toggleField('${fieldMapping.radioGroup}')" style="cursor: pointer; user-select: none;">
-              <span class="toggle-icon" id="toggle-${fieldMapping.radioGroup}">▶</span> ${groupLabel}
-            </h6>
-            <div class="field-controls" id="controls-${fieldMapping.radioGroup}">
-              ${selectorHtml}
-              <div id="radiogroup-fields-${fieldMapping.radioGroup}"></div>
-            </div>
-          `;
-
-          container.appendChild(div);
-          updateRadioGroupSelection(fieldMapping.radioGroup, selectedKey);
-          return;
-        }
-
-        if (fieldMapping?.radioGroup) {
-          return;
-        }
-
-        // 通常フィールドの処理
-        processedKeys.add(key);
-        const div = document.createElement('div');
-        div.className = 'field-group';
-        div.innerHTML = renderSingleFieldHTML(key, field);
-        container.appendChild(div);
-      });
-    }
-  }
 
   // カテゴリごとにアコーディオンを作成
   categoryOrder.forEach(category => {
@@ -636,15 +525,6 @@ function renderFieldSettings() {
   // 未分類フィールドがあれば最後に追加
   if (categorizedFields['uncategorized'] && categorizedFields['uncategorized'].length > 0) {
     let uncategorizedFields = categorizedFields['uncategorized'];
-
-    // consent_massage専用：診察日以降のフィールドのみ表示
-    if (currentPdfType === 'consent_massage') {
-      const consentingDateIndex = uncategorizedFields.indexOf('consenting_date');
-      if (consentingDateIndex !== -1) {
-        // 診察日より後のフィールドのみ
-        uncategorizedFields = uncategorizedFields.slice(consentingDateIndex + 1);
-      }
-    }
 
     // カテゴリヘッダーなしで直接フィールドを表示
     uncategorizedFields.forEach(key => {
