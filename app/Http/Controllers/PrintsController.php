@@ -807,7 +807,7 @@ class PrintsController extends Controller
 
     $clinicUsers = DB::table('clinic_users')
       ->select('id', 'last_name', 'first_name', 'last_kana', 'first_kana')
-      ->orderBy('last_kana')
+      ->orderBy('id')
       ->get();
 
     $masterData = [
