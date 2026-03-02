@@ -2183,6 +2183,59 @@ class PrintsController extends Controller
     }
   }
 
+  public function addressLabelCsv(Request $request, string $filename)
+  {
+    $dataType = $request->query('data_type', 'clinic_user');
+
+    try {
+      $service = new \App\Services\Print\AddressLabelCsvExportService();
+      $csv     = $service->generateCsv($dataType);
+
+      return response($csv, 200, [
+        'Content-Type'        => 'text/csv; charset=UTF-8',
+        'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+      ]);
+    } catch (\Exception $e) {
+      \Log::error('宛名住所データCSV生成エラー', [
+        'message' => $e->getMessage(),
+        'file'    => $e->getFile(),
+        'line'    => $e->getLine(),
+      ]);
+
+      return response()->json([
+        'error'   => 'CSV生成に失敗しました',
+        'message' => $e->getMessage(),
+      ], 500);
+    }
+  }
+
+  public function addressLabelPdf(Request $request, string $filename)
+  {
+    $dataType = $request->query('data_type', 'clinic_user');
+    $faces    = (int) $request->query('faces', 12);
+
+    try {
+      $service   = new \App\Services\Print\AddressLabelCsvExportService();
+      $pdfBinary = $service->generateLabelPdf($dataType, $faces);
+
+      return response($pdfBinary, 200, [
+        'Content-Type'        => 'application/pdf',
+        'Content-Disposition' => 'inline; filename="' . $filename . '"',
+      ]);
+    } catch (\Exception $e) {
+      \Log::error('宛名シールPDF生成エラー', [
+        'message' => $e->getMessage(),
+        'file'    => $e->getFile(),
+        'line'    => $e->getLine(),
+      ]);
+
+      return response()->json([
+        'error'   => 'PDF生成に失敗しました',
+        'message' => $e->getMessage(),
+      ], 500);
+    }
+  }
+
   public function therapistInfoList(Request $request, string $filename)
   {
     try {

@@ -284,6 +284,8 @@ Route::middleware('auth')->group(function () {
   Route::get('/prints/user-info-basic-list/{filename}', [PrintsController::class, 'userInfoBasicList'])->name('prints.user-info-basic-list');
   Route::get('/prints/user-info-insurance-list/{filename}', [PrintsController::class, 'userInfoInsuranceList'])->name('prints.user-info-insurance-list');
   Route::get('/prints/fax-cover-sheet/{filename}', [PrintsController::class, 'faxCoverSheet'])->name('prints.fax-cover-sheet');
+  Route::get('/prints/address-label-csv/{filename}', [PrintsController::class, 'addressLabelCsv'])->name('prints.address-label-csv');
+  Route::get('/prints/address-label-pdf/{filename}', [PrintsController::class, 'addressLabelPdf'])->name('prints.address-label-pdf');
   Route::get('/prints/first-experience-material', [PrintsController::class, 'firstExperienceMaterial'])->name('prints.first-experience-material');
   Route::get('/prints/power-of-attorney-application', [PrintsController::class, 'powerOfAttorneyApplication'])->name('prints.power-of-attorney-application');
   Route::get('/prints/power-of-attorney-consent', [PrintsController::class, 'powerOfAttorneyConsent'])->name('prints.power-of-attorney-consent');

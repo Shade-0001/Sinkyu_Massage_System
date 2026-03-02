@@ -2022,3 +2022,48 @@ function submitFaxCoverSheet() {
   const filename = `FAX送信票_${year}-${month}-${day}_${hours}-${minutes}-${seconds}.pdf`;
   window.open(`/prints/fax-cover-sheet/${encodeURIComponent(filename)}`, '_blank');
 }
+
+/**
+ * 宛名シール・住所データCSV出力モーダルを開く
+ */
+function openAddressLabelModal() {
+  const modal = new bootstrap.Modal(document.getElementById('addressLabelModal'));
+  modal.show();
+}
+
+/**
+ * 宛名シール・住所データCSV出力
+ */
+function submitAddressLabel() {
+  const dataType   = document.getElementById('address_label_data_type').value;
+  const outputType = document.getElementById('address_label_output_type').value;
+
+  const now     = new Date();
+  const year    = now.getFullYear();
+  const month   = String(now.getMonth() + 1).padStart(2, '0');
+  const day     = String(now.getDate()).padStart(2, '0');
+  const hours   = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+  const ts      = `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
+
+  const labelMap = {
+    clinic_user: '利用者関連',
+    doctor:      '同意医師関連',
+    insurer:     '保険者関連',
+    caremanager: 'ケアマネ関連',
+  };
+
+  const dataLabel = labelMap[dataType] || dataType;
+
+  if (outputType === 'csv') {
+    const filename = `宛名住所データ_${dataLabel}_${ts}.csv`;
+    window.open(`/prints/address-label-csv/${encodeURIComponent(filename)}?data_type=${encodeURIComponent(dataType)}`, '_blank');
+  } else {
+    const faces   = outputType === 'label_12' ? 12 : 10;
+    const filename = `宛名シール_${faces}面_${dataLabel}_${ts}.pdf`;
+    window.open(`/prints/address-label-pdf/${encodeURIComponent(filename)}?data_type=${encodeURIComponent(dataType)}&faces=${faces}`, '_blank');
+  }
+
+  bootstrap.Modal.getInstance(document.getElementById('addressLabelModal')).hide();
+}
