@@ -467,10 +467,10 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
         $this->drawTextByKey($pdf, 'condition', (string)$conditionText);
         $pdf->SetFontSize(10);
       }
-    } elseif ($consent && isset($consent->condition) && $consent->condition) {
+    } elseif ($consent && isset($consent->condition_id) && $consent->condition_id) {
       // 通常モード：実データから取得
       // IDから名称を取得
-      $condition = \App\Models\Condition::find($consent->condition);
+      $condition = \App\Models\Condition::find($consent->condition_id);
       $conditionName = $condition ? $condition->condition_name : '';
       if ($conditionName) {
         $pdf->SetFontSize($this->coord('condition', 'fontSize'));

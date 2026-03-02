@@ -62,8 +62,7 @@ class ConsentMassageRequest extends FormRequest
       // マッサージ用
       'condition_id' => 'nullable|integer|exists:conditions,id',
       'disease_progress_custom' => 'nullable|string|max:255',
-      // 鍼灸用
-      'condition' => 'nullable|integer|exists:conditions,id',
+      // 鍼灸用（condition_idに統一）
       'condition_custom' => 'nullable|string|max:255',
       'work_scope_type_id' => 'nullable|integer|exists:work_scope_types,id',
       'onset_and_injury_date' => 'nullable|date',
@@ -98,8 +97,6 @@ class ConsentMassageRequest extends FormRequest
       // マッサージ用
       'condition_id.exists' => '選択された発病負傷経過が無効です。',
       'disease_progress_custom.max' => '発病負傷経過（新規）は255文字以内で入力してください。',
-      // 鍼灸用
-      'condition.exists' => '選択された発病負傷経過が無効です。',
       'condition_custom.max' => '発病負傷経過（新規）は255文字以内で入力してください。',
       'work_scope_type_id.exists' => '選択された業務上外等区分が無効です。',
       'onset_and_injury_date.date' => '発症・負傷日は正しい日付形式で入力してください。',

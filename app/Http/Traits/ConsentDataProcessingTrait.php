@@ -59,7 +59,7 @@ trait ConsentDataProcessingTrait
             $condition = Condition::create([
                 'condition_name' => $data['condition_custom']
             ]);
-            $data['condition'] = $condition->id;
+            $data['condition_id'] = $condition->id;
             unset($data['condition_custom']);
         }
     }

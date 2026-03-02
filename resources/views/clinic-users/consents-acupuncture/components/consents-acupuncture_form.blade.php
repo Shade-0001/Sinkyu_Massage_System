@@ -188,11 +188,11 @@
   </div>
 
   <div class="mb-3">
-    <label class="fw-semibold" for="condition">発病負傷経過</label><br>
-    <select id="condition" name="condition">
+    <label class="fw-semibold" for="condition_id">発病負傷経過</label><br>
+    <select id="condition_id" name="condition_id">
       <option value="">╌╌╌</option>
       @foreach($diseaseProgresses ?? [] as $progress)
-        <option value="{{ $progress->id }}" {{ old('condition', $history?->condition ?? '') == $progress->id ? 'selected' : '' }}>
+        <option value="{{ $progress->id }}" {{ old('condition_id', $history?->condition_id ?? '') == $progress->id ? 'selected' : '' }}>
           {{ $progress->condition_name }}
         </option>
       @endforeach
@@ -201,7 +201,7 @@
       <small>上記欄に記入無い場合は下に入力してマスター登録できます。</small>
     </div>
     <input type="text" id="condition_custom" name="condition_custom" placeholder="発病負傷経過（入力でマスター登録）" value="{{ old('condition_custom', '') }}">
-    @error('condition')
+    @error('condition_id')
       <div class="text-danger">{{ $message }}</div>
     @enderror
     @error('condition_custom')

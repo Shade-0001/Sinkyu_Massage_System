@@ -94,7 +94,7 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
       ->leftJoin('medical_institutions', 'doctors.medical_institutions_id', '=', 'medical_institutions.id')
       ->leftJoin('bill_categories', 'consents_acupuncture.bill_category_id', '=', 'bill_categories.id')
       ->leftJoin('illnesses_acupuncture', 'consents_acupuncture.illness_name_acupuncture_id', '=', 'illnesses_acupuncture.id')
-      ->leftJoin('conditions', 'consents_acupuncture.condition', '=', 'conditions.id')
+      ->leftJoin('conditions', 'consents_acupuncture.condition_id', '=', 'conditions.id')
       ->where('consents_acupuncture.clinic_user_id', $clinicUserId)
       ->orderBy('consents_acupuncture.consenting_date', 'desc')
       ->select(
