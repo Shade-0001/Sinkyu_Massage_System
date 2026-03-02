@@ -464,19 +464,18 @@ class AddressLabelCsvExportService extends BasePdfService
 
     $name = $record['name'] ?? '';
     if ($name !== '' && $name !== null) {
+      $pdf->SetFont($fontName, '', self::FONT_NAME);
+      $lineH = round(self::FONT_NAME * 0.3528 + 1.5, 2);
+      $py += 2;
       if ($dataType === 'doctor') {
         $nameDisplay = $name . '　先生御侍史';
+      } elseif ($dataType === 'insurer') {
+        $nameDisplay = $name;  // 保険者は fetchRecords で既に「御中」付き
       } elseif ($dataType === 'caremanager') {
         $nameDisplay = $name . '　様';
       } else {
-        $nameDisplay = $name;  // 保険者は fetchRecords で既に「御中」付き
+        $nameDisplay = $name;
       }
-      $pdf->SetFont($fontName, '', self::FONT_NAME);
-      $lineH  = round(self::FONT_NAME * 0.3528 + 1.5, 2);
-      $strW   = $pdf->GetStringWidth($nameDisplay);
-      $lines  = max(1, (int)ceil($strW / $innerW));
-      $blockH = $lineH * $lines;
-      $py += 2;
       if ($py < $bottomY) {
         $pdf->SetXY($px, $py);
         $pdf->MultiCell($innerW, $lineH, $nameDisplay, 0, 'L');
