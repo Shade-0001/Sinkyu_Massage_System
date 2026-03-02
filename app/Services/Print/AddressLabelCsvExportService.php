@@ -401,7 +401,10 @@ class AddressLabelCsvExportService extends BasePdfService
         $pdf->SetFont($fontName, '', self::FONT_NAME);
         $lineH = round(self::FONT_NAME * 0.3528 + 1.5, 2);
         $py += 2;
-        $this->drawNameWithHonorific($pdf, $name, '　様', $px, $py, $innerW, $lineH, $bottomY);
+        if ($py < $bottomY) {
+          $pdf->SetXY($px, $py);
+          $pdf->MultiCell($innerW, $lineH, $name . '　様', 0, 'L');
+        }
       }
 
       return;
@@ -461,68 +464,22 @@ class AddressLabelCsvExportService extends BasePdfService
 
     $name = $record['name'] ?? '';
     if ($name !== '' && $name !== null) {
-      $pdf->SetFont($fontName, '', self::FONT_NAME);
-      $lineH = round(self::FONT_NAME * 0.3528 + 1.5, 2);
-      $py += 2;
       if ($dataType === 'doctor') {
-        $honorific = '　先生御侍史';
+        $nameDisplay = $name . '　先生御侍史';
       } elseif ($dataType === 'caremanager') {
-        $honorific = '　様';
+        $nameDisplay = $name . '　様';
       } else {
-        $honorific = '';  // 保険者は fetchRecords で既に「御中」付き
+        $nameDisplay = $name;  // 保険者は fetchRecords で既に「御中」付き
       }
-      $this->drawNameWithHonorific($pdf, $name, $honorific, $px, $py, $innerW, $lineH, $bottomY);
-    }
-  }
-
-  /**
-   * 氏名＋敬称を描画する。
-   * - 氏名＋敬称が1行に収まる場合 → そのまま1行描画
-   * - 敬称のみ超過する場合 → 氏名を1行目、敬称（先頭スペースなし）を2行目に描画
-   * - 氏名自体が超過する場合 → MultiCellで折り返し、敬称を末尾行の後に追加
-   */
-  private function drawNameWithHonorific(
-    Fpdi $pdf,
-    string $name,
-    string $honorific,
-    float $px,
-    float $py,
-    float $innerW,
-    float $lineH,
-    float $bottomY
-  ): void {
-    if ($py + $lineH > $bottomY) {
-      return;
-    }
-
-    $nameW     = $pdf->GetStringWidth($name);
-    $combinedW = $pdf->GetStringWidth($name . $honorific);
-
-    if ($combinedW <= $innerW) {
-      // ケース1: 氏名＋敬称が1行に収まる
-      $pdf->SetXY($px, $py);
-      $pdf->Cell($innerW, $lineH, $name . $honorific, 0, 0, 'L');
-
-    } elseif ($nameW <= $innerW) {
-      // ケース2: 氏名は収まるが敬称で超過 → 2行に分割
-      $pdf->SetXY($px, $py);
-      $pdf->Cell($innerW, $lineH, $name, 0, 0, 'L');
-      $py += $lineH;
-      if ($honorific !== '' && $py + $lineH <= $bottomY) {
-        $pdf->SetXY($px, $py);
-        $pdf->Cell($innerW, $lineH, ltrim($honorific), 0, 0, 'L');
-      }
-
-    } else {
-      // ケース3: 氏名自体が超過 → MultiCellで折り返し
-      $lines  = max(1, (int)ceil($nameW / $innerW));
+      $pdf->SetFont($fontName, '', self::FONT_NAME);
+      $lineH  = round(self::FONT_NAME * 0.3528 + 1.5, 2);
+      $strW   = $pdf->GetStringWidth($nameDisplay);
+      $lines  = max(1, (int)ceil($strW / $innerW));
       $blockH = $lineH * $lines;
-      $pdf->SetXY($px, $py);
-      $pdf->MultiCell($innerW, $lineH, $name, 0, 'L');
-      $py += $blockH;
-      if ($honorific !== '' && $py + $lineH <= $bottomY) {
+      $py += 2;
+      if ($py < $bottomY) {
         $pdf->SetXY($px, $py);
-        $pdf->Cell($innerW, $lineH, ltrim($honorific), 0, 0, 'L');
+        $pdf->MultiCell($innerW, $lineH, $nameDisplay, 0, 'L');
       }
     }
   }
