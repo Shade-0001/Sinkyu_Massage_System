@@ -2052,16 +2052,16 @@ function submitAddressLabel() {
   const ts      = `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
 
   const labelMap = {
-    clinic_user: '利用者関連',
-    doctor:      '同意医師関連',
-    insurer:     '保険者関連',
-    caremanager: 'ケアマネ関連',
+    clinic_user: '利用者',
+    doctor:      '同意医師',
+    insurer:     '保険者',
+    caremanager: 'ケアマネ',
   };
 
   const dataLabel = labelMap[dataType] || dataType;
 
   if (outputType === 'csv') {
-    const filename = `宛名住所データ_${dataLabel}_${ts}.csv`;
+    const filename = `住所データ_${dataLabel}_${ts}.csv`;
     window.open(`/prints/address-label-csv/${encodeURIComponent(filename)}?data_type=${encodeURIComponent(dataType)}`, '_blank');
   } else {
     const faces   = outputType === 'label_12' ? 12 : 10;
