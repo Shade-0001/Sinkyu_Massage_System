@@ -15,23 +15,23 @@ use setasign\Fpdi\Tcpdf\Fpdi;
  *   caremanager  : ケアマネ関連
  *
  * 宛名シールレイアウト:
- *   12面 : 4列 × 3行（各 約47mm × 85mm）
+ *   12面 : 2列 × 6行（各 約95mm × 44mm）
  *   10面 : 2列 × 5行（各 約95mm × 52mm）
  */
 class AddressLabelCsvExportService extends BasePdfService
 {
   // ---------- 12面シールレイアウト（A4: 210mm × 297mm）----------
-  // 市販シート "エーワン 28870" 等を想定
-  // 左マージン 8mm, 上マージン 11mm, 列間 2mm, 行間 3mm
-  // ラベルサイズ: 幅 48mm × 高さ 83mm
-  const LABEL_12_COLS       = 4;
-  const LABEL_12_ROWS       = 3;
-  const LABEL_12_W          = 48;
-  const LABEL_12_H          = 83;
+  // 2列 × 6行
+  // 左マージン 9mm, 上マージン 11mm, 列間 2mm, 行間 3mm
+  // ラベルサイズ: 幅 95mm × 高さ 44mm
+  const LABEL_12_COLS       = 2;
+  const LABEL_12_ROWS       = 6;
+  const LABEL_12_W          = 95;
+  const LABEL_12_H          = 44;
   const LABEL_12_MARGIN_L   = 9;
   const LABEL_12_MARGIN_T   = 11;
   const LABEL_12_GAP_X      = 2;
-  const LABEL_12_GAP_Y      = 4;
+  const LABEL_12_GAP_Y      = 3;
 
   // ---------- 10面シールレイアウト ----------
   // 市販シート "エーワン 28384" 等を想定
@@ -47,13 +47,18 @@ class AddressLabelCsvExportService extends BasePdfService
   const LABEL_10_GAP_Y      = 4;
 
   // ---------- フォントサイズ ----------
-  const FONT_NAME           = 10;  // 氏名/組織名
+  const FONT_NAME           = 11;  // 氏名（大）
   const FONT_POSTAL         = 8;
   const FONT_ADDRESS        = 8;
 
   // ---------- セル内パディング ----------
   const PAD_X               = 3;
-  const PAD_Y               = 3;
+  const PAD_Y               = 2;
+
+  // ---------- 境界線色（利用者ラベル用）----------
+  const BORDER_R            = 200;
+  const BORDER_G            = 200;
+  const BORDER_B            = 200;
 
   // -------------------------------------------------------
 
@@ -326,7 +331,7 @@ class AddressLabelCsvExportService extends BasePdfService
       $y = $marginT + $row * ($labelH + $gapY);
 
       if ($i < $total) {
-        $this->drawLabel($pdf, $records[$i], $x, $y, $labelW, $labelH, $fontName);
+        $this->drawLabel($pdf, $records[$i], $x, $y, $labelW, $labelH, $fontName, $dataType);
       }
     }
 
@@ -340,13 +345,53 @@ class AddressLabelCsvExportService extends BasePdfService
     float $y,
     float $w,
     float $h,
-    string $fontName
+    string $fontName,
+    string $dataType = ''
   ): void {
-    $px      = $x + self::PAD_X;
-    $py      = $y + self::PAD_Y;
-    $innerW  = $w - self::PAD_X * 2;
+    // 利用者ラベルのみ境界線を描画
+    if ($dataType === 'clinic_user') {
+      $pdf->SetDrawColor(self::BORDER_R, self::BORDER_G, self::BORDER_B);
+      $pdf->SetLineWidth(0.2);
+      $pdf->Rect($x, $y, $w, $h, 'D');
+    }
 
-    // 郵便番号
+    $px     = $x + self::PAD_X;
+    $py     = $y + self::PAD_Y;
+    $innerW = $w - self::PAD_X * 2;
+
+    if ($dataType === 'clinic_user') {
+      // 利用者フォーマット: 郵便番号 → 住所 → 氏名（大）
+      $postal = $record['postal_code'] ?? '';
+      if ($postal !== '' && $postal !== null) {
+        $postalDisplay = '〒 ' . $this->formatPostalCode($postal);
+        $pdf->SetFont($fontName, '', self::FONT_POSTAL);
+        $pdf->SetXY($px, $py);
+        $pdf->Cell($innerW, 5, $postalDisplay, 0, 0, 'L');
+        $py += 5;
+      }
+
+      $address = $record['address'] ?? '';
+      if ($address !== '' && $address !== null) {
+        $pdf->SetFont($fontName, '', self::FONT_ADDRESS);
+        $pdf->SetXY($px, $py);
+        $pdf->MultiCell($innerW, 4, $address, 0, 'L');
+        $lineCount = ceil(mb_strlen($address) / max(1, intdiv((int)$innerW, 3)));
+        $py += max(4, $lineCount * 4);
+      }
+
+      // 氏名（大フォント）
+      $name = $record['name'] ?? '';
+      if ($name !== '' && $name !== null) {
+        $pdf->SetFont($fontName, '', self::FONT_NAME);
+        $py += 1;
+        $pdf->SetXY($px, $py);
+        $pdf->Cell($innerW, 7, $name, 0, 0, 'L');
+      }
+
+      return;
+    }
+
+    // 利用者以外の共通フォーマット
     $postal = $record['postal_code'] ?? '';
     if ($postal !== '' && $postal !== null) {
       $postalDisplay = '〒 ' . $this->formatPostalCode($postal);
@@ -356,7 +401,6 @@ class AddressLabelCsvExportService extends BasePdfService
       $py += 5;
     }
 
-    // 住所
     $address = $record['address'] ?? '';
     if ($address !== '' && $address !== null) {
       $pdf->SetFont($fontName, '', self::FONT_ADDRESS);
@@ -366,7 +410,6 @@ class AddressLabelCsvExportService extends BasePdfService
       $py += max(4.5, $lineCount * 4.5);
     }
 
-    // 組織名
     $org = $record['organization'] ?? '';
     if ($org !== '' && $org !== null) {
       $pdf->SetFont($fontName, '', self::FONT_ADDRESS);
@@ -376,7 +419,6 @@ class AddressLabelCsvExportService extends BasePdfService
       $py += max(4.5, $lineCount * 4.5);
     }
 
-    // 氏名
     $name = $record['name'] ?? '';
     if ($name !== '' && $name !== null) {
       $pdf->SetFont($fontName, '', self::FONT_NAME);
