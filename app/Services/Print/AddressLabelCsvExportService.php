@@ -445,6 +445,7 @@ class AddressLabelCsvExportService extends BasePdfService
 
     $org = $record['organization'] ?? '';
     if ($org !== '' && $org !== null) {
+      $py += 2;
       $pdf->SetFont($fontName, '', self::FONT_ADDRESS);
       $lineH  = round(self::FONT_ADDRESS * 0.3528 + 1.5, 2);
       $strW   = $pdf->GetStringWidth($org);
