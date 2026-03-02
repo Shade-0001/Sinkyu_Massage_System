@@ -47,9 +47,9 @@ class AddressLabelCsvExportService extends BasePdfService
   const LABEL_10_GAP_Y      = 4;
 
   // ---------- フォントサイズ ----------
-  const FONT_NAME           = 22;  // 氏名（大）
-  const FONT_POSTAL         = 16;
-  const FONT_ADDRESS        = 16;
+  const FONT_NAME           = 18;  // 氏名（大）
+  const FONT_POSTAL         = 12;
+  const FONT_ADDRESS        = 12;
 
   // ---------- セル内パディング ----------
   const PAD_X               = 3;
