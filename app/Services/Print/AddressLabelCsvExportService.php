@@ -81,8 +81,7 @@ class AddressLabelCsvExportService extends BasePdfService
     switch ($dataType) {
       case 'clinic_user':
         $rows = DB::table('clinic_users')
-          ->orderBy('last_kana')
-          ->orderBy('first_kana')
+          ->orderBy('id')
           ->get(['id', 'last_name', 'first_name', 'postal_code', 'address_1', 'address_2', 'address_3', 'phone']);
         return array_map(function ($r) {
           return [
@@ -99,8 +98,7 @@ class AddressLabelCsvExportService extends BasePdfService
       case 'doctor':
         $rows = DB::table('doctors')
           ->leftJoin('medical_institutions', 'doctors.medical_institutions_id', '=', 'medical_institutions.id')
-          ->orderBy('doctors.last_name_kana')
-          ->orderBy('doctors.first_name_kana')
+          ->orderBy('doctors.id')
           ->get([
             'doctors.id',
             'doctors.last_name',
@@ -124,7 +122,7 @@ class AddressLabelCsvExportService extends BasePdfService
 
       case 'insurer':
         $rows = DB::table('insurers')
-          ->orderBy('insurer_name')
+          ->orderBy('id')
           ->get(['id', 'insurer_name', 'insurer_number', 'postal_code', 'address', 'recipient_name']);
         return array_map(function ($r) {
           return [
@@ -140,8 +138,7 @@ class AddressLabelCsvExportService extends BasePdfService
       case 'caremanager':
         $rows = DB::table('caremanagers')
           ->leftJoin('service_providers', 'caremanagers.service_providers_id', '=', 'service_providers.id')
-          ->orderBy('caremanagers.last_name_kana')
-          ->orderBy('caremanagers.first_name_kana')
+          ->orderBy('caremanagers.id')
           ->get([
             'caremanagers.id',
             'caremanagers.last_name',
