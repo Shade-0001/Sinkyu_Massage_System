@@ -400,7 +400,7 @@ class AddressLabelCsvExportService extends BasePdfService
       if ($name !== '' && $name !== null) {
         $pdf->SetFont($fontName, '', self::FONT_NAME);
         $lineH = round(self::FONT_NAME * 0.3528 + 1.5, 2);
-        $py += 1;
+        $py += 2;
         if ($py + $lineH <= $bottomY) {
           $pdf->SetXY($px, $py);
           $pdf->Cell($innerW, $lineH, $name, 0, 0, 'L');
@@ -465,7 +465,7 @@ class AddressLabelCsvExportService extends BasePdfService
     if ($name !== '' && $name !== null) {
       $pdf->SetFont($fontName, '', self::FONT_NAME);
       $lineH = round(self::FONT_NAME * 0.3528 + 1.5, 2);
-      $py += 1;
+      $py += 2;
       if ($py + $lineH <= $bottomY) {
         $pdf->SetXY($px, $py);
         $pdf->Cell($innerW, $lineH, $name, 0, 0, 'L');
