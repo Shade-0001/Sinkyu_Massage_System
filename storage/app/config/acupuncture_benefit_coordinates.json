@@ -563,19 +563,6 @@
         "fontSize": 9,
         "letterSpacing": 0
     },
-    "payment_institution_name": {
-        "x": 46.5,
-        "y": 121,
-        "fontSize": 204,
-        "letterSpacing": 0
-    },
-    "payment_institution_phone": {
-        "x": 140,
-        "y": 183,
-        "fontSize": 111,
-        "letterSpacing": 0,
-        "textAlign": "left"
-    },
     "temporary_insurer_name": {
         "x": -34,
         "y": 274,
