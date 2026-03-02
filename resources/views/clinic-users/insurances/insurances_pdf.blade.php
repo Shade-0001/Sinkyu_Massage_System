@@ -39,16 +39,7 @@
           {{ $index === 0 ? '最新' : '更新済み' }}
         </td>
         <td style="width: 7%;">
-          @php
-            $insurerNumberLength = strlen($insurance->insurer?->insurer_number ?? '');
-          @endphp
-          @if($insurerNumberLength == 6)
-            国民健康保険
-          @elseif($insurerNumberLength == 8)
-            組合保険
-          @else
-            保険
-          @endif
+          {{ $insurance->insurer?->insurer_category ?? '保険' }}
         </td>
         <td style="width: 8%;">{{ $insurance->insured_number }}</td>
         <td style="width: 7%;">

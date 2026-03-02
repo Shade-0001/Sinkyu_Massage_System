@@ -51,16 +51,7 @@
     @forelse($insurances as $insurance)
     <tr>
       <td>
-      @php
-        $insurerNumberLength = strlen($insurance->insurer?->insurer_number ?? '');
-      @endphp
-      @if($insurerNumberLength == 6)
-        <a href="{{ route('clinic-users.insurances.edit', ['id' => $id, 'insurance_id' => $insurance->id]) }}">国民健康保険 [編集]</a>
-      @elseif($insurerNumberLength == 8)
-        <a href="{{ route('clinic-users.insurances.edit', ['id' => $id, 'insurance_id' => $insurance->id]) }}">組合保険 [編集]</a>
-      @else
-        <a href="{{ route('clinic-users.insurances.edit', ['id' => $id, 'insurance_id' => $insurance->id]) }}">保険 [編集]</a>
-      @endif
+      <a href="{{ route('clinic-users.insurances.edit', ['id' => $id, 'insurance_id' => $insurance->id]) }}">{{ $insurance->insurer?->insurer_category ?? '保険' }} [編集]</a>
       </td>
       <td>{{ $insurance->insured_number }}</td>
       <td data-order="{{ $insurance->license_acquisition_date ? $insurance->license_acquisition_date->timestamp : 0 }}">
