@@ -2064,7 +2064,7 @@ function submitAddressLabel() {
     window.open(`/prints/address-label-csv?data_type=${encodeURIComponent(dataType)}`, '_blank');
   } else {
     const faces   = outputType === 'label_12' ? 12 : 10;
-    const filename = `宛名シール_${faces}面_${dataLabel}_${ts}.pdf`;
+    const filename = `宛名シール_${faces}_${dataLabel}_${ts}.pdf`;
     window.open(`/prints/address-label-pdf/${encodeURIComponent(filename)}?data_type=${encodeURIComponent(dataType)}&faces=${faces}`, '_blank');
   }
 
