@@ -1,1 +1,27 @@
-{}
+{
+  "clinic_name": {
+    "x": 90,
+    "y": 230,
+    "fontSize": 10
+  },
+  "clinic_postal_code": {
+    "x": 90,
+    "y": 238,
+    "fontSize": 10
+  },
+  "clinic_address": {
+    "x": 90,
+    "y": 246,
+    "fontSize": 10
+  },
+  "clinic_phone": {
+    "x": 90,
+    "y": 254,
+    "fontSize": 10
+  },
+  "clinic_owner_name": {
+    "x": 90,
+    "y": 262,
+    "fontSize": 10
+  }
+}

@@ -122,6 +122,11 @@ function getFieldDefinitions() {
     return fieldDefinitionsImplementationPlan;
   }
 
+  // FAX送信票用
+  if (currentPdfType === 'fax_cover_sheet') {
+    return fieldDefinitionsFaxCoverSheet;
+  }
+
   // 医師への御礼状用
   if (currentPdfType === 'thank_you_letter_doctor') {
     return fieldDefinitionsThankYouLetterDoctor;

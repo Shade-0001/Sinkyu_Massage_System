@@ -745,6 +745,19 @@ const fieldDefinitionsThankYouLetterReferrer = {
 };
 
 // ============================================================
+// FAX送信票用のフィールド定義
+// ============================================================
+// PDFタイプ: fax_cover_sheet
+// ============================================================
+const fieldDefinitionsFaxCoverSheet = {
+  'clinic_name':       { field: 'clinic_name',       label: '事業所名',         type: 'text' },
+  'clinic_postal_code':{ field: 'clinic_postal_code', label: '事業所郵便番号',   type: 'text' },
+  'clinic_address':    { field: 'clinic_address',     label: '事業所住所',       type: 'text' },
+  'clinic_phone':      { field: 'clinic_phone',       label: '事業所電話番号',   type: 'text' },
+  'clinic_owner_name': { field: 'clinic_owner_name',  label: '事業所代表者氏名', type: 'text' },
+};
+
+// ============================================================
 // 報告書用のフィールド定義
 // ============================================================
 // PDFタイプ: report
