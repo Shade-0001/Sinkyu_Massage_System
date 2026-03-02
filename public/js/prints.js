@@ -2027,7 +2027,7 @@ function submitFaxCoverSheet() {
  * 宛名シール・住所データCSV出力モーダルを開く
  */
 function openAddressLabelModal() {
-  const modal = new bootstrap.Modal(document.getElementById('addressLabelModal'));
+  const modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('addressLabelModal'));
   modal.show();
 }
 
@@ -2065,5 +2065,5 @@ function submitAddressLabel() {
     window.open(`/prints/address-label-pdf/${encodeURIComponent(filename)}?data_type=${encodeURIComponent(dataType)}&faces=${faces}`, '_blank');
   }
 
-  bootstrap.Modal.getInstance(document.getElementById('addressLabelModal')).hide();
+  bootstrap.Modal.getOrCreateInstance(document.getElementById('addressLabelModal')).hide();
 }
