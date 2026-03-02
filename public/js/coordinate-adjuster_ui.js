@@ -1100,6 +1100,17 @@ function renderSingleFieldHTML(key, field) {
       </div>
       ` : ''}
 
+      ${field.verticalAlign !== undefined ? `
+      <div class="coordinate-input">
+        <label>縦配置:</label>
+        <select onchange="updateCoordinate('${key}', 'verticalAlign', this.value)"
+                class="form-control form-control-sm" style="width: auto;" data-property="verticalAlign">
+          <option value="top" ${field.verticalAlign === 'top' ? 'selected' : ''}>上</option>
+          <option value="middle" ${field.verticalAlign === 'middle' ? 'selected' : ''}>中央</option>
+        </select>
+      </div>
+      ` : ''}
+
       ${field.ellipseWidth !== undefined ? `
       <div class="coordinate-input">
         <label>楕円幅:</label>
@@ -1659,6 +1670,37 @@ function updateCompositeGroupSelection(groupName, selectedKey) {
   taBtnGroup.appendChild(taRight);
   taDiv.appendChild(taBtnGroup);
   detailsDiv.appendChild(taDiv);
+  }
+
+  // Y軸配置（verticalAlign）
+  if (!isShapeOnly && selectedField.verticalAlign !== undefined) {
+  const vaDiv = document.createElement('div');
+  vaDiv.className = 'coordinate-input';
+  vaDiv.innerHTML = `<label>縦配置:</label>`;
+
+  const vaBtnGroup = document.createElement('div');
+  vaBtnGroup.className = 'btn-group btn-group-sm d-flex';
+  vaBtnGroup.setAttribute('role', 'group');
+  vaBtnGroup.style.marginLeft = '10px';
+
+  const vaTop = document.createElement('button');
+  vaTop.type = 'button';
+  vaTop.className = `btn btn-outline-secondary flex-fill ${selectedField.verticalAlign === 'top' || !selectedField.verticalAlign ? 'active' : ''}`;
+  vaTop.innerHTML = '上';
+  vaTop.title = '上揃え';
+  vaTop.addEventListener('click', () => updateCoordinate(selectedKey, 'verticalAlign', 'top'));
+
+  const vaMiddle = document.createElement('button');
+  vaMiddle.type = 'button';
+  vaMiddle.className = `btn btn-outline-secondary flex-fill ${selectedField.verticalAlign === 'middle' ? 'active' : ''}`;
+  vaMiddle.innerHTML = '中央';
+  vaMiddle.title = 'Y中央揃え（y座標が中心点）';
+  vaMiddle.addEventListener('click', () => updateCoordinate(selectedKey, 'verticalAlign', 'middle'));
+
+  vaBtnGroup.appendChild(vaTop);
+  vaBtnGroup.appendChild(vaMiddle);
+  vaDiv.appendChild(vaBtnGroup);
+  detailsDiv.appendChild(vaDiv);
   }
 
   // 折り返し幅（複数行テキストの場合）

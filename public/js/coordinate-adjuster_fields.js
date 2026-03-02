@@ -257,7 +257,7 @@ const fieldDefinitions = {
   'health_center_registration_2': { field: 'health_center_registration', label: '保健所登録区分', type: 'select', options: ['施術所所在地', '出張専門施術者住所地'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'health_center_registration', optionLabel: '出張専門施術者住所地' },
   'license_massage_number': { field: 'license_massage_number', label: '免許番号（あん摩マッサージ指圧師）', type: 'text' },
   'therapist_postal_code': { field: 'therapist_postal_code', label: '施術者郵便番号', type: 'postal_code', postalCodeGap: 2 },
-  'therapist_address': { field: 'therapist_address', label: '施術者住所', type: 'text', lineHeight: 5, maxCharsPerLine: 20 },
+  'therapist_address': { field: 'therapist_address', label: '施術者住所', type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
   'therapist_name': { field: 'therapist_name', label: '施術者氏名', type: 'text' },
   'therapist_phone': { field: 'therapist_phone', label: '施術者電話番号', type: 'text' },
   'clinic_date_year': { field: 'clinic_date_year', label: '年', type: 'number', compositeGroup: 'clinic_date', compositeLabel: '施術証明年月日' },
@@ -267,14 +267,14 @@ const fieldDefinitions = {
   // === 14. 同意記録 ===
   'consent_record_doctor_name': { field: 'consent_record_doctor_name', label: '同意医師氏名', type: 'text' },
   'consent_record_doctor_postal_code': { field: 'consent_record_doctor_postal_code', label: '同意医師郵便番号', type: 'postal_code', postalCodeGap: 2 },
-  'consent_record_doctor_address': { field: 'consent_record_doctor_address', label: '同意医師住所', type: 'text', lineHeight: 5, maxCharsPerLine: 20 },
+  'consent_record_doctor_address': { field: 'consent_record_doctor_address', label: '同意医師住所', type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
   'consent_record_date_year': { field: 'consent_record_date_year', label: '年', type: 'text', compositeGroup: 'consent_record_date', compositeLabel: '同意年月日' },
   'consent_record_illness_name': { field: 'consent_record_illness_name', label: '傷病名', type: 'text' },
   'required_treatment_period': { field: 'required_treatment_period', label: '要加療期間', type: 'text' },
 
   // === 15. 申請欄 ===
   'applicant_postal_code': { field: 'applicant_postal_code', label: '申請者郵便番号', type: 'postal_code', postalCodeGap: 2 },
-  'applicant_address': { field: 'applicant_address', label: '申請者住所', type: 'text', lineHeight: 5, maxCharsPerLine: 20 },
+  'applicant_address': { field: 'applicant_address', label: '申請者住所', type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
   'applicant_name': { field: 'applicant_name', label: '申請者氏名', type: 'text' },
   'patient_address': { field: 'address', label: '住所', type: 'text' },
   'patient_phone': { field: 'patient_phone', label: '電話番号', type: 'text' },
@@ -332,10 +332,10 @@ const fieldDefinitions = {
 
   // === 19. 委任欄 ===
   'signature_applicant_postal_code': { field: 'signature_applicant_postal_code', label: '委任者郵便番号', type: 'postal_code', postalCodeGap: 2 },
-  'signature_applicant_address': { field: 'signature_applicant_address', label: '委任者住所', type: 'text', lineHeight: 5, maxCharsPerLine: 20 },
+  'signature_applicant_address': { field: 'signature_applicant_address', label: '委任者住所', type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
   'temporary_insurer_name': { field: 'temporary_insurer_name', label: '委任者氏名', type: 'text' },
   'agent_postal_code': { field: 'agent_postal_code', label: '代理人郵便番号', type: 'postal_code', postalCodeGap: 2 },
-  'agent_address': { field: 'agent_address', label: '代理人住所', type: 'text', lineHeight: 5, maxCharsPerLine: 20 },
+  'agent_address': { field: 'agent_address', label: '代理人住所', type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
   'agent_name': { field: 'agent_name', label: '代理人氏名', type: 'text' },
   'signature_date_year': { field: 'signature_date_year', label: '年', type: 'number', compositeGroup: 'signature_date', compositeLabel: '委任年月日' },
   'signature_date_month': { field: 'signature_date_month', label: '月', type: 'number', compositeGroup: 'signature_date', compositeLabel: '委任年月日' },

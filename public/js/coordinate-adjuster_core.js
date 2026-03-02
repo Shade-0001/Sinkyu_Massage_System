@@ -266,7 +266,7 @@ function loadCoordinates() {
           } else {
             // 既存フィールドにはUI調整プロパティのみフィールド定義からマージ
             // （座標JSONにないがフィールド定義で定義されているプロパティを補完）
-            const uiOnlyProps = ['rowLineHeight', 'verticalSpacing', 'lineHeight', 'maxCharsPerLine'];
+            const uiOnlyProps = ['rowLineHeight', 'verticalSpacing', 'lineHeight', 'maxCharsPerLine', 'verticalAlign'];
             uiOnlyProps.forEach(prop => {
               if (definition[prop] !== undefined && coordinates[key][prop] === undefined) {
                 coordinates[key][prop] = definition[prop];
