@@ -2200,7 +2200,7 @@ class PrintsController extends Controller
       $label    = $labelMap[$dataType] ?? $dataType;
       $count    = $result['count'];
       $ts       = now()->format('Y-m-d_H-i-s');
-      $filename = "住所データ_{$label}_{$count}件_{$ts}.csv";
+      $filename = "住所データ_{$label}[{$count}件]_{$ts}.csv";
 
       return response($result['csv'], 200, [
         'Content-Type'        => 'text/csv; charset=UTF-8',
