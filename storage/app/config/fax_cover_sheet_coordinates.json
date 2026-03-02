@@ -1,27 +1,27 @@
 {
-  "clinic_name": {
-    "x": 90,
-    "y": 230,
-    "fontSize": 10
-  },
-  "clinic_postal_code": {
-    "x": 90,
-    "y": 238,
-    "fontSize": 10
-  },
-  "clinic_address": {
-    "x": 90,
-    "y": 246,
-    "fontSize": 10
-  },
-  "clinic_phone": {
-    "x": 90,
-    "y": 254,
-    "fontSize": 10
-  },
-  "clinic_owner_name": {
-    "x": 90,
-    "y": 262,
-    "fontSize": 10
-  }
+    "clinic_name": {
+        "x": 105.5,
+        "y": 227,
+        "fontSize": 12
+    },
+    "clinic_postal_code": {
+        "x": 105.5,
+        "y": 234,
+        "fontSize": 12
+    },
+    "clinic_address": {
+        "x": 105.5,
+        "y": 241,
+        "fontSize": 12
+    },
+    "clinic_phone": {
+        "x": 105.5,
+        "y": 248,
+        "fontSize": 12
+    },
+    "clinic_owner_name": {
+        "x": 105.5,
+        "y": 255,
+        "fontSize": 12
+    }
 }
