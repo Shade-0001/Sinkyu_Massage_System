@@ -1314,7 +1314,7 @@
               <label for="address_label_data_type" class="form-label">出力データ <span class="text-danger">*</span></label>
               <select class="form-select" id="address_label_data_type" name="data_type" required>
                 <option value="clinic_user">利用者関連</option>
-                <option value="doctor">同意医師関連</option>
+                <option value="doctor">医師関連</option>
                 <option value="insurer">保険者関連</option>
                 <option value="caremanager">ケアマネ関連</option>
               </select>

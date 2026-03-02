@@ -2193,7 +2193,7 @@ class PrintsController extends Controller
 
       $labelMap = [
         'clinic_user' => '利用者',
-        'doctor'      => '同意医師',
+        'doctor'      => '医師',
         'insurer'     => '保険者',
         'caremanager' => 'ケアマネ',
       ];

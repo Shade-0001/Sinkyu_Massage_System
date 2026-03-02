@@ -85,7 +85,7 @@ class AddressLabelCsvExportService extends BasePdfService
           ->get(['id', 'last_name', 'first_name', 'postal_code', 'address_1', 'address_2', 'address_3', 'phone']);
         return array_map(function ($r) {
           return [
-            'name'        => trim($r->last_name . '　' . $r->first_name) . ' 様',
+            'name'        => trim($r->last_name . '　' . $r->first_name),
             'postal_code' => $r->postal_code,
             'address_1'   => $r->address_1 ?? '',
             'address_2'   => $r->address_2 ?? '',
@@ -112,11 +112,15 @@ class AddressLabelCsvExportService extends BasePdfService
           ]);
         return array_map(function ($r) {
           return [
-            'name'        => trim($r->last_name . '　' . $r->first_name) . ' 先生',
+            'name'         => trim($r->last_name . '　' . $r->first_name),
+            'postal_code'  => $r->postal_code,
+            'address_1'    => $r->address_1 ?? '',
+            'address_2'    => $r->address_2 ?? '',
+            'address_3'    => $r->address_3 ?? '',
+            'address'      => trim($r->address_1 . $r->address_2 . $r->address_3),
+            'phone'        => $r->phone,
+            'id'           => $r->id,
             'organization' => $r->medical_institution_name ?? '',
-            'postal_code' => $r->postal_code,
-            'address'     => trim($r->address_1 . $r->address_2 . $r->address_3),
-            'phone'       => $r->phone,
           ];
         }, $rows->toArray());
 
@@ -180,23 +184,20 @@ class AddressLabelCsvExportService extends BasePdfService
     // BOM付きUTF-8（Excel対応）
     $output = "\xEF\xBB\xBF";
 
-    $hasOrg = in_array($dataType, ['doctor']);
-
     if ($dataType === 'clinic_user') {
       $output .= '"氏名","郵便番号","住所１","住所２","住所３","電話番号"' . "\n";
+    } elseif ($dataType === 'doctor') {
+      $output .= '"氏名","郵便番号","住所１","住所２","住所３","電話番号","ID","医療機関名"' . "\n";
     } elseif ($dataType === 'insurer') {
       $output .= '"保険者名称","郵便番号","住所","提出先名称"' . "\n";
     } elseif ($dataType === 'caremanager') {
       $output .= '"氏名","郵便番号","住所１","住所２","住所３","電話番号","ID","サービス事業者名"' . "\n";
-    } elseif ($hasOrg) {
-      $output .= '"氏名/宛名","組織名","郵便番号","住所","電話番号"' . "\n";
     } else {
-      $output .= '"氏名/宛名","郵便番号","住所","電話番号"' . "\n";
+      $output .= '"氏名","郵便番号","住所","電話番号"' . "\n";
     }
 
     foreach ($records as $r) {
       $name    = $r['name'] ?? '';
-      $org     = $r['organization'] ?? '';
       $postal  = $r['postal_code'] ?? '';
       $address = $r['address'] ?? '';
       $phone   = $r['phone'] ?? '';
@@ -211,6 +212,20 @@ class AddressLabelCsvExportService extends BasePdfService
           . '"' . str_replace('"', '""', $addr2) . '",'
           . '"' . str_replace('"', '""', $addr3) . '",'
           . '"' . str_replace('"', '""', $phone) . '"' . "\n";
+      } elseif ($dataType === 'doctor') {
+        $addr1 = $r['address_1'] ?? '';
+        $addr2 = $r['address_2'] ?? '';
+        $addr3 = $r['address_3'] ?? '';
+        $id    = $r['id'] ?? '';
+        $org   = $r['organization'] ?? '';
+        $output .= '"' . str_replace('"', '""', $name) . '",'
+          . '"' . str_replace('"', '""', $postal) . '",'
+          . '"' . str_replace('"', '""', $addr1) . '",'
+          . '"' . str_replace('"', '""', $addr2) . '",'
+          . '"' . str_replace('"', '""', $addr3) . '",'
+          . '"' . str_replace('"', '""', $phone) . '",'
+          . '"' . str_replace('"', '""', $id) . '",'
+          . '"' . str_replace('"', '""', $org) . '"' . "\n";
       } elseif ($dataType === 'insurer') {
         $insurer_name   = $r['organization'] ?? '';
         $recipient_name = $r['recipient_name'] ?? '';
@@ -232,17 +247,6 @@ class AddressLabelCsvExportService extends BasePdfService
           . '"' . str_replace('"', '""', $phone) . '",'
           . '"' . str_replace('"', '""', $id) . '",'
           . '"' . str_replace('"', '""', $org) . '"' . "\n";
-      } elseif ($hasOrg) {
-        $output .= '"' . str_replace('"', '""', $name) . '",'
-          . '"' . str_replace('"', '""', $org) . '",'
-          . '"' . str_replace('"', '""', $postal) . '",'
-          . '"' . str_replace('"', '""', $address) . '",'
-          . '"' . str_replace('"', '""', $phone) . '"' . "\n";
-      } else {
-        $output .= '"' . str_replace('"', '""', $name) . '",'
-          . '"' . str_replace('"', '""', $postal) . '",'
-          . '"' . str_replace('"', '""', $address) . '",'
-          . '"' . str_replace('"', '""', $phone) . '"' . "\n";
       }
     }
 
