@@ -111,19 +111,8 @@ function renderFieldSettings() {
       // coordinatesに存在するフィールドのみ表示
       return coordinates.hasOwnProperty(key);
     } else if (pdfType === 'therapy_benefit_acupuncture') {
-      // 鍼灸用PDFではマッサージ専用フィールドを除外
-      const massageOnlyFields = [
-        'illness_name_symptom',
-        'fee_massage_trunk_unit', 'fee_massage_trunk_count', 'fee_massage_trunk_total',
-        'fee_massage_upper_limb_r_unit', 'fee_massage_upper_limb_r_count', 'fee_massage_upper_limb_r_total',
-        'fee_massage_upper_limb_l_unit', 'fee_massage_upper_limb_l_count', 'fee_massage_upper_limb_l_total',
-        'fee_massage_lower_limb_r_unit', 'fee_massage_lower_limb_r_count', 'fee_massage_lower_limb_r_total',
-        'fee_massage_lower_limb_l_unit', 'fee_massage_lower_limb_l_count', 'fee_massage_lower_limb_l_total',
-        'fee_manual_correction_unit', 'fee_manual_correction_count', 'fee_manual_correction_total',
-        'fee_fomentation_unit', 'fee_fomentation_count', 'fee_fomentation_total',
-        'fee_fomentation_electric_light_unit', 'fee_fomentation_electric_light_count', 'fee_fomentation_electric_light_total'
-      ];
-      return !massageOnlyFields.includes(key);
+      // fieldCategoriesに含まれるキーのみ表示（coordinatesに存在するキーも含む）
+      return fieldCategories.hasOwnProperty(key) || coordinates.hasOwnProperty(key);
     } else if (pdfType === 'therapy_benefit_massage') {
       // マッサージ用PDFでは鍼灸専用フィールドを除外
       const acupunctureOnlyFields = [

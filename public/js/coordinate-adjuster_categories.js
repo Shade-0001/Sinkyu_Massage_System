@@ -1013,6 +1013,8 @@ function getFieldCategories(pdfType) {
     return fieldCategoriesSummaryTable;
   } else if (pdfType === 'implementation_plan') {
     return fieldCategoriesImplementationPlan;
+  } else if (pdfType === 'therapy_benefit_acupuncture') {
+    return fieldCategoriesTherapyBenefitAcupuncture;
   }
   return fieldCategoriesTherapyBenefitAcupuncture;
 }
@@ -1060,6 +1062,8 @@ function getCategoryOrder(pdfType) {
     return categoryOrderSummaryTable;
   } else if (pdfType === 'implementation_plan') {
     return categoryOrderImplementationPlan;
+  } else if (pdfType === 'therapy_benefit_acupuncture') {
+    return categoryOrderTherapyBenefitAcupuncture;
   }
   return categoryOrderTherapyBenefitAcupuncture;
 }

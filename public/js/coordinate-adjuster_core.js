@@ -147,6 +147,11 @@ function getFieldDefinitions() {
     return fieldDefinitionsReportGreeting;
   }
 
+  // 鍼灸療養費支給申請書用
+  if (currentPdfType === 'therapy_benefit_acupuncture') {
+    return fieldDefinitions;
+  }
+
   // fieldsFileが空の場合は空オブジェクトを返す
   if (!currentConfig.fieldsFile || currentConfig.fieldsFile === '') {
     return {};
