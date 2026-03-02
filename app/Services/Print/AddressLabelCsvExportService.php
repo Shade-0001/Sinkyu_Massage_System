@@ -395,7 +395,7 @@ class AddressLabelCsvExportService extends BasePdfService
         }
       }
 
-      // 氏名（大フォント）
+      // 氏名（大フォント）＋敬称
       $name = $record['name'] ?? '';
       if ($name !== '' && $name !== null) {
         $pdf->SetFont($fontName, '', self::FONT_NAME);
@@ -403,7 +403,7 @@ class AddressLabelCsvExportService extends BasePdfService
         $py += 2;
         if ($py + $lineH <= $bottomY) {
           $pdf->SetXY($px, $py);
-          $pdf->Cell($innerW, $lineH, $name, 0, 0, 'L');
+          $pdf->Cell($innerW, $lineH, $name . '　様', 0, 0, 'L');
         }
       }
 
@@ -468,7 +468,16 @@ class AddressLabelCsvExportService extends BasePdfService
       $py += 2;
       if ($py + $lineH <= $bottomY) {
         $pdf->SetXY($px, $py);
-        $pdf->Cell($innerW, $lineH, $name, 0, 0, 'L');
+        if ($dataType === 'doctor') {
+          $nameDisplay = $name . '　先生御侍史';
+        } elseif ($dataType === 'insurer') {
+          $nameDisplay = $name;  // 保険者は fetchRecords で既に「御中」付き
+        } elseif ($dataType === 'caremanager') {
+          $nameDisplay = $name . '　様';
+        } else {
+          $nameDisplay = $name;
+        }
+        $pdf->Cell($innerW, $lineH, $nameDisplay, 0, 0, 'L');
       }
     }
   }
