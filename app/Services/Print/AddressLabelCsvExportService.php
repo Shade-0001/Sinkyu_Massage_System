@@ -88,6 +88,9 @@ class AddressLabelCsvExportService extends BasePdfService
           return [
             'name'        => trim($r->last_name . '　' . $r->first_name) . ' 様',
             'postal_code' => $r->postal_code,
+            'address_1'   => $r->address_1 ?? '',
+            'address_2'   => $r->address_2 ?? '',
+            'address_3'   => $r->address_3 ?? '',
             'address'     => trim($r->address_1 . $r->address_2 . $r->address_3),
             'phone'       => $r->phone,
           ];
@@ -177,7 +180,9 @@ class AddressLabelCsvExportService extends BasePdfService
 
     $hasOrg = in_array($dataType, ['doctor', 'insurer', 'caremanager']);
 
-    if ($hasOrg) {
+    if ($dataType === 'clinic_user') {
+      $output .= '"氏名","郵便番号","住所１","住所２","住所３","電話番号"' . "\n";
+    } elseif ($hasOrg) {
       $output .= '"氏名/宛名","組織名","郵便番号","住所","電話番号"' . "\n";
     } else {
       $output .= '"氏名/宛名","郵便番号","住所","電話番号"' . "\n";
@@ -190,7 +195,17 @@ class AddressLabelCsvExportService extends BasePdfService
       $address = $r['address'] ?? '';
       $phone   = $r['phone'] ?? '';
 
-      if ($hasOrg) {
+      if ($dataType === 'clinic_user') {
+        $addr1 = $r['address_1'] ?? '';
+        $addr2 = $r['address_2'] ?? '';
+        $addr3 = $r['address_3'] ?? '';
+        $output .= '"' . str_replace('"', '""', $name) . '",'
+          . '"' . str_replace('"', '""', $postal) . '",'
+          . '"' . str_replace('"', '""', $addr1) . '",'
+          . '"' . str_replace('"', '""', $addr2) . '",'
+          . '"' . str_replace('"', '""', $addr3) . '",'
+          . '"' . str_replace('"', '""', $phone) . '"' . "\n";
+      } elseif ($hasOrg) {
         $output .= '"' . str_replace('"', '""', $name) . '",'
           . '"' . str_replace('"', '""', $org) . '",'
           . '"' . str_replace('"', '""', $postal) . '",'
