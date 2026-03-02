@@ -111,7 +111,8 @@
       "Bash(git log --diff-filter=D --summary -- \"database/migrations/*\")",
       "Bash(git log --all --summary -- \"database/migrations/*\")",
       "Bash(C:/xampp/mysql/bin/mysqldump.exe -u root -h 127.0.0.1 -P 3306 sinkyu_massage_system_db)",
-      "Bash(/i/XAMPP/mysql/bin/mysqldump.exe -u root -h 127.0.0.1 -P 3306 sinkyu_massage_system_db)"
+      "Bash(/i/XAMPP/mysql/bin/mysqldump.exe -u root -h 127.0.0.1 -P 3306 sinkyu_massage_system_db)",
+      "Bash(do)"
     ],
     "deny": [],
     "ask": []
