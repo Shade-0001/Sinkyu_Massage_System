@@ -386,8 +386,21 @@ const fieldDefinitions = {
   // 25. 領収金額
   'receipt_amount': { field: 'receipt_amount', label: '領収金額', type: 'number' },
   // 26. 提出年月日
-  'creation_date': { field: 'creation_date', label: '提出年月日', type: 'text' }
+  'creation_date': { field: 'creation_date', label: '提出年月日', type: 'text' },
   // 27-31. 作成者情報 → clinic_*（既存）
+
+  // === 鍼灸療養費支給申請書専用フィールド ===
+  'insurance_symbol': { field: 'insurance_symbol', label: '被保険者証記号', type: 'text' },
+  'calendar_start': { field: 'calendar_start', label: 'カレンダー開始位置', type: 'number' },
+  'payment_institution_postal_code': { field: 'payment_institution_postal_code', label: '支払機関郵便番号', type: 'text' },
+  'payment_institution_address': { field: 'payment_institution_address', label: '支払機関住所', type: 'text' },
+  'bill_category_new': { field: 'bill_category', label: '請求区分（新規）', type: 'select', ellipseWidth: 6.5, ellipseHeight: 3, lineWidth: 0.4, radioGroup: 'bill_category', optionLabel: '新規' },
+  'bill_category_continued': { field: 'bill_category', label: '請求区分（継続）', type: 'select', ellipseWidth: 6.5, ellipseHeight: 3, lineWidth: 0.4, radioGroup: 'bill_category', optionLabel: '継続' },
+  'outcome_continued': { field: 'outcome', label: '転帰（継続）', type: 'select', ellipseWidth: 5, ellipseHeight: 3, lineWidth: 0.4, radioGroup: 'outcome', optionLabel: '継続' },
+  'outcome_cured': { field: 'outcome', label: '転帰（治癒）', type: 'select', ellipseWidth: 5, ellipseHeight: 3, lineWidth: 0.4, radioGroup: 'outcome', optionLabel: '治癒' },
+  'outcome_discontinued': { field: 'outcome', label: '転帰（中止）', type: 'select', ellipseWidth: 5, ellipseHeight: 3, lineWidth: 0.4, radioGroup: 'outcome', optionLabel: '中止' },
+  'outcome_transferred': { field: 'outcome', label: '転帰（転医）', type: 'select', ellipseWidth: 5, ellipseHeight: 3, lineWidth: 0.4, radioGroup: 'outcome', optionLabel: '転医' },
+  'consent_date_full': { field: 'consent_date_full', label: '同意年月日', type: 'text' }
 };
 
 // 施術料金領収書用のフィールド定義

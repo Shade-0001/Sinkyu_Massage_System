@@ -244,7 +244,18 @@ const fieldCategoriesTherapyBenefitAcupuncture = {
     "signature_date_month": "signature",
     "signature_date_day": "signature",
     "signature_applicant_postal_code": "signature",
-    "signature_applicant_address": "signature"
+    "signature_applicant_address": "signature",
+    "insurance_symbol": "insured_person",
+    "calendar_start": "treatment_calendar",
+    "payment_institution_postal_code": "payment_institution",
+    "payment_institution_address": "payment_institution",
+    "bill_category_new": "treatment_content",
+    "bill_category_continued": "treatment_content",
+    "outcome_continued": "treatment_content",
+    "outcome_cured": "treatment_content",
+    "outcome_discontinued": "treatment_content",
+    "outcome_transferred": "treatment_content",
+    "consent_date_full": "consent_record"
 };
 
 // フィールドカテゴリマッピング（マッサージ療養費支給申請書用）
