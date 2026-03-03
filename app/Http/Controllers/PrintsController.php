@@ -1195,6 +1195,14 @@ class PrintsController extends Controller
         );
       } elseif ($pdfType === 'user_count_summary') {
         $pdfBinary = $service->generate($yearMonth);
+      } elseif (in_array($pdfType, ['consent_acupuncture', 'consent_massage'])) {
+        // 同意書プレビュー: 第4引数（同意区分）にサンプル値を渡す（プレビュー表示確認用）
+        $pdfBinary = $service->generate(
+          $clinicUsers,
+          $yearMonth,
+          $yearMonth . '-01',
+          '新規同意（サンプル）'
+        );
       } else {
         $pdfBinary = $service->generate(
           $clinicUsers,

@@ -183,8 +183,12 @@ class ConsentAcupuncturePdfService extends BasePdfService
       }
     } elseif ($consent && $consent->illness_name_acupuncture_id) {
       // 通常モード: DBデータで判定
+      // id=1〜6は直接対応サークルを描画
+      // id=7（その他）またはid>=8（illnesses_acupunctureの拡張分）は「その他」サークル(7番)を描画
       $illnessId = $consent->illness_name_acupuncture_id;
-      for ($i = 1; $i <= 7; $i++) {
+      $matchedCircle = false;
+
+      for ($i = 1; $i <= 6; $i++) {
         $key = 'illness_name_' . $i;
         if ($this->hasCoord($key)) {
           if ($illnessId == $i) {
@@ -196,15 +200,40 @@ class ConsentAcupuncturePdfService extends BasePdfService
 
             $pdf->SetLineWidth($lineWidth);
             $pdf->Ellipse($x, $y, $ellipseWidth, $ellipseHeight, 0, 0, 360, 'D');
+            $matchedCircle = true;
           }
         }
+      }
+
+      // id=7またはid>=8（1〜6にマッチしなかった場合）→「その他」（7番）サークルを描画
+      if (!$matchedCircle && $this->hasCoord('illness_name_7')) {
+        $key = 'illness_name_7';
+        $x = $this->coord($key, 'x');
+        $y = $this->coord($key, 'y');
+        $ellipseWidth = $this->coord($key, 'ellipseWidth') ?: 2.5;
+        $ellipseHeight = $this->coord($key, 'ellipseHeight') ?: 2.5;
+        $lineWidth = $this->coord($key, 'lineWidth') ?: 0.4;
+
+        $pdf->SetLineWidth($lineWidth);
+        $pdf->Ellipse($x, $y, $ellipseWidth, $ellipseHeight, 0, 0, 360, 'D');
       }
     }
 
     // 11. 傷病名（その他の内容）
-    if ($consent && $consent->illness_name_acupuncture_id == 7 && $consent->illness_name_acupuncture_addendum) {
-      $pdf->SetFontSize($this->coord('illness_name_other_text', 'fontSize'));
-      $this->drawTextByKey($pdf, 'illness_name_other_text', $consent->illness_name_acupuncture_addendum);
+    // id=7かつaddendumあり → addendumテキストを描画
+    // id>=8（拡張傷病名）→ 実際の傷病名テキスト（JOINで取得）をその他欄に描画
+    if ($consent && $consent->illness_name_acupuncture_id) {
+      $illnessId = $consent->illness_name_acupuncture_id;
+      $otherText = null;
+      if ($illnessId == 7 && !empty($consent->illness_name_acupuncture_addendum)) {
+        $otherText = $consent->illness_name_acupuncture_addendum;
+      } elseif ($illnessId > 6 && $illnessId != 7 && !empty($consent->illness_name_acupuncture)) {
+        $otherText = $consent->illness_name_acupuncture;
+      }
+      if ($otherText && $this->hasCoord('illness_name_other_text')) {
+        $pdf->SetFontSize($this->coord('illness_name_other_text', 'fontSize'));
+        $this->drawTextByKey($pdf, 'illness_name_other_text', $otherText);
+      }
     }
 
     // 12. 発病負傷年月日（元号*年 *月 *日形式）
