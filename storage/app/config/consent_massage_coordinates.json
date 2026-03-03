@@ -1,13 +1,16 @@
 {
     "user_address": {
         "x": 86,
-        "y": 39,
-        "fontSize": 12,
+        "y": 42,
+        "fontSize": 11,
         "textAlign": "left",
         "field": "user_address",
         "label": "利用者住所",
         "type": "text",
-        "letterSpacing": 0
+        "letterSpacing": 0,
+        "lineHeight": 5,
+        "maxCharsPerLine": 20,
+        "verticalAlign": "middle"
     },
     "user_name": {
         "x": 86,
@@ -569,13 +572,16 @@
     },
     "consenting_doctor_address": {
         "x": 75,
-        "y": 248,
+        "y": 250.5,
         "fontSize": 12,
         "textAlign": "left",
         "field": "consenting_doctor_address",
         "label": "同意医師医療機関住所",
         "type": "text",
-        "letterSpacing": 0
+        "letterSpacing": 0,
+        "lineHeight": 5,
+        "maxCharsPerLine": 20,
+        "verticalAlign": "middle"
     },
     "consenting_doctor_name": {
         "x": 75,
