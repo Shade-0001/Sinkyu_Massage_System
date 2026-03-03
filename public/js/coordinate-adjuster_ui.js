@@ -113,25 +113,14 @@ function renderFieldSettings() {
     } else if (pdfType === 'therapy_benefit_acupuncture') {
       // fieldCategoriesに含まれるキーのみ表示（coordinatesに存在するキーも含む）
       return fieldCategories.hasOwnProperty(key) || coordinates.hasOwnProperty(key);
-    } else if (pdfType === 'therapy_benefit_massage') {
-      // マッサージ用PDFでは鍼灸専用フィールドを除外
-      const acupunctureOnlyFields = [
-        'fee_initial_examination_hari', 'fee_initial_examination_kyu', 'fee_initial_examination_combined',
-        'fee_initial_examination_amount',
-        'therapy_content_electric_needle', 'therapy_content_electric_moxa', 'therapy_content_electric_light',
-        'fee_hari_unit', 'fee_hari_count', 'fee_hari_total',
-        'fee_kyu_unit', 'fee_kyu_count', 'fee_kyu_total',
-        'fee_hari_kyu_unit', 'fee_hari_kyu_count', 'fee_hari_kyu_total',
-        'fee_electric_unit', 'fee_electric_count', 'fee_electric_total',
-        // 傷病名（鍼灸用）
-        'illness_name_1', 'illness_name_2', 'illness_name_3', 'illness_name_4',
-        'illness_name_5', 'illness_name_6', 'illness_name_7', 'illness_name_other_text',
-        // 旧マッサージフィールド（5部位に分割したため除外）
-        'fee_massage_unit', 'fee_massage_count', 'fee_massage_total'
-      ];
-      return !acupunctureOnlyFields.includes(key);
-    } else if (pdfType === 'consent_acupuncture' || pdfType === 'consent_massage') {
-      // 同意書系：fieldCategoriesに登録されているキーのみ表示
+    } else if (
+      pdfType === 'therapy_benefit_massage' ||
+      pdfType === 'medical_assistance_acupuncture' ||
+      pdfType === 'medical_assistance_massage' ||
+      pdfType === 'consent_acupuncture' ||
+      pdfType === 'consent_massage'
+    ) {
+      // fieldCategoriesに登録されているキーのみ表示
       return fieldCategories.hasOwnProperty(key);
     }
     return true;
