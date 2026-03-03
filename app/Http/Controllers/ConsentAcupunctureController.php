@@ -80,7 +80,7 @@ class ConsentAcupunctureController extends Controller
 
         return view('clinic-users.consents-acupuncture.consents-acupuncture_registration', array_merge([
             'mode' => 'create',
-            'page_header_title' => $user->last_name . '&ensp;' . $user->first_name . '&ensp;様の同意医師履歴新規登録',
+            'page_header_title' => $user->last_name . "\u{2000}" . $user->first_name . "\u{2000}" . '様の同意医師履歴新規登録',
             'id' => $id,
             'history' => $history,
         ], $masterData));
@@ -159,7 +159,7 @@ class ConsentAcupunctureController extends Controller
 
         return view('clinic-users.consents-acupuncture.consents-acupuncture_registration', array_merge([
             'mode' => 'edit',
-            'page_header_title' => $user->last_name . '&ensp;' . $user->first_name . '&ensp;様の同意医師履歴編集',
+            'page_header_title' => $user->last_name . "\u{2000}" . $user->first_name . "\u{2000}" . '様の同意医師履歴編集',
             'id' => $id,
             'history_id' => $history_id,
             'history' => $history,
@@ -239,7 +239,7 @@ class ConsentAcupunctureController extends Controller
 
         return view('clinic-users.consents-acupuncture.consents-acupuncture_registration', array_merge([
             'mode' => 'duplicate',
-            'page_header_title' => $user->last_name . '&ensp;' . $user->first_name . '&ensp;様の同意医師履歴複製',
+            'page_header_title' => $user->last_name . "\u{2000}" . $user->first_name . "\u{2000}" . '様の同意医師履歴複製',
             'id' => $id,
             'history_id' => $history_id,
             'history' => $history,

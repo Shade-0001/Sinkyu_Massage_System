@@ -4,7 +4,7 @@
 
 <div class="page-header mb-4">
   <h4 class="mb-2 fs-4 fw-semibold text-dark">
-    {!! $title !!}
+    {{ $title }}
   </h4>
 
   @if(count($breadcrumbs) > 0)

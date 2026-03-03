@@ -33,7 +33,7 @@
     <tr>
       <td>{{ $user->id }}</td>
       <td data-order="{{ $user->full_kana }}">
-      <a href="{{ route('clinic-users.edit', ['id' => $user->id]) }}">{!! $user->last_name . '&ensp;' . $user->first_name !!}［編集］</a><br>
+      <a href="{{ route('clinic-users.edit', ['id' => $user->id]) }}">{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}［編集］</a><br>
       {{ $user->full_kana }}
       </td>
       <td>

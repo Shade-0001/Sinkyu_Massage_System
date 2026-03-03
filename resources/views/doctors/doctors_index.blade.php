@@ -29,7 +29,7 @@
     @foreach($doctors as $doctor)
     <tr>
       <td>
-      <a href="{{ route('doctors.edit', $doctor->id) }}">{{ $doctor->last_name }}{{ "\u{2000}" }}{{ $doctor->first_name }} [編集]</a><br>
+      <a href="{{ route('doctors.edit', $doctor->id) }}">{{ $doctor->last_name }}{{ "\u{2000}" }}{{ $doctor->first_name }}［編集］</a><br>
       {{ $doctor->last_name_kana }}{{ "\u{2000}" }}{{ $doctor->first_name_kana }}
       </td>
       <td>
