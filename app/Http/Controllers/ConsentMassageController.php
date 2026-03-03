@@ -78,7 +78,7 @@ class ConsentMassageController extends Controller
 
         return view('clinic-users.consents-massage.consents-massage_registration', array_merge([
             'mode' => 'create',
-            'page_header_title' => $user->last_name . '  ' . $user->first_name . '  様の同意医師履歴新規登録',
+            'page_header_title' => $user->last_name . '&ensp;&ensp;' . $user->first_name . '&ensp;&ensp;様の同意医師履歴新規登録',
             'id' => $id,
             'history' => $history,
         ], $masterData));
@@ -170,7 +170,7 @@ class ConsentMassageController extends Controller
 
         return view('clinic-users.consents-massage.consents-massage_registration', array_merge([
             'mode' => 'edit',
-            'page_header_title' => $user->last_name . '  ' . $user->first_name . '  様の同意医師履歴編集',
+            'page_header_title' => $user->last_name . '&ensp;&ensp;' . $user->first_name . '&ensp;&ensp;様の同意医師履歴編集',
             'id' => $id,
             'history_id' => $history_id,
             'history' => $history,
@@ -265,7 +265,7 @@ class ConsentMassageController extends Controller
 
         return view('clinic-users.consents-massage.consents-massage_registration', array_merge([
             'mode' => 'duplicate',
-            'page_header_title' => $user->last_name . '  ' . $user->first_name . '  様の同意医師履歴複製',
+            'page_header_title' => $user->last_name . '&ensp;&ensp;' . $user->first_name . '&ensp;&ensp;様の同意医師履歴複製',
             'id' => $id,
             'history_id' => $history_id,
             'history' => $history,
