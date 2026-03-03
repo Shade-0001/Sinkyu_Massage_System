@@ -50,42 +50,42 @@
         "letterSpacing": 0
     },
     "clinic_postal_code": {
-        "x": 120,
-        "y": 256.5,
+        "x": 115,
+        "y": 252.5,
         "textAlign": "left",
         "field": "clinic_postal_code",
         "label": "施設郵便番号",
         "type": "boxes",
         "boxWidth": 5.6,
         "boxCount": 7,
-        "fontSize": 12,
+        "fontSize": 11,
         "letterSpacing": 0
     },
     "clinic_address": {
-        "x": 120,
-        "y": 262.5,
+        "x": 115,
+        "y": 263,
         "textAlign": "left",
         "field": "clinic_address",
         "label": "施設住所",
         "type": "text",
-        "fontSize": 12,
+        "fontSize": 11,
         "letterSpacing": 0,
         "lineHeight": 5,
         "maxCharsPerLine": 20,
         "verticalAlign": "middle"
     },
     "clinic_phone": {
-        "x": 120,
+        "x": 115,
         "y": 269,
         "textAlign": "left",
         "field": "clinic_phone",
         "label": "施設電話番号",
         "type": "text",
-        "fontSize": 12,
+        "fontSize": 11,
         "letterSpacing": 0
     },
     "clinic_name": {
-        "x": 120,
+        "x": 115,
         "y": 275,
         "textAlign": "left",
         "field": "clinic_name",
@@ -95,7 +95,7 @@
         "letterSpacing": 0
     },
     "clinic_owner_name": {
-        "x": 120,
+        "x": 115,
         "y": 282,
         "textAlign": "left",
         "field": "clinic_owner_name",
