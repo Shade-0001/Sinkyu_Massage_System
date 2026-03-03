@@ -44,7 +44,9 @@ trait MassageDrawingHelpersTrait
       $alignmentWidth = $pdf->GetPageWidth();
     }
 
-    // maxCharsPerLineが設定されている場合は折り返し処理
+    $lineHeight = $this->coordinates[$key]['lineHeight'] ?? 5;
+
+    // 折り返し処理（maxCharsPerLine超過時）、それ以外は1要素の配列として統一
     if ($maxCharsPerLine && mb_strlen($text) > $maxCharsPerLine) {
       $lines = [];
       $currentLine = '';
@@ -61,50 +63,34 @@ trait MassageDrawingHelpersTrait
       if ($currentLine !== '') {
         $lines[] = $currentLine;
       }
-
-      // 各行を描画
-      $lineHeight = $this->coordinates[$key]['lineHeight'] ?? 5;
-
-      // verticalAlign: 'middle' の場合、yを中心点として上方向にオフセット
-      $startY = $y;
-      if ($verticalAlign === 'middle') {
-        $totalHeight = count($lines) * $lineHeight;
-        $startY = $y - ($totalHeight / 2);
-      }
-
-      foreach ($lines as $i => $line) {
-        $currentY = $startY + ($i * $lineHeight);
-
-        if ($letterSpacing > 0) {
-          $this->drawTextWithSpacing($pdf, $x, $currentY, $line, (float)$letterSpacing, $textAlign, (float)$alignmentWidth);
-        } else {
-          // textAlignに応じてX座標を調整
-          $currentX = $x;
-          if ($textAlign === 'center') {
-            $textWidth = $pdf->GetStringWidth($line);
-            $currentX = $x - ($textWidth / 2);
-          } elseif ($textAlign === 'right') {
-            $textWidth = $pdf->GetStringWidth($line);
-            $currentX = $x - $textWidth;
-          }
-          $pdf->Text($currentX, $currentY, $line);
-        }
-      }
-      return;
+    } else {
+      $lines = [$text];
     }
 
-    // 1行テキストにもverticalAlign: 'middle' を適用
-    $lineHeight = $this->coordinates[$key]['lineHeight'] ?? 5;
+    // verticalAlign: 'middle' の場合、yを中心点として上方向にオフセット（1行・複数行共通）
+    $startY = $y;
     if ($verticalAlign === 'middle') {
-      $y = $y - ($lineHeight / 2);
+      $totalHeight = count($lines) * $lineHeight;
+      $startY = $y - ($totalHeight / 2);
     }
 
-    if (empty($letterSpacing) && $textAlign === 'left') {
-      $pdf->Text($x, $y, $text);
-      return;
-    }
+    foreach ($lines as $i => $line) {
+      $currentY = $startY + ($i * $lineHeight);
 
-    $this->drawTextWithSpacing($pdf, $x, $y, $text, (float)$letterSpacing, $textAlign, (float)$alignmentWidth);
+      if ($letterSpacing > 0) {
+        $this->drawTextWithSpacing($pdf, $x, $currentY, $line, (float)$letterSpacing, $textAlign, (float)$alignmentWidth);
+      } else {
+        $currentX = $x;
+        if ($textAlign === 'center') {
+          $textWidth = $pdf->GetStringWidth($line);
+          $currentX = $x - ($textWidth / 2);
+        } elseif ($textAlign === 'right') {
+          $textWidth = $pdf->GetStringWidth($line);
+          $currentX = $x - $textWidth;
+        }
+        $pdf->Text($currentX, $currentY, $line);
+      }
+    }
   }
   /**
    * 楕円をキーで描画

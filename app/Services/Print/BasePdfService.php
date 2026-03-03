@@ -294,7 +294,7 @@ abstract class BasePdfService
     // フォント設定
     $pdf->SetFont('kozgopromedium', $fontWeight === 'bold' ? 'B' : '', $fontSize);
 
-    // maxCharsPerLineが設定されている場合は折り返し処理
+    // 折り返し処理（maxCharsPerLine超過時）、それ以外は1要素の配列として統一
     if ($maxCharsPerLine > 0 && mb_strlen($text) > $maxCharsPerLine) {
       $lines = [];
       $currentLine = '';
@@ -311,29 +311,21 @@ abstract class BasePdfService
       if ($currentLine !== '') {
         $lines[] = $currentLine;
       }
-
-      // verticalAlign: 'middle' の場合、yを中心点として上方向にオフセット
-      $startY = $y;
-      if ($verticalAlign === 'middle') {
-        $totalHeight = count($lines) * $lineHeight;
-        $startY = $y - ($totalHeight / 2);
-      }
-
-      // 各行を描画
-      foreach ($lines as $i => $line) {
-        $currentY = $startY + ($i * $lineHeight);
-        $this->drawSingleLineText($pdf, $x, $currentY, $line, $letterSpacing, $textAlign);
-      }
-      return;
+    } else {
+      $lines = [$text];
     }
 
-    // 1行テキストにもverticalAlign: 'middle' を適用
+    // verticalAlign: 'middle' の場合、yを中心点として上方向にオフセット（1行・複数行共通）
+    $startY = $y;
     if ($verticalAlign === 'middle') {
-      $y = $y - ($lineHeight / 2);
+      $totalHeight = count($lines) * $lineHeight;
+      $startY = $y - ($totalHeight / 2);
     }
 
-    // 通常の1行描画
-    $this->drawSingleLineText($pdf, $x, $y, $text, $letterSpacing, $textAlign);
+    foreach ($lines as $i => $line) {
+      $currentY = $startY + ($i * $lineHeight);
+      $this->drawSingleLineText($pdf, $x, $currentY, $line, $letterSpacing, $textAlign);
+    }
   }
 
   /**
