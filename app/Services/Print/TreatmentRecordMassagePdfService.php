@@ -147,10 +147,10 @@ class TreatmentRecordMassagePdfService extends BasePdfService
     $clinicUser = (object)[
       'last_name' => $custom['last_name'] ?? '田中',
       'first_name' => $custom['first_name'] ?? '太郎',
-      'gender' => $custom['user_gender'] ?? '男',
-      'birthday' => '1980-03-15',
-      'postal_code' => '1600022',
-      'address_1' => '東京都新宿区新宿2-3-4',
+      'gender' => $custom['insured_person_gender'] ?? $custom['user_gender'] ?? '男',
+      'birthday' => '1955-05-10', // insured_person_birthday のサンプル固定値（和暦変換後: 昭和30年5月10日）
+      'postal_code' => $custom['insured_person_postal_code'] ?? '1600022',
+      'address_1' => $custom['insured_person_address'] ?? '東京都新宿区新宿2-3-4',
       'address_2' => '',
       'address_3' => '',
     ];
@@ -176,6 +176,7 @@ class TreatmentRecordMassagePdfService extends BasePdfService
       'illness_name' => '変形性膝関節症',
       'onset_and_injury_date' => '2025-11-15',
       'first_care_date' => '2025-11-20',
+      'consenting_end_date' => '2025-12-31',
       'therapy_period' => $custom['treatment_period'] ?? '3ヶ月',
       'outcome' => $custom['outcome'] ?? '継続',
       'doctor_last_name' => '山田',
@@ -291,14 +292,18 @@ class TreatmentRecordMassagePdfService extends BasePdfService
         }
         return $insurance->insured_name ?? null;
       case 'insured_person_gender':
-        // 本人の場合は利用者の性別
-        if ($insurance && isset($insurance->subject_type) && $insurance->subject_type === '本人') {
+        // 家族以外（本人・六歳・高齢等）は利用者の性別を使用
+        if ($insurance && isset($insurance->subject_type) && $insurance->subject_type !== '家族') {
           return $clinicUser->gender ?? null;
         }
         return null;
       case 'insured_person_birthday':
-        // 本人の場合は利用者の生年月日を和暦変換
-        if ($insurance && isset($insurance->subject_type) && $insurance->subject_type === '本人') {
+        // サンプルモード時は customSampleData の和暦文字列をそのまま返す
+        if ($this->sampleDataMode && isset($this->customSampleData['insured_person_birthday'])) {
+          return $this->customSampleData['insured_person_birthday'];
+        }
+        // 家族以外（本人・六歳・高齢等）は利用者の生年月日を和暦変換
+        if ($insurance && isset($insurance->subject_type) && $insurance->subject_type !== '家族') {
           if (isset($clinicUser->birthday)) {
             return $this->convertToJapaneseDate($clinicUser->birthday);
           }
@@ -308,14 +313,14 @@ class TreatmentRecordMassagePdfService extends BasePdfService
         if (!$insurance || !isset($insurance->expiry_date)) return null;
         return $this->convertToJapaneseDate($insurance->expiry_date);
       case 'insured_person_postal_code':
-        // 本人の場合は利用者の郵便番号
-        if ($insurance && isset($insurance->subject_type) && $insurance->subject_type === '本人') {
+        // 家族以外（本人・六歳・高齢等）は利用者の郵便番号を使用
+        if ($insurance && isset($insurance->subject_type) && $insurance->subject_type !== '家族') {
           return $clinicUser->postal_code ?? null;
         }
         return null;
       case 'insured_person_address':
-        // 本人の場合は利用者の住所（address_1, address_2, address_3を結合）
-        if ($insurance && isset($insurance->subject_type) && $insurance->subject_type === '本人') {
+        // 家族以外（本人・六歳・高齢等）は利用者の住所を使用（address_1, address_2, address_3を結合）
+        if ($insurance && isset($insurance->subject_type) && $insurance->subject_type !== '家族') {
           $address = ($clinicUser->address_1 ?? '') . ($clinicUser->address_2 ?? '') . ($clinicUser->address_3 ?? '');
           return !empty($address) ? $address : null;
         }
@@ -361,6 +366,9 @@ class TreatmentRecordMassagePdfService extends BasePdfService
         }
         return null;
       case 'treatment_end_date':
+        if ($consent && isset($consent->consenting_end_date)) {
+          return $this->convertToJapaneseDate($consent->consenting_end_date);
+        }
         return null;
       case 'treatment_days_count': return (string)$records->count();
       case 'treatment_count': return (string)$records->count();
