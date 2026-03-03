@@ -520,11 +520,6 @@ protected function fillOnsetInfo(Fpdi $pdf, $consent): void
           }
         }
 
-        // 追記がある場合は追加
-        if (isset($consent->illness_name_acupuncture_addendum) && $consent->illness_name_acupuncture_addendum) {
-          $onsetIllnessName .= ($onsetIllnessName ? '、' : '') . $consent->illness_name_acupuncture_addendum;
-        }
-
         if ($onsetIllnessName) {
           $pdf->SetFontSize($this->coord('onset_illness_name', 'fontSize'));
           $this->drawTextByKey($pdf, 'onset_illness_name', (string)$onsetIllnessName);
@@ -1102,9 +1097,6 @@ protected function fillConsentRecordSection(Fpdi $pdf, $consent): void
           ->first();
         if ($illness && isset($illness->illness_name_acupuncture)) {
           $consentIllnessName = $illness->illness_name_acupuncture;
-          if (isset($consent->illness_name_acupuncture_addendum) && $consent->illness_name_acupuncture_addendum) {
-            $consentIllnessName .= '、' . $consent->illness_name_acupuncture_addendum;
-          }
         }
       }
       if ($consentIllnessName) {
@@ -1526,9 +1518,6 @@ protected function fillRealDataModeFields(Fpdi $pdf, array $data, $insurance, $c
             ->where('id', $consent->illness_name_acupuncture_id)
             ->first();
           $illnessName = $illness->illness_name_acupuncture ?? '';
-          if (isset($consent->illness_name_acupuncture_addendum) && $consent->illness_name_acupuncture_addendum) {
-            $illnessName .= ($illnessName ? '、' : '') . $consent->illness_name_acupuncture_addendum;
-          }
           if ($illnessName) {
             $pdf->SetFontSize($this->coord('consent_record_illness_name', 'fontSize'));
             $this->drawTextByKey($pdf, 'consent_record_illness_name', (string)$illnessName);

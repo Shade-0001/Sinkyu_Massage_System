@@ -351,16 +351,7 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
       case 'illness_name':
         if (!$consent) return null;
         $illnessName = $consent->illness_name_acupuncture ?? '';
-        $addendum = $consent->illness_name_acupuncture_addendum ?? '';
-        // マスタ傷病名と追記を組み合わせ
-        if (!empty($illnessName) && !empty($addendum)) {
-          return $illnessName . '（' . $addendum . '）';
-        } elseif (!empty($illnessName)) {
-          return $illnessName;
-        } elseif (!empty($addendum)) {
-          return $addendum;
-        }
-        return null;
+        return !empty($illnessName) ? $illnessName : null;
       case 'onset_date':
         if ($consent && isset($consent->onset_and_injury_date)) {
           return $this->convertToJapaneseDate($consent->onset_and_injury_date);
