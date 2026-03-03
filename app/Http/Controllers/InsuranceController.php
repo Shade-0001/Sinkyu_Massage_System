@@ -75,7 +75,7 @@ class InsuranceController extends Controller
 
         return view('clinic-users.insurances.insurances_registration', [
             'mode' => 'create',
-            'page_header_title' => $user->full_name . ' 様の保険情報新規登録',
+            'page_header_title' => $user->last_name . '  ' . $user->first_name . '  様の保険情報新規登録',
             'userId' => $id,
             'insurance' => null,
             'insurers' => $insurers
@@ -156,7 +156,7 @@ class InsuranceController extends Controller
 
         return view('clinic-users.insurances.insurances_registration', [
             'mode' => 'edit',
-            'page_header_title' => $user->full_name . ' 様の保険情報編集',
+            'page_header_title' => $user->last_name . '  ' . $user->first_name . '  様の保険情報編集',
             'userId' => $id,
             'insurance' => $insurance,
             'insurers' => $insurers
@@ -233,7 +233,7 @@ class InsuranceController extends Controller
 
         return view('clinic-users.insurances.insurances_registration', [
             'mode' => 'duplicate',
-            'page_header_title' => $user->full_name . ' 様の保険情報複製',
+            'page_header_title' => $user->last_name . '  ' . $user->first_name . '  様の保険情報複製',
             'userId' => $id,
             'insurance' => $insurance,
             'insurers' => $insurers
