@@ -287,7 +287,7 @@ function renderFieldSettings() {
               <label>要素選択:</label>
               <select onchange="updateCompositeGroupSelection('${field.compositeGroup}', this.value)"
                       class="form-control form-control-sm"
-                      style="width: auto; display: inline-block; margin-left: 10px;">
+                      style="width: auto; max-width: 180px; display: inline-block; margin-left: 10px;">
                 ${options}
               </select>
             </div>
@@ -373,7 +373,7 @@ function renderFieldSettings() {
               <label>選択:</label>
               <select onchange="updateRadioGroupSelection('${fieldMapping.radioGroup}', this.value)"
                       class="form-control form-control-sm"
-                      style="width: auto; display: inline-block; margin-left: 10px;">
+                      style="width: auto; max-width: 180px; display: inline-block; margin-left: 10px;">
                 ${options}
               </select>
             </div>
