@@ -213,18 +213,10 @@ trait MedicalAssistanceAcupunctureDrawingHelpersTrait
     foreach ($lines as $i => $line) {
       $currentY = $startY + ($i * $lineHeight);
 
-      if ($letterSpacing > 0) {
+      if ($letterSpacing > 0 || $textAlign !== 'left') {
         $this->drawTextWithSpacing($pdf, $x, $currentY, $line, (float)$letterSpacing, $textAlign, (float)$alignmentWidth);
       } else {
-        $currentX = $x;
-        if ($textAlign === 'center') {
-          $textWidth = $pdf->GetStringWidth($line);
-          $currentX = $x - ($textWidth / 2);
-        } elseif ($textAlign === 'right') {
-          $textWidth = $pdf->GetStringWidth($line);
-          $currentX = $x - $textWidth;
-        }
-        $pdf->Text($currentX, $currentY, $line);
+        $pdf->Text($x, $currentY, $line);
       }
     }
   }
