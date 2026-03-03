@@ -181,19 +181,10 @@ trait AcupunctureDrawingHelpersTrait
     foreach ($lines as $i => $line) {
       $currentY = $startY + ($i * $lineHeight);
 
-      if ($letterSpacing > 0) {
-        $this->drawTextWithSpacing($pdf, $x, $currentY, $line, (float)$letterSpacing, $textAlign, (float)$alignmentWidth);
+      if (empty($letterSpacing) && $textAlign === 'left') {
+        $pdf->Text($x, $currentY, $line);
       } else {
-        // textAlignに応じてX座標を調整
-        $currentX = $x;
-        if ($textAlign === 'center') {
-          $textWidth = $pdf->GetStringWidth($line);
-          $currentX = $x - ($textWidth / 2);
-        } elseif ($textAlign === 'right') {
-          $textWidth = $pdf->GetStringWidth($line);
-          $currentX = $x - $textWidth;
-        }
-        $pdf->Text($currentX, $currentY, $line);
+        $this->drawTextWithSpacing($pdf, $x, $currentY, $line, (float)$letterSpacing, $textAlign, (float)$alignmentWidth);
       }
     }
     return;
