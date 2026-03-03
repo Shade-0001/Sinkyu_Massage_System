@@ -66,7 +66,7 @@
             <select id="clinic-user-select" class="form-control">
               @foreach($clinicUsers as $user)
                 <option value="{{ $user->id }}" {{ ($selectedClinicUserId && $selectedClinicUserId == $user->id) ? 'selected' : '' }}>
-                  {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
+                  {{ $user->id }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}
                 </option>
               @endforeach
             </select>
