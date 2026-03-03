@@ -854,7 +854,7 @@ function renderSingleFieldHTML(key, field) {
 
       ${field.fontSize !== undefined && !(field.ellipseWidth || field.ellipseHeight || field.lineWidth) ? `
       <div class="coordinate-input">
-        <label>フォントサイズ:</label>
+        <label>ﾌｫﾝﾄｻｲｽﾞ:</label>
         <button class="btn btn-sm btn-outline-secondary btn-adjust"
                 onmousedown="startLongPress('${key}', 'fontSize', -0.5)"
                 onmouseup="stopLongPress()"
@@ -917,7 +917,7 @@ function renderSingleFieldHTML(key, field) {
 
       ${field.maxCharsPerLine !== undefined ? `
       <div class="coordinate-input">
-        <label>1行あたり文字数:</label>
+        <label>1行文字数:</label>
         <button class="btn btn-sm btn-outline-secondary btn-adjust"
                 onmousedown="startLongPress('${key}', 'maxCharsPerLine', -1)"
                 onmouseup="stopLongPress()"
@@ -960,23 +960,26 @@ function renderSingleFieldHTML(key, field) {
       ${field.textAlign !== undefined ? `
       <div class="coordinate-input">
         <label>横配置:</label>
-        <select onchange="updateCoordinate('${key}', 'textAlign', this.value)"
-                class="form-control form-control-sm" style="width: auto;" data-property="textAlign">
-          <option value="left" ${field.textAlign === 'left' ? 'selected' : ''}>左</option>
-          <option value="center" ${field.textAlign === 'center' ? 'selected' : ''}>中央</option>
-          <option value="right" ${field.textAlign === 'right' ? 'selected' : ''}>右</option>
-        </select>
+        <div class="btn-group btn-group-sm" role="group" style="display: inline-flex;">
+          <button type="button" class="btn btn-outline-secondary ${field.textAlign === 'left' ? 'active' : ''}"
+                  title="左揃え" onclick="updateCoordinate('${key}', 'textAlign', 'left')">左</button>
+          <button type="button" class="btn btn-outline-secondary ${field.textAlign === 'center' || !field.textAlign ? 'active' : ''}"
+                  title="中央揃え" onclick="updateCoordinate('${key}', 'textAlign', 'center')">中央</button>
+          <button type="button" class="btn btn-outline-secondary ${field.textAlign === 'right' ? 'active' : ''}"
+                  title="右揃え" onclick="updateCoordinate('${key}', 'textAlign', 'right')">右</button>
+        </div>
       </div>
       ` : ''}
 
       ${field.verticalAlign !== undefined ? `
       <div class="coordinate-input">
         <label>縦配置:</label>
-        <select onchange="updateCoordinate('${key}', 'verticalAlign', this.value)"
-                class="form-control form-control-sm" style="width: auto;" data-property="verticalAlign">
-          <option value="top" ${field.verticalAlign === 'top' ? 'selected' : ''}>上</option>
-          <option value="middle" ${field.verticalAlign === 'middle' ? 'selected' : ''}>中央</option>
-        </select>
+        <div class="btn-group btn-group-sm" role="group" style="display: inline-flex;">
+          <button type="button" class="btn btn-outline-secondary ${field.verticalAlign === 'top' || !field.verticalAlign ? 'active' : ''}"
+                  title="上揃え" onclick="updateCoordinate('${key}', 'verticalAlign', 'top')">上</button>
+          <button type="button" class="btn btn-outline-secondary ${field.verticalAlign === 'middle' ? 'active' : ''}"
+                  title="Y中央揃え（y座標が中心点）" onclick="updateCoordinate('${key}', 'verticalAlign', 'middle')">中央</button>
+        </div>
       </div>
       ` : ''}
 
@@ -1286,7 +1289,7 @@ function updateCompositeGroupSelection(groupName, selectedKey) {
   if (!isShapeOnly && selectedField.fontSize !== undefined) {
   const fsDiv = document.createElement('div');
   fsDiv.className = 'coordinate-input';
-  fsDiv.innerHTML = `<label>フォントサイズ:</label>`;
+  fsDiv.innerHTML = `<label>ﾌｫﾝﾄｻｲｽﾞ:</label>`;
   
   const fsBtnMinus = document.createElement('button');
   fsBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
@@ -1418,7 +1421,7 @@ function updateCompositeGroupSelection(groupName, selectedKey) {
   if (!isShapeOnly && selectedField.maxCharsPerLine !== undefined) {
   const mcplDiv = document.createElement('div');
   mcplDiv.className = 'coordinate-input';
-  mcplDiv.innerHTML = `<label>1行あたり文字数:</label>`;
+  mcplDiv.innerHTML = `<label>1行文字数:</label>`;
 
   const mcplBtnMinus = document.createElement('button');
   mcplBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
@@ -1509,27 +1512,27 @@ function updateCompositeGroupSelection(groupName, selectedKey) {
   taDiv.innerHTML = `<label>横配置:</label>`;
   
   const taBtnGroup = document.createElement('div');
-  taBtnGroup.className = 'btn-group btn-group-sm d-flex';
+  taBtnGroup.className = 'btn-group btn-group-sm';
   taBtnGroup.setAttribute('role', 'group');
-  taBtnGroup.style.marginLeft = '10px';
+  taBtnGroup.style.display = 'inline-flex';
   
   const taLeft = document.createElement('button');
   taLeft.type = 'button';
-  taLeft.className = `btn btn-outline-secondary flex-fill ${selectedField.textAlign === 'left' ? 'active' : ''}`;
+  taLeft.className = `btn btn-outline-secondary ${selectedField.textAlign === 'left' ? 'active' : ''}`;
   taLeft.innerHTML = '左';
   taLeft.title = '左揃え';
   taLeft.addEventListener('click', () => updateCoordinate(selectedKey, 'textAlign', 'left'));
   
   const taCenter = document.createElement('button');
   taCenter.type = 'button';
-  taCenter.className = `btn btn-outline-secondary flex-fill ${selectedField.textAlign === 'center' || !selectedField.textAlign ? 'active' : ''}`;
+  taCenter.className = `btn btn-outline-secondary ${selectedField.textAlign === 'center' || !selectedField.textAlign ? 'active' : ''}`;
   taCenter.innerHTML = '中央';
   taCenter.title = '中央揃え';
   taCenter.addEventListener('click', () => updateCoordinate(selectedKey, 'textAlign', 'center'));
   
   const taRight = document.createElement('button');
   taRight.type = 'button';
-  taRight.className = `btn btn-outline-secondary flex-fill ${selectedField.textAlign === 'right' ? 'active' : ''}`;
+  taRight.className = `btn btn-outline-secondary ${selectedField.textAlign === 'right' ? 'active' : ''}`;
   taRight.innerHTML = '右';
   taRight.title = '右揃え';
   taRight.addEventListener('click', () => updateCoordinate(selectedKey, 'textAlign', 'right'));
@@ -1548,20 +1551,20 @@ function updateCompositeGroupSelection(groupName, selectedKey) {
   vaDiv.innerHTML = `<label>縦配置:</label>`;
 
   const vaBtnGroup = document.createElement('div');
-  vaBtnGroup.className = 'btn-group btn-group-sm d-flex';
+  vaBtnGroup.className = 'btn-group btn-group-sm';
   vaBtnGroup.setAttribute('role', 'group');
-  vaBtnGroup.style.marginLeft = '10px';
+  vaBtnGroup.style.display = 'inline-flex';
 
   const vaTop = document.createElement('button');
   vaTop.type = 'button';
-  vaTop.className = `btn btn-outline-secondary flex-fill ${selectedField.verticalAlign === 'top' || !selectedField.verticalAlign ? 'active' : ''}`;
+  vaTop.className = `btn btn-outline-secondary ${selectedField.verticalAlign === 'top' || !selectedField.verticalAlign ? 'active' : ''}`;
   vaTop.innerHTML = '上';
   vaTop.title = '上揃え';
   vaTop.addEventListener('click', () => updateCoordinate(selectedKey, 'verticalAlign', 'top'));
 
   const vaMiddle = document.createElement('button');
   vaMiddle.type = 'button';
-  vaMiddle.className = `btn btn-outline-secondary flex-fill ${selectedField.verticalAlign === 'middle' ? 'active' : ''}`;
+  vaMiddle.className = `btn btn-outline-secondary ${selectedField.verticalAlign === 'middle' ? 'active' : ''}`;
   vaMiddle.innerHTML = '中央';
   vaMiddle.title = 'Y中央揃え（y座標が中心点）';
   vaMiddle.addEventListener('click', () => updateCoordinate(selectedKey, 'verticalAlign', 'middle'));
@@ -1991,7 +1994,7 @@ function updateRadioGroupSelection(groupName, selectedKey) {
   if (!isShapeOnly && selectedField.fontSize !== undefined) {
     const fsDiv = document.createElement('div');
     fsDiv.className = 'coordinate-input';
-    fsDiv.innerHTML = `<label>フォントサイズ:</label>`;
+    fsDiv.innerHTML = `<label>ﾌｫﾝﾄｻｲｽﾞ:</label>`;
   
   const fsBtnMinus = document.createElement('button');
   fsBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
@@ -2123,7 +2126,7 @@ function updateRadioGroupSelection(groupName, selectedKey) {
   if (!isShapeOnly && selectedField.maxCharsPerLine !== undefined) {
     const mcplDiv = document.createElement('div');
     mcplDiv.className = 'coordinate-input';
-    mcplDiv.innerHTML = `<label>1行あたり文字数:</label>`;
+    mcplDiv.innerHTML = `<label>1行文字数:</label>`;
 
   const mcplBtnMinus = document.createElement('button');
   mcplBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
