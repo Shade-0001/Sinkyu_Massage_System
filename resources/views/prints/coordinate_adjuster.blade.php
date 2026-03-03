@@ -38,7 +38,7 @@
   4. app/Services/Print/Traits/*FormFieldsTrait.php に描画ロジックを追加
   ※1~4全て必須。どれか1つでも欠けると正しく動作しない
 --}}
-<x-app-layout>
+<x-app-layout :hideFooter="true">
 <div class="container-fluid mt-2">
   <div class="d-flex" style="gap: 15px; align-items: flex-start;">
     <!-- 左側: 設定パネル -->

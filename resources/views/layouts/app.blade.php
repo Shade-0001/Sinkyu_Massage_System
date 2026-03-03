@@ -50,10 +50,12 @@
 				<main class="flex-fill">
 					{{ $slot }}
 				</main>
+				@unless($hideFooter)
 				<!-- フッター -->
 				<footer class="py-2 text-muted border-top border-dark-subtle bg-body-secondary" style="margin: 2rem -1rem 0 -1rem;">
 					<p class="mx-3 my-0">Copyright © All rights reserved.</p>
 				</footer>
+				@endunless
 			</div>
 		</div>
 
