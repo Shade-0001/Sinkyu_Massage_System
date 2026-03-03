@@ -124,7 +124,7 @@ class InsurancePaymentPdfService
 
         return [
           'insurer_name'              => $deposit->insurer->insurer_name ?? '',
-          'insured_name'              => $deposit->insured_name ?? '',
+          'insured_name'              => $deposit->insured_name ?: ($insurance->insured_name ?? ''),
           'clinic_user_name'          => $deposit->clinicUser
             ? ($deposit->clinicUser->last_name . '  ' . $deposit->clinicUser->first_name)
             : '',
