@@ -56,16 +56,17 @@
     },
     "clinic_address": {
         "x": 121.5,
-        "y": 64.5,
+        "y": 65.5,
         "textAlign": "left",
         "field": "clinic_address",
         "label": "事業所住所",
         "type": "text",
         "category": "clinic_info",
         "lineHeight": 5.5,
-        "maxCharsPerLine": 15,
-        "fontSize": 12,
-        "letterSpacing": 0
+        "maxCharsPerLine": 17,
+        "fontSize": 11,
+        "letterSpacing": 0,
+        "verticalAlign": "middle"
     },
     "clinic_name": {
         "x": 121.5,

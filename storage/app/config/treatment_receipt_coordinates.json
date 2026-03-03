@@ -245,7 +245,7 @@
         "letterSpacing": 0,
         "textAlign": "left",
         "type": "text",
-        "lineHeight": 5,
+        "lineHeight": 4,
         "maxCharsPerLine": 20,
         "verticalAlign": "middle"
     },

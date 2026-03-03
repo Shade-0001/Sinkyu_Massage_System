@@ -102,7 +102,7 @@
     "insured_person_postal_code": {
         "x": 47,
         "y": 106,
-        "fontSize": 12,
+        "fontSize": 10,
         "textAlign": "left",
         "field": "insured_person_postal_code",
         "label": "被保険者郵便番号",
@@ -116,15 +116,16 @@
     },
     "insured_person_address": {
         "x": 41,
-        "y": 112,
-        "fontSize": 10.5,
+        "y": 115,
+        "fontSize": 10,
         "textAlign": "left",
         "field": "insured_person_address",
         "label": "被保険者住所",
         "type": "text",
         "letterSpacing": 0,
-        "maxCharsPerLine": 15,
-        "lineHeight": 4
+        "maxCharsPerLine": 14,
+        "lineHeight": 4,
+        "verticalAlign": "middle"
     },
     "insurance_qualification_date": {
         "x": -80,
@@ -180,8 +181,8 @@
     },
     "clinic_name": {
         "x": 105.5,
-        "y": 97,
-        "fontSize": 12,
+        "y": 97.5,
+        "fontSize": 10,
         "textAlign": "center",
         "field": "clinic_name",
         "label": "事業所名称",
@@ -190,28 +191,34 @@
     },
     "clinic_address": {
         "x": 121,
-        "y": 86.5,
-        "fontSize": 10.5,
+        "y": 89,
+        "fontSize": 10,
         "textAlign": "left",
         "field": "clinic_address",
         "label": "事業所所在地",
         "type": "text",
-        "letterSpacing": 0
+        "letterSpacing": 0,
+        "lineHeight": 5,
+        "maxCharsPerLine": 20,
+        "verticalAlign": "middle"
     },
     "insurer_address": {
         "x": 120,
-        "y": 106,
-        "fontSize": 10,
+        "y": 108.2,
+        "fontSize": 8,
         "textAlign": "left",
         "field": "insurer_address",
         "label": "保険者所在地",
         "type": "text",
-        "letterSpacing": 0
+        "letterSpacing": 0,
+        "lineHeight": 3,
+        "maxCharsPerLine": 26,
+        "verticalAlign": "middle"
     },
     "insurer_name": {
         "x": 104,
-        "y": 114,
-        "fontSize": 12,
+        "y": 114.5,
+        "fontSize": 10,
         "textAlign": "center",
         "field": "insurer_name",
         "label": "保険者名称",
@@ -301,7 +308,7 @@
     "medical_institution_name": {
         "x": -80,
         "y": 156,
-        "fontSize": 10,
+        "fontSize": 8,
         "textAlign": "center",
         "field": "medical_institution_name",
         "label": "医療機関名",
@@ -310,15 +317,16 @@
     },
     "medical_institution_address": {
         "x": 40.5,
-        "y": 162.5,
-        "fontSize": 10,
+        "y": 166,
+        "fontSize": 8,
         "textAlign": "left",
         "field": "medical_institution_address",
         "label": "医療機関住所",
         "type": "text",
         "letterSpacing": 0,
-        "maxCharsPerLine": 18,
-        "lineHeight": 4
+        "maxCharsPerLine": 20,
+        "lineHeight": 3.5,
+        "verticalAlign": "middle"
     },
     "medical_institution_phone": {
         "x": -80,
@@ -361,9 +369,9 @@
         "letterSpacing": 0.5
     },
     "treatment_period": {
-        "x": -80,
+        "x": -80.5,
         "y": 201.5,
-        "fontSize": 13,
+        "fontSize": 12,
         "textAlign": "center",
         "field": "treatment_period",
         "label": "施術期間",

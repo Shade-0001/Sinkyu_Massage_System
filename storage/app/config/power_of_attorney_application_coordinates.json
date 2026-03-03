@@ -1,11 +1,14 @@
 {
     "clinic_address": {
         "x": 62,
-        "y": 69.5,
+        "y": 72,
         "fontSize": 13,
         "letterSpacing": 0,
         "textAlign": "left",
-        "type": "text"
+        "type": "text",
+        "lineHeight": 6,
+        "maxCharsPerLine": 27,
+        "verticalAlign": "middle"
     },
     "clinic_owner_name": {
         "x": 62,
