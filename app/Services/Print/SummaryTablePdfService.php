@@ -389,7 +389,7 @@ class SummaryTablePdfService extends BasePdfService
       $this->drawField($pdf, 'clinic_name', $clinicInfo->clinic_name ?? '');
 
       // 代表者氏名
-      $ownerName = ($clinicInfo->owner_last_name ?? '') . ' ' . ($clinicInfo->owner_first_name ?? '');
+      $ownerName = ($clinicInfo->owner_last_name ?? '') . '  ' . ($clinicInfo->owner_first_name ?? '');
       $this->drawField($pdf, 'clinic_owner_name', trim($ownerName));
 
       // 電話番号

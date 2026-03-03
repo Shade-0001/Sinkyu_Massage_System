@@ -735,8 +735,8 @@ trait MedicalAssistanceMassageFormFieldsTrait
   protected function fillPatientBasicInfo(Fpdi $pdf, $clinicUser, $insurance, string $fullName): void
   {
     // === 療養を受けた者の氏名 ===
-    $fullName = ($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? '');
-    $fullNameKana = ($clinicUser->last_kana ?? '') . ' ' . ($clinicUser->first_kana ?? '');
+    $fullName = ($clinicUser->last_name ?? '') . '  ' . ($clinicUser->first_name ?? '');
+    $fullNameKana = ($clinicUser->last_kana ?? '') . '  ' . ($clinicUser->first_kana ?? '');
     if (empty($fullName)) {
       \Log::warning('患者氏名が設定されていません', ['clinic_user' => $clinicUser]);
     }
@@ -1409,7 +1409,7 @@ trait MedicalAssistanceMassageFormFieldsTrait
       } else {
         $therapist = DB::table('therapists')->first();
         if ($therapist) {
-          $therapistName = ($therapist->last_name ?? '') . ' ' . ($therapist->first_name ?? '');
+          $therapistName = ($therapist->last_name ?? '') . '  ' . ($therapist->first_name ?? '');
           $pdf->SetFontSize($this->coord('clinic_manager', 'fontSize'));
           $this->drawTextByKey($pdf, 'clinic_manager', (string)$therapistName);
           $pdf->SetFontSize(10);
@@ -1486,7 +1486,7 @@ trait MedicalAssistanceMassageFormFieldsTrait
     // 施術者氏名
     $therapistNameField = $this->sampleDataMode && isset($this->customSampleData['therapist_name'])
       ? $this->customSampleData['therapist_name']
-      : (($therapist->last_name ?? '') . ' ' . ($therapist->first_name ?? ''));
+      : (($therapist->last_name ?? '') . '  ' . ($therapist->first_name ?? ''));
     if (trim($therapistNameField) && isset($this->coordinates['therapist_name'])) {
       $pdf->SetFontSize($this->coord('therapist_name', 'fontSize'));
       $this->drawTextByKey($pdf, 'therapist_name', (string)$therapistNameField);
@@ -1534,7 +1534,7 @@ trait MedicalAssistanceMassageFormFieldsTrait
       if ($this->sampleDataMode && isset($this->customSampleData['consent_record_doctor_name'])) {
         $consentDoctorName = $this->customSampleData['consent_record_doctor_name'];
       } elseif ($doctor) {
-        $consentDoctorName = ($doctor->last_name ?? '') . ' ' . ($doctor->first_name ?? '');
+        $consentDoctorName = ($doctor->last_name ?? '') . '  ' . ($doctor->first_name ?? '');
       } elseif ($consent && $consent->consenting_doctor_id) {
         // doctorがない場合、consenting_doctor_idから取得
         $doctorData = DB::table('doctors')->where('id', $consent->consenting_doctor_id)->first();
@@ -1692,7 +1692,7 @@ trait MedicalAssistanceMassageFormFieldsTrait
       if ($this->sampleDataMode && isset($this->customSampleData['consent_doctor_name'])) {
         $consentDoctorName = $this->customSampleData['consent_doctor_name'];
       } elseif ($doctor) {
-        $consentDoctorName = ($doctor->last_name ?? '') . ' ' . ($doctor->first_name ?? '');
+        $consentDoctorName = ($doctor->last_name ?? '') . '  ' . ($doctor->first_name ?? '');
       } elseif ($consent && $consent->consenting_doctor_id) {
         $doctorData = DB::table('doctors')->where('id', $consent->consenting_doctor_id)->first();
         if ($doctorData) {
@@ -2064,7 +2064,7 @@ trait MedicalAssistanceMassageFormFieldsTrait
       $agentPostalCode = $clinicInfo->postal_code ?? '';
       $agentAddress = ($clinicInfo->address_1 ?? '') . ($clinicInfo->address_2 ?? '') . ($clinicInfo->address_3 ?? '');
       $agentName = isset($clinicInfo->owner_last_name) && isset($clinicInfo->owner_first_name)
-        ? trim($clinicInfo->owner_last_name . ' ' . $clinicInfo->owner_first_name)
+        ? trim($clinicInfo->owner_last_name . '  ' . $clinicInfo->owner_first_name)
         : '';
     }
 
@@ -2122,7 +2122,7 @@ trait MedicalAssistanceMassageFormFieldsTrait
       }
       // 代理人氏名: 開設者氏名（owner_last_name + owner_first_name）を使用
       if ($this->hasCoord('agent_name') && isset($clinicInfo->owner_last_name) && isset($clinicInfo->owner_first_name)) {
-        $agentName = $clinicInfo->owner_last_name . ' ' . $clinicInfo->owner_first_name;
+        $agentName = $clinicInfo->owner_last_name . '  ' . $clinicInfo->owner_first_name;
         $pdf->SetFontSize($this->coord('agent_name', 'fontSize'));
         $this->drawTextByKey($pdf, 'agent_name', trim($agentName));
       }

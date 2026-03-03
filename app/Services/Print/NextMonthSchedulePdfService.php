@@ -111,7 +111,7 @@ class NextMonthSchedulePdfService extends BasePdfService
     $pdf->SetTextColor(0, 0, 0);
 
     // ---- タイトル（左上） ----
-    $userName  = ($user->last_name ?? '') . ' ' . ($user->first_name ?? '');
+    $userName  = ($user->last_name ?? '') . '  ' . ($user->first_name ?? '');
     $titleText = '予定表（' . $userName . '　様）';
     $pdf->SetFont('kozgopromedium', '', 17);
     $pdf->Text($startX, 15, $titleText);

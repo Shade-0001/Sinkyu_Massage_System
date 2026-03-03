@@ -147,12 +147,12 @@ protected function fillInsuranceSection(Fpdi $pdf, $insurance): void
       // === 給付割合（楕円） ===
       $benefitRatioKey = null;
 
-      // isSelectedフラグをチェック（座標調整モードの場合）
-      if (isset($this->coordinates['benefit_ratio_80']['isSelected']) && $this->coordinates['benefit_ratio_80']['isSelected']) {
+      // isSelectedフラグをチェック（サンプルデータモードの場合のみ）
+      if ($this->sampleDataMode && isset($this->coordinates['benefit_ratio_80']['isSelected']) && $this->coordinates['benefit_ratio_80']['isSelected']) {
         $benefitRatioKey = 'benefit_ratio_80';
-      } elseif (isset($this->coordinates['benefit_ratio_90']['isSelected']) && $this->coordinates['benefit_ratio_90']['isSelected']) {
+      } elseif ($this->sampleDataMode && isset($this->coordinates['benefit_ratio_90']['isSelected']) && $this->coordinates['benefit_ratio_90']['isSelected']) {
         $benefitRatioKey = 'benefit_ratio_90';
-      } elseif (isset($this->coordinates['benefit_ratio_100']['isSelected']) && $this->coordinates['benefit_ratio_100']['isSelected']) {
+      } elseif ($this->sampleDataMode && isset($this->coordinates['benefit_ratio_100']['isSelected']) && $this->coordinates['benefit_ratio_100']['isSelected']) {
         $benefitRatioKey = 'benefit_ratio_100';
       } elseif ($insurance) {
         // 保険種別１と保険種別３の組み合わせで給付割合を決定
@@ -194,14 +194,14 @@ protected function fillInsuranceSection(Fpdi $pdf, $insurance): void
       // === 一部負担金（楕円） ===
       $expensesBorneRatioKey = null;
 
-      // isSelectedフラグをチェック（サンプルデータの場合）
-      if (isset($this->coordinates['expenses_borne_ratio_10']['isSelected']) && $this->coordinates['expenses_borne_ratio_10']['isSelected']) {
+      // isSelectedフラグをチェック（サンプルデータモードの場合のみ）
+      if ($this->sampleDataMode && isset($this->coordinates['expenses_borne_ratio_10']['isSelected']) && $this->coordinates['expenses_borne_ratio_10']['isSelected']) {
         $expensesBorneRatioKey = 'expenses_borne_ratio_10';
         \Log::info('一部負担金: isSelected 10');
-      } elseif (isset($this->coordinates['expenses_borne_ratio_20']['isSelected']) && $this->coordinates['expenses_borne_ratio_20']['isSelected']) {
+      } elseif ($this->sampleDataMode && isset($this->coordinates['expenses_borne_ratio_20']['isSelected']) && $this->coordinates['expenses_borne_ratio_20']['isSelected']) {
         $expensesBorneRatioKey = 'expenses_borne_ratio_20';
         \Log::info('一部負担金: isSelected 20');
-      } elseif (isset($this->coordinates['expenses_borne_ratio_30']['isSelected']) && $this->coordinates['expenses_borne_ratio_30']['isSelected']) {
+      } elseif ($this->sampleDataMode && isset($this->coordinates['expenses_borne_ratio_30']['isSelected']) && $this->coordinates['expenses_borne_ratio_30']['isSelected']) {
         $expensesBorneRatioKey = 'expenses_borne_ratio_30';
         \Log::info('一部負担金: isSelected 30');
       } elseif ($insurance && isset($insurance->expenses_borne_ratio)) {
@@ -269,8 +269,8 @@ protected function fillInsuranceSection(Fpdi $pdf, $insurance): void
 protected function fillPatientBasicInfo(Fpdi $pdf, $clinicUser, $insurance, string $fullName): void
 {
   // === 療養を受けた者の氏名 ===
-      $fullName = ($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? '');
-      $fullNameKana = ($clinicUser->last_kana ?? '') . ' ' . ($clinicUser->first_kana ?? '');
+      $fullName = ($clinicUser->last_name ?? '') . '  ' . ($clinicUser->first_name ?? '');
+      $fullNameKana = ($clinicUser->last_kana ?? '') . '  ' . ($clinicUser->first_kana ?? '');
 
       if (empty($fullName)) {
         \Log::warning('患者氏名が設定されていません', ['clinic_user' => $clinicUser]);
@@ -295,10 +295,10 @@ protected function fillPatientBasicInfo(Fpdi $pdf, $clinicUser, $insurance, stri
       // === 性別（男・女に○を表示） ===
       $genderKey = null;
 
-      // isSelectedフラグをチェック（サンプルデータの場合）
-      if (isset($this->coordinates['patient_gender_male']['isSelected']) && $this->coordinates['patient_gender_male']['isSelected']) {
+      // isSelectedフラグをチェック（サンプルデータモードの場合のみ）
+      if ($this->sampleDataMode && isset($this->coordinates['patient_gender_male']['isSelected']) && $this->coordinates['patient_gender_male']['isSelected']) {
         $genderKey = 'patient_gender_male';
-      } elseif (isset($this->coordinates['patient_gender_female']['isSelected']) && $this->coordinates['patient_gender_female']['isSelected']) {
+      } elseif ($this->sampleDataMode && isset($this->coordinates['patient_gender_female']['isSelected']) && $this->coordinates['patient_gender_female']['isSelected']) {
         $genderKey = 'patient_gender_female';
       } elseif ($this->sampleDataMode && $this->customSampleData && isset($this->customSampleData['gender'])) {
         // サンプルデータモード：customSampleDataから取得
@@ -422,12 +422,12 @@ protected function fillWorkScopeType(Fpdi $pdf, $consent = null): void
 {
   $workScopeTypeKey = null;
 
-  // isSelectedフラグをチェック（座標調整モード用）
-  if (isset($this->coordinates['work_scope_type_1']['isSelected']) && $this->coordinates['work_scope_type_1']['isSelected']) {
+  // isSelectedフラグをチェック（サンプルデータモードの場合のみ）
+  if ($this->sampleDataMode && isset($this->coordinates['work_scope_type_1']['isSelected']) && $this->coordinates['work_scope_type_1']['isSelected']) {
     $workScopeTypeKey = 'work_scope_type_1';
-  } elseif (isset($this->coordinates['work_scope_type_2']['isSelected']) && $this->coordinates['work_scope_type_2']['isSelected']) {
+  } elseif ($this->sampleDataMode && isset($this->coordinates['work_scope_type_2']['isSelected']) && $this->coordinates['work_scope_type_2']['isSelected']) {
     $workScopeTypeKey = 'work_scope_type_2';
-  } elseif (isset($this->coordinates['work_scope_type_3']['isSelected']) && $this->coordinates['work_scope_type_3']['isSelected']) {
+  } elseif ($this->sampleDataMode && isset($this->coordinates['work_scope_type_3']['isSelected']) && $this->coordinates['work_scope_type_3']['isSelected']) {
     $workScopeTypeKey = 'work_scope_type_3';
   } elseif ($this->sampleDataMode && isset($this->customSampleData['work_scope_type'])) {
     // サンプルデータモード：customSampleDataから判定
@@ -520,11 +520,6 @@ protected function fillOnsetInfo(Fpdi $pdf, $consent): void
           }
         }
 
-        // 追記がある場合は追加
-        if (isset($consent->illness_name_acupuncture_addendum) && $consent->illness_name_acupuncture_addendum) {
-          $onsetIllnessName .= ($onsetIllnessName ? '、' : '') . $consent->illness_name_acupuncture_addendum;
-        }
-
         if ($onsetIllnessName) {
           $pdf->SetFontSize($this->coord('onset_illness_name', 'fontSize'));
           $this->drawTextByKey($pdf, 'onset_illness_name', (string)$onsetIllnessName);
@@ -542,10 +537,10 @@ protected function fillOnsetInfo(Fpdi $pdf, $consent): void
           $this->drawTextByKey($pdf, 'condition', $conditionText);
           $pdf->SetFontSize(10);
         }
-      } elseif ($consent && isset($consent->condition) && $consent->condition) {
+      } elseif ($consent && isset($consent->condition_id) && $consent->condition_id) {
         // 通常モード：実データから取得
         // IDから名称を取得
-        $condition = \App\Models\Condition::find($consent->condition);
+        $condition = \App\Models\Condition::find($consent->condition_id);
         $conditionName = $condition ? $condition->condition_name : '';
 
         if ($conditionName) {
@@ -728,10 +723,10 @@ protected function fillBillCategoryAndOutcome(Fpdi $pdf, $consent): void
   // === 請求区分（新規・継続） ===
       $billCategoryKey = null;
 
-      // isSelectedフラグをチェック（サンプルデータの場合）
-      if (isset($this->coordinates['bill_category_new']['isSelected']) && $this->coordinates['bill_category_new']['isSelected']) {
+      // isSelectedフラグをチェック（サンプルデータモードの場合のみ）
+      if ($this->sampleDataMode && isset($this->coordinates['bill_category_new']['isSelected']) && $this->coordinates['bill_category_new']['isSelected']) {
         $billCategoryKey = 'bill_category_new';
-      } elseif (isset($this->coordinates['bill_category_continued']['isSelected']) && $this->coordinates['bill_category_continued']['isSelected']) {
+      } elseif ($this->sampleDataMode && isset($this->coordinates['bill_category_continued']['isSelected']) && $this->coordinates['bill_category_continued']['isSelected']) {
         $billCategoryKey = 'bill_category_continued';
       } elseif ($this->sampleDataMode && $this->customSampleData && isset($this->customSampleData['bill_category'])) {
         // サンプルデータモード：customSampleDataから取得
@@ -758,14 +753,14 @@ protected function fillBillCategoryAndOutcome(Fpdi $pdf, $consent): void
       // === 転帰（継続・治癒・中止・転医） ===
       $outcomeKey = null;
 
-      // isSelected フラグをチェック（サンプルデータの場合）
-      if (isset($this->coordinates['outcome_continued']['isSelected']) && $this->coordinates['outcome_continued']['isSelected']) {
+      // isSelectedフラグをチェック（サンプルデータモードの場合のみ）
+      if ($this->sampleDataMode && isset($this->coordinates['outcome_continued']['isSelected']) && $this->coordinates['outcome_continued']['isSelected']) {
         $outcomeKey = 'outcome_continued';
-      } elseif (isset($this->coordinates['outcome_cured']['isSelected']) && $this->coordinates['outcome_cured']['isSelected']) {
+      } elseif ($this->sampleDataMode && isset($this->coordinates['outcome_cured']['isSelected']) && $this->coordinates['outcome_cured']['isSelected']) {
         $outcomeKey = 'outcome_cured';
-      } elseif (isset($this->coordinates['outcome_discontinued']['isSelected']) && $this->coordinates['outcome_discontinued']['isSelected']) {
+      } elseif ($this->sampleDataMode && isset($this->coordinates['outcome_discontinued']['isSelected']) && $this->coordinates['outcome_discontinued']['isSelected']) {
         $outcomeKey = 'outcome_discontinued';
-      } elseif (isset($this->coordinates['outcome_transferred']['isSelected']) && $this->coordinates['outcome_transferred']['isSelected']) {
+      } elseif ($this->sampleDataMode && isset($this->coordinates['outcome_transferred']['isSelected']) && $this->coordinates['outcome_transferred']['isSelected']) {
         $outcomeKey = 'outcome_transferred';
       } elseif ($this->sampleDataMode && $this->customSampleData && isset($this->customSampleData['outcome'])) {
         // サンプルデータモード：customSampleDataから取得
@@ -944,7 +939,14 @@ protected function fillClinicInfoSection(Fpdi $pdf, $clinicInfo, string $submiss
           $clinicPostalCode = $this->sampleDataMode && isset($this->customSampleData['clinic_postal_code'])
             ? $this->customSampleData['clinic_postal_code']
             : ($clinicInfo->postal_code ?? '');
-          $this->drawTextByKey($pdf, 'clinic_postal_code', (string)$clinicPostalCode);
+          // ハイフンを除去
+          $cleanPostalCode = str_replace('-', '', $clinicPostalCode);
+          // 7桁の数字を〒 XXX-XXXX形式にフォーマット
+          $formattedPostalCode = $clinicPostalCode;
+          if (preg_match('/^\d{7}$/', $cleanPostalCode)) {
+            $formattedPostalCode = '〒 ' . substr($cleanPostalCode, 0, 3) . '-' . substr($cleanPostalCode, 3, 4);
+          }
+          $this->drawTextByKey($pdf, 'clinic_postal_code', (string)$formattedPostalCode);
         }
 
         // 施術所住所
@@ -967,25 +969,20 @@ protected function fillClinicInfoSection(Fpdi $pdf, $clinicInfo, string $submiss
         $this->drawTextByKey($pdf, 'clinic_name', (string)$clinicName);
         $pdf->SetFontSize(10);
 
-        // 施術管理者氏名（施術者情報から取得）
+        // 施術管理者氏名（clinic_infoから取得）
         if ($this->sampleDataMode && isset($this->customSampleData['clinic_manager'])) {
           $therapistName = $this->customSampleData['clinic_manager'];
           $pdf->SetFontSize($this->coord('clinic_manager', 'fontSize'));
           $this->drawTextByKey($pdf, 'clinic_manager', (string)$therapistName);
           $pdf->SetFontSize(10);
         } else {
-          $therapist = DB::table('therapists')->first();
-          if ($therapist) {
-            $therapistName = ($therapist->last_name ?? '') . ' ' . ($therapist->first_name ?? '');
-            if (empty(trim($therapistName))) {
-              \Log::warning('施術管理者氏名が設定されていません', ['therapist' => $therapist]);
-            }
-            $pdf->SetFontSize($this->coord('clinic_manager', 'fontSize'));
-            $this->drawTextByKey($pdf, 'clinic_manager', (string)$therapistName);
-            $pdf->SetFontSize(10);
-          } else {
-            \Log::warning('施術者情報が見つかりません');
+          $therapistName = ($clinicInfo->owner_last_name ?? '') . '  ' . ($clinicInfo->owner_first_name ?? '');
+          if (empty(trim($therapistName))) {
+            \Log::warning('施術管理者氏名が設定されていません', ['clinic_info' => $clinicInfo]);
           }
+          $pdf->SetFontSize($this->coord('clinic_manager', 'fontSize'));
+          $this->drawTextByKey($pdf, 'clinic_manager', (string)$therapistName);
+          $pdf->SetFontSize(10);
         }
 
         // 電話番号
@@ -1000,10 +997,10 @@ protected function fillClinicInfoSection(Fpdi $pdf, $clinicInfo, string $submiss
         $pdf->SetFontSize(10);
 
         // === 保健所登録区分 ===
-        // isSelectedフラグをチェック（座標調整ツールで選択された場合）
-        if (isset($this->coordinates['health_center_registration_1']['isSelected']) && $this->coordinates['health_center_registration_1']['isSelected']) {
+        // isSelectedフラグをチェック（サンプルデータモードの場合のみ）
+        if ($this->sampleDataMode && isset($this->coordinates['health_center_registration_1']['isSelected']) && $this->coordinates['health_center_registration_1']['isSelected']) {
           $this->drawEllipseByKey($pdf, 'health_center_registration_1');
-        } elseif (isset($this->coordinates['health_center_registration_2']['isSelected']) && $this->coordinates['health_center_registration_2']['isSelected']) {
+        } elseif ($this->sampleDataMode && isset($this->coordinates['health_center_registration_2']['isSelected']) && $this->coordinates['health_center_registration_2']['isSelected']) {
           $this->drawEllipseByKey($pdf, 'health_center_registration_2');
         } elseif ($this->sampleDataMode && isset($this->customSampleData['health_center_registration'])) {
           // サンプルデータモード：customSampleDataから取得
@@ -1048,39 +1045,39 @@ protected function fillConsentRecordSection(Fpdi $pdf, $consent): void
       } elseif ($consent && $consent->consenting_doctor_id) {
         $doctor = DB::table('doctors')->where('id', $consent->consenting_doctor_id)->first();
         if ($doctor) {
-          $consentDoctorName = ($doctor->last_name ?? '') . ' ' . ($doctor->first_name ?? '');
+          $consentDoctorName = ($doctor->last_name ?? '') . '  ' . ($doctor->first_name ?? '');
         }
       }
       if ($consentDoctorName) {
-        $pdf->SetFontSize($this->coord('consent_doctor_name', 'fontSize'));
-        $this->drawTextByKey($pdf, 'consent_doctor_name', (string)$consentDoctorName);
+        $pdf->SetFontSize($this->coord('consent_record_doctor_name', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_doctor_name', (string)$consentDoctorName);
         $pdf->SetFontSize(10);
       }
 
       // 同意年月日
       if ($this->sampleDataMode && isset($this->customSampleData['consent_date_year'])) {
-        $pdf->SetFontSize($this->coord('consent_date_year', 'fontSize'));
-        $this->drawTextByKey($pdf, 'consent_date_year', (string)$this->customSampleData['consent_date_year']);
+        $pdf->SetFontSize($this->coord('consent_record_date_year', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_date_year', (string)$this->customSampleData['consent_date_year']);
 
-        $pdf->SetFontSize($this->coord('consent_date_month', 'fontSize'));
-        $this->drawTextByKey($pdf, 'consent_date_month', (string)($this->customSampleData['consent_date_month'] ?? ''));
+        $pdf->SetFontSize($this->coord('consent_record_date_month', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_date_month', (string)($this->customSampleData['consent_date_month'] ?? ''));
 
-        $pdf->SetFontSize($this->coord('consent_date_day', 'fontSize'));
-        $this->drawTextByKey($pdf, 'consent_date_day', (string)($this->customSampleData['consent_date_day'] ?? ''));
+        $pdf->SetFontSize($this->coord('consent_record_date_day', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_date_day', (string)($this->customSampleData['consent_date_day'] ?? ''));
 
         $pdf->SetFontSize(10);
       } elseif ($consent && isset($consent->consenting_date) && $consent->consenting_date) {
         [$consentYear, $consentMonth, $consentDay] = explode('-', $consent->consenting_date);
         $consentJapaneseYear = $this->convertToJapaneseYear((int)$consentYear, (int)$consentMonth);
 
-        $pdf->SetFontSize($this->coord('consent_date_year', 'fontSize'));
-        $this->drawTextByKey($pdf, 'consent_date_year', (string)$consentJapaneseYear['year']);
+        $pdf->SetFontSize($this->coord('consent_record_date_year', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_date_year', (string)$consentJapaneseYear['year']);
 
-        $pdf->SetFontSize($this->coord('consent_date_month', 'fontSize'));
-        $this->drawTextByKey($pdf, 'consent_date_month', (string)(int)$consentMonth);
+        $pdf->SetFontSize($this->coord('consent_record_date_month', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_date_month', (string)(int)$consentMonth);
 
-        $pdf->SetFontSize($this->coord('consent_date_day', 'fontSize'));
-        $this->drawTextByKey($pdf, 'consent_date_day', (string)(int)$consentDay);
+        $pdf->SetFontSize($this->coord('consent_record_date_day', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_date_day', (string)(int)$consentDay);
 
         $pdf->SetFontSize(10);
       }
@@ -1095,14 +1092,11 @@ protected function fillConsentRecordSection(Fpdi $pdf, $consent): void
           ->first();
         if ($illness && isset($illness->illness_name_acupuncture)) {
           $consentIllnessName = $illness->illness_name_acupuncture;
-          if (isset($consent->illness_name_acupuncture_addendum) && $consent->illness_name_acupuncture_addendum) {
-            $consentIllnessName .= '、' . $consent->illness_name_acupuncture_addendum;
-          }
         }
       }
       if ($consentIllnessName) {
-        $pdf->SetFontSize($this->coord('consent_illness_name', 'fontSize'));
-        $this->drawTextByKey($pdf, 'consent_illness_name', (string)$consentIllnessName);
+        $pdf->SetFontSize($this->coord('consent_record_illness_name', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_illness_name', (string)$consentIllnessName);
         $pdf->SetFontSize(10);
       }
 
@@ -1111,8 +1105,8 @@ protected function fillConsentRecordSection(Fpdi $pdf, $consent): void
         ? $this->customSampleData['therapy_period']
         : ($consent->therapy_period ?? '');
       if ($therapyPeriod) {
-        $pdf->SetFontSize($this->coord('therapy_period', 'fontSize'));
-        $this->drawTextByKey($pdf, 'therapy_period', (string)$therapyPeriod);
+        $pdf->SetFontSize($this->coord('required_treatment_period', 'fontSize'));
+        $this->drawTextByKey($pdf, 'required_treatment_period', (string)$therapyPeriod);
         $pdf->SetFontSize(10);
       }
 }
@@ -1248,8 +1242,13 @@ protected function fillAgentInfo(Fpdi $pdf): void
         $agentName = $this->customSampleData['agent_name'] ?? '';
 
         if ($this->hasCoord('agent_postal_code') && $agentPostalCode) {
+          $cleanPostalCode = str_replace('-', '', $agentPostalCode);
+          $formattedPostalCode = $agentPostalCode;
+          if (preg_match('/^\d{7}$/', $cleanPostalCode)) {
+            $formattedPostalCode = '〒 ' . substr($cleanPostalCode, 0, 3) . '-' . substr($cleanPostalCode, 3, 4);
+          }
           $pdf->SetFontSize($this->coord('agent_postal_code', 'fontSize'));
-          $this->drawTextByKey($pdf, 'agent_postal_code', (string)$agentPostalCode);
+          $this->drawTextByKey($pdf, 'agent_postal_code', $formattedPostalCode);
         }
 
         if ($this->hasCoord('agent_address') && $agentAddress) {
@@ -1348,15 +1347,15 @@ protected function fillPaymentInstitutionSection(Fpdi $pdf, $clinicInfo): void
 
       // === 支払機関欄の楕円描画 ===
 
-      // 支払区分
+      // 支払区分（サンプルデータモードの場合のみisSelectedフラグを参照）
       $paymentMethodKey = null;
-      if (isset($this->coordinates['payment_category_furikomi']['isSelected']) && $this->coordinates['payment_category_furikomi']['isSelected']) {
+      if ($this->sampleDataMode && isset($this->coordinates['payment_category_furikomi']['isSelected']) && $this->coordinates['payment_category_furikomi']['isSelected']) {
         $paymentMethodKey = 'payment_category_furikomi';
-      } elseif (isset($this->coordinates['payment_category_bank_transfer']['isSelected']) && $this->coordinates['payment_category_bank_transfer']['isSelected']) {
+      } elseif ($this->sampleDataMode && isset($this->coordinates['payment_category_bank_transfer']['isSelected']) && $this->coordinates['payment_category_bank_transfer']['isSelected']) {
         $paymentMethodKey = 'payment_category_bank_transfer';
-      } elseif (isset($this->coordinates['payment_category_post_transfer']['isSelected']) && $this->coordinates['payment_category_post_transfer']['isSelected']) {
+      } elseif ($this->sampleDataMode && isset($this->coordinates['payment_category_post_transfer']['isSelected']) && $this->coordinates['payment_category_post_transfer']['isSelected']) {
         $paymentMethodKey = 'payment_category_post_transfer';
-      } elseif (isset($this->coordinates['payment_category_local_payment']['isSelected']) && $this->coordinates['payment_category_local_payment']['isSelected']) {
+      } elseif ($this->sampleDataMode && isset($this->coordinates['payment_category_local_payment']['isSelected']) && $this->coordinates['payment_category_local_payment']['isSelected']) {
         $paymentMethodKey = 'payment_category_local_payment';
       }
 
@@ -1364,15 +1363,15 @@ protected function fillPaymentInstitutionSection(Fpdi $pdf, $clinicInfo): void
         $this->drawEllipseByKey($pdf, $paymentMethodKey);
       }
 
-      // 預金の種類
+      // 預金の種類（サンプルデータモードの場合のみisSelectedフラグを参照）
       $depositTypeKey = null;
-      if (isset($this->coordinates['deposit_type_ordinary']['isSelected']) && $this->coordinates['deposit_type_ordinary']['isSelected']) {
+      if ($this->sampleDataMode && isset($this->coordinates['deposit_type_ordinary']['isSelected']) && $this->coordinates['deposit_type_ordinary']['isSelected']) {
         $depositTypeKey = 'deposit_type_ordinary';
-      } elseif (isset($this->coordinates['deposit_type_current']['isSelected']) && $this->coordinates['deposit_type_current']['isSelected']) {
+      } elseif ($this->sampleDataMode && isset($this->coordinates['deposit_type_current']['isSelected']) && $this->coordinates['deposit_type_current']['isSelected']) {
         $depositTypeKey = 'deposit_type_current';
-      } elseif (isset($this->coordinates['deposit_type_notice']['isSelected']) && $this->coordinates['deposit_type_notice']['isSelected']) {
+      } elseif ($this->sampleDataMode && isset($this->coordinates['deposit_type_notice']['isSelected']) && $this->coordinates['deposit_type_notice']['isSelected']) {
         $depositTypeKey = 'deposit_type_notice';
-      } elseif (isset($this->coordinates['deposit_type_betsudan']['isSelected']) && $this->coordinates['deposit_type_betsudan']['isSelected']) {
+      } elseif ($this->sampleDataMode && isset($this->coordinates['deposit_type_betsudan']['isSelected']) && $this->coordinates['deposit_type_betsudan']['isSelected']) {
         $depositTypeKey = 'deposit_type_betsudan';
       }
 
@@ -1380,13 +1379,13 @@ protected function fillPaymentInstitutionSection(Fpdi $pdf, $clinicInfo): void
         $this->drawEllipseByKey($pdf, $depositTypeKey);
       }
 
-      // 金融機関種類
+      // 金融機関種類（サンプルデータモードの場合のみisSelectedフラグを参照）
       $financialInstitutionTypeKey = null;
-      if (isset($this->coordinates['financial_institution_type_bank']['isSelected']) && $this->coordinates['financial_institution_type_bank']['isSelected']) {
+      if ($this->sampleDataMode && isset($this->coordinates['financial_institution_type_bank']['isSelected']) && $this->coordinates['financial_institution_type_bank']['isSelected']) {
         $financialInstitutionTypeKey = 'financial_institution_type_bank';
-      } elseif (isset($this->coordinates['financial_institution_type_kinko']['isSelected']) && $this->coordinates['financial_institution_type_kinko']['isSelected']) {
+      } elseif ($this->sampleDataMode && isset($this->coordinates['financial_institution_type_kinko']['isSelected']) && $this->coordinates['financial_institution_type_kinko']['isSelected']) {
         $financialInstitutionTypeKey = 'financial_institution_type_kinko';
-      } elseif (isset($this->coordinates['financial_institution_type_nokyo']['isSelected']) && $this->coordinates['financial_institution_type_nokyo']['isSelected']) {
+      } elseif ($this->sampleDataMode && isset($this->coordinates['financial_institution_type_nokyo']['isSelected']) && $this->coordinates['financial_institution_type_nokyo']['isSelected']) {
         $financialInstitutionTypeKey = 'financial_institution_type_nokyo';
       }
 
@@ -1394,13 +1393,13 @@ protected function fillPaymentInstitutionSection(Fpdi $pdf, $clinicInfo): void
         $this->drawEllipseByKey($pdf, $financialInstitutionTypeKey);
       }
 
-      // 本店支店出張所
+      // 本店支店出張所（サンプルデータモードの場合のみisSelectedフラグを参照）
       $branchTypeKey = null;
-      if (isset($this->coordinates['branch_type_honten']['isSelected']) && $this->coordinates['branch_type_honten']['isSelected']) {
+      if ($this->sampleDataMode && isset($this->coordinates['branch_type_honten']['isSelected']) && $this->coordinates['branch_type_honten']['isSelected']) {
         $branchTypeKey = 'branch_type_honten';
-      } elseif (isset($this->coordinates['branch_type_shiten']['isSelected']) && $this->coordinates['branch_type_shiten']['isSelected']) {
+      } elseif ($this->sampleDataMode && isset($this->coordinates['branch_type_shiten']['isSelected']) && $this->coordinates['branch_type_shiten']['isSelected']) {
         $branchTypeKey = 'branch_type_shiten';
-      } elseif (isset($this->coordinates['branch_type_shucchoujo']['isSelected']) && $this->coordinates['branch_type_shucchoujo']['isSelected']) {
+      } elseif ($this->sampleDataMode && isset($this->coordinates['branch_type_shucchoujo']['isSelected']) && $this->coordinates['branch_type_shucchoujo']['isSelected']) {
         $branchTypeKey = 'branch_type_shucchoujo';
       }
 
@@ -1460,7 +1459,7 @@ protected function fillRealDataModeFields(Fpdi $pdf, array $data, $insurance, $c
           
           if ($doctor) {
             // 同意医師氏名
-            $doctorName = ($doctor->last_name ?? '') . ' ' . ($doctor->first_name ?? '');
+            $doctorName = ($doctor->last_name ?? '') . '  ' . ($doctor->first_name ?? '');
             if ($this->hasCoord('consent_record_doctor_name') && $doctorName) {
               $pdf->SetFontSize($this->coord('consent_record_doctor_name', 'fontSize'));
               $this->drawTextByKey($pdf, 'consent_record_doctor_name', (string)$doctorName);
@@ -1469,13 +1468,13 @@ protected function fillRealDataModeFields(Fpdi $pdf, array $data, $insurance, $c
             // 同意医師住所・郵便番号（doctorsテーブルから取得）
             // 同意医師郵便番号
             if ($this->hasCoord('consent_record_doctor_postal_code') && isset($doctor->postal_code)) {
-              $postalCode = $doctor->postal_code;
-              // ハイフンなしの場合はXXX-XXXXフォーマットに変換
-              if (strlen($postalCode) === 7 && strpos($postalCode, '-') === false) {
-                $postalCode = substr($postalCode, 0, 3) . '-' . substr($postalCode, 3);
+              $cleanPostalCode = str_replace('-', '', $doctor->postal_code);
+              $formattedPostalCode = $doctor->postal_code;
+              if (preg_match('/^\d{7}$/', $cleanPostalCode)) {
+                $formattedPostalCode = '〒 ' . substr($cleanPostalCode, 0, 3) . '-' . substr($cleanPostalCode, 3, 4);
               }
               $pdf->SetFontSize($this->coord('consent_record_doctor_postal_code', 'fontSize'));
-              $this->drawTextByKey($pdf, 'consent_record_doctor_postal_code', (string)$postalCode);
+              $this->drawTextByKey($pdf, 'consent_record_doctor_postal_code', (string)$formattedPostalCode);
             }
 
             // 同意医師住所
@@ -1514,9 +1513,6 @@ protected function fillRealDataModeFields(Fpdi $pdf, array $data, $insurance, $c
             ->where('id', $consent->illness_name_acupuncture_id)
             ->first();
           $illnessName = $illness->illness_name_acupuncture ?? '';
-          if (isset($consent->illness_name_acupuncture_addendum) && $consent->illness_name_acupuncture_addendum) {
-            $illnessName .= ($illnessName ? '、' : '') . $consent->illness_name_acupuncture_addendum;
-          }
           if ($illnessName) {
             $pdf->SetFontSize($this->coord('consent_record_illness_name', 'fontSize'));
             $this->drawTextByKey($pdf, 'consent_record_illness_name', (string)$illnessName);
@@ -1619,8 +1615,13 @@ protected function fillRealDataModeFields(Fpdi $pdf, array $data, $insurance, $c
       if (!$this->sampleDataMode && $clinicInfo) {
         // 代理人情報はclinic_infoテーブルを参照
         if ($this->hasCoord('agent_postal_code') && isset($clinicInfo->postal_code)) {
+          $cleanPostalCode = str_replace('-', '', $clinicInfo->postal_code);
+          $formattedPostalCode = $clinicInfo->postal_code;
+          if (preg_match('/^\d{7}$/', $cleanPostalCode)) {
+            $formattedPostalCode = '〒 ' . substr($cleanPostalCode, 0, 3) . '-' . substr($cleanPostalCode, 3, 4);
+          }
           $pdf->SetFontSize($this->coord('agent_postal_code', 'fontSize'));
-          $this->drawTextByKey($pdf, 'agent_postal_code', (string)$clinicInfo->postal_code);
+          $this->drawTextByKey($pdf, 'agent_postal_code', $formattedPostalCode);
         }
 
         if ($this->hasCoord('agent_address') && isset($clinicInfo->address_1)) {
@@ -1631,7 +1632,7 @@ protected function fillRealDataModeFields(Fpdi $pdf, array $data, $insurance, $c
 
         // 代理人氏名: 開設者氏名（owner_last_name + owner_first_name）を使用
         if ($this->hasCoord('agent_name') && isset($clinicInfo->owner_last_name) && isset($clinicInfo->owner_first_name)) {
-          $agentName = $clinicInfo->owner_last_name . ' ' . $clinicInfo->owner_first_name;
+          $agentName = $clinicInfo->owner_last_name . '  ' . $clinicInfo->owner_first_name;
           $pdf->SetFontSize($this->coord('agent_name', 'fontSize'));
           $this->drawTextByKey($pdf, 'agent_name', trim($agentName));
         }
@@ -1641,8 +1642,13 @@ protected function fillRealDataModeFields(Fpdi $pdf, array $data, $insurance, $c
       if (!$this->sampleDataMode) {
         // 委任申請者郵便番号・住所は当該利用者のデータを参照
         if ($this->hasCoord('signature_applicant_postal_code') && isset($clinicUser->postal_code)) {
+          $cleanPostalCode = str_replace('-', '', $clinicUser->postal_code);
+          $formattedPostalCode = $clinicUser->postal_code;
+          if (preg_match('/^\d{7}$/', $cleanPostalCode)) {
+            $formattedPostalCode = '〒 ' . substr($cleanPostalCode, 0, 3) . '-' . substr($cleanPostalCode, 3, 4);
+          }
           $pdf->SetFontSize($this->coord('signature_applicant_postal_code', 'fontSize'));
-          $this->drawTextByKey($pdf, 'signature_applicant_postal_code', (string)$clinicUser->postal_code);
+          $this->drawTextByKey($pdf, 'signature_applicant_postal_code', $formattedPostalCode);
         }
 
         if ($this->hasCoord('signature_applicant_address')) {
@@ -1970,13 +1976,13 @@ protected function fillRealDataModeFields(Fpdi $pdf, array $data, $insurance, $c
 
       // 同意医師郵便番号（同意記録）
       if (isset($custom['consent_record_doctor_postal_code'])) {
-        $pdf->SetFontSize($this->coord('consent_record_doctor_postal_code', 'fontSize'));
-        $postalCode = $custom['consent_record_doctor_postal_code'];
-        // 7桁の数字を "XXX - XXXX" 形式に変換
-        if (strlen($postalCode) === 7 && ctype_digit($postalCode)) {
-          $postalCode = substr($postalCode, 0, 3) . ' - ' . substr($postalCode, 3);
+        $cleanPostalCode = str_replace('-', '', $custom['consent_record_doctor_postal_code']);
+        $formattedPostalCode = $custom['consent_record_doctor_postal_code'];
+        if (preg_match('/^\d{7}$/', $cleanPostalCode)) {
+          $formattedPostalCode = '〒 ' . substr($cleanPostalCode, 0, 3) . '-' . substr($cleanPostalCode, 3, 4);
         }
-        $this->drawTextByKey($pdf, 'consent_record_doctor_postal_code', $postalCode);
+        $pdf->SetFontSize($this->coord('consent_record_doctor_postal_code', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_doctor_postal_code', $formattedPostalCode);
       }
 
       // 同意医師住所（同意記録）
@@ -2027,8 +2033,13 @@ protected function fillRealDataModeFields(Fpdi $pdf, array $data, $insurance, $c
 
       // 申請者郵便番号（署名）
       if (isset($custom['signature_applicant_postal_code'])) {
+        $cleanPostalCode = str_replace('-', '', $custom['signature_applicant_postal_code']);
+        $formattedPostalCode = $custom['signature_applicant_postal_code'];
+        if (preg_match('/^\d{7}$/', $cleanPostalCode)) {
+          $formattedPostalCode = '〒 ' . substr($cleanPostalCode, 0, 3) . '-' . substr($cleanPostalCode, 3, 4);
+        }
         $pdf->SetFontSize($this->coord('signature_applicant_postal_code', 'fontSize'));
-        $this->drawTextByKey($pdf, 'signature_applicant_postal_code', $custom['signature_applicant_postal_code']);
+        $this->drawTextByKey($pdf, 'signature_applicant_postal_code', $formattedPostalCode);
       }
 
       // 申請者住所（署名）
@@ -2043,16 +2054,14 @@ protected function fillRealDataModeFields(Fpdi $pdf, array $data, $insurance, $c
 
     // 通常モード：施術実績から料金を計算
     $therapyTypeCounts = [];
-    $isFirstTreatment = false;
+
+    // 初検かどうかを判定：同意書の請求区分が「新規」の場合のみ初検料を適用
+    $consent = $data['consent'] ?? null;
+    $isFirstTreatment = ($consent && isset($consent->bill_category) && $consent->bill_category === '新規');
 
     // 施術実績を集計
-    foreach ($records as $index => $record) {
+    foreach ($records as $record) {
       $therapyContentId = $record->therapy_content_id ?? null;
-
-      // 初検かどうかを判定（最初のレコードのみ）
-      if ($index === 0) {
-        $isFirstTreatment = true;
-      }
 
       // 施術内容ごとにカウント
       if ($therapyContentId) {

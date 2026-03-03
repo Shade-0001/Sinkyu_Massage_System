@@ -30,7 +30,7 @@
       @foreach($therapists as $therapist)
       <tr>
         <td>
-          <a href="{{ route('therapists.edit', $therapist->id) }}">{{ $therapist->last_name }}{{ "\u{2000}" }}{{ $therapist->first_name }} [編集]</a><br>
+          <a href="{{ route('therapists.edit', $therapist->id) }}">{{ $therapist->last_name }}{{ "\u{2000}" }}{{ $therapist->first_name }}［編集］</a><br>
           {{ $therapist->last_name_kana }}{{ "\u{2000}" }}{{ $therapist->first_name_kana }}
         </td>
         <td>

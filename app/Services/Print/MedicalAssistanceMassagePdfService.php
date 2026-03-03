@@ -249,7 +249,7 @@ class MedicalAssistanceMassagePdfService extends BasePdfService
     $records = $data['records'];
     $clinicInfo = $data['clinic_info'];
 
-    $fullName = ($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? '');
+    $fullName = ($clinicUser->last_name ?? '') . '  ' . ($clinicUser->first_name ?? '');
     list($year, $month) = explode('-', $data['service_year_month']);
     $japaneseYear = $this->convertToJapaneseYear($year, $month);
 

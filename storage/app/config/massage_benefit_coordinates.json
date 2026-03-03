@@ -40,7 +40,7 @@
         "type": "select",
         "ellipseWidth": 5.5,
         "ellipseHeight": 3,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "insurance_type_1",
         "isSelected": true
     },
@@ -50,7 +50,7 @@
         "type": "select",
         "ellipseWidth": 5.5,
         "ellipseHeight": 3,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "insurance_type_1",
         "isSelected": false
     },
@@ -60,7 +60,7 @@
         "type": "select",
         "ellipseWidth": 5.5,
         "ellipseHeight": 3,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "insurance_type_1",
         "isSelected": false
     },
@@ -70,7 +70,7 @@
         "type": "select",
         "ellipseWidth": 5.5,
         "ellipseHeight": 3,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "insurance_type_1",
         "isSelected": false
     },
@@ -80,7 +80,7 @@
         "type": "select",
         "ellipseWidth": 5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "insurance_type_3",
         "isSelected": true
     },
@@ -90,7 +90,7 @@
         "type": "select",
         "ellipseWidth": 5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "insurance_type_3",
         "isSelected": false
     },
@@ -100,7 +100,7 @@
         "type": "select",
         "ellipseWidth": 5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "insurance_type_3",
         "isSelected": false
     },
@@ -110,7 +110,7 @@
         "type": "select",
         "ellipseWidth": 6,
         "ellipseHeight": 3,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "insurance_type_3",
         "isSelected": false
     },
@@ -120,7 +120,7 @@
         "type": "select",
         "ellipseWidth": 6,
         "ellipseHeight": 3,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "insurance_type_3",
         "isSelected": false
     },
@@ -130,7 +130,7 @@
         "type": "select",
         "ellipseWidth": 2.5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "benefit_ratio",
         "isSelected": true
     },
@@ -140,7 +140,7 @@
         "type": "select",
         "ellipseWidth": 2.5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "benefit_ratio",
         "isSelected": false
     },
@@ -150,7 +150,7 @@
         "type": "select",
         "ellipseWidth": 2.5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "benefit_ratio",
         "isSelected": false
     },
@@ -160,7 +160,7 @@
         "type": "select",
         "ellipseWidth": 3,
         "ellipseHeight": 2,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "expenses_borne_ratio",
         "isSelected": true
     },
@@ -170,7 +170,7 @@
         "type": "select",
         "ellipseWidth": 3,
         "ellipseHeight": 2,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "expenses_borne_ratio",
         "isSelected": false
     },
@@ -180,7 +180,7 @@
         "type": "select",
         "ellipseWidth": 3,
         "ellipseHeight": 2,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "expenses_borne_ratio",
         "isSelected": false
     },
@@ -278,7 +278,7 @@
         "y": 62,
         "ellipseWidth": 2.5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "gender",
         "type": "select",
         "isSelected": true
@@ -288,7 +288,7 @@
         "y": 67,
         "ellipseWidth": 2.5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "gender",
         "type": "select",
         "isSelected": false
@@ -299,7 +299,7 @@
         "radioGroup": "birthday_era",
         "ellipseWidth": 2,
         "ellipseHeight": 2,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "type": "select",
         "compositeGroup": "birthday_full_date",
         "isSelected": false
@@ -310,7 +310,7 @@
         "radioGroup": "birthday_era",
         "ellipseWidth": 2.5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "type": "select",
         "compositeGroup": "birthday_full_date",
         "isSelected": false
@@ -321,7 +321,7 @@
         "radioGroup": "birthday_era",
         "ellipseWidth": 2.5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "type": "select",
         "compositeGroup": "birthday_full_date",
         "isSelected": false
@@ -331,7 +331,7 @@
         "y": 73.5,
         "ellipseWidth": 2.5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "birthday_era",
         "type": "select",
         "compositeGroup": "birthday_full_date",
@@ -342,7 +342,7 @@
         "y": 73.5,
         "ellipseWidth": 2.5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "birthday_era",
         "type": "select",
         "compositeGroup": "birthday_full_date",
@@ -493,22 +493,25 @@
     "clinic_postal_code": {
         "x": 123,
         "y": 186,
-        "fontSize": 9,
+        "fontSize": 8,
         "letterSpacing": 0,
         "textAlign": "left",
         "type": "text"
     },
     "clinic_address": {
         "x": 123,
-        "y": 190,
-        "fontSize": 9,
+        "y": 192,
+        "fontSize": 8,
         "letterSpacing": 0,
         "textAlign": "left",
-        "type": "text"
+        "type": "text",
+        "lineHeight": 3,
+        "maxCharsPerLine": 25,
+        "verticalAlign": "middle"
     },
     "clinic_name": {
         "x": 123,
-        "y": 194.5,
+        "y": 195,
         "fontSize": 9,
         "letterSpacing": 0,
         "textAlign": "left",
@@ -532,11 +535,14 @@
     },
     "applicant_address": {
         "x": 122,
-        "y": 211.5,
+        "y": 213,
         "fontSize": 9,
         "letterSpacing": 0,
         "textAlign": "left",
-        "type": "text"
+        "type": "text",
+        "lineHeight": 3.5,
+        "maxCharsPerLine": 20,
+        "verticalAlign": "middle"
     },
     "applicant_name": {
         "x": 122,
@@ -557,10 +563,13 @@
     },
     "agent_address": {
         "x": 136,
-        "y": 267,
+        "y": 269,
         "fontSize": 9,
         "letterSpacing": 0,
-        "type": "text"
+        "type": "text",
+        "lineHeight": 3,
+        "maxCharsPerLine": 18,
+        "verticalAlign": "middle"
     },
     "agent_name": {
         "x": 58,
@@ -603,7 +612,7 @@
         "ellipseY": 104.5,
         "ellipseWidth": 5.5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "type": "select",
         "radioGroup": "fee_initial_examination",
         "isSelected": true
@@ -613,7 +622,7 @@
         "ellipseY": 104.5,
         "ellipseWidth": 6.5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "type": "select",
         "radioGroup": "fee_initial_examination",
         "isSelected": false
@@ -623,7 +632,7 @@
         "ellipseY": 104.5,
         "ellipseWidth": 13,
         "ellipseHeight": 3,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "type": "select",
         "radioGroup": "fee_initial_examination",
         "isSelected": false
@@ -637,21 +646,21 @@
         "y": 102.5
     },
     "therapy_content_electric_needle": {
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "ellipseX": 39.5,
         "ellipseY": 129,
         "ellipseWidth": 5.5,
         "ellipseHeight": 2.5
     },
     "therapy_content_electric_moxa": {
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "ellipseX": 52.5,
         "ellipseY": 129,
         "ellipseWidth": 8.5,
         "ellipseHeight": 2.5
     },
     "therapy_content_electric_light": {
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "ellipseX": 69,
         "ellipseY": 129,
         "ellipseWidth": 10,
@@ -851,7 +860,7 @@
         "textAlign": "left",
         "ellipseWidth": 6.5,
         "ellipseHeight": 3,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "bill_category",
         "type": "text",
         "isSelected": true
@@ -864,7 +873,7 @@
         "textAlign": "left",
         "ellipseWidth": 6.5,
         "ellipseHeight": 3,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "bill_category",
         "type": "text",
         "isSelected": false
@@ -877,7 +886,7 @@
         "textAlign": "left",
         "ellipseWidth": 4.5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "outcome",
         "type": "text",
         "isSelected": true
@@ -890,7 +899,7 @@
         "textAlign": "left",
         "ellipseWidth": 4.5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "outcome",
         "type": "text",
         "isSelected": false
@@ -903,7 +912,7 @@
         "textAlign": "left",
         "ellipseWidth": 4.5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "outcome",
         "type": "text",
         "isSelected": false
@@ -916,7 +925,7 @@
         "textAlign": "left",
         "ellipseWidth": 4.5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "outcome",
         "type": "text",
         "isSelected": false
@@ -926,7 +935,7 @@
         "y": 183.5,
         "textAlign": "left",
         "circleRadius": 1.2,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "ellipseWidth": 10,
         "ellipseHeight": 2.5,
         "radioGroup": "health_center_registration",
@@ -938,7 +947,7 @@
         "y": 183.5,
         "textAlign": "left",
         "circleRadius": 1.2,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "ellipseWidth": 15,
         "ellipseHeight": 2.5,
         "radioGroup": "health_center_registration",
@@ -1052,7 +1061,7 @@
         "y": 73.5,
         "ellipseWidth": 10,
         "ellipseHeight": 3,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "work_scope_type",
         "type": "select",
         "isSelected": true
@@ -1062,7 +1071,7 @@
         "y": 73.5,
         "ellipseWidth": 18,
         "ellipseHeight": 3,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "work_scope_type",
         "type": "select",
         "isSelected": false
@@ -1072,7 +1081,7 @@
         "y": 73.5,
         "ellipseWidth": 10,
         "ellipseHeight": 3,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "work_scope_type",
         "type": "select",
         "isSelected": false
@@ -1113,9 +1122,9 @@
         "compositeGroup": "submission_date"
     },
     "insurer_name": {
-        "x": -130,
+        "x": -127,
         "y": 217.5,
-        "fontSize": 10,
+        "fontSize": 9,
         "letterSpacing": 0,
         "textAlign": "right",
         "type": "text"
@@ -1125,7 +1134,7 @@
         "ellipseY": 228.5,
         "ellipseWidth": 10,
         "ellipseHeight": 3,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "x": 10,
         "y": 195,
         "textAlign": "center",
@@ -1144,7 +1153,7 @@
         "ellipseY": 228,
         "ellipseWidth": 12,
         "ellipseHeight": 3,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "x": 25,
         "y": 195,
         "textAlign": "center",
@@ -1163,7 +1172,7 @@
         "ellipseY": 231.5,
         "ellipseWidth": 14,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "x": 43,
         "y": 195,
         "textAlign": "center",
@@ -1182,7 +1191,7 @@
         "ellipseY": 231.5,
         "ellipseWidth": 13,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "x": 63,
         "y": 195,
         "textAlign": "center",
@@ -1201,7 +1210,7 @@
         "ellipseY": 228,
         "ellipseWidth": 9,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "x": 10,
         "y": 200,
         "textAlign": "center",
@@ -1214,7 +1223,7 @@
         "ellipseY": 228,
         "ellipseWidth": 9,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "x": 20,
         "y": 200,
         "textAlign": "center",
@@ -1227,7 +1236,7 @@
         "ellipseY": 231.5,
         "ellipseWidth": 9,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "x": 30,
         "y": 200,
         "textAlign": "center",
@@ -1240,7 +1249,7 @@
         "ellipseY": 231.5,
         "ellipseWidth": 9,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "x": 40,
         "y": 200,
         "textAlign": "center",
@@ -1261,7 +1270,7 @@
         "ellipseY": 224.5,
         "ellipseWidth": 4.5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "x": 35,
         "y": 205,
         "textAlign": "center",
@@ -1274,7 +1283,7 @@
         "ellipseY": 228,
         "ellipseWidth": 4.5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "x": 45,
         "y": 205,
         "textAlign": "center",
@@ -1287,7 +1296,7 @@
         "ellipseY": 231.5,
         "ellipseWidth": 4.5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "x": 55,
         "y": 205,
         "textAlign": "center",
@@ -1308,7 +1317,7 @@
         "ellipseY": 224.5,
         "ellipseWidth": 4.5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "x": 90,
         "y": 205,
         "textAlign": "center",
@@ -1321,7 +1330,7 @@
         "ellipseY": 228,
         "ellipseWidth": 4.5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "x": 100,
         "y": 205,
         "textAlign": "center",
@@ -1334,7 +1343,7 @@
         "ellipseY": 231.5,
         "ellipseWidth": 6,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "x": 110,
         "y": 205,
         "textAlign": "center",
@@ -1368,21 +1377,27 @@
     },
     "consent_record_doctor_postal_code": {
         "x": -158,
-        "y": 246,
-        "fontSize": 9,
+        "y": 245.5,
+        "fontSize": 8,
         "letterSpacing": 0,
         "textAlign": "left",
         "type": "postal_code",
         "postalCodeGap": 11,
-        "lastX": -147
+        "lastX": -147,
+        "firstY": 245.5,
+        "lastY": 245.5,
+        "firstX": -158
     },
     "consent_record_doctor_address": {
         "x": -158,
-        "y": 250.5,
-        "fontSize": 9,
+        "y": 251.5,
+        "fontSize": 8,
         "letterSpacing": 0,
         "textAlign": "left",
-        "type": "text"
+        "type": "text",
+        "lineHeight": 3,
+        "maxCharsPerLine": 17,
+        "verticalAlign": "middle"
     },
     "consent_record_date_year": {
         "x": 9.5,
@@ -1456,11 +1471,14 @@
     },
     "signature_applicant_address": {
         "x": 48,
-        "y": 267,
+        "y": 269.5,
         "fontSize": 9,
         "letterSpacing": 0,
         "textAlign": "left",
-        "type": "text"
+        "type": "text",
+        "lineHeight": 3.5,
+        "maxCharsPerLine": 19,
+        "verticalAlign": "middle"
     },
     "patient_phone": {
         "x": 173.5,

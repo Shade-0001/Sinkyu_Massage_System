@@ -32,7 +32,7 @@ class ConsentAcupuncture extends Model
     'housecall_reason_addendum',
     'therapy_period',
     'first_therapy_content_id',
-    'condition',
+    'condition_id',
     'work_scope_type_id',
     'onset_and_injury_date'
   ];

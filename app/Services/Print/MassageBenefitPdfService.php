@@ -216,7 +216,7 @@ class MassageBenefitPdfService extends BasePdfService
     $doctor = $data['doctor'] ?? null;
     $records = $data['records'];
     $clinicInfo = $data['clinic_info'];
-    $fullName = ($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? '');
+    $fullName = ($clinicUser->last_name ?? '') . '  ' . ($clinicUser->first_name ?? '');
     $serviceYearMonth = $data['service_year_month'];
     [$year, $month] = explode('-', $serviceYearMonth);
 

@@ -122,6 +122,11 @@ function getFieldDefinitions() {
     return fieldDefinitionsImplementationPlan;
   }
 
+  // FAX送信票用
+  if (currentPdfType === 'fax_cover_sheet') {
+    return fieldDefinitionsFaxCoverSheet;
+  }
+
   // 医師への御礼状用
   if (currentPdfType === 'thank_you_letter_doctor') {
     return fieldDefinitionsThankYouLetterDoctor;
@@ -140,6 +145,11 @@ function getFieldDefinitions() {
   // 報告書挨拶状用
   if (currentPdfType === 'report_greeting') {
     return fieldDefinitionsReportGreeting;
+  }
+
+  // 鍼灸療養費支給申請書用
+  if (currentPdfType === 'therapy_benefit_acupuncture') {
+    return fieldDefinitions;
   }
 
   // fieldsFileが空の場合は空オブジェクトを返す
@@ -256,7 +266,7 @@ function loadCoordinates() {
           } else {
             // 既存フィールドにはUI調整プロパティのみフィールド定義からマージ
             // （座標JSONにないがフィールド定義で定義されているプロパティを補完）
-            const uiOnlyProps = ['rowLineHeight', 'verticalSpacing', 'lineHeight', 'maxCharsPerLine'];
+            const uiOnlyProps = ['rowLineHeight', 'verticalSpacing', 'lineHeight', 'maxCharsPerLine', 'verticalAlign'];
             uiOnlyProps.forEach(prop => {
               if (definition[prop] !== undefined && coordinates[key][prop] === undefined) {
                 coordinates[key][prop] = definition[prop];
@@ -283,7 +293,7 @@ function loadCoordinates() {
 // 座標更新
 function updateCoordinate(key, property, value) {
   // 文字列プロパティの場合はそのまま、その他は数値に変換
-  if (property === 'textAlign' || property === 'sampleText') {
+  if (property === 'textAlign' || property === 'verticalAlign' || property === 'sampleText') {
     coordinates[key][property] = value;
   } else {
     coordinates[key][property] = parseFloat(value);
@@ -312,8 +322,8 @@ function updateCoordinate(key, property, value) {
   const radioGroupName = fieldMapping?.radioGroup;
   const compositeGroupName = coordinates[key].compositeGroup;
 
-  // テキスト配置更新の場合はボタンのアクティブ状態を更新
-  if (property === 'textAlign') {
+  // 配置ボタングループのアクティブ状態を更新
+  if (property === 'textAlign' || property === 'verticalAlign') {
     let controls = document.getElementById('controls-' + key);
     if (!controls && radioGroupName) {
       controls = document.getElementById('radiogroup-fields-' + radioGroupName);
@@ -323,12 +333,19 @@ function updateCoordinate(key, property, value) {
     }
 
     if (controls) {
-      const buttons = controls.querySelectorAll('.btn-group .btn');
-      buttons.forEach(btn => btn.classList.remove('active'));
+      const btnGroup = controls.querySelector(`.btn-group[data-property="${property}"]`);
+      if (btnGroup) {
+        const buttons = btnGroup.querySelectorAll('.btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
 
-      const activeIndex = ['left', 'center', 'right'].indexOf(value);
-      if (activeIndex >= 0 && buttons[activeIndex]) {
-        buttons[activeIndex].classList.add('active');
+        const valueMap = {
+          textAlign: ['left', 'center', 'right'],
+          verticalAlign: ['top', 'middle'],
+        };
+        const activeIndex = (valueMap[property] || []).indexOf(value);
+        if (activeIndex >= 0 && buttons[activeIndex]) {
+          buttons[activeIndex].classList.add('active');
+        }
       }
     }
   }

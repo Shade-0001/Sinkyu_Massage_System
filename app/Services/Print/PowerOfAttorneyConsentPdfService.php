@@ -63,7 +63,7 @@ class PowerOfAttorneyConsentPdfService extends BasePdfService
       if ($this->sampleDataMode && isset($this->customSampleData['clinic_owner_name'])) {
         $ownerName = (string)$this->customSampleData['clinic_owner_name'];
       } elseif ($clinicInfo) {
-        $ownerName = trim(($clinicInfo->owner_last_name ?? '') . ' ' . ($clinicInfo->owner_first_name ?? ''));
+        $ownerName = trim(($clinicInfo->owner_last_name ?? '') . '  ' . ($clinicInfo->owner_first_name ?? ''));
       } else {
         $ownerName = '';
       }

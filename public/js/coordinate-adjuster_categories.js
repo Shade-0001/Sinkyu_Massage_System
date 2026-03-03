@@ -244,7 +244,18 @@ const fieldCategoriesTherapyBenefitAcupuncture = {
     "signature_date_month": "signature",
     "signature_date_day": "signature",
     "signature_applicant_postal_code": "signature",
-    "signature_applicant_address": "signature"
+    "signature_applicant_address": "signature",
+    "insurance_symbol": "insured_person",
+    "calendar_start": "treatment_calendar",
+    "payment_institution_postal_code": "payment_institution",
+    "payment_institution_address": "payment_institution",
+    "bill_category_new": "treatment_content",
+    "bill_category_continued": "treatment_content",
+    "outcome_continued": "treatment_content",
+    "outcome_cured": "treatment_content",
+    "outcome_discontinued": "treatment_content",
+    "outcome_transferred": "treatment_content",
+    "consent_date_full": "consent_record"
 };
 
 // フィールドカテゴリマッピング（マッサージ療養費支給申請書用）
@@ -444,6 +455,9 @@ const categoryLabels = {
     "clinic_info": "事業所情報",
     "insurer_info": "保険者情報",
     "treatment_injury_info": "傷病･施術情報",
+    // 同意書用カテゴリラベル
+    "illness_info": "傷病情報",
+    "consent_info": "同意情報",
     // 総括表用カテゴリラベル
     "header_info":  "ヘッダー情報",
     "cost_summary": "集計情報",
@@ -498,10 +512,37 @@ const fieldCategoriesTreatmentReceipt = {};
 const categoryOrderTreatmentReceipt = [];
 
 // フィールドカテゴリマッピング（同意書（はり・きゅう）用）- カテゴライズなし
-const fieldCategoriesConsentAcupuncture = {};
+const fieldCategoriesConsentAcupuncture = {
+  "user_address": "user_info",
+  "user_name": "user_info",
+  "user_birthday": "user_info",
 
-// カテゴリ順序（同意書（はり・きゅう）用）- カテゴライズなし
-const categoryOrderConsentAcupuncture = [];
+  "illness_name_1": "illness_info",
+  "illness_name_2": "illness_info",
+  "illness_name_3": "illness_info",
+  "illness_name_4": "illness_info",
+  "illness_name_5": "illness_info",
+  "illness_name_6": "illness_info",
+  "illness_name_7": "illness_info",
+  "illness_name_other_text": "illness_info",
+  "onset_date": "illness_info",
+
+  "consent_category": "consent_info",
+  "consenting_date": "consent_info",
+  "submission_date": "consent_info",
+
+  "consenting_doctor_medical_institution_name": "doctor_info",
+  "consenting_doctor_address": "doctor_info",
+  "consenting_doctor_name": "doctor_info"
+};
+
+// カテゴリ順序（同意書（はり・きゅう）用）
+const categoryOrderConsentAcupuncture = [
+  "user_info",
+  "illness_info",
+  "consent_info",
+  "doctor_info"
+];
 
 // フィールドカテゴリマッピング（同意書（あんま・マッサージ）用）
 const fieldCategoriesConsentMassage = {
@@ -541,11 +582,26 @@ const fieldCategoriesConsentMassage = {
   "housecall_reason_1": "housecall_category",
   "housecall_reason_2": "housecall_category",
   "housecall_reason_3": "housecall_category",
-  "housecall_reason_other_text": "housecall_category"
+  "housecall_reason_other_text": "housecall_category",
+
+  "user_name": "user_info",
+  "user_address": "user_info",
+  "user_birthday": "user_info",
+
+  "consent_massage_illness_name": "consent_info",
+  "onset_date": "consent_info",
+  "consent_category": "consent_info",
+  "consenting_date": "consent_info",
+  "consenting_doctor_medical_institution_name": "consent_info",
+  "consenting_doctor_address": "consent_info",
+  "consenting_doctor_name": "consent_info",
+  "submission_date": "consent_info"
 };
 
 // カテゴリ順序（同意書（あんま・マッサージ）用）
 const categoryOrderConsentMassage = [
+  "user_info",
+  "consent_info",
   "symptom_category",
   "therapy_bodypart_category",
   "housecall_category"
@@ -687,7 +743,58 @@ const fieldCategoriesMedicalAssistanceAcupuncture = {
   "consent_record_doctor_address": "consent_record",
   "consent_record_date_year": "consent_record",
   "consent_record_illness_name": "consent_record",
-  "required_treatment_period": "consent_record"
+  "required_treatment_period": "consent_record",
+  "consent_date_full": "consent_record",
+  "birthday_full_date": "basic_info",
+  "document_type": "basic_info",
+  "patient_age": "basic_info",
+  "first_treatment_date": "treatment_content",
+  "illness_name": "treatment_content",
+  "remarks": "treatment_content",
+  "therapy_types": "treatment_content",
+  "treatment_days_1": "treatment_content",
+  "treatment_days_2": "treatment_content",
+  "treatment_days_3": "treatment_content",
+  "treatment_days_4": "treatment_content",
+  "treatment_days_5": "treatment_content",
+  "treatment_days_6": "treatment_content",
+  "treatment_days_7": "treatment_content",
+  "treatment_days_8": "treatment_content",
+  "treatment_days_9": "treatment_content",
+  "treatment_days_10": "treatment_content",
+  "treatment_days_11": "treatment_content",
+  "treatment_days_12": "treatment_content",
+  "treatment_days_13": "treatment_content",
+  "treatment_days_14": "treatment_content",
+  "treatment_days_15": "treatment_content",
+  "treatment_days_16": "treatment_content",
+  "treatment_days_17": "treatment_content",
+  "treatment_days_18": "treatment_content",
+  "treatment_days_19": "treatment_content",
+  "treatment_days_20": "treatment_content",
+  "treatment_days_21": "treatment_content",
+  "treatment_days_22": "treatment_content",
+  "treatment_days_23": "treatment_content",
+  "treatment_days_24": "treatment_content",
+  "treatment_days_25": "treatment_content",
+  "treatment_days_26": "treatment_content",
+  "treatment_days_27": "treatment_content",
+  "treatment_days_28": "treatment_content",
+  "treatment_days_29": "treatment_content",
+  "treatment_days_30": "treatment_content",
+  "treatment_days_31": "treatment_content",
+  "copayment_amount": "treatment_fees",
+  "copayment_ratio": "treatment_fees",
+  "insurance_total": "treatment_fees",
+  "receipt_amount": "treatment_fees",
+  "self_pay_total": "treatment_fees",
+  "therapy_counts": "treatment_fees",
+  "therapy_totals": "treatment_fees",
+  "therapy_unit_prices": "treatment_fees",
+  "fee_initial_examination_hari_electric": "treatment_fees",
+  "fee_initial_examination_hari_kyu_electric": "treatment_fees",
+  "fee_initial_examination_kyu_electric": "treatment_fees",
+  "creation_date": "application"
 };
 
 // フィールドカテゴリマッピング（医療助成費支給申請書（あんま・マッサージ）用）
@@ -804,7 +911,66 @@ const fieldCategoriesMedicalAssistanceMassage = {
   "consent_record_doctor_address": "consent_record",
   "consent_record_date_year": "consent_record",
   "consent_record_illness_name": "consent_record",
-  "required_treatment_period": "consent_record"
+  "required_treatment_period": "consent_record",
+  "consent_date_full": "consent_record",
+  "birthday_full_date": "basic_info",
+  "document_type": "basic_info",
+  "patient_age": "basic_info",
+  "first_treatment_date": "treatment_content",
+  "illness_name": "treatment_content",
+  "illness_name_1": "treatment_content",
+  "illness_name_2": "treatment_content",
+  "illness_name_3": "treatment_content",
+  "illness_name_4": "treatment_content",
+  "illness_name_5": "treatment_content",
+  "illness_name_6": "treatment_content",
+  "illness_name_7": "treatment_content",
+  "illness_name_other_text": "treatment_content",
+  "therapy_types": "treatment_content",
+  "therapy_period_start": "treatment_content",
+  "therapy_period_end": "treatment_content",
+  "treatment_days_1": "treatment_content",
+  "treatment_days_2": "treatment_content",
+  "treatment_days_3": "treatment_content",
+  "treatment_days_4": "treatment_content",
+  "treatment_days_5": "treatment_content",
+  "treatment_days_6": "treatment_content",
+  "treatment_days_7": "treatment_content",
+  "treatment_days_8": "treatment_content",
+  "treatment_days_9": "treatment_content",
+  "treatment_days_10": "treatment_content",
+  "treatment_days_11": "treatment_content",
+  "treatment_days_12": "treatment_content",
+  "treatment_days_13": "treatment_content",
+  "treatment_days_14": "treatment_content",
+  "treatment_days_15": "treatment_content",
+  "treatment_days_16": "treatment_content",
+  "treatment_days_17": "treatment_content",
+  "treatment_days_18": "treatment_content",
+  "treatment_days_19": "treatment_content",
+  "treatment_days_20": "treatment_content",
+  "treatment_days_21": "treatment_content",
+  "treatment_days_22": "treatment_content",
+  "treatment_days_23": "treatment_content",
+  "treatment_days_24": "treatment_content",
+  "treatment_days_25": "treatment_content",
+  "treatment_days_26": "treatment_content",
+  "treatment_days_27": "treatment_content",
+  "treatment_days_28": "treatment_content",
+  "treatment_days_29": "treatment_content",
+  "treatment_days_30": "treatment_content",
+  "treatment_days_31": "treatment_content",
+  "copayment_amount": "treatment_fees",
+  "copayment_ratio": "treatment_fees",
+  "fee_initial_examination_amount": "treatment_fees",
+  "fee_initial_examination_combined": "treatment_fees",
+  "insurance_total": "treatment_fees",
+  "receipt_amount": "treatment_fees",
+  "self_pay_total": "treatment_fees",
+  "therapy_counts": "treatment_fees",
+  "therapy_totals": "treatment_fees",
+  "therapy_unit_prices": "treatment_fees",
+  "creation_date": "application"
 };
 
 // カテゴリ順序（医療助成費支給申請書用）
@@ -997,6 +1163,8 @@ function getFieldCategories(pdfType) {
     return fieldCategoriesConsentRequestLetterSampleAcupuncture;
   } else if (pdfType === 'report') {
     return {};
+  } else if (pdfType === 'fax_cover_sheet') {
+    return {};
   } else if (pdfType === 'thank_you_letter_doctor' || pdfType === 'thank_you_letter_referrer' || pdfType === 'report_greeting') {
     return {};
   } else if (pdfType === 'medical_assistance_acupuncture') {
@@ -1011,6 +1179,8 @@ function getFieldCategories(pdfType) {
     return fieldCategoriesSummaryTable;
   } else if (pdfType === 'implementation_plan') {
     return fieldCategoriesImplementationPlan;
+  } else if (pdfType === 'therapy_benefit_acupuncture') {
+    return fieldCategoriesTherapyBenefitAcupuncture;
   }
   return fieldCategoriesTherapyBenefitAcupuncture;
 }
@@ -1044,6 +1214,8 @@ function getCategoryOrder(pdfType) {
     return categoryOrderConsentMassage;
   } else if (pdfType === 'consent_request_letter_sample_acupuncture' || pdfType === 'consent_request_letter_designated_acupuncture' || pdfType === 'consent_request_letter_sample_massage' || pdfType === 'consent_request_letter_designated_massage') {
     return categoryOrderConsentRequestLetterSampleAcupuncture;
+  } else if (pdfType === 'fax_cover_sheet') {
+    return [];
   } else if (pdfType === 'report') {
     return [];
   } else if (pdfType === 'thank_you_letter_doctor' || pdfType === 'thank_you_letter_referrer' || pdfType === 'report_greeting') {
@@ -1056,6 +1228,8 @@ function getCategoryOrder(pdfType) {
     return categoryOrderSummaryTable;
   } else if (pdfType === 'implementation_plan') {
     return categoryOrderImplementationPlan;
+  } else if (pdfType === 'therapy_benefit_acupuncture') {
+    return categoryOrderTherapyBenefitAcupuncture;
   }
   return categoryOrderTherapyBenefitAcupuncture;
 }

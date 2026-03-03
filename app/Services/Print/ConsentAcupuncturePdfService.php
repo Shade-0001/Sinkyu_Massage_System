@@ -129,7 +129,7 @@ class ConsentAcupuncturePdfService extends BasePdfService
       $pdf->SetFontSize($this->coord('user_name', 'fontSize'));
       $this->drawTextByKey($pdf, 'user_name', (string)$this->customSampleData['user_name']);
     } elseif ($clinicUser) {
-      $userName = ($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? '');
+      $userName = ($clinicUser->last_name ?? '') . '  ' . ($clinicUser->first_name ?? '');
       $pdf->SetFontSize($this->coord('user_name', 'fontSize'));
       $this->drawTextByKey($pdf, 'user_name', $userName);
     }
@@ -168,7 +168,7 @@ class ConsentAcupuncturePdfService extends BasePdfService
             $y = $this->coord($key, 'y');
             $ellipseWidth = $this->coord($key, 'ellipseWidth') ?: 2.5;
             $ellipseHeight = $this->coord($key, 'ellipseHeight') ?: 2.5;
-            $lineWidth = $this->coord($key, 'lineWidth') ?: 0.5;
+            $lineWidth = $this->coord($key, 'lineWidth') ?: 0.4;
 
             $pdf->SetLineWidth($lineWidth);
             $pdf->Ellipse($x, $y, $ellipseWidth, $ellipseHeight, 0, 0, 360, 'D');
@@ -192,7 +192,7 @@ class ConsentAcupuncturePdfService extends BasePdfService
             $y = $this->coord($key, 'y');
             $ellipseWidth = $this->coord($key, 'ellipseWidth') ?: 2.5;
             $ellipseHeight = $this->coord($key, 'ellipseHeight') ?: 2.5;
-            $lineWidth = $this->coord($key, 'lineWidth') ?: 0.5;
+            $lineWidth = $this->coord($key, 'lineWidth') ?: 0.4;
 
             $pdf->SetLineWidth($lineWidth);
             $pdf->Ellipse($x, $y, $ellipseWidth, $ellipseHeight, 0, 0, 360, 'D');
@@ -276,7 +276,7 @@ class ConsentAcupuncturePdfService extends BasePdfService
       $pdf->SetFontSize($this->coord('consenting_doctor_name', 'fontSize'));
       $this->drawTextByKey($pdf, 'consenting_doctor_name', (string)$this->customSampleData['consenting_doctor_name']);
     } elseif ($doctor) {
-      $doctorName = ($doctor->last_name ?? '') . ' ' . ($doctor->first_name ?? '');
+      $doctorName = ($doctor->last_name ?? '') . '  ' . ($doctor->first_name ?? '');
       $pdf->SetFontSize($this->coord('consenting_doctor_name', 'fontSize'));
       $this->drawTextByKey($pdf, 'consenting_doctor_name', $doctorName);
     }

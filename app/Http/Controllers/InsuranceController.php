@@ -49,7 +49,7 @@ class InsuranceController extends Controller
 
         return view('clinic-users.insurances.insurances_index', [
             'id' => $id,
-            'name' => $user->clinic_user_name,
+            'name' => $user->full_name,
             'insurances' => $insurances,
             'page_header_title' => '保険情報'
         ]);
@@ -75,7 +75,7 @@ class InsuranceController extends Controller
 
         return view('clinic-users.insurances.insurances_registration', [
             'mode' => 'create',
-            'page_header_title' => $user->clinic_user_name . ' 様の保険情報新規登録',
+            'page_header_title' => $user->last_name . "\u{2000}" . $user->first_name . "\u{2000}" . '様の保険情報新規登録',
             'userId' => $id,
             'insurance' => null,
             'insurers' => $insurers
@@ -156,7 +156,7 @@ class InsuranceController extends Controller
 
         return view('clinic-users.insurances.insurances_registration', [
             'mode' => 'edit',
-            'page_header_title' => $user->clinic_user_name . ' 様の保険情報編集',
+            'page_header_title' => $user->last_name . "\u{2000}" . $user->first_name . "\u{2000}" . '様の保険情報編集',
             'userId' => $id,
             'insurance' => $insurance,
             'insurers' => $insurers
@@ -233,7 +233,7 @@ class InsuranceController extends Controller
 
         return view('clinic-users.insurances.insurances_registration', [
             'mode' => 'duplicate',
-            'page_header_title' => $user->clinic_user_name . ' 様の保険情報複製',
+            'page_header_title' => $user->last_name . "\u{2000}" . $user->first_name . "\u{2000}" . '様の保険情報複製',
             'userId' => $id,
             'insurance' => $insurance,
             'insurers' => $insurers
@@ -359,7 +359,7 @@ class InsuranceController extends Controller
         $pdf->writeHTML($html, true, false, true, false, '');
 
         // PDFを新規ウィンドウで表示
-        return response($pdf->Output('医療保険情報履歴一覧表_' . $user->clinic_user_name . '.pdf', 'I'))
+        return response($pdf->Output('医療保険情報履歴一覧表_' . $user->full_name . '.pdf', 'I'))
             ->header('Content-Type', 'application/pdf');
     }
 

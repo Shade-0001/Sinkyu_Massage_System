@@ -44,7 +44,7 @@
         "y": 45.5,
         "ellipseWidth": 2.5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "gender",
         "type": "select",
         "isSelected": true
@@ -54,7 +54,7 @@
         "y": 49.5,
         "ellipseWidth": 2.5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "gender",
         "type": "select",
         "isSelected": false
@@ -316,7 +316,7 @@
         "valueField": "insurance_type_3",
         "ellipseWidth": 1,
         "ellipseHeight": 1,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "insurance_type_3",
         "isSelected": true
     },
@@ -330,7 +330,7 @@
         "valueField": "insurance_type_3",
         "ellipseWidth": 1,
         "ellipseHeight": 1,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "insurance_type_3",
         "isSelected": false
     },
@@ -344,7 +344,7 @@
         "valueField": "insurance_type_3",
         "ellipseWidth": 1,
         "ellipseHeight": 1,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "insurance_type_3",
         "isSelected": false
     },
@@ -358,7 +358,7 @@
         "valueField": "insurance_type_3",
         "ellipseWidth": 1,
         "ellipseHeight": 1,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "insurance_type_3",
         "isSelected": false
     },
@@ -372,7 +372,7 @@
         "valueField": "insurance_type_3",
         "ellipseWidth": 1,
         "ellipseHeight": 1,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "insurance_type_3",
         "isSelected": false
     },
@@ -440,7 +440,7 @@
         ],
         "ellipseWidth": 6,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "work_scope_type",
         "isSelected": true
     },
@@ -457,7 +457,7 @@
         ],
         "ellipseWidth": 12,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "work_scope_type",
         "isSelected": false
     },
@@ -474,7 +474,7 @@
         ],
         "ellipseWidth": 6,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "work_scope_type",
         "isSelected": false
     },
@@ -492,7 +492,7 @@
         ],
         "ellipseWidth": 2.5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "birthday_era",
         "compositeGroup": "birthday_full_date",
         "isSelected": true
@@ -511,7 +511,7 @@
         ],
         "ellipseWidth": 2.5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "birthday_era",
         "compositeGroup": "birthday_full_date",
         "isSelected": false
@@ -530,7 +530,7 @@
         ],
         "ellipseWidth": 2.5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "birthday_era",
         "compositeGroup": "birthday_full_date",
         "isSelected": false
@@ -549,7 +549,7 @@
         ],
         "ellipseWidth": 2.5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "birthday_era",
         "compositeGroup": "birthday_full_date",
         "isSelected": false
@@ -632,7 +632,7 @@
         ],
         "ellipseWidth": 9,
         "ellipseHeight": 3,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "illness_name",
         "isSelected": true
     },
@@ -662,7 +662,7 @@
         ],
         "ellipseWidth": 10,
         "ellipseHeight": 3,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "illness_name",
         "isSelected": false
     },
@@ -692,7 +692,7 @@
         ],
         "ellipseWidth": 12,
         "ellipseHeight": 3,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "illness_name",
         "isSelected": false
     },
@@ -722,7 +722,7 @@
         ],
         "ellipseWidth": 8.5,
         "ellipseHeight": 3,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "illness_name",
         "isSelected": false
     },
@@ -752,7 +752,7 @@
         ],
         "ellipseWidth": 8.5,
         "ellipseHeight": 3,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "illness_name",
         "isSelected": false
     },
@@ -782,7 +782,7 @@
         ],
         "ellipseWidth": 15,
         "ellipseHeight": 3,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "illness_name",
         "isSelected": false
     },
@@ -812,7 +812,7 @@
         ],
         "ellipseWidth": 8.5,
         "ellipseHeight": 3,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "illness_name",
         "isSelected": false
     },
@@ -1097,7 +1097,7 @@
         ],
         "ellipseWidth": 12,
         "ellipseHeight": 3,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "health_center_registration",
         "isSelected": true
     },
@@ -1113,7 +1113,7 @@
         ],
         "ellipseWidth": 18.5,
         "ellipseHeight": 3,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "health_center_registration",
         "isSelected": false
     },
@@ -1156,7 +1156,10 @@
         "field": "therapist_address",
         "type": "text",
         "fontSize": 10,
-        "letterSpacing": 0
+        "letterSpacing": 0,
+        "lineHeight": 5,
+        "maxCharsPerLine": 20,
+        "verticalAlign": "middle"
     },
     "therapist_name": {
         "x": 87,
@@ -1190,7 +1193,7 @@
         "ellipseY": 212,
         "ellipseWidth": 7,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "deposit_type",
         "fontSize": 10,
         "letterSpacing": 0,
@@ -1226,7 +1229,7 @@
         "ellipseY": 214,
         "ellipseWidth": 11,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "payment_category",
         "fontSize": 10,
         "letterSpacing": 0,
@@ -1244,7 +1247,7 @@
         "ellipseY": 214,
         "ellipseWidth": 9,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "payment_category",
         "fontSize": 10,
         "letterSpacing": 0,
@@ -1264,7 +1267,7 @@
         "ellipseY": 212,
         "ellipseWidth": 7,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "deposit_type",
         "fontSize": 10,
         "letterSpacing": 0,
@@ -1284,7 +1287,7 @@
         "ellipseY": 212,
         "ellipseWidth": 7,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "deposit_type",
         "fontSize": 10,
         "letterSpacing": 0,
@@ -1304,7 +1307,7 @@
         "ellipseY": 212,
         "ellipseWidth": 5,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "deposit_type",
         "fontSize": 10,
         "letterSpacing": 0,
@@ -1602,7 +1605,7 @@
         ],
         "ellipseWidth": 7,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "fee_initial_examination",
         "optionLabel": "はり",
         "isSelected": true
@@ -1632,7 +1635,7 @@
         ],
         "ellipseWidth": 8,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "fee_initial_examination",
         "optionLabel": "きゅう",
         "isSelected": false
@@ -1662,7 +1665,7 @@
         ],
         "ellipseWidth": 16,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "fee_initial_examination",
         "optionLabel": "はり･きゅう併用",
         "isSelected": false
@@ -1692,7 +1695,7 @@
         ],
         "ellipseWidth": 16,
         "ellipseHeight": 3,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "fee_initial_examination",
         "optionLabel": "はり（電気鍼併用）",
         "isSelected": false
@@ -1722,7 +1725,7 @@
         ],
         "ellipseWidth": 21,
         "ellipseHeight": 3,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "fee_initial_examination",
         "optionLabel": "きゅう（電気温灸器併用）",
         "isSelected": false
@@ -1752,7 +1755,7 @@
         ],
         "ellipseWidth": 33,
         "ellipseHeight": 3,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "fee_initial_examination",
         "optionLabel": "はり･きゅう併用（電気鍼･電気温灸器併用）",
         "isSelected": false
@@ -1811,7 +1814,7 @@
         ],
         "ellipseWidth": 4,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "expenses_borne_ratio",
         "optionLabel": "１割",
         "isSelected": true
@@ -1850,7 +1853,7 @@
         ],
         "ellipseWidth": 4,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "expenses_borne_ratio",
         "optionLabel": "２割",
         "isSelected": false
@@ -1869,7 +1872,7 @@
         ],
         "ellipseWidth": 4,
         "ellipseHeight": 2.5,
-        "lineWidth": 0.5,
+        "lineWidth": 0.4,
         "radioGroup": "expenses_borne_ratio",
         "optionLabel": "３割",
         "isSelected": false
@@ -1897,7 +1900,10 @@
         "label": "申請者住所",
         "type": "text",
         "fontSize": 9,
-        "letterSpacing": 0
+        "letterSpacing": 0,
+        "lineHeight": 5,
+        "maxCharsPerLine": 20,
+        "verticalAlign": "middle"
     },
     "applicant_name": {
         "x": -126,
@@ -1927,7 +1933,10 @@
         "label": "代理人住所",
         "type": "text",
         "fontSize": 9,
-        "letterSpacing": 0
+        "letterSpacing": 0,
+        "lineHeight": 5,
+        "maxCharsPerLine": 20,
+        "verticalAlign": "middle"
     },
     "temporary_insurer_name": {
         "x": 67.5,
@@ -1962,7 +1971,10 @@
         "label": "委任者住所",
         "type": "text",
         "fontSize": 9,
-        "letterSpacing": 0
+        "letterSpacing": 0,
+        "lineHeight": 5,
+        "maxCharsPerLine": 20,
+        "verticalAlign": "middle"
     },
     "consent_record_doctor_name": {
         "x": -71.5,
@@ -1997,7 +2009,10 @@
         "label": "同意医師住所",
         "type": "text",
         "fontSize": 9,
-        "letterSpacing": 0
+        "letterSpacing": 0,
+        "lineHeight": 5,
+        "maxCharsPerLine": 20,
+        "verticalAlign": "middle"
     },
     "consent_record_illness_name": {
         "x": 51,

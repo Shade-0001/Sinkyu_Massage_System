@@ -16,6 +16,7 @@ class ConsentAcupunctureSeeder extends Seeder
     DB::connection('sinkyu_massage_system_db')->statement('SET FOREIGN_KEY_CHECKS=1');
 
     $clinicUserIds   = DB::connection('sinkyu_massage_system_db')->table('clinic_users')->pluck('id')->toArray();
+    $conditionIds    = DB::connection('sinkyu_massage_system_db')->table('conditions')->pluck('id')->toArray();
     $doctorIds       = DB::connection('sinkyu_massage_system_db')->table('doctors')->pluck('id')->toArray();
     $billCategoryIds = DB::connection('sinkyu_massage_system_db')->table('bill_categories')->pluck('id')->toArray();
     $outcomeIds      = DB::connection('sinkyu_massage_system_db')->table('outcomes')->pluck('id')->toArray();
@@ -49,6 +50,7 @@ class ConsentAcupunctureSeeder extends Seeder
       $row['work_scope_type_id']     = $workScopeIds[array_rand($workScopeIds)];
       $row['housecall_reason_id']    = $housecallIds[array_rand($housecallIds)];
       $row['first_therapy_content_id'] = !empty($acuContentIds) ? $acuContentIds[array_rand($acuContentIds)] : null;
+      $row['condition_id']             = $conditionIds[array_rand($conditionIds)];
       $row['created_at'] = now();
       $row['updated_at'] = now();
       $data[] = $row;

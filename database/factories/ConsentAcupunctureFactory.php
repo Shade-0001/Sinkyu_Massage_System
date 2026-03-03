@@ -42,9 +42,7 @@ class ConsentAcupunctureFactory extends Factory
         ? $this->faker->randomElement(['1ヶ月', '2ヶ月', '3ヶ月', '3ヶ月', '3ヶ月', '4ヶ月', '4ヶ月', '5ヶ月', '6ヶ月'])
         : $this->faker->randomElement(['1週間', '2週間', '3週間']),
       'first_therapy_content_id'             => null,
-      'condition'                            => $this->faker->boolean(30)
-        ? $this->faker->randomElement([1, 2, 3, 4, 5, 6, 7])
-        : null,
+      'condition_id'                         => null,
       'work_scope_type_id'                   => null,
       'onset_and_injury_date'                => $this->faker->dateTimeBetween('-5 years', '-2 years')->format('Y-m-d'),
     ];

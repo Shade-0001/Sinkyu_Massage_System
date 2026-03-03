@@ -62,8 +62,8 @@
   <button type="button" class="btn btn-primary" onclick="submitDoctorInfoList()">医師情報一覧</button>
   <button type="button" class="btn btn-primary" onclick="submitCareManagerInfoList()">ケアマネ情報一覧</button>
   <button type="button" class="btn btn-primary" onclick="submitTherapistInfoList()">施術者情報一覧</button>
-  <button>宛名シール・住所データCSV出力</button>
-  <button>FAX送信表表示</button>
+  <button type="button" class="btn btn-primary" onclick="openAddressLabelModal()">宛名シール・住所データCSV出力</button>
+  <button type="button" class="btn btn-primary" onclick="submitFaxCoverSheet()">FAX送信票表示</button>
 
   <!-- はり・きゅう療養費支給申請書モーダル -->
   <div class="modal fade" id="acupunctureBenefitModal" tabindex="-1" aria-labelledby="acupunctureBenefitModalLabel" aria-hidden="true">
@@ -1294,6 +1294,46 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
           <button type="button" class="btn btn-primary" onclick="submitTreatmentExpiryList()">印刷</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 宛名シール・住所データCSV出力モーダル -->
+  <div class="modal fade" id="addressLabelModal" tabindex="-1" aria-labelledby="addressLabelModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addressLabelModalLabel">宛名シール・住所データCSV出力 設定</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="addressLabelForm">
+            <!-- 出力データ -->
+            <div class="mb-3">
+              <label for="address_label_data_type" class="form-label">出力データ <span class="text-danger">*</span></label>
+              <select class="form-select" id="address_label_data_type" name="data_type" required>
+                <option value="clinic_user">利用者関連</option>
+                <option value="doctor">医師関連</option>
+                <option value="insurer">保険者関連</option>
+                <option value="caremanager">ケアマネ関連</option>
+              </select>
+            </div>
+
+            <!-- 出力方式 -->
+            <div class="mb-3">
+              <label for="address_label_output_type" class="form-label">出力方式 <span class="text-danger">*</span></label>
+              <select class="form-select" id="address_label_output_type" name="output_type" required>
+                <option value="csv">CSV</option>
+                <option value="label_12">宛名シール（12面）</option>
+                <option value="label_10">宛名シール（10面）</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-primary" onclick="submitAddressLabel()">出力</button>
         </div>
       </div>
     </div>

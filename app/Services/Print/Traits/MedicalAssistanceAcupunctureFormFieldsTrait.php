@@ -222,8 +222,8 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
   protected function fillPatientBasicInfo($pdf, $clinicUser, $insurance, $fullName, $fullNameKana): void
   {
     // === 療養を受けた者の氏名 ===
-    $fullName = ($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? '');
-    $fullNameKana = ($clinicUser->last_kana ?? '') . ' ' . ($clinicUser->first_kana ?? '');
+    $fullName = ($clinicUser->last_name ?? '') . '  ' . ($clinicUser->first_name ?? '');
+    $fullNameKana = ($clinicUser->last_kana ?? '') . '  ' . ($clinicUser->first_kana ?? '');
     if (empty($fullName)) {
       \Log::warning('患者氏名が設定されていません', ['clinic_user' => $clinicUser]);
     }
@@ -447,10 +447,6 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
           $onsetIllnessName = $illness->illness_name_acupuncture;
         }
       }
-      // 追記がある場合は追加
-      if (isset($consent->illness_name_acupuncture_addendum) && $consent->illness_name_acupuncture_addendum) {
-        $onsetIllnessName .= ($onsetIllnessName ? '、' : '') . $consent->illness_name_acupuncture_addendum;
-      }
       if ($onsetIllnessName) {
         $pdf->SetFontSize($this->coord('onset_illness_name', 'fontSize'));
         $this->drawTextByKey($pdf, 'onset_illness_name', (string)$onsetIllnessName);
@@ -467,10 +463,10 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
         $this->drawTextByKey($pdf, 'condition', (string)$conditionText);
         $pdf->SetFontSize(10);
       }
-    } elseif ($consent && isset($consent->condition) && $consent->condition) {
+    } elseif ($consent && isset($consent->condition_id) && $consent->condition_id) {
       // 通常モード：実データから取得
       // IDから名称を取得
-      $condition = \App\Models\Condition::find($consent->condition);
+      $condition = \App\Models\Condition::find($consent->condition_id);
       $conditionName = $condition ? $condition->condition_name : '';
       if ($conditionName) {
         $pdf->SetFontSize($this->coord('condition', 'fontSize'));
@@ -784,7 +780,7 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
         } else {
           $therapist = DB::table('therapists')->first();
           if ($therapist) {
-            $therapistName = ($therapist->last_name ?? '') . ' ' . ($therapist->first_name ?? '');
+            $therapistName = ($therapist->last_name ?? '') . '  ' . ($therapist->first_name ?? '');
             if (empty(trim($therapistName))) {
               \Log::warning('施術管理者氏名が設定されていません', ['therapist' => $therapist]);
             }
@@ -885,7 +881,7 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
       // === 施術者氏名 ===
       $therapistNameField = $this->sampleDataMode && isset($this->customSampleData['therapist_name'])
         ? $this->customSampleData['therapist_name']
-        : (($therapist->last_name ?? '') . ' ' . ($therapist->first_name ?? ''));
+        : (($therapist->last_name ?? '') . '  ' . ($therapist->first_name ?? ''));
       if (trim($therapistNameField) && isset($this->coordinates['therapist_name'])) {
         $pdf->SetFontSize($this->coord('therapist_name', 'fontSize'));
         $this->drawTextByKey($pdf, 'therapist_name', (string)$therapistNameField);
@@ -927,7 +923,7 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
         ->where('id', $consent->consenting_doctor_id)
         ->first();
       if ($doctor) {
-        $consentDoctorName = ($doctor->last_name ?? '') . ' ' . ($doctor->first_name ?? '');
+        $consentDoctorName = ($doctor->last_name ?? '') . '  ' . ($doctor->first_name ?? '');
       }
     }
     if ($consentDoctorName) {
@@ -965,9 +961,6 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
         ->first();
       if ($illness && isset($illness->illness_name_acupuncture)) {
         $consentIllnessName = $illness->illness_name_acupuncture;
-        if (isset($consent->illness_name_acupuncture_addendum) && $consent->illness_name_acupuncture_addendum) {
-          $consentIllnessName .= '、' . $consent->illness_name_acupuncture_addendum;
-        }
       }
     }
     if ($consentIllnessName) {
@@ -1359,7 +1352,7 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
         
         if ($doctor) {
           // 同意医師氏名
-          $doctorName = ($doctor->last_name ?? '') . ' ' . ($doctor->first_name ?? '');
+          $doctorName = ($doctor->last_name ?? '') . '  ' . ($doctor->first_name ?? '');
           if ($this->hasCoord('consent_record_doctor_name') && $doctorName) {
             $pdf->SetFontSize($this->coord('consent_record_doctor_name', 'fontSize'));
             $this->drawTextByKey($pdf, 'consent_record_doctor_name', (string)$doctorName);
@@ -1391,9 +1384,6 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
           ->where('id', $consent->illness_name_acupuncture_id)
           ->first();
         $illnessName = $illness->illness_name_acupuncture ?? '';
-        if (isset($consent->illness_name_acupuncture_addendum) && $consent->illness_name_acupuncture_addendum) {
-          $illnessName .= ($illnessName ? '、' : '') . $consent->illness_name_acupuncture_addendum;
-        }
         if ($illnessName) {
           $pdf->SetFontSize($this->coord('consent_record_illness_name', 'fontSize'));
           $this->drawTextByKey($pdf, 'consent_record_illness_name', (string)$illnessName);
@@ -1504,7 +1494,7 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
       }
       // 代理人氏名: 開設者氏名（owner_last_name + owner_first_name）を使用
       if ($this->hasCoord('agent_name') && isset($clinicInfo->owner_last_name) && isset($clinicInfo->owner_first_name)) {
-        $agentName = $clinicInfo->owner_last_name . ' ' . $clinicInfo->owner_first_name;
+        $agentName = $clinicInfo->owner_last_name . '  ' . $clinicInfo->owner_first_name;
         $pdf->SetFontSize($this->coord('agent_name', 'fontSize'));
         $this->drawTextByKey($pdf, 'agent_name', trim($agentName));
       }

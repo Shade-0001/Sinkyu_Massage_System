@@ -236,7 +236,7 @@ class ImplementationPlanPdfService extends BasePdfService
       $name = $this->customSampleData['ip_patient_name'] ?? '田中 太郎';
       $this->drawTextByKey($pdf, 'ip_patient_name', $name);
     } else {
-      $name = trim(($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? ''));
+      $name = trim(($clinicUser->last_name ?? '') . '  ' . ($clinicUser->first_name ?? ''));
       if ($name) {
         $this->drawTextByKey($pdf, 'ip_patient_name', $name . '　様');
       }
@@ -402,7 +402,7 @@ class ImplementationPlanPdfService extends BasePdfService
       $this->drawTextByKey($pdf, 'ip_clinic_phone', $this->formatPhoneNumber($clinicInfo->phone ?? ''));
       $this->drawTextByKey($pdf, 'ip_clinic_name', $clinicInfo->clinic_name ?? '');
 
-      $ownerName = trim(($clinicInfo->owner_last_name ?? '') . ' ' . ($clinicInfo->owner_first_name ?? ''));
+      $ownerName = trim(($clinicInfo->owner_last_name ?? '') . '  ' . ($clinicInfo->owner_first_name ?? ''));
       $this->drawTextByKey($pdf, 'ip_clinic_owner_name', $ownerName);
     }
   }

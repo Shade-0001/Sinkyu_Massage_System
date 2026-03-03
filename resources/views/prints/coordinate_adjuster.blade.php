@@ -38,13 +38,11 @@
   4. app/Services/Print/Traits/*FormFieldsTrait.php に描画ロジックを追加
   ※1~4全て必須。どれか1つでも欠けると正しく動作しない
 --}}
-<x-app-layout>
-<div class="container-fluid mt-4">
-  <h4 class="mb-4">PDFレイアウト調整ツール｜{{ $pdfTypeName }}</h4>
-
-  <div class="row">
+<x-app-layout :hideFooter="true">
+<div class="container-fluid mt-2">
+  <div class="d-flex" style="gap: 15px; align-items: flex-start;">
     <!-- 左側: 設定パネル -->
-    <div class="col-md-3">
+    <div style="width: min-content;">
       <div class="card">
         <div class="card-header bg-secondary text-white">
           <h5 class="mb-0">フィールド設定</h5>
@@ -66,7 +64,7 @@
             <select id="clinic-user-select" class="form-control">
               @foreach($clinicUsers as $user)
                 <option value="{{ $user->id }}" {{ ($selectedClinicUserId && $selectedClinicUserId == $user->id) ? 'selected' : '' }}>
-                  {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
+                  {{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}［ID: {{ $user->id }}］
                 </option>
               @endforeach
             </select>
@@ -108,7 +106,7 @@
     </div>
 
     <!-- 右側: PDFプレビュー -->
-    <div class="col-md-9">
+    <div style="flex: 1; min-width: 0;">
       <div class="card">
         <div class="card-header bg-secondary text-white">
           <h5 class="mb-0">
@@ -117,8 +115,8 @@
             <span id="save-indicator" class="badge badge-success ml-2" style="display: none;">保存中･･･</span>
           </h5>
         </div>
-        <div class="card-body">
-          <div id="pdf-preview" style="width: 100%; height: 80vh; border: 1px solid #ddd; position: relative;">
+        <div class="card-body p-2">
+          <div id="pdf-preview" style="width: 100%; border: 1px solid #ddd; position: relative;">
             <iframe id="pdf-iframe" style="width: 100%; height: 100%; border: none;"></iframe>
             <div id="preview-overlay" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.7); z-index: 10; align-items: center; justify-content: center;">
               <div class="spinner-border text-info" role="status">
@@ -133,6 +131,21 @@
 </div>
 
 <link rel="stylesheet" href="{{ asset('css/coordinate_adjuster.css') }}">
+
+<script>
+// PDFプレビューエリアの高さをウィンドウに合わせて調整
+function adjustPdfPreviewHeight() {
+  const el = document.getElementById('pdf-preview');
+  if (!el) return;
+  const top = el.getBoundingClientRect().top;
+  const cardBodyPaddingBottom = 8; // Bootstrap p-2 (0.5rem)
+  const cardBorderBottom = 1;
+  const bottomMargin = 8; // mt-2 相当
+  el.style.height = (window.innerHeight - top - cardBodyPaddingBottom - cardBorderBottom - bottomMargin) + 'px';
+}
+document.addEventListener('DOMContentLoaded', adjustPdfPreviewHeight);
+window.addEventListener('resize', adjustPdfPreviewHeight);
+</script>
 
 <script>
 // PHP変数をJavaScriptに渡す

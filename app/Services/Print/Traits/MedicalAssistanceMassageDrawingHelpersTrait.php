@@ -144,13 +144,16 @@ trait MedicalAssistanceMassageDrawingHelpersTrait
     $textAlign = $this->coordinates[$key]['textAlign'] ?? 'left';
     $alignmentWidth = $this->coordinates[$key]['alignmentWidth'] ?? 0;
     $maxCharsPerLine = $this->coordinates[$key]['maxCharsPerLine'] ?? null;
+    $verticalAlign = $this->coordinates[$key]['verticalAlign'] ?? 'top';
 
     // alignmentWidth が指定されていない場合はPDFのページ幅を使用
     if ($alignmentWidth <= 0) {
       $alignmentWidth = $pdf->GetPageWidth();
     }
 
-    // maxCharsPerLineが設定されている場合は折り返し処理
+    $lineHeight = $this->coordinates[$key]['lineHeight'] ?? 5;
+
+    // 折り返し処理（maxCharsPerLine超過時）、それ以外は1要素の配列として統一
     if ($maxCharsPerLine && mb_strlen($text) > $maxCharsPerLine) {
       $lines = [];
       $currentLine = '';
@@ -167,36 +170,26 @@ trait MedicalAssistanceMassageDrawingHelpersTrait
       if ($currentLine !== '') {
         $lines[] = $currentLine;
       }
+    } else {
+      $lines = [$text];
+    }
 
-      // 各行を描画
-      $lineHeight = $this->coordinates[$key]['lineHeight'] ?? 5;
-      foreach ($lines as $i => $line) {
-        $currentY = $y + ($i * $lineHeight);
+    // verticalAlign: 'middle' の場合、yを中心点として上方向にオフセット（1行・複数行共通）
+    $startY = $y;
+    if ($verticalAlign === 'middle') {
+      $totalHeight = count($lines) * $lineHeight;
+      $startY = $y - ($totalHeight / 2);
+    }
 
-        if ($letterSpacing > 0) {
-          $this->drawTextWithSpacing($pdf, $x, $currentY, $line, (float)$letterSpacing, $textAlign, (float)$alignmentWidth);
-        } else {
-          // textAlignに応じてX座標を調整
-          $currentX = $x;
-          if ($textAlign === 'center') {
-            $textWidth = $pdf->GetStringWidth($line);
-            $currentX = $x - ($textWidth / 2);
-          } elseif ($textAlign === 'right') {
-            $textWidth = $pdf->GetStringWidth($line);
-            $currentX = $x - $textWidth;
-          }
-          $pdf->Text($currentX, $currentY, $line);
-        }
+    foreach ($lines as $i => $line) {
+      $currentY = $startY + ($i * $lineHeight);
+
+      if ($letterSpacing > 0 || $textAlign !== 'left') {
+        $this->drawTextWithSpacing($pdf, $x, $currentY, $line, (float)$letterSpacing, $textAlign, (float)$alignmentWidth);
+      } else {
+        $pdf->Text($x, $currentY, $line);
       }
-      return;
     }
-
-    if (empty($letterSpacing) && $textAlign === 'left') {
-      $pdf->Text($x, $y, $text);
-      return;
-    }
-
-    $this->drawTextWithSpacing($pdf, $x, $y, $text, (float)$letterSpacing, $textAlign, (float)$alignmentWidth);
   }
 
   /**
@@ -219,7 +212,7 @@ trait MedicalAssistanceMassageDrawingHelpersTrait
     $y = $this->coordinates[$key]['ellipseY'] ?? $this->coordinates[$key]['y'] ?? 0;
     $ellipseWidth = $this->coordinates[$key]['ellipseWidth'] ?? 2.5;
     $ellipseHeight = $this->coordinates[$key]['ellipseHeight'] ?? 2.5;
-    $lineWidth = $this->coordinates[$key]['lineWidth'] ?? 0.2;
+    $lineWidth = $this->coordinates[$key]['lineWidth'] ?? 0.4;
 
     // デバッグ：楕円描画成功ログ
     \Log::info("楕円描画実行", [

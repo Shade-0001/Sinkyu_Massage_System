@@ -247,7 +247,7 @@ const fieldDefinitions = {
 
   // === 13. 施術所情報 ===
   'clinic_postal_code': { field: 'clinic_postal_code', label: '施術所郵便番号', type: 'text' },
-  'clinic_address': { field: 'clinic_address', label: '施術所住所', type: 'text' },
+  'clinic_address': { field: 'clinic_address', label: '施術所住所', type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
   'clinic_name': { field: 'clinic_name', label: '施術所名称', type: 'text' },
   'clinic_manager': { field: 'clinic_manager', label: '施術管理者氏名', type: 'text' },
   'clinic_phone': { field: 'clinic_phone', label: '電話番号', type: 'text' },
@@ -257,7 +257,7 @@ const fieldDefinitions = {
   'health_center_registration_2': { field: 'health_center_registration', label: '保健所登録区分', type: 'select', options: ['施術所所在地', '出張専門施術者住所地'], ellipseWidth: 8, ellipseHeight: 5, lineWidth: 0.5, radioGroup: 'health_center_registration', optionLabel: '出張専門施術者住所地' },
   'license_massage_number': { field: 'license_massage_number', label: '免許番号（あん摩マッサージ指圧師）', type: 'text' },
   'therapist_postal_code': { field: 'therapist_postal_code', label: '施術者郵便番号', type: 'postal_code', postalCodeGap: 2 },
-  'therapist_address': { field: 'therapist_address', label: '施術者住所', type: 'text' },
+  'therapist_address': { field: 'therapist_address', label: '施術者住所', type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
   'therapist_name': { field: 'therapist_name', label: '施術者氏名', type: 'text' },
   'therapist_phone': { field: 'therapist_phone', label: '施術者電話番号', type: 'text' },
   'clinic_date_year': { field: 'clinic_date_year', label: '年', type: 'number', compositeGroup: 'clinic_date', compositeLabel: '施術証明年月日' },
@@ -267,16 +267,16 @@ const fieldDefinitions = {
   // === 14. 同意記録 ===
   'consent_record_doctor_name': { field: 'consent_record_doctor_name', label: '同意医師氏名', type: 'text' },
   'consent_record_doctor_postal_code': { field: 'consent_record_doctor_postal_code', label: '同意医師郵便番号', type: 'postal_code', postalCodeGap: 2 },
-  'consent_record_doctor_address': { field: 'consent_record_doctor_address', label: '同意医師住所', type: 'text' },
+  'consent_record_doctor_address': { field: 'consent_record_doctor_address', label: '同意医師住所', type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
   'consent_record_date_year': { field: 'consent_record_date_year', label: '年', type: 'text', compositeGroup: 'consent_record_date', compositeLabel: '同意年月日' },
   'consent_record_illness_name': { field: 'consent_record_illness_name', label: '傷病名', type: 'text' },
   'required_treatment_period': { field: 'required_treatment_period', label: '要加療期間', type: 'text' },
 
   // === 15. 申請欄 ===
   'applicant_postal_code': { field: 'applicant_postal_code', label: '申請者郵便番号', type: 'postal_code', postalCodeGap: 2 },
-  'applicant_address': { field: 'applicant_address', label: '申請者住所', type: 'text' },
+  'applicant_address': { field: 'applicant_address', label: '申請者住所', type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
   'applicant_name': { field: 'applicant_name', label: '申請者氏名', type: 'text' },
-  'patient_address': { field: 'address', label: '住所', type: 'text' },
+  'patient_address': { field: 'address', label: '住所', type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
   'patient_phone': { field: 'patient_phone', label: '電話番号', type: 'text' },
 
   // === 16. 医師情報（旧：医師情報・同意書） ===
@@ -287,7 +287,7 @@ const fieldDefinitions = {
   'consent_doctor_name': { field: 'consent_doctor_name', label: '同意書医師氏名', type: 'text' },
   'consent_illness_name': { field: 'consent_illness_name', label: '同意書傷病名', type: 'text' },
   'therapy_period': { field: 'therapy_period', label: '要加療期間', type: 'text' },
-  'doctor_address': { field: 'doctor_address', label: '医師所在地', type: 'text' },
+  'doctor_address': { field: 'doctor_address', label: '医師所在地', type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
   'medical_institution': { field: 'medical_institution', label: '医療機関名', type: 'text' },
   'doctor_name': { field: 'doctor_name', label: '医師氏名', type: 'text' },
   'medical_institution_location_type_1': { field: 'medical_institution_location_type', label: '医療機関所在地区分', type: 'select', options: ['1', '2'], optionLabels: ['区郡市府県庁所在地', '出張所等指定都市所在地域'] },
@@ -332,10 +332,10 @@ const fieldDefinitions = {
 
   // === 19. 委任欄 ===
   'signature_applicant_postal_code': { field: 'signature_applicant_postal_code', label: '委任者郵便番号', type: 'postal_code', postalCodeGap: 2 },
-  'signature_applicant_address': { field: 'signature_applicant_address', label: '委任者住所', type: 'text' },
+  'signature_applicant_address': { field: 'signature_applicant_address', label: '委任者住所', type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
   'temporary_insurer_name': { field: 'temporary_insurer_name', label: '委任者氏名', type: 'text' },
   'agent_postal_code': { field: 'agent_postal_code', label: '代理人郵便番号', type: 'postal_code', postalCodeGap: 2 },
-  'agent_address': { field: 'agent_address', label: '代理人住所', type: 'text' },
+  'agent_address': { field: 'agent_address', label: '代理人住所', type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
   'agent_name': { field: 'agent_name', label: '代理人氏名', type: 'text' },
   'signature_date_year': { field: 'signature_date_year', label: '年', type: 'number', compositeGroup: 'signature_date', compositeLabel: '委任年月日' },
   'signature_date_month': { field: 'signature_date_month', label: '月', type: 'number', compositeGroup: 'signature_date', compositeLabel: '委任年月日' },
@@ -386,8 +386,70 @@ const fieldDefinitions = {
   // 25. 領収金額
   'receipt_amount': { field: 'receipt_amount', label: '領収金額', type: 'number' },
   // 26. 提出年月日
-  'creation_date': { field: 'creation_date', label: '提出年月日', type: 'text' }
+  'creation_date': { field: 'creation_date', label: '提出年月日', type: 'text' },
   // 27-31. 作成者情報 → clinic_*（既存）
+
+  // === 鍼灸療養費支給申請書専用フィールド ===
+  'insurance_symbol': { field: 'insurance_symbol', label: '被保険者証記号', type: 'text' },
+  'calendar_start': { field: 'calendar_start', label: 'カレンダー開始位置', type: 'number' },
+  'payment_institution_postal_code': { field: 'payment_institution_postal_code', label: '支払機関郵便番号', type: 'text' },
+  'payment_institution_address': { field: 'payment_institution_address', label: '支払機関住所', type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
+  'bill_category_new': { field: 'bill_category', label: '請求区分（新規）', type: 'select', ellipseWidth: 6.5, ellipseHeight: 3, lineWidth: 0.4, radioGroup: 'bill_category', optionLabel: '新規' },
+  'bill_category_continued': { field: 'bill_category', label: '請求区分（継続）', type: 'select', ellipseWidth: 6.5, ellipseHeight: 3, lineWidth: 0.4, radioGroup: 'bill_category', optionLabel: '継続' },
+  'outcome_continued': { field: 'outcome', label: '転帰（継続）', type: 'select', ellipseWidth: 5, ellipseHeight: 3, lineWidth: 0.4, radioGroup: 'outcome', optionLabel: '継続' },
+  'outcome_cured': { field: 'outcome', label: '転帰（治癒）', type: 'select', ellipseWidth: 5, ellipseHeight: 3, lineWidth: 0.4, radioGroup: 'outcome', optionLabel: '治癒' },
+  'outcome_discontinued': { field: 'outcome', label: '転帰（中止）', type: 'select', ellipseWidth: 5, ellipseHeight: 3, lineWidth: 0.4, radioGroup: 'outcome', optionLabel: '中止' },
+  'outcome_transferred': { field: 'outcome', label: '転帰（転医）', type: 'select', ellipseWidth: 5, ellipseHeight: 3, lineWidth: 0.4, radioGroup: 'outcome', optionLabel: '転医' },
+  'consent_date_full': { field: 'consent_date_full', label: '同意年月日', type: 'text' },
+
+  // === 医療助成費支給申請書・同意書共通フィールド ===
+  'birthday_full_date': { field: 'birthday_full_date', label: '生年月日', type: 'text' },
+  'illness_name': { field: 'illness_name', label: '傷病名', type: 'text' },
+  'first_treatment_date': { field: 'first_treatment_date', label: '初療年月日', type: 'text' },
+  'remarks': { field: 'remarks', label: '備考', type: 'text' },
+  'treatment_days_1': { field: 'treatment_days_1', label: '施術日1', type: 'number' },
+  'treatment_days_2': { field: 'treatment_days_2', label: '施術日2', type: 'number' },
+  'treatment_days_3': { field: 'treatment_days_3', label: '施術日3', type: 'number' },
+  'treatment_days_4': { field: 'treatment_days_4', label: '施術日4', type: 'number' },
+  'treatment_days_5': { field: 'treatment_days_5', label: '施術日5', type: 'number' },
+  'treatment_days_6': { field: 'treatment_days_6', label: '施術日6', type: 'number' },
+  'treatment_days_7': { field: 'treatment_days_7', label: '施術日7', type: 'number' },
+  'treatment_days_8': { field: 'treatment_days_8', label: '施術日8', type: 'number' },
+  'treatment_days_9': { field: 'treatment_days_9', label: '施術日9', type: 'number' },
+  'treatment_days_10': { field: 'treatment_days_10', label: '施術日10', type: 'number' },
+  'treatment_days_11': { field: 'treatment_days_11', label: '施術日11', type: 'number' },
+  'treatment_days_12': { field: 'treatment_days_12', label: '施術日12', type: 'number' },
+  'treatment_days_13': { field: 'treatment_days_13', label: '施術日13', type: 'number' },
+  'treatment_days_14': { field: 'treatment_days_14', label: '施術日14', type: 'number' },
+  'treatment_days_15': { field: 'treatment_days_15', label: '施術日15', type: 'number' },
+  'treatment_days_16': { field: 'treatment_days_16', label: '施術日16', type: 'number' },
+  'treatment_days_17': { field: 'treatment_days_17', label: '施術日17', type: 'number' },
+  'treatment_days_18': { field: 'treatment_days_18', label: '施術日18', type: 'number' },
+  'treatment_days_19': { field: 'treatment_days_19', label: '施術日19', type: 'number' },
+  'treatment_days_20': { field: 'treatment_days_20', label: '施術日20', type: 'number' },
+  'treatment_days_21': { field: 'treatment_days_21', label: '施術日21', type: 'number' },
+  'treatment_days_22': { field: 'treatment_days_22', label: '施術日22', type: 'number' },
+  'treatment_days_23': { field: 'treatment_days_23', label: '施術日23', type: 'number' },
+  'treatment_days_24': { field: 'treatment_days_24', label: '施術日24', type: 'number' },
+  'treatment_days_25': { field: 'treatment_days_25', label: '施術日25', type: 'number' },
+  'treatment_days_26': { field: 'treatment_days_26', label: '施術日26', type: 'number' },
+  'treatment_days_27': { field: 'treatment_days_27', label: '施術日27', type: 'number' },
+  'treatment_days_28': { field: 'treatment_days_28', label: '施術日28', type: 'number' },
+  'treatment_days_29': { field: 'treatment_days_29', label: '施術日29', type: 'number' },
+  'treatment_days_30': { field: 'treatment_days_30', label: '施術日30', type: 'number' },
+  'treatment_days_31': { field: 'treatment_days_31', label: '施術日31', type: 'number' },
+
+  // === 同意書（あんま・マッサージ）専用フィールド ===
+  'user_name': { field: 'user_name', label: '利用者氏名', type: 'text' },
+  'user_address': { field: 'user_address', label: '利用者住所', type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
+  'user_birthday': { field: 'user_birthday', label: '利用者生年月日', type: 'text' },
+  'consent_massage_illness_name': { field: 'consent_massage_illness_name', label: '傷病名', type: 'text' },
+  'consent_category': { field: 'consent_category', label: '同意区分', type: 'text' },
+  'consenting_date': { field: 'consenting_date', label: '診察日', type: 'text' },
+  'consenting_doctor_medical_institution_name': { field: 'consenting_doctor_medical_institution_name', label: '同意医師医療機関名', type: 'text' },
+  'consenting_doctor_address': { field: 'consenting_doctor_address', label: '同意医師医療機関住所', type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
+  'consenting_doctor_name': { field: 'consenting_doctor_name', label: '同意医師氏名', type: 'text' },
+  'submission_date': { field: 'submission_date', label: '提出年月日', type: 'text' }
 };
 
 // 施術料金領収書用のフィールド定義
@@ -419,7 +481,7 @@ const fieldDefinitionsTreatmentReceipt = {
   'receipt_amount': { field: 'receipt_amount', label: '領収金額', type: 'number' },
   'creation_date': { field: 'creation_date', label: '提出年月日', type: 'text' },
   'clinic_postal_code': { field: 'clinic_postal_code', label: '郵便番号', type: 'text' },
-  'clinic_address': { field: 'clinic_address', label: '住所', type: 'text' },
+  'clinic_address': { field: 'clinic_address', label: '住所', type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
   'clinic_name': { field: 'clinic_name', label: '事業所名称', type: 'text' },
   'clinic_manager': { field: 'clinic_manager', label: '代表者氏名', type: 'text' },
   'clinic_phone': { field: 'clinic_phone', label: '電話番号', type: 'text' }
@@ -431,7 +493,7 @@ const fieldDefinitionsTreatmentReceipt = {
 // PDFタイプ: consent_acupuncture
 // ============================================================
 const fieldDefinitionsConsentAcupuncture = {
-  'user_address': { field: 'user_address', label: '利用者住所', type: 'text' },
+  'user_address': { field: 'user_address', label: '利用者住所', type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
   'user_name': { field: 'user_name', label: '利用者氏名', type: 'text' },
   'user_birthday': { field: 'user_birthday', label: '利用者生年月日', type: 'text' },
   'illness_name_1': { field: 'illness_name', label: '傷病名（サークル）', type: 'select', options: ['1', '2', '3', '4', '5', '6', '7'], optionLabels: ['神経痛', 'リウマチ', '頸腕症候群', '五十肩', '腰痛症', '頸椎捻挫後遺症', 'その他'], ellipseWidth: 2.5, ellipseHeight: 2.5, lineWidth: 0.5, radioGroup: 'illness_name', optionLabel: '神経痛' },
@@ -447,7 +509,7 @@ const fieldDefinitionsConsentAcupuncture = {
   'consenting_date': { field: 'consenting_date', label: '診察日', type: 'text' },
   'submission_date': { field: 'submission_date', label: '提出年月日', type: 'text' },
   'consenting_doctor_medical_institution_name': { field: 'consenting_doctor_medical_institution_name', label: '同意医師医療機関名', type: 'text' },
-  'consenting_doctor_address': { field: 'consenting_doctor_address', label: '同意医師医療機関住所', type: 'text' },
+  'consenting_doctor_address': { field: 'consenting_doctor_address', label: '同意医師医療機関住所', type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
   'consenting_doctor_name': { field: 'consenting_doctor_name', label: '同意医師氏名', type: 'text' }
 };
 
@@ -457,7 +519,7 @@ const fieldDefinitionsConsentAcupuncture = {
 // PDFタイプ: consent_massage
 // ============================================================
 const fieldDefinitionsConsentMassage = {
-  'user_address': { field: 'user_address', label: '利用者住所', type: 'text' },
+  'user_address': { field: 'user_address', label: '利用者住所', type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
   'user_name': { field: 'user_name', label: '利用者氏名', type: 'text' },
   'user_birthday': { field: 'user_birthday', label: '利用者生年月日', type: 'text' },
   'consent_massage_illness_name': { field: 'consent_massage_illness_name', label: '傷病名', type: 'text' },
@@ -508,7 +570,7 @@ const fieldDefinitionsConsentMassage = {
 
   'submission_date': { field: 'submission_date', label: '提出年月日', type: 'text' },
   'consenting_doctor_medical_institution_name': { field: 'consenting_doctor_medical_institution_name', label: '同意医師医療機関名', type: 'text' },
-  'consenting_doctor_address': { field: 'consenting_doctor_address', label: '同意医師医療機関住所', type: 'text' },
+  'consenting_doctor_address': { field: 'consenting_doctor_address', label: '同意医師医療機関住所', type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
   'consenting_doctor_name': { field: 'consenting_doctor_name', label: '同意医師氏名', type: 'text' }
 };
 
@@ -545,7 +607,7 @@ const fieldDefinitionsConsentRequestLetterSampleAcupuncture = {
   'user_name': { field: 'user_name', label: '利用者氏名', type: 'text' },
   'illness_name': { field: 'illness_name', label: '傷病名', type: 'text' },
   'clinic_postal_code': { field: 'clinic_postal_code', label: '施設郵便番号', type: 'text' },
-  'clinic_address': { field: 'clinic_address', label: '施設住所', type: 'text' },
+  'clinic_address': { field: 'clinic_address', label: '施設住所', type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
   'clinic_phone': { field: 'clinic_phone', label: '施設電話番号', type: 'text' },
   'clinic_name': { field: 'clinic_name', label: '施設名', type: 'text' },
   'clinic_owner_name': { field: 'clinic_owner_name', label: '施設代表者氏名', type: 'text' }
@@ -571,7 +633,7 @@ const fieldDefinitionsTreatmentRecordAcupuncture = {
   'insured_person_birthday': { field: 'insured_person_birthday', label: '被保険者生年月日', type: 'text' },
   'insurance_valid_until': { field: 'insurance_valid_until', label: '保険有効期限', type: 'text' },
   'insured_person_postal_code': { field: 'insured_person_postal_code', label: '被保険者郵便番号', type: 'postal_code', postalCodeGap: 2 },
-  'insured_person_address': { field: 'insured_person_address', label: '被保険者住所', type: 'text' },
+  'insured_person_address': { field: 'insured_person_address', label: '被保険者住所', type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
   'insurance_qualification_date': { field: 'insurance_qualification_date', label: '保険資格取得年月日', type: 'text' },
 
   // === 利用者情報 ===
@@ -581,11 +643,11 @@ const fieldDefinitionsTreatmentRecordAcupuncture = {
   'user_relationship': { field: 'user_relationship', label: '利用者続柄', type: 'select', masterKey: 'relationships', valueField: 'relationship' },
 
   // === 事業所情報 ===
-  'clinic_address': { field: 'clinic_address', label: '事業所所在地', type: 'text' },
+  'clinic_address': { field: 'clinic_address', label: '事業所所在地', type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
   'clinic_name': { field: 'clinic_name', label: '事業所名称', type: 'text' },
 
   // === 保険者情報 ===
-  'insurer_address': { field: 'insurer_address', label: '保険者所在地', type: 'text' },
+  'insurer_address': { field: 'insurer_address', label: '保険者所在地', type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
   'insurer_name': { field: 'insurer_name', label: '保険者名称', type: 'text' },
   'insurer_number': { field: 'insurer_number', label: '番号', type: 'text' },
 
@@ -600,7 +662,7 @@ const fieldDefinitionsTreatmentRecordAcupuncture = {
 
   // === 同意記録 ===
   'medical_institution_name': { field: 'medical_institution_name', label: '医療機関名', type: 'text' },
-  'medical_institution_address': { field: 'medical_institution_address', label: '医療機関住所', type: 'text' },
+  'medical_institution_address': { field: 'medical_institution_address', label: '医療機関住所', type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
   'medical_institution_phone': { field: 'medical_institution_phone', label: '医療機関電話番号', type: 'text' },
   'doctor_name_kana': { field: 'doctor_name_kana', label: '医師氏名カナ', type: 'text' },
   'doctor_name': { field: 'doctor_name', label: '医師氏名', type: 'text' },
@@ -622,7 +684,7 @@ const fieldDefinitionsSummaryTable = {
 
   // === 事業所情報 ===
   'clinic_postal_code': { field: 'clinic_postal_code', label: '事業所郵便番号',     type: 'text', category: 'clinic_info' },
-  'clinic_address':     { field: 'clinic_address',     label: '事業所住所',         type: 'text', category: 'clinic_info', lineHeight: 5, maxCharsPerLine: 20 },
+  'clinic_address':     { field: 'clinic_address',     label: '事業所住所',         type: 'text', category: 'clinic_info', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
   'clinic_name':        { field: 'clinic_name',        label: '事業所名',           type: 'text', category: 'clinic_info' },
   'clinic_owner_name':  { field: 'clinic_owner_name',  label: '事業所代表者氏名',   type: 'text', category: 'clinic_info' },
   'clinic_phone':       { field: 'clinic_phone',       label: '事業所電話番号',     type: 'text', category: 'clinic_info' },
@@ -648,7 +710,7 @@ const fieldDefinitionsSummaryTable = {
 // 委任状（申請･受領）専用フィールド定義
 // ============================================================
 const fieldDefinitionsPowerOfAttorneyApplication = {
-  'clinic_address':       { field: 'clinic_address',       label: '事業所住所',       type: 'text' },
+  'clinic_address':       { field: 'clinic_address',       label: '事業所住所',       type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
   'clinic_owner_name':    { field: 'clinic_owner_name',    label: '代表者氏名',       type: 'text' },
   'clinic_owner_birthday': { field: 'clinic_owner_birthday', label: '代表者生年月日', type: 'text' },
 };
@@ -657,7 +719,7 @@ const fieldDefinitionsPowerOfAttorneyApplication = {
 // 委任状（同意書取得）専用フィールド定義
 // ============================================================
 const fieldDefinitionsPowerOfAttorneyConsent = {
-  'clinic_address':       { field: 'clinic_address',       label: '事業所住所',       type: 'text' },
+  'clinic_address':       { field: 'clinic_address',       label: '事業所住所',       type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
   'clinic_owner_name':    { field: 'clinic_owner_name',    label: '代表者氏名',       type: 'text' },
   'clinic_owner_birthday': { field: 'clinic_owner_birthday', label: '代表者生年月日', type: 'text' },
 };
@@ -698,7 +760,7 @@ const fieldDefinitionsImplementationPlan = {
 
   // === グループ４: 事業所情報 ===
   'ip_clinic_postal_code':             { field: 'ip_clinic_postal_code',             label: '事業所郵便番号',           type: 'text' },
-  'ip_clinic_address':                 { field: 'ip_clinic_address',                 label: '事業所住所',               type: 'text' },
+  'ip_clinic_address':                 { field: 'ip_clinic_address',                 label: '事業所住所',               type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
   'ip_clinic_phone':                   { field: 'ip_clinic_phone',                   label: '事業所電話番号',           type: 'text' },
   'ip_clinic_name':                    { field: 'ip_clinic_name',                    label: '事業所名',                 type: 'text' },
   'ip_clinic_owner_name':              { field: 'ip_clinic_owner_name',              label: '事業所代表者氏名',         type: 'text' },
@@ -718,7 +780,7 @@ const fieldDefinitionsThankYouLetterDoctor = {
   'user_name':                { field: 'user_name',                label: '利用者氏名',       type: 'text' },
   'illness_name':             { field: 'illness_name',             label: '傷病名',           type: 'text' },
   'clinic_postal_code':       { field: 'clinic_postal_code',       label: '施設郵便番号',     type: 'text' },
-  'clinic_address':           { field: 'clinic_address',           label: '施設住所',         type: 'text' },
+  'clinic_address':           { field: 'clinic_address',           label: '施設住所',         type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
   'clinic_phone':             { field: 'clinic_phone',             label: '施設電話番号',     type: 'text' },
   'clinic_name':              { field: 'clinic_name',              label: '施設名',           type: 'text' },
   'clinic_owner_name':        { field: 'clinic_owner_name',        label: '施設代表者氏名',   type: 'text' },
@@ -738,10 +800,23 @@ const fieldDefinitionsThankYouLetterReferrer = {
   'user_name':              { field: 'user_name',              label: '利用者氏名',       type: 'text' },
   'illness_name':           { field: 'illness_name',           label: '傷病名',           type: 'text' },
   'clinic_postal_code':     { field: 'clinic_postal_code',     label: '施設郵便番号',     type: 'text' },
-  'clinic_address':         { field: 'clinic_address',         label: '施設住所',         type: 'text' },
+  'clinic_address':         { field: 'clinic_address',         label: '施設住所',         type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
   'clinic_phone':           { field: 'clinic_phone',           label: '施設電話番号',     type: 'text' },
   'clinic_name':            { field: 'clinic_name',            label: '施設名',           type: 'text' },
   'clinic_owner_name':      { field: 'clinic_owner_name',      label: '施設代表者氏名',   type: 'text' },
+};
+
+// ============================================================
+// FAX送信票用のフィールド定義
+// ============================================================
+// PDFタイプ: fax_cover_sheet
+// ============================================================
+const fieldDefinitionsFaxCoverSheet = {
+  'clinic_name':       { field: 'clinic_name',       label: '事業所名',         type: 'text' },
+  'clinic_postal_code':{ field: 'clinic_postal_code', label: '事業所郵便番号',   type: 'text' },
+  'clinic_address':    { field: 'clinic_address',     label: '事業所住所',       type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
+  'clinic_phone':      { field: 'clinic_phone',       label: '事業所電話番号',   type: 'text' },
+  'clinic_owner_name': { field: 'clinic_owner_name',  label: '事業所代表者氏名', type: 'text' },
 };
 
 // ============================================================
@@ -772,8 +847,8 @@ const fieldDefinitionsReportGreeting = {
   'user_name':                { field: 'user_name',                label: '利用者氏名',       type: 'text' },
   'illness_name':             { field: 'illness_name',             label: '傷病名',           type: 'text' },
   'clinic_postal_code':       { field: 'clinic_postal_code',       label: '施設郵便番号',     type: 'text' },
-  'clinic_address':           { field: 'clinic_address',           label: '施設住所',         type: 'text' },
+  'clinic_address':           { field: 'clinic_address',           label: '施設住所',         type: 'text', lineHeight: 5, maxCharsPerLine: 20, verticalAlign: 'middle' },
   'clinic_phone':             { field: 'clinic_phone',             label: '施設電話番号',     type: 'text' },
-  'clinic_name':              { field: 'clinic_name',              label: '施設名',           type: 'text' },
+  'clinic_name':              { field: 'clinic_name',             label: '施設名',           type: 'text' },
   'clinic_owner_name':        { field: 'clinic_owner_name',        label: '施設代表者氏名',   type: 'text' },
 };

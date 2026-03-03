@@ -751,8 +751,8 @@ trait MassageFormFieldsTrait
   protected function fillInsuredPersonSection(Fpdi $pdf, $clinicUser, $insurance): void
   {
     // === 療養を受けた者の氏名 ===
-    $fullName = ($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? '');
-    $fullNameKana = ($clinicUser->last_kana ?? '') . ' ' . ($clinicUser->first_kana ?? '');
+    $fullName = ($clinicUser->last_name ?? '') . '  ' . ($clinicUser->first_name ?? '');
+    $fullNameKana = ($clinicUser->last_kana ?? '') . '  ' . ($clinicUser->first_kana ?? '');
 
     $pdf->SetFontSize($this->coord('patient_name_kana', 'fontSize'));
     $this->drawTextByKey($pdf, 'patient_name_kana', (string)$fullNameKana);
@@ -1428,7 +1428,7 @@ trait MassageFormFieldsTrait
       if ($this->hasCoord('consent_record_doctor_name')) {
         $doctor = DB::table('doctors')->where('id', $consent->consenting_doctor_id)->first();
         if ($doctor) {
-          $doctorName = ($doctor->last_name ?? '') . ' ' . ($doctor->first_name ?? '');
+          $doctorName = ($doctor->last_name ?? '') . '  ' . ($doctor->first_name ?? '');
           $pdf->SetFontSize($this->coord('consent_record_doctor_name', 'fontSize'));
           $this->drawTextByKey($pdf, 'consent_record_doctor_name', (string)$doctorName);
           $pdf->SetFontSize(10);
@@ -2108,7 +2108,7 @@ trait MassageFormFieldsTrait
     if ($this->sampleDataMode && isset($this->customSampleData['clinic_manager'])) {
       $manager = $this->customSampleData['clinic_manager'];
     } else {
-      $manager = ($clinicInfo->owner_last_name ?? '') . ' ' . ($clinicInfo->owner_first_name ?? '');
+      $manager = ($clinicInfo->owner_last_name ?? '') . '  ' . ($clinicInfo->owner_first_name ?? '');
       $manager = trim($manager);
     }
     if ($this->hasCoord('clinic_manager')) {
@@ -2195,7 +2195,7 @@ trait MassageFormFieldsTrait
         $pdf->SetFontSize(10);
       }
     } else {
-      $applicantName = ($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? '');
+      $applicantName = ($clinicUser->last_name ?? '') . '  ' . ($clinicUser->first_name ?? '');
       if ($this->hasCoord('applicant_name') && trim($applicantName)) {
         $pdf->SetFontSize($this->coord('applicant_name', 'fontSize'));
         $this->drawTextByKey($pdf, 'applicant_name', trim($applicantName));
@@ -2211,7 +2211,7 @@ trait MassageFormFieldsTrait
         $pdf->SetFontSize(10);
       }
     } else {
-      $furigana = ($clinicUser->last_name_furigana ?? '') . ' ' . ($clinicUser->first_name_furigana ?? '');
+      $furigana = ($clinicUser->last_name_furigana ?? '') . '  ' . ($clinicUser->first_name_furigana ?? '');
       if ($this->hasCoord('applicant_name_furigana') && trim($furigana)) {
         $pdf->SetFontSize($this->coord('applicant_name_furigana', 'fontSize'));
         $this->drawTextByKey($pdf, 'applicant_name_furigana', trim($furigana));
@@ -2278,7 +2278,7 @@ trait MassageFormFieldsTrait
     if ($this->sampleDataMode && isset($this->customSampleData['agent_name'])) {
       $agentName = $this->customSampleData['agent_name'];
     } else {
-      $agentName = ($clinicInfo->owner_last_name ?? '') . ' ' . ($clinicInfo->owner_first_name ?? '');
+      $agentName = ($clinicInfo->owner_last_name ?? '') . '  ' . ($clinicInfo->owner_first_name ?? '');
       $agentName = trim($agentName);
     }
     if ($this->hasCoord('agent_name')) {

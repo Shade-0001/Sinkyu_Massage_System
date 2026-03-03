@@ -47,8 +47,7 @@ class ConsentDataConverter
             'first_therapy_content_id' => [TherapyContent::class, 'therapy_content'],
             // マッサージ用
             'condition_id' => [Condition::class, 'condition_name'],
-            // 鍼灸用
-            'condition' => [Condition::class, 'condition_name'],
+            // 鍼灸用（condition_idに統一）
             // 共通
             'work_scope_type_id' => [WorkScopeType::class, 'work_scope_type'],
         ];
@@ -86,7 +85,7 @@ class ConsentDataConverter
 
         // 鍼灸: 発病負傷経過
         if (!empty($data['condition_custom'])) {
-            unset($result['condition']);
+            unset($result['condition_id']);
         } else {
             unset($result['condition_custom']);
         }
@@ -160,8 +159,6 @@ class ConsentDataConverter
             // マッサージ用
             'condition_id' => '発病負傷経過',
             'disease_progress_custom' => '発病負傷経過（新規登録）',
-            // 鍼灸用
-            'condition' => '発病負傷経過',
             'condition_custom' => '発病負傷経過（新規登録）',
             // 共通
             'work_scope_type_id' => '業務上外等区分',

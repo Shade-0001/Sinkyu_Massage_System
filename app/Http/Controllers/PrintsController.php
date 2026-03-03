@@ -164,17 +164,17 @@ class PrintsController extends Controller
   {
     $clinicUsers = DB::table('clinic_users')
       ->select('id', 'last_name', 'first_name', 'last_kana', 'first_kana')
-      ->orderBy('last_kana')
+      ->orderByDesc('id')
       ->get();
 
     $doctors = DB::table('doctors')
       ->select('id', 'last_name', 'first_name', 'last_name_kana', 'first_name_kana')
-      ->orderBy('last_name_kana')
+      ->orderByDesc('id')
       ->get();
 
     $caremanagers = DB::table('caremanagers')
       ->select('id', 'last_name', 'first_name', 'last_name_kana', 'first_name_kana')
-      ->orderBy('last_name_kana')
+      ->orderByDesc('id')
       ->get();
 
     // PDFタイプ一覧をビューに渡す
@@ -807,7 +807,7 @@ class PrintsController extends Controller
 
     $clinicUsers = DB::table('clinic_users')
       ->select('id', 'last_name', 'first_name', 'last_kana', 'first_kana')
-      ->orderBy('last_kana')
+      ->orderBy('id', 'desc')
       ->get();
 
     $masterData = [
@@ -2144,6 +2144,105 @@ class PrintsController extends Controller
         'message' => $e->getMessage(),
         'file'    => $e->getFile(),
         'line'    => $e->getLine(),
+      ], 500);
+    }
+  }
+
+  /**
+   * FAX送信票PDF出力
+   */
+  public function faxCoverSheet(Request $request, string $filename)
+  {
+    try {
+      $service = new \App\Services\Print\FaxCoverSheetPdfService();
+
+      \Log::info('FAX送信票PDF生成開始');
+
+      $pdfBinary = $service->generate([], '');
+
+      \Log::info('FAX送信票PDF生成完了', ['size' => strlen($pdfBinary)]);
+
+      return response($pdfBinary, 200, [
+        'Content-Type'        => 'application/pdf',
+        'Content-Disposition' => 'inline; filename="' . $filename . '"',
+      ]);
+    } catch (\Exception $e) {
+      \Log::error('FAX送信票PDF生成エラー', [
+        'message' => $e->getMessage(),
+        'file'    => $e->getFile(),
+        'line'    => $e->getLine(),
+        'trace'   => $e->getTraceAsString(),
+      ]);
+
+      return response()->json([
+        'error'   => 'PDF生成に失敗しました',
+        'message' => $e->getMessage(),
+        'file'    => $e->getFile(),
+        'line'    => $e->getLine(),
+      ], 500);
+    }
+  }
+
+  public function addressLabelCsv(Request $request)
+  {
+    $dataType = $request->query('data_type', 'clinic_user');
+
+    try {
+      $service = new \App\Services\Print\AddressLabelCsvExportService();
+      $result  = $service->generateCsv($dataType);
+
+      $labelMap = [
+        'clinic_user' => '利用者',
+        'doctor'      => '医師',
+        'insurer'     => '保険者',
+        'caremanager' => 'ケアマネ',
+      ];
+      $label    = $labelMap[$dataType] ?? $dataType;
+      $count    = $result['count'];
+      $ts       = now()->format('Y-m-d_H-i-s');
+      $filename = "住所データ_{$label}[{$count}件]_{$ts}.csv";
+
+      return response($result['csv'], 200, [
+        'Content-Type'        => 'text/csv; charset=UTF-8',
+        'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+      ]);
+    } catch (\Exception $e) {
+      \Log::error('宛名住所データCSV生成エラー', [
+        'message' => $e->getMessage(),
+        'file'    => $e->getFile(),
+        'line'    => $e->getLine(),
+      ]);
+
+      return response()->json([
+        'error'   => 'CSV生成に失敗しました',
+        'message' => $e->getMessage(),
+      ], 500);
+    }
+  }
+
+  public function addressLabelPdf(Request $request, string $filename)
+  {
+    $dataType = $request->query('data_type', 'clinic_user');
+    $faces    = (int) $request->query('faces', 12);
+
+    try {
+      $service   = new \App\Services\Print\AddressLabelCsvExportService();
+      $pdfBinary = $service->generateLabelPdf($dataType, $faces);
+
+      return response($pdfBinary, 200, [
+        'Content-Type'        => 'application/pdf',
+        'Content-Disposition' => 'inline; filename="' . $filename . '"',
+      ]);
+    } catch (\Exception $e) {
+      \Log::error('宛名シールPDF生成エラー', [
+        'message' => $e->getMessage(),
+        'file'    => $e->getFile(),
+        'line'    => $e->getLine(),
+      ]);
+
+      return response()->json([
+        'error'   => 'PDF生成に失敗しました',
+        'message' => $e->getMessage(),
       ], 500);
     }
   }

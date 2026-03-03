@@ -170,7 +170,7 @@ class SelfFeeListPdfService
       $clinicUser = $clinicUsers[$clinicUserId] ?? null;
       if (!$clinicUser) continue;
 
-      $fullName = ($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? '');
+      $fullName = ($clinicUser->last_name ?? '') . '  ' . ($clinicUser->first_name ?? '');
 
       // 自費施術ごとにグループ化
       $selfFeeGroups = $records->groupBy('self_fee_id');

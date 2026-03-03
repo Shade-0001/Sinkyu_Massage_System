@@ -38,7 +38,7 @@ class ConsentMassageSeeder extends Seeder
       $row['consenting_doctor_id']     = $doctorIds[array_rand($doctorIds)];
       $row['bill_category_id']         = $billCategoryIds[array_rand($billCategoryIds)];
       $row['outcome_id']               = $outcomeIds[array_rand($outcomeIds)];
-      $row['condition_id']             = !empty($conditionIds) ? $conditionIds[array_rand($conditionIds)] : null;
+      $row['condition_id']             = $conditionIds[array_rand($conditionIds)];
       $row['work_scope_type_id']       = $workScopeIds[array_rand($workScopeIds)];
       $row['housecall_reason_id']      = $housecallIds[array_rand($housecallIds)];
       $row['injury_and_illness_name_id'] = !empty($illnessIds) ? $illnessIds[array_rand($illnessIds)] : null;

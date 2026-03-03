@@ -241,7 +241,7 @@ class TreatmentReceiptPdfService
 
     // 3. 利用者氏名
     if ($clinicUser) {
-      $fullName = ($clinicUser->last_name ?? '') . '　' . ($clinicUser->first_name ?? '');
+      $fullName = ($clinicUser->last_name ?? '') . '  ' . ($clinicUser->first_name ?? '');
       $this->drawText($pdf, 'patient_name', $fullName);
 
       // 4. 性別（サークル描画）
@@ -761,7 +761,7 @@ class TreatmentReceiptPdfService
     $y = $this->coordinates[$key]['ellipseY'] ?? $this->coord($key, 'y');
     $ellipseWidth = $this->coordinates[$key]['ellipseWidth'] ?? 2.5;
     $ellipseHeight = $this->coordinates[$key]['ellipseHeight'] ?? 2.5;
-    $lineWidth = $this->coordinates[$key]['lineWidth'] ?? 0.5;
+    $lineWidth = $this->coordinates[$key]['lineWidth'] ?? 0.4;
 
     \Log::info("drawEllipseByKey", [
       'key' => $key,

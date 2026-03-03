@@ -30,7 +30,7 @@
       @foreach($careManagers as $careManager)
       <tr>
         <td>
-          <a href="{{ route('caremanagers.edit', $careManager->id) }}">{{ $careManager->last_name }}{{ "\u{2000}" }}{{ $careManager->first_name }} [編集]</a><br>
+          <a href="{{ route('caremanagers.edit', $careManager->id) }}">{{ $careManager->last_name }}{{ "\u{2000}" }}{{ $careManager->first_name }}［編集］</a><br>
           {{ $careManager->last_name_kana }}{{ "\u{2000}" }}{{ $careManager->first_name_kana }}
         </td>
         <td>

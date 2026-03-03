@@ -111,36 +111,17 @@ function renderFieldSettings() {
       // coordinatesに存在するフィールドのみ表示
       return coordinates.hasOwnProperty(key);
     } else if (pdfType === 'therapy_benefit_acupuncture') {
-      // 鍼灸用PDFではマッサージ専用フィールドを除外
-      const massageOnlyFields = [
-        'illness_name_symptom',
-        'fee_massage_trunk_unit', 'fee_massage_trunk_count', 'fee_massage_trunk_total',
-        'fee_massage_upper_limb_r_unit', 'fee_massage_upper_limb_r_count', 'fee_massage_upper_limb_r_total',
-        'fee_massage_upper_limb_l_unit', 'fee_massage_upper_limb_l_count', 'fee_massage_upper_limb_l_total',
-        'fee_massage_lower_limb_r_unit', 'fee_massage_lower_limb_r_count', 'fee_massage_lower_limb_r_total',
-        'fee_massage_lower_limb_l_unit', 'fee_massage_lower_limb_l_count', 'fee_massage_lower_limb_l_total',
-        'fee_manual_correction_unit', 'fee_manual_correction_count', 'fee_manual_correction_total',
-        'fee_fomentation_unit', 'fee_fomentation_count', 'fee_fomentation_total',
-        'fee_fomentation_electric_light_unit', 'fee_fomentation_electric_light_count', 'fee_fomentation_electric_light_total'
-      ];
-      return !massageOnlyFields.includes(key);
-    } else if (pdfType === 'therapy_benefit_massage') {
-      // マッサージ用PDFでは鍼灸専用フィールドを除外
-      const acupunctureOnlyFields = [
-        'fee_initial_examination_hari', 'fee_initial_examination_kyu', 'fee_initial_examination_combined',
-        'fee_initial_examination_amount',
-        'therapy_content_electric_needle', 'therapy_content_electric_moxa', 'therapy_content_electric_light',
-        'fee_hari_unit', 'fee_hari_count', 'fee_hari_total',
-        'fee_kyu_unit', 'fee_kyu_count', 'fee_kyu_total',
-        'fee_hari_kyu_unit', 'fee_hari_kyu_count', 'fee_hari_kyu_total',
-        'fee_electric_unit', 'fee_electric_count', 'fee_electric_total',
-        // 傷病名（鍼灸用）
-        'illness_name_1', 'illness_name_2', 'illness_name_3', 'illness_name_4',
-        'illness_name_5', 'illness_name_6', 'illness_name_7', 'illness_name_other_text',
-        // 旧マッサージフィールド（5部位に分割したため除外）
-        'fee_massage_unit', 'fee_massage_count', 'fee_massage_total'
-      ];
-      return !acupunctureOnlyFields.includes(key);
+      // fieldCategoriesに含まれるキーのみ表示（coordinatesに存在するキーも含む）
+      return fieldCategories.hasOwnProperty(key) || coordinates.hasOwnProperty(key);
+    } else if (
+      pdfType === 'therapy_benefit_massage' ||
+      pdfType === 'medical_assistance_acupuncture' ||
+      pdfType === 'medical_assistance_massage' ||
+      pdfType === 'consent_acupuncture' ||
+      pdfType === 'consent_massage'
+    ) {
+      // fieldCategoriesに登録されているキーのみ表示
+      return fieldCategories.hasOwnProperty(key);
     }
     return true;
   }
@@ -162,120 +143,6 @@ function renderFieldSettings() {
     // orderedKeys の順序で push されるため、カテゴリ内の順序は保持される
     categorizedFields[category].push(key);
   });
-
-  // consent_massage専用：診察日までのuncategorizedフィールドを先に表示
-  if (currentPdfType === 'consent_massage' && categorizedFields['uncategorized']) {
-    const uncategorizedFields = categorizedFields['uncategorized'];
-    const consentingDateIndex = uncategorizedFields.indexOf('consenting_date');
-
-    if (consentingDateIndex !== -1) {
-      // 診察日までのフィールド（診察日含む）を表示
-      const fieldsBeforeCategories = uncategorizedFields.slice(0, consentingDateIndex + 1);
-
-      fieldsBeforeCategories.forEach(key => {
-        if (processedKeys.has(key)) return;
-
-        let field = coordinates[key];
-        if (!field && fieldDefs[key]) {
-          const mappingField = fieldDefs[key];
-          const isEllipseField = mappingField.radioGroup !== undefined && (mappingField.ellipseWidth !== undefined || mappingField.ellipseHeight !== undefined);
-          field = {
-            x: 0,
-            y: 0,
-            textAlign: 'left',
-            ...fieldDefs[key]
-          };
-          if (!isEllipseField) {
-            field.fontSize = 10;
-            field.letterSpacing = 0;
-          }
-          coordinates[key] = field;
-        }
-        if (!field) return;
-
-        // radioGroupの処理（fieldDefinitionsから取得）
-        const fieldMapping = fieldDefs[key];
-        if (fieldMapping?.radioGroup && !processedGroups.has(fieldMapping.radioGroup)) {
-          processedGroups.add(fieldMapping.radioGroup);
-
-          const groupFields = Object.entries(coordinates)
-            .filter(([k, v]) => {
-              const km = fieldDefs[k];
-              return km?.radioGroup === fieldMapping.radioGroup && fieldsBeforeCategories.includes(k);
-            })
-            .sort((a, b) => {
-              const indexA = orderedKeys.indexOf(a[0]);
-              const indexB = orderedKeys.indexOf(b[0]);
-              if (indexA !== -1 && indexB !== -1) return indexA - indexB;
-              const numA = parseInt(a[0].match(/\d+$/)?.[0] || 0);
-              const numB = parseInt(b[0].match(/\d+$/)?.[0] || 0);
-              return numA - numB;
-            });
-
-          groupFields.forEach(([k]) => processedKeys.add(k));
-
-          const firstKey = groupFields[0][0];
-          let selectedKey = firstKey;
-          for (const [k, v] of groupFields) {
-            if (v.isSelected) {
-              selectedKey = k;
-              break;
-            }
-          }
-
-          const div = document.createElement('div');
-          div.className = 'field-group';
-          div.setAttribute('data-radio-group', fieldMapping.radioGroup);
-
-          const firstFieldMapping = fieldDefs[firstKey];
-          const groupLabel = firstFieldMapping?.label || fieldMapping.radioGroup;
-
-          const options = groupFields.map(([k, v]) => {
-            const mapping = fieldDefs[k];
-            const optionLabel = mapping?.optionLabel || mapping?.label || k;
-            return `<option value="${k}" ${selectedKey === k ? 'selected' : ''}>${optionLabel}</option>`;
-          }).join('');
-
-          const showSampleData = document.getElementById('show-sample-data')?.checked;
-          const selectorHtml = showSampleData ? `
-              <div class="coordinate-input">
-                <label>選択:</label>
-                <select onchange="updateRadioGroupSelection('${fieldMapping.radioGroup}', this.value)"
-                        class="form-control form-control-sm"
-                        style="width: auto; display: inline-block; margin-left: 10px;">
-                  ${options}
-                </select>
-              </div>
-          ` : '';
-
-          div.innerHTML = `
-            <h6 class="field-header" onclick="toggleField('${fieldMapping.radioGroup}')" style="cursor: pointer; user-select: none;">
-              <span class="toggle-icon" id="toggle-${fieldMapping.radioGroup}">▶</span> ${groupLabel}
-            </h6>
-            <div class="field-controls" id="controls-${fieldMapping.radioGroup}">
-              ${selectorHtml}
-              <div id="radiogroup-fields-${fieldMapping.radioGroup}"></div>
-            </div>
-          `;
-
-          container.appendChild(div);
-          updateRadioGroupSelection(fieldMapping.radioGroup, selectedKey);
-          return;
-        }
-
-        if (fieldMapping?.radioGroup) {
-          return;
-        }
-
-        // 通常フィールドの処理
-        processedKeys.add(key);
-        const div = document.createElement('div');
-        div.className = 'field-group';
-        div.innerHTML = renderSingleFieldHTML(key, field);
-        container.appendChild(div);
-      });
-    }
-  }
 
   // カテゴリごとにアコーディオンを作成
   categoryOrder.forEach(category => {
@@ -648,15 +515,6 @@ function renderFieldSettings() {
   if (categorizedFields['uncategorized'] && categorizedFields['uncategorized'].length > 0) {
     let uncategorizedFields = categorizedFields['uncategorized'];
 
-    // consent_massage専用：診察日以降のフィールドのみ表示
-    if (currentPdfType === 'consent_massage') {
-      const consentingDateIndex = uncategorizedFields.indexOf('consenting_date');
-      if (consentingDateIndex !== -1) {
-        // 診察日より後のフィールドのみ
-        uncategorizedFields = uncategorizedFields.slice(consentingDateIndex + 1);
-      }
-    }
-
     // カテゴリヘッダーなしで直接フィールドを表示
     uncategorizedFields.forEach(key => {
         if (processedKeys.has(key)) return;
@@ -996,7 +854,7 @@ function renderSingleFieldHTML(key, field) {
 
       ${field.fontSize !== undefined && !(field.ellipseWidth || field.ellipseHeight || field.lineWidth) ? `
       <div class="coordinate-input">
-        <label>フォントサイズ:</label>
+        <label>ﾌｫﾝﾄｻｲｽﾞ:</label>
         <button class="btn btn-sm btn-outline-secondary btn-adjust"
                 onmousedown="startLongPress('${key}', 'fontSize', -0.5)"
                 onmouseup="stopLongPress()"
@@ -1059,7 +917,7 @@ function renderSingleFieldHTML(key, field) {
 
       ${field.maxCharsPerLine !== undefined ? `
       <div class="coordinate-input">
-        <label>1行あたり文字数:</label>
+        <label>1行字数:</label>
         <button class="btn btn-sm btn-outline-secondary btn-adjust"
                 onmousedown="startLongPress('${key}', 'maxCharsPerLine', -1)"
                 onmouseup="stopLongPress()"
@@ -1101,13 +959,27 @@ function renderSingleFieldHTML(key, field) {
 
       ${field.textAlign !== undefined ? `
       <div class="coordinate-input">
-        <label>配置:</label>
-        <select onchange="updateCoordinate('${key}', 'textAlign', this.value)"
-                class="form-control form-control-sm" style="width: auto;" data-property="textAlign">
-          <option value="left" ${field.textAlign === 'left' ? 'selected' : ''}>左</option>
-          <option value="center" ${field.textAlign === 'center' ? 'selected' : ''}>中央</option>
-          <option value="right" ${field.textAlign === 'right' ? 'selected' : ''}>右</option>
-        </select>
+        <label>配置 (横):</label>
+        <div class="btn-group btn-group-sm" role="group" style="display: inline-flex;" data-property="textAlign">
+          <button type="button" class="btn btn-outline-secondary ${field.textAlign === 'left' ? 'active' : ''}"
+                  title="左揃え" onclick="updateCoordinate('${key}', 'textAlign', 'left')">左</button>
+          <button type="button" class="btn btn-outline-secondary ${field.textAlign === 'center' || !field.textAlign ? 'active' : ''}"
+                  title="中央揃え" onclick="updateCoordinate('${key}', 'textAlign', 'center')">中央</button>
+          <button type="button" class="btn btn-outline-secondary ${field.textAlign === 'right' ? 'active' : ''}"
+                  title="右揃え" onclick="updateCoordinate('${key}', 'textAlign', 'right')">右</button>
+        </div>
+      </div>
+      ` : ''}
+
+      ${field.verticalAlign !== undefined ? `
+      <div class="coordinate-input">
+        <label>配置 (縦):</label>
+        <div class="btn-group btn-group-sm" role="group" style="display: inline-flex;" data-property="verticalAlign">
+          <button type="button" class="btn btn-outline-secondary ${field.verticalAlign === 'top' || !field.verticalAlign ? 'active' : ''}"
+                  title="上揃え" onclick="updateCoordinate('${key}', 'verticalAlign', 'top')">上</button>
+          <button type="button" class="btn btn-outline-secondary ${field.verticalAlign === 'middle' ? 'active' : ''}"
+                  title="Y中央揃え（y座標が中心点）" onclick="updateCoordinate('${key}', 'verticalAlign', 'middle')">中央</button>
+        </div>
       </div>
       ` : ''}
 
@@ -1417,7 +1289,7 @@ function updateCompositeGroupSelection(groupName, selectedKey) {
   if (!isShapeOnly && selectedField.fontSize !== undefined) {
   const fsDiv = document.createElement('div');
   fsDiv.className = 'coordinate-input';
-  fsDiv.innerHTML = `<label>フォントサイズ:</label>`;
+  fsDiv.innerHTML = `<label>ﾌｫﾝﾄｻｲｽﾞ:</label>`;
   
   const fsBtnMinus = document.createElement('button');
   fsBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
@@ -1549,7 +1421,7 @@ function updateCompositeGroupSelection(groupName, selectedKey) {
   if (!isShapeOnly && selectedField.maxCharsPerLine !== undefined) {
   const mcplDiv = document.createElement('div');
   mcplDiv.className = 'coordinate-input';
-  mcplDiv.innerHTML = `<label>1行あたり文字数:</label>`;
+  mcplDiv.innerHTML = `<label>1行字数:</label>`;
 
   const mcplBtnMinus = document.createElement('button');
   mcplBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
@@ -1637,30 +1509,31 @@ function updateCompositeGroupSelection(groupName, selectedKey) {
   if (!isShapeOnly && selectedField.textAlign !== undefined) {
   const taDiv = document.createElement('div');
   taDiv.className = 'coordinate-input';
-  taDiv.innerHTML = `<label>テキスト配置:</label>`;
+  taDiv.innerHTML = `<label>配置 (横):</label>`;
   
   const taBtnGroup = document.createElement('div');
-  taBtnGroup.className = 'btn-group btn-group-sm d-flex';
+  taBtnGroup.className = 'btn-group btn-group-sm';
   taBtnGroup.setAttribute('role', 'group');
-  taBtnGroup.style.marginLeft = '10px';
+  taBtnGroup.setAttribute('data-property', 'textAlign');
+  taBtnGroup.style.display = 'inline-flex';
   
   const taLeft = document.createElement('button');
   taLeft.type = 'button';
-  taLeft.className = `btn btn-outline-secondary flex-fill ${selectedField.textAlign === 'left' ? 'active' : ''}`;
+  taLeft.className = `btn btn-outline-secondary ${selectedField.textAlign === 'left' ? 'active' : ''}`;
   taLeft.innerHTML = '左';
   taLeft.title = '左揃え';
   taLeft.addEventListener('click', () => updateCoordinate(selectedKey, 'textAlign', 'left'));
   
   const taCenter = document.createElement('button');
   taCenter.type = 'button';
-  taCenter.className = `btn btn-outline-secondary flex-fill ${selectedField.textAlign === 'center' || !selectedField.textAlign ? 'active' : ''}`;
+  taCenter.className = `btn btn-outline-secondary ${selectedField.textAlign === 'center' || !selectedField.textAlign ? 'active' : ''}`;
   taCenter.innerHTML = '中央';
   taCenter.title = '中央揃え';
   taCenter.addEventListener('click', () => updateCoordinate(selectedKey, 'textAlign', 'center'));
   
   const taRight = document.createElement('button');
   taRight.type = 'button';
-  taRight.className = `btn btn-outline-secondary flex-fill ${selectedField.textAlign === 'right' ? 'active' : ''}`;
+  taRight.className = `btn btn-outline-secondary ${selectedField.textAlign === 'right' ? 'active' : ''}`;
   taRight.innerHTML = '右';
   taRight.title = '右揃え';
   taRight.addEventListener('click', () => updateCoordinate(selectedKey, 'textAlign', 'right'));
@@ -1670,6 +1543,38 @@ function updateCompositeGroupSelection(groupName, selectedKey) {
   taBtnGroup.appendChild(taRight);
   taDiv.appendChild(taBtnGroup);
   detailsDiv.appendChild(taDiv);
+  }
+
+  // Y軸配置（verticalAlign）
+  if (!isShapeOnly && selectedField.verticalAlign !== undefined) {
+  const vaDiv = document.createElement('div');
+  vaDiv.className = 'coordinate-input';
+  vaDiv.innerHTML = `<label>配置 (縦):</label>`;
+
+  const vaBtnGroup = document.createElement('div');
+  vaBtnGroup.className = 'btn-group btn-group-sm';
+  vaBtnGroup.setAttribute('role', 'group');
+  vaBtnGroup.setAttribute('data-property', 'verticalAlign');
+  vaBtnGroup.style.display = 'inline-flex';
+
+  const vaTop = document.createElement('button');
+  vaTop.type = 'button';
+  vaTop.className = `btn btn-outline-secondary ${selectedField.verticalAlign === 'top' || !selectedField.verticalAlign ? 'active' : ''}`;
+  vaTop.innerHTML = '上';
+  vaTop.title = '上揃え';
+  vaTop.addEventListener('click', () => updateCoordinate(selectedKey, 'verticalAlign', 'top'));
+
+  const vaMiddle = document.createElement('button');
+  vaMiddle.type = 'button';
+  vaMiddle.className = `btn btn-outline-secondary ${selectedField.verticalAlign === 'middle' ? 'active' : ''}`;
+  vaMiddle.innerHTML = '中央';
+  vaMiddle.title = 'Y中央揃え（y座標が中心点）';
+  vaMiddle.addEventListener('click', () => updateCoordinate(selectedKey, 'verticalAlign', 'middle'));
+
+  vaBtnGroup.appendChild(vaTop);
+  vaBtnGroup.appendChild(vaMiddle);
+  vaDiv.appendChild(vaBtnGroup);
+  detailsDiv.appendChild(vaDiv);
   }
 
   // 折り返し幅（複数行テキストの場合）
@@ -2091,7 +1996,7 @@ function updateRadioGroupSelection(groupName, selectedKey) {
   if (!isShapeOnly && selectedField.fontSize !== undefined) {
     const fsDiv = document.createElement('div');
     fsDiv.className = 'coordinate-input';
-    fsDiv.innerHTML = `<label>フォントサイズ:</label>`;
+    fsDiv.innerHTML = `<label>ﾌｫﾝﾄｻｲｽﾞ:</label>`;
   
   const fsBtnMinus = document.createElement('button');
   fsBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
@@ -2223,7 +2128,7 @@ function updateRadioGroupSelection(groupName, selectedKey) {
   if (!isShapeOnly && selectedField.maxCharsPerLine !== undefined) {
     const mcplDiv = document.createElement('div');
     mcplDiv.className = 'coordinate-input';
-    mcplDiv.innerHTML = `<label>1行あたり文字数:</label>`;
+    mcplDiv.innerHTML = `<label>1行字数:</label>`;
 
   const mcplBtnMinus = document.createElement('button');
   mcplBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';

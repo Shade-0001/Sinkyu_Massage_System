@@ -94,7 +94,7 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
       ->leftJoin('medical_institutions', 'doctors.medical_institutions_id', '=', 'medical_institutions.id')
       ->leftJoin('bill_categories', 'consents_acupuncture.bill_category_id', '=', 'bill_categories.id')
       ->leftJoin('illnesses_acupuncture', 'consents_acupuncture.illness_name_acupuncture_id', '=', 'illnesses_acupuncture.id')
-      ->leftJoin('conditions', 'consents_acupuncture.condition', '=', 'conditions.id')
+      ->leftJoin('conditions', 'consents_acupuncture.condition_id', '=', 'conditions.id')
       ->where('consents_acupuncture.clinic_user_id', $clinicUserId)
       ->orderBy('consents_acupuncture.consenting_date', 'desc')
       ->select(
@@ -351,16 +351,7 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
       case 'illness_name':
         if (!$consent) return null;
         $illnessName = $consent->illness_name_acupuncture ?? '';
-        $addendum = $consent->illness_name_acupuncture_addendum ?? '';
-        // マスタ傷病名と追記を組み合わせ
-        if (!empty($illnessName) && !empty($addendum)) {
-          return $illnessName . '（' . $addendum . '）';
-        } elseif (!empty($illnessName)) {
-          return $illnessName;
-        } elseif (!empty($addendum)) {
-          return $addendum;
-        }
-        return null;
+        return !empty($illnessName) ? $illnessName : null;
       case 'onset_date':
         if ($consent && isset($consent->onset_and_injury_date)) {
           return $this->convertToJapaneseDate($consent->onset_and_injury_date);
