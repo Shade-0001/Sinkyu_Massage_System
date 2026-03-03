@@ -138,8 +138,10 @@ function adjustPdfPreviewHeight() {
   const el = document.getElementById('pdf-preview');
   if (!el) return;
   const top = el.getBoundingClientRect().top;
-  const margin = 16; // 下余白
-  el.style.height = (window.innerHeight - top - margin) + 'px';
+  const cardBodyPaddingBottom = 16; // Bootstrap card-body padding
+  const cardBorderBottom = 1;
+  const bottomMargin = 8; // mt-2 相当
+  el.style.height = (window.innerHeight - top - cardBodyPaddingBottom - cardBorderBottom - bottomMargin) + 'px';
 }
 document.addEventListener('DOMContentLoaded', adjustPdfPreviewHeight);
 window.addEventListener('resize', adjustPdfPreviewHeight);
