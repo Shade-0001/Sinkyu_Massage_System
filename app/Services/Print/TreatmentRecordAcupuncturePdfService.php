@@ -292,14 +292,14 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
         }
         return $insurance->insured_name ?? null;
       case 'insured_person_gender':
-        // 本人の場合は利用者の性別
-        if ($insurance && isset($insurance->subject_type) && $insurance->subject_type === '本人') {
+        // 家族以外（本人・六歳・高齢等）は利用者の性別を使用
+        if ($insurance && isset($insurance->subject_type) && $insurance->subject_type !== '家族') {
           return $clinicUser->gender ?? null;
         }
         return null;
       case 'insured_person_birthday':
-        // 本人の場合は利用者の生年月日を和暦変換
-        if ($insurance && isset($insurance->subject_type) && $insurance->subject_type === '本人') {
+        // 家族以外（本人・六歳・高齢等）は利用者の生年月日を和暦変換
+        if ($insurance && isset($insurance->subject_type) && $insurance->subject_type !== '家族') {
           if (isset($clinicUser->birthday)) {
             return $this->convertToJapaneseDate($clinicUser->birthday);
           }
@@ -309,14 +309,14 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
         if (!$insurance || !isset($insurance->expiry_date)) return null;
         return $this->convertToJapaneseDate($insurance->expiry_date);
       case 'insured_person_postal_code':
-        // 本人の場合は利用者の郵便番号
-        if ($insurance && isset($insurance->subject_type) && $insurance->subject_type === '本人') {
+        // 家族以外（本人・六歳・高齢等）は利用者の郵便番号を使用
+        if ($insurance && isset($insurance->subject_type) && $insurance->subject_type !== '家族') {
           return $clinicUser->postal_code ?? null;
         }
         return null;
       case 'insured_person_address':
-        // 本人の場合は利用者の住所（address_1, address_2, address_3を結合）
-        if ($insurance && isset($insurance->subject_type) && $insurance->subject_type === '本人') {
+        // 家族以外（本人・六歳・高齢等）は利用者の住所を使用（address_1, address_2, address_3を結合）
+        if ($insurance && isset($insurance->subject_type) && $insurance->subject_type !== '家族') {
           $address = ($clinicUser->address_1 ?? '') . ($clinicUser->address_2 ?? '') . ($clinicUser->address_3 ?? '');
           return !empty($address) ? $address : null;
         }
