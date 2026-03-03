@@ -532,12 +532,12 @@
     },
     "applicant_address": {
         "x": 122,
-        "y": 211.5,
+        "y": 210,
         "fontSize": 9,
         "letterSpacing": 0,
         "textAlign": "left",
         "type": "text",
-        "lineHeight": 5,
+        "lineHeight": 3.5,
         "maxCharsPerLine": 20,
         "verticalAlign": "middle"
     },
@@ -1470,8 +1470,8 @@
         "letterSpacing": 0,
         "textAlign": "left",
         "type": "text",
-        "lineHeight": 5,
-        "maxCharsPerLine": 20,
+        "lineHeight": 3.5,
+        "maxCharsPerLine": 19,
         "verticalAlign": "middle"
     },
     "patient_phone": {

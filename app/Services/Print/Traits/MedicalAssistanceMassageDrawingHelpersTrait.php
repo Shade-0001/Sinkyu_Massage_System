@@ -200,6 +200,12 @@ trait MedicalAssistanceMassageDrawingHelpersTrait
       return;
     }
 
+    // 1行テキストにもverticalAlign: 'middle' を適用
+    $lineHeight = $this->coordinates[$key]['lineHeight'] ?? 5;
+    if ($verticalAlign === 'middle') {
+      $y = $y - ($lineHeight / 2);
+    }
+
     if (empty($letterSpacing) && $textAlign === 'left') {
       $pdf->Text($x, $y, $text);
       return;

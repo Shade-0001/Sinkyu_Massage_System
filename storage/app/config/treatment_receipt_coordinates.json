@@ -244,7 +244,10 @@
         "fontSize": 11,
         "letterSpacing": 0,
         "textAlign": "left",
-        "type": "text"
+        "type": "text",
+        "lineHeight": 5,
+        "maxCharsPerLine": 20,
+        "verticalAlign": "middle"
     },
     "clinic_name": {
         "x": 78,

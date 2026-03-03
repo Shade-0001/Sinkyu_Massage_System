@@ -570,7 +570,10 @@
         "x": 70,
         "y": 296,
         "fontSize": 9,
-        "letterSpacing": 0
+        "letterSpacing": 0,
+        "lineHeight": 5,
+        "maxCharsPerLine": 20,
+        "verticalAlign": "middle"
     },
     "temporary_insurer_name": {
         "x": -34,
