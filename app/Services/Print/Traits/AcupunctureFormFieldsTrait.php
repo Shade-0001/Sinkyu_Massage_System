@@ -978,7 +978,7 @@ protected function fillClinicInfoSection(Fpdi $pdf, $clinicInfo, string $submiss
         } else {
           $therapist = DB::table('therapists')->first();
           if ($therapist) {
-            $therapistName = ($therapist->last_name ?? '') . ' ' . ($therapist->first_name ?? '');
+            $therapistName = ($therapist->last_name ?? '') . '  ' . ($therapist->first_name ?? '');
             if (empty(trim($therapistName))) {
               \Log::warning('施術管理者氏名が設定されていません', ['therapist' => $therapist]);
             }
@@ -1050,7 +1050,7 @@ protected function fillConsentRecordSection(Fpdi $pdf, $consent): void
       } elseif ($consent && $consent->consenting_doctor_id) {
         $doctor = DB::table('doctors')->where('id', $consent->consenting_doctor_id)->first();
         if ($doctor) {
-          $consentDoctorName = ($doctor->last_name ?? '') . ' ' . ($doctor->first_name ?? '');
+          $consentDoctorName = ($doctor->last_name ?? '') . '  ' . ($doctor->first_name ?? '');
         }
       }
       if ($consentDoctorName) {
@@ -1464,7 +1464,7 @@ protected function fillRealDataModeFields(Fpdi $pdf, array $data, $insurance, $c
           
           if ($doctor) {
             // 同意医師氏名
-            $doctorName = ($doctor->last_name ?? '') . ' ' . ($doctor->first_name ?? '');
+            $doctorName = ($doctor->last_name ?? '') . '  ' . ($doctor->first_name ?? '');
             if ($this->hasCoord('consent_record_doctor_name') && $doctorName) {
               $pdf->SetFontSize($this->coord('consent_record_doctor_name', 'fontSize'));
               $this->drawTextByKey($pdf, 'consent_record_doctor_name', (string)$doctorName);
@@ -1637,7 +1637,7 @@ protected function fillRealDataModeFields(Fpdi $pdf, array $data, $insurance, $c
 
         // 代理人氏名: 開設者氏名（owner_last_name + owner_first_name）を使用
         if ($this->hasCoord('agent_name') && isset($clinicInfo->owner_last_name) && isset($clinicInfo->owner_first_name)) {
-          $agentName = $clinicInfo->owner_last_name . ' ' . $clinicInfo->owner_first_name;
+          $agentName = $clinicInfo->owner_last_name . '  ' . $clinicInfo->owner_first_name;
           $pdf->SetFontSize($this->coord('agent_name', 'fontSize'));
           $this->drawTextByKey($pdf, 'agent_name', trim($agentName));
         }
