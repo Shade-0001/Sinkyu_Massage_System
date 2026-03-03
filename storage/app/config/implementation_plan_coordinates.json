@@ -178,53 +178,56 @@
         "letterSpacing": 0
     },
     "ip_clinic_postal_code": {
-        "x": 135,
-        "y": 255,
+        "x": 115,
+        "y": 252.5,
         "textAlign": "left",
         "field": "ip_clinic_postal_code",
         "label": "事業所郵便番号",
         "type": "text",
-        "fontSize": 10,
+        "fontSize": 11,
         "letterSpacing": 0
     },
     "ip_clinic_address": {
-        "x": 135,
-        "y": 260,
+        "x": 115,
+        "y": 263,
         "textAlign": "left",
         "field": "ip_clinic_address",
         "label": "事業所住所",
         "type": "text",
-        "fontSize": 10,
-        "letterSpacing": 0
+        "fontSize": 11,
+        "letterSpacing": 0,
+        "lineHeight": 5,
+        "maxCharsPerLine": 20,
+        "verticalAlign": "middle"
     },
     "ip_clinic_phone": {
-        "x": 135,
-        "y": 266,
+        "x": 115,
+        "y": 269,
         "textAlign": "left",
         "field": "ip_clinic_phone",
         "label": "事業所電話番号",
         "type": "text",
-        "fontSize": 10,
+        "fontSize": 11,
         "letterSpacing": 0
     },
     "ip_clinic_name": {
-        "x": 135,
-        "y": 271.5,
+        "x": 115,
+        "y": 275,
         "textAlign": "left",
         "field": "ip_clinic_name",
         "label": "事業所名",
         "type": "text",
-        "fontSize": 12,
+        "fontSize": 14,
         "letterSpacing": 0
     },
     "ip_clinic_owner_name": {
-        "x": 135,
-        "y": 278,
+        "x": 115,
+        "y": 282,
         "textAlign": "left",
         "field": "ip_clinic_owner_name",
         "label": "事業所代表者氏名",
         "type": "text",
-        "fontSize": 10,
+        "fontSize": 12,
         "letterSpacing": 0
     }
 }
