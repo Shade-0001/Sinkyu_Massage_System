@@ -746,6 +746,10 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
         $clinicPostalCode = $this->sampleDataMode && isset($this->customSampleData['clinic_postal_code'])
           ? $this->customSampleData['clinic_postal_code']
           : ($clinicInfo->postal_code ?? '');
+        $clinicPostalCodeNumbers = preg_replace('/[^0-9]/', '', $clinicPostalCode);
+        if (strlen($clinicPostalCodeNumbers) === 7) {
+          $clinicPostalCode = substr($clinicPostalCodeNumbers, 0, 3) . '-' . substr($clinicPostalCodeNumbers, 3, 4);
+        }
         $this->drawTextByKey($pdf, 'clinic_postal_code', (string)$clinicPostalCode);
       }
       // 施術所住所
@@ -1506,7 +1510,11 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
       if ($this->signatureOption !== 'user_address_signature_blank') {
         if ($this->hasCoord('signature_applicant_postal_code') && isset($clinicUser->postal_code)) {
           $pdf->SetFontSize($this->coord('signature_applicant_postal_code', 'fontSize'));
-          $this->drawTextByKey($pdf, 'signature_applicant_postal_code', (string)$clinicUser->postal_code);
+          $sigPostalCodeNumbers = preg_replace('/[^0-9]/', '', $clinicUser->postal_code);
+          $sigFormattedPostalCode = (strlen($sigPostalCodeNumbers) === 7)
+            ? substr($sigPostalCodeNumbers, 0, 3) . '-' . substr($sigPostalCodeNumbers, 3, 4)
+            : $sigPostalCodeNumbers;
+          $this->drawTextByKey($pdf, 'signature_applicant_postal_code', $sigFormattedPostalCode);
         }
         if ($this->hasCoord('signature_applicant_address')) {
           $signatureAddress = ($clinicUser->address_1 ?? '') . ($clinicUser->address_2 ?? '') . ($clinicUser->address_3 ?? '');

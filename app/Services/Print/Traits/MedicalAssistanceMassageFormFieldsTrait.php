@@ -1372,6 +1372,10 @@ trait MedicalAssistanceMassageFormFieldsTrait
       $clinicPostalCode = $this->sampleDataMode && isset($this->customSampleData['clinic_postal_code'])
         ? $this->customSampleData['clinic_postal_code']
         : ($clinicInfo->postal_code ?? '');
+      $clinicPostalCodeNumbers = preg_replace('/[^0-9]/', '', $clinicPostalCode);
+      if (strlen($clinicPostalCodeNumbers) === 7) {
+        $clinicPostalCode = substr($clinicPostalCodeNumbers, 0, 3) . '-' . substr($clinicPostalCodeNumbers, 3, 4);
+      }
       $this->drawTextByKey($pdf, 'clinic_postal_code', (string)$clinicPostalCode);
     }
 
