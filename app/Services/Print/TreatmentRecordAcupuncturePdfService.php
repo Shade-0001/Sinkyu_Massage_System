@@ -147,10 +147,10 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
     $clinicUser = (object)[
       'last_name' => $custom['last_name'] ?? '田中',
       'first_name' => $custom['first_name'] ?? '太郎',
-      'gender' => $custom['user_gender'] ?? '男',
-      'birthday' => '1980-03-15',
-      'postal_code' => '1600022',
-      'address_1' => '東京都新宿区新宿2-3-4',
+      'gender' => $custom['insured_person_gender'] ?? $custom['user_gender'] ?? '男',
+      'birthday' => '1955-05-10', // insured_person_birthday のサンプル固定値（和暦変換後: 昭和30年5月10日）
+      'postal_code' => $custom['insured_person_postal_code'] ?? '1600022',
+      'address_1' => $custom['insured_person_address'] ?? '東京都新宿区新宿2-3-4',
       'address_2' => '',
       'address_3' => '',
     ];
@@ -298,6 +298,10 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
         }
         return null;
       case 'insured_person_birthday':
+        // サンプルモード時は customSampleData の和暦文字列をそのまま返す
+        if ($this->sampleDataMode && isset($this->customSampleData['insured_person_birthday'])) {
+          return $this->customSampleData['insured_person_birthday'];
+        }
         // 家族以外（本人・六歳・高齢等）は利用者の生年月日を和暦変換
         if ($insurance && isset($insurance->subject_type) && $insurance->subject_type !== '家族') {
           if (isset($clinicUser->birthday)) {
