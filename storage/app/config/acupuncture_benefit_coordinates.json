@@ -474,22 +474,22 @@
     },
     "clinic_postal_code": {
         "x": 123,
-        "y": 185,
-        "fontSize": 9,
+        "y": 184.5,
+        "fontSize": 8,
         "letterSpacing": 0,
         "textAlign": "left",
         "type": "text"
     },
     "clinic_address": {
         "x": 123,
-        "y": 189,
-        "fontSize": 9,
+        "y": 187.5,
+        "fontSize": 8,
         "letterSpacing": 0,
         "textAlign": "left",
         "type": "text",
-        "lineHeight": 5,
-        "maxCharsPerLine": 20,
-        "verticalAlign": "middle"
+        "lineHeight": 3.5,
+        "maxCharsPerLine": 22,
+        "verticalAlign": null
     },
     "clinic_name": {
         "x": 123,
@@ -517,13 +517,13 @@
     },
     "applicant_address": {
         "x": 122,
-        "y": 210,
+        "y": 212,
         "fontSize": 9,
         "letterSpacing": 0,
         "textAlign": "left",
         "type": "text",
-        "lineHeight": 5,
-        "maxCharsPerLine": 20,
+        "lineHeight": 3.5,
+        "maxCharsPerLine": 22,
         "verticalAlign": "middle"
     },
     "applicant_name": {
@@ -537,20 +537,20 @@
     "agent_postal_code": {
         "x": 136,
         "y": 263,
-        "fontSize": 9,
+        "fontSize": 8,
         "letterSpacing": 0,
         "type": "postal_code",
         "postalCodeGap": 2
     },
     "agent_address": {
         "x": 136,
-        "y": 267,
-        "fontSize": 9,
+        "y": 266,
+        "fontSize": 8,
         "letterSpacing": 0,
         "type": "text",
-        "lineHeight": 5,
+        "lineHeight": 3,
         "maxCharsPerLine": 20,
-        "verticalAlign": "middle"
+        "verticalAlign": null
     },
     "agent_name": {
         "x": 54,
@@ -1418,26 +1418,26 @@
         "type": "text"
     },
     "consent_record_doctor_postal_code": {
-        "x": -155,
-        "y": 245,
-        "fontSize": 9,
+        "x": -158,
+        "y": 244,
+        "fontSize": 8,
         "letterSpacing": 0,
         "textAlign": "left",
         "type": "postal_code",
-        "firstX": -155,
-        "lastX": -153,
-        "firstY": 245,
-        "lastY": 245
+        "firstX": -158,
+        "lastX": -156,
+        "firstY": 244,
+        "lastY": 244
     },
     "consent_record_doctor_address": {
-        "x": -30,
-        "y": 249,
-        "fontSize": 9,
+        "x": -158,
+        "y": 250.5,
+        "fontSize": 8,
         "letterSpacing": 0,
-        "textAlign": "center",
+        "textAlign": "left",
         "type": "text",
-        "lineHeight": 5,
-        "maxCharsPerLine": 20,
+        "lineHeight": 3.5,
+        "maxCharsPerLine": 17,
         "verticalAlign": "middle"
     },
     "consent_record_date_year": {
@@ -1512,14 +1512,14 @@
     },
     "signature_applicant_address": {
         "x": 48,
-        "y": 267,
-        "fontSize": 9,
+        "y": 266,
+        "fontSize": 8,
         "letterSpacing": 0,
         "textAlign": "left",
         "type": "text",
-        "lineHeight": 5,
-        "maxCharsPerLine": 20,
-        "verticalAlign": "middle"
+        "lineHeight": 3,
+        "maxCharsPerLine": 19,
+        "verticalAlign": null
     },
     "patient_phone": {
         "x": 173.5,
@@ -1564,5 +1564,20 @@
         "type": "text",
         "field": "consent_date_full",
         "label": "同意年月日"
+    },
+    "signature_applicant_postal_code": {
+        "x": 48,
+        "y": 263,
+        "textAlign": "left",
+        "field": "signature_applicant_postal_code",
+        "label": "委任者郵便番号",
+        "type": "postal_code",
+        "postalCodeGap": 2,
+        "fontSize": 8,
+        "letterSpacing": 0,
+        "firstY": 263,
+        "lastY": 263,
+        "firstX": 48,
+        "lastX": 50
     }
 }

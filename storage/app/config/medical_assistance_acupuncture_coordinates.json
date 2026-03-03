@@ -1156,7 +1156,10 @@
         "field": "therapist_address",
         "type": "text",
         "fontSize": 10,
-        "letterSpacing": 0
+        "letterSpacing": 0,
+        "lineHeight": 5,
+        "maxCharsPerLine": 20,
+        "verticalAlign": "middle"
     },
     "therapist_name": {
         "x": 87,
@@ -1897,7 +1900,10 @@
         "label": "申請者住所",
         "type": "text",
         "fontSize": 9,
-        "letterSpacing": 0
+        "letterSpacing": 0,
+        "lineHeight": 5,
+        "maxCharsPerLine": 20,
+        "verticalAlign": "middle"
     },
     "applicant_name": {
         "x": -126,
@@ -1927,7 +1933,10 @@
         "label": "代理人住所",
         "type": "text",
         "fontSize": 9,
-        "letterSpacing": 0
+        "letterSpacing": 0,
+        "lineHeight": 5,
+        "maxCharsPerLine": 20,
+        "verticalAlign": "middle"
     },
     "temporary_insurer_name": {
         "x": 67.5,
@@ -1962,7 +1971,10 @@
         "label": "委任者住所",
         "type": "text",
         "fontSize": 9,
-        "letterSpacing": 0
+        "letterSpacing": 0,
+        "lineHeight": 5,
+        "maxCharsPerLine": 20,
+        "verticalAlign": "middle"
     },
     "consent_record_doctor_name": {
         "x": -71.5,
@@ -1997,7 +2009,10 @@
         "label": "同意医師住所",
         "type": "text",
         "fontSize": 9,
-        "letterSpacing": 0
+        "letterSpacing": 0,
+        "lineHeight": 5,
+        "maxCharsPerLine": 20,
+        "verticalAlign": "middle"
     },
     "consent_record_illness_name": {
         "x": 51,

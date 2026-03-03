@@ -113,7 +113,16 @@
       "Bash(C:/xampp/mysql/bin/mysqldump.exe -u root -h 127.0.0.1 -P 3306 sinkyu_massage_system_db)",
       "Bash(/i/XAMPP/mysql/bin/mysqldump.exe -u root -h 127.0.0.1 -P 3306 sinkyu_massage_system_db)",
       "Bash(do)",
-      "Bash(/tmp/analyze.py:*)"
+      "Bash(/tmp/analyze.py:*)",
+      "Bash(git -C /i/XAMPP/htdocs/Sinkyu_Massage_System log --oneline --all)",
+      "Bash(git -C /i/XAMPP/htdocs/Sinkyu_Massage_System log --all --oneline --grep=\"coordinate-adjuster\\\\|不要なフィールド\\\\|hidden\\\\|fieldDefinitions\")",
+      "Bash(git -C /i/XAMPP/htdocs/Sinkyu_Massage_System log --all --oneline -20)",
+      "Bash(git -C /i/XAMPP/htdocs/Sinkyu_Massage_System show 2c9ff4a --stat)",
+      "Bash(git -C /i/XAMPP/htdocs/Sinkyu_Massage_System show 2c9ff4a)",
+      "Bash(git -C /i/XAMPP/htdocs/Sinkyu_Massage_System show 2c9ff4a^:public/js/coordinate-adjuster_ui.js)",
+      "Bash(git -C /i/XAMPP/htdocs/Sinkyu_Massage_System show 578dc20 --stat)",
+      "Bash(git -C /i/XAMPP/htdocs/Sinkyu_Massage_System log --all --oneline --since=\"2026-03-02\" --until=\"2026-03-03\")",
+      "Bash(git -C /i/XAMPP/htdocs/Sinkyu_Massage_System show 2c9ff4a:public/js/coordinate-adjuster_ui.js)"
     ],
     "deny": [],
     "ask": []

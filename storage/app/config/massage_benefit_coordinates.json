@@ -536,7 +536,10 @@
         "fontSize": 9,
         "letterSpacing": 0,
         "textAlign": "left",
-        "type": "text"
+        "type": "text",
+        "lineHeight": 5,
+        "maxCharsPerLine": 20,
+        "verticalAlign": "middle"
     },
     "applicant_name": {
         "x": 122,
@@ -560,7 +563,10 @@
         "y": 267,
         "fontSize": 9,
         "letterSpacing": 0,
-        "type": "text"
+        "type": "text",
+        "lineHeight": 5,
+        "maxCharsPerLine": 20,
+        "verticalAlign": "middle"
     },
     "agent_name": {
         "x": 58,
@@ -1382,7 +1388,10 @@
         "fontSize": 9,
         "letterSpacing": 0,
         "textAlign": "left",
-        "type": "text"
+        "type": "text",
+        "lineHeight": 5,
+        "maxCharsPerLine": 20,
+        "verticalAlign": "middle"
     },
     "consent_record_date_year": {
         "x": 9.5,
@@ -1460,7 +1469,10 @@
         "fontSize": 9,
         "letterSpacing": 0,
         "textAlign": "left",
-        "type": "text"
+        "type": "text",
+        "lineHeight": 5,
+        "maxCharsPerLine": 20,
+        "verticalAlign": "middle"
     },
     "patient_phone": {
         "x": 173.5,
