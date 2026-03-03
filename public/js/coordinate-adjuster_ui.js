@@ -959,7 +959,7 @@ function renderSingleFieldHTML(key, field) {
 
       ${field.textAlign !== undefined ? `
       <div class="coordinate-input">
-        <label>配置(横):</label>
+        <label>配置 (横):</label>
         <div class="btn-group btn-group-sm" role="group" style="display: inline-flex;" data-property="textAlign">
           <button type="button" class="btn btn-outline-secondary ${field.textAlign === 'left' ? 'active' : ''}"
                   title="左揃え" onclick="updateCoordinate('${key}', 'textAlign', 'left')">左</button>
@@ -973,7 +973,7 @@ function renderSingleFieldHTML(key, field) {
 
       ${field.verticalAlign !== undefined ? `
       <div class="coordinate-input">
-        <label>配置(縦):</label>
+        <label>配置 (縦):</label>
         <div class="btn-group btn-group-sm" role="group" style="display: inline-flex;" data-property="verticalAlign">
           <button type="button" class="btn btn-outline-secondary ${field.verticalAlign === 'top' || !field.verticalAlign ? 'active' : ''}"
                   title="上揃え" onclick="updateCoordinate('${key}', 'verticalAlign', 'top')">上</button>
@@ -1509,7 +1509,7 @@ function updateCompositeGroupSelection(groupName, selectedKey) {
   if (!isShapeOnly && selectedField.textAlign !== undefined) {
   const taDiv = document.createElement('div');
   taDiv.className = 'coordinate-input';
-  taDiv.innerHTML = `<label>配置(横):</label>`;
+  taDiv.innerHTML = `<label>配置 (横):</label>`;
   
   const taBtnGroup = document.createElement('div');
   taBtnGroup.className = 'btn-group btn-group-sm';
@@ -1549,7 +1549,7 @@ function updateCompositeGroupSelection(groupName, selectedKey) {
   if (!isShapeOnly && selectedField.verticalAlign !== undefined) {
   const vaDiv = document.createElement('div');
   vaDiv.className = 'coordinate-input';
-  vaDiv.innerHTML = `<label>配置(縦):</label>`;
+  vaDiv.innerHTML = `<label>配置 (縦):</label>`;
 
   const vaBtnGroup = document.createElement('div');
   vaBtnGroup.className = 'btn-group btn-group-sm';
