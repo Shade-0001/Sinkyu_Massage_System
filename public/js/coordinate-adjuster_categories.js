@@ -1137,14 +1137,12 @@ const categoryOrderImplementationPlan = [
 // 新しいPDFタイプ追加時、この関数にケースを追加すること
 // ============================================================
 function getFieldCategories(pdfType) {
-  // fieldsFileが空の場合は空オブジェクトを返す
   const pdfTypes = window.coordinateAdjusterData?.pdfTypes || {};
   const currentConfig = pdfTypes[pdfType] || {};
 
-  if (!currentConfig.fieldsFile || currentConfig.fieldsFile === '') {
-    return {};
-  }
-
+  // PDFタイプ別の分岐を先に処理
+  // ※fieldsFileが空でも独自定義を持つPDFタイプ（consent_acupunctureなど）があるため
+  //   fieldsFileチェックはタイプ別分岐の後ろに置くこと（getFieldDefinitions()と同様）
   if (pdfType === 'power_of_attorney_application') {
     return fieldCategoriesPowerOfAttorneyApplication;
   } else if (pdfType === 'power_of_attorney_consent') {
@@ -1180,6 +1178,12 @@ function getFieldCategories(pdfType) {
   } else if (pdfType === 'therapy_benefit_acupuncture') {
     return fieldCategoriesTherapyBenefitAcupuncture;
   }
+
+  // fieldsFileが空の場合は空オブジェクトを返す（フォールバック）
+  if (!currentConfig.fieldsFile || currentConfig.fieldsFile === '') {
+    return {};
+  }
+
   return fieldCategoriesTherapyBenefitAcupuncture;
 }
 
@@ -1190,14 +1194,12 @@ function getFieldCategories(pdfType) {
 // 新しいPDFタイプ追加時、この関数にケースを追加すること
 // ============================================================
 function getCategoryOrder(pdfType) {
-  // fieldsFileが空の場合は空配列を返す
   const pdfTypes = window.coordinateAdjusterData?.pdfTypes || {};
   const currentConfig = pdfTypes[pdfType] || {};
 
-  if (!currentConfig.fieldsFile || currentConfig.fieldsFile === '') {
-    return [];
-  }
-
+  // PDFタイプ別の分岐を先に処理
+  // ※fieldsFileが空でも独自定義を持つPDFタイプ（consent_acupunctureなど）があるため
+  //   fieldsFileチェックはタイプ別分岐の後ろに置くこと（getFieldDefinitions()と同様）
   if (pdfType === 'power_of_attorney_application') {
     return categoryOrderPowerOfAttorneyApplication;
   } else if (pdfType === 'power_of_attorney_consent') {
@@ -1229,5 +1231,11 @@ function getCategoryOrder(pdfType) {
   } else if (pdfType === 'therapy_benefit_acupuncture') {
     return categoryOrderTherapyBenefitAcupuncture;
   }
+
+  // fieldsFileが空の場合は空配列を返す（フォールバック）
+  if (!currentConfig.fieldsFile || currentConfig.fieldsFile === '') {
+    return [];
+  }
+
   return categoryOrderTherapyBenefitAcupuncture;
 }
