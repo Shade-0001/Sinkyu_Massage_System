@@ -147,6 +147,9 @@ trait AcupunctureDrawingHelpersTrait
       $alignmentWidth = $pdf->GetPageWidth();
     }
 
+    $lineHeight = $this->coordinates[$key]['lineHeight'] ?? 5;
+    $verticalAlign = $this->coordinates[$key]['verticalAlign'] ?? 'top';
+
     // maxCharsPerLineが設定されている場合は折り返し処理
     if ($maxCharsPerLine && mb_strlen($text) > $maxCharsPerLine) {
       $lines = [];
@@ -164,45 +167,35 @@ trait AcupunctureDrawingHelpersTrait
       if ($currentLine !== '') {
         $lines[] = $currentLine;
       }
+    } else {
+      $lines = [$text];
+    }
 
-      // 各行を描画
-      $lineHeight = $this->coordinates[$key]['lineHeight'] ?? 5;
-      $verticalAlign = $this->coordinates[$key]['verticalAlign'] ?? 'top';
+    // verticalAlign: 'middle' の場合、yを中心点として上方向にオフセット
+    $startY = $y;
+    if ($verticalAlign === 'middle') {
+      $totalHeight = count($lines) * $lineHeight;
+      $startY = $y - ($totalHeight / 2);
+    }
 
-      // verticalAlign: 'middle' の場合、yを中心点として上方向にオフセット
-      $startY = $y;
-      if ($verticalAlign === 'middle') {
-        $totalHeight = count($lines) * $lineHeight;
-        $startY = $y - ($totalHeight / 2);
-      }
+    foreach ($lines as $i => $line) {
+      $currentY = $startY + ($i * $lineHeight);
 
-      foreach ($lines as $i => $line) {
-        $currentY = $startY + ($i * $lineHeight);
-
-        if ($letterSpacing > 0) {
-          $this->drawTextWithSpacing($pdf, $x, $currentY, $line, (float)$letterSpacing, $textAlign, (float)$alignmentWidth);
-        } else {
-          // textAlignに応じてX座標を調整
-          $currentX = $x;
-          if ($textAlign === 'center') {
-            $textWidth = $pdf->GetStringWidth($line);
-            $currentX = $x - ($textWidth / 2);
-          } elseif ($textAlign === 'right') {
-            $textWidth = $pdf->GetStringWidth($line);
-            $currentX = $x - $textWidth;
-          }
-          $pdf->Text($currentX, $currentY, $line);
+      if ($letterSpacing > 0) {
+        $this->drawTextWithSpacing($pdf, $x, $currentY, $line, (float)$letterSpacing, $textAlign, (float)$alignmentWidth);
+      } else {
+        // textAlignに応じてX座標を調整
+        $currentX = $x;
+        if ($textAlign === 'center') {
+          $textWidth = $pdf->GetStringWidth($line);
+          $currentX = $x - ($textWidth / 2);
+        } elseif ($textAlign === 'right') {
+          $textWidth = $pdf->GetStringWidth($line);
+          $currentX = $x - $textWidth;
         }
+        $pdf->Text($currentX, $currentY, $line);
       }
-      return;
     }
-
-    if (empty($letterSpacing) && $textAlign === 'left') {
-      $pdf->Text($x, $y, $text);
-      return;
-    }
-
-
-    $this->drawTextWithSpacing($pdf, $x, $y, $text, (float)$letterSpacing, $textAlign, (float)$alignmentWidth);
+    return;
   }
 }
