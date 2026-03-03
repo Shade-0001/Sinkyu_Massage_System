@@ -44,7 +44,7 @@
 
   <div class="row">
     <!-- 左側: 設定パネル -->
-    <div class="col-md-3">
+    <div class="col-xl-3 col-lg-4" style="min-width: 280px;">
       <div class="card">
         <div class="card-header bg-secondary text-white">
           <h5 class="mb-0">フィールド設定</h5>
@@ -108,7 +108,7 @@
     </div>
 
     <!-- 右側: PDFプレビュー -->
-    <div class="col-md-9">
+    <div class="col-xl-9 col-lg-8">
       <div class="card">
         <div class="card-header bg-secondary text-white">
           <h5 class="mb-0">

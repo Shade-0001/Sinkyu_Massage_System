@@ -28,7 +28,7 @@
 
 .field-controls {
   margin-top: 10px;
-  padding-left: 20px;
+  padding-left: 10px;
   overflow: hidden;
   transition: max-height 0.3s ease;
   max-height: 0;
@@ -40,11 +40,12 @@
 
 .coordinate-input {
   margin-bottom: 10px;
+  white-space: nowrap;
 }
 
 .coordinate-input label {
   display: inline-block;
-  width: 100px;
+  width: 80px;
   font-weight: normal;
   font-size: 0.9em;
 }
