@@ -164,17 +164,17 @@ class PrintsController extends Controller
   {
     $clinicUsers = DB::table('clinic_users')
       ->select('id', 'last_name', 'first_name', 'last_kana', 'first_kana')
-      ->orderBy('last_kana')
+      ->orderByDesc('id')
       ->get();
 
     $doctors = DB::table('doctors')
       ->select('id', 'last_name', 'first_name', 'last_name_kana', 'first_name_kana')
-      ->orderBy('last_name_kana')
+      ->orderByDesc('id')
       ->get();
 
     $caremanagers = DB::table('caremanagers')
       ->select('id', 'last_name', 'first_name', 'last_name_kana', 'first_name_kana')
-      ->orderBy('last_name_kana')
+      ->orderByDesc('id')
       ->get();
 
     // PDFタイプ一覧をビューに渡す
