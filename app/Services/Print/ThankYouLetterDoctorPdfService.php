@@ -104,7 +104,7 @@ class ThankYouLetterDoctorPdfService extends BasePdfService
 
       if ($doctor) {
         $medicalInstitutionName = $doctor->medical_institution_name ?? '';
-        $doctorName = trim(($doctor->last_name ?? '') . ' ' . ($doctor->first_name ?? ''));
+        $doctorName = trim(($doctor->last_name ?? '') . '  ' . ($doctor->first_name ?? ''));
       }
     }
 
@@ -292,7 +292,7 @@ class ThankYouLetterDoctorPdfService extends BasePdfService
     }
 
     // 6. 利用者氏名（姓 名形式）
-    $userName = ($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? '');
+    $userName = ($clinicUser->last_name ?? '') . '  ' . ($clinicUser->first_name ?? '');
     $pdf->SetFontSize($this->coord('user_name', 'fontSize'));
     $this->drawTextByKey($pdf, 'user_name', $userName);
 
@@ -337,7 +337,7 @@ class ThankYouLetterDoctorPdfService extends BasePdfService
 
     // 12. 施設代表者氏名（姓 名形式）
     if ($clinicInfo) {
-      $ownerName = ($clinicInfo->owner_last_name ?? '') . ' ' . ($clinicInfo->owner_first_name ?? '');
+      $ownerName = ($clinicInfo->owner_last_name ?? '') . '  ' . ($clinicInfo->owner_first_name ?? '');
       $pdf->SetFontSize($this->coord('clinic_owner_name', 'fontSize'));
       $this->drawTextByKey($pdf, 'clinic_owner_name', $ownerName);
     }

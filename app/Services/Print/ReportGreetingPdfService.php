@@ -122,7 +122,7 @@ class ReportGreetingPdfService extends BasePdfService
 
       if ($doctor) {
         $medicalInstitutionName = $doctor->medical_institution_name ?? '';
-        $doctorName             = trim(($doctor->last_name ?? '') . ' ' . ($doctor->first_name ?? ''));
+        $doctorName             = trim(($doctor->last_name ?? '') . '  ' . ($doctor->first_name ?? ''));
       }
     } elseif ($this->greetingType === 'caremanager' && $caremanagerId) {
       $caremanager = DB::table('caremanagers')
@@ -133,7 +133,7 @@ class ReportGreetingPdfService extends BasePdfService
 
       if ($caremanager) {
         $serviceProviderName = $caremanager->service_provider_name ?? '';
-        $caremanagerName     = trim(($caremanager->last_name ?? '') . ' ' . ($caremanager->first_name ?? ''));
+        $caremanagerName     = trim(($caremanager->last_name ?? '') . '  ' . ($caremanager->first_name ?? ''));
       }
     }
     // user の場合は先方情報なし
@@ -345,7 +345,7 @@ class ReportGreetingPdfService extends BasePdfService
     } else {
       // user → 利用者名「　様」（doctor_nameフィールド位置）
       if ($this->hasCoord('doctor_name')) {
-        $userDisplayName = ($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? '');
+        $userDisplayName = ($clinicUser->last_name ?? '') . '  ' . ($clinicUser->first_name ?? '');
         $pdf->SetFontSize($this->coord('doctor_name', 'fontSize'));
         $this->drawTextByKey($pdf, 'doctor_name', $userDisplayName . '　様');
       }
@@ -358,7 +358,7 @@ class ReportGreetingPdfService extends BasePdfService
     }
 
     // 6. 利用者氏名（姓 名形式）
-    $userName = ($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? '');
+    $userName = ($clinicUser->last_name ?? '') . '  ' . ($clinicUser->first_name ?? '');
     $pdf->SetFontSize($this->coord('user_name', 'fontSize'));
     $this->drawTextByKey($pdf, 'user_name', $userName);
 
@@ -403,7 +403,7 @@ class ReportGreetingPdfService extends BasePdfService
 
     // 12. 施設代表者氏名（姓 名形式）
     if ($clinicInfo) {
-      $ownerName = ($clinicInfo->owner_last_name ?? '') . ' ' . ($clinicInfo->owner_first_name ?? '');
+      $ownerName = ($clinicInfo->owner_last_name ?? '') . '  ' . ($clinicInfo->owner_first_name ?? '');
       $pdf->SetFontSize($this->coord('clinic_owner_name', 'fontSize'));
       $this->drawTextByKey($pdf, 'clinic_owner_name', $ownerName);
     }

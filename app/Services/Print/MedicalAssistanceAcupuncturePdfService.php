@@ -250,8 +250,8 @@ class MedicalAssistanceAcupuncturePdfService extends BasePdfService
     $clinicInfo = $data['clinic_info'];
     [$year, $month] = explode('-', $data['service_year_month']);
     $japaneseYear = $this->convertToJapaneseYear($year, $month);
-    $fullName = ($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? '');
-    $fullNameKana = ($clinicUser->last_kana ?? '') . ' ' . ($clinicUser->first_kana ?? '');
+    $fullName = ($clinicUser->last_name ?? '') . '  ' . ($clinicUser->first_name ?? '');
+    $fullNameKana = ($clinicUser->last_kana ?? '') . '  ' . ($clinicUser->first_kana ?? '');
 
     $this->fillCustomTitleAndSubmissionCount($pdf, $data);
     $this->fillTitleYearMonth($pdf, $japaneseYear, (int)$month);

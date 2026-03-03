@@ -139,7 +139,7 @@ class FaxCoverSheetPdfService extends BasePdfService
 
     // 5. 事業所代表者氏名（姓 名形式）
     if ($clinicInfo && $this->hasCoord('clinic_owner_name')) {
-      $ownerName = trim(($clinicInfo->owner_last_name ?? '') . ' ' . ($clinicInfo->owner_first_name ?? ''));
+      $ownerName = trim(($clinicInfo->owner_last_name ?? '') . '  ' . ($clinicInfo->owner_first_name ?? ''));
       $pdf->SetFontSize($this->coord('clinic_owner_name', 'fontSize'));
       $this->drawTextByKey($pdf, 'clinic_owner_name', $ownerName);
     }
