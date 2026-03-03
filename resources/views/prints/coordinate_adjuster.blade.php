@@ -115,7 +115,7 @@
             <span id="save-indicator" class="badge badge-success ml-2" style="display: none;">保存中･･･</span>
           </h5>
         </div>
-        <div class="card-body">
+        <div class="card-body p-2">
           <div id="pdf-preview" style="width: 100%; border: 1px solid #ddd; position: relative;">
             <iframe id="pdf-iframe" style="width: 100%; height: 100%; border: none;"></iframe>
             <div id="preview-overlay" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.7); z-index: 10; align-items: center; justify-content: center;">
@@ -138,7 +138,7 @@ function adjustPdfPreviewHeight() {
   const el = document.getElementById('pdf-preview');
   if (!el) return;
   const top = el.getBoundingClientRect().top;
-  const cardBodyPaddingBottom = 16; // Bootstrap card-body padding
+  const cardBodyPaddingBottom = 8; // Bootstrap p-2 (0.5rem)
   const cardBorderBottom = 1;
   const bottomMargin = 8; // mt-2 相当
   el.style.height = (window.innerHeight - top - cardBodyPaddingBottom - cardBorderBottom - bottomMargin) + 'px';
