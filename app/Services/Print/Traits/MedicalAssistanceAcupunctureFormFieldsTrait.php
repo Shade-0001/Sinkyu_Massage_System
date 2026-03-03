@@ -222,8 +222,8 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
   protected function fillPatientBasicInfo($pdf, $clinicUser, $insurance, $fullName, $fullNameKana): void
   {
     // === 療養を受けた者の氏名 ===
-    $fullName = ($clinicUser->last_name ?? '') . ' ' . ($clinicUser->first_name ?? '');
-    $fullNameKana = ($clinicUser->last_kana ?? '') . ' ' . ($clinicUser->first_kana ?? '');
+    $fullName = ($clinicUser->last_name ?? '') . '  ' . ($clinicUser->first_name ?? '');
+    $fullNameKana = ($clinicUser->last_kana ?? '') . '  ' . ($clinicUser->first_kana ?? '');
     if (empty($fullName)) {
       \Log::warning('患者氏名が設定されていません', ['clinic_user' => $clinicUser]);
     }
