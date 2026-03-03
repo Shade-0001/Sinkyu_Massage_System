@@ -42,9 +42,9 @@
 <div class="container-fluid mt-4">
   <h4 class="mb-4">PDFレイアウト調整ツール｜{{ $pdfTypeName }}</h4>
 
-  <div class="row">
+  <div class="d-flex" style="gap: 15px; align-items: flex-start;">
     <!-- 左側: 設定パネル -->
-    <div class="col-xl-3 col-lg-4" style="min-width: 280px;">
+    <div style="width: min-content;">
       <div class="card">
         <div class="card-header bg-secondary text-white">
           <h5 class="mb-0">フィールド設定</h5>
@@ -108,7 +108,7 @@
     </div>
 
     <!-- 右側: PDFプレビュー -->
-    <div class="col-xl-9 col-lg-8">
+    <div style="flex: 1; min-width: 0;">
       <div class="card">
         <div class="card-header bg-secondary text-white">
           <h5 class="mb-0">
