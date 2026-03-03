@@ -42,7 +42,7 @@ class ClinicUser extends Model
    */
   public function getFullNameAttribute(): string
   {
-    return $this->last_name . ' ' . $this->first_name;
+    return $this->last_name . $this->first_name;
   }
 
   /**
