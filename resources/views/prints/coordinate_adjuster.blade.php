@@ -39,9 +39,7 @@
   ※1~4全て必須。どれか1つでも欠けると正しく動作しない
 --}}
 <x-app-layout>
-<div class="container-fluid mt-4">
-  <h4 class="mb-4">PDFレイアウト調整ツール｜{{ $pdfTypeName }}</h4>
-
+<div class="container-fluid mt-2">
   <div class="d-flex" style="gap: 15px; align-items: flex-start;">
     <!-- 左側: 設定パネル -->
     <div style="width: min-content;">
