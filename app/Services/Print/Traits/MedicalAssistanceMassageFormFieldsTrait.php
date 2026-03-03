@@ -887,6 +887,7 @@ trait MedicalAssistanceMassageFormFieldsTrait
       [$startYear, $startMonth, $startDay] = explode('-', $firstRecord->date);
       $startJapaneseYear = $this->convertToJapaneseYear((int)$startYear, (int)$startMonth);
 
+      // 個別フィールド形式（treatment_start_year/month/day）
       if ($this->hasCoord('treatment_start_year')) {
         $pdf->SetFontSize($this->coord('treatment_start_year', 'fontSize'));
         $this->drawTextByKey($pdf, 'treatment_start_year', (string)$startJapaneseYear['year']);
@@ -899,6 +900,13 @@ trait MedicalAssistanceMassageFormFieldsTrait
         $pdf->SetFontSize($this->coord('treatment_start_day', 'fontSize'));
         $this->drawTextByKey($pdf, 'treatment_start_day', (string)(int)$startDay);
       }
+
+      // 統合テキスト形式（therapy_period_start）：通常モードのみ（サンプルモードはfillConsentRecordSection側で描画）
+      if (!$this->sampleDataMode && $this->hasCoord('therapy_period_start')) {
+        $startText = $startJapaneseYear['era'] . $startJapaneseYear['year'] . '年' . (int)$startMonth . '月' . (int)$startDay . '日';
+        $pdf->SetFontSize($this->coord('therapy_period_start', 'fontSize'));
+        $this->drawTextByKey($pdf, 'therapy_period_start', $startText);
+      }
     }
 
     // 終了日
@@ -906,6 +914,7 @@ trait MedicalAssistanceMassageFormFieldsTrait
       [$endYear, $endMonth, $endDay] = explode('-', $lastRecord->date);
       $endJapaneseYear = $this->convertToJapaneseYear((int)$endYear, (int)$endMonth);
 
+      // 個別フィールド形式（treatment_end_year/month/day）
       if ($this->hasCoord('treatment_end_year')) {
         $pdf->SetFontSize($this->coord('treatment_end_year', 'fontSize'));
         $this->drawTextByKey($pdf, 'treatment_end_year', (string)$endJapaneseYear['year']);
@@ -917,6 +926,13 @@ trait MedicalAssistanceMassageFormFieldsTrait
       if ($this->hasCoord('treatment_end_day')) {
         $pdf->SetFontSize($this->coord('treatment_end_day', 'fontSize'));
         $this->drawTextByKey($pdf, 'treatment_end_day', (string)(int)$endDay);
+      }
+
+      // 統合テキスト形式（therapy_period_end）：通常モードのみ（サンプルモードはfillConsentRecordSection側で描画）
+      if (!$this->sampleDataMode && $this->hasCoord('therapy_period_end')) {
+        $endText = $endJapaneseYear['era'] . $endJapaneseYear['year'] . '年' . (int)$endMonth . '月' . (int)$endDay . '日';
+        $pdf->SetFontSize($this->coord('therapy_period_end', 'fontSize'));
+        $this->drawTextByKey($pdf, 'therapy_period_end', $endText);
       }
     }
 
