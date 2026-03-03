@@ -241,7 +241,7 @@ class TreatmentReceiptPdfService
 
     // 3. 利用者氏名
     if ($clinicUser) {
-      $fullName = ($clinicUser->last_name ?? '') . '　' . ($clinicUser->first_name ?? '');
+      $fullName = ($clinicUser->last_name ?? '') . '  ' . ($clinicUser->first_name ?? '');
       $this->drawText($pdf, 'patient_name', $fullName);
 
       // 4. 性別（サークル描画）
