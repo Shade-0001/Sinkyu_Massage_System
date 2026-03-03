@@ -42,7 +42,7 @@
 <div class="container-fluid mt-2">
   <div class="d-flex" style="gap: 15px; align-items: flex-start;">
     <!-- 左側: 設定パネル -->
-    <div style="width: min-content;">
+    <div style="width: min-content; min-width: 300px;">
       <div class="card">
         <div class="card-header bg-secondary text-white">
           <h5 class="mb-0">フィールド設定</h5>
