@@ -30,9 +30,7 @@ class InsuranceFactory extends Factory
       'expenses_borne_ratio_id'          => $this->faker->randomElement([1, 2, 3]),
       'expiry_date'                      => $this->faker->dateTimeBetween('+1 month', '+2 years')->format('Y-m-d'),
       'is_redeemed'                      => false,
-      'insured_name'                     => $this->faker->boolean(50)
-        ? $this->faker->randomElement($lastNames) . ' ' . $this->faker->randomElement($firstNames)
-        : null,
+      'insured_name'                     => $this->faker->randomElement($lastNames) . ' ' . $this->faker->randomElement($firstNames),
       'relationship_with_clinic_user_id' => 1,
       'is_healthcare_subsidized'         => $this->faker->boolean(30),
       'public_funds_payer_code'          => $this->faker->boolean(30) ? $this->faker->numerify('######') : null,
