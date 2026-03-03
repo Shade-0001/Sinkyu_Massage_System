@@ -32,7 +32,7 @@ class PlanController extends Controller
 
         return view('clinic-users.plans.plans_index', [
             'id' => $id,
-            'name' => $user->clinic_user_name,
+            'name' => $user->full_name,
             'planInfos' => $planInfos,
             'page_header_title' => '計画情報'
         ]);
@@ -57,7 +57,7 @@ class PlanController extends Controller
 
         return view('clinic-users.plans.plans_registration', [
             'mode' => 'create',
-            'page_header_title' => $user->clinic_user_name . ' 様の計画情報新規登録',
+            'page_header_title' => $user->full_name . ' 様の計画情報新規登録',
             'id' => $id,
             'planInfo' => $planInfo,
             'assistanceLevels' => $assistanceLevels,
@@ -141,7 +141,7 @@ class PlanController extends Controller
 
         return view('clinic-users.plans.plans_registration', [
             'mode' => 'edit',
-            'page_header_title' => $user->clinic_user_name . ' 様の計画情報編集',
+            'page_header_title' => $user->full_name . ' 様の計画情報編集',
             'id' => $id,
             'plan_id' => $plan_id,
             'planInfo' => $planInfo,
@@ -218,7 +218,7 @@ class PlanController extends Controller
 
         return view('clinic-users.plans.plans_registration', [
             'mode' => 'duplicate',
-            'page_header_title' => $user->clinic_user_name . ' 様の計画情報複製',
+            'page_header_title' => $user->full_name . ' 様の計画情報複製',
             'id' => $id,
             'plan_id' => $plan_id,
             'planInfo' => $planInfo,
