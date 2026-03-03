@@ -24,7 +24,7 @@ class InsuranceFactory extends Factory
       'account_number'                   => $this->faker->numerify('########'),
       'locality_code'                    => $this->faker->boolean(50) ? $this->faker->numerify('######') : null,
       'recipient_code'                   => $this->faker->boolean(50) ? $this->faker->numerify('########') : null,
-      'license_acquisition_date'         => $this->faker->boolean(50) ? $this->faker->dateTimeBetween('-5 years', '-1 year')->format('Y-m-d') : null,
+      'license_acquisition_date'         => $this->faker->dateTimeBetween('-5 years', '-1 year')->format('Y-m-d'),
       'certification_date'               => $this->faker->boolean(50) ? $this->faker->dateTimeBetween('-3 years', '-6 months')->format('Y-m-d') : null,
       'issue_date'                       => $this->faker->dateTimeBetween('-3 years', '-6 months')->format('Y-m-d'),
       'expenses_borne_ratio_id'          => $this->faker->randomElement([1, 2, 3]),
