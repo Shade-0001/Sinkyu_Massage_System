@@ -119,8 +119,26 @@ class InsurancePaymentPdfService
         // 施術種別テキスト
         $therapyText = $deposit->treatment_type == 1 ? '鍼灸' : '按摩';
 
-        // 入金日フォーマット
-        $depositDate = $deposit->deposit_date ? $deposit->deposit_date->format('Y/m/d') : '';
+        // 入金日フォーマット（元号年 月 日）
+        if ($deposit->deposit_date) {
+          $date = $deposit->deposit_date;
+          $year  = (int)$date->format('Y');
+          $month = (int)$date->format('n');
+          $day   = (int)$date->format('j');
+          if ($date >= new \DateTime('2019-05-01')) {
+            $gengo     = '令和';
+            $gengoYear = $year - 2018;
+          } elseif ($date >= new \DateTime('1989-01-08')) {
+            $gengo     = '平成';
+            $gengoYear = $year - 1988;
+          } else {
+            $gengo     = '昭和';
+            $gengoYear = $year - 1925;
+          }
+          $depositDate = sprintf('%s%2d年%2d月%2d日', $gengo, $gengoYear, $month, $day);
+        } else {
+          $depositDate = '';
+        }
 
         return [
           'insurer_name'              => $deposit->insurer->insurer_name ?? '',
@@ -170,13 +188,13 @@ class InsurancePaymentPdfService
     $pdf->Text($startX + $availableWidth - $titleYearMonthWidth - $oneCharWidth, 15, $titleYearMonth);
 
     // カラム幅（合計277mm）
-    // No.:10, 保険者:40, 被保険者氏名:30, 受療者氏名:30, 治療期間:28, 施術:14,
+    // No.:10, 保険者:52, 被保険者氏名:24, 受療者氏名:24, 治療期間:28, 施術:14,
     // 療養費:22, 自己負担額:23, 保険請求額:23, 入金額:22, 入金日:35
     $colWidths = [
       'no'        => 10,
-      'insurer'   => 40,
-      'insured'   => 30,
-      'user'      => 30,
+      'insurer'   => 52,
+      'insured'   => 24,
+      'user'      => 24,
       'period'    => 28,
       'therapy'   => 14,
       'total'     => 22,
@@ -186,7 +204,7 @@ class InsurancePaymentPdfService
       'dep_date'  => 35,
     ];
     // 合計確認
-    // 10+40+30+30+28+14+22+23+23+22+35 = 277 ✓
+    // 10+52+24+24+28+14+22+23+23+22+35 = 277 ✓
 
     $headers = [
       ['text' => 'No.',      'key' => 'no'],
