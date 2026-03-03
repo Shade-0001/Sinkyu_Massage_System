@@ -177,6 +177,7 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
       'illness_name_acupuncture_addendum' => '',
       'onset_and_injury_date' => '2025-11-15',
       'first_care_date' => '2025-11-20',
+      'consenting_end_date' => '2025-12-31',
       'therapy_period' => $custom['treatment_period'] ?? '3ヶ月',
       'outcome' => $custom['outcome'] ?? '継続',
       'doctor_last_name' => '山田',
@@ -367,6 +368,9 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
         }
         return null;
       case 'treatment_end_date':
+        if ($consent && isset($consent->consenting_end_date)) {
+          return $this->convertToJapaneseDate($consent->consenting_end_date);
+        }
         return null;
       case 'treatment_days_count': return (string)$records->count();
       case 'treatment_count': return (string)$records->count();
