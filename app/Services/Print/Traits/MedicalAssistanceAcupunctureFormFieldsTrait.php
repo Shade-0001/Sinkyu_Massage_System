@@ -750,7 +750,7 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
         if (strlen($clinicPostalCodeNumbers) === 7) {
           $clinicPostalCode = substr($clinicPostalCodeNumbers, 0, 3) . '-' . substr($clinicPostalCodeNumbers, 3, 4);
         }
-        $this->drawTextByKey($pdf, 'clinic_postal_code', (string)$clinicPostalCode);
+        $this->drawTextByKey($pdf, 'clinic_postal_code', '〒 ' . $clinicPostalCode);
       }
       // 施術所住所
       if ($this->hasCoord('clinic_address') && $this->coord('clinic_address', 'y') < 245) {
@@ -1092,7 +1092,7 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
         $formattedPostalCode = $postalCodeNumbers;
       }
       $pdf->SetFontSize($this->coord('applicant_postal_code', 'fontSize'));
-      $this->drawTextByKey($pdf, 'applicant_postal_code', $formattedPostalCode);
+      $this->drawTextByKey($pdf, 'applicant_postal_code', '〒 ' . $formattedPostalCode);
       $pdf->SetFontSize(10);
     }
     // 申請者住所
@@ -1365,9 +1365,9 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
           // 同意医師郵便番号
           if ($this->hasCoord('consent_record_doctor_postal_code') && isset($doctor->postal_code)) {
             $postalCode = preg_replace('/[^0-9]/', '', $doctor->postal_code);
-            // 7桁の郵便番号を〒 XXX - XXXXフォーマットに変換
+            // 7桁の郵便番号を〒 XXX-XXXXフォーマットに変換
             if (strlen($postalCode) === 7) {
-              $postalCode = '〒 ' . substr($postalCode, 0, 3) . ' - ' . substr($postalCode, 3);
+              $postalCode = '〒 ' . substr($postalCode, 0, 3) . '-' . substr($postalCode, 3);
             }
             $pdf->SetFontSize($this->coord('consent_record_doctor_postal_code', 'fontSize'));
             $this->drawTextByKey($pdf, 'consent_record_doctor_postal_code', (string)$postalCode);
@@ -1514,7 +1514,7 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
           $sigFormattedPostalCode = (strlen($sigPostalCodeNumbers) === 7)
             ? substr($sigPostalCodeNumbers, 0, 3) . '-' . substr($sigPostalCodeNumbers, 3, 4)
             : $sigPostalCodeNumbers;
-          $this->drawTextByKey($pdf, 'signature_applicant_postal_code', $sigFormattedPostalCode);
+          $this->drawTextByKey($pdf, 'signature_applicant_postal_code', '〒 ' . $sigFormattedPostalCode);
         }
         if ($this->hasCoord('signature_applicant_address')) {
           $signatureAddress = ($clinicUser->address_1 ?? '') . ($clinicUser->address_2 ?? '') . ($clinicUser->address_3 ?? '');
@@ -1902,9 +1902,10 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
       if (isset($custom['consent_record_doctor_postal_code'])) {
         $pdf->SetFontSize($this->coord('consent_record_doctor_postal_code', 'fontSize'));
         $postalCode = $custom['consent_record_doctor_postal_code'];
-        // 7桁の数字を "〒 XXX - XXXX" 形式に変換
-        if (strlen($postalCode) === 7 && ctype_digit($postalCode)) {
-          $postalCode = '〒 ' . substr($postalCode, 0, 3) . ' - ' . substr($postalCode, 3);
+        // 7桁の数字を "〒 XXX-XXXX" 形式に変換
+        $postalCodeNums = preg_replace('/[^0-9]/', '', $postalCode);
+        if (strlen($postalCodeNums) === 7) {
+          $postalCode = '〒 ' . substr($postalCodeNums, 0, 3) . '-' . substr($postalCodeNums, 3);
         }
         $this->drawTextByKey($pdf, 'consent_record_doctor_postal_code', $postalCode);
       }
@@ -1946,7 +1947,11 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
       // 申請者郵便番号（署名）
       if (isset($custom['signature_applicant_postal_code'])) {
         $pdf->SetFontSize($this->coord('signature_applicant_postal_code', 'fontSize'));
-        $this->drawTextByKey($pdf, 'signature_applicant_postal_code', $custom['signature_applicant_postal_code']);
+        $sigSamplePostalNums = preg_replace('/[^0-9]/', '', $custom['signature_applicant_postal_code']);
+        $sigSampleFormatted = (strlen($sigSamplePostalNums) === 7)
+          ? substr($sigSamplePostalNums, 0, 3) . '-' . substr($sigSamplePostalNums, 3, 4)
+          : $sigSamplePostalNums;
+        $this->drawTextByKey($pdf, 'signature_applicant_postal_code', '〒 ' . $sigSampleFormatted);
       }
 
       // 申請者住所（署名）

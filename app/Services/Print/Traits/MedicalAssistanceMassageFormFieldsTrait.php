@@ -1376,7 +1376,7 @@ trait MedicalAssistanceMassageFormFieldsTrait
       if (strlen($clinicPostalCodeNumbers) === 7) {
         $clinicPostalCode = substr($clinicPostalCodeNumbers, 0, 3) . '-' . substr($clinicPostalCodeNumbers, 3, 4);
       }
-      $this->drawTextByKey($pdf, 'clinic_postal_code', (string)$clinicPostalCode);
+      $this->drawTextByKey($pdf, 'clinic_postal_code', '〒 ' . $clinicPostalCode);
     }
 
     // 施術所住所
@@ -1562,7 +1562,7 @@ trait MedicalAssistanceMassageFormFieldsTrait
         // 7桁の数字を "〒 XXX - XXXX" 形式に変換
         $postalCode = preg_replace('/[^0-9]/', '', $doctorPostalCode);
         if (strlen($postalCode) === 7) {
-          $postalCode = '〒 ' . substr($postalCode, 0, 3) . ' - ' . substr($postalCode, 3);
+          $postalCode = '〒 ' . substr($postalCode, 0, 3) . '-' . substr($postalCode, 3);
         }
         $pdf->SetFontSize($this->coord('consent_record_doctor_postal_code', 'fontSize'));
         $this->drawTextByKey($pdf, 'consent_record_doctor_postal_code', (string)$postalCode);
