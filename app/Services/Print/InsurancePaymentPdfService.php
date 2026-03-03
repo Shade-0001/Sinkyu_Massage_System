@@ -282,8 +282,25 @@ class InsurancePaymentPdfService
         // 数値右揃えのパディング
         $padding = in_array($key, $rightAlignKeys) ? 1 : 0;
 
+        // テキスト幅がセル幅を超える場合はフォントサイズを縮小
+        $cellInnerW = $w - $padding * 2 - 1;
+        $baseFontSize = 9;
+        $fontSize = $baseFontSize;
+        if ($text !== '' && $pdf->GetStringWidth($text) > $cellInnerW) {
+          // セル幅に収まるまで0.5ptずつ縮小（最小5pt）
+          while ($fontSize > 5 && $pdf->GetStringWidth($text) > $cellInnerW) {
+            $fontSize -= 0.5;
+            $pdf->SetFontSize($fontSize);
+          }
+        }
+
         $pdf->SetXY($x + $padding, $currentY);
         $pdf->Cell($w - $padding * 2, $rowHeight, $text, 0, 0, $align, false);
+
+        // フォントサイズを元に戻す
+        if ($fontSize !== $baseFontSize) {
+          $pdf->SetFontSize($baseFontSize);
+        }
 
         // 枠線（実線）
         $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
