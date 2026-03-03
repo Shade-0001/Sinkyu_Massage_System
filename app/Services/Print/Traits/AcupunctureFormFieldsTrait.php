@@ -1255,26 +1255,13 @@ protected function fillAgentInfo(Fpdi $pdf): void
         $agentName = $this->customSampleData['agent_name'] ?? '';
 
         if ($this->hasCoord('agent_postal_code') && $agentPostalCode) {
-          $postalCode = preg_replace('/[^0-9]/', '', $agentPostalCode);
-          $pdf->SetFontSize($this->coord('agent_postal_code', 'fontSize'));
-          // postalCodeGap がある場合は分割描画
-          if (strlen($postalCode) === 7 && isset($this->coordinates['agent_postal_code']['postalCodeGap'])) {
-            $part1 = substr($postalCode, 0, 3);
-            $part2 = substr($postalCode, 3, 4);
-            $gap = $this->coordinates['agent_postal_code']['postalCodeGap'];
-            $y = $this->coord('agent_postal_code', 'y');
-            $x1 = $this->coord('agent_postal_code', 'x');
-            $x2 = $x1 + $gap;
-            $pdf->SetXY($x1, $y);
-            $pdf->Cell(0, 0, '〒 ' . $part1, 0, 0, 'L');
-            $pdf->SetXY($x2, $y);
-            $pdf->Cell(0, 0, '- ' . $part2, 0, 0, 'L');
-          } else {
-            if (strlen($postalCode) === 7) {
-              $postalCode = '〒 ' . substr($postalCode, 0, 3) . ' - ' . substr($postalCode, 3, 4);
-            }
-            $this->drawTextByKey($pdf, 'agent_postal_code', $postalCode);
+          $cleanPostalCode = str_replace('-', '', $agentPostalCode);
+          $formattedPostalCode = $agentPostalCode;
+          if (preg_match('/^\d{7}$/', $cleanPostalCode)) {
+            $formattedPostalCode = '〒 ' . substr($cleanPostalCode, 0, 3) . '-' . substr($cleanPostalCode, 3, 4);
           }
+          $pdf->SetFontSize($this->coord('agent_postal_code', 'fontSize'));
+          $this->drawTextByKey($pdf, 'agent_postal_code', $formattedPostalCode);
         }
 
         if ($this->hasCoord('agent_address') && $agentAddress) {
@@ -1494,26 +1481,13 @@ protected function fillRealDataModeFields(Fpdi $pdf, array $data, $insurance, $c
             // 同意医師住所・郵便番号（doctorsテーブルから取得）
             // 同意医師郵便番号
             if ($this->hasCoord('consent_record_doctor_postal_code') && isset($doctor->postal_code)) {
-              $postalCode = preg_replace('/[^0-9]/', '', $doctor->postal_code);
-              $pdf->SetFontSize($this->coord('consent_record_doctor_postal_code', 'fontSize'));
-              // postalCodeGap がある場合は分割描画
-              if (strlen($postalCode) === 7 && isset($this->coordinates['consent_record_doctor_postal_code']['postalCodeGap'])) {
-                $part1 = substr($postalCode, 0, 3);
-                $part2 = substr($postalCode, 3, 4);
-                $gap = $this->coordinates['consent_record_doctor_postal_code']['postalCodeGap'];
-                $y = $this->coord('consent_record_doctor_postal_code', 'y');
-                $x1 = $this->coord('consent_record_doctor_postal_code', 'x');
-                $x2 = $x1 + $gap;
-                $pdf->SetXY($x1, $y);
-                $pdf->Cell(0, 0, '〒 ' . $part1, 0, 0, 'L');
-                $pdf->SetXY($x2, $y);
-                $pdf->Cell(0, 0, '- ' . $part2, 0, 0, 'L');
-              } else {
-                if (strlen($postalCode) === 7) {
-                  $postalCode = '〒 ' . substr($postalCode, 0, 3) . ' - ' . substr($postalCode, 3, 4);
-                }
-                $this->drawTextByKey($pdf, 'consent_record_doctor_postal_code', (string)$postalCode);
+              $cleanPostalCode = str_replace('-', '', $doctor->postal_code);
+              $formattedPostalCode = $doctor->postal_code;
+              if (preg_match('/^\d{7}$/', $cleanPostalCode)) {
+                $formattedPostalCode = '〒 ' . substr($cleanPostalCode, 0, 3) . '-' . substr($cleanPostalCode, 3, 4);
               }
+              $pdf->SetFontSize($this->coord('consent_record_doctor_postal_code', 'fontSize'));
+              $this->drawTextByKey($pdf, 'consent_record_doctor_postal_code', (string)$formattedPostalCode);
             }
 
             // 同意医師住所
@@ -1657,26 +1631,13 @@ protected function fillRealDataModeFields(Fpdi $pdf, array $data, $insurance, $c
       if (!$this->sampleDataMode && $clinicInfo) {
         // 代理人情報はclinic_infoテーブルを参照
         if ($this->hasCoord('agent_postal_code') && isset($clinicInfo->postal_code)) {
-          $postalCode = preg_replace('/[^0-9]/', '', $clinicInfo->postal_code);
-          $pdf->SetFontSize($this->coord('agent_postal_code', 'fontSize'));
-          // postalCodeGap がある場合は分割描画
-          if (strlen($postalCode) === 7 && isset($this->coordinates['agent_postal_code']['postalCodeGap'])) {
-            $part1 = substr($postalCode, 0, 3);
-            $part2 = substr($postalCode, 3, 4);
-            $gap = $this->coordinates['agent_postal_code']['postalCodeGap'];
-            $y = $this->coord('agent_postal_code', 'y');
-            $x1 = $this->coord('agent_postal_code', 'x');
-            $x2 = $x1 + $gap;
-            $pdf->SetXY($x1, $y);
-            $pdf->Cell(0, 0, '〒 ' . $part1, 0, 0, 'L');
-            $pdf->SetXY($x2, $y);
-            $pdf->Cell(0, 0, '- ' . $part2, 0, 0, 'L');
-          } else {
-            if (strlen($postalCode) === 7) {
-              $postalCode = '〒 ' . substr($postalCode, 0, 3) . ' - ' . substr($postalCode, 3, 4);
-            }
-            $this->drawTextByKey($pdf, 'agent_postal_code', $postalCode);
+          $cleanPostalCode = str_replace('-', '', $clinicInfo->postal_code);
+          $formattedPostalCode = $clinicInfo->postal_code;
+          if (preg_match('/^\d{7}$/', $cleanPostalCode)) {
+            $formattedPostalCode = '〒 ' . substr($cleanPostalCode, 0, 3) . '-' . substr($cleanPostalCode, 3, 4);
           }
+          $pdf->SetFontSize($this->coord('agent_postal_code', 'fontSize'));
+          $this->drawTextByKey($pdf, 'agent_postal_code', $formattedPostalCode);
         }
 
         if ($this->hasCoord('agent_address') && isset($clinicInfo->address_1)) {
@@ -1697,26 +1658,13 @@ protected function fillRealDataModeFields(Fpdi $pdf, array $data, $insurance, $c
       if (!$this->sampleDataMode) {
         // 委任申請者郵便番号・住所は当該利用者のデータを参照
         if ($this->hasCoord('signature_applicant_postal_code') && isset($clinicUser->postal_code)) {
-          $postalCode = preg_replace('/[^0-9]/', '', $clinicUser->postal_code);
-          $pdf->SetFontSize($this->coord('signature_applicant_postal_code', 'fontSize'));
-          // postalCodeGap がある場合は分割描画
-          if (strlen($postalCode) === 7 && isset($this->coordinates['signature_applicant_postal_code']['postalCodeGap'])) {
-            $part1 = substr($postalCode, 0, 3);
-            $part2 = substr($postalCode, 3, 4);
-            $gap = $this->coordinates['signature_applicant_postal_code']['postalCodeGap'];
-            $y = $this->coord('signature_applicant_postal_code', 'y');
-            $x1 = $this->coord('signature_applicant_postal_code', 'x');
-            $x2 = $x1 + $gap;
-            $pdf->SetXY($x1, $y);
-            $pdf->Cell(0, 0, '〒 ' . $part1, 0, 0, 'L');
-            $pdf->SetXY($x2, $y);
-            $pdf->Cell(0, 0, '- ' . $part2, 0, 0, 'L');
-          } else {
-            if (strlen($postalCode) === 7) {
-              $postalCode = '〒 ' . substr($postalCode, 0, 3) . ' - ' . substr($postalCode, 3, 4);
-            }
-            $this->drawTextByKey($pdf, 'signature_applicant_postal_code', $postalCode);
+          $cleanPostalCode = str_replace('-', '', $clinicUser->postal_code);
+          $formattedPostalCode = $clinicUser->postal_code;
+          if (preg_match('/^\d{7}$/', $cleanPostalCode)) {
+            $formattedPostalCode = '〒 ' . substr($cleanPostalCode, 0, 3) . '-' . substr($cleanPostalCode, 3, 4);
           }
+          $pdf->SetFontSize($this->coord('signature_applicant_postal_code', 'fontSize'));
+          $this->drawTextByKey($pdf, 'signature_applicant_postal_code', $formattedPostalCode);
         }
 
         if ($this->hasCoord('signature_applicant_address')) {
@@ -2044,26 +1992,13 @@ protected function fillRealDataModeFields(Fpdi $pdf, array $data, $insurance, $c
 
       // 同意医師郵便番号（同意記録）
       if (isset($custom['consent_record_doctor_postal_code'])) {
-        $postalCode = preg_replace('/[^0-9]/', '', $custom['consent_record_doctor_postal_code']);
-        $pdf->SetFontSize($this->coord('consent_record_doctor_postal_code', 'fontSize'));
-        // postalCodeGap がある場合は分割描画
-        if (strlen($postalCode) === 7 && isset($this->coordinates['consent_record_doctor_postal_code']['postalCodeGap'])) {
-          $part1 = substr($postalCode, 0, 3);
-          $part2 = substr($postalCode, 3, 4);
-          $gap = $this->coordinates['consent_record_doctor_postal_code']['postalCodeGap'];
-          $y = $this->coord('consent_record_doctor_postal_code', 'y');
-          $x1 = $this->coord('consent_record_doctor_postal_code', 'x');
-          $x2 = $x1 + $gap;
-          $pdf->SetXY($x1, $y);
-          $pdf->Cell(0, 0, '〒 ' . $part1, 0, 0, 'L');
-          $pdf->SetXY($x2, $y);
-          $pdf->Cell(0, 0, '- ' . $part2, 0, 0, 'L');
-        } else {
-          if (strlen($postalCode) === 7) {
-            $postalCode = '〒 ' . substr($postalCode, 0, 3) . ' - ' . substr($postalCode, 3, 4);
-          }
-          $this->drawTextByKey($pdf, 'consent_record_doctor_postal_code', $postalCode);
+        $cleanPostalCode = str_replace('-', '', $custom['consent_record_doctor_postal_code']);
+        $formattedPostalCode = $custom['consent_record_doctor_postal_code'];
+        if (preg_match('/^\d{7}$/', $cleanPostalCode)) {
+          $formattedPostalCode = '〒 ' . substr($cleanPostalCode, 0, 3) . '-' . substr($cleanPostalCode, 3, 4);
         }
+        $pdf->SetFontSize($this->coord('consent_record_doctor_postal_code', 'fontSize'));
+        $this->drawTextByKey($pdf, 'consent_record_doctor_postal_code', $formattedPostalCode);
       }
 
       // 同意医師住所（同意記録）
@@ -2114,26 +2049,13 @@ protected function fillRealDataModeFields(Fpdi $pdf, array $data, $insurance, $c
 
       // 申請者郵便番号（署名）
       if (isset($custom['signature_applicant_postal_code'])) {
-        $postalCode = preg_replace('/[^0-9]/', '', $custom['signature_applicant_postal_code']);
-        $pdf->SetFontSize($this->coord('signature_applicant_postal_code', 'fontSize'));
-        // postalCodeGap がある場合は分割描画
-        if (strlen($postalCode) === 7 && isset($this->coordinates['signature_applicant_postal_code']['postalCodeGap'])) {
-          $part1 = substr($postalCode, 0, 3);
-          $part2 = substr($postalCode, 3, 4);
-          $gap = $this->coordinates['signature_applicant_postal_code']['postalCodeGap'];
-          $y = $this->coord('signature_applicant_postal_code', 'y');
-          $x1 = $this->coord('signature_applicant_postal_code', 'x');
-          $x2 = $x1 + $gap;
-          $pdf->SetXY($x1, $y);
-          $pdf->Cell(0, 0, '〒 ' . $part1, 0, 0, 'L');
-          $pdf->SetXY($x2, $y);
-          $pdf->Cell(0, 0, '- ' . $part2, 0, 0, 'L');
-        } else {
-          if (strlen($postalCode) === 7) {
-            $postalCode = '〒 ' . substr($postalCode, 0, 3) . ' - ' . substr($postalCode, 3, 4);
-          }
-          $this->drawTextByKey($pdf, 'signature_applicant_postal_code', $postalCode);
+        $cleanPostalCode = str_replace('-', '', $custom['signature_applicant_postal_code']);
+        $formattedPostalCode = $custom['signature_applicant_postal_code'];
+        if (preg_match('/^\d{7}$/', $cleanPostalCode)) {
+          $formattedPostalCode = '〒 ' . substr($cleanPostalCode, 0, 3) . '-' . substr($cleanPostalCode, 3, 4);
         }
+        $pdf->SetFontSize($this->coord('signature_applicant_postal_code', 'fontSize'));
+        $this->drawTextByKey($pdf, 'signature_applicant_postal_code', $formattedPostalCode);
       }
 
       // 申請者住所（署名）
