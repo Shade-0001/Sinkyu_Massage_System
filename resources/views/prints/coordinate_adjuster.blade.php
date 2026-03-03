@@ -116,7 +116,7 @@
           </h5>
         </div>
         <div class="card-body">
-          <div id="pdf-preview" style="width: 100%; height: 80vh; border: 1px solid #ddd; position: relative;">
+          <div id="pdf-preview" style="width: 100%; border: 1px solid #ddd; position: relative;">
             <iframe id="pdf-iframe" style="width: 100%; height: 100%; border: none;"></iframe>
             <div id="preview-overlay" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.7); z-index: 10; align-items: center; justify-content: center;">
               <div class="spinner-border text-info" role="status">
@@ -131,6 +131,19 @@
 </div>
 
 <link rel="stylesheet" href="{{ asset('css/coordinate_adjuster.css') }}">
+
+<script>
+// PDFプレビューエリアの高さをウィンドウに合わせて調整
+function adjustPdfPreviewHeight() {
+  const el = document.getElementById('pdf-preview');
+  if (!el) return;
+  const top = el.getBoundingClientRect().top;
+  const margin = 16; // 下余白
+  el.style.height = (window.innerHeight - top - margin) + 'px';
+}
+document.addEventListener('DOMContentLoaded', adjustPdfPreviewHeight);
+window.addEventListener('resize', adjustPdfPreviewHeight);
+</script>
 
 <script>
 // PHP変数をJavaScriptに渡す
