@@ -293,7 +293,7 @@ function loadCoordinates() {
 // 座標更新
 function updateCoordinate(key, property, value) {
   // 文字列プロパティの場合はそのまま、その他は数値に変換
-  if (property === 'textAlign' || property === 'sampleText') {
+  if (property === 'textAlign' || property === 'verticalAlign' || property === 'sampleText') {
     coordinates[key][property] = value;
   } else {
     coordinates[key][property] = parseFloat(value);
@@ -322,8 +322,8 @@ function updateCoordinate(key, property, value) {
   const radioGroupName = fieldMapping?.radioGroup;
   const compositeGroupName = coordinates[key].compositeGroup;
 
-  // テキスト配置更新の場合はボタンのアクティブ状態を更新
-  if (property === 'textAlign') {
+  // 配置ボタングループのアクティブ状態を更新
+  if (property === 'textAlign' || property === 'verticalAlign') {
     let controls = document.getElementById('controls-' + key);
     if (!controls && radioGroupName) {
       controls = document.getElementById('radiogroup-fields-' + radioGroupName);
@@ -333,12 +333,19 @@ function updateCoordinate(key, property, value) {
     }
 
     if (controls) {
-      const buttons = controls.querySelectorAll('.btn-group .btn');
-      buttons.forEach(btn => btn.classList.remove('active'));
+      const btnGroup = controls.querySelector(`.btn-group[data-property="${property}"]`);
+      if (btnGroup) {
+        const buttons = btnGroup.querySelectorAll('.btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
 
-      const activeIndex = ['left', 'center', 'right'].indexOf(value);
-      if (activeIndex >= 0 && buttons[activeIndex]) {
-        buttons[activeIndex].classList.add('active');
+        const valueMap = {
+          textAlign: ['left', 'center', 'right'],
+          verticalAlign: ['top', 'middle'],
+        };
+        const activeIndex = (valueMap[property] || []).indexOf(value);
+        if (activeIndex >= 0 && buttons[activeIndex]) {
+          buttons[activeIndex].classList.add('active');
+        }
       }
     }
   }

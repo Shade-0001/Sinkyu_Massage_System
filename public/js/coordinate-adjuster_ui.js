@@ -960,7 +960,7 @@ function renderSingleFieldHTML(key, field) {
       ${field.textAlign !== undefined ? `
       <div class="coordinate-input">
         <label>横配置:</label>
-        <div class="btn-group btn-group-sm" role="group" style="display: inline-flex;">
+        <div class="btn-group btn-group-sm" role="group" style="display: inline-flex;" data-property="textAlign">
           <button type="button" class="btn btn-outline-secondary ${field.textAlign === 'left' ? 'active' : ''}"
                   title="左揃え" onclick="updateCoordinate('${key}', 'textAlign', 'left')">左</button>
           <button type="button" class="btn btn-outline-secondary ${field.textAlign === 'center' || !field.textAlign ? 'active' : ''}"
@@ -974,7 +974,7 @@ function renderSingleFieldHTML(key, field) {
       ${field.verticalAlign !== undefined ? `
       <div class="coordinate-input">
         <label>縦配置:</label>
-        <div class="btn-group btn-group-sm" role="group" style="display: inline-flex;">
+        <div class="btn-group btn-group-sm" role="group" style="display: inline-flex;" data-property="verticalAlign">
           <button type="button" class="btn btn-outline-secondary ${field.verticalAlign === 'top' || !field.verticalAlign ? 'active' : ''}"
                   title="上揃え" onclick="updateCoordinate('${key}', 'verticalAlign', 'top')">上</button>
           <button type="button" class="btn btn-outline-secondary ${field.verticalAlign === 'middle' ? 'active' : ''}"
@@ -1514,6 +1514,7 @@ function updateCompositeGroupSelection(groupName, selectedKey) {
   const taBtnGroup = document.createElement('div');
   taBtnGroup.className = 'btn-group btn-group-sm';
   taBtnGroup.setAttribute('role', 'group');
+  taBtnGroup.setAttribute('data-property', 'textAlign');
   taBtnGroup.style.display = 'inline-flex';
   
   const taLeft = document.createElement('button');
@@ -1553,6 +1554,7 @@ function updateCompositeGroupSelection(groupName, selectedKey) {
   const vaBtnGroup = document.createElement('div');
   vaBtnGroup.className = 'btn-group btn-group-sm';
   vaBtnGroup.setAttribute('role', 'group');
+  vaBtnGroup.setAttribute('data-property', 'verticalAlign');
   vaBtnGroup.style.display = 'inline-flex';
 
   const vaTop = document.createElement('button');
