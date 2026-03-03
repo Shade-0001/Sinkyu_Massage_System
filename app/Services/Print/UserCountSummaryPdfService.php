@@ -84,6 +84,7 @@ class UserCountSummaryPdfService
     $startY         = 30;
     $currentY       = $startY;
     $availableWidth = 190;
+    $pageBottomY    = 277;
 
     // タイトル（左上）
     $pdf->SetFont('kozgopromedium', '', 17);
@@ -105,35 +106,14 @@ class UserCountSummaryPdfService
 
     $rowHeight = 8;
 
-    // ヘッダー描画
-    $pdf->SetFont('kozgopromedium', '', 12);
-    $pdf->SetFillColor(220, 220, 220);
-    $pdf->SetLineWidth(0.2);
-    $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
-
     $headers = [
       ['text' => '施術種類',   'width' => $colWidths['therapy_type']],
       ['text' => '保険者名称', 'width' => $colWidths['insurer_name']],
       ['text' => '該当人数',   'width' => $colWidths['user_count']],
     ];
 
-    $x = $startX;
-    foreach ($headers as $header) {
-      $pdf->Rect($x, $currentY, $header['width'], $rowHeight, 'F');
-      $pdf->SetXY($x, $currentY);
-      $pdf->Cell($header['width'], $rowHeight, $header['text'], 0, 0, 'C', false);
-      $pdf->Line($x, $currentY,              $x + $header['width'], $currentY);
-      $pdf->Line($x, $currentY + $rowHeight, $x + $header['width'], $currentY + $rowHeight);
-      $pdf->Line($x, $currentY,              $x, $currentY + $rowHeight);
-      $pdf->Line($x + $header['width'], $currentY, $x + $header['width'], $currentY + $rowHeight);
-      $x += $header['width'];
-    }
-
-    $currentY += $rowHeight;
-
-    // データ行
-    $pdf->SetFillColor(255, 255, 255);
-    $pdf->SetFont('kozgopromedium', '', 11);
+    // ヘッダー描画
+    $currentY = $this->renderHeaderRow($pdf, $startX, $currentY, $headers, $rowHeight);
 
     $insurers = $data['insurers'];
     $countMap = $data['countMap'];
@@ -148,65 +128,99 @@ class UserCountSummaryPdfService
 
     foreach ($therapyTypes as $therapyTypeValue => $therapyTypeLabel) {
       // 該当人数が1以上の保険者のみ描画対象とする
-      $visibleInsurers = array_filter($insurerList, function ($insurer) use ($countMap, $therapyTypeValue) {
+      $visibleInsurers = array_values(array_filter($insurerList, function ($insurer) use ($countMap, $therapyTypeValue) {
         return ($countMap[$insurer->id][$therapyTypeValue] ?? 0) > 0;
-      });
+      }));
 
       // 描画対象が0件の施術種類はブロックごとスキップ
       if (empty($visibleInsurers)) {
         continue;
       }
 
-      $blockStartY  = $currentY;
-      $blockHeight  = $rowHeight * count($visibleInsurers);
-      $firstInsurer = true;
+      $total  = count($visibleInsurers);
+      $offset = 0;
 
-      foreach ($visibleInsurers as $insurer) {
+      while ($offset < $total) {
+        // このページに描画できる行数（最低1行は確保）
+        $maxRows      = max(1, (int) floor(($pageBottomY - $currentY) / $rowHeight));
+        $rowsThisPage = min($total - $offset, $maxRows);
+        $slice        = array_slice($visibleInsurers, $offset, $rowsThisPage);
+
+        $blockStartY = $currentY;
+        $blockHeight = $rowHeight * $rowsThisPage;
+
+        // 施術種類セル（ページ内で縦結合）
+        $pdf->SetFont('kozgopromedium', '', 11);
         $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
-
-        $userCount = $countMap[$insurer->id][$therapyTypeValue];
-
         $x = $startX;
+        $pdf->SetXY($x, $blockStartY);
+        $pdf->Cell($colWidths['therapy_type'], $blockHeight, $therapyTypeLabel, 0, 0, 'C', false);
+        $pdf->Line($x, $blockStartY,                $x + $colWidths['therapy_type'], $blockStartY);
+        $pdf->Line($x, $blockStartY + $blockHeight, $x + $colWidths['therapy_type'], $blockStartY + $blockHeight);
+        $pdf->Line($x, $blockStartY,                $x, $blockStartY + $blockHeight);
+        $pdf->Line($x + $colWidths['therapy_type'], $blockStartY, $x + $colWidths['therapy_type'], $blockStartY + $blockHeight);
 
-        // 施術種類セルは最初の行のみ結合描画
-        if ($firstInsurer) {
-          $pdf->SetXY($x, $blockStartY);
-          $pdf->Cell($colWidths['therapy_type'], $blockHeight, $therapyTypeLabel, 0, 0, 'C', false);
-          $pdf->Line($x, $blockStartY,                $x + $colWidths['therapy_type'], $blockStartY);
-          $pdf->Line($x, $blockStartY + $blockHeight, $x + $colWidths['therapy_type'], $blockStartY + $blockHeight);
-          $pdf->Line($x, $blockStartY,                $x, $blockStartY + $blockHeight);
-          $pdf->Line($x + $colWidths['therapy_type'], $blockStartY, $x + $colWidths['therapy_type'], $blockStartY + $blockHeight);
+        // 保険者行
+        foreach ($slice as $insurer) {
+          $userCount = $countMap[$insurer->id][$therapyTypeValue];
+
+          $x = $startX + $colWidths['therapy_type'];
+
+          // 保険者名称
+          $pdf->SetXY($x, $currentY);
+          $pdf->Cell($colWidths['insurer_name'], $rowHeight, $insurer->insurer_name, 0, 0, 'L', false);
+          $pdf->Line($x, $currentY,              $x + $colWidths['insurer_name'], $currentY);
+          $pdf->Line($x, $currentY + $rowHeight, $x + $colWidths['insurer_name'], $currentY + $rowHeight);
+          $pdf->Line($x, $currentY,              $x, $currentY + $rowHeight);
+          $pdf->Line($x + $colWidths['insurer_name'], $currentY, $x + $colWidths['insurer_name'], $currentY + $rowHeight);
+          $x += $colWidths['insurer_name'];
+
+          // 該当人数
+          $pdf->SetXY($x, $currentY);
+          $pdf->Cell($colWidths['user_count'], $rowHeight, (string) $userCount, 0, 0, 'C', false);
+          $pdf->Line($x, $currentY,              $x + $colWidths['user_count'], $currentY);
+          $pdf->Line($x, $currentY + $rowHeight, $x + $colWidths['user_count'], $currentY + $rowHeight);
+          $pdf->Line($x, $currentY,              $x, $currentY + $rowHeight);
+          $pdf->Line($x + $colWidths['user_count'], $currentY, $x + $colWidths['user_count'], $currentY + $rowHeight);
+
+          $currentY += $rowHeight;
         }
-        $x += $colWidths['therapy_type'];
 
-        // 保険者名称
-        $pdf->SetXY($x, $currentY);
-        $pdf->Cell($colWidths['insurer_name'], $rowHeight, $insurer->insurer_name, 0, 0, 'L', false);
-        $pdf->Line($x, $currentY,              $x + $colWidths['insurer_name'], $currentY);
-        $pdf->Line($x, $currentY + $rowHeight, $x + $colWidths['insurer_name'], $currentY + $rowHeight);
-        $pdf->Line($x, $currentY,              $x, $currentY + $rowHeight);
-        $pdf->Line($x + $colWidths['insurer_name'], $currentY, $x + $colWidths['insurer_name'], $currentY + $rowHeight);
-        $x += $colWidths['insurer_name'];
+        $offset += $rowsThisPage;
 
-        // 該当人数
-        $pdf->SetXY($x, $currentY);
-        $pdf->Cell($colWidths['user_count'], $rowHeight, (string)$userCount, 0, 0, 'C', false);
-        $pdf->Line($x, $currentY,              $x + $colWidths['user_count'], $currentY);
-        $pdf->Line($x, $currentY + $rowHeight, $x + $colWidths['user_count'], $currentY + $rowHeight);
-        $pdf->Line($x, $currentY,              $x, $currentY + $rowHeight);
-        $pdf->Line($x + $colWidths['user_count'], $currentY, $x + $colWidths['user_count'], $currentY + $rowHeight);
-
-        $currentY    += $rowHeight;
-        $firstInsurer = false;
-
-        // ページ末尾チェック
-        if ($currentY > 270) {
+        // 続きがある場合はページ切り替え＋ヘッダー再描画
+        if ($offset < $total) {
           $pdf->AddPage();
-          $currentY    = 20;
-          $blockStartY = $currentY;
+          $currentY = $this->renderHeaderRow($pdf, $startX, 20, $headers, $rowHeight);
         }
       }
     }
+  }
+
+  /**
+   * ヘッダー行を描画し、次の描画開始Y座標を返す
+   */
+  protected function renderHeaderRow(Fpdi $pdf, float $startX, float $startY, array $headers, float $rowHeight): float
+  {
+    $pdf->SetFont('kozgopromedium', '', 12);
+    $pdf->SetFillColor(220, 220, 220);
+    $pdf->SetLineWidth(0.2);
+    $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
+
+    $x = $startX;
+    foreach ($headers as $header) {
+      $pdf->Rect($x, $startY, $header['width'], $rowHeight, 'F');
+      $pdf->SetXY($x, $startY);
+      $pdf->Cell($header['width'], $rowHeight, $header['text'], 0, 0, 'C', false);
+      $pdf->Line($x, $startY,              $x + $header['width'], $startY);
+      $pdf->Line($x, $startY + $rowHeight, $x + $header['width'], $startY + $rowHeight);
+      $pdf->Line($x, $startY,              $x, $startY + $rowHeight);
+      $pdf->Line($x + $header['width'], $startY, $x + $header['width'], $startY + $rowHeight);
+      $x += $header['width'];
+    }
+
+    $pdf->SetFillColor(255, 255, 255);
+    return $startY + $rowHeight;
   }
 
   /**
