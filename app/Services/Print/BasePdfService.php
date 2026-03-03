@@ -289,6 +289,7 @@ abstract class BasePdfService
     $textAlign = $this->coord($key, 'textAlign') ?: 'left';
     $maxCharsPerLine = $this->coord($key, 'maxCharsPerLine') ?: 0;
     $lineHeight = $this->coord($key, 'lineHeight') ?: 5;
+    $verticalAlign = $this->coordinates[$key]['verticalAlign'] ?? 'top';
 
     // フォント設定
     $pdf->SetFont('kozgopromedium', $fontWeight === 'bold' ? 'B' : '', $fontSize);
@@ -311,12 +312,24 @@ abstract class BasePdfService
         $lines[] = $currentLine;
       }
 
+      // verticalAlign: 'middle' の場合、yを中心点として上方向にオフセット
+      $startY = $y;
+      if ($verticalAlign === 'middle') {
+        $totalHeight = count($lines) * $lineHeight;
+        $startY = $y - ($totalHeight / 2);
+      }
+
       // 各行を描画
       foreach ($lines as $i => $line) {
-        $currentY = $y + ($i * $lineHeight);
+        $currentY = $startY + ($i * $lineHeight);
         $this->drawSingleLineText($pdf, $x, $currentY, $line, $letterSpacing, $textAlign);
       }
       return;
+    }
+
+    // 1行テキストにもverticalAlign: 'middle' を適用
+    if ($verticalAlign === 'middle') {
+      $y = $y - ($lineHeight / 2);
     }
 
     // 通常の1行描画
