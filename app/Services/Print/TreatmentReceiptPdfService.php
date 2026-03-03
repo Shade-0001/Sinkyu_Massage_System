@@ -607,6 +607,8 @@ class TreatmentReceiptPdfService
     $textAlign = $this->coord($key, 'textAlign') ?? 'left';
     $letterSpacing = $this->coord($key, 'letterSpacing') ?? 0;
     $maxCharsPerLine = $this->coord($key, 'maxCharsPerLine');
+    $lineHeightCoord = $this->coord($key, 'lineHeight');
+    $verticalAlign   = $this->coord($key, 'verticalAlign') ?? 'middle';
 
     $pdf->SetFont('kozgopromedium', '', $fontSize);
 
@@ -630,11 +632,11 @@ class TreatmentReceiptPdfService
         $lines[] = $currentLine;
       }
 
-      // 複数行を描画（テキスト全体の中央がY座標になるように調整）
-      $lineHeight = $fontSize * 0.4; // 行間隔（フォントサイズの40%）
+      // 複数行を描画
+      $lineHeight = $lineHeightCoord ?? ($fontSize * 0.4); // 座標JSONのlineHeightを優先、なければフォントサイズの40%
       $totalLines = count($lines);
-      $totalHeight = ($totalLines - 1) * $lineHeight; // 全体の高さ
-      $startY = $y - ($totalHeight / 2); // 中央揃えのための開始Y座標
+      $totalHeight = ($totalLines - 1) * $lineHeight;
+      $startY = ($verticalAlign === 'top') ? $y : $y - ($totalHeight / 2); // verticalAlignに応じて開始Y座標を決定
 
       foreach ($lines as $index => $line) {
         $currentY = $startY + ($index * $lineHeight);
