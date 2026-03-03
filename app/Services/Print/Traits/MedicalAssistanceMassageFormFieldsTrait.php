@@ -2074,7 +2074,11 @@ trait MedicalAssistanceMassageFormFieldsTrait
 
     if ($this->hasCoord('agent_postal_code') && $agentPostalCode) {
       $pdf->SetFontSize($this->coord('agent_postal_code', 'fontSize'));
-      $this->drawTextByKey($pdf, 'agent_postal_code', (string)$agentPostalCode);
+      $agentPostalNums = preg_replace('/[^0-9]/', '', $agentPostalCode);
+      $agentPostalFormatted = (strlen($agentPostalNums) === 7)
+        ? substr($agentPostalNums, 0, 3) . '-' . substr($agentPostalNums, 3, 4)
+        : $agentPostalNums;
+      $this->drawTextByKey($pdf, 'agent_postal_code', '〒 ' . $agentPostalFormatted);
     }
     if ($this->hasCoord('agent_address') && $agentAddress) {
       $pdf->SetFontSize($this->coord('agent_address', 'fontSize'));
@@ -2092,7 +2096,11 @@ trait MedicalAssistanceMassageFormFieldsTrait
       if ($this->signatureOption !== 'user_address_signature_blank') {
         if ($this->hasCoord('signature_applicant_postal_code') && isset($clinicUser->postal_code)) {
           $pdf->SetFontSize($this->coord('signature_applicant_postal_code', 'fontSize'));
-          $this->drawTextByKey($pdf, 'signature_applicant_postal_code', (string)$clinicUser->postal_code);
+          $sigPostalNums = preg_replace('/[^0-9]/', '', $clinicUser->postal_code);
+          $sigPostalFormatted = (strlen($sigPostalNums) === 7)
+            ? substr($sigPostalNums, 0, 3) . '-' . substr($sigPostalNums, 3, 4)
+            : $sigPostalNums;
+          $this->drawTextByKey($pdf, 'signature_applicant_postal_code', '〒 ' . $sigPostalFormatted);
         }
         if ($this->hasCoord('signature_applicant_address')) {
           $signatureAddress = ($clinicUser->address_1 ?? '') . ($clinicUser->address_2 ?? '') . ($clinicUser->address_3 ?? '');
@@ -2117,7 +2125,11 @@ trait MedicalAssistanceMassageFormFieldsTrait
       // 代理人情報はclinic_infoテーブルを参照
       if ($this->hasCoord('agent_postal_code') && isset($clinicInfo->postal_code)) {
         $pdf->SetFontSize($this->coord('agent_postal_code', 'fontSize'));
-        $this->drawTextByKey($pdf, 'agent_postal_code', (string)$clinicInfo->postal_code);
+        $realAgentPostalNums = preg_replace('/[^0-9]/', '', $clinicInfo->postal_code);
+        $realAgentPostalFormatted = (strlen($realAgentPostalNums) === 7)
+          ? substr($realAgentPostalNums, 0, 3) . '-' . substr($realAgentPostalNums, 3, 4)
+          : $realAgentPostalNums;
+        $this->drawTextByKey($pdf, 'agent_postal_code', '〒 ' . $realAgentPostalFormatted);
       }
       if ($this->hasCoord('agent_address') && isset($clinicInfo->address_1)) {
         $agentAddress = ($clinicInfo->address_1 ?? '') . ($clinicInfo->address_2 ?? '') . ($clinicInfo->address_3 ?? '');
@@ -2138,7 +2150,11 @@ trait MedicalAssistanceMassageFormFieldsTrait
       if ($this->signatureOption !== 'user_address_signature_blank') {
         if ($this->hasCoord('signature_applicant_postal_code') && isset($clinicUser->postal_code)) {
           $pdf->SetFontSize($this->coord('signature_applicant_postal_code', 'fontSize'));
-          $this->drawTextByKey($pdf, 'signature_applicant_postal_code', (string)$clinicUser->postal_code);
+          $realSigPostalNums = preg_replace('/[^0-9]/', '', $clinicUser->postal_code);
+          $realSigPostalFormatted = (strlen($realSigPostalNums) === 7)
+            ? substr($realSigPostalNums, 0, 3) . '-' . substr($realSigPostalNums, 3, 4)
+            : $realSigPostalNums;
+          $this->drawTextByKey($pdf, 'signature_applicant_postal_code', '〒 ' . $realSigPostalFormatted);
         }
         if ($this->hasCoord('signature_applicant_address')) {
           $signatureAddress = ($clinicUser->address_1 ?? '') . ($clinicUser->address_2 ?? '') . ($clinicUser->address_3 ?? '');
