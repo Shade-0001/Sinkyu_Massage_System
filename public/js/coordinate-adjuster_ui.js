@@ -917,7 +917,7 @@ function renderSingleFieldHTML(key, field) {
 
       ${field.maxCharsPerLine !== undefined ? `
       <div class="coordinate-input">
-        <label>1行文字数:</label>
+        <label>1行字数:</label>
         <button class="btn btn-sm btn-outline-secondary btn-adjust"
                 onmousedown="startLongPress('${key}', 'maxCharsPerLine', -1)"
                 onmouseup="stopLongPress()"
@@ -1421,7 +1421,7 @@ function updateCompositeGroupSelection(groupName, selectedKey) {
   if (!isShapeOnly && selectedField.maxCharsPerLine !== undefined) {
   const mcplDiv = document.createElement('div');
   mcplDiv.className = 'coordinate-input';
-  mcplDiv.innerHTML = `<label>1行文字数:</label>`;
+  mcplDiv.innerHTML = `<label>1行字数:</label>`;
 
   const mcplBtnMinus = document.createElement('button');
   mcplBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
@@ -2126,7 +2126,7 @@ function updateRadioGroupSelection(groupName, selectedKey) {
   if (!isShapeOnly && selectedField.maxCharsPerLine !== undefined) {
     const mcplDiv = document.createElement('div');
     mcplDiv.className = 'coordinate-input';
-    mcplDiv.innerHTML = `<label>1行文字数:</label>`;
+    mcplDiv.innerHTML = `<label>1行字数:</label>`;
 
   const mcplBtnMinus = document.createElement('button');
   mcplBtnMinus.className = 'btn btn-sm btn-outline-secondary btn-adjust';
