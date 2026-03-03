@@ -959,7 +959,7 @@ function renderSingleFieldHTML(key, field) {
 
       ${field.textAlign !== undefined ? `
       <div class="coordinate-input">
-        <label>配置:</label>
+        <label>横配置:</label>
         <select onchange="updateCoordinate('${key}', 'textAlign', this.value)"
                 class="form-control form-control-sm" style="width: auto;" data-property="textAlign">
           <option value="left" ${field.textAlign === 'left' ? 'selected' : ''}>左</option>
@@ -1506,7 +1506,7 @@ function updateCompositeGroupSelection(groupName, selectedKey) {
   if (!isShapeOnly && selectedField.textAlign !== undefined) {
   const taDiv = document.createElement('div');
   taDiv.className = 'coordinate-input';
-  taDiv.innerHTML = `<label>テキスト配置:</label>`;
+  taDiv.innerHTML = `<label>横配置:</label>`;
   
   const taBtnGroup = document.createElement('div');
   taBtnGroup.className = 'btn-group btn-group-sm d-flex';
