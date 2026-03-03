@@ -487,8 +487,8 @@
         "letterSpacing": 0,
         "textAlign": "left",
         "type": "text",
-        "lineHeight": 3.5,
-        "maxCharsPerLine": 22,
+        "lineHeight": 3,
+        "maxCharsPerLine": 25,
         "verticalAlign": null
     },
     "clinic_name": {
@@ -1167,9 +1167,9 @@
         "compositeGroup": "submission_date"
     },
     "insurer_name": {
-        "x": -129,
+        "x": -127,
         "y": 216.5,
-        "fontSize": 10,
+        "fontSize": 9,
         "letterSpacing": 0,
         "textAlign": "right",
         "type": "text"

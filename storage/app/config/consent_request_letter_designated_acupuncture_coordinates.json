@@ -69,7 +69,10 @@
         "label": "施設住所",
         "type": "text",
         "fontSize": 12,
-        "letterSpacing": 0
+        "letterSpacing": 0,
+        "lineHeight": 5,
+        "maxCharsPerLine": 20,
+        "verticalAlign": "middle"
     },
     "clinic_phone": {
         "x": 120,

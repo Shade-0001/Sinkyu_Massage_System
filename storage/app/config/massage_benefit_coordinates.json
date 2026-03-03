@@ -493,22 +493,25 @@
     "clinic_postal_code": {
         "x": 123,
         "y": 186,
-        "fontSize": 9,
+        "fontSize": 8,
         "letterSpacing": 0,
         "textAlign": "left",
         "type": "text"
     },
     "clinic_address": {
         "x": 123,
-        "y": 190,
-        "fontSize": 9,
+        "y": 192,
+        "fontSize": 8,
         "letterSpacing": 0,
         "textAlign": "left",
-        "type": "text"
+        "type": "text",
+        "lineHeight": 3,
+        "maxCharsPerLine": 25,
+        "verticalAlign": "middle"
     },
     "clinic_name": {
         "x": 123,
-        "y": 194.5,
+        "y": 195,
         "fontSize": 9,
         "letterSpacing": 0,
         "textAlign": "left",
@@ -532,7 +535,7 @@
     },
     "applicant_address": {
         "x": 122,
-        "y": 210,
+        "y": 213,
         "fontSize": 9,
         "letterSpacing": 0,
         "textAlign": "left",
@@ -560,12 +563,12 @@
     },
     "agent_address": {
         "x": 136,
-        "y": 267,
+        "y": 269,
         "fontSize": 9,
         "letterSpacing": 0,
         "type": "text",
-        "lineHeight": 5,
-        "maxCharsPerLine": 20,
+        "lineHeight": 3,
+        "maxCharsPerLine": 18,
         "verticalAlign": "middle"
     },
     "agent_name": {
@@ -1119,9 +1122,9 @@
         "compositeGroup": "submission_date"
     },
     "insurer_name": {
-        "x": -130,
+        "x": -127,
         "y": 217.5,
-        "fontSize": 10,
+        "fontSize": 9,
         "letterSpacing": 0,
         "textAlign": "right",
         "type": "text"
@@ -1374,23 +1377,26 @@
     },
     "consent_record_doctor_postal_code": {
         "x": -158,
-        "y": 246,
-        "fontSize": 9,
+        "y": 245.5,
+        "fontSize": 8,
         "letterSpacing": 0,
         "textAlign": "left",
         "type": "postal_code",
         "postalCodeGap": 11,
-        "lastX": -147
+        "lastX": -147,
+        "firstY": 245.5,
+        "lastY": 245.5,
+        "firstX": -158
     },
     "consent_record_doctor_address": {
         "x": -158,
-        "y": 250.5,
-        "fontSize": 9,
+        "y": 251.5,
+        "fontSize": 8,
         "letterSpacing": 0,
         "textAlign": "left",
         "type": "text",
-        "lineHeight": 5,
-        "maxCharsPerLine": 20,
+        "lineHeight": 3,
+        "maxCharsPerLine": 17,
         "verticalAlign": "middle"
     },
     "consent_record_date_year": {
@@ -1465,7 +1471,7 @@
     },
     "signature_applicant_address": {
         "x": 48,
-        "y": 267,
+        "y": 269.5,
         "fontSize": 9,
         "letterSpacing": 0,
         "textAlign": "left",

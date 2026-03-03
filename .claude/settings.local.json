@@ -122,7 +122,8 @@
       "Bash(git -C /i/XAMPP/htdocs/Sinkyu_Massage_System show 2c9ff4a^:public/js/coordinate-adjuster_ui.js)",
       "Bash(git -C /i/XAMPP/htdocs/Sinkyu_Massage_System show 578dc20 --stat)",
       "Bash(git -C /i/XAMPP/htdocs/Sinkyu_Massage_System log --all --oneline --since=\"2026-03-02\" --until=\"2026-03-03\")",
-      "Bash(git -C /i/XAMPP/htdocs/Sinkyu_Massage_System show 2c9ff4a:public/js/coordinate-adjuster_ui.js)"
+      "Bash(git -C /i/XAMPP/htdocs/Sinkyu_Massage_System show 2c9ff4a:public/js/coordinate-adjuster_ui.js)",
+      "Bash(start \"i:/XAMPP/htdocs/Sinkyu_Massage_System/test_space_output.pdf\")"
     ],
     "deny": [],
     "ask": []
