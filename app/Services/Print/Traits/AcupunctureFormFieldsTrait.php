@@ -969,25 +969,20 @@ protected function fillClinicInfoSection(Fpdi $pdf, $clinicInfo, string $submiss
         $this->drawTextByKey($pdf, 'clinic_name', (string)$clinicName);
         $pdf->SetFontSize(10);
 
-        // 施術管理者氏名（施術者情報から取得）
+        // 施術管理者氏名（clinic_infoから取得）
         if ($this->sampleDataMode && isset($this->customSampleData['clinic_manager'])) {
           $therapistName = $this->customSampleData['clinic_manager'];
           $pdf->SetFontSize($this->coord('clinic_manager', 'fontSize'));
           $this->drawTextByKey($pdf, 'clinic_manager', (string)$therapistName);
           $pdf->SetFontSize(10);
         } else {
-          $therapist = DB::table('therapists')->first();
-          if ($therapist) {
-            $therapistName = ($therapist->last_name ?? '') . '  ' . ($therapist->first_name ?? '');
-            if (empty(trim($therapistName))) {
-              \Log::warning('施術管理者氏名が設定されていません', ['therapist' => $therapist]);
-            }
-            $pdf->SetFontSize($this->coord('clinic_manager', 'fontSize'));
-            $this->drawTextByKey($pdf, 'clinic_manager', (string)$therapistName);
-            $pdf->SetFontSize(10);
-          } else {
-            \Log::warning('施術者情報が見つかりません');
+          $therapistName = ($clinicInfo->owner_last_name ?? '') . '  ' . ($clinicInfo->owner_first_name ?? '');
+          if (empty(trim($therapistName))) {
+            \Log::warning('施術管理者氏名が設定されていません', ['clinic_info' => $clinicInfo]);
           }
+          $pdf->SetFontSize($this->coord('clinic_manager', 'fontSize'));
+          $this->drawTextByKey($pdf, 'clinic_manager', (string)$therapistName);
+          $pdf->SetFontSize(10);
         }
 
         // 電話番号
