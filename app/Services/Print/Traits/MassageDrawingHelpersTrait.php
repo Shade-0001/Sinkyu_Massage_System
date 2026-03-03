@@ -37,6 +37,7 @@ trait MassageDrawingHelpersTrait
     $textAlign = $this->coordinates[$key]['textAlign'] ?? 'left';
     $alignmentWidth = $this->coordinates[$key]['alignmentWidth'] ?? 0;
     $maxCharsPerLine = $this->coordinates[$key]['maxCharsPerLine'] ?? null;
+    $verticalAlign = $this->coordinates[$key]['verticalAlign'] ?? 'top';
 
     // alignmentWidth が指定されていない場合はPDFのページ幅を使用
     if ($alignmentWidth <= 0) {
@@ -63,8 +64,16 @@ trait MassageDrawingHelpersTrait
 
       // 各行を描画
       $lineHeight = $this->coordinates[$key]['lineHeight'] ?? 5;
+
+      // verticalAlign: 'middle' の場合、yを中心点として上方向にオフセット
+      $startY = $y;
+      if ($verticalAlign === 'middle') {
+        $totalHeight = count($lines) * $lineHeight;
+        $startY = $y - ($totalHeight / 2);
+      }
+
       foreach ($lines as $i => $line) {
-        $currentY = $y + ($i * $lineHeight);
+        $currentY = $startY + ($i * $lineHeight);
 
         if ($letterSpacing > 0) {
           $this->drawTextWithSpacing($pdf, $x, $currentY, $line, (float)$letterSpacing, $textAlign, (float)$alignmentWidth);
@@ -82,6 +91,12 @@ trait MassageDrawingHelpersTrait
         }
       }
       return;
+    }
+
+    // 1行テキストにもverticalAlign: 'middle' を適用
+    $lineHeight = $this->coordinates[$key]['lineHeight'] ?? 5;
+    if ($verticalAlign === 'middle') {
+      $y = $y - ($lineHeight / 2);
     }
 
     if (empty($letterSpacing) && $textAlign === 'left') {
