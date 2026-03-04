@@ -158,12 +158,17 @@ class TherapyDeadlineListPdfService extends BasePdfService
     $pdf->SetFillColor(220, 220, 220);
     $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
 
+    // TCPDFのcell_height_ratio=1.25を考慮した垂直中央配置
+    $fontMm        = 9 * 0.352 * 1.25;
+    $headerOffsetY = ($rowHeight - $fontMm) / 2;
+
     $x = $startX;
     foreach ($headers as $header) {
       $w = $colWidths[$header['key']];
       $pdf->Rect($x, $currentY, $w, $rowHeight, 'F');
-      $pdf->SetXY($x, $currentY);
-      $pdf->Cell($w, $rowHeight, $header['text'], 0, 0, 'C', false);
+      $pdf->setCellPaddings(0, 0, 0, 0);
+      $pdf->SetXY($x, $currentY + $headerOffsetY);
+      $pdf->Cell($w, 0, $header['text'], 0, 0, 'C', false);
       $pdf->Line($x,     $currentY,             $x + $w, $currentY);
       $pdf->Line($x,     $currentY + $rowHeight, $x + $w, $currentY + $rowHeight);
       $pdf->Line($x,     $currentY,             $x,      $currentY + $rowHeight);
@@ -175,7 +180,7 @@ class TherapyDeadlineListPdfService extends BasePdfService
 
     // データ行
     $pdf->SetFillColor(255, 255, 255);
-    $pdf->SetFont('kozgopromedium', '', 8);
+    $pdf->SetFont('kozgopromedium', '', 9);
 
     $rows = $data['rows'];
 
@@ -197,14 +202,19 @@ class TherapyDeadlineListPdfService extends BasePdfService
         'division'     => $row['division'],
       ];
 
+      // TCPDFのcell_height_ratio=1.25を考慮した垂直中央配置
+      $fontMm  = 9 * 0.352 * 1.25;
+      $offsetY = ($rowHeight - $fontMm) / 2;
+
       $x = $startX;
       foreach ($headers as $header) {
         $key  = $header['key'];
         $w    = $colWidths[$key];
         $text = $cells[$key];
 
-        $pdf->SetXY($x, $currentY);
-        $pdf->Cell($w, $rowHeight, $text, 0, 0, 'C', false);
+        $pdf->setCellPaddings(0, 0, 0, 0);
+        $pdf->SetXY($x, $currentY + $offsetY);
+        $pdf->Cell($w, 0, $text, 0, 0, 'C', false);
 
         $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
         $pdf->Line($x,     $currentY,             $x + $w, $currentY);

@@ -334,8 +334,8 @@ class InsurancePaymentPdfService
         $baseFontSize = 9;
         $fontSize = $baseFontSize;
         if ($text !== '' && $pdf->GetStringWidth($text) > $cellInnerW) {
-          // セル幅に収まるまで0.5ptずつ縮小（最小5pt）
-          while ($fontSize > 5 && $pdf->GetStringWidth($text) > $cellInnerW) {
+          // セル幅に収まるまで0.5ptずつ縮小（最小9pt）
+          while ($fontSize > 9 && $pdf->GetStringWidth($text) > $cellInnerW) {
             $fontSize -= 0.5;
             $pdf->SetFontSize($fontSize);
           }
