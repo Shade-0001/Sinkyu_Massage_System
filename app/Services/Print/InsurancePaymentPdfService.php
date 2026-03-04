@@ -56,7 +56,7 @@ class InsurancePaymentPdfService
     $totalPages = $pdf->getNumPages();
     for ($p = 1; $p <= $totalPages; $p++) {
       $pdf->setPage($p);
-      $pageText = '- ' . $p . '/' . $totalPages . ' -';
+      $pageText = '-' . "\u{2002}" . "\u{2002}" . $p . '／' . $totalPages . "\u{2002}" . "\u{2002}" . '-';
       $pdf->SetFont('kozgopromedium', '', 9);
       $pdf->SetTextColor(0, 0, 0);
       $textW = $pdf->GetStringWidth($pageText);
