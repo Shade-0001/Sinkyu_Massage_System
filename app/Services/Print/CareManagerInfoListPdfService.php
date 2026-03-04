@@ -21,8 +21,8 @@ class CareManagerInfoListPdfService extends BasePdfService
   const CELL_PADDING_X   = 2.4;  // セル左右パディング合計 mm
   const BASE_ROW_H       = 6;    // 行の基本高さ mm
   const LINE_PITCH       = 3.2;  // 折り返し行のピッチ mm
-  const FONT_SIZE        = 7;    // データフォント pt
-  const HEADER_FONT      = 7;    // ヘッダーフォント pt
+  const FONT_SIZE        = 8;    // データフォント pt
+  const HEADER_FONT      = 8;    // ヘッダーフォント pt
   const HEADER_H         = 8;    // ヘッダー行高 mm
 
   // カラム幅（合計281mm）
