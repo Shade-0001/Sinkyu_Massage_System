@@ -107,10 +107,10 @@ class TherapyDeadlineListPdfService extends BasePdfService
    */
   protected function renderPdf(Fpdi $pdf, array $data, string $targetYearMonth): void
   {
-    // A4縦：210mm × 297mm、左右マージン5mmで利用可能幅200mm
-    $startX         = 5;
+    // A4縦：210mm × 297mm、左右マージン8mmで利用可能幅194mm
+    $startX         = 8;
     $startY         = 30;
-    $availableWidth = 200;
+    $availableWidth = 194;
     $rowHeight      = 7;
 
     $pdf->SetTextColor(0, 0, 0);

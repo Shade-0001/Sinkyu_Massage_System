@@ -9,15 +9,15 @@ use Illuminate\Support\Facades\DB;
  * 医師情報一覧PDF生成サービス
  *
  * レイアウト概要：
- * - A4横 (297mm × 210mm)、左右マージン 5mm → 利用可能幅 287mm
+ * - A4横 (297mm × 210mm)、左右マージン 8mm → 利用可能幅 281mm
  * - カラム幅：ID=16, 医師氏名=45, 医療機関名=55, 郵便番号=22, 住所=80, 電話番号=32, 携帯番号=31 合計=281mm
  * - 1ページあたりのデータ行数：可変高のため行ごとに判定
  */
 class DoctorInfoListPdfService extends BasePdfService
 {
   // レイアウト定数
-  const MARGIN_X         = 5;    // 左右マージン mm
-  const AVAILABLE_W      = 287;  // 利用可能幅 mm（A4横: 297-5×2）
+  const MARGIN_X         = 8;    // 左右マージン mm
+  const AVAILABLE_W      = 281;  // 利用可能幅 mm（A4横: 297-8×2）
   const CELL_PADDING_X   = 2.4;  // セル左右パディング合計 mm
   const BASE_ROW_H       = 6;    // 行の基本高さ mm
   const LINE_PITCH       = 3.2;  // 折り返し行のピッチ mm
