@@ -1,24 +1,24 @@
 {
     "submission_date": {
-        "x": 100,
-        "y": 20,
-        "textAlign": "left",
+        "x": 193.5,
+        "y": 34,
+        "textAlign": "right",
         "field": "submission_date",
         "label": "提出年月日",
         "type": "text",
-        "fontSize": 11,
+        "fontSize": 12,
         "letterSpacing": 0,
         "maxCharsPerLine": 40,
         "lineHeight": 6
     },
     "greeting_text": {
-        "x": 33,
-        "y": 35,
+        "x": 20,
+        "y": 42,
         "textAlign": "left",
         "field": "greeting_text",
         "label": "利用者氏名挨拶文",
         "type": "text",
-        "fontSize": 11,
+        "fontSize": 12,
         "letterSpacing": 0,
         "maxCharsPerLine": 40,
         "lineHeight": 6

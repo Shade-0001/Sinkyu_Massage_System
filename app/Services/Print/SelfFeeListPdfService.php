@@ -152,14 +152,19 @@ class SelfFeeListPdfService
       ['text' => '料金', 'width' => $colWidths['fee']],
     ];
 
+    // TCPDFのcell_height_ratio=1.25を考慮した垂直中央配置
+    $headerFontMm  = 12 * 0.352 * 1.25;
+    $headerOffsetY = ($rowHeight - $headerFontMm) / 2;
+
     $x = $startX;
     foreach ($headers as $header) {
       // 背景色を塗りつぶし（枠線なし）
       $pdf->Rect($x, $currentY, $header['width'], $rowHeight, 'F');
-      $pdf->SetXY($x, $currentY);
-      $pdf->Cell($header['width'], $rowHeight, $header['text'], 0, 0, 'C', false);
+      $pdf->setCellPaddings(0, 0, 0, 0);
+      $pdf->SetXY($x, $currentY + $headerOffsetY);
+      $pdf->Cell($header['width'], 0, $header['text'], 0, 0, 'C', false);
 
-      // 破線で枠線を手動描画
+      // 枠線を手動描画
       $pdf->Line($x, $currentY, $x + $header['width'], $currentY); // 上
       $pdf->Line($x, $currentY + $rowHeight, $x + $header['width'], $currentY + $rowHeight); // 下
       $pdf->Line($x, $currentY, $x, $currentY + $rowHeight); // 左
@@ -173,6 +178,9 @@ class SelfFeeListPdfService
     // データ部分
     $pdf->SetFillColor(255, 255, 255);
     $pdf->SetFont('kozgopromedium', '', 11);
+    // TCPDFのcell_height_ratio=1.25を考慮した垂直中央配置
+    $dataFontMm  = 11 * 0.352 * 1.25;
+    $dataOffsetY = ($rowHeight - $dataFontMm) / 2;
 
     $userGroups = $data['userGroups'];
     $clinicUsers = $data['clinicUsers'];
@@ -219,8 +227,12 @@ class SelfFeeListPdfService
 
         // 利用者氏名（最初の行のみ結合セルとして描画）
         if ($firstRow) {
-          $pdf->SetXY($x, $currentY);
-          $pdf->Cell($colWidths['name'], $rowHeight * $userRowCount, $fullName, 0, 0, 'C', false);
+          $nameH          = $rowHeight * $userRowCount;
+          $nameFontMm     = 11 * 0.352 * 1.25;
+          $nameOffsetY    = ($nameH - $nameFontMm) / 2;
+          $pdf->setCellPaddings(0, 0, 0, 0);
+          $pdf->SetXY($x, $currentY + $nameOffsetY);
+          $pdf->Cell($colWidths['name'], 0, $fullName, 0, 0, 'C', false);
 
           // 利用者氏名セルの枠線
           $nameHeight = $rowHeight * $userRowCount;
@@ -238,8 +250,9 @@ class SelfFeeListPdfService
         $x += $colWidths['name'];
 
         // 施術名
-        $pdf->SetXY($x, $currentY);
-        $pdf->Cell($colWidths['treatment'], $rowHeight, $selfFee->self_fee_name, 0, 0, 'L', false);
+        $pdf->setCellPaddings(0, 0, 0, 0);
+        $pdf->SetXY($x + 1, $currentY + $dataOffsetY);
+        $pdf->Cell($colWidths['treatment'] - 1, 0, $selfFee->self_fee_name, 0, 0, 'L', false);
         // 上辺は最初の行のみ実線、それ以外は破線
         if (!$firstRow) {
           $pdf->SetLineStyle(array('width' => 0.2, 'dash' => '2,2', 'color' => array(0, 0, 0)));
@@ -257,8 +270,9 @@ class SelfFeeListPdfService
         $x += $colWidths['treatment'];
 
         // 回数（中央揃え）
-        $pdf->SetXY($x, $currentY);
-        $pdf->Cell($colWidths['count'], $rowHeight, (string)$count, 0, 0, 'C', false);
+        $pdf->setCellPaddings(0, 0, 0, 0);
+        $pdf->SetXY($x, $currentY + $dataOffsetY);
+        $pdf->Cell($colWidths['count'], 0, (string)$count, 0, 0, 'C', false);
         if (!$firstRow) {
           $pdf->SetLineStyle(array('width' => 0.2, 'dash' => '2,2', 'color' => array(0, 0, 0)));
         }
@@ -271,8 +285,9 @@ class SelfFeeListPdfService
         $x += $colWidths['count'];
 
         // 料金（中央揃え）
-        $pdf->SetXY($x, $currentY);
-        $pdf->Cell($colWidths['fee'], $rowHeight, number_format($totalFee), 0, 0, 'C', false);
+        $pdf->setCellPaddings(0, 0, 0, 0);
+        $pdf->SetXY($x, $currentY + $dataOffsetY);
+        $pdf->Cell($colWidths['fee'], 0, number_format($totalFee), 0, 0, 'C', false);
         if (!$firstRow) {
           $pdf->SetLineStyle(array('width' => 0.2, 'dash' => '2,2', 'color' => array(0, 0, 0)));
         }
@@ -299,9 +314,12 @@ class SelfFeeListPdfService
       $x = $startX;
 
       // 利用者氏名と施術名を結合して「合計」を中央揃え
-      $pdf->SetXY($x, $currentY);
-      $mergedWidth = $colWidths['name'] + $colWidths['treatment'];
-      $pdf->Cell($mergedWidth, $rowHeight, '合計', 0, 0, 'C', false);
+      $mergedWidth   = $colWidths['name'] + $colWidths['treatment'];
+      $sumFontMm     = 11 * 0.352 * 1.25;
+      $sumOffsetY    = ($rowHeight - $sumFontMm) / 2;
+      $pdf->setCellPaddings(0, 0, 0, 0);
+      $pdf->SetXY($x, $currentY + $sumOffsetY);
+      $pdf->Cell($mergedWidth, 0, '合計', 0, 0, 'C', false);
 
       // 上辺は描画しない（データ行の最終行の下辺で既に破線が描画されているため）
 
@@ -312,16 +330,18 @@ class SelfFeeListPdfService
       $x += $mergedWidth;
 
       // 回数（中央揃え）
-      $pdf->SetXY($x, $currentY);
-      $pdf->Cell($colWidths['count'], $rowHeight, (string)$userTotalCount, 0, 0, 'C', false);
+      $pdf->setCellPaddings(0, 0, 0, 0);
+      $pdf->SetXY($x, $currentY + $sumOffsetY);
+      $pdf->Cell($colWidths['count'], 0, (string)$userTotalCount, 0, 0, 'C', false);
       $pdf->Line($x, $currentY + $rowHeight, $x + $colWidths['count'], $currentY + $rowHeight); // 下
       $pdf->Line($x, $currentY, $x, $currentY + $rowHeight); // 左
       $pdf->Line($x + $colWidths['count'], $currentY, $x + $colWidths['count'], $currentY + $rowHeight); // 右
       $x += $colWidths['count'];
 
       // 料金（中央揃え）
-      $pdf->SetXY($x, $currentY);
-      $pdf->Cell($colWidths['fee'], $rowHeight, number_format($userTotalFee), 0, 0, 'C', false);
+      $pdf->setCellPaddings(0, 0, 0, 0);
+      $pdf->SetXY($x, $currentY + $sumOffsetY);
+      $pdf->Cell($colWidths['fee'], 0, number_format($userTotalFee), 0, 0, 'C', false);
       $pdf->Line($x, $currentY + $rowHeight, $x + $colWidths['fee'], $currentY + $rowHeight); // 下
       $pdf->Line($x, $currentY, $x, $currentY + $rowHeight); // 左
       $pdf->Line($x + $colWidths['fee'], $currentY, $x + $colWidths['fee'], $currentY + $rowHeight); // 右
@@ -339,9 +359,12 @@ class SelfFeeListPdfService
     $x = $startX;
 
     // 利用者氏名と施術名を結合して「総合計」を中央揃え
-    $pdf->SetXY($x, $currentY);
-    $mergedWidth = $colWidths['name'] + $colWidths['treatment'];
-    $pdf->Cell($mergedWidth, $rowHeight, '総合計', 0, 0, 'C', false);
+    $mergedWidth   = $colWidths['name'] + $colWidths['treatment'];
+    $totalFontMm   = 11 * 0.352 * 1.25;
+    $totalOffsetY  = ($rowHeight - $totalFontMm) / 2;
+    $pdf->setCellPaddings(0, 0, 0, 0);
+    $pdf->SetXY($x, $currentY + $totalOffsetY);
+    $pdf->Cell($mergedWidth, 0, '総合計', 0, 0, 'C', false);
     $pdf->Line($x, $currentY, $x + $mergedWidth, $currentY); // 上
     $pdf->Line($x, $currentY + $rowHeight, $x + $mergedWidth, $currentY + $rowHeight); // 下
     $pdf->Line($x, $currentY, $x, $currentY + $rowHeight); // 左
@@ -350,7 +373,7 @@ class SelfFeeListPdfService
 
     // 回数（空欄）
     $pdf->SetXY($x, $currentY);
-    $pdf->Cell($colWidths['count'], $rowHeight, '', 0, 0, 'C', false);
+    $pdf->Cell($colWidths['count'], 0, '', 0, 0, 'C', false);
     $pdf->Line($x, $currentY, $x + $colWidths['count'], $currentY); // 上
     $pdf->Line($x, $currentY + $rowHeight, $x + $colWidths['count'], $currentY + $rowHeight); // 下
     $pdf->Line($x, $currentY, $x, $currentY + $rowHeight); // 左
@@ -358,8 +381,9 @@ class SelfFeeListPdfService
     $x += $colWidths['count'];
 
     // 料金（中央揃え）
-    $pdf->SetXY($x, $currentY);
-    $pdf->Cell($colWidths['fee'], $rowHeight, number_format($grandTotalFee), 0, 0, 'C', false);
+    $pdf->setCellPaddings(0, 0, 0, 0);
+    $pdf->SetXY($x, $currentY + $totalOffsetY);
+    $pdf->Cell($colWidths['fee'], 0, number_format($grandTotalFee), 0, 0, 'C', false);
     $pdf->Line($x, $currentY, $x + $colWidths['fee'], $currentY); // 上
     $pdf->Line($x, $currentY + $rowHeight, $x + $colWidths['fee'], $currentY + $rowHeight); // 下
     $pdf->Line($x, $currentY, $x, $currentY + $rowHeight); // 左

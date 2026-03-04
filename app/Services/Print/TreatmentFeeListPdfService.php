@@ -173,19 +173,24 @@ class TreatmentFeeListPdfService
       ['text' => '保険請求額', 'width' => $colWidths['insurance']],
     ];
 
+    // TCPDFのcell_height_ratio=1.25を考慮した垂直中央配置
+    $headerFontMm  = 12 * 0.352 * 1.25;
+    $headerOffsetY = ($rowHeight - $headerFontMm) / 2;
+
     $x = $startX;
     foreach ($headers as $header) {
       // 背景色を塗りつぶし（枠線なし）
       $pdf->Rect($x, $currentY, $header['width'], $rowHeight, 'F');
-      $pdf->SetXY($x, $currentY);
-      $pdf->Cell($header['width'], $rowHeight, $header['text'], 0, 0, 'C', false);
-      
-      // 破線で枠線を手動描画
+      $pdf->setCellPaddings(0, 0, 0, 0);
+      $pdf->SetXY($x, $currentY + $headerOffsetY);
+      $pdf->Cell($header['width'], 0, $header['text'], 0, 0, 'C', false);
+
+      // 枠線を手動描画
       $pdf->Line($x, $currentY, $x + $header['width'], $currentY); // 上
       $pdf->Line($x, $currentY + $rowHeight, $x + $header['width'], $currentY + $rowHeight); // 下
       $pdf->Line($x, $currentY, $x, $currentY + $rowHeight); // 左
       $pdf->Line($x + $header['width'], $currentY, $x + $header['width'], $currentY + $rowHeight); // 右
-      
+
       $x += $header['width'];
     }
 

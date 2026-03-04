@@ -159,12 +159,17 @@ class ScheduleListPdfService extends BasePdfService
     $pdf->SetFillColor(220, 220, 220);
     $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
 
+    // TCPDFのcell_height_ratio=1.25を考慮した垂直中央配置
+    $headerFontMm  = 10 * 0.352 * 1.25;
+    $headerOffsetY = ($rowHeight - $headerFontMm) / 2;
+
     $x = $startX;
     foreach ($headers as $header) {
       $w = $colWidths[$header['key']];
       $pdf->Rect($x, $currentY, $w, $rowHeight, 'F');
-      $pdf->SetXY($x, $currentY);
-      $pdf->Cell($w, $rowHeight, $header['text'], 0, 0, 'C', false);
+      $pdf->setCellPaddings(0, 0, 0, 0);
+      $pdf->SetXY($x, $currentY + $headerOffsetY);
+      $pdf->Cell($w, 0, $header['text'], 0, 0, 'C', false);
       $this->drawCellBorder($pdf, $x, $currentY, $w, $rowHeight);
       $x += $w;
     }
@@ -172,6 +177,9 @@ class ScheduleListPdfService extends BasePdfService
 
     // ---- データ行：月の全日付を生成 ----
     $pdf->SetFont('kozgopromedium', '', 9);
+    // TCPDFのcell_height_ratio=1.25を考慮した垂直中央配置
+    $dataFontMm  = 9 * 0.352 * 1.25;
+    $dataOffsetY = ($rowHeight - $dataFontMm) / 2;
 
     $yearInt  = (int)substr($serviceYearMonth, 0, 4);
     $monthInt = (int)substr($serviceYearMonth, 5, 2);
@@ -237,8 +245,11 @@ class ScheduleListPdfService extends BasePdfService
       if (!$isClosedDay && $fillStyle) {
         $pdf->Rect($x, $currentY, $colWidths['date'], $blockH, $fillStyle);
       }
-      $pdf->SetXY($x, $currentY);
-      $pdf->Cell($colWidths['date'], $blockH, $dateText, 0, 0, 'C', false);
+      $blockFontMm  = 9 * 0.352 * 1.25;
+      $blockOffsetY = ($blockH - $blockFontMm) / 2;
+      $pdf->setCellPaddings(0, 0, 0, 0);
+      $pdf->SetXY($x, $currentY + $blockOffsetY);
+      $pdf->Cell($colWidths['date'], 0, $dateText, 0, 0, 'C', false);
       $this->drawCellBorder($pdf, $x, $currentY, $colWidths['date'], $blockH);
 
       // 施術種類・施術内容の縦結合グループを事前に計算
@@ -257,8 +268,9 @@ class ScheduleListPdfService extends BasePdfService
         if ($rec && $rec['start_time'] && $rec['end_time']) {
           $timeText = $this->formatTime($rec['start_time']) . ' ～ ' . $this->formatTime($rec['end_time']);
         }
-        $pdf->SetXY($x, $rowY);
-        $pdf->Cell($colWidths['time'], $rowHeight, $timeText, 0, 0, 'C', false);
+        $pdf->setCellPaddings(0, 0, 0, 0);
+        $pdf->SetXY($x, $rowY + $dataOffsetY);
+        $pdf->Cell($colWidths['time'], 0, $timeText, 0, 0, 'C', false);
         $this->drawCellBorder($pdf, $x, $rowY, $colWidths['time'], $rowHeight);
 
         // 施術種類列：グループの先頭行のみ結合セルを描画、データ無しは空セル
@@ -273,8 +285,11 @@ class ScheduleListPdfService extends BasePdfService
         if ($groupForThisRow !== null) {
           $mergedH         = $rowHeight * $groupForThisRow['count'];
           $therapyTypeText = $therapyTypeMap[$groupForThisRow['value']] ?? '';
-          $pdf->SetXY($x, $rowY);
-          $pdf->Cell($colWidths['therapy_type'], $mergedH, $therapyTypeText, 0, 0, 'C', false);
+          $mergedFontMm    = 9 * 0.352 * 1.25;
+          $mergedOffsetY   = ($mergedH - $mergedFontMm) / 2;
+          $pdf->setCellPaddings(0, 0, 0, 0);
+          $pdf->SetXY($x, $rowY + $mergedOffsetY);
+          $pdf->Cell($colWidths['therapy_type'], 0, $therapyTypeText, 0, 0, 'C', false);
           $this->drawCellBorder($pdf, $x, $rowY, $colWidths['therapy_type'], $mergedH);
         } else {
           // 途中行ではなくデータ無し行（$dayRecords 空）の空セル
@@ -295,8 +310,11 @@ class ScheduleListPdfService extends BasePdfService
         if ($contentGroupForThisRow !== null) {
           $mergedH            = $rowHeight * $contentGroupForThisRow['count'];
           $therapyContentText = $contentGroupForThisRow['value'] ?? '';
-          $pdf->SetXY($x + 1, $rowY);
-          $pdf->Cell($colWidths['therapy_content'] - 2, $mergedH, $therapyContentText, 0, 0, 'L', false);
+          $contentFontMm      = 9 * 0.352 * 1.25;
+          $contentOffsetY     = ($mergedH - $contentFontMm) / 2;
+          $pdf->setCellPaddings(0, 0, 0, 0);
+          $pdf->SetXY($x + 1, $rowY + $contentOffsetY);
+          $pdf->Cell($colWidths['therapy_content'] - 2, 0, $therapyContentText, 0, 0, 'L', false);
           $this->drawCellBorder($pdf, $x, $rowY, $colWidths['therapy_content'], $mergedH);
         } else {
           // 途中行ではなくデータ無し行（$dayRecords 空）の空セル

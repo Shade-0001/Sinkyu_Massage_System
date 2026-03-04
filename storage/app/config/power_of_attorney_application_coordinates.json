@@ -6,7 +6,7 @@
         "letterSpacing": 0,
         "textAlign": "left",
         "type": "text",
-        "lineHeight": 6,
+        "lineHeight": 7,
         "maxCharsPerLine": 27,
         "verticalAlign": "middle"
     },
