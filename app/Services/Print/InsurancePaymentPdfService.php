@@ -52,6 +52,18 @@ class InsurancePaymentPdfService
     $data = $this->fetchData($serviceYearMonth);
     $this->renderPdf($pdf, $data, $serviceYearMonth);
 
+    // 全ページにページ番号を描画（後処理）
+    $totalPages = $pdf->getNumPages();
+    for ($p = 1; $p <= $totalPages; $p++) {
+      $pdf->setPage($p);
+      $pageText = '- ' . $p . '/' . $totalPages . ' -';
+      $pdf->SetFont('kozgopromedium', '', 9);
+      $pdf->SetTextColor(0, 0, 0);
+      $textW = $pdf->GetStringWidth($pageText);
+      // A4横向き297mm幅、高さ210mm、下端5mm上
+      $pdf->Text((297 - $textW) / 2, 205, $pageText);
+    }
+
     return $pdf->Output('', 'S');
   }
 
