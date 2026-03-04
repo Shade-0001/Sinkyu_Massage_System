@@ -35,6 +35,8 @@ class ScheduleListPdfService extends BasePdfService
     $pdf->setPrintHeader(false);
     $pdf->setPrintFooter(false);
 
+    $outputDate = date('Y-m-d H:i:s');
+
     // 定休日情報を取得（曜日番号 0=日〜6=土 → bool のマップ）
     $closedDays = $this->fetchClosedDays();
 
@@ -49,7 +51,7 @@ class ScheduleListPdfService extends BasePdfService
 
       // 1ページ目を追加して描画
       $pdf->AddPage();
-      $this->renderUserSchedule($pdf, $user, $records, $serviceYearMonth, $daysInMonth, $closedDays);
+      $this->renderUserSchedule($pdf, $user, $records, $serviceYearMonth, $daysInMonth, $closedDays, $outputDate);
     }
 
     return $pdf->Output('', 'S');
@@ -100,7 +102,8 @@ class ScheduleListPdfService extends BasePdfService
     array  $records,
     string $serviceYearMonth,
     int    $daysInMonth,
-    array  $closedDays = []
+    array  $closedDays = [],
+    string $outputDate = ''
   ): void {
     // A4縦：210mm × 297mm、左右マージン12mm、有効幅186mm
     $startX         = 12;
@@ -122,6 +125,15 @@ class ScheduleListPdfService extends BasePdfService
     $yearMonthWidth     = $pdf->GetStringWidth($yearMonthText);
     $oneCharWidth       = $pdf->GetStringWidth('年');
     $pdf->Text($startX + $availableWidth - $yearMonthWidth - $oneCharWidth, 15, $yearMonthText);
+
+    // ---- PDF出力日時（右上、年月の下） ----
+    if ($outputDate) {
+      $ts      = strtotime($outputDate);
+      $dateStr = '〈 PDF出力日時 │ ' . date('Y/m/d', $ts) . "\u{2002}" . date('H:i', $ts) . ' 〉';
+      $pdf->SetFont('kozgopromedium', '', 8);
+      $pdf->SetXY($startX, 20);
+      $pdf->Cell($availableWidth, 0, $dateStr, 0, 0, 'R');
+    }
 
     // ---- カラム幅（合計186mm） ----
     // 日付:30, 開始･終了時刻:52, 施術種類:40, 施術内容:64

@@ -49,8 +49,9 @@ class InsurancePaymentPdfService
 
     $pdf->AddPage();
 
-    $data = $this->fetchData($serviceYearMonth);
-    $this->renderPdf($pdf, $data, $serviceYearMonth);
+    $outputDate = date('Y-m-d H:i:s');
+    $data       = $this->fetchData($serviceYearMonth);
+    $this->renderPdf($pdf, $data, $serviceYearMonth, $outputDate);
 
     // 2ページ以上の場合、全ページにページ番号を描画（後処理）
     $totalPages = $pdf->getNumPages();
@@ -179,7 +180,7 @@ class InsurancePaymentPdfService
   /**
    * PDFを描画
    */
-  protected function renderPdf(Fpdi $pdf, array $data, string $serviceYearMonth): void
+  protected function renderPdf(Fpdi $pdf, array $data, string $serviceYearMonth, string $outputDate = ''): void
   {
     // A4横向き：297mm × 210mm、左右マージン10mmで利用可能幅277mm
     $startX        = 10;
@@ -200,6 +201,15 @@ class InsurancePaymentPdfService
     $titleYearMonthWidth = $pdf->GetStringWidth($titleYearMonth);
     $oneCharWidth        = $pdf->GetStringWidth('年');
     $pdf->Text($startX + $availableWidth - $titleYearMonthWidth - $oneCharWidth, 15, $titleYearMonth);
+
+    // PDF出力日時（右上、年月の下）
+    if ($outputDate) {
+      $ts      = strtotime($outputDate);
+      $dateStr = '〈 PDF出力日時 │ ' . date('Y/m/d', $ts) . "\u{2002}" . date('H:i', $ts) . ' 〉';
+      $pdf->SetFont('kozgopromedium', '', 8);
+      $pdf->SetXY($startX, 20);
+      $pdf->Cell($availableWidth, 0, $dateStr, 0, 0, 'R');
+    }
 
     // カラム幅（合計277mm）
     // No.:10, 保険者:52, 被保険者氏名:24, 受療者氏名:24, 治療期間:28, 施術:14,

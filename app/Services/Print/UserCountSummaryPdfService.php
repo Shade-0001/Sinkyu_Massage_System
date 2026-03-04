@@ -26,9 +26,10 @@ class UserCountSummaryPdfService
 
     $pdf->AddPage();
 
-    $data = $this->fetchData($serviceYearMonth);
+    $outputDate = date('Y-m-d H:i:s');
+    $data       = $this->fetchData($serviceYearMonth);
 
-    $this->renderPdf($pdf, $data, $serviceYearMonth);
+    $this->renderPdf($pdf, $data, $serviceYearMonth, $outputDate);
 
     // 2ページ以上の場合、全ページにページ番号を描画（後処理）
     $totalPages = $pdf->getNumPages();
@@ -90,7 +91,7 @@ class UserCountSummaryPdfService
   /**
    * PDFを描画
    */
-  protected function renderPdf(Fpdi $pdf, array $data, string $serviceYearMonth): void
+  protected function renderPdf(Fpdi $pdf, array $data, string $serviceYearMonth, string $outputDate = ''): void
   {
     $pdf->SetTextColor(0, 0, 0);
 
@@ -110,6 +111,15 @@ class UserCountSummaryPdfService
     $titleYearMonthWidth = $pdf->GetStringWidth($titleYearMonth);
     $oneCharWidth        = $pdf->GetStringWidth('年');
     $pdf->Text($startX + $availableWidth - $titleYearMonthWidth - $oneCharWidth, 15, $titleYearMonth);
+
+    // PDF出力日時（右上、年月の下）
+    if ($outputDate) {
+      $ts      = strtotime($outputDate);
+      $dateStr = '〈 PDF出力日時 │ ' . date('Y/m/d', $ts) . "\u{2002}" . date('H:i', $ts) . ' 〉';
+      $pdf->SetFont('kozgopromedium', '', 8);
+      $pdf->SetXY($startX, 20);
+      $pdf->Cell($availableWidth, 0, $dateStr, 0, 0, 'R');
+    }
 
     // カラム幅（合計190mm）
     $colWidths = [
