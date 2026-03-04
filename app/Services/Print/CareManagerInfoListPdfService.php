@@ -350,29 +350,25 @@ class CareManagerInfoListPdfService extends BasePdfService
     $fontMm    = self::FONT_SIZE * 0.352;
 
     $pdf->setCellPaddings(0, 0, 0, 0);
+    $totalTextH = $lineCount > 1
+      ? $fontMm + ($lineCount - 1) * self::LINE_PITCH
+      : $fontMm;
+    $offsetY = ($h - $totalTextH) / 2;
     if ($isHeader) {
-      $totalTextH = $lineCount > 1
-        ? $fontMm + ($lineCount - 1) * self::LINE_PITCH
-        : $fontMm;
-      $offsetY    = ($h - $totalTextH) / 2;
       foreach ($lines as $li => $line) {
         $lineY = $y + $offsetY + $li * self::LINE_PITCH;
         $pdf->SetXY($x, $lineY);
-        $pdf->Cell($w, $fontMm, $line, 0, 0, 'C', false);
+        $pdf->Cell($w, 0, $line, 0, 0, 'C', false);
       }
     } else {
-      $totalTextH = $lineCount > 1
-        ? $fontMm + ($lineCount - 1) * self::LINE_PITCH
-        : $fontMm;
-      $offsetY = ($h - $totalTextH) / 2;
       foreach ($lines as $li => $line) {
         $lineY = $y + $offsetY + $li * self::LINE_PITCH;
-        $lineX = $x + ($align === 'C' ? 0 : 1.6);
         if ($align === 'C') {
           $pdf->SetXY($x, $lineY);
-          $pdf->Cell($w, $fontMm, $line, 0, 0, 'C', false);
+          $pdf->Cell($w, 0, $line, 0, 0, 'C', false);
         } else {
-          $pdf->Text($lineX, $lineY, $line);
+          $pdf->SetXY($x + 1.6, $lineY);
+          $pdf->Cell($w - 1.6, 0, $line, 0, 0, 'L', false);
         }
       }
     }
