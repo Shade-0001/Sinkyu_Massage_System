@@ -112,12 +112,12 @@ class UserCountSummaryPdfService
     $oneCharWidth        = $pdf->GetStringWidth('年');
     $pdf->Text($startX + $availableWidth - $titleYearMonthWidth - $oneCharWidth, 15, $titleYearMonth);
 
-    // PDF出力日時（右上、年月の下）
+    // PDF出力日時（右上）
     if ($outputDate) {
       $ts      = strtotime($outputDate);
       $dateStr = '〈 PDF出力日時 │ ' . date('Y/m/d', $ts) . "\u{2002}" . date('H:i', $ts) . ' 〉';
       $pdf->SetFont('kozgopromedium', '', 8);
-      $pdf->SetXY($startX, 20);
+      $pdf->SetXY($startX, 6);
       $pdf->Cell($availableWidth, 0, $dateStr, 0, 0, 'R');
     }
 
