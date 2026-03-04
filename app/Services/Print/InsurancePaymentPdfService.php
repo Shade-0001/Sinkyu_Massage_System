@@ -59,9 +59,9 @@ class InsurancePaymentPdfService
       $pageText = '-' . "\u{2002}" . "\u{2002}" . $p . ' / ' . $totalPages . "\u{2002}" . "\u{2002}" . '-';
       $pdf->SetFont('kozgopromedium', '', 9);
       $pdf->SetTextColor(0, 0, 0);
-      $textW = $pdf->GetStringWidth($pageText);
-      // A4横向き297mm幅、高さ210mm、下端5mm上
-      $pdf->Text((297 - $textW) / 2, 205, $pageText);
+      // A4横向き297mm幅、高さ210mm、下端7mm上
+      $pdf->SetXY(0, 203);
+      $pdf->Cell(297, 0, $pageText, 0, 0, 'C');
     }
 
     return $pdf->Output('', 'S');
