@@ -363,10 +363,10 @@ class UserInfoBasicListPdfService extends BasePdfService
     $pdf->Text($x, 13, '利用者情報一覧（基本情報）');
 
     // PDF出力日（右上）
-    $dateStr  = 'PDF出力日：' . $this->formatJapaneseDate($outputDate);
+    $dateStr = 'PDF出力日：' . $this->formatJapaneseDate($outputDate);
     $pdf->SetFont('kozgopromedium', '', 10);
-    $dateW    = $pdf->GetStringWidth($dateStr);
-    $pdf->Text($x + self::AVAILABLE_W - $dateW, 13, $dateStr);
+    $pdf->SetXY($x, 9);
+    $pdf->Cell(self::AVAILABLE_W, 0, $dateStr, 0, 0, 'R');
   }
 
   /**
