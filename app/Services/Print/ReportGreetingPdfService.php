@@ -338,7 +338,7 @@ class ReportGreetingPdfService extends BasePdfService
       }
     } elseif ($this->greetingType === 'caremanager') {
       if ($this->hasCoord('caremanager_name')) {
-        $nameText = (!empty($data['caremanager_name']) ? $data['caremanager_name'] : '') . '　様';
+        $nameText = (!empty($data['caremanager_name']) ? $data['caremanager_name'] : '') . '  様';
         $pdf->SetFontSize($this->coord('caremanager_name', 'fontSize'));
         $this->drawTextByKey($pdf, 'caremanager_name', $nameText);
       }
@@ -347,7 +347,7 @@ class ReportGreetingPdfService extends BasePdfService
       if ($this->hasCoord('doctor_name')) {
         $userDisplayName = ($clinicUser->last_name ?? '') . '  ' . ($clinicUser->first_name ?? '');
         $pdf->SetFontSize($this->coord('doctor_name', 'fontSize'));
-        $this->drawTextByKey($pdf, 'doctor_name', $userDisplayName . '　様');
+        $this->drawTextByKey($pdf, 'doctor_name', $userDisplayName . '  様');
       }
     }
 

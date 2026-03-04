@@ -266,7 +266,7 @@ class ThankYouLetterReferrerPdfService extends BasePdfService
 
     // 4. ケアマネ氏名（末尾に「　様」を挿入）
     if (isset($data['caremanager_name']) && $this->hasCoord('caremanager_name')) {
-      $caremanagerNameWithSuffix = $data['caremanager_name'] . '　様';
+      $caremanagerNameWithSuffix = $data['caremanager_name'] . '  様';
       $pdf->SetFontSize($this->coord('caremanager_name', 'fontSize'));
       $this->drawTextByKey($pdf, 'caremanager_name', $caremanagerNameWithSuffix);
     }

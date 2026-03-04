@@ -296,7 +296,7 @@ let customSampleData = {
   // === 実施計画書用 ===
   // グループ１（基本情報）
   ip_assessment_date: '令和7年 1月 15日',
-  ip_patient_name: '田中 太郎　様',
+  ip_patient_name: '田中 太郎  様',
   ip_gender: '男',
   ip_birthdate: '昭和30年 3月 15日',
   // グループ２（ADL評価）

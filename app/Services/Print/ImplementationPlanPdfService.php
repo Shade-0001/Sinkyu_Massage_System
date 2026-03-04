@@ -238,7 +238,7 @@ class ImplementationPlanPdfService extends BasePdfService
     } else {
       $name = trim(($clinicUser->last_name ?? '') . '  ' . ($clinicUser->first_name ?? ''));
       if ($name) {
-        $this->drawTextByKey($pdf, 'ip_patient_name', $name . '　様');
+        $this->drawTextByKey($pdf, 'ip_patient_name', $name . '  様');
       }
     }
 
