@@ -1,7 +1,7 @@
 {
     "clinic_postal_code": {
         "x": 115,
-        "y": 252.5,
+        "y": 224,
         "textAlign": "left",
         "field": "clinic_postal_code",
         "label": "事業所郵便番号",
@@ -13,7 +13,7 @@
     },
     "clinic_address": {
         "x": 115,
-        "y": 263,
+        "y": 234.5,
         "textAlign": "left",
         "field": "clinic_address",
         "label": "事業所住所",
@@ -26,7 +26,7 @@
     },
     "clinic_phone": {
         "x": 115,
-        "y": 269,
+        "y": 240.5,
         "textAlign": "left",
         "field": "clinic_phone",
         "label": "事業所電話番号",
@@ -36,7 +36,7 @@
     },
     "clinic_name": {
         "x": 115,
-        "y": 275,
+        "y": 246.5,
         "textAlign": "left",
         "field": "clinic_name",
         "label": "事業所名",
@@ -46,7 +46,7 @@
     },
     "clinic_owner_name": {
         "x": 115,
-        "y": 282,
+        "y": 253.5,
         "textAlign": "left",
         "field": "clinic_owner_name",
         "label": "事業所代表者氏名",
