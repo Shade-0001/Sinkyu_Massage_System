@@ -96,6 +96,20 @@ class UserInfoBasicListPdfService extends BasePdfService
       $isFirstPage = false;
     }
 
+    // 2ページ以上の場合、全ページにページ番号を描画（後処理）
+    $totalPages = $pdf->getNumPages();
+    if ($totalPages >= 2) {
+      for ($p = 1; $p <= $totalPages; $p++) {
+        $pdf->setPage($p);
+        $pageText = '-' . "\u{2002}" . "\u{2002}" . $p . ' / ' . $totalPages . "\u{2002}" . "\u{2002}" . '-';
+        $pdf->SetFont('kozgopromedium', '', 9);
+        $pdf->SetTextColor(0, 0, 0);
+        // A4縦向き210mm幅、高さ297mm、下端7mm上
+        $pdf->SetXY(0, 290);
+        $pdf->Cell(210, 0, $pageText, 0, 0, 'C');
+      }
+    }
+
     return $pdf->Output('', 'S');
   }
 
@@ -364,8 +378,8 @@ class UserInfoBasicListPdfService extends BasePdfService
 
     // PDF出力日時（右上）
     $ts      = strtotime($outputDate);
-    $dateStr = 'PDF出力日時' . date('Y/m/d', $ts) . "\u{2002}\u{2002}" . date('H:i:s', $ts);
-    $pdf->SetFont('kozgopromedium', '', 10);
+    $dateStr = '［ PDF出力日時 │ ' . date('Y/m/d', $ts) . "\u{2002}" . date('H:i', $ts) . ' ］';
+    $pdf->SetFont('kozgopromedium', '', 8);
     $pdf->SetXY($x, 6);
     $pdf->Cell(self::AVAILABLE_W, 0, $dateStr, 0, 0, 'R');
   }
