@@ -112,7 +112,7 @@ class ScheduleListPdfService extends BasePdfService
 
     // ---- タイトル（左上） ----
     $userName  = ($user->last_name ?? '') . '  ' . ($user->first_name ?? '');
-    $titleText = '予定表（' . $userName . '　様）';
+    $titleText = '予定表（' . $userName . '  様）';
     $pdf->SetFont('kozgopromedium', '', 17);
     $pdf->Text($startX, 15, $titleText);
 
