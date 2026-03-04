@@ -27,7 +27,7 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
   const CELL_PADDING_X    = 2.4;
   const BASE_ROW_H        = 6;
   const LINE_PITCH        = 3.2;
-  const FONT_SIZE         = 7;
+  const FONT_SIZE         = 9;
 
   const LISTS_PER_PAGE    = 2;   // 1ページあたりのリスト数
 
@@ -350,25 +350,24 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
     $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
     $lines     = $this->wrapText($pdf, $text, $w);
     $lineCount = count($lines);
-    $fontMm    = self::FONT_SIZE * 0.352;
+    $fontMm    = self::FONT_SIZE * 0.352 * 1.25;
 
     $pdf->setCellPaddings(0, 0, 0, 0);
+    $totalTextH = $lineCount > 1
+      ? $fontMm + ($lineCount - 1) * self::LINE_PITCH
+      : $fontMm;
+    $offsetY = ($h - $totalTextH) / 2;
     if ($isHeader) {
-      $totalTextH = $lineCount > 1
-        ? $fontMm + ($lineCount - 1) * self::LINE_PITCH
-        : $fontMm;
-      $offsetY = ($h - $totalTextH) / 2;
       foreach ($lines as $li => $line) {
         $lineY = $y + $offsetY + $li * self::LINE_PITCH;
         $pdf->SetXY($x, $lineY);
-        $pdf->Cell($w, $fontMm, $line, 0, 0, 'C', false);
+        $pdf->Cell($w, 0, $line, 0, 0, 'C', false);
       }
     } else {
-      $paddingTop = (self::BASE_ROW_H - $fontMm) / 2;
       foreach ($lines as $li => $line) {
-        $lineY = $y + $paddingTop + $li * self::LINE_PITCH;
-        $lineX = $x + 1.6;
-        $pdf->Text($lineX, $lineY, $line);
+        $lineY = $y + $offsetY + $li * self::LINE_PITCH;
+        $pdf->SetXY($x + 1.6, $lineY);
+        $pdf->Cell($w - 1.6, 0, $line, 0, 0, 'L', false);
       }
     }
   }

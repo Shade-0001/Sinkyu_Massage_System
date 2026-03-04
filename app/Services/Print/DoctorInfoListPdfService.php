@@ -21,8 +21,8 @@ class DoctorInfoListPdfService extends BasePdfService
   const CELL_PADDING_X   = 2.4;  // セル左右パディング合計 mm
   const BASE_ROW_H       = 6;    // 行の基本高さ mm
   const LINE_PITCH       = 3.2;  // 折り返し行のピッチ mm
-  const FONT_SIZE        = 7;    // データフォント pt
-  const HEADER_FONT      = 7;    // ヘッダーフォント pt
+  const FONT_SIZE        = 9;    // データフォント pt
+  const HEADER_FONT      = 9;    // ヘッダーフォント pt
   const HEADER_H         = 8;    // ヘッダー行高 mm
 
   // カラム幅（合計281mm）
@@ -365,29 +365,28 @@ class DoctorInfoListPdfService extends BasePdfService
     $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
     $lines     = $this->wrapText($pdf, $text, $w);
     $lineCount = count($lines);
-    $fontMm    = self::FONT_SIZE * 0.352;
+    $fontMm    = self::FONT_SIZE * 0.352 * 1.25;
 
     $pdf->setCellPaddings(0, 0, 0, 0);
+    $totalTextH = $lineCount > 1
+      ? $fontMm + ($lineCount - 1) * self::LINE_PITCH
+      : $fontMm;
+    $offsetY = ($h - $totalTextH) / 2;
     if ($isHeader) {
-      $totalTextH = $lineCount > 1
-        ? $fontMm + ($lineCount - 1) * self::LINE_PITCH
-        : $fontMm;
-      $offsetY    = ($h - $totalTextH) / 2;
       foreach ($lines as $li => $line) {
         $lineY = $y + $offsetY + $li * self::LINE_PITCH;
         $pdf->SetXY($x, $lineY);
-        $pdf->Cell($w, $fontMm, $line, 0, 0, 'C', false);
+        $pdf->Cell($w, 0, $line, 0, 0, 'C', false);
       }
     } else {
-      $paddingTop = (self::BASE_ROW_H - $fontMm) / 2;
       foreach ($lines as $li => $line) {
-        $lineY = $y + $paddingTop + $li * self::LINE_PITCH;
-        $lineX = $x + ($align === 'C' ? 0 : 1.6);
+        $lineY = $y + $offsetY + $li * self::LINE_PITCH;
         if ($align === 'C') {
           $pdf->SetXY($x, $lineY);
-          $pdf->Cell($w, $fontMm, $line, 0, 0, 'C', false);
+          $pdf->Cell($w, 0, $line, 0, 0, 'C', false);
         } else {
-          $pdf->Text($lineX, $lineY, $line);
+          $pdf->SetXY($x + 1.6, $lineY);
+          $pdf->Cell($w - 1.6, 0, $line, 0, 0, 'L', false);
         }
       }
     }
