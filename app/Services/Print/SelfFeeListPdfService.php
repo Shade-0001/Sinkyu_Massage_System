@@ -105,12 +105,12 @@ class SelfFeeListPdfService
     $pdf->SetTextColor(0, 0, 0);
 
     // テーブル開始位置（タイトルより先に定義）
-    $startX = 10;
+    $startX = 5;
     $startY = 30;  // タイトル（15mm）との間隔を15mmに設定
     $currentY = $startY;
 
-    // A4用紙の幅210mm、左右マージン10mmずつで、利用可能幅は190mm
-    $availableWidth = 190;
+    // A4用紙の幅210mm、左右マージン5mmずつで、利用可能幅は200mm
+    $availableWidth = 200;
 
     // タイトル（テーブルの左辺に揃える）
     $titleText = '施術料金一覧表（自費）';
@@ -125,7 +125,7 @@ class SelfFeeListPdfService
     $pdf->Text($startX + $availableWidth - $titleYearMonthWidth - $oneCharWidth, 15, $titleYearMonth);
 
     // テーブル描画開始
-    $availableWidth = 190;
+    $availableWidth = 200;
 
     // カラム幅（合計190mm）※自費版は3列のみ
     $colWidths = [

@@ -9,15 +9,15 @@ use Illuminate\Support\Facades\DB;
  * 施術者情報一覧PDF生成サービス
  *
  * レイアウト概要：
- * - A4横 (297mm × 210mm)、左右マージン 8mm → 利用可能幅 281mm
+ * - A4横 (297mm × 210mm)、左右マージン 5mm → 利用可能幅 287mm
  * - 2段ヘッダー構造：COL1~6はROW1+ROW2結合、COL7~12はROW1にグループ名・ROW2に個別ラベル
  * - カラム幅：ID=12, 氏名=36, 郵便番号=20, 住所=59, 電話=26, 携帯=26, はり(12+22), きゅう(12+22), あんまマ(12+22) 合計=281mm
  */
 class TherapistInfoListPdfService extends BasePdfService
 {
   // レイアウト定数
-  const MARGIN_X         = 8;    // 左右マージン mm
-  const AVAILABLE_W      = 281;  // 利用可能幅 mm（A4横: 297-8×2）
+  const MARGIN_X         = 5;    // 左右マージン mm
+  const AVAILABLE_W      = 287;  // 利用可能幅 mm（A4横: 297-5×2）
   const CELL_PADDING_X   = 2.4;  // セル左右パディング合計 mm
   const BASE_ROW_H       = 6;    // 行の基本高さ mm
   const LINE_PITCH       = 3.2;  // 折り返し行のピッチ mm

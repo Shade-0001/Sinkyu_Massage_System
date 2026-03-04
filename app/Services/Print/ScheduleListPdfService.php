@@ -105,10 +105,10 @@ class ScheduleListPdfService extends BasePdfService
     array  $closedDays = [],
     string $outputDate = ''
   ): void {
-    // A4縦：210mm × 297mm、左右マージン12mm、有効幅186mm
-    $startX         = 12;
+    // A4縦：210mm × 297mm、左右マージン5mm、有効幅200mm
+    $startX         = 5;
     $startY         = 30;
-    $availableWidth = 186;
+    $availableWidth = 200;
     $rowHeight      = 7;
 
     $pdf->SetTextColor(0, 0, 0);

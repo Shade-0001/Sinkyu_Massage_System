@@ -95,10 +95,10 @@ class UserCountSummaryPdfService
   {
     $pdf->SetTextColor(0, 0, 0);
 
-    $startX         = 10;
+    $startX         = 5;
     $startY         = 30;
     $currentY       = $startY;
-    $availableWidth = 190;
+    $availableWidth = 200;
     $pageBottomY    = 277;
 
     // タイトル（左上）

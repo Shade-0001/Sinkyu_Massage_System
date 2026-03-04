@@ -182,10 +182,10 @@ class InsurancePaymentPdfService
    */
   protected function renderPdf(Fpdi $pdf, array $data, string $serviceYearMonth, string $outputDate = ''): void
   {
-    // A4横向き：297mm × 210mm、左右マージン10mmで利用可能幅277mm
-    $startX        = 10;
+    // A4横向き：297mm × 210mm、左右マージン5mmで利用可能幅287mm
+    $startX        = 5;
     $startY        = 30;
-    $availableWidth = 277;
+    $availableWidth = 287;
     $rowHeight      = 8;
 
     $pdf->SetFont('kozgopromedium', '', 13);
@@ -211,7 +211,7 @@ class InsurancePaymentPdfService
       $pdf->Cell($availableWidth, 0, $dateStr, 0, 0, 'R');
     }
 
-    // カラム幅（合計277mm）
+    // カラム幅（合計277mm）※availableWidth=287mm（左右マージン5mm×2）
     // No.:10, 保険者:52, 被保険者氏名:24, 受療者氏名:24, 治療期間:28, 施術:14,
     // 療養費:22, 自己負担額:23, 保険請求額:23, 入金額:22, 入金日:35
     $colWidths = [

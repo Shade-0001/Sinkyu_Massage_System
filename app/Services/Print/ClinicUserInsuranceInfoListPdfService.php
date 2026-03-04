@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
  * 利用者情報一覧（医療保険情報）PDF生成サービス
  *
  * レイアウト概要：
- * - A4縦 (210mm × 297mm)、左右マージン 8mm → 利用可能幅 194mm
+ * - A4縦 (210mm × 297mm)、左右マージン 5mm → 利用可能幅 200mm
  * - 行ラベルカラム：22mm（COL1のみ、縦書きセクションラベル列なし）
  * - データカラム幅：27mm
  * - 1ページあたりのデータカラム数：floor((194 - 22) / 27) = 6
@@ -19,8 +19,8 @@ use Illuminate\Support\Facades\DB;
 class ClinicUserInsuranceInfoListPdfService extends BasePdfService
 {
   // レイアウト定数
-  const MARGIN_X          = 8;
-  const AVAILABLE_W       = 194;
+  const MARGIN_X          = 5;
+  const AVAILABLE_W       = 200;
   const HEADER_W          = 22;  // 行ラベルカラム幅（COL1のみ）
   const DATA_COL_W        = 27;
   const MAX_COLS_PER_PAGE = 6;

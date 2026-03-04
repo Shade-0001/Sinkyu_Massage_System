@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
  * 利用者情報一覧（基本情報）PDF生成サービス
  *
  * レイアウト概要：
- * - A4縦 (210mm × 297mm)、左右マージン 8mm → 利用可能幅 194mm
+ * - A4縦 (210mm × 297mm)、左右マージン 5mm → 利用可能幅 200mm
  * - 第1カラム（縦書きラベル）：8mm
  * - 第2カラム（行ラベル）：22mm
  * - ヘッダー合計：30mm
@@ -21,8 +21,8 @@ use Illuminate\Support\Facades\DB;
 class UserInfoBasicListPdfService extends BasePdfService
 {
   // レイアウト定数
-  const MARGIN_X       = 8;    // 左右マージン mm
-  const AVAILABLE_W    = 194;  // 利用可能幅 mm
+  const MARGIN_X       = 5;    // 左右マージン mm
+  const AVAILABLE_W    = 200;  // 利用可能幅 mm
   const COL1_W         = 8;    // 第1カラム（縦書きラベル）幅
   const COL2_W         = 22;   // 第2カラム（行ラベル）幅
   const HEADER_W       = 30;   // COL1 + COL2
