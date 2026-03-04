@@ -176,9 +176,15 @@ class UserCountSummaryPdfService
         // 施術種類セル（ページ内で縦結合）
         $pdf->SetFont('kozgopromedium', '', 11);
         $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
+
+        // TCPDFのcell_height_ratio=1.25を考慮した垂直中央配置
+        $dataFontMm     = 11 * 0.352 * 1.25;
+        $dataOffsetY    = ($rowHeight - $dataFontMm) / 2;
+        $therapyOffsetY = ($blockHeight - $dataFontMm) / 2;
+
         $x = $startX;
-        $pdf->SetXY($x, $blockStartY);
-        $pdf->Cell($colWidths['therapy_type'], $blockHeight, $therapyTypeLabel, 0, 0, 'C', false);
+        $pdf->SetXY($x, $blockStartY + $therapyOffsetY);
+        $pdf->Cell($colWidths['therapy_type'], 0, $therapyTypeLabel, 0, 0, 'C', false);
         $pdf->Line($x, $blockStartY,                $x + $colWidths['therapy_type'], $blockStartY);
         $pdf->Line($x, $blockStartY + $blockHeight, $x + $colWidths['therapy_type'], $blockStartY + $blockHeight);
         $pdf->Line($x, $blockStartY,                $x, $blockStartY + $blockHeight);
@@ -191,8 +197,8 @@ class UserCountSummaryPdfService
           $x = $startX + $colWidths['therapy_type'];
 
           // 保険者名称
-          $pdf->SetXY($x, $currentY);
-          $pdf->Cell($colWidths['insurer_name'], $rowHeight, $insurer->insurer_name, 0, 0, 'L', false);
+          $pdf->SetXY($x, $currentY + $dataOffsetY);
+          $pdf->Cell($colWidths['insurer_name'], 0, $insurer->insurer_name, 0, 0, 'L', false);
           $pdf->Line($x, $currentY,              $x + $colWidths['insurer_name'], $currentY);
           $pdf->Line($x, $currentY + $rowHeight, $x + $colWidths['insurer_name'], $currentY + $rowHeight);
           $pdf->Line($x, $currentY,              $x, $currentY + $rowHeight);
@@ -200,8 +206,8 @@ class UserCountSummaryPdfService
           $x += $colWidths['insurer_name'];
 
           // 該当人数
-          $pdf->SetXY($x, $currentY);
-          $pdf->Cell($colWidths['user_count'], $rowHeight, (string) $userCount, 0, 0, 'C', false);
+          $pdf->SetXY($x, $currentY + $dataOffsetY);
+          $pdf->Cell($colWidths['user_count'], 0, (string) $userCount, 0, 0, 'C', false);
           $pdf->Line($x, $currentY,              $x + $colWidths['user_count'], $currentY);
           $pdf->Line($x, $currentY + $rowHeight, $x + $colWidths['user_count'], $currentY + $rowHeight);
           $pdf->Line($x, $currentY,              $x, $currentY + $rowHeight);
@@ -231,11 +237,15 @@ class UserCountSummaryPdfService
     $pdf->SetLineWidth(0.2);
     $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
 
+    // TCPDFのcell_height_ratio=1.25を考慮した垂直中央配置
+    $headerFontMm  = 12 * 0.352 * 1.25;
+    $headerOffsetY = ($rowHeight - $headerFontMm) / 2;
+
     $x = $startX;
     foreach ($headers as $header) {
       $pdf->Rect($x, $startY, $header['width'], $rowHeight, 'F');
-      $pdf->SetXY($x, $startY);
-      $pdf->Cell($header['width'], $rowHeight, $header['text'], 0, 0, 'C', false);
+      $pdf->SetXY($x, $startY + $headerOffsetY);
+      $pdf->Cell($header['width'], 0, $header['text'], 0, 0, 'C', false);
       $pdf->Line($x, $startY,              $x + $header['width'], $startY);
       $pdf->Line($x, $startY + $rowHeight, $x + $header['width'], $startY + $rowHeight);
       $pdf->Line($x, $startY,              $x, $startY + $rowHeight);

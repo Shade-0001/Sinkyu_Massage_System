@@ -252,12 +252,16 @@ class InsurancePaymentPdfService
       $pdf->SetFillColor(220, 220, 220);
       $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
 
+      // TCPDFのcell_height_ratio=1.25を考慮した垂直中央配置(10pt)
+      $headerFontMm  = 10 * 0.352 * 1.25;
+      $headerOffsetY = ($rowHeight - $headerFontMm) / 2;
+
       $x = $startX;
       foreach ($headers as $header) {
         $w = $colWidths[$header['key']];
         $pdf->Rect($x, $y, $w, $rowHeight, 'F');
-        $pdf->SetXY($x, $y);
-        $pdf->Cell($w, $rowHeight, $header['text'], 0, 0, 'C', false);
+        $pdf->SetXY($x, $y + $headerOffsetY);
+        $pdf->Cell($w, 0, $header['text'], 0, 0, 'C', false);
         $pdf->Line($x,      $y,              $x + $w, $y);
         $pdf->Line($x,      $y + $rowHeight, $x + $w, $y + $rowHeight);
         $pdf->Line($x,      $y,              $x,      $y + $rowHeight);
@@ -273,6 +277,10 @@ class InsurancePaymentPdfService
     // データ行
     $pdf->SetFillColor(255, 255, 255);
     $pdf->SetFont('kozgopromedium', '', 9);
+
+    // TCPDFのcell_height_ratio=1.25を考慮した垂直中央配置(9pt)
+    $dataFontMm  = 9 * 0.352 * 1.25;
+    $dataOffsetY = ($rowHeight - $dataFontMm) / 2;
 
     $rows = $data['rows'];
 
@@ -341,8 +349,8 @@ class InsurancePaymentPdfService
           }
         }
 
-        $pdf->SetXY($x + $padding, $currentY);
-        $pdf->Cell($w - $padding * 2, $rowHeight, $text, 0, 0, $align, false);
+        $pdf->SetXY($x + $padding, $currentY + $dataOffsetY);
+        $pdf->Cell($w - $padding * 2, 0, $text, 0, 0, $align, false);
 
         // フォントサイズを元に戻す
         if ($fontSize !== $baseFontSize) {
@@ -390,8 +398,8 @@ class InsurancePaymentPdfService
         $align   = ($key === 'therapy') ? 'C' : 'R';
         $padding = ($key !== 'therapy') ? 1 : 0;
 
-        $pdf->SetXY($x + $padding, $currentY);
-        $pdf->Cell($w - $padding * 2, $rowHeight, $text, 0, 0, $align, false);
+        $pdf->SetXY($x + $padding, $currentY + $dataOffsetY);
+        $pdf->Cell($w - $padding * 2, 0, $text, 0, 0, $align, false);
 
         // 枠線
         $pdf->Line($x,      $currentY,             $x + $w, $currentY);
