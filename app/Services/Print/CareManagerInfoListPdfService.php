@@ -347,7 +347,8 @@ class CareManagerInfoListPdfService extends BasePdfService
     $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
     $lines     = $this->wrapText($pdf, $text, $w);
     $lineCount = count($lines);
-    $fontMm    = self::FONT_SIZE * 0.352;
+    // TCPDFのデフォルトcell_height_ratio=1.25を考慮した実際の行高
+    $fontMm    = self::FONT_SIZE * 0.352 * 1.25;
 
     $pdf->setCellPaddings(0, 0, 0, 0);
     $totalTextH = $lineCount > 1
