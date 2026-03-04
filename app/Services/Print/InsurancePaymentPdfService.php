@@ -222,24 +222,27 @@ class InsurancePaymentPdfService
 
     $currentY = $startY;
 
-    // ヘッダー行
-    $pdf->SetFont('kozgopromedium', '', 10);
-    $pdf->SetFillColor(220, 220, 220);
-    $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
+    // ヘッダー行描画クロージャ
+    $renderHeaderRow = function (float $y) use ($pdf, $startX, $colWidths, $headers, $rowHeight): void {
+      $pdf->SetFont('kozgopromedium', '', 10);
+      $pdf->SetFillColor(220, 220, 220);
+      $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
 
-    $x = $startX;
-    foreach ($headers as $header) {
-      $w = $colWidths[$header['key']];
-      $pdf->Rect($x, $currentY, $w, $rowHeight, 'F');
-      $pdf->SetXY($x, $currentY);
-      $pdf->Cell($w, $rowHeight, $header['text'], 0, 0, 'C', false);
-      // 枠線（実線）
-      $pdf->Line($x,     $currentY,            $x + $w, $currentY);
-      $pdf->Line($x,     $currentY + $rowHeight, $x + $w, $currentY + $rowHeight);
-      $pdf->Line($x,     $currentY,            $x,      $currentY + $rowHeight);
-      $pdf->Line($x + $w, $currentY,           $x + $w, $currentY + $rowHeight);
-      $x += $w;
-    }
+      $x = $startX;
+      foreach ($headers as $header) {
+        $w = $colWidths[$header['key']];
+        $pdf->Rect($x, $y, $w, $rowHeight, 'F');
+        $pdf->SetXY($x, $y);
+        $pdf->Cell($w, $rowHeight, $header['text'], 0, 0, 'C', false);
+        $pdf->Line($x,      $y,              $x + $w, $y);
+        $pdf->Line($x,      $y + $rowHeight, $x + $w, $y + $rowHeight);
+        $pdf->Line($x,      $y,              $x,      $y + $rowHeight);
+        $pdf->Line($x + $w, $y,              $x + $w, $y + $rowHeight);
+        $x += $w;
+      }
+    };
+
+    $renderHeaderRow($currentY);
 
     $currentY += $rowHeight;
 
@@ -261,6 +264,8 @@ class InsurancePaymentPdfService
       if ($currentY + $rowHeight > 200) {
         $pdf->AddPage();
         $currentY = 20;
+        $renderHeaderRow($currentY);
+        $currentY += $rowHeight;
       }
 
       $no = $i + 1;
@@ -337,6 +342,8 @@ class InsurancePaymentPdfService
     if ($currentY + $rowHeight > 200) {
       $pdf->AddPage();
       $currentY = 20;
+      $renderHeaderRow($currentY);
+      $currentY += $rowHeight;
     }
 
     $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
