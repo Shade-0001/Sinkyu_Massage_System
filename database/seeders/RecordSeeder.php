@@ -14,7 +14,8 @@ class RecordSeeder extends Seeder
     DB::connection('sinkyu_massage_system_db')->table('records')->truncate();
     DB::connection('sinkyu_massage_system_db')->statement('SET FOREIGN_KEY_CHECKS=1');
 
-    $clinicUserIds   = DB::connection('sinkyu_massage_system_db')->table('clinic_users')->pluck('id')->toArray();
+    // clinic_user_id を昇順で取得（末尾10人の特定に使用）
+    $clinicUserIds   = DB::connection('sinkyu_massage_system_db')->table('clinic_users')->orderBy('id')->pluck('id')->toArray();
     $therapistIds    = DB::connection('sinkyu_massage_system_db')->table('therapists')->pluck('id')->toArray();
     $billCategoryIds = DB::connection('sinkyu_massage_system_db')->table('bill_categories')->pluck('id')->toArray();
     $therapyContents = DB::connection('sinkyu_massage_system_db')->table('therapy_contents')->get()->groupBy('therapy_type');
@@ -62,141 +63,175 @@ class RecordSeeder extends Seeder
     // 各日付のスロット管理
     // $slots[$date][] = ['start' => int, 'end' => int, 'clinic_user_id' => int, 'therapist_id' => int]
     $slots = [];
+    $data  = [];
 
-    $data = [];
+    // clinic_user_id(昇順)の末尾10人
+    $lastTenUserIds = array_slice($clinicUserIds, -10);
+
+    // 日付範囲定義（Unixタイムスタンプ）
+    $phase1Start = mktime(0, 0, 0, 1,  1, 2025);
+    $phase1End   = mktime(0, 0, 0, 12, 31, 2025);
+    $phase2Start = mktime(0, 0, 0, 1,  1, 2026);
+    $phase2End   = mktime(0, 0, 0, 5,  31, 2026);
+
+    // 範囲内の定休日でないランダム日付を生成（失敗時null）
+    $generateDate = function (int $rangeStart, int $rangeEnd) use ($isClosedDay): ?string {
+      $days = (int) floor(($rangeEnd - $rangeStart) / 86400);
+      for ($i = 0; $i < 30; $i++) {
+        $date = date('Y-m-d', $rangeStart + rand(0, $days) * 86400);
+        if (!$isClosedDay($date)) {
+          return $date;
+        }
+      }
+      return null;
+    };
+
+    // 1スロット配置共通ロジック（成功時true、失敗時false）
+    $placeSlot = function (
+      string $date,
+      int    $userId
+    ) use (
+      &$slots, &$data,
+      $businessStartMin, $businessEndMin,
+      $isOverlapping,
+      $therapistIds, $billCategoryIds,
+      $massageContentIds, $acuContentIds
+    ): bool {
+      $durations = [30, 45, 60];
+      $duration  = $durations[array_rand($durations)];
+
+      $latestStart = $businessEndMin - $duration;
+      if ($latestStart < $businessStartMin) {
+        return false;
+      }
+
+      // 開始時刻候補：10分刻み（**:*0 のみ）
+      $firstCandidate = (int) ceil($businessStartMin / 10) * 10;
+      $candidates = [];
+      for ($m = $firstCandidate; $m <= $latestStart; $m += 10) {
+        $candidates[] = $m;
+      }
+      shuffle($candidates);
+
+      foreach ($candidates as $startMin) {
+        $endMin   = $startMin + $duration;
+        $daySlots = $slots[$date] ?? [];
+
+        // 新スロットと重複する既存スロット
+        $overlappingSlots = array_values(array_filter(
+          $daySlots,
+          fn($s) => $isOverlapping($s['start'], $s['end'], $startMin, $endMin)
+        ));
+
+        // 新スロット自身が2件以上の既存スロットと重複するなら不可
+        if (count($overlappingSlots) >= 2) {
+          continue;
+        }
+
+        // 新スロットと重複する既存スロットXそれぞれについて、
+        // Xが他に既に1件重複を持つ場合、+1（新スロット）で2件超になるため不可
+        $wouldViolate = false;
+        foreach ($overlappingSlots as $existingSlot) {
+          $existingOverlapCount = count(array_filter(
+            $daySlots,
+            fn($s) => $s !== $existingSlot
+              && $isOverlapping($s['start'], $s['end'], $existingSlot['start'], $existingSlot['end'])
+          ));
+          if ($existingOverlapCount + 1 >= 2) {
+            $wouldViolate = true;
+            break;
+          }
+        }
+        if ($wouldViolate) {
+          continue;
+        }
+
+        // 重複スロットで使用済みのIDを収集
+        $usedUserIds      = array_column($overlappingSlots, 'clinic_user_id');
+        $usedTherapistIds = array_column($overlappingSlots, 'therapist_id');
+
+        // 利用者: 重複スロットに既に同じユーザーが存在するなら不可
+        if (in_array($userId, $usedUserIds, true)) {
+          continue;
+        }
+
+        // 施術者: 重複スロットで使われていないIDを選ぶ
+        $availableTherapistIds = array_values(array_diff($therapistIds, $usedTherapistIds));
+        if (empty($availableTherapistIds)) {
+          continue;
+        }
+        $selectedTherapistId = $availableTherapistIds[array_rand($availableTherapistIds)];
+
+        $startTime   = sprintf('%02d:%02d', intdiv($startMin, 60), $startMin % 60);
+        $endTime     = sprintf('%02d:%02d', intdiv($endMin, 60), $endMin % 60);
+        $therapyType = rand(1, 2);
+        $contentIds  = $therapyType === 2 ? $massageContentIds : $acuContentIds;
+        $contentId   = !empty($contentIds) ? $contentIds[array_rand($contentIds)] : null;
+
+        $data[] = [
+          'clinic_user_id'     => $userId,
+          'date'               => $date,
+          'start_time'         => $startTime,
+          'end_time'           => $endTime,
+          'therapy_type'       => $therapyType,
+          'therapy_category'   => rand(1, 2),
+          'insurance_category' => rand(1, 3),
+          'housecall_distance' => round(rand(10, 150) / 10, 1),
+          'therapy_days'       => rand(1, 30),
+          'consent_expiry'     => date('Y-m-d', strtotime('+' . rand(1, 12) . ' months')),
+          'therapy_content_id' => $contentId,
+          'self_fee_id'        => null,
+          'bill_category_id'   => $billCategoryIds[array_rand($billCategoryIds)],
+          'therapist_id'       => $selectedTherapistId,
+          'abstract'           => null,
+          'created_at'         => now(),
+          'updated_at'         => now(),
+        ];
+
+        $slots[$date][] = [
+          'start'          => $startMin,
+          'end'            => $endMin,
+          'clinic_user_id' => $userId,
+          'therapist_id'   => $selectedTherapistId,
+        ];
+
+        return true;
+      }
+
+      return false;
+    };
 
     foreach ($clinicUserIds as $userId) {
-      $target   = rand(10, 30); // この利用者に登録したいレコード件数
-      $placed   = 0;
-      $attempts = 0;
-      $maxAttempts = $target * 10;
+      $isLastTen = in_array($userId, $lastTenUserIds, true);
 
-      while ($placed < $target && $attempts < $maxAttempts) {
-        $attempts++;
+      // Phase 1: 2025-01-01 ~ 2025-12-31 → 0~360件
+      $target1      = rand(0, 360);
+      $placed1      = 0;
+      $attempts1    = 0;
+      $maxAttempts1 = max($target1 * 15, 50);
 
-        // 日付を生成（定休日は除外）
-        $dateAttempts = 0;
-        do {
-          $date = date('Y-m-d', strtotime('-' . rand(0, 730) . ' days'));
-          $dateAttempts++;
-        } while ($isClosedDay($date) && $dateAttempts < 20);
-
-        if ($isClosedDay($date)) {
-          continue;
+      while ($placed1 < $target1 && $attempts1 < $maxAttempts1) {
+        $attempts1++;
+        $date = $generateDate($phase1Start, $phase1End);
+        if ($date === null) continue;
+        if ($placeSlot($date, $userId)) {
+          $placed1++;
         }
+      }
 
-        // 施術時間を生成
-        $durations = [30, 45, 60];
-        $duration  = $durations[array_rand($durations)];
+      // Phase 2: 2026-01-01 ~ 2026-05-31
+      // 末尾10人: 90~150件, その他: 0~150件
+      $target2      = $isLastTen ? rand(90, 150) : rand(0, 150);
+      $placed2      = 0;
+      $attempts2    = 0;
+      $maxAttempts2 = max($target2 * 15, 50);
 
-        // 営業時間内に収まる開始時刻候補（30分刻み）をランダム順で試す
-        $latestStart = $businessEndMin - $duration;
-        if ($latestStart < $businessStartMin) {
-          continue;
-        }
-
-        $candidates = [];
-        for ($m = $businessStartMin; $m <= $latestStart; $m += 30) {
-          $candidates[] = $m;
-        }
-        shuffle($candidates);
-
-        $slotPlaced = false;
-        foreach ($candidates as $startMin) {
-          $endMin = $startMin + $duration;
-
-          $daySlots = $slots[$date] ?? [];
-
-          // 新スロットと重複する既存スロット
-          $overlappingSlots = array_values(array_filter(
-            $daySlots,
-            fn($s) => $isOverlapping($s['start'], $s['end'], $startMin, $endMin)
-          ));
-
-          // 新スロット自身が2件以上の既存スロットと重複するなら不可
-          if (count($overlappingSlots) >= 2) {
-            continue;
-          }
-
-          // 新スロットと重複する既存スロットXそれぞれについて、
-          // X自身が他に何件の既存スロットと重複するかを確認する。
-          // 新スロット追加後にXの重複数が2件以上になる場合は不可。
-          $wouldViolate = false;
-          foreach ($overlappingSlots as $existingSlot) {
-            // existingSlot と重複する他の既存スロット数（新スロット除く）
-            $existingOverlapCount = count(array_filter(
-              $daySlots,
-              fn($s) => $s !== $existingSlot
-                && $isOverlapping($s['start'], $s['end'], $existingSlot['start'], $existingSlot['end'])
-            ));
-            // +1（新スロット）で2件以上になるなら不可
-            if ($existingOverlapCount + 1 >= 2) {
-              $wouldViolate = true;
-              break;
-            }
-          }
-          if ($wouldViolate) {
-            continue;
-          }
-
-          // 重複スロットで使用済みのIDを収集
-          $usedUserIds      = array_column($overlappingSlots, 'clinic_user_id');
-          $usedTherapistIds = array_column($overlappingSlots, 'therapist_id');
-
-          // 利用者: 現在のuserIdが使えるなら優先、使えなければスキップ
-          if (in_array($userId, $usedUserIds, true)) {
-            continue;
-          }
-          $selectedUserId = $userId;
-
-          // 施術者: 重複スロットで使われていないIDを選ぶ
-          $availableTherapistIds = array_values(array_diff($therapistIds, $usedTherapistIds));
-          if (empty($availableTherapistIds)) {
-            continue;
-          }
-          $selectedTherapistId = $availableTherapistIds[array_rand($availableTherapistIds)];
-
-          $startTime = sprintf('%02d:%02d', intdiv($startMin, 60), $startMin % 60);
-          $endTime   = sprintf('%02d:%02d', intdiv($endMin, 60), $endMin % 60);
-
-          $therapyType = rand(1, 2);
-          $contentIds  = $therapyType === 2 ? $massageContentIds : $acuContentIds;
-          $contentId   = !empty($contentIds) ? $contentIds[array_rand($contentIds)] : null;
-
-          $data[] = [
-            'clinic_user_id'     => $selectedUserId,
-            'date'               => $date,
-            'start_time'         => $startTime,
-            'end_time'           => $endTime,
-            'therapy_type'       => $therapyType,
-            'therapy_category'   => rand(1, 2),
-            'insurance_category' => rand(1, 3),
-            'housecall_distance' => round(rand(10, 150) / 10, 1),
-            'therapy_days'       => rand(1, 30),
-            'consent_expiry'     => date('Y-m-d', strtotime('+' . rand(1, 12) . ' months')),
-            'therapy_content_id' => $contentId,
-            'self_fee_id'        => null,
-            'bill_category_id'   => $billCategoryIds[array_rand($billCategoryIds)],
-            'therapist_id'       => $selectedTherapistId,
-            'abstract'           => null,
-            'created_at'         => now(),
-            'updated_at'         => now(),
-          ];
-
-          // スロット登録
-          $slots[$date][] = [
-            'start'          => $startMin,
-            'end'            => $endMin,
-            'clinic_user_id' => $selectedUserId,
-            'therapist_id'   => $selectedTherapistId,
-          ];
-
-          $slotPlaced = true;
-          break;
-        }
-
-        if ($slotPlaced) {
-          $placed++;
+      while ($placed2 < $target2 && $attempts2 < $maxAttempts2) {
+        $attempts2++;
+        $date = $generateDate($phase2Start, $phase2End);
+        if ($date === null) continue;
+        if ($placeSlot($date, $userId)) {
+          $placed2++;
         }
       }
     }
