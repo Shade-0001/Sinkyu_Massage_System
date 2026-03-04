@@ -97,7 +97,7 @@ class RecordSeeder extends Seeder
       $therapistIds, $billCategoryIds,
       $massageContentIds, $acuContentIds
     ): bool {
-      $durations = [30, 45, 60];
+      $durations = [30, 40, 50, 60];
       $duration  = $durations[array_rand($durations)];
 
       $latestStart = $businessEndMin - $duration;
