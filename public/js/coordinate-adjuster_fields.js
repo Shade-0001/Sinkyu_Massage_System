@@ -827,8 +827,9 @@ const fieldDefinitionsFaxCoverSheet = {
 // PDFタイプ: report
 // ============================================================
 const fieldDefinitionsReport = {
-  'submission_date':             { field: 'report_submission_date',      label: '提出年月日',     type: 'text', maxCharsPerLine: 38, lineHeight: 6 },
-  'subjective_symptom_and_wish': { field: 'subjective_symptom_and_wish', label: '自覚症状・希望', type: 'text', maxCharsPerLine: 38, lineHeight: 6 },
+  'submission_date':             { field: 'report_submission_date',      label: '提出年月日',       type: 'text', maxCharsPerLine: 38, lineHeight: 6 },
+  'greeting_text':               { field: 'greeting_text',               label: '利用者氏名挨拶文', type: 'text', maxCharsPerLine: 38, lineHeight: 6 },
+  'subjective_symptom_and_wish': { field: 'subjective_symptom_and_wish', label: '自覚症状・希望',   type: 'text', maxCharsPerLine: 38, lineHeight: 6 },
   'objective_symptom':           { field: 'objective_symptom',           label: '客観症状',       type: 'text', maxCharsPerLine: 38, lineHeight: 6 },
   'therapy_content':             { field: 'therapy_content',             label: '施術内容',       type: 'text', maxCharsPerLine: 38, lineHeight: 6 },
   'therapy_plan':                { field: 'therapy_plan',                label: '治療計画',       type: 'text', maxCharsPerLine: 38, lineHeight: 6 },

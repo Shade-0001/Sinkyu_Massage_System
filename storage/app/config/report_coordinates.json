@@ -11,6 +11,18 @@
         "maxCharsPerLine": 40,
         "lineHeight": 6
     },
+    "greeting_text": {
+        "x": 33,
+        "y": 35,
+        "textAlign": "left",
+        "field": "greeting_text",
+        "label": "利用者氏名挨拶文",
+        "type": "text",
+        "fontSize": 11,
+        "letterSpacing": 0,
+        "maxCharsPerLine": 40,
+        "lineHeight": 6
+    },
     "subjective_symptom_and_wish": {
         "x": 33,
         "y": 71.5,

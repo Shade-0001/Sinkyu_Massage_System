@@ -320,6 +320,7 @@ let customSampleData = {
   ip_clinic_owner_name: '鈴木 一郎',
   // === 報告書用 ===
   report_submission_date:      '令和7年 2月 26日',
+  greeting_text:               '山田  太郎様についてご報告申し上げます。',
   subjective_symptom_and_wish: '腰痛・肩こりの改善を希望。特に朝起きた際の痛みを軽減したい。',
   objective_symptom:           '腰部筋緊張、肩甲骨周囲筋の拘縮あり。可動域制限を認める。',
   therapy_content:             'マッサージ療法（腰部・肩部中心）、ストレッチ指導。',
