@@ -361,9 +361,12 @@ class CareManagerInfoListPdfService extends BasePdfService
         $pdf->Cell($w, $fontMm, $line, 0, 0, 'C', false);
       }
     } else {
-      $paddingTop = (self::BASE_ROW_H - $fontMm) / 2;
+      $totalTextH = $lineCount > 1
+        ? $fontMm + ($lineCount - 1) * self::LINE_PITCH
+        : $fontMm;
+      $offsetY = ($h - $totalTextH) / 2;
       foreach ($lines as $li => $line) {
-        $lineY = $y + $paddingTop + $li * self::LINE_PITCH;
+        $lineY = $y + $offsetY + $li * self::LINE_PITCH;
         $lineX = $x + ($align === 'C' ? 0 : 1.6);
         if ($align === 'C') {
           $pdf->SetXY($x, $lineY);
