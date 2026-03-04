@@ -8,11 +8,11 @@ use Illuminate\Support\Facades\DB;
 /**
  * 予定表PDF生成サービス
  */
-class NextMonthSchedulePdfService extends BasePdfService
+class ScheduleListPdfService extends BasePdfService
 {
   protected function getDefaultCoordinatesPath(): string
   {
-    return storage_path('app/config/next_month_schedule_coordinates.json');
+    return storage_path('app/config/schedule_list_coordinates.json');
   }
 
   protected function getDefaultCoordinates(): array

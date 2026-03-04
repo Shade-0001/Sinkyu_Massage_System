@@ -1898,7 +1898,7 @@ class PrintsController extends Controller
   /**
    * 予定表PDF出力
    */
-  public function nextMonthSchedule(Request $request, \App\Services\Print\NextMonthSchedulePdfService $service, string $filename)
+  public function scheduleList(Request $request, \App\Services\Print\ScheduleListPdfService $service, string $filename)
   {
     try {
       $validated = $request->validate([

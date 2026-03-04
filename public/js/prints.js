@@ -1706,12 +1706,12 @@ function submitReportGreeting() {
 /**
  * 予定表モーダルを開く
  */
-function openNextMonthScheduleModal() {
-  const modalElement = document.getElementById('nextMonthScheduleModal');
+function openScheduleListModal() {
+  const modalElement = document.getElementById('scheduleListModal');
   if (!modalElement) return;
 
-  resetFormToDefault('nextMonthScheduleForm');
-  adjustSelectSize('next_month_schedule_clinic_user_ids');
+  resetFormToDefault('scheduleListForm');
+  adjustSelectSize('schedule_list_clinic_user_ids');
 
   if (modalElement.parentElement !== document.body) {
     document.body.appendChild(modalElement);
@@ -1724,8 +1724,8 @@ function openNextMonthScheduleModal() {
 /**
  * 予定表PDF出力
  */
-function submitNextMonthSchedule() {
-  const form = document.getElementById('nextMonthScheduleForm');
+function submitScheduleList() {
+  const form = document.getElementById('scheduleListForm');
 
   if (!form.checkValidity()) {
     form.reportValidity();
@@ -1741,12 +1741,12 @@ function submitNextMonthSchedule() {
   const seconds = String(now.getSeconds()).padStart(2, '0');
 
   const filename = `予定表_${year}-${month}-${day}_${hours}-${minutes}-${seconds}.pdf`;
-  form.action = `/prints/next-month-schedule/${encodeURIComponent(filename)}`;
+  form.action = `/prints/schedule-list/${encodeURIComponent(filename)}`;
   form.target = '_blank';
   form.submit();
 
   setTimeout(() => {
-    const modalElement = document.getElementById('nextMonthScheduleModal');
+    const modalElement = document.getElementById('scheduleListModal');
     if (modalElement) {
       const modalInstance = bootstrap.Modal.getInstance(modalElement);
       if (modalInstance) {

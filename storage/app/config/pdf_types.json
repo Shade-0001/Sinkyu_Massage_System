@@ -215,12 +215,12 @@
     "serviceClass": "ReportPdfService",
     "fieldsFile": "report.js"
   },
-  "next_month_schedule": {
+  "schedule_list": {
     "name": "予定表",
-    "coordinatesFile": "next_month_schedule_coordinates.json",
+    "coordinatesFile": "schedule_list_coordinates.json",
     "templateFile": "",
     "templateDir": "",
-    "serviceClass": "NextMonthSchedulePdfService",
+    "serviceClass": "ScheduleListPdfService",
     "fieldsFile": ""
   },
   "therapy_deadline_list": {

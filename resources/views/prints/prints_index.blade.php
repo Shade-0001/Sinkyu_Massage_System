@@ -51,7 +51,7 @@
   <button type="button" class="btn btn-primary" onclick="openImplementationPlanModal()">実施計画書</button>
   <button type="button" class="btn btn-primary" onclick="openReportGreetingModal()">報告書挨拶文</button>
   <button type="button" class="btn btn-primary" onclick="openReportModal()">報告書</button>
-  <button type="button" class="btn btn-primary" onclick="openNextMonthScheduleModal()">予定表</button>
+  <button type="button" class="btn btn-primary" onclick="openScheduleListModal()">予定表</button>
   <button type="button" class="btn btn-primary" onclick="openTreatmentExpiryListModal()">要加療期限切れリスト</button>
   <br><br>
 
@@ -1198,21 +1198,21 @@
   </div>
 
   <!-- 予定表モーダル -->
-  <div class="modal fade" id="nextMonthScheduleModal" tabindex="-1" aria-labelledby="nextMonthScheduleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="scheduleListModal" tabindex="-1" aria-labelledby="scheduleListModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="nextMonthScheduleModalLabel">予定表 出力設定</h5>
+          <h5 class="modal-title" id="scheduleListModalLabel">予定表 出力設定</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form id="nextMonthScheduleForm" method="POST">
+          <form id="scheduleListForm" method="POST">
             @csrf
 
             <!-- サービス提供年月 -->
             <div class="mb-3">
-              <label for="next_month_schedule_service_year_month" class="form-label">サービス提供年月 <span class="text-danger">*</span></label>
-              <select class="form-select" id="next_month_schedule_service_year_month" name="service_year_month" required>
+              <label for="schedule_list_service_year_month" class="form-label">サービス提供年月 <span class="text-danger">*</span></label>
+              <select class="form-select" id="schedule_list_service_year_month" name="service_year_month" required>
                 <option value="">選択してください</option>
                 @php
                   $currentDate = now();
@@ -1231,10 +1231,10 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="next_month_schedule_clinic_user_ids" class="form-label mb-0">利用者 <span class="text-danger">*</span></label>
-                <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('next_month_schedule_clinic_user_ids')">全て選択 / 解除</button>
+                <label for="schedule_list_clinic_user_ids" class="form-label mb-0">利用者 <span class="text-danger">*</span></label>
+                <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('schedule_list_clinic_user_ids')">全て選択 / 解除</button>
               </div>
-              <select class="form-select" id="next_month_schedule_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
+              <select class="form-select" id="schedule_list_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
                   <option value="{{ $user->id }}">
                     {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
@@ -1247,7 +1247,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="submitNextMonthSchedule()">印刷</button>
+          <button type="button" class="btn btn-primary" onclick="submitScheduleList()">印刷</button>
         </div>
       </div>
     </div>
@@ -1365,7 +1365,7 @@
         #report_greeting_doctor_id,
         #report_greeting_caremanager_id,
         #referrer_thank_you_caremanager_id,
-        #next_month_schedule_clinic_user_ids {
+        #schedule_list_clinic_user_ids {
           scroll-behavior: auto;
         }
       </style>
