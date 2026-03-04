@@ -94,7 +94,7 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
     $pdf->setPrintFooter(false);
     $pdf->SetTextColor(0, 0, 0);
 
-    $outputDate = $submissionDate ?: date('Y-m-d');
+    $outputDate = date('Y-m-d H:i:s');
     $users      = $this->fetchUsers();
     $rowDefs    = $this->getRowDefinitions();
 
@@ -441,10 +441,11 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
     $pdf->SetFont('kozgopromedium', '', 15);
     $pdf->Text($x, 13, '利用者情報一覧（同意医師情報）');
 
-    $dateStr = 'PDF出力日：' . $this->formatJapaneseDate($outputDate);
-    $pdf->SetFont('kozgopromedium', '', 10);
-    $dateW   = $pdf->GetStringWidth($dateStr);
-    $pdf->Text($x + self::AVAILABLE_W - $dateW, 13, $dateStr);
+    $ts      = strtotime($outputDate);
+    $dateStr = '［ PDF出力日時 │ ' . date('Y/m/d', $ts) . "\u{2002}" . date('H:i', $ts) . ' ］';
+    $pdf->SetFont('kozgopromedium', '', 8);
+    $pdf->SetXY($x, 6);
+    $pdf->Cell(self::AVAILABLE_W, 0, $dateStr, 0, 0, 'R');
   }
 
   /**

@@ -64,7 +64,7 @@ class DoctorInfoListPdfService extends BasePdfService
     $pdf->setPrintFooter(false);
     $pdf->SetTextColor(0, 0, 0);
 
-    $outputDate = $submissionDate ?: date('Y-m-d');
+    $outputDate = date('Y-m-d H:i:s');
     $doctors    = $this->fetchDoctors();
 
     $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
@@ -258,14 +258,10 @@ class DoctorInfoListPdfService extends BasePdfService
     $pdf->Text($x, 13, '医師情報一覧表');
 
     $ts      = strtotime($outputDate);
-    $year    = (int)date('Y', $ts);
-    $month   = (int)date('n', $ts);
-    $day     = (int)date('j', $ts);
-    $era     = $this->getJapaneseEra($year, $month, $day);
-    $dateStr = 'PDF出力日：' . $era['era'] . $era['year'] . '年' . $month . '月' . $day . '日';
-    $pdf->SetFont('kozgopromedium', '', 10);
-    $dateW   = $pdf->GetStringWidth($dateStr);
-    $pdf->Text($x + self::AVAILABLE_W - $dateW, 13, $dateStr);
+    $dateStr = '［ PDF出力日時 │ ' . date('Y/m/d', $ts) . "\u{2002}" . date('H:i', $ts) . ' ］';
+    $pdf->SetFont('kozgopromedium', '', 8);
+    $pdf->SetXY($x, 6);
+    $pdf->Cell(self::AVAILABLE_W, 0, $dateStr, 0, 0, 'R');
   }
 
   /**
