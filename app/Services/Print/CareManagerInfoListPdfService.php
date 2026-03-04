@@ -268,7 +268,7 @@ class CareManagerInfoListPdfService extends BasePdfService
     $pdf->Text($x, 13, 'ケアマネ情報一覧表');
 
     $ts      = strtotime($outputDate);
-    $dateStr = '［ PDF出力日時 │ ' . date('Y/m/d', $ts) . "\u{2002}" . date('H:i', $ts) . ' ］';
+    $dateStr = '〈 PDF出力日時 │ ' . date('Y/m/d', $ts) . "\u{2002}" . date('H:i', $ts) . ' 〉';
     $pdf->SetFont('kozgopromedium', '', 8);
     $pdf->SetXY($x, 6);
     $pdf->Cell(self::AVAILABLE_W, 0, $dateStr, 0, 0, 'R');
