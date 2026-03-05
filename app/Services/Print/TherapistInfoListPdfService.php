@@ -18,7 +18,8 @@ class TherapistInfoListPdfService extends BasePdfService
   // レイアウト定数
   const MARGIN_X         = 8;    // 左右マージン mm
   const AVAILABLE_W      = 281;  // 利用可能幅 mm（A4横: 297-8×2）
-  const CELL_PADDING_X   = 2.4;  // セル左右パディング合計 mm
+  const CELL_PADDING_X   = 2.4;  // セル左右パディング合計 mm（後方互換用）
+  const CELL_PAD_L       = 1.6;  // セル左パディング mm（右余白も同値以上を保証）
   const BASE_ROW_H       = 6;    // 行の基本高さ mm
   const LINE_PITCH       = 3.2;  // 折り返し行のピッチ mm
   const FONT_SIZE        = 9;    // データフォント pt
@@ -292,7 +293,7 @@ class TherapistInfoListPdfService extends BasePdfService
   protected function calcColWidths(Fpdi $pdf, array $therapists): array
   {
     $minWidths = array_fill(0, 12, 0.0);
-    $pad = self::CELL_PADDING_X;
+    $pad = self::CELL_PAD_L * 2; // 左右均等パディング（CELL_PAD_L × 2）
 
     // ROW1_SINGLE_LABELS（COL0~5）のヘッダーテキスト幅
     $pdf->SetFont('kozgopromedium', '', self::HEADER_FONT);
@@ -570,8 +571,8 @@ class TherapistInfoListPdfService extends BasePdfService
         $pdf->SetXY($x, $lineY);
         $pdf->Cell($w, 0, $line, 0, 0, 'C', false);
       } else {
-        $pdf->SetXY($x + 1.6, $lineY);
-        $pdf->Cell($w - 1.6, 0, $line, 0, 0, 'L', false);
+        $pdf->SetXY($x + self::CELL_PAD_L, $lineY);
+        $pdf->Cell($w - self::CELL_PAD_L, 0, $line, 0, 0, 'L', false);
       }
     }
   }
