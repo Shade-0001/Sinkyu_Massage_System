@@ -233,14 +233,14 @@ class TreatmentFeeListPdfService extends BasePdfService
     // タイトル（テーブルの左辺に揃える）
     $titleText = '施術料金一覧表（保険扱い）';
     $pdf->SetFont('kozgopromedium', '', 17);
-    $pdf->Text($startX, 15, $titleText);
+    $pdf->Text($startX, 12, $titleText);
 
     // 元号年月（テーブルの右辺に揃える、全角1文字分左にズラす）
     $titleYearMonth = $this->formatJapaneseYearMonth($serviceYearMonth);
     $pdf->SetFont('kozgopromedium', '', 15);
     $titleYearMonthWidth = $pdf->GetStringWidth($titleYearMonth);
     $oneCharWidth = $pdf->GetStringWidth('年'); // 全角1文字分の幅を取得
-    $pdf->Text($startX + $availableWidth - $titleYearMonthWidth - $oneCharWidth, 15, $titleYearMonth);
+    $pdf->Text($startX + $availableWidth - $titleYearMonthWidth - $oneCharWidth, 12, $titleYearMonth);
 
     // PDF出力日時（右上）
     if ($outputDate) {

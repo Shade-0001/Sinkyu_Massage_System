@@ -317,14 +317,14 @@ class PaymentListPdfService extends BasePdfService
 
     // タイトル（左上）
     $pdf->SetFont('kozgopromedium', '', 17);
-    $pdf->Text($startX, 15, '入金管理表（保険扱い）');
+    $pdf->Text($startX, 12, '入金管理表（保険扱い）');
 
     // 元号年月（右上）
     $titleYearMonth = $this->formatJapaneseYearMonth($serviceYearMonth);
     $pdf->SetFont('kozgopromedium', '', 15);
     $titleYearMonthWidth = $pdf->GetStringWidth($titleYearMonth);
     $oneCharWidth        = $pdf->GetStringWidth('年');
-    $pdf->Text($startX + $availableWidth - $titleYearMonthWidth - $oneCharWidth, 15, $titleYearMonth);
+    $pdf->Text($startX + $availableWidth - $titleYearMonthWidth - $oneCharWidth, 12, $titleYearMonth);
 
     // PDF出力日時（右上）
     if ($outputDate) {
