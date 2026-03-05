@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\DB;
  */
 class TherapyDeadlineListPdfService extends BasePdfService
 {
+  // 動的カラム幅（generate()内で確定）
+  protected array $colWidths = [];
+
   protected function getDefaultCoordinatesPath(): string
   {
     return storage_path('app/config/therapy_deadline_list_coordinates.json');
@@ -18,6 +21,70 @@ class TherapyDeadlineListPdfService extends BasePdfService
   protected function getDefaultCoordinates(): array
   {
     return [];
+  }
+
+  /**
+   * 各カラム幅を動的計算して返す（折り返し許可：医療機関名）
+   */
+  protected function calcColWidths(Fpdi $pdf, array $data): array
+  {
+    $pad     = 1.6 * 2;
+    $availW  = 194;
+    $wrapKey = 'institution';
+
+    $headers = [
+      'user_id'      => '利用者ID',
+      'user_name'    => '利用者氏名',
+      'consent_date' => '同意日',
+      'start_date'   => '同意開始年月日',
+      'end_date'     => '同意終了年月日',
+      'doctor_name'  => '医師名',
+      'institution'  => '医療機関名',
+      'division'     => '区分',
+    ];
+
+    $pdf->SetFont('kozgopromedium', '', 9);
+    $minW = [];
+    foreach ($headers as $key => $label) {
+      $minW[$key] = $pdf->GetStringWidth($label) + $pad;
+    }
+
+    foreach ($data['rows'] as $row) {
+      $texts = [
+        'user_id'      => (string)$row['user_id'],
+        'user_name'    => $row['user_name'],
+        'consent_date' => $this->formatJapaneseDate($row['consenting_date']),
+        'start_date'   => $this->formatJapaneseDate($row['consenting_start_date']),
+        'end_date'     => $this->formatJapaneseDate($row['consenting_end_date']),
+        'doctor_name'  => $row['doctor_name'],
+        'division'     => $row['division'],
+      ];
+      foreach ($texts as $key => $text) {
+        $minW[$key] = max($minW[$key], $pdf->GetStringWidth($text) + $pad);
+      }
+    }
+
+    $fixedTotal = array_sum(array_filter($minW, fn($k) => $k !== $wrapKey, ARRAY_FILTER_USE_KEY));
+    $remaining  = $availW - $fixedTotal;
+
+    if ($remaining >= 8.0) {
+      $minW[$wrapKey] = round($remaining, 4);
+      foreach ($minW as $k => $v) {
+        if ($k !== $wrapKey) {
+          $minW[$k] = round($v, 4);
+        }
+      }
+    } else {
+      $totalW = array_sum($minW) ?: 1;
+      foreach ($minW as $k => $v) {
+        $minW[$k] = round($v * $availW / $totalW, 4);
+      }
+    }
+
+    $diff           = $availW - array_sum($minW);
+    $minW[$wrapKey] = round($minW[$wrapKey] + $diff, 4);
+
+    return $minW;
   }
 
   /**
@@ -39,6 +106,8 @@ class TherapyDeadlineListPdfService extends BasePdfService
     $pdf->AddPage();
 
     $data = $this->fetchData($serviceYearMonth);
+    $pdf->SetFont('kozgopromedium', '', 9);
+    $this->colWidths = $this->calcColWidths($pdf, $data);
     $this->renderPdf($pdf, $data, $serviceYearMonth);
 
     return $pdf->Output('', 'S');
@@ -126,19 +195,8 @@ class TherapyDeadlineListPdfService extends BasePdfService
     $oneCharWidth        = $pdf->GetStringWidth('年');
     $pdf->Text($startX + $availableWidth - $titleYearMonthWidth - $oneCharWidth, 15, $titleYearMonth);
 
-    // カラム幅（合計194mm）
-    // 利用者ID:16, 利用者氏名:28, 同意日:28, 同意開始年月日:28, 同意終了年月日:28, 医師名:22, 医療機関名:36, 区分:8
-    // 16+28+28+28+28+22+36+8 = 194 ✓
-    $colWidths = [
-      'user_id'       => 16,
-      'user_name'     => 28,
-      'consent_date'  => 28,
-      'start_date'    => 28,
-      'end_date'      => 28,
-      'doctor_name'   => 22,
-      'institution'   => 36,
-      'division'      => 8,
-    ];
+    // カラム幅（自動計算）
+    $colWidths = $this->colWidths;
 
     $headers = [
       ['text' => '利用者ID',       'key' => 'user_id'],
