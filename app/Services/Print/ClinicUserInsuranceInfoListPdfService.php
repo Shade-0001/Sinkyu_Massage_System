@@ -126,11 +126,6 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
       ->orderBy('clinic_users.id')
       ->get();
 
-    // 保険区分マップ（/master/clinic-users/*/insurances フォームと同一表記）
-    $type1Map = [1 => '社･国･組', 2 => '公費', 3 => '後期', 4 => '退職'];
-    $type2Map = [1 => '単独', 2 => '２併', 3 => '３併'];
-    $type3Map = [1 => '本外', 2 => '三外', 3 => '家外', 4 => '高外9', 5 => '高外8'];
-
     // insurances（最新1件）
     $insurances = DB::table('insurances as ins')
       ->leftJoin('expenses_borne_ratios as ebr', 'ebr.id', '=', 'ins.expenses_borne_ratio_id')
@@ -138,9 +133,6 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
       ->whereRaw('ins.id = (SELECT MAX(id) FROM insurances WHERE clinic_user_id = ins.clinic_user_id)')
       ->select(
         'ins.clinic_user_id',
-        'ins.insurance_type_1_id',
-        'ins.insurance_type_2_id',
-        'ins.insurance_type_3_id',
         'ins.insured_number',
         'ins.license_acquisition_date',
         'ins.certification_date',
@@ -161,15 +153,18 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
       $uid = $u->id;
       $ins = $insurances[$uid] ?? null;
 
-      // 保険区分：IDマップから表記を生成（フォームと同一表記）
+      // 保険区分：保険者番号の先頭2桁から判定（Insurer::getInsurerCategoryAttribute と同一ロジック）
       $insType = '';
-      if ($ins) {
-        $parts = array_filter([
-          $type1Map[$ins->insurance_type_1_id ?? 0] ?? '',
-          $type2Map[$ins->insurance_type_2_id ?? 0] ?? '',
-          $type3Map[$ins->insurance_type_3_id ?? 0] ?? '',
-        ]);
-        $insType = implode(' ', $parts);
+      if ($ins && ($ins->insurer_number ?? '')) {
+        $prefix = (int) substr((string) $ins->insurer_number, 0, 2);
+        if ($prefix === 6)                         $insType = '協会けんぽ';
+        elseif ($prefix >= 13 && $prefix <= 19)    $insType = '組合健保';
+        elseif ($prefix >= 31 && $prefix <= 34)    $insType = '国民健康保険';
+        elseif ($prefix === 39)                    $insType = '後期高齢者医療';
+        elseif ($prefix === 67)                    $insType = '国保組合';
+        elseif ($prefix >= 72 && $prefix <= 75)    $insType = '共済組合';
+        elseif ($prefix === 2)                     $insType = '船員保険';
+        else                                       $insType = '保険';
       }
 
       $result[] = [
