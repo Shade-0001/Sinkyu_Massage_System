@@ -125,9 +125,9 @@ class DepositSeeder extends Seeder
       // 保険請求額
       $insuranceBillingAmount = $totalAmount - $selfpayAmount;
 
-      // 入金額・入金日：概ね半数を入金済み扱い
+      // 入金額・入金日：99%を入金済み扱い
       // 入金日 = 施術期間終了月の翌月末 +10〜45日（請求から入金までのラグ）
-      $hasDeposit  = (bool)rand(0, 1);
+      $hasDeposit  = (rand(1, 100) <= 99);
       $depositAmount = $hasDeposit ? $insuranceBillingAmount : 0;
       $depositDate   = null;
       if ($hasDeposit) {
