@@ -196,9 +196,13 @@ class PaymentListPdfService
    */
   protected function calcColWidths(Fpdi $pdf, array $data): array
   {
-    $pad     = 1.6 * 2;
+    $pad    = 1.6 * 2;       // 通常カラム用パッド（mm）
+    $numPad = 2 * 2 + 1;    // 数値カラム用パッド：描画時 padding*2=4mm + 安全マージン1mm = 5mm
     $availW  = 281;
     $wrapKey = 'insurer';
+
+    // 数値右揃えカラム（描画時に $padding=2 が適用されるカラム）
+    $numKeys = ['total', 'selfpay', 'billing', 'deposit'];
 
     $headers = [
       'no'       => 'No.',
@@ -217,7 +221,7 @@ class PaymentListPdfService
     $pdf->SetFont('kozgopromedium', '', 10);
     $minW = [];
     foreach ($headers as $key => $label) {
-      $minW[$key] = $pdf->GetStringWidth($label) + $pad;
+      $minW[$key] = $pdf->GetStringWidth($label) + (in_array($key, $numKeys) ? $numPad : $pad);
     }
 
     $pdf->SetFont('kozgopromedium', '', 9);
@@ -235,7 +239,8 @@ class PaymentListPdfService
         'dep_date' => $row['deposit_date'],
       ];
       foreach ($texts as $key => $text) {
-        $minW[$key] = max($minW[$key], $pdf->GetStringWidth($text) + $pad);
+        $p = in_array($key, $numKeys) ? $numPad : $pad;
+        $minW[$key] = max($minW[$key], $pdf->GetStringWidth($text) + $p);
       }
     }
 
@@ -249,7 +254,7 @@ class PaymentListPdfService
       'billing' => $grandBilling > 0 ? number_format($grandBilling) : '',
     ] as $key => $text) {
       if ($text !== '') {
-        $minW[$key] = max($minW[$key], $pdf->GetStringWidth($text) + $pad);
+        $minW[$key] = max($minW[$key], $pdf->GetStringWidth($text) + $numPad);
       }
     }
 
