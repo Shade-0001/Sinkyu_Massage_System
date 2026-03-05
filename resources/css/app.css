@@ -12,11 +12,6 @@
   text-decoration-line: none;
 }
 
-/* リンク内Nerd Fontsアイコンの色をテキスト色に合わせる */
-a i.nf {
-  color: inherit;
-}
-
 /* 閲覧専用フィールド */
 [readonly] {
   background-color: #eeeeee;
@@ -24,6 +19,13 @@ a i.nf {
   opacity: 0.6;
   cursor: default;
   outline: none;
+}
+/*---------------------------------------------------------*/
+
+/* 白文字 + 黒縁取り */
+.text-outline-black {
+  color: #ffffff;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 /*---------------------------------------------------------*/
 
