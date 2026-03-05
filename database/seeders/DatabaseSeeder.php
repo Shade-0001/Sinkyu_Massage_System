@@ -42,6 +42,7 @@ class DatabaseSeeder extends Seeder
       BodypartConsentMassageSeeder::class,
       ConsentAcupunctureSeeder::class,
       RecordSeeder::class,
+      ReportSeeder::class,
       DepositSeeder::class,
       PlanSeeder::class,
       PlanInfoSeeder::class,
