@@ -52,13 +52,13 @@
     <div class="d-flex gap-3 align-items-start">
       <!-- カレンダー -->
       <div class="text-center position-relative" style="width: fit-content; min-width: 15rem;">
-        <div class="d-flex align-items-center justify-content-center gap-1">
-          <button type="button" id="prev-month-btn" style="width: 2em; height: 2em; padding: 0; font-size: 1rem; line-height: 1; display: inline-flex; align-items: center; justify-content: center;">◀</button>
-          <div class="position-relative" style="display: inline-block;">
+        <div class="d-flex align-items-center justify-content-center gap-1 mb-3">
+          <button type="button" id="prev-month-btn" style="width: 2.5em; height: 2.5em; padding: 0; font-size: 0.8rem; display: inline-flex; align-items: center; justify-content: center; color: #333; border-radius: 4px; border: 2px solid #777;">◀</button>
+          <div class="position-relative mx-2" style="display: inline-block;">
             <div id="calendar-title-display" class="fs-4 fw-bold py-1 d-inline-block" style="cursor: pointer; white-space: nowrap; background-color: ButtonFace; border: 2px solid #777; border-radius: 4px; padding: 0.05em 0.5em;"></div>
             <select id="calendar-title" class="position-absolute top-0 start-50 translate-middle-x opacity-0" style="cursor: pointer; font-size: 1.5rem; padding: 0.2em 0em; border: none; background: transparent; width: 100%; height: 100%;"></select>
           </div>
-          <button type="button" id="next-month-btn" style="width: 2em; height: 2em; padding: 0; font-size: 1rem; line-height: 1; display: inline-flex; align-items: center; justify-content: center;">▶</button>
+          <button type="button" id="next-month-btn" style="width: 2.5em; height: 2.5em; padding: 0; font-size: 0.8rem; display: inline-flex; align-items: center; justify-content: center; color: #333; border-radius: 4px; border: 2px solid #777;">▶</button>
         </div>
         <div class="calendar" id="calendar">
           <!-- 曜日ヘッダー -->
