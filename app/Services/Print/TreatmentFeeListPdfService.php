@@ -144,7 +144,6 @@ class TreatmentFeeListPdfService
     $availW = 194;
 
     $minW = [
-      'no'         => 0.0,
       'name'       => 0.0,
       'treatment'  => 0.0,
       'count'      => 0.0,
@@ -156,7 +155,6 @@ class TreatmentFeeListPdfService
     // ヘッダー（10pt）
     $pdf->SetFont('kozgopromedium', '', 10);
     $headerTexts = [
-      'no'        => 'No.',
       'name'      => '利用者氏名',
       'treatment' => '施術名',
       'count'     => '回数',
@@ -183,7 +181,6 @@ class TreatmentFeeListPdfService
       // 超過分を treatment に加算
       $minW['treatment'] += $summaryW - ($minW['name'] + $minW['treatment']);
     }
-    $minW['no']        = max($minW['no'],        $pdf->GetStringWidth('999') + $pad);
     $minW['count']     = max($minW['count'],     $pdf->GetStringWidth('99') + $pad);
     $numW              = $pdf->GetStringWidth('999,999') + $pad;
     $minW['fee']       = max($minW['fee'],       $numW);
@@ -271,6 +268,7 @@ class TreatmentFeeListPdfService
     $grandTotalInsurance = 0;
 
     $listNo = 0;
+    $totalUsers = $userGroups->count();
 
     foreach ($userGroups as $clinicUserId => $records) {
       $clinicUser = $clinicUsers[$clinicUserId] ?? null;
@@ -305,6 +303,14 @@ class TreatmentFeeListPdfService
 
       // 利用者氏名のセル結合用：彣数をカウント
       $userStartY = $currentY;
+
+      // リスト番号描画：ブロックの左上に 「［ listNo / totalUsers ］」
+      $listNumFontSize = 8;
+      $listNumFontMm   = $listNumFontSize * 0.352;
+      $pdf->SetFont('kozgopromedium', '', $listNumFontSize);
+      $pdf->SetTextColor(0, 0, 0);
+      $pdf->Text($startX, $userStartY - $listNumFontMm - 1, '［ ' . $listNo . '/' . $totalUsers . ' ］');
+      $pdf->SetFont('kozgopromedium', '', 9);
 
       $firstRow = true;
       $therapyGroupsArray = $therapyGroups->toArray();
@@ -440,12 +446,6 @@ class TreatmentFeeListPdfService
 
       $x = $startX;
 
-      // No.（空欄）
-      $pdf->Line($x, $currentY, $x, $currentY + $rowHeight); // 左
-      $pdf->Line($x + $colWidths['no'], $currentY, $x + $colWidths['no'], $currentY + $rowHeight); // 右
-      $pdf->Line($x, $currentY + $rowHeight, $x + $colWidths['no'], $currentY + $rowHeight); // 下
-      $x += $colWidths['no'];
-
       // 利用者氏名と施術名を結合して「合計（*割負担）」を中央揃え
       $mergedWidth = $colWidths['name'] + $colWidths['treatment'];
       $pdf->SetXY($x, $currentY + $dataOffsetY);
@@ -495,13 +495,6 @@ class TreatmentFeeListPdfService
 
     // 総合計行
     $x = $startX;
-
-    // No.（空欄）
-    $pdf->Line($x, $currentY, $x, $currentY + $rowHeight); // 左
-    $pdf->Line($x + $colWidths['no'], $currentY, $x + $colWidths['no'], $currentY + $rowHeight); // 右
-    $pdf->Line($x, $currentY, $x + $colWidths['no'], $currentY); // 上
-    $pdf->Line($x, $currentY + $rowHeight, $x + $colWidths['no'], $currentY + $rowHeight); // 下
-    $x += $colWidths['no'];
 
     // 利用者氏名と施術名を結合して「総合計」を中央揃え
     $mergedWidth = $colWidths['name'] + $colWidths['treatment'];
@@ -560,7 +553,6 @@ class TreatmentFeeListPdfService
     $pdf->SetLineStyle(array('width' => 0.2, 'dash' => 0, 'color' => array(0, 0, 0)));
 
     $headers = [
-      ['text' => 'No.',      'width' => $colWidths['no']],
       ['text' => '利用者氏名', 'width' => $colWidths['name']],
       ['text' => '施術名',    'width' => $colWidths['treatment']],
       ['text' => '回数',      'width' => $colWidths['count']],
