@@ -66,8 +66,8 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
     $users      = $this->fetchUsers();
     $rowDefs    = $this->getRowDefinitions();
 
-    // 動的レイアウト値を計算
-    $this->calcDynamicWidths($pdf, $rowDefs);
+    // 動的レイアウト値をセット
+    $this->setColWidths($pdf, $rowDefs);
 
     $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
 
@@ -198,7 +198,7 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
   /**
    * 行ラベル幅に基づいて動的レイアウト値を計算しプロパティにセット
    */
-  protected function calcDynamicWidths(Fpdi $pdf, array $rowDefs): void
+  protected function setColWidths(Fpdi $pdf, array $rowDefs): void
   {
     $pad = 1.6 * 2;
     $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
