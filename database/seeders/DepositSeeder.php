@@ -155,6 +155,9 @@ class DepositSeeder extends Seeder
       ];
     }
 
+    // 挿入順序をランダム化（id順で同一保険者・受療者が連続しないようにする）
+    shuffle($data);
+
     foreach (array_chunk($data, 500) as $chunk) {
       DB::connection('sinkyu_massage_system_db')->table('deposits')->insert($chunk);
     }
