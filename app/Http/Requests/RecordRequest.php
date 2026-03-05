@@ -51,7 +51,7 @@ class RecordRequest extends FormRequest
   public function rules(): array
   {
     // 営業時間を取得
-    $clinicInfo = DB::table('clinic_info')->first();
+    $clinicInfo = DB::table('clinic_info')->orderByDesc('id')->first();
     $businessHoursStart = $clinicInfo->business_hours_start ? substr($clinicInfo->business_hours_start, 0, 5) : null;
     $businessHoursEnd = $clinicInfo->business_hours_end ? substr($clinicInfo->business_hours_end, 0, 5) : null;
 

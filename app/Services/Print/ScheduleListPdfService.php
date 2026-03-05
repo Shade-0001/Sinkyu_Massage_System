@@ -335,7 +335,7 @@ class ScheduleListPdfService extends BasePdfService
    */
   protected function fetchClosedDays(): array
   {
-    $info = DB::table('clinic_info')->first();
+    $info = DB::table('clinic_info')->orderByDesc('id')->first();
 
     // closed_day_* カラムを曜日番号にマッピング
     $map = [

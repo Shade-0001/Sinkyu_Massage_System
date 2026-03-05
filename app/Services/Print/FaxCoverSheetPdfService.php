@@ -43,7 +43,7 @@ class FaxCoverSheetPdfService extends BasePdfService
       return $this->getSampleData('');
     }
 
-    $clinicInfo = DB::table('clinic_info')->first();
+    $clinicInfo = DB::table('clinic_info')->orderByDesc('id')->first();
 
     return [
       'clinic_info' => $clinicInfo,

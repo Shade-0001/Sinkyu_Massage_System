@@ -1712,7 +1712,7 @@ trait MedicalAssistanceMassageFormFieldsTrait
     // clinic_infoテーブルから銀行口座情報を取得（ノーマルモード用）
     $clinicInfoData = null;
     if (!$this->sampleDataMode) {
-      $clinicInfoData = DB::table('clinic_info')->first();
+      $clinicInfoData = DB::table('clinic_info')->orderByDesc('id')->first();
     }
 
     // === 支払機関情報 ===

@@ -14,7 +14,7 @@ class ClinicInfoService
   public function getClinicInfo()
   {
     if ($this->clinicInfo === null) {
-      $this->clinicInfo = DB::table('clinic_info')->first();
+      $this->clinicInfo = DB::table('clinic_info')->orderByDesc('id')->first();
     }
 
     return $this->clinicInfo;

@@ -87,7 +87,7 @@ class ImplementationPlanPdfService extends BasePdfService
     $levels = DB::table('assistance_levels')->pluck('assistance_level', 'id');
 
     // 事業所情報
-    $clinicInfo = DB::table('clinic_info')->first();
+    $clinicInfo = DB::table('clinic_info')->orderByDesc('id')->first();
 
     // 傷病名（consents_massage から最新のレコードをJOINして取得）
     $consentMassage = DB::table('consents_massage')

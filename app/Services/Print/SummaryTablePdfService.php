@@ -112,7 +112,7 @@ class SummaryTablePdfService extends BasePdfService
     }
 
     // 施術所情報
-    $clinicInfo = DB::table('clinic_info')->first();
+    $clinicInfo = DB::table('clinic_info')->orderByDesc('id')->first();
 
     // 施術料金データ（最新）
     $treatmentFees = DB::table('treatment_fees')

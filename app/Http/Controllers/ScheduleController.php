@@ -52,7 +52,7 @@ class ScheduleController extends Controller
     }
 
     // 営業時間と定休日を取得
-    $clinicInfo = DB::table('clinic_info')->first();
+    $clinicInfo = DB::table('clinic_info')->orderByDesc('id')->first();
     $businessHoursStart = $clinicInfo->business_hours_start ?? '09:00:00';
     $businessHoursEnd = $clinicInfo->business_hours_end ?? '18:00:00';
 
