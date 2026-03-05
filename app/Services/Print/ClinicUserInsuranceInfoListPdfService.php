@@ -29,6 +29,10 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
   const LINE_PITCH        = 3.2;
   const FONT_SIZE         = 9;
 
+  // 動的レイアウト値（generate()内で確定）
+  protected float $dynHeaderW  = self::HEADER_W;
+  protected float $dynDataColW = self::DATA_COL_W;
+
   const LISTS_PER_PAGE    = 2;   // 1ページあたりのリスト数
 
   // ページ座標
@@ -61,6 +65,9 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
     $outputDate = date('Y-m-d H:i:s');
     $users      = $this->fetchUsers();
     $rowDefs    = $this->getRowDefinitions();
+
+    // 動的レイアウト値を計算
+    $this->calcDynamicWidths($pdf, $rowDefs);
 
     $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
 
@@ -189,6 +196,24 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
   }
 
   /**
+   * 行ラベル幅に基づいて動的レイアウト値を計算しプロパティにセット
+   */
+  protected function calcDynamicWidths(Fpdi $pdf, array $rowDefs): void
+  {
+    $pad = 1.6 * 2;
+    $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
+    $maxLabelW = 0.0;
+    foreach ($rowDefs as $row) {
+      $label = $row[0];
+      if ($label !== '') {
+        $maxLabelW = max($maxLabelW, $pdf->GetStringWidth($label) + $pad);
+      }
+    }
+    $this->dynHeaderW  = max(self::HEADER_W, ceil($maxLabelW * 10) / 10);
+    $this->dynDataColW = floor((self::AVAILABLE_W - $this->dynHeaderW) / self::MAX_COLS_PER_PAGE);
+  }
+
+  /**
    * 行定義を返す
    * [rowLabel, dataKey]
    */
@@ -223,7 +248,7 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
       $maxLines = 1;
       foreach ($users as $u) {
         $text  = (string)($u[$dataKey] ?? '');
-        $lines = count($this->wrapText($pdf, $text, self::DATA_COL_W));
+        $lines = count($this->wrapText($pdf, $text, $this->dynDataColW));
         if ($lines > $maxLines) {
           $maxLines = $lines;
         }
@@ -291,7 +316,7 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
 
     $startX     = self::MARGIN_X;
     $headerX    = $startX;
-    $dataStartX = $startX + self::HEADER_W;
+    $dataStartX = $startX + $this->dynHeaderW;
 
     // 各行のY座標を事前計算
     $rowYs = [];
@@ -309,18 +334,18 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
       $rowH = $rowHeights[$i];
 
       // 行ラベルカラム
-      $this->drawCell($pdf, $headerX, $rowY, self::HEADER_W, $rowH, $rowLabel, true, 'C');
+      $this->drawCell($pdf, $headerX, $rowY, $this->dynHeaderW, $rowH, $rowLabel, true, 'C');
 
       // データカラム
       foreach ($users as $j => $user) {
-        $cellX = $dataStartX + $j * self::DATA_COL_W;
+        $cellX = $dataStartX + $j * $this->dynDataColW;
         $text  = (string)($user[$dataKey] ?? '');
-        $this->drawCell($pdf, $cellX, $rowY, self::DATA_COL_W, $rowH, $text, false, 'L');
+        $this->drawCell($pdf, $cellX, $rowY, $this->dynDataColW, $rowH, $text, false, 'L');
       }
     }
 
     // ---- 右端の縦線 ----
-    $rightX = $dataStartX + count($users) * self::DATA_COL_W;
+    $rightX = $dataStartX + count($users) * $this->dynDataColW;
     $pdf->Line($rightX, $startY, $rightX, $tableBottom);
 
     // ---- テーブル全体の左端縦線 ----

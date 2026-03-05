@@ -32,6 +32,9 @@ class PaymentListPdfService
    */
   protected $ratioMap = [1 => 0.1, 2 => 0.2, 3 => 0.3];
 
+  // 動的カラム幅（generate()内で確定）
+  protected array $colWidths = [];
+
   /**
    * PDF生成
    *
@@ -51,6 +54,8 @@ class PaymentListPdfService
 
     $outputDate = date('Y-m-d H:i:s');
     $data       = $this->fetchData($serviceYearMonth);
+    $pdf->SetFont('kozgopromedium', '', 9);
+    $this->colWidths = $this->calcColWidths($pdf, $data);
     $this->renderPdf($pdf, $data, $serviceYearMonth, $outputDate);
 
     // 2ページ以上の場合、全ページにページ番号を描画（後処理）
@@ -178,6 +183,77 @@ class PaymentListPdfService
   }
 
   /**
+   * 各カラム幅を動的計算して返す（折り返し許可：保険者）
+   */
+  protected function calcColWidths(Fpdi $pdf, array $data): array
+  {
+    $pad     = 1.6 * 2;
+    $availW  = 281;
+    $wrapKey = 'insurer';
+
+    $headers = [
+      'no'       => 'No.',
+      'insurer'  => '保険者',
+      'insured'  => '被保険者氏名',
+      'user'     => '受療者氏名',
+      'period'   => '治療期間',
+      'therapy'  => '施術',
+      'total'    => '療養費',
+      'selfpay'  => '自己負担額',
+      'billing'  => '保険請求額',
+      'deposit'  => '入金額',
+      'dep_date' => '入金日',
+    ];
+
+    $pdf->SetFont('kozgopromedium', '', 10);
+    $minW = [];
+    foreach ($headers as $key => $label) {
+      $minW[$key] = $pdf->GetStringWidth($label) + $pad;
+    }
+
+    $pdf->SetFont('kozgopromedium', '', 9);
+    foreach ($data['rows'] as $i => $row) {
+      $texts = [
+        'no'       => (string)($i + 1),
+        'insured'  => $row['insured_name'],
+        'user'     => $row['clinic_user_name'],
+        'period'   => $row['period_start'] . ' ～ ' . $row['period_end'],
+        'therapy'  => $row['therapy_text'],
+        'total'    => $row['total_amount'] > 0 ? number_format($row['total_amount']) : '',
+        'selfpay'  => $row['selfpay_amount'] > 0 ? number_format($row['selfpay_amount']) : '',
+        'billing'  => $row['insurance_billing_amount'] > 0 ? number_format($row['insurance_billing_amount']) : '',
+        'deposit'  => $row['deposit_amount'] > 0 ? number_format($row['deposit_amount']) : '',
+        'dep_date' => $row['deposit_date'],
+      ];
+      foreach ($texts as $key => $text) {
+        $minW[$key] = max($minW[$key], $pdf->GetStringWidth($text) + $pad);
+      }
+    }
+
+    $fixedTotal = array_sum(array_filter($minW, fn($k) => $k !== $wrapKey, ARRAY_FILTER_USE_KEY));
+    $remaining  = $availW - $fixedTotal;
+
+    if ($remaining >= 8.0) {
+      $minW[$wrapKey] = round($remaining, 4);
+      foreach ($minW as $k => $v) {
+        if ($k !== $wrapKey) {
+          $minW[$k] = round($v, 4);
+        }
+      }
+    } else {
+      $totalW = array_sum($minW) ?: 1;
+      foreach ($minW as $k => $v) {
+        $minW[$k] = round($v * $availW / $totalW, 4);
+      }
+    }
+
+    $diff           = $availW - array_sum($minW);
+    $minW[$wrapKey] = round($minW[$wrapKey] + $diff, 4);
+
+    return $minW;
+  }
+
+  /**
    * PDFを描画
    */
   protected function renderPdf(Fpdi $pdf, array $data, string $serviceYearMonth, string $outputDate = ''): void
@@ -211,24 +287,8 @@ class PaymentListPdfService
       $pdf->Cell($availableWidth, 0, $dateStr, 0, 0, 'R');
     }
 
-    // カラム幅（合計277mm）
-    // No.:10, 保険者:52, 被保険者氏名:24, 受療者氏名:24, 治療期間:28, 施術:14,
-    // 療養費:22, 自己負担額:23, 保険請求額:23, 入金額:22, 入金日:35
-    $colWidths = [
-      'no'        => 10,
-      'insurer'   => 52,
-      'insured'   => 24,
-      'user'      => 24,
-      'period'    => 28,
-      'therapy'   => 14,
-      'total'     => 22,
-      'selfpay'   => 23,
-      'billing'   => 23,
-      'deposit'   => 22,
-      'dep_date'  => 35,
-    ];
-    // 合計確認
-    // 10+52+24+24+28+14+22+23+23+22+35 = 277 ✓
+    // カラム幅（自動計算）
+    $colWidths = $this->colWidths;
 
     $headers = [
       ['text' => 'No.',      'key' => 'no'],
