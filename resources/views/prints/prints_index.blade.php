@@ -104,10 +104,7 @@
               </div>
               <select class="form-select" id="clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  @php
-                    $idPadded = str_repeat("\u{00A0}", max(0, 3 - strlen((string)$user->id))) . $user->id;
-                  @endphp
-                  <option value="{{ $user->id }}">{{ '［' . $idPadded . '］' . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '｜' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana }}</option>
+                  <option value="{{ $user->id }}">{{ '［' . $user->id . '］' . str_repeat("\u{00A0}", max(0, 3 - strlen((string)$user->id))) . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '（' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '）' }}</option>
                 @endforeach
               </select>
               <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
