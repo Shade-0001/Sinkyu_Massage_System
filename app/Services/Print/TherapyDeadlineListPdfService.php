@@ -108,7 +108,9 @@ class TherapyDeadlineListPdfService extends BasePdfService
     $data = $this->fetchData($serviceYearMonth);
     $pdf->SetFont('kozgopromedium', '', 9);
     $this->colWidths = $this->calcColWidths($pdf, $data);
-    $this->renderPdf($pdf, $data, $serviceYearMonth);
+
+    $outputDate = date('Y-m-d H:i:s');
+    $this->renderPdf($pdf, $data, $serviceYearMonth, $outputDate);
 
     return $pdf->Output('', 'S');
   }
@@ -174,7 +176,7 @@ class TherapyDeadlineListPdfService extends BasePdfService
   /**
    * PDFを描画
    */
-  protected function renderPdf(Fpdi $pdf, array $data, string $targetYearMonth): void
+  protected function renderPdf(Fpdi $pdf, array $data, string $targetYearMonth, string $outputDate = ''): void
   {
     // A4横：297mm × 210mm、左右マージン8mmで利用可能幅281mm
     $startX         = 8;
@@ -194,6 +196,15 @@ class TherapyDeadlineListPdfService extends BasePdfService
     $titleYearMonthWidth = $pdf->GetStringWidth($titleYearMonth);
     $oneCharWidth        = $pdf->GetStringWidth('年');
     $pdf->Text($startX + $availableWidth - $titleYearMonthWidth - $oneCharWidth, 15, $titleYearMonth);
+
+    // PDF出力日時（右上）
+    if ($outputDate) {
+      $ts      = strtotime($outputDate);
+      $dateStr = '〈 PDF出力日時 │ ' . date('Y/m/d', $ts) . "\u{2002}" . date('H:i', $ts) . ' 〉';
+      $pdf->SetFont('kozgopromedium', '', 8);
+      $pdf->SetXY($startX, 6);
+      $pdf->Cell($availableWidth, 0, $dateStr, 0, 0, 'R');
+    }
 
     // カラム幅（自動計算）
     $colWidths = $this->colWidths;

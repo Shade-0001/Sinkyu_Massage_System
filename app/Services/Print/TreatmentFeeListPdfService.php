@@ -56,8 +56,10 @@ class TreatmentFeeListPdfService
     $pdf->SetFont('kozgopromedium', '', 11);
     $this->colWidths = $this->calcColWidths($pdf, $data);
 
+    $outputDate = date('Y-m-d H:i:s');
+
     // PDFを描画
-    $this->renderPdf($pdf, $data, $serviceYearMonth);
+    $this->renderPdf($pdf, $data, $serviceYearMonth, $outputDate);
 
     return $pdf->Output('', 'S');
   }
@@ -189,7 +191,7 @@ class TreatmentFeeListPdfService
   /**
    * PDFを描画
    */
-  protected function renderPdf(Fpdi $pdf, array $data, string $serviceYearMonth): void
+  protected function renderPdf(Fpdi $pdf, array $data, string $serviceYearMonth, string $outputDate = ''): void
   {
     $pdf->SetFont('kozgopromedium', '', 13);
     $pdf->SetTextColor(0, 0, 0);
@@ -213,6 +215,15 @@ class TreatmentFeeListPdfService
     $titleYearMonthWidth = $pdf->GetStringWidth($titleYearMonth);
     $oneCharWidth = $pdf->GetStringWidth('年'); // 全角1文字分の幅を取得
     $pdf->Text($startX + $availableWidth - $titleYearMonthWidth - $oneCharWidth, 15, $titleYearMonth);
+
+    // PDF出力日時（右上）
+    if ($outputDate) {
+      $ts      = strtotime($outputDate);
+      $dateStr = '〈 PDF出力日時 │ ' . date('Y/m/d', $ts) . "\u{2002}" . date('H:i', $ts) . ' 〉';
+      $pdf->SetFont('kozgopromedium', '', 8);
+      $pdf->SetXY($startX, 6);
+      $pdf->Cell($availableWidth, 0, $dateStr, 0, 0, 'R');
+    }
 
     // テーブル描画開始
     $availableWidth = 194;
