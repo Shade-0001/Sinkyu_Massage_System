@@ -25,12 +25,8 @@
 /* 白文字 + 黒縁取り */
 .text-outline-black {
   color: #ffffff;
-  font-weight: 300;
-  text-shadow:
-    -3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000, 3px 3px 0 #000,
-    -3px  0px 0 #000, 3px  0px 0 #000,  0px -3px 0 #000, 0px 3px 0 #000,
-    -2px -3px 0 #000, 2px -3px 0 #000, -2px 3px 0 #000,  2px 3px 0 #000,
-    -3px -2px 0 #000, 3px -2px 0 #000, -3px 2px 0 #000,  3px 2px 0 #000;
+  -webkit-text-stroke: 3px #000;
+  paint-order: stroke fill;
 }
 /*---------------------------------------------------------*/
 
