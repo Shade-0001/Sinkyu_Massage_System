@@ -146,7 +146,7 @@ class PaymentListPdfService
         }
 
         // 施術種別テキスト
-        $therapyText = $deposit->treatment_type == 1 ? '鍼灸' : '按摩';
+        $therapyText = $deposit->treatment_type == 1 ? 'ＨＫ' : 'ＡＭ';
 
         // 入金日フォーマット（元号年 月 日）
         if ($deposit->deposit_date) {
@@ -210,7 +210,7 @@ class PaymentListPdfService
       'insured'  => '被保険者氏名',
       'user'     => '受療者氏名',
       'period'   => '治療期間',
-      'therapy'  => '施術',
+      'therapy'  => '区分',
       'total'    => '療養費',
       'selfpay'  => '自己負担額',
       'billing'  => '保険請求額',
@@ -324,7 +324,7 @@ class PaymentListPdfService
       ['text' => '被保険者氏名', 'key' => 'insured'],
       ['text' => '受療者氏名',  'key' => 'user'],
       ['text' => '治療期間',    'key' => 'period'],
-      ['text' => '施術',        'key' => 'therapy'],
+      ['text' => '区分',        'key' => 'therapy'],
       ['text' => '療養費',      'key' => 'total'],
       ['text' => '自己負担額',  'key' => 'selfpay'],
       ['text' => '保険請求額',  'key' => 'billing'],
