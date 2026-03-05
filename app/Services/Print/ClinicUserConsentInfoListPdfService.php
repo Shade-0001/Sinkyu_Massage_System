@@ -36,6 +36,7 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
   const DATA_COL_W        = 32;   // データカラム幅
   const MAX_COLS_PER_PAGE = 5;    // 1ページのデータカラム数
   const CELL_PADDING_X    = 2.4;  // セル左右パディング合計 mm
+  const CELL_PADDING_Y    = 1.0;  // セル上下パディング mm
   const BASE_ROW_H        = 5;    // 行の基本高さ mm
   const LINE_PITCH        = 3.2;  // 折り返し行のピッチ mm
   const FONT_SIZE         = 9;    // データフォント
@@ -441,7 +442,7 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
       $textH       = $maxLines > 1
         ? $fontMm + ($maxLines - 1) * self::LINE_PITCH
         : $fontMm;
-      $heights[$i] = max(self::BASE_ROW_H, $textH + (self::BASE_ROW_H - $fontMm));
+      $heights[$i] = max(self::BASE_ROW_H, $textH + self::CELL_PADDING_Y * 2);
     }
     return $heights;
   }
@@ -539,7 +540,8 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
       foreach ($users as $j => $user) {
         $cellX = $dataStartX + $j * $this->dynDataColW;
         $text  = (string)($user[$dataKey] ?? '');
-        $this->drawCell($pdf, $cellX, $rowY, $this->dynDataColW, $rowH, $text, false, 'L');
+        $align = $this->isDateField($dataKey) ? 'L' : 'C';
+        $this->drawCell($pdf, $cellX, $rowY, $this->dynDataColW, $rowH, $text, false, $align);
       }
     }
 
@@ -601,8 +603,13 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
     } else {
       foreach ($lines as $li => $line) {
         $lineY = $y + $offsetY + $li * self::LINE_PITCH;
-        $pdf->SetXY($x + 1.6, $lineY);
-        $pdf->Cell($w - 1.6, 0, $line, 0, 0, 'L', false);
+        if ($align === 'C') {
+          $pdf->SetXY($x, $lineY);
+          $pdf->Cell($w, 0, $line, 0, 0, 'C', false);
+        } else {
+          $pdf->SetXY($x + 1.6, $lineY);
+          $pdf->Cell($w - 1.6, 0, $line, 0, 0, 'L', false);
+        }
       }
     }
   }
@@ -646,6 +653,14 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
       }
     }
     return $ranges;
+  }
+
+  /**
+   * データキーが日付フィールドかどうかを判定
+   */
+  protected function isDateField(string $dataKey): bool
+  {
+    return preg_match('/(_date|_start|_end|_expiry)$/', $dataKey) === 1;
   }
 
   /**
