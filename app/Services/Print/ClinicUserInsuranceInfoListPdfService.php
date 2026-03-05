@@ -190,7 +190,7 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
         'public_funds_recipient_code' => $ins ? ($ins->public_funds_recipient_code ?? '') : '',
         'insurer_number'           => $ins ? ($ins->insurer_number ?? '') : '',
         'insurer_name'             => $ins ? ($ins->insurer_name ?? '') : '',
-        'insured_name'             => $ins ? str_replace(' ', "\u{2002}\u{2002}", $ins->insured_name ?? '') : '',
+        'insured_name'             => $ins ? str_replace(' ', "\u{2002}", $ins->insured_name ?? '') : '',
       ];
     }
 
