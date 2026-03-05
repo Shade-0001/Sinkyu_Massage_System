@@ -99,7 +99,7 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="clinic_user_ids" class="form-label mb-0">利用者（カナ）｜ID <span class="text-danger">*</span></label>
+                <label for="clinic_user_ids" class="form-label mb-0">利用者｜［ID］氏名（カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
