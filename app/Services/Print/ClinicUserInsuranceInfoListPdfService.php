@@ -126,19 +126,21 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
       ->orderBy('clinic_users.id')
       ->get();
 
+    // 保険区分マップ（/master/clinic-users/*/insurances フォームと同一表記）
+    $type1Map = [1 => '社･国･組', 2 => '公費', 3 => '後期', 4 => '退職'];
+    $type2Map = [1 => '単独', 2 => '２併', 3 => '３併'];
+    $type3Map = [1 => '本外', 2 => '三外', 3 => '家外', 4 => '高外9', 5 => '高外8'];
+
     // insurances（最新1件）
     $insurances = DB::table('insurances as ins')
-      ->leftJoin('insurance_types_1 as it1', 'it1.id', '=', 'ins.insurance_type_1_id')
-      ->leftJoin('insurance_types_2 as it2', 'it2.id', '=', 'ins.insurance_type_2_id')
-      ->leftJoin('insurance_types_3 as it3', 'it3.id', '=', 'ins.insurance_type_3_id')
       ->leftJoin('expenses_borne_ratios as ebr', 'ebr.id', '=', 'ins.expenses_borne_ratio_id')
       ->leftJoin('insurers', 'insurers.id', '=', 'ins.insurers_id')
       ->whereRaw('ins.id = (SELECT MAX(id) FROM insurances WHERE clinic_user_id = ins.clinic_user_id)')
       ->select(
         'ins.clinic_user_id',
-        'it1.insurance_type_1',
-        'it2.insurance_type_2',
-        'it3.insurance_type_3',
+        'ins.insurance_type_1_id',
+        'ins.insurance_type_2_id',
+        'ins.insurance_type_3_id',
         'ins.insured_number',
         'ins.license_acquisition_date',
         'ins.certification_date',
@@ -159,13 +161,13 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
       $uid = $u->id;
       $ins = $insurances[$uid] ?? null;
 
-      // 保険区分：insurance_type_1 + insurance_type_2 + insurance_type_3 を結合
+      // 保険区分：IDマップから表記を生成（フォームと同一表記）
       $insType = '';
       if ($ins) {
         $parts = array_filter([
-          $ins->insurance_type_1 ?? '',
-          $ins->insurance_type_2 ?? '',
-          $ins->insurance_type_3 ?? '',
+          $type1Map[$ins->insurance_type_1_id ?? 0] ?? '',
+          $type2Map[$ins->insurance_type_2_id ?? 0] ?? '',
+          $type3Map[$ins->insurance_type_3_id ?? 0] ?? '',
         ]);
         $insType = implode(' ', $parts);
       }
