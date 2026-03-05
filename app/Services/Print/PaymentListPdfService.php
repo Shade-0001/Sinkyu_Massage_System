@@ -377,6 +377,8 @@ class PaymentListPdfService extends BasePdfService
         $pdf->Line($x + $w, $y,              $x + $w, $y + $rowHeight);
         $x += $w;
       }
+      // ヘッダー描画後はデータ行用の9ptに戻す
+      $pdf->SetFont('kozgopromedium', '', 9);
     };
 
     // 最初のページのリストヘッダー座標を記録
