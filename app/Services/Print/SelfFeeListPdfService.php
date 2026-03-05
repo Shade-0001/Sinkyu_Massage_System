@@ -8,25 +8,21 @@ use Illuminate\Support\Facades\DB;
 /**
  * 施術料金一覧表（自費）PDF生成サービス
  */
-class SelfFeeListPdfService
+class SelfFeeListPdfService extends BasePdfService
 {
-  /**
-   * コンストラクタ
-   */
-  public function __construct()
-  {
-  }
-
   // 動的カラム幅（generate()内で確定）
   protected array $colWidths = [];
 
   /**
    * PDF生成
    *
+   * @param array  $clinicUserIds    （未使用 — BasePdfServiceとのシグネチャ統一のため保持）
    * @param string $serviceYearMonth サービス提供年月（Y-m形式）
+   * @param string $submissionDate   （未使用）
+   * @param string $remarks          （未使用）
    * @return string PDFバイナリ
    */
-  public function generate(string $serviceYearMonth): string
+  public function generate(array $clinicUserIds = [], string $serviceYearMonth = '', string $submissionDate = '', string $remarks = ''): string
   {
     $pdf = new Fpdi('P', 'mm', 'A4', true, 'UTF-8', false);
     $pdf->SetAutoPageBreak(false);
