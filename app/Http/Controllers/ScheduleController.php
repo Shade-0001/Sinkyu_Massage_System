@@ -147,6 +147,65 @@ class ScheduleController extends Controller
 
     $records = $query->get();
 
-    return response()->json($records);
+    // 表示期間に関わるclinic_infoの定休日変化点を取得
+    // 「$startDate以前で最新」＋「$startDate〜$endDate間に作成されたもの」を結合
+    $clinicInfoInRange = DB::table('clinic_info')
+      ->whereBetween('created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59'])
+      ->orderBy('created_at')
+      ->get(['created_at', 'closed_day_sunday', 'closed_day_monday', 'closed_day_tuesday',
+             'closed_day_wednesday', 'closed_day_thursday', 'closed_day_friday', 'closed_day_saturday']);
+
+    $baseClinicInfo = DB::table('clinic_info')
+      ->where('created_at', '<', $startDate . ' 00:00:00')
+      ->orderByDesc('created_at')
+      ->first(['created_at', 'closed_day_sunday', 'closed_day_monday', 'closed_day_tuesday',
+               'closed_day_wednesday', 'closed_day_thursday', 'closed_day_friday', 'closed_day_saturday']);
+
+    // フォールバック：startDate以前にレコードがない場合は最古のレコード
+    if (!$baseClinicInfo) {
+      $baseClinicInfo = DB::table('clinic_info')
+        ->orderBy('created_at')
+        ->first(['created_at', 'closed_day_sunday', 'closed_day_monday', 'closed_day_tuesday',
+                 'closed_day_wednesday', 'closed_day_thursday', 'closed_day_friday', 'closed_day_saturday']);
+    }
+
+    // 変化点の配列を構築（from日付 => 定休日設定）
+    $closedDayRanges = [];
+
+    if ($baseClinicInfo) {
+      $closedDayRanges[] = [
+        'from' => $startDate,
+        'closed_days' => $this->extractClosedDays($baseClinicInfo),
+      ];
+    }
+
+    foreach ($clinicInfoInRange as $info) {
+      $fromDate = substr($info->created_at, 0, 10);
+      $closedDayRanges[] = [
+        'from' => $fromDate,
+        'closed_days' => $this->extractClosedDays($info),
+      ];
+    }
+
+    return response()->json([
+      'records' => $records,
+      'closed_day_ranges' => $closedDayRanges,
+    ]);
+  }
+
+  /**
+   * clinic_infoオブジェクトから定休日配列を生成
+   */
+  private function extractClosedDays(object $info): array
+  {
+    return [
+      'sunday'    => (int)($info->closed_day_sunday ?? 0),
+      'monday'    => (int)($info->closed_day_monday ?? 0),
+      'tuesday'   => (int)($info->closed_day_tuesday ?? 0),
+      'wednesday' => (int)($info->closed_day_wednesday ?? 0),
+      'thursday'  => (int)($info->closed_day_thursday ?? 0),
+      'friday'    => (int)($info->closed_day_friday ?? 0),
+      'saturday'  => (int)($info->closed_day_saturday ?? 0),
+    ];
   }
 }

@@ -310,7 +310,9 @@ function loadScheduleData(preserveScroll = false, preservedScrollLeft = 0) {
   fetch(url)
     .then(response => response.json())
     .then(data => {
-      scheduleData = data;
+      scheduleData = data.records;
+      // 定休日の変化点をグローバルに保持
+      window.scheduleConfig.closedDayRanges = data.closed_day_ranges || [];
       renderSchedule(preserveScroll, preservedScrollLeft);
       updateHeaderDisplay();
     })
@@ -363,8 +365,31 @@ function formatDate(date) {
 }
 
 // 休診日判定
+// closedDayRanges（{from: 'YYYY-MM-DD', closed_days: {...}}の配列）から
+// 対象日付時点で有効な定休日設定を取得して判定する
 function isClosedDay(date) {
-  const closedDays = window.scheduleConfig?.closedDays;
+  const dateStr = formatDate(date);
+  const ranges = window.scheduleConfig?.closedDayRanges;
+
+  let closedDays;
+  if (ranges && ranges.length > 0) {
+    // dateStr以下のfromを持つ最後のrangeを採用
+    let matched = null;
+    for (const range of ranges) {
+      if (range.from <= dateStr) {
+        matched = range;
+      } else {
+        break;
+      }
+    }
+    closedDays = matched ? matched.closed_days : null;
+  }
+
+  // フォールバック：rangesがない場合は初期表示時のclosedDaysを使用
+  if (!closedDays) {
+    closedDays = window.scheduleConfig?.closedDays;
+  }
+
   if (!closedDays) return false;
 
   const dayOfWeek = date.getDay(); // 0=日曜, 1=月曜, ..., 6=土曜
