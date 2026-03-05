@@ -9,7 +9,7 @@ use App\Models\Deposit;
 /**
  * 入金管理表（保険）PDF生成サービス
  */
-class PaymentListPdfService
+class PaymentListPdfService extends BasePdfService
 {
   /**
    * therapy_content_id → treatment_feesカラム名マッピング
@@ -32,16 +32,29 @@ class PaymentListPdfService
    */
   protected $ratioMap = [1 => 0.1, 2 => 0.2, 3 => 0.3];
 
+  protected function getDefaultCoordinatesPath(): string
+  {
+    return storage_path('app/config/payment_list_coordinates.json');
+  }
+
+  protected function getDefaultCoordinates(): array
+  {
+    return [];
+  }
+
   // 動的カラム幅（generate()内で確定）
   protected array $colWidths = [];
 
   /**
    * PDF生成
    *
+   * @param array  $clinicUserIds    （未使用 — BasePdfServiceとのシグネチャ統一のため保持）
    * @param string $serviceYearMonth サービス提供年月（Y-m形式）
+   * @param string $submissionDate   （未使用）
+   * @param string $remarks          （未使用）
    * @return string PDFバイナリ
    */
-  public function generate(string $serviceYearMonth): string
+  public function generate(array $clinicUserIds = [], string $serviceYearMonth = '', string $submissionDate = '', string $remarks = ''): string
   {
     // A4横向き
     $pdf = new Fpdi('L', 'mm', 'A4', true, 'UTF-8', false);
@@ -56,7 +69,14 @@ class PaymentListPdfService
     $data       = $this->fetchData($serviceYearMonth);
     $pdf->SetFont('kozgopromedium', '', 9);
     $this->colWidths = $this->calcColWidths($pdf, $data);
-    $this->renderPdf($pdf, $data, $serviceYearMonth, $outputDate);
+    $listHeaders = $this->renderPdf($pdf, $data, $serviceYearMonth, $outputDate);
+
+    // リスト番号を後処理で描画
+    $totalLists = count($listHeaders);
+    foreach ($listHeaders as $idx => $lh) {
+      $pdf->setPage($lh['page']);
+      $this->drawListNumber($pdf, $idx + 1, $totalLists, $lh['y'], $lh['x']);
+    }
 
     // 2ページ以上の場合、全ページにページ番号を描画（後処理）
     $totalPages = $pdf->getNumPages();
@@ -146,7 +166,7 @@ class PaymentListPdfService
         }
 
         // 施術種別テキスト
-        $therapyText = $deposit->treatment_type == 1 ? 'HK' : 'ＡＭ';
+        $therapyText = $deposit->treatment_type == 1 ? 'ＨＫ' : 'ＡＭ';
 
         // 入金日フォーマット（元号年 月 日）
         if ($deposit->deposit_date) {
@@ -284,7 +304,7 @@ class PaymentListPdfService
   /**
    * PDFを描画
    */
-  protected function renderPdf(Fpdi $pdf, array $data, string $serviceYearMonth, string $outputDate = ''): void
+  protected function renderPdf(Fpdi $pdf, array $data, string $serviceYearMonth, string $outputDate = ''): array
   {
     // A4横向き：297mm × 210mm、左右マージン8mmで利用可能幅281mm
     $startX        = 8;
@@ -336,6 +356,7 @@ class PaymentListPdfService
 
     // ヘッダー行描画クロージャ
     $renderHeaderRow = function (float $y) use ($pdf, $startX, $colWidths, $headers, $rowHeight): void {
+      // 注意: $y は float で渡すため、&参照は不可能
       $pdf->SetFont('kozgopromedium', '', 10);
       $pdf->SetFillColor(220, 220, 220);
       $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
@@ -357,6 +378,9 @@ class PaymentListPdfService
         $x += $w;
       }
     };
+
+    // 最初のページのリストヘッダー座標を記録
+    $listHeaders = [['page' => $pdf->getPage(), 'y' => $currentY, 'x' => $startX]];
 
     $renderHeaderRow($currentY);
 
@@ -384,6 +408,7 @@ class PaymentListPdfService
       if ($currentY + $rowHeight > 200) {
         $pdf->AddPage();
         $currentY = 20;
+        $listHeaders[] = ['page' => $pdf->getPage(), 'y' => $currentY, 'x' => $startX];
         $renderHeaderRow($currentY);
         $currentY += $rowHeight;
       }
@@ -463,6 +488,7 @@ class PaymentListPdfService
     if ($currentY + $rowHeight > 200) {
       $pdf->AddPage();
       $currentY = 20;
+      $listHeaders[] = ['page' => $pdf->getPage(), 'y' => $currentY, 'x' => $startX];
       $renderHeaderRow($currentY);
       $currentY += $rowHeight;
     }
@@ -500,6 +526,8 @@ class PaymentListPdfService
 
       $x += $w;
     }
+
+    return $listHeaders;
   }
 
   /**

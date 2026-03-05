@@ -551,7 +551,7 @@ class PrintsController extends Controller
       ]);
 
       $service = new \App\Services\Print\PaymentListPdfService();
-      $pdfBinary = $service->generate($validated['service_year_month']);
+      $pdfBinary = $service->generate([], $validated['service_year_month']);
 
       \Log::info("入金管理表（保険）PDF生成完了", ['size' => strlen($pdfBinary)]);
 
