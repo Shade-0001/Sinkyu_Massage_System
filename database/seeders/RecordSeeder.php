@@ -78,7 +78,7 @@ class RecordSeeder extends Seeder
     $phase1Start = mktime(0, 0, 0, 1,  1, 2025);
     $phase1End   = mktime(0, 0, 0, 12, 31, 2025);
     $phase2Start = mktime(0, 0, 0, 1,  1, 2026);
-    $phase2End   = mktime(0, 0, 0, 5,  31, 2026);
+    $phase2End   = mktime(0, 0, 0, 3,  31, 2026);
 
     // 範囲内の定休日でないランダム日付を生成（失敗時null）
     $generateDate = function (int $rangeStart, int $rangeEnd) use ($isClosedDay): ?string {
@@ -236,13 +236,13 @@ class RecordSeeder extends Seeder
         }
       }
 
-      // Phase 2: 2026-01-01 ~ 2026-05-31
-      // 末尾10人: 50%で0~45件、50%で45~90件
-      // その他:   70%で0~25件、30%で25~50件
+      // Phase 2: 2026-01-01 ~ 2026-03-31
+      // 末尾10人: 20~40件
+      // その他:   70%で0~10件、30%で10~20件
       if ($isLastTen) {
-        $target2 = rand(45, 90);
+        $target2 = rand(20, 40);
       } else {
-        $target2 = (rand(1, 10) <= 7) ? rand(0, 25) : rand(25, 50);
+        $target2 = (rand(1, 10) <= 7) ? rand(0, 10) : rand(10, 20);
       }
       $placed2      = 0;
       $attempts2    = 0;
