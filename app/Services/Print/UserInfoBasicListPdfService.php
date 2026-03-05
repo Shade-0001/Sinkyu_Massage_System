@@ -85,7 +85,9 @@ class UserInfoBasicListPdfService extends BasePdfService
     // 各行の最大行数を事前計算（全利用者のデータを一括処理）
     // rowHeights[rowIndex] = その行の基本行高 mm
     // （データカラムは全利用者で同じ行高なので、各rowDef単位でmax行数を算出）
-    $rowHeights = $this->calcRowHeights($pdf, $rowDefs, $users);
+    $rowData    = $this->calcRowHeights($pdf, $rowDefs, $users);
+    $rowHeights = $rowData['heights'];
+    $rowMaxLines = $rowData['maxLines'];
 
     // ページ分割：1ページあたり MAX_COLS_PER_PAGE 人ずつ
     $chunks     = array_chunk($users, self::MAX_COLS_PER_PAGE);
@@ -100,7 +102,7 @@ class UserInfoBasicListPdfService extends BasePdfService
         $this->drawTitleAndDate($pdf, $outputDate);
       }
 
-      $this->drawTable($pdf, $rowDefs, $rowHeights, $chunk, $startY);
+      $this->drawTable($pdf, $rowDefs, $rowHeights, $rowMaxLines, $chunk, $startY);
       $this->drawListNumber($pdf, $listIndex + 1, $totalLists, $startY, self::MARGIN_X, self::FONT_SIZE);
       $isFirstPage = false;
     }
@@ -341,11 +343,12 @@ class UserInfoBasicListPdfService extends BasePdfService
    * 各行の描画高さを計算（全利用者で共通の高さを使用）
    * 各行について全データカラムの最大行数を求め、それに BASE_ROW_H を掛けた値を返す
    *
-   * @return float[] 行高の配列（rowDefs のインデックスに対応）
+   * @return array{heights: float[], maxLines: int[]} 行高と最大行数の配列
    */
   protected function calcRowHeights(Fpdi $pdf, array $rowDefs, array $users): array
   {
-    $heights = [];
+    $heights  = [];
+    $maxLinesPerRow = [];
     foreach ($rowDefs as $i => $row) {
       $dataKey = $row[2];
       $maxLines = 1;
@@ -363,8 +366,9 @@ class UserInfoBasicListPdfService extends BasePdfService
       // 改行が発生する行は上下パディング1mm、それ以外は CELL_PADDING_Y
       $paddingY    = $maxLines > 1 ? 1.0 * 2 : self::CELL_PADDING_Y * 2;
       $heights[$i] = max(self::BASE_ROW_H, $textH + $paddingY);
+      $maxLinesPerRow[$i] = $maxLines;
     }
-    return $heights;
+    return ['heights' => $heights, 'maxLines' => $maxLinesPerRow];
   }
 
   /**
@@ -423,7 +427,7 @@ class UserInfoBasicListPdfService extends BasePdfService
    * @param array   $users      このページに表示する利用者データ（最大 MAX_COLS_PER_PAGE 件）
    * @param float   $startY     描画開始Y座標
    */
-  protected function drawTable(Fpdi $pdf, array $rowDefs, array $rowHeights, array $users, float $startY): void
+  protected function drawTable(Fpdi $pdf, array $rowDefs, array $rowHeights, array $rowMaxLines, array $users, float $startY): void
   {
     $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
     $pdf->SetFillColor(230, 230, 230);
@@ -475,11 +479,12 @@ class UserInfoBasicListPdfService extends BasePdfService
         $this->drawCell($pdf, $col2X, $rowY, $this->dynCol2W, $rowH, $col2Label, true, 'C');
       }
 
-      // データカラム
+      // データカラム（改行発生行は左揃え、それ以外は中央揃え）
+      $align = ($rowMaxLines[$i] ?? 1) > 1 ? 'L' : 'C';
       foreach ($users as $j => $user) {
         $cellX  = $dataStartX + $j * $this->dynDataColW;
         $text   = (string)($user[$dataKey] ?? '');
-        $this->drawCell($pdf, $cellX, $rowY, $this->dynDataColW, $rowH, $text, false, 'L');
+        $this->drawCell($pdf, $cellX, $rowY, $this->dynDataColW, $rowH, $text, false, $align);
       }
     }
 
@@ -551,8 +556,13 @@ class UserInfoBasicListPdfService extends BasePdfService
     } else {
       foreach ($lines as $li => $line) {
         $lineY = $y + $offsetY + $li * self::LINE_PITCH;
-        $pdf->SetXY($x + 1.6, $lineY);
-        $pdf->Cell($w - 1.6, 0, $line, 0, 0, 'L', false);
+        if ($align === 'C') {
+          $pdf->SetXY($x, $lineY);
+          $pdf->Cell($w, 0, $line, 0, 0, 'C', false);
+        } else {
+          $pdf->SetXY($x + 1.6, $lineY);
+          $pdf->Cell($w - 1.6, 0, $line, 0, 0, 'L', false);
+        }
       }
     }
   }
