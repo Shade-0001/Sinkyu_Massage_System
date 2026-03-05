@@ -18,16 +18,15 @@ class TherapistInfoListPdfService extends BasePdfService
   // レイアウト定数
   const MARGIN_X         = 8;    // 左右マージン mm
   const AVAILABLE_W      = 281;  // 利用可能幅 mm（A4横: 297-8×2）
-  const CELL_PADDING_X   = 3.0;  // セル左右パディング合計 mm（= CELL_PAD_L × 2、wrapText参照用）
-  const CELL_PAD_L       = 1.5;  // セル左右パディング mm
-  const CELL_PAD_V       = 1.5;  // セル上下パディング mm
-  const BASE_ROW_H       = 6;    // 行の基本高さ mm（参考値）
+  const CELL_PADDING_X   = 2.4;  // セル左右パディング合計 mm（後方互換用）
+  const CELL_PAD_L       = 1.6;  // セル左パディング mm（右余白も同値以上を保証）
+  const BASE_ROW_H       = 6;    // 行の基本高さ mm
   const LINE_PITCH       = 3.2;  // 折り返し行のピッチ mm
   const FONT_SIZE        = 9;    // データフォント pt
   const HEADER_FONT      = 9;    // ヘッダーフォント pt
-  const HEADER_H1        = 7;    // 上段ヘッダー行高 mm (ROW1)  ※フォント≒3.96mm + 上下1.5mm×2
+  const HEADER_H1        = 5;    // 上段ヘッダー行高 mm (ROW1)
   const HEADER_H2        = 8;    // 下段ヘッダー行高 mm (ROW2)
-  const HEADER_H         = 15;   // ヘッダー合計高さ mm (HEADER_H1 + HEADER_H2)
+  const HEADER_H         = 13;   // ヘッダー合計高さ mm (HEADER_H1 + HEADER_H2)
 
   // カラム幅（COL1~12）合計281mm ※初期値（自動計算のフォールバック用）
   // COL1~6合計:179mm, COL7~12合計:102mm
@@ -375,7 +374,7 @@ class TherapistInfoListPdfService extends BasePdfService
       $textH       = $maxLines > 1
         ? $fontMm + ($maxLines - 1) * self::LINE_PITCH
         : $fontMm;
-      $heights[$i] = $textH + self::CELL_PAD_V * 2;
+      $heights[$i] = max(self::BASE_ROW_H, $textH + (self::BASE_ROW_H - $fontMm));
     }
     return $heights;
   }
@@ -491,7 +490,7 @@ class TherapistInfoListPdfService extends BasePdfService
     $row2Y = $startY + self::HEADER_H1;
     $x     = $startX;
     for ($ci = 0; $ci < 6; $ci++) {
-      $x += self::COL_WIDTHS[$ci];
+      $x += $this->colWidths[$ci] ?? self::COL_WIDTHS[$ci];
     }
 
     foreach (self::ROW2_LABELS as $ci => $label) {
