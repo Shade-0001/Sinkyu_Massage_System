@@ -99,14 +99,12 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="clinic_user_ids" class="form-label mb-0">利用者 <span class="text-danger">*</span></label>
+                <label for="clinic_user_ids" class="form-label mb-0">利用者（カナ）｜ID <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">
-                    {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
-                  </option>
+                  <option value="{{ $user->id }}">{{ $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '｜' . str_pad($user->id, 3, "\u{00A0}", STR_PAD_LEFT) }}</option>
                 @endforeach
               </select>
               <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
