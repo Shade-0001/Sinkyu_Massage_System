@@ -146,7 +146,7 @@ class PaymentListPdfService
         }
 
         // 施術種別テキスト
-        $therapyText = $deposit->treatment_type == 1 ? 'ＨＫ' : 'ＡＭ';
+        $therapyText = $deposit->treatment_type == 1 ? 'HK' : 'ＡＭ';
 
         // 入金日フォーマット（元号年 月 日）
         if ($deposit->deposit_date) {
