@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Deposit;
 
 /**
- * 入金管理票（保険）PDF生成サービス
+ * 入金管理表（保険）PDF生成サービス
  */
 class InsurancePaymentPdfService
 {
@@ -193,7 +193,7 @@ class InsurancePaymentPdfService
 
     // タイトル（左上）
     $pdf->SetFont('kozgopromedium', '', 17);
-    $pdf->Text($startX, 15, '入金管理票（保険扱い）');
+    $pdf->Text($startX, 15, '入金管理表（保険扱い）');
 
     // 元号年月（右上）
     $titleYearMonth = $this->formatJapaneseYearMonth($serviceYearMonth);
