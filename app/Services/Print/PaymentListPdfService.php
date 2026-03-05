@@ -324,7 +324,7 @@ class PaymentListPdfService extends BasePdfService
     $pdf->SetFont('kozgopromedium', '', 15);
     $titleYearMonthWidth = $pdf->GetStringWidth($titleYearMonth);
     $oneCharWidth        = $pdf->GetStringWidth('年');
-    $pdf->Text($startX + $availableWidth - $titleYearMonthWidth - $oneCharWidth, 12, $titleYearMonth);
+    $pdf->Text($startX + $availableWidth - $titleYearMonthWidth - $oneCharWidth, 15, $titleYearMonth);
 
     // PDF出力日時（右上）
     if ($outputDate) {

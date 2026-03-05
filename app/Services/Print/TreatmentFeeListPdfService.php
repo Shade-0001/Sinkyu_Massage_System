@@ -240,7 +240,7 @@ class TreatmentFeeListPdfService extends BasePdfService
     $pdf->SetFont('kozgopromedium', '', 15);
     $titleYearMonthWidth = $pdf->GetStringWidth($titleYearMonth);
     $oneCharWidth = $pdf->GetStringWidth('年'); // 全角1文字分の幅を取得
-    $pdf->Text($startX + $availableWidth - $titleYearMonthWidth - $oneCharWidth, 12, $titleYearMonth);
+    $pdf->Text($startX + $availableWidth - $titleYearMonthWidth - $oneCharWidth, 15, $titleYearMonth);
 
     // PDF出力日時（右上）
     if ($outputDate) {
