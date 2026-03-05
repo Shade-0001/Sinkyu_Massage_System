@@ -36,7 +36,7 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
   const DATA_COL_W        = 32;   // データカラム幅
   const MAX_COLS_PER_PAGE = 5;    // 1ページのデータカラム数
   const CELL_PADDING_X    = 2.4;  // セル左右パディング合計 mm
-  const CELL_PADDING_Y    = 1.5;  // セル上下パディング mm
+  const CELL_PADDING_Y    = 2.0;  // セル上下パディング mm
   const BASE_ROW_H        = 5;    // 行の基本高さ mm
   const LINE_PITCH        = 3.2;  // 折り返し行のピッチ mm
   const FONT_SIZE         = 9;    // データフォント
@@ -442,7 +442,9 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
       $textH       = $maxLines > 1
         ? $fontMm + ($maxLines - 1) * self::LINE_PITCH
         : $fontMm;
-      $heights[$i] = max(self::BASE_ROW_H, $textH + self::CELL_PADDING_Y * 2);
+      // 改行が発生する行は上下パディング対象外
+      $paddingY    = $maxLines > 1 ? 0 : self::CELL_PADDING_Y * 2;
+      $heights[$i] = max(self::BASE_ROW_H, $textH + $paddingY);
     }
     return $heights;
   }
