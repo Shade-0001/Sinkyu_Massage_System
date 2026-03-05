@@ -542,8 +542,7 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
       foreach ($users as $j => $user) {
         $cellX = $dataStartX + $j * $this->dynDataColW;
         $text  = (string)($user[$dataKey] ?? '');
-        $align = $this->isDateField($dataKey) ? 'L' : 'C';
-        $this->drawCell($pdf, $cellX, $rowY, $this->dynDataColW, $rowH, $text, false, $align);
+        $this->drawCell($pdf, $cellX, $rowY, $this->dynDataColW, $rowH, $text, false, 'C');
       }
     }
 
