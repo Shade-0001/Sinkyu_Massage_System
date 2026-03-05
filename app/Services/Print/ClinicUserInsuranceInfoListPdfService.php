@@ -11,8 +11,8 @@ use Illuminate\Support\Facades\DB;
  * レイアウト概要：
  * - A4縦 (210mm × 297mm)、左右マージン 8mm → 利用可能幅 194mm
  * - 行ラベルカラム：22mm（COL1のみ、縦書きセクションラベル列なし）
- * - データカラム幅：27mm
- * - 1ページあたりのデータカラム数：floor((194 - 22) / 27) = 6
+ * - データカラム幅：34mm
+ * - 1ページあたりのデータカラム数：floor((194 - 22) / 5) = 34
  * - 行構成：14行（ROW1〜ROW14）
  * - 1ページあたりのリスト数：2（上段・下段）
  */
@@ -22,8 +22,8 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
   const MARGIN_X          = 8;
   const AVAILABLE_W       = 194;
   const HEADER_W          = 22;  // 行ラベルカラム幅（COL1のみ）
-  const DATA_COL_W        = 27;
-  const MAX_COLS_PER_PAGE = 6;
+  const DATA_COL_W        = 34;
+  const MAX_COLS_PER_PAGE = 5;
   const CELL_PADDING_X    = 2.4;
   const BASE_ROW_H        = 6;
   const LINE_PITCH        = 3.2;
