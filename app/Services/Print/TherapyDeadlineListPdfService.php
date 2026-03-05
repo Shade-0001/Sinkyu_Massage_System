@@ -129,8 +129,8 @@ class TherapyDeadlineListPdfService extends BasePdfService
 
     // テーブル別定義
     $tables = [
-      'consents_acupuncture' => 'HK',
-      'consents_massage'     => 'AM',
+      'consents_acupuncture' => 'ＨＫ',
+      'consents_massage'     => 'ＡＭ',
     ];
 
     foreach ($tables as $table => $division) {
