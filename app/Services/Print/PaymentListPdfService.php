@@ -9,7 +9,7 @@ use App\Models\Deposit;
 /**
  * 入金管理表（保険）PDF生成サービス
  */
-class InsurancePaymentPdfService
+class PaymentListPdfService
 {
   /**
    * therapy_content_id → treatment_feesカラム名マッピング

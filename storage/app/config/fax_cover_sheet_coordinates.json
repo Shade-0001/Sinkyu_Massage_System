@@ -21,7 +21,7 @@
         "fontSize": 11,
         "letterSpacing": 0,
         "lineHeight": 5,
-        "maxCharsPerLine": 20,
+        "maxCharsPerLine": 22,
         "verticalAlign": "middle"
     },
     "clinic_phone": {

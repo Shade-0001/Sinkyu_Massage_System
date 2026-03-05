@@ -539,7 +539,7 @@ class PrintsController extends Controller
    * @param string $filename
    * @return \Illuminate\Http\Response
    */
-  public function insurancePayment(Request $request, string $filename)
+  public function paymentList(Request $request, string $filename)
   {
     try {
       $validated = $request->validate([
@@ -550,7 +550,7 @@ class PrintsController extends Controller
         'service_year_month' => $validated['service_year_month'],
       ]);
 
-      $service = new \App\Services\Print\InsurancePaymentPdfService();
+      $service = new \App\Services\Print\PaymentListPdfService();
       $pdfBinary = $service->generate($validated['service_year_month']);
 
       \Log::info("入金管理表（保険）PDF生成完了", ['size' => strlen($pdfBinary)]);

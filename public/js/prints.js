@@ -1260,12 +1260,12 @@ function submitSummaryTable() {
 /**
  * 入金管理表（保険）モーダルを開く
  */
-function openInsurancePaymentModal() {
-  const modalElement = document.getElementById('insurancePaymentModal');
+function openPaymentListModal() {
+  const modalElement = document.getElementById('paymentListModal');
   if (!modalElement) return;
 
   // フォームをリセット
-  resetFormToDefault('insurancePaymentForm');
+  resetFormToDefault('paymentListForm');
 
   // モーダルをbodyに追加（必要な場合）
   if (modalElement.parentElement !== document.body) {
@@ -1280,8 +1280,8 @@ function openInsurancePaymentModal() {
 /**
  * 入金管理表（保険）PDF出力
  */
-function submitInsurancePayment() {
-  const form = document.getElementById('insurancePaymentForm');
+function submitPaymentList() {
+  const form = document.getElementById('paymentListForm');
 
   if (!form.checkValidity()) {
     form.reportValidity();
@@ -1299,7 +1299,7 @@ function submitInsurancePayment() {
   const filename = `入金管理表（保険）_${year}-${month}-${day}_${hours}-${minutes}-${seconds}.pdf`;
 
   // フォームのアクションURLにファイル名を含める
-  form.action = `/prints/insurance-payment/${encodeURIComponent(filename)}`;
+  form.action = `/prints/payment-list/${encodeURIComponent(filename)}`;
 
   // フォームを新しいタブで送信
   form.target = '_blank';
@@ -1307,7 +1307,7 @@ function submitInsurancePayment() {
 
   // モーダルを閉じる
   setTimeout(() => {
-    const modalElement = document.getElementById('insurancePaymentModal');
+    const modalElement = document.getElementById('paymentListModal');
     if (modalElement) {
       const modalInstance = bootstrap.Modal.getInstance(modalElement);
       if (modalInstance) {

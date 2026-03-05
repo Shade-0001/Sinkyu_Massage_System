@@ -268,7 +268,7 @@ Route::middleware('auth')->group(function () {
   Route::post('/prints/consent-form/{filename}', [PrintsController::class, 'consentForm'])->name('prints.consent-form');
   Route::post('/prints/treatment-record/{filename}', [PrintsController::class, 'treatmentRecord'])->name('prints.treatment-record');
   Route::post('/prints/summary-table/{filename}', [PrintsController::class, 'summaryTable'])->name('prints.summary-table');
-  Route::post('/prints/insurance-payment/{filename}', [PrintsController::class, 'insurancePayment'])->name('prints.insurance-payment');
+  Route::post('/prints/payment-list/{filename}', [PrintsController::class, 'paymentList'])->name('prints.payment-list');
   Route::post('/prints/doctor-thank-you/{filename}', [PrintsController::class, 'doctorThankYou'])->name('prints.doctor-thank-you');
   Route::post('/prints/referrer-thank-you/{filename}', [PrintsController::class, 'referrerThankYou'])->name('prints.referrer-thank-you');
   Route::post('/prints/user-count-summary/{filename}', [PrintsController::class, 'userCountSummary'])->name('prints.user-count-summary');
