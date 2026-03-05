@@ -13,8 +13,8 @@
   <br>
 
   <ul>
-    <li><a href="{{ route('records.index') }}"><i class="nf nf-md-file_document_outline"></i> 実績データ</a></li>
-    <li><a href="{{ route('reports.index') }}"><i class="nf nf-md-chat_processing_outline"></i> 報告書データ</a></li>
+    <li><a href="{{ route('records.index') }}"><i class="nf nf-fa-file_text_o"></i> 実績データ</a></li>
+    <li><a href="{{ route('reports.index') }}"><i class="nf nf-cod-note"></i> 報告書データ</a></li>
     <li><a href="{{ route('schedules.index') }}"><i class="nf nf-md-calendar_month_outline"></i> スケジュール</a></li>
     <li><a href="{{ route('master.index') }}"><i class="nf nf-md-note_edit_outline"></i> マスター登録</a></li>
     <li><a href="{{ route('prints.index') }}"><i class="nf nf-md-printer_outline"></i> 印刷メニュー</a></li>
