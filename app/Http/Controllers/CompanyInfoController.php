@@ -21,8 +21,8 @@ class CompanyInfoController extends Controller
       session()->put('company_info_data', $sessionData);
     }
 
-    // 自社情報を取得（通常は1件のみ）
-    $companyInfo = DB::table('clinic_info')->first();
+    // 自社情報を取得（最新レコードを使用）
+    $companyInfo = DB::table('clinic_info')->orderByDesc('id')->first();
 
     // 都道府県リストを作成
     $prefectures = $this->getPrefectures();
@@ -57,16 +57,13 @@ class CompanyInfoController extends Controller
     // 確認画面のラベル設定
     $labels = $this->getCompanyInfoLabels();
 
-    // 自社情報が既に存在するか確認
-    $exists = DB::table('clinic_info')->exists();
-
     return view('registration-review', [
       'data' => $validated,
       'labels' => $labels,
       'back_route' => 'clinic-info.index',
       'store_route' => 'clinic-info.store',
       'page_header_title' => '自社情報登録内容確認',
-      'registration_message' => $exists ? '自社情報の更新を行います。' : '自社情報の登録を行います。',
+      'registration_message' => '自社情報の登録を行います。',
     ]);
   }
 
@@ -80,111 +77,56 @@ class CompanyInfoController extends Controller
       return redirect()->route('clinic-info.index')->with('error', 'セッションが切れました。もう一度入力してください。');
     }
 
-    // 自社情報が既に存在するか確認
-    $exists = DB::table('clinic_info')->exists();
+    // 常に新規登録処理
+    DB::table('clinic_info')->insert([
+      'clinic_name' => $data['clinic_name'] ?? null,
+      'owner_last_name' => $data['owner_last_name'] ?? null,
+      'owner_first_name' => $data['owner_first_name'] ?? null,
+      'owner_birthday' => $data['owner_birthday'] ?? null,
+      'postal_code' => $data['postal_code'] ?? null,
+      'address_1' => $data['address_1'] ?? null,
+      'address_2' => $data['address_2'] ?? null,
+      'address_3' => $data['address_3'] ?? null,
+      'phone' => $data['phone'] ?? null,
+      'cellphone' => $data['cellphone'] ?? null,
+      'freephone' => $data['freephone'] ?? null,
+      'fax' => $data['fax'] ?? null,
+      'email' => $data['email'] ?? null,
+      'website_url' => $data['website_url'] ?? null,
+      'business_hours_start' => $data['business_hours_start'] ?? null,
+      'business_hours_end' => $data['business_hours_end'] ?? null,
+      'closed_day_monday' => isset($data['closed_day_monday']) ? 1 : 0,
+      'closed_day_tuesday' => isset($data['closed_day_tuesday']) ? 1 : 0,
+      'closed_day_wednesday' => isset($data['closed_day_wednesday']) ? 1 : 0,
+      'closed_day_thursday' => isset($data['closed_day_thursday']) ? 1 : 0,
+      'closed_day_friday' => isset($data['closed_day_friday']) ? 1 : 0,
+      'closed_day_saturday' => isset($data['closed_day_saturday']) ? 1 : 0,
+      'closed_day_sunday' => isset($data['closed_day_sunday']) ? 1 : 0,
+      'bank_account_type' => $data['bank_account_type'] ?? null,
+      'bank_name' => $data['bank_name'] ?? null,
+      'bank_branch_name' => $data['bank_branch_name'] ?? null,
+      'bank_account_name' => $data['bank_account_name'] ?? null,
+      'bank_account_name_kana' => $data['bank_account_name_kana'] ?? null,
+      'bank_code' => $data['bank_code'] ?? null,
+      'bank_branch_code' => $data['bank_branch_code'] ?? null,
+      'bank_account_number' => $data['bank_account_number'] ?? null,
+      'health_center_registerd_location' => $data['health_center_registerd_location'] ?? null,
+      'license_hari_number' => $data['license_hari_number'] ?? null,
+      'license_hari_issued_date' => $data['license_hari_issued_date'] ?? null,
+      'license_kyu_number' => $data['license_kyu_number'] ?? null,
+      'license_kyu_issued_date' => $data['license_kyu_issued_date'] ?? null,
+      'license_massage_number' => $data['license_massage_number'] ?? null,
+      'license_massage_issued_date' => $data['license_massage_issued_date'] ?? null,
+      'billing_prefecture' => $data['billing_prefecture'] ?? null,
+      'therapist_number' => $data['therapist_number'] ?? null,
+      'medical_institution_number' => $data['medical_institution_number'] ?? null,
+      'should_round_amount' => isset($data['should_round_amount']) ? 1 : 0,
+      'document_formats' => $data['document_formats'] ?? null,
+      'created_at' => now(),
+      'updated_at' => now(),
+    ]);
 
-    if ($exists) {
-      // 更新処理
-      DB::table('clinic_info')->update([
-        'clinic_name' => $data['clinic_name'] ?? null,
-        'owner_last_name' => $data['owner_last_name'] ?? null,
-        'owner_first_name' => $data['owner_first_name'] ?? null,
-        'owner_birthday' => $data['owner_birthday'] ?? null,
-        'postal_code' => $data['postal_code'] ?? null,
-        'address_1' => $data['address_1'] ?? null,
-        'address_2' => $data['address_2'] ?? null,
-        'address_3' => $data['address_3'] ?? null,
-        'phone' => $data['phone'] ?? null,
-        'cellphone' => $data['cellphone'] ?? null,
-        'freephone' => $data['freephone'] ?? null,
-        'fax' => $data['fax'] ?? null,
-        'email' => $data['email'] ?? null,
-        'website_url' => $data['website_url'] ?? null,
-        'business_hours_start' => $data['business_hours_start'] ?? null,
-        'business_hours_end' => $data['business_hours_end'] ?? null,
-        'closed_day_monday' => isset($data['closed_day_monday']) ? 1 : 0,
-        'closed_day_tuesday' => isset($data['closed_day_tuesday']) ? 1 : 0,
-        'closed_day_wednesday' => isset($data['closed_day_wednesday']) ? 1 : 0,
-        'closed_day_thursday' => isset($data['closed_day_thursday']) ? 1 : 0,
-        'closed_day_friday' => isset($data['closed_day_friday']) ? 1 : 0,
-        'closed_day_saturday' => isset($data['closed_day_saturday']) ? 1 : 0,
-        'closed_day_sunday' => isset($data['closed_day_sunday']) ? 1 : 0,
-        'bank_account_type' => $data['bank_account_type'] ?? null,
-        'bank_name' => $data['bank_name'] ?? null,
-        'bank_branch_name' => $data['bank_branch_name'] ?? null,
-        'bank_account_name' => $data['bank_account_name'] ?? null,
-        'bank_account_name_kana' => $data['bank_account_name_kana'] ?? null,
-        'bank_code' => $data['bank_code'] ?? null,
-        'bank_branch_code' => $data['bank_branch_code'] ?? null,
-        'bank_account_number' => $data['bank_account_number'] ?? null,
-        'health_center_registerd_location' => $data['health_center_registerd_location'] ?? null,
-        'license_hari_number' => $data['license_hari_number'] ?? null,
-        'license_hari_issued_date' => $data['license_hari_issued_date'] ?? null,
-        'license_kyu_number' => $data['license_kyu_number'] ?? null,
-        'license_kyu_issued_date' => $data['license_kyu_issued_date'] ?? null,
-        'license_massage_number' => $data['license_massage_number'] ?? null,
-        'license_massage_issued_date' => $data['license_massage_issued_date'] ?? null,
-        'billing_prefecture' => $data['billing_prefecture'] ?? null,
-        'therapist_number' => $data['therapist_number'] ?? null,
-        'medical_institution_number' => $data['medical_institution_number'] ?? null,
-        'should_round_amount' => isset($data['should_round_amount']) ? 1 : 0,
-        'document_formats' => $data['document_formats'] ?? null,
-        'updated_at' => now(),
-      ]);
-
-      $message = '自社情報を更新しました。';
-    } else {
-      // 新規登録処理
-      DB::table('clinic_info')->insert([
-        'clinic_name' => $data['clinic_name'] ?? null,
-        'owner_last_name' => $data['owner_last_name'] ?? null,
-        'owner_first_name' => $data['owner_first_name'] ?? null,
-        'owner_birthday' => $data['owner_birthday'] ?? null,
-        'postal_code' => $data['postal_code'] ?? null,
-        'address_1' => $data['address_1'] ?? null,
-        'address_2' => $data['address_2'] ?? null,
-        'address_3' => $data['address_3'] ?? null,
-        'phone' => $data['phone'] ?? null,
-        'cellphone' => $data['cellphone'] ?? null,
-        'freephone' => $data['freephone'] ?? null,
-        'fax' => $data['fax'] ?? null,
-        'email' => $data['email'] ?? null,
-        'website_url' => $data['website_url'] ?? null,
-        'business_hours_start' => $data['business_hours_start'] ?? null,
-        'business_hours_end' => $data['business_hours_end'] ?? null,
-        'closed_day_monday' => isset($data['closed_day_monday']) ? 1 : 0,
-        'closed_day_tuesday' => isset($data['closed_day_tuesday']) ? 1 : 0,
-        'closed_day_wednesday' => isset($data['closed_day_wednesday']) ? 1 : 0,
-        'closed_day_thursday' => isset($data['closed_day_thursday']) ? 1 : 0,
-        'closed_day_friday' => isset($data['closed_day_friday']) ? 1 : 0,
-        'closed_day_saturday' => isset($data['closed_day_saturday']) ? 1 : 0,
-        'closed_day_sunday' => isset($data['closed_day_sunday']) ? 1 : 0,
-        'bank_account_type' => $data['bank_account_type'] ?? null,
-        'bank_name' => $data['bank_name'] ?? null,
-        'bank_branch_name' => $data['bank_branch_name'] ?? null,
-        'bank_account_name' => $data['bank_account_name'] ?? null,
-        'bank_account_name_kana' => $data['bank_account_name_kana'] ?? null,
-        'bank_code' => $data['bank_code'] ?? null,
-        'bank_branch_code' => $data['bank_branch_code'] ?? null,
-        'bank_account_number' => $data['bank_account_number'] ?? null,
-        'health_center_registerd_location' => $data['health_center_registerd_location'] ?? null,
-        'license_hari_number' => $data['license_hari_number'] ?? null,
-        'license_hari_issued_date' => $data['license_hari_issued_date'] ?? null,
-        'license_kyu_number' => $data['license_kyu_number'] ?? null,
-        'license_kyu_issued_date' => $data['license_kyu_issued_date'] ?? null,
-        'license_massage_number' => $data['license_massage_number'] ?? null,
-        'license_massage_issued_date' => $data['license_massage_issued_date'] ?? null,
-        'billing_prefecture' => $data['billing_prefecture'] ?? null,
-        'therapist_number' => $data['therapist_number'] ?? null,
-        'medical_institution_number' => $data['medical_institution_number'] ?? null,
-        'should_round_amount' => isset($data['should_round_amount']) ? 1 : 0,
-        'document_formats' => $data['document_formats'] ?? null,
-        'created_at' => now(),
-        'updated_at' => now(),
-      ]);
-
-      $message = '自社情報を登録しました。';
-    }
+    $message = '自社情報を登録しました。';
 
     // セッションから登録データを削除
     $request->session()->forget('company_info_data');

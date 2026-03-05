@@ -38,7 +38,8 @@ class ScheduleListPdfService extends BasePdfService
     $outputDate = date('Y-m-d H:i:s');
 
     // 定休日情報を取得（曜日番号 0=日〜6=土 → bool のマップ）
-    $closedDays = $this->fetchClosedDays();
+    // 月初日時点で有効なclinic_infoを基準とする
+    $closedDays = $this->fetchClosedDays($serviceYearMonth);
 
     foreach ($clinicUserIds as $clinicUserId) {
       $user = DB::table('clinic_users')->where('id', $clinicUserId)->first();
@@ -94,6 +95,70 @@ class ScheduleListPdfService extends BasePdfService
   }
 
   /**
+   * 各カラム幅をデータに基づいて動的計算して返す（折り返し許可なし、全列比例スケール）
+   */
+  protected function calcColWidths(Fpdi $pdf, array $records): array
+  {
+    $pad    = 1.6 * 2;
+    $availW = 194;
+
+    $minW = [
+      'date'            => 0.0,
+      'time'            => 0.0,
+      'therapy_type'    => 0.0,
+      'therapy_content' => 0.0,
+    ];
+
+    // ヘッダー（10pt）
+    $pdf->SetFont('kozgopromedium', '', 10);
+    foreach ([
+      'date'            => '日付',
+      'time'            => '開始･終了時刻',
+      'therapy_type'    => '施術種類',
+      'therapy_content' => '施術内容',
+    ] as $key => $label) {
+      $minW[$key] = max($minW[$key], $pdf->GetStringWidth($label) + $pad);
+    }
+
+    // データ（9pt）
+    $pdf->SetFont('kozgopromedium', '', 9);
+    $nbsp = "\xc2\xa0";
+    // 日付の最大幅: 2桁日 '31日（月）'
+    $minW['date'] = max($minW['date'], $pdf->GetStringWidth('31日（月）') + $pad);
+    // 1桁日（NBSPプレフィックス）も計渡
+    $minW['date'] = max($minW['date'], $pdf->GetStringWidth($nbsp . $nbsp . '1日（日）') + $pad);
+    // 時刻の最大幅: '19:00 ～ 20:00'
+    $minW['time'] = max($minW['time'], $pdf->GetStringWidth('19:00 ～ 20:00') + $pad);
+    // 施術種類
+    foreach (['はり･きゅう', 'あんま･マッサージ'] as $t) {
+      $minW['therapy_type'] = max($minW['therapy_type'], $pdf->GetStringWidth($t) + $pad);
+    }
+    // 施術内容（実データから計測）
+    foreach ($records as $dayRecords) {
+      foreach ($dayRecords as $rec) {
+        if (!empty($rec['therapy_content'])) {
+          $minW['therapy_content'] = max(
+            $minW['therapy_content'],
+            $pdf->GetStringWidth($rec['therapy_content']) + $pad
+          );
+        }
+      }
+    }
+
+    // 比例スケール
+    $total = array_sum($minW) ?: 1;
+    $scale = $availW / $total;
+    foreach ($minW as $k => $v) {
+      $minW[$k] = round($v * $scale, 4);
+    }
+    $diff = $availW - array_sum($minW);
+    $lastKey = array_key_last($minW);
+    $minW[$lastKey] = round($minW[$lastKey] + $diff, 4);
+
+    return $minW;
+  }
+
+  /**
    * 1利用者分のページを描画
    */
   protected function renderUserSchedule(
@@ -135,15 +200,9 @@ class ScheduleListPdfService extends BasePdfService
       $pdf->Cell($availableWidth, 0, $dateStr, 0, 0, 'R');
     }
 
-    // ---- カラム幅（合計186mm） ----
-    // 日付:30, 開始･終了時刻:52, 施術種類:40, 施術内容:64
-    $colWidths = [
-      'date'           => 30,
-      'time'           => 52,
-      'therapy_type'   => 40,
-      'therapy_content'=> 64,
-    ];
-    // 30+52+40+64 = 186 ✓
+    // ---- カラム幅（自動計算） ----
+    $pdf->SetFont('kozgopromedium', '', 9);
+    $colWidths = $this->calcColWidths($pdf, $records);
 
     $headers = [
       ['key' => 'date',            'text' => '日付'],
@@ -331,11 +390,25 @@ class ScheduleListPdfService extends BasePdfService
   /**
    * 定休日情報を取得
    *
+   * 月初日（$serviceYearMonth-01）以前で最も新しいclinic_infoを参照する。
+   * 該当レコードがなければ最古のレコードにフォールバック。
+   *
+   * @param string $serviceYearMonth  Y-m形式
    * @return array  曜日番号(0=日〜6=土) => bool(true=定休)
    */
-  protected function fetchClosedDays(): array
+  protected function fetchClosedDays(string $serviceYearMonth): array
   {
-    $info = DB::table('clinic_info')->first();
+    $firstDayOfMonth = $serviceYearMonth . '-01';
+
+    $info = DB::table('clinic_info')
+      ->where('created_at', '<=', $firstDayOfMonth . ' 23:59:59')
+      ->orderByDesc('created_at')
+      ->first();
+
+    // 月初日以前にレコードがない場合は最古のレコードにフォールバック
+    if (!$info) {
+      $info = DB::table('clinic_info')->orderBy('created_at')->first();
+    }
 
     // closed_day_* カラムを曜日番号にマッピング
     $map = [

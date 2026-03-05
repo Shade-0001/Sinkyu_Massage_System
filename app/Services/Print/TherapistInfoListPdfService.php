@@ -18,7 +18,8 @@ class TherapistInfoListPdfService extends BasePdfService
   // レイアウト定数
   const MARGIN_X         = 8;    // 左右マージン mm
   const AVAILABLE_W      = 281;  // 利用可能幅 mm（A4横: 297-8×2）
-  const CELL_PADDING_X   = 2.4;  // セル左右パディング合計 mm
+  const CELL_PADDING_X   = 2.4;  // セル左右パディング合計 mm（後方互換用）
+  const CELL_PAD_L       = 1.6;  // セル左パディング mm（右余白も同値以上を保証）
   const BASE_ROW_H       = 6;    // 行の基本高さ mm
   const LINE_PITCH       = 3.2;  // 折り返し行のピッチ mm
   const FONT_SIZE        = 9;    // データフォント pt
@@ -27,9 +28,12 @@ class TherapistInfoListPdfService extends BasePdfService
   const HEADER_H2        = 8;    // 下段ヘッダー行高 mm (ROW2)
   const HEADER_H         = 13;   // ヘッダー合計高さ mm (HEADER_H1 + HEADER_H2)
 
-  // カラム幅（COL1~12）合計281mm
+  // カラム幅（COL1~12）合計281mm ※初期値（自動計算のフォールバック用）
   // COL1~6合計:179mm, COL7~12合計:102mm
   const COL_WIDTHS = [12, 36, 20, 59, 26, 26, 12, 22, 12, 22, 12, 22];
+
+  // 動的に計算されたカラム幅（generate()内で確定）
+  protected array $colWidths = [];
 
   // データキー（COL1~12に対応）
   const DATA_KEYS = [
@@ -106,6 +110,7 @@ class TherapistInfoListPdfService extends BasePdfService
 
     $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
 
+    $this->colWidths = $this->calcColWidths($pdf, $therapists);
     $rowHeights  = $this->calcRowHeights($pdf, $therapists);
     $pages       = $this->splitIntoPages($rowHeights);
     $isFirstPage = true;
@@ -281,6 +286,75 @@ class TherapistInfoListPdfService extends BasePdfService
   }
 
   /**
+   * 各カラム幅を動的計算して返す
+   * - 住所（COL3）以外：ヘッダー・データテキストで改行しない最小幅に固定
+   * - 住所（COL3）：AVAILABLE_W から他カラム合計を引いた残余幅を割り当て
+   */
+  protected function calcColWidths(Fpdi $pdf, array $therapists): array
+  {
+    $minWidths = array_fill(0, 12, 0.0);
+    $pad = self::CELL_PAD_L * 2; // 左右均等パディング（CELL_PAD_L × 2）
+
+    // ROW1_SINGLE_LABELS（COL0~5）のヘッダーテキスト幅
+    $pdf->SetFont('kozgopromedium', '', self::HEADER_FONT);
+    foreach (self::ROW1_SINGLE_LABELS as $ci => $label) {
+      $minWidths[$ci] = max($minWidths[$ci], $pdf->GetStringWidth($label) + $pad);
+    }
+
+    // ROW2個別ラベル（COL6~11）のヘッダーテキスト幅
+    foreach (self::ROW2_LABELS as $ci => $label) {
+      $minWidths[$ci] = max($minWidths[$ci], $pdf->GetStringWidth($label) + $pad);
+    }
+
+    // データテキスト幅
+    $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
+    foreach ($therapists as $t) {
+      foreach (self::DATA_KEYS as $ci => $key) {
+        $text = (string)($t[$key] ?? '');
+        $minWidths[$ci] = max($minWidths[$ci], $pdf->GetStringWidth($text) + $pad);
+      }
+    }
+
+    // ROW1グループラベルの制約：グループ内合計 >= グループラベル幅
+    $pdf->SetFont('kozgopromedium', '', self::HEADER_FONT);
+    foreach (self::ROW1_GROUPS as $group) {
+      $groupLabelW = $pdf->GetStringWidth($group['label']) + $pad;
+      $cols = range($group['start'], $group['start'] + $group['span'] - 1);
+      $currentGroupW = array_sum(array_map(fn($c) => $minWidths[$c], $cols));
+      if ($currentGroupW < $groupLabelW) {
+        $ratio = $groupLabelW / $currentGroupW;
+        foreach ($cols as $c) {
+          $minWidths[$c] *= $ratio;
+        }
+      }
+    }
+
+    // 住所（COL3）以外の合計を固定し、住所に余導全てを割り当てる
+    $addressIdx = 3;
+    $otherTotal = array_sum($minWidths) - $minWidths[$addressIdx];
+    $addressW   = self::AVAILABLE_W - $otherTotal;
+    $minWidthAddr = 8.0; // 住所最低保証幅 mm
+
+    if ($addressW >= $minWidthAddr) {
+      // 通常ケース：住所以外は最小幅固定、住所に余導
+      $minWidths[$addressIdx] = round($addressW, 4);
+    } else {
+      // フォールバック：住所以外の合計がAVAILABLE_Wを超えた場合は全カラムを比例スケール
+      $totalW = array_sum($minWidths);
+      if ($totalW > 0) {
+        $scale = self::AVAILABLE_W / $totalW;
+        for ($i = 0; $i < 12; $i++) {
+          $minWidths[$i] = round($minWidths[$i] * $scale, 4);
+        }
+        $diff = self::AVAILABLE_W - array_sum($minWidths);
+        $minWidths[$addressIdx] = round($minWidths[$addressIdx] + $diff, 4);
+      }
+    }
+
+    return $minWidths;
+  }
+
+  /**
    * 各行の描画高さを計算
    */
   protected function calcRowHeights(Fpdi $pdf, array $therapists): array
@@ -290,7 +364,7 @@ class TherapistInfoListPdfService extends BasePdfService
       $maxLines = 1;
       foreach (self::DATA_KEYS as $col => $key) {
         $text  = (string)($t[$key] ?? '');
-        $w     = self::COL_WIDTHS[$col];
+        $w     = $this->colWidths[$col] ?? self::COL_WIDTHS[$col];
         $lines = count($this->wrapText($pdf, $text, $w));
         if ($lines > $maxLines) {
           $maxLines = $lines;
@@ -391,7 +465,7 @@ class TherapistInfoListPdfService extends BasePdfService
 
     // COL1~6：高さHEADER_H全体（ROW1+ROW2結合）
     foreach (self::ROW1_SINGLE_LABELS as $ci => $label) {
-      $w = self::COL_WIDTHS[$ci];
+      $w = $this->colWidths[$ci] ?? self::COL_WIDTHS[$ci];
       $this->drawHeaderCell($pdf, $x, $startY, $w, self::HEADER_H, $label);
       $x += $w;
     }
@@ -400,7 +474,7 @@ class TherapistInfoListPdfService extends BasePdfService
     foreach (self::ROW1_GROUPS as $group) {
       $groupW = 0;
       for ($ci = $group['start']; $ci < $group['start'] + $group['span']; $ci++) {
-        $groupW += self::COL_WIDTHS[$ci];
+        $groupW += $this->colWidths[$ci] ?? self::COL_WIDTHS[$ci];
       }
       $this->drawHeaderCell($pdf, $x, $startY, $groupW, self::HEADER_H1, $group['label']);
       // ROW1/ROW2の境界線
@@ -416,11 +490,11 @@ class TherapistInfoListPdfService extends BasePdfService
     $row2Y = $startY + self::HEADER_H1;
     $x     = $startX;
     for ($ci = 0; $ci < 6; $ci++) {
-      $x += self::COL_WIDTHS[$ci];
+      $x += $this->colWidths[$ci] ?? self::COL_WIDTHS[$ci];
     }
 
     foreach (self::ROW2_LABELS as $ci => $label) {
-      $w = self::COL_WIDTHS[$ci];
+      $w = $this->colWidths[$ci] ?? self::COL_WIDTHS[$ci];
       $this->drawHeaderCell($pdf, $x, $row2Y, $w, self::HEADER_H2, $label);
       $x += $w;
     }
@@ -463,7 +537,7 @@ class TherapistInfoListPdfService extends BasePdfService
   {
     $x = $startX;
     foreach (self::DATA_KEYS as $ci => $key) {
-      $w     = self::COL_WIDTHS[$ci];
+      $w     = $this->colWidths[$ci] ?? self::COL_WIDTHS[$ci];
       $text  = (string)($row[$key] ?? '');
       $align = ($key === 'id') ? 'C' : 'L';
       $this->drawCell($pdf, $x, $y, $w, $rowH, $text, false, $align);
@@ -497,8 +571,8 @@ class TherapistInfoListPdfService extends BasePdfService
         $pdf->SetXY($x, $lineY);
         $pdf->Cell($w, 0, $line, 0, 0, 'C', false);
       } else {
-        $pdf->SetXY($x + 1.6, $lineY);
-        $pdf->Cell($w - 1.6, 0, $line, 0, 0, 'L', false);
+        $pdf->SetXY($x + self::CELL_PAD_L, $lineY);
+        $pdf->Cell($w - self::CELL_PAD_L, 0, $line, 0, 0, 'L', false);
       }
     }
   }

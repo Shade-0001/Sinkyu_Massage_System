@@ -160,7 +160,7 @@
     "fieldsFile": "power_of_attorney_consent.js"
   },
   "deposit_management_insurance": {
-    "name": "入金管理票（保険）",
+    "name": "入金管理表（保険）",
     "coordinatesFile": "deposit_management_insurance_coordinates.json",
     "templateFile": "",
     "templateDir": "",

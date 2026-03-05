@@ -3,7 +3,7 @@
 namespace App\Services\Print;
 
 /**
- * 入金管理票（保険）PDF生成サービス
+ * 入金管理表（保険）PDF生成サービス
  */
 class DepositManagementInsurancePdfService extends BasePdfService
 {

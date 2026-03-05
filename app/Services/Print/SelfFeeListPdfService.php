@@ -17,6 +17,9 @@ class SelfFeeListPdfService
   {
   }
 
+  // 動的カラム幅（generate()内で確定）
+  protected array $colWidths = [];
+
   /**
    * PDF生成
    *
@@ -35,6 +38,10 @@ class SelfFeeListPdfService
 
     // データを取得
     $data = $this->fetchData($serviceYearMonth);
+
+    // カラム幅を計算
+    $pdf->SetFont('kozgopromedium', '', 11);
+    $this->colWidths = $this->calcColWidths($pdf, $data);
 
     // PDFを描画
     $this->renderPdf($pdf, $data, $serviceYearMonth);
@@ -97,6 +104,63 @@ class SelfFeeListPdfService
   }
 
   /**
+   * 各カラム幅を動的計算して返す（折り返し許可なし、全列比例スケール）
+   */
+  protected function calcColWidths(Fpdi $pdf, array $data): array
+  {
+    $pad    = 1.6 * 2;
+    $availW = 194;
+
+    $minW = [
+      'name'      => 0.0,
+      'treatment' => 0.0,
+      'count'     => 0.0,
+      'fee'       => 0.0,
+    ];
+
+    // ヘッダー（12pt）
+    $pdf->SetFont('kozgopromedium', '', 12);
+    $headerTexts = [
+      'name'      => '利用者氏名',
+      'treatment' => '施術名',
+      'count'     => '回数',
+      'fee'       => '料金',
+    ];
+    foreach ($headerTexts as $key => $label) {
+      $minW[$key] = max($minW[$key], $pdf->GetStringWidth($label) + $pad);
+    }
+
+    // データ（11pt）
+    $pdf->SetFont('kozgopromedium', '', 11);
+    foreach ($data['clinicUsers'] as $user) {
+      $name = ($user->last_name ?? '') . '  ' . ($user->first_name ?? '');
+      $minW['name'] = max($minW['name'], $pdf->GetStringWidth($name) + $pad);
+    }
+    foreach ($data['selfFees'] as $sf) {
+      $minW['treatment'] = max($minW['treatment'], $pdf->GetStringWidth($sf->self_fee_name) + $pad);
+    }
+    // 合計行のマージセルテキスト
+    $summaryW = $pdf->GetStringWidth('合計') + $pad;
+    if ($minW['name'] + $minW['treatment'] < $summaryW) {
+      $minW['treatment'] += $summaryW - ($minW['name'] + $minW['treatment']);
+    }
+    $minW['count'] = max($minW['count'], $pdf->GetStringWidth('99') + $pad);
+    $minW['fee']   = max($minW['fee'],   $pdf->GetStringWidth('999,999') + $pad);
+
+    // 比例スケール
+    $total = array_sum($minW) ?: 1;
+    $scale = $availW / $total;
+    foreach ($minW as $k => $v) {
+      $minW[$k] = round($v * $scale, 4);
+    }
+    $diff = $availW - array_sum($minW);
+    $lastKey = array_key_last($minW);
+    $minW[$lastKey] = round($minW[$lastKey] + $diff, 4);
+
+    return $minW;
+  }
+
+  /**
    * PDFを描画
    */
   protected function renderPdf(Fpdi $pdf, array $data, string $serviceYearMonth): void
@@ -127,13 +191,8 @@ class SelfFeeListPdfService
     // テーブル描画開始
     $availableWidth = 194;
 
-    // カラム幅（合計190mm）※自費版は3列のみ
-    $colWidths = [
-      'name' => 50,        // 利用者氏名
-      'treatment' => 90,   // 施術名
-      'count' => 25,       // 回数
-      'fee' => 25,         // 料金
-    ];
+    // カラム幅（自動計算）
+    $colWidths = $this->colWidths;
 
     $totalWidth = array_sum($colWidths);
     $rowHeight = 8;  // フォントサイズに合わせて6から8に増加

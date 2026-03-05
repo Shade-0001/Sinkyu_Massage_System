@@ -23,11 +23,10 @@ class RecordSeeder extends Seeder
     $massageContentIds = $therapyContents->get(2, collect())->pluck('id')->toArray();
     $acuContentIds     = $therapyContents->get(1, collect())->pluck('id')->toArray();
 
-    // clinic_info から定休日・営業時間を取得
-    $clinicInfo = DB::connection('sinkyu_massage_system_db')->table('clinic_info')->first();
+    // 全 clinic_info を created_at 昇順で取得（日付ベースで有効なレコードを動的参照するため）
+    $allClinicInfos = DB::connection('sinkyu_massage_system_db')->table('clinic_info')->orderBy('created_at')->get();
 
-    // 定休日の曜日番号マップ (0=日, 1=月, ..., 6=土)
-    $closedDays = [];
+    // 曜日番号マップ (0=日, 1=月, ..., 6=土)
     $dayMap = [
       'closed_day_sunday'    => 0,
       'closed_day_monday'    => 1,
@@ -37,22 +36,29 @@ class RecordSeeder extends Seeder
       'closed_day_friday'    => 5,
       'closed_day_saturday'  => 6,
     ];
-    foreach ($dayMap as $col => $dayNum) {
-      if ($clinicInfo->$col == 1) {
-        $closedDays[] = $dayNum;
+
+    // 指定日付時点で有効な clinic_info を返す（日付以前で最新、なければ最古）
+    $getClinicInfoForDate = function (string $date) use ($allClinicInfos): object {
+      $dateTs  = strtotime($date);
+      $matched = null;
+      foreach ($allClinicInfos as $info) {
+        if (strtotime($info->created_at) <= $dateTs) {
+          $matched = $info;
+        }
       }
-    }
+      return $matched ?? $allClinicInfos->first();
+    };
 
-    // 営業時間をminutes単位に変換
-    [$bStartH, $bStartM] = array_map('intval', explode(':', $clinicInfo->business_hours_start));
-    [$bEndH,   $bEndM]   = array_map('intval', explode(':', $clinicInfo->business_hours_end));
-    $businessStartMin = $bStartH * 60 + $bStartM;
-    $businessEndMin   = $bEndH   * 60 + $bEndM;
-
-    // 定休日かどうか判定
-    $isClosedDay = function (string $date) use ($closedDays): bool {
-      $dow = (int) date('w', strtotime($date)); // 0=日〜6=土
-      return in_array($dow, $closedDays, true);
+    // 定休日かどうか判定（日付ごとに有効な clinic_info を参照）
+    $isClosedDay = function (string $date) use ($getClinicInfoForDate, $dayMap): bool {
+      $info = $getClinicInfoForDate($date);
+      $dow  = (int) date('w', strtotime($date)); // 0=日〜6=土
+      foreach ($dayMap as $col => $dayNum) {
+        if ($dayNum === $dow && $info->$col == 1) {
+          return true;
+        }
+      }
+      return false;
     };
 
     // 2つの時間帯が重複するか判定 (分単位)
@@ -68,11 +74,17 @@ class RecordSeeder extends Seeder
     // clinic_user_id(昇順)の末尾10人
     $lastTenUserIds = array_slice($clinicUserIds, -10);
 
+    // ユーザーごとの往療距離を事前決定（1.0〜15.0km、0.1刻み）
+    $userHousecallDistance = [];
+    foreach ($clinicUserIds as $uid) {
+      $userHousecallDistance[$uid] = round(rand(10, 150) / 10, 1);
+    }
+
     // 日付範囲定義（Unixタイムスタンプ）
     $phase1Start = mktime(0, 0, 0, 1,  1, 2025);
     $phase1End   = mktime(0, 0, 0, 12, 31, 2025);
     $phase2Start = mktime(0, 0, 0, 1,  1, 2026);
-    $phase2End   = mktime(0, 0, 0, 5,  31, 2026);
+    $phase2End   = mktime(0, 0, 0, 3,  31, 2026);
 
     // 範囲内の定休日でないランダム日付を生成（失敗時null）
     $generateDate = function (int $rangeStart, int $rangeEnd) use ($isClosedDay): ?string {
@@ -92,12 +104,27 @@ class RecordSeeder extends Seeder
       int    $userId
     ) use (
       &$slots, &$data,
-      $businessStartMin, $businessEndMin,
+      $getClinicInfoForDate,
       $isOverlapping,
       $therapistIds, $billCategoryIds,
-      $massageContentIds, $acuContentIds
+      $massageContentIds, $acuContentIds,
+      $userHousecallDistance
     ): bool {
-      $durations = [30, 40, 50, 60];
+      // 日付時点で有効な clinic_info から営業時間を取得
+      $clinicInfo       = $getClinicInfoForDate($date);
+      [$bStartH, $bStartM] = array_map('intval', explode(':', $clinicInfo->business_hours_start));
+      [$bEndH,   $bEndM]   = array_map('intval', explode(':', $clinicInfo->business_hours_end));
+      $businessStartMin = $bStartH * 60 + $bStartM;
+      $businessEndMin   = $bEndH   * 60 + $bEndM;
+      // 同日内に同ユーザーのスロットが既に存在する場合は不可
+      $daySlots = $slots[$date] ?? [];
+      foreach ($daySlots as $s) {
+        if ($s['clinic_user_id'] === $userId) {
+          return false;
+        }
+      }
+
+      $durations = [30, 45, 60];
       $duration  = $durations[array_rand($durations)];
 
       $latestStart = $businessEndMin - $duration;
@@ -162,11 +189,13 @@ class RecordSeeder extends Seeder
         }
         $selectedTherapistId = $availableTherapistIds[array_rand($availableTherapistIds)];
 
-        $startTime   = sprintf('%02d:%02d', intdiv($startMin, 60), $startMin % 60);
-        $endTime     = sprintf('%02d:%02d', intdiv($endMin, 60), $endMin % 60);
-        $therapyType = rand(1, 2);
-        $contentIds  = $therapyType === 2 ? $massageContentIds : $acuContentIds;
-        $contentId   = !empty($contentIds) ? $contentIds[array_rand($contentIds)] : null;
+        $startTime      = sprintf('%02d:%02d', intdiv($startMin, 60), $startMin % 60);
+        $endTime        = sprintf('%02d:%02d', intdiv($endMin, 60), $endMin % 60);
+        $therapyType    = rand(1, 2);
+        $contentIds     = $therapyType === 2 ? $massageContentIds : $acuContentIds;
+        $contentId      = !empty($contentIds) ? $contentIds[array_rand($contentIds)] : null;
+        $therapyCategory    = (rand(1, 10) <= 6) ? 1 : 2; // 60%で1（通院）、40%で2（往療）
+        $housecallDistance  = ($therapyCategory === 1) ? null : $userHousecallDistance[$userId];
 
         $data[] = [
           'clinic_user_id'     => $userId,
@@ -174,9 +203,9 @@ class RecordSeeder extends Seeder
           'start_time'         => $startTime,
           'end_time'           => $endTime,
           'therapy_type'       => $therapyType,
-          'therapy_category'   => rand(1, 2),
+          'therapy_category'   => $therapyCategory,
           'insurance_category' => rand(1, 3),
-          'housecall_distance' => round(rand(10, 150) / 10, 1),
+          'housecall_distance' => $housecallDistance,
           'therapy_days'       => rand(1, 30),
           'consent_expiry'     => date('Y-m-d', strtotime('+' . rand(1, 12) . ' months')),
           'therapy_content_id' => $contentId,
@@ -204,8 +233,8 @@ class RecordSeeder extends Seeder
     foreach ($clinicUserIds as $userId) {
       $isLastTen = in_array($userId, $lastTenUserIds, true);
 
-      // Phase 1: 2025-01-01 ~ 2025-12-31 → 0~360件
-      $target1      = rand(0, 360);
+      // Phase 1: 2025-01-01 ~ 2025-12-31 → 70%で0~150件、30%で0~300件
+      $target1      = (rand(1, 10) <= 7) ? rand(0, 150) : rand(0, 300);
       $placed1      = 0;
       $attempts1    = 0;
       $maxAttempts1 = max($target1 * 15, 50);
@@ -219,9 +248,14 @@ class RecordSeeder extends Seeder
         }
       }
 
-      // Phase 2: 2026-01-01 ~ 2026-05-31
-      // 末尾10人: 90~150件, その他: 0~150件
-      $target2      = $isLastTen ? rand(90, 150) : rand(0, 150);
+      // Phase 2: 2026-01-01 ~ 2026-03-31
+      // 末尾10人: 20~40件
+      // その他:   70%で0~10件、30%で10~20件
+      if ($isLastTen) {
+        $target2 = rand(20, 40);
+      } else {
+        $target2 = (rand(1, 10) <= 7) ? rand(0, 10) : rand(10, 20);
+      }
       $placed2      = 0;
       $attempts2    = 0;
       $maxAttempts2 = max($target2 * 15, 50);

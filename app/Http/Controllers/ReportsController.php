@@ -28,12 +28,11 @@ class ReportsController extends Controller
     // 利用者リストを取得
     $clinicUsers = DB::table('clinic_users')
       ->select('id', 'last_name', 'first_name', 'last_kana', 'first_kana')
-      ->orderBy('last_kana')
-      ->orderBy('first_kana')
+      ->orderBy('id', 'desc')
       ->get();
 
-    // 選択された利用者ID
-    $selectedUserId = $request->input('clinic_user_id');
+    // 選択された利用者ID（未指定時は最上オプション＝最大IDをデフォルト選択）
+    $selectedUserId = $request->input('clinic_user_id', $clinicUsers->first()?->id ?? null);
 
     // 報告書データ一覧（年ごとにグループ化）
     $reportsByYear = [];

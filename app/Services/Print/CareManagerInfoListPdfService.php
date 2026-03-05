@@ -19,6 +19,7 @@ class CareManagerInfoListPdfService extends BasePdfService
   const MARGIN_X         = 8;    // 左右マージン mm
   const AVAILABLE_W      = 281;  // 利用可能幅 mm（A4横: 297-8×2）
   const CELL_PADDING_X   = 2.4;  // セル左右パディング合計 mm
+  const CELL_PAD_L       = 1.6;  // セル左パディング mm（右余白も同値以上を保証）
   const BASE_ROW_H       = 6;    // 行の基本高さ mm
   const LINE_PITCH       = 3.2;  // 折り返し行のピッチ mm
   const FONT_SIZE        = 9;    // データフォント pt
@@ -31,6 +32,9 @@ class CareManagerInfoListPdfService extends BasePdfService
   const COL_LABELS = ['ID', 'ケアマネ氏名', '事業所名', '郵便番号', '住所', '電話番号', '携帯番号'];
   // データキー
   const DATA_KEYS  = ['id', 'name', 'service_provider', 'postal_code', 'address', 'phone', 'cell_phone'];
+
+  // 動的カラム幅（generate()内で確定）
+  protected array $colWidths = [];
 
   // ページ座標
   const START_Y_PAGE1  = 30;  // 1ページ目の開始Y（タイトル分）
@@ -45,6 +49,68 @@ class CareManagerInfoListPdfService extends BasePdfService
   protected function getDefaultCoordinates(): array
   {
     return [];
+  }
+
+  /**
+   * 各カラム幅を動的計算して返す
+   * - 非折り返しカラム：最小幅固定
+   * - 折り返し許可カラム（事業所名 idx2・住所 idx4）：残余幅を元比率で分配
+   */
+  protected function calcColWidths(Fpdi $pdf, array $rows): array
+  {
+    $wrapIndices = [2, 4];
+    $pad         = self::CELL_PAD_L * 2;
+    $n           = count(self::COL_WIDTHS);
+    $minW        = array_fill(0, $n, 0.0);
+
+    $pdf->SetFont('kozgopromedium', '', self::HEADER_FONT);
+    foreach (self::COL_LABELS as $ci => $label) {
+      $minW[$ci] = max($minW[$ci], $pdf->GetStringWidth($label) + $pad);
+    }
+
+    $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
+    foreach ($rows as $row) {
+      foreach (self::DATA_KEYS as $ci => $key) {
+        if (!in_array($ci, $wrapIndices)) {
+          $text      = (string)($row[$key] ?? '');
+          $minW[$ci] = max($minW[$ci], $pdf->GetStringWidth($text) + $pad);
+        }
+      }
+    }
+
+    $fixedTotal = 0.0;
+    foreach ($minW as $ci => $w) {
+      if (!in_array($ci, $wrapIndices)) {
+        $fixedTotal += $w;
+      }
+    }
+    $remaining = self::AVAILABLE_W - $fixedTotal;
+
+    if ($remaining >= count($wrapIndices) * 8.0) {
+      $wrapOrigSum = 0.0;
+      foreach ($wrapIndices as $ci) {
+        $wrapOrigSum += (float)self::COL_WIDTHS[$ci];
+      }
+      foreach ($wrapIndices as $ci) {
+        $ratio     = (float)self::COL_WIDTHS[$ci] / ($wrapOrigSum ?: 1);
+        $minW[$ci] = round($remaining * $ratio, 4);
+      }
+      foreach ($minW as $ci => $w) {
+        if (!in_array($ci, $wrapIndices)) {
+          $minW[$ci] = round($w, 4);
+        }
+      }
+    } else {
+      $totalW = array_sum($minW) ?: 1;
+      foreach ($minW as $ci => $w) {
+        $minW[$ci] = round($w * self::AVAILABLE_W / $totalW, 4);
+      }
+    }
+
+    $diff         = self::AVAILABLE_W - array_sum($minW);
+    $minW[$n - 1] = round($minW[$n - 1] + $diff, 4);
+
+    return $minW;
   }
 
   /**
@@ -68,6 +134,8 @@ class CareManagerInfoListPdfService extends BasePdfService
     $careManagers = $this->fetchCareManagers();
 
     $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
+
+    $this->colWidths = $this->calcColWidths($pdf, $careManagers);
 
     // 各行の高さを事前計算
     $rowHeights = $this->calcRowHeights($pdf, $careManagers);
@@ -213,7 +281,7 @@ class CareManagerInfoListPdfService extends BasePdfService
       $maxLines = 1;
       foreach (self::DATA_KEYS as $col => $key) {
         $text  = (string)($cm[$key] ?? '');
-        $w     = self::COL_WIDTHS[$col];
+        $w     = $this->colWidths[$col] ?? self::COL_WIDTHS[$col];
         $lines = count($this->wrapText($pdf, $text, $w));
         if ($lines > $maxLines) {
           $maxLines = $lines;
@@ -306,7 +374,7 @@ class CareManagerInfoListPdfService extends BasePdfService
   protected function drawHeaderRow(Fpdi $pdf, float $startX, float $startY): void
   {
     $x = $startX;
-    foreach (self::COL_WIDTHS as $ci => $w) {
+    foreach (($this->colWidths ?: self::COL_WIDTHS) as $ci => $w) {
       $label = self::COL_LABELS[$ci];
       $this->drawCell($pdf, $x, $startY, $w, self::HEADER_H, $label, true, 'C');
       $x += $w;
@@ -321,7 +389,7 @@ class CareManagerInfoListPdfService extends BasePdfService
   {
     $x = $startX;
     foreach (self::DATA_KEYS as $ci => $key) {
-      $w    = self::COL_WIDTHS[$ci];
+      $w    = $this->colWidths[$ci] ?? self::COL_WIDTHS[$ci];
       $text = (string)($row[$key] ?? '');
       $align = ($key === 'id') ? 'C' : 'L';
       $this->drawCell($pdf, $x, $y, $w, $rowH, $text, false, $align);
@@ -368,8 +436,8 @@ class CareManagerInfoListPdfService extends BasePdfService
           $pdf->SetXY($x, $lineY);
           $pdf->Cell($w, 0, $line, 0, 0, 'C', false);
         } else {
-          $pdf->SetXY($x + 1.6, $lineY);
-          $pdf->Cell($w - 1.6, 0, $line, 0, 0, 'L', false);
+          $pdf->SetXY($x + self::CELL_PAD_L, $lineY);
+            $pdf->Cell($w - self::CELL_PAD_L, 0, $line, 0, 0, 'L', false);
         }
       }
     }

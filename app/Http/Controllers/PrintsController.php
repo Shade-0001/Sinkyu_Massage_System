@@ -533,34 +533,34 @@ class PrintsController extends Controller
   }
 
   /**
-   * 入金管理票（保険）PDF出力
+   * 入金管理表（保険）PDF出力
    *
    * @param Request $request
    * @param string $filename
    * @return \Illuminate\Http\Response
    */
-  public function insurancePayment(Request $request, string $filename)
+  public function paymentList(Request $request, string $filename)
   {
     try {
       $validated = $request->validate([
         'service_year_month' => 'required|date_format:Y-m',
       ]);
 
-      \Log::info("入金管理票（保険）PDF生成開始", [
+      \Log::info("入金管理表（保険）PDF生成開始", [
         'service_year_month' => $validated['service_year_month'],
       ]);
 
-      $service = new \App\Services\Print\InsurancePaymentPdfService();
+      $service = new \App\Services\Print\PaymentListPdfService();
       $pdfBinary = $service->generate($validated['service_year_month']);
 
-      \Log::info("入金管理票（保険）PDF生成完了", ['size' => strlen($pdfBinary)]);
+      \Log::info("入金管理表（保険）PDF生成完了", ['size' => strlen($pdfBinary)]);
 
       return response($pdfBinary, 200, [
         'Content-Type' => 'application/pdf',
         'Content-Disposition' => 'inline',
       ]);
     } catch (\Exception $e) {
-      \Log::error("入金管理票（保険）PDF生成エラー", [
+      \Log::error("入金管理表（保険）PDF生成エラー", [
         'message' => $e->getMessage(),
         'file' => $e->getFile(),
         'line' => $e->getLine(),

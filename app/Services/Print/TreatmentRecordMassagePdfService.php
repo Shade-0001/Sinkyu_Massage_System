@@ -125,7 +125,7 @@ class TreatmentRecordMassagePdfService extends BasePdfService
       ->get();
 
     // 施術所情報取得
-    $clinicInfo = DB::table('clinic_info')->first();
+    $clinicInfo = DB::table('clinic_info')->orderByDesc('id')->first();
 
     return [
       'clinic_user' => $clinicUser,

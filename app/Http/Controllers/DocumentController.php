@@ -240,7 +240,7 @@ class DocumentController extends Controller
     }
 
     // clinic_infoテーブルから事業所情報を取得
-    $clinicInfo = DB::table('clinic_info')->first();
+    $clinicInfo = DB::table('clinic_info')->orderByDesc('id')->first();
 
     // カテゴリに応じてテンプレートビューを決定
     $viewName = 'master.documents.templates.request_doc'; // デフォルト

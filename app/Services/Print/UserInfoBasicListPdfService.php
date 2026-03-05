@@ -34,6 +34,11 @@ class UserInfoBasicListPdfService extends BasePdfService
   const FONT_SIZE      = 9;    // データフォント
   const HEADER_FONT    = 9;    // ヘッダーフォント
 
+  // 動的レイアウト値（generate()内で確定）
+  protected float $dynCol2W    = self::COL2_W;
+  protected float $dynHeaderW  = self::HEADER_W;
+  protected float $dynDataColW = self::DATA_COL_W;
+
   // ページ座標
   const START_Y_PAGE1  = 30;   // 1ページ目の開始Y（タイトル分）
   const START_Y_OTHER  = 12;   // 2ページ目以降の開始Y
@@ -69,6 +74,9 @@ class UserInfoBasicListPdfService extends BasePdfService
     $outputDate = date('Y-m-d H:i:s');
     $users      = $this->fetchUsers();
     $rowDefs    = $this->getRowDefinitions();
+
+    // 動的レイアウト値を計算
+    $this->calcDynamicWidths($pdf, $rowDefs);
 
     // GetStringWidth() のためにフォントを事前設定（calcRowHeights内で使用）
     $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
@@ -262,6 +270,25 @@ class UserInfoBasicListPdfService extends BasePdfService
   }
 
   /**
+   * col2ラベル幅に基づいて動的レイアウト値を計算しプロパティにセット
+   */
+  protected function calcDynamicWidths(Fpdi $pdf, array $rowDefs): void
+  {
+    $pad = 1.6 * 2;
+    $pdf->SetFont('kozgopromedium', '', self::HEADER_FONT);
+    $maxLabelW = 0.0;
+    foreach ($rowDefs as $row) {
+      $label = $row[1];
+      if ($label !== '') {
+        $maxLabelW = max($maxLabelW, $pdf->GetStringWidth($label) + $pad);
+      }
+    }
+    $this->dynCol2W    = max(self::COL2_W, ceil($maxLabelW * 10) / 10);
+    $this->dynHeaderW  = self::COL1_W + $this->dynCol2W;
+    $this->dynDataColW = floor((self::AVAILABLE_W - $this->dynHeaderW) / self::MAX_COLS_PER_PAGE);
+  }
+
+  /**
    * 行定義を返す
    * [col1Label, col2Label, dataKey, section]
    * section: 'basic'|'acu'|'mas'
@@ -323,7 +350,7 @@ class UserInfoBasicListPdfService extends BasePdfService
       $maxLines = 1;
       foreach ($users as $u) {
         $text  = (string)($u[$dataKey] ?? '');
-        $lines = count($this->wrapText($pdf, $text, self::DATA_COL_W));
+        $lines = count($this->wrapText($pdf, $text, $this->dynDataColW));
         if ($lines > $maxLines) {
           $maxLines = $lines;
         }
@@ -429,7 +456,7 @@ class UserInfoBasicListPdfService extends BasePdfService
     // ---- 行を描画 ----
     $col1X = $startX;
     $col2X = $startX + self::COL1_W;
-    $dataStartX = $startX + self::HEADER_W;
+    $dataStartX = $startX + $this->dynHeaderW;
 
     // 各行のセル（第2カラム + データカラム）
     foreach ($rowDefs as $i => $rowDef) {
@@ -440,16 +467,16 @@ class UserInfoBasicListPdfService extends BasePdfService
       // basicセクション：第1カラムと第2カラムを横結合（幅 HEADER_W = 30mm）
       // acu/masセクション：第2カラムのみ（幅 COL2_W = 22mm）、第1カラムは後でセクション縦結合
       if ($section === 'basic') {
-        $this->drawCell($pdf, $col1X, $rowY, self::HEADER_W, $rowH, $col2Label, true, 'C');
+        $this->drawCell($pdf, $col1X, $rowY, $this->dynHeaderW, $rowH, $col2Label, true, 'C');
       } else {
-        $this->drawCell($pdf, $col2X, $rowY, self::COL2_W, $rowH, $col2Label, true, 'C');
+        $this->drawCell($pdf, $col2X, $rowY, $this->dynCol2W, $rowH, $col2Label, true, 'C');
       }
 
       // データカラム
       foreach ($users as $j => $user) {
-        $cellX  = $dataStartX + $j * self::DATA_COL_W;
+        $cellX  = $dataStartX + $j * $this->dynDataColW;
         $text   = (string)($user[$dataKey] ?? '');
-        $this->drawCell($pdf, $cellX, $rowY, self::DATA_COL_W, $rowH, $text, false, 'L');
+        $this->drawCell($pdf, $cellX, $rowY, $this->dynDataColW, $rowH, $text, false, 'L');
       }
     }
 
@@ -471,7 +498,7 @@ class UserInfoBasicListPdfService extends BasePdfService
     }
 
     // ---- 右端の縦線（データカラムの最後） ----
-    $rightX = $dataStartX + count($users) * self::DATA_COL_W;
+    $rightX = $dataStartX + count($users) * $this->dynDataColW;
     $pdf->Line($rightX, $startY, $rightX, $tableBottom);
 
     // ---- テーブル全体の左端縦線 ----

@@ -29,6 +29,10 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
   const LINE_PITCH        = 3.2;
   const FONT_SIZE         = 9;
 
+  // 動的レイアウト値（generate()内で確定）
+  protected float $dynHeaderW  = self::HEADER_W;
+  protected float $dynDataColW = self::DATA_COL_W;
+
   const LISTS_PER_PAGE    = 2;   // 1ページあたりのリスト数
 
   // ページ座標
@@ -61,6 +65,9 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
     $outputDate = date('Y-m-d H:i:s');
     $users      = $this->fetchUsers();
     $rowDefs    = $this->getRowDefinitions();
+
+    // 動的レイアウト値を計算
+    $this->calcDynamicWidths($pdf, $rowDefs);
 
     $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
 
@@ -128,17 +135,11 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
 
     // insurances（最新1件）
     $insurances = DB::table('insurances as ins')
-      ->leftJoin('insurance_types_1 as it1', 'it1.id', '=', 'ins.insurance_type_1_id')
-      ->leftJoin('insurance_types_2 as it2', 'it2.id', '=', 'ins.insurance_type_2_id')
-      ->leftJoin('insurance_types_3 as it3', 'it3.id', '=', 'ins.insurance_type_3_id')
       ->leftJoin('expenses_borne_ratios as ebr', 'ebr.id', '=', 'ins.expenses_borne_ratio_id')
       ->leftJoin('insurers', 'insurers.id', '=', 'ins.insurers_id')
       ->whereRaw('ins.id = (SELECT MAX(id) FROM insurances WHERE clinic_user_id = ins.clinic_user_id)')
       ->select(
         'ins.clinic_user_id',
-        'it1.insurance_type_1',
-        'it2.insurance_type_2',
-        'it3.insurance_type_3',
         'ins.insured_number',
         'ins.license_acquisition_date',
         'ins.certification_date',
@@ -159,15 +160,18 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
       $uid = $u->id;
       $ins = $insurances[$uid] ?? null;
 
-      // 保険区分：insurance_type_1 + insurance_type_2 + insurance_type_3 を結合
+      // 保険区分：保険者番号の先頭2桁から判定（Insurer::getInsurerCategoryAttribute と同一ロジック）
       $insType = '';
-      if ($ins) {
-        $parts = array_filter([
-          $ins->insurance_type_1 ?? '',
-          $ins->insurance_type_2 ?? '',
-          $ins->insurance_type_3 ?? '',
-        ]);
-        $insType = implode(' ', $parts);
+      if ($ins && ($ins->insurer_number ?? '')) {
+        $prefix = (int) substr((string) $ins->insurer_number, 0, 2);
+        if ($prefix === 6)                         $insType = '協会けんぽ';
+        elseif ($prefix >= 13 && $prefix <= 19)    $insType = '組合健保';
+        elseif ($prefix >= 31 && $prefix <= 34)    $insType = '国民健康保険';
+        elseif ($prefix === 39)                    $insType = '後期高齢者医療';
+        elseif ($prefix === 67)                    $insType = '国保組合';
+        elseif ($prefix >= 72 && $prefix <= 75)    $insType = '共済組合';
+        elseif ($prefix === 2)                     $insType = '船員保険';
+        else                                       $insType = '保険';
       }
 
       $result[] = [
@@ -189,6 +193,24 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
     }
 
     return $result;
+  }
+
+  /**
+   * 行ラベル幅に基づいて動的レイアウト値を計算しプロパティにセット
+   */
+  protected function calcDynamicWidths(Fpdi $pdf, array $rowDefs): void
+  {
+    $pad = 1.6 * 2;
+    $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
+    $maxLabelW = 0.0;
+    foreach ($rowDefs as $row) {
+      $label = $row[0];
+      if ($label !== '') {
+        $maxLabelW = max($maxLabelW, $pdf->GetStringWidth($label) + $pad);
+      }
+    }
+    $this->dynHeaderW  = max(self::HEADER_W, ceil($maxLabelW * 10) / 10);
+    $this->dynDataColW = floor((self::AVAILABLE_W - $this->dynHeaderW) / self::MAX_COLS_PER_PAGE);
   }
 
   /**
@@ -226,7 +248,7 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
       $maxLines = 1;
       foreach ($users as $u) {
         $text  = (string)($u[$dataKey] ?? '');
-        $lines = count($this->wrapText($pdf, $text, self::DATA_COL_W));
+        $lines = count($this->wrapText($pdf, $text, $this->dynDataColW));
         if ($lines > $maxLines) {
           $maxLines = $lines;
         }
@@ -294,7 +316,7 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
 
     $startX     = self::MARGIN_X;
     $headerX    = $startX;
-    $dataStartX = $startX + self::HEADER_W;
+    $dataStartX = $startX + $this->dynHeaderW;
 
     // 各行のY座標を事前計算
     $rowYs = [];
@@ -312,18 +334,18 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
       $rowH = $rowHeights[$i];
 
       // 行ラベルカラム
-      $this->drawCell($pdf, $headerX, $rowY, self::HEADER_W, $rowH, $rowLabel, true, 'C');
+      $this->drawCell($pdf, $headerX, $rowY, $this->dynHeaderW, $rowH, $rowLabel, true, 'C');
 
       // データカラム
       foreach ($users as $j => $user) {
-        $cellX = $dataStartX + $j * self::DATA_COL_W;
+        $cellX = $dataStartX + $j * $this->dynDataColW;
         $text  = (string)($user[$dataKey] ?? '');
-        $this->drawCell($pdf, $cellX, $rowY, self::DATA_COL_W, $rowH, $text, false, 'L');
+        $this->drawCell($pdf, $cellX, $rowY, $this->dynDataColW, $rowH, $text, false, 'L');
       }
     }
 
     // ---- 右端の縦線 ----
-    $rightX = $dataStartX + count($users) * self::DATA_COL_W;
+    $rightX = $dataStartX + count($users) * $this->dynDataColW;
     $pdf->Line($rightX, $startY, $rightX, $tableBottom);
 
     // ---- テーブル全体の左端縦線 ----

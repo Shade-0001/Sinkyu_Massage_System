@@ -44,7 +44,7 @@
   <button type="button" class="btn btn-primary" onclick="submitFirstExperienceMaterial()">初回体験用資料</button>
   <button type="button" class="btn btn-primary" onclick="submitPowerOfAttorneyApplication()">委任状（申請・受領）</button>
   <button type="button" class="btn btn-primary" onclick="submitPowerOfAttorneyConsent()">委任状（同意書取得）</button>
-  <button type="button" class="btn btn-primary" onclick="openInsurancePaymentModal()">入金管理票（保険）</button>
+  <button type="button" class="btn btn-primary" onclick="openPaymentListModal()">入金管理表（保険）</button>
   <button type="button" class="btn btn-primary" onclick="openDoctorThankYouModal()">医師への御礼状</button>
   <button type="button" class="btn btn-primary" onclick="openReferrerThankYouModal()">紹介者への御礼状</button>
   <button type="button" class="btn btn-primary" onclick="openUserCountSummaryModal()">利用者数集計表</button>
@@ -718,21 +718,21 @@
   </div>
 
   <!-- 入金管理表（保険）モーダル -->
-  <div class="modal fade" id="insurancePaymentModal" tabindex="-1" aria-labelledby="insurancePaymentModalLabel" aria-hidden="true">
+  <div class="modal fade" id="paymentListModal" tabindex="-1" aria-labelledby="paymentListModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="insurancePaymentModalLabel">入金管理表（保険） 出力設定</h5>
+          <h5 class="modal-title" id="paymentListModalLabel">入金管理表（保険） 出力設定</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form id="insurancePaymentForm" method="POST">
+          <form id="paymentListForm" method="POST">
             @csrf
 
             <!-- サービス提供年月 -->
             <div class="mb-3">
-              <label for="insurance_payment_service_year_month" class="form-label">サービス提供年月 <span class="text-danger">*</span></label>
-              <select class="form-select" id="insurance_payment_service_year_month" name="service_year_month" required>
+              <label for="payment_list_service_year_month" class="form-label">サービス提供年月 <span class="text-danger">*</span></label>
+              <select class="form-select" id="payment_list_service_year_month" name="service_year_month" required>
                 <option value="">選択してください</option>
                 @php
                   $currentDate = now();
@@ -751,7 +751,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="submitInsurancePayment()">印刷</button>
+          <button type="button" class="btn btn-primary" onclick="submitPaymentList()">印刷</button>
         </div>
       </div>
     </div>

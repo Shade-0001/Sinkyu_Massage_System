@@ -39,18 +39,14 @@ class RecordsController extends Controller
     // デバッグログ：リクエストパラメータ確認
     \Log::info('[DEBUG RecordsController::index] リクエストパラメータ:', $request->all());
 
-    // 定休日情報を取得
-    $closedDays = $this->clinicInfoService->getClosedDays();
-
     // 利用者リストを取得
     $clinicUsers = DB::table('clinic_users')
       ->select('id', 'last_name', 'first_name', 'last_kana', 'first_kana')
-      ->orderBy('last_kana')
-      ->orderBy('first_kana')
+      ->orderBy('id', 'desc')
       ->get();
 
-    // 選択された利用者ID
-    $selectedUserId = $request->input('clinic_user_id');
+    // 選択された利用者ID（未指定時は最上オプション＝最大IDをデフォルト選択）
+    $selectedUserId = $request->input('clinic_user_id', $clinicUsers->first()?->id ?? null);
 
     // 選択された施術者ID（スケジュール画面から遷移時に使用）
     $selectedTherapistId = $request->input('therapist_id');
@@ -85,6 +81,11 @@ class RecordsController extends Controller
       $selectedYear = $request->input('year', date('Y'));
       $selectedMonth = $request->input('month', date('m'));
     }
+
+    // 選択月の月初日を基準に、その時点で有効な clinic_info から定休日情報を取得
+    $closedDays = $this->clinicInfoService->getClosedDaysForDate(
+      sprintf('%04d-%02d-01', $selectedYear, $selectedMonth)
+    );
 
     if ($selectedUserId) {
       // 保険情報を取得（有効期限の降順）
@@ -320,8 +321,8 @@ class RecordsController extends Controller
       $originalDistances[$rec->date] = $rec->housecall_distance;
     }
 
-    // 定休日情報を取得
-    $closedDays = $this->clinicInfoService->getClosedDays();
+    // 定休日情報を取得（レコード日付時点で有効な clinic_info 基準）
+    $closedDays = $this->clinicInfoService->getClosedDaysForDate($record->date);
 
     // 保険情報を取得
     $insurances = DB::table('insurances')
@@ -542,8 +543,8 @@ class RecordsController extends Controller
       $duplicatedDistances = $originalDistances;
     }
 
-    // 定休日情報を取得
-    $closedDays = $this->clinicInfoService->getClosedDays();
+    // 定休日情報を取得（レコード日付時点で有効な clinic_info 基準）
+    $closedDays = $this->clinicInfoService->getClosedDaysForDate($record->date);
 
     // 保険情報を取得
     $insurances = DB::table('insurances')

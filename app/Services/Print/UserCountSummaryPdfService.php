@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\DB;
  */
 class UserCountSummaryPdfService
 {
+  // 動的カラム幅（generate()内で確定）
+  protected array $colWidths = [];
+
   /**
    * PDF生成
    *
@@ -28,6 +31,9 @@ class UserCountSummaryPdfService
 
     $outputDate = date('Y-m-d H:i:s');
     $data       = $this->fetchData($serviceYearMonth);
+
+    $pdf->SetFont('kozgopromedium', '', 11);
+    $this->colWidths = $this->calcColWidths($pdf, $data);
 
     $this->renderPdf($pdf, $data, $serviceYearMonth, $outputDate);
 
@@ -89,6 +95,53 @@ class UserCountSummaryPdfService
   }
 
   /**
+   * 各カラム幅を動的計算して返す（折り返し許可なし、全列比例スケール）
+   */
+  protected function calcColWidths(Fpdi $pdf, array $data): array
+  {
+    $pad    = 1.6 * 2;
+    $availW = 194;
+
+    $minW = [
+      'therapy_type' => 0.0,
+      'insurer_name' => 0.0,
+      'user_count'   => 0.0,
+    ];
+
+    // ヘッダー（12pt）
+    $pdf->SetFont('kozgopromedium', '', 12);
+    foreach ([
+      'therapy_type' => '施術種類',
+      'insurer_name' => '保険者名称',
+      'user_count'   => '該当人数',
+    ] as $key => $label) {
+      $minW[$key] = max($minW[$key], $pdf->GetStringWidth($label) + $pad);
+    }
+
+    // データ（11pt）
+    $pdf->SetFont('kozgopromedium', '', 11);
+    foreach (['はり･きゅう', 'あんま･マッサージ'] as $label) {
+      $minW['therapy_type'] = max($minW['therapy_type'], $pdf->GetStringWidth($label) + $pad);
+    }
+    foreach ($data['insurers'] as $ins) {
+      $minW['insurer_name'] = max($minW['insurer_name'], $pdf->GetStringWidth($ins->insurer_name) + $pad);
+    }
+    $minW['user_count'] = max($minW['user_count'], $pdf->GetStringWidth('999') + $pad);
+
+    // 比例スケール
+    $total = array_sum($minW) ?: 1;
+    $scale = $availW / $total;
+    foreach ($minW as $k => $v) {
+      $minW[$k] = round($v * $scale, 4);
+    }
+    $diff = $availW - array_sum($minW);
+    $lastKey = array_key_last($minW);
+    $minW[$lastKey] = round($minW[$lastKey] + $diff, 4);
+
+    return $minW;
+  }
+
+  /**
    * PDFを描画
    */
   protected function renderPdf(Fpdi $pdf, array $data, string $serviceYearMonth, string $outputDate = ''): void
@@ -121,12 +174,8 @@ class UserCountSummaryPdfService
       $pdf->Cell($availableWidth, 0, $dateStr, 0, 0, 'R');
     }
 
-    // カラム幅（合計190mm）
-    $colWidths = [
-      'therapy_type' => 45,
-      'insurer_name' => 115,
-      'user_count'   => 30,
-    ];
+    // カラム幅（自動計算）
+    $colWidths = $this->colWidths;
 
     $rowHeight = 8;
 
