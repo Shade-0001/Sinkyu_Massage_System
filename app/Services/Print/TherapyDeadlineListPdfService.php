@@ -29,7 +29,7 @@ class TherapyDeadlineListPdfService extends BasePdfService
   protected function calcColWidths(Fpdi $pdf, array $data): array
   {
     $pad     = 1.6 * 2;
-    $availW  = 194;
+    $availW  = 281;
     $wrapKey = 'institution';
 
     $headers = [
@@ -97,7 +97,7 @@ class TherapyDeadlineListPdfService extends BasePdfService
    */
   public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate = '', string $remarks = ''): string
   {
-    $pdf = new Fpdi('P', 'mm', 'A4', true, 'UTF-8', false);
+    $pdf = new Fpdi('L', 'mm', 'A4', true, 'UTF-8', false);
     $pdf->SetAutoPageBreak(false);
     $pdf->SetMargins(0, 0, 0);
     $pdf->setPrintHeader(false);
@@ -176,10 +176,10 @@ class TherapyDeadlineListPdfService extends BasePdfService
    */
   protected function renderPdf(Fpdi $pdf, array $data, string $targetYearMonth): void
   {
-    // A4縦：210mm × 297mm、左右マージン8mmで利用可能幅194mm
+    // A4横：297mm × 210mm、左右マージン8mmで利用可能幅281mm
     $startX         = 8;
     $startY         = 30;
-    $availableWidth = 194;
+    $availableWidth = 281;
     $rowHeight      = 7;
 
     $pdf->SetTextColor(0, 0, 0);
@@ -243,8 +243,8 @@ class TherapyDeadlineListPdfService extends BasePdfService
     $rows = $data['rows'];
 
     foreach ($rows as $row) {
-      // A4縦の有効高：297mm、下マージン10mm → 287mm まで
-      if ($currentY + $rowHeight > 287) {
+      // A4横の有効高：210mm、下マージン10mm → 200mm まで
+      if ($currentY + $rowHeight > 200) {
         $pdf->AddPage();
         $currentY = 20;
       }
