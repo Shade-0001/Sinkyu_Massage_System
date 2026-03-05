@@ -25,7 +25,7 @@
 /* 白文字 + 黒縁取り */
 .text-outline-black {
   color: #ffffff;
-  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-family: 'Kosugi Maru', sans-serif;
   -webkit-text-stroke: 6px #000;
   paint-order: stroke fill;
 }
