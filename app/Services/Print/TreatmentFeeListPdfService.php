@@ -357,8 +357,8 @@ class TreatmentFeeListPdfService
         $x += $colWidths['name'];
 
         // 施術名
-        $pdf->SetXY($x + 6, $currentY + $dataOffsetY);
-        $pdf->Cell($colWidths['treatment'] - 6, 0, $therapyContent->therapy_content, 0, 0, 'L', false);
+        $pdf->SetXY($x + 5, $currentY + $dataOffsetY);
+        $pdf->Cell($colWidths['treatment'] - 5, 0, $therapyContent->therapy_content, 0, 0, 'L', false);
         // 上辺は最初の行のみ実線、それ以外は破線
         if (!$firstRow) {
           $pdf->SetLineStyle(array('width' => 0.2, 'dash' => '2,2', 'color' => array(0, 0, 0)));
