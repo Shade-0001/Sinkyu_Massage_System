@@ -13,7 +13,7 @@
   <br>
 
   <ul>
-    <li><a href="{{ route('records.index') }}">実績データ</a></li>
+    <li><a href="{{ route('records.index') }}"><i class="nf nf-md-file_document"></i> 実績データ</a></li>
     <li><a href="{{ route('reports.index') }}">報告書データ</a></li>
     <li><a href="{{ route('schedules.index') }}">スケジュール</a></li>
     <li><a href="{{ route('master.index') }}">マスター登録</a></li>
