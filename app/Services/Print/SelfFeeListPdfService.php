@@ -484,6 +484,8 @@ class SelfFeeListPdfService extends BasePdfService
       $x += $header['width'];
     }
 
+    // ヘッダー描画後はデータ行用の11ptに戻す
+    $pdf->SetFont('kozgopromedium', '', 11);
     $currentY += $rowHeight;
   }
 
