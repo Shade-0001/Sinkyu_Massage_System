@@ -124,8 +124,28 @@ class RecordSeeder extends Seeder
         }
       }
 
-      $durations = [30, 45, 60];
-      $duration  = $durations[array_rand($durations)];
+      $durationGroups = [
+        5  => [20],
+        60 => [30, 40, 50, 60],
+        90 => [70, 80, 90],
+        100 => [100, 110, 120],
+      ];
+      $rand = rand(1, 100);
+      $cumulative = 0;
+      $selectedGroup = [30];
+      foreach ($durationGroups as $threshold => $group) {
+        $cumulative += match($threshold) {
+          5   => 5,
+          60  => 55,
+          90  => 30,
+          100 => 10,
+        };
+        if ($rand <= $cumulative) {
+          $selectedGroup = $group;
+          break;
+        }
+      }
+      $duration = $selectedGroup[array_rand($selectedGroup)];
 
       $latestStart = $businessEndMin - $duration;
       if ($latestStart < $businessStartMin) {
