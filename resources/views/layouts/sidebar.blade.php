@@ -18,17 +18,17 @@
   <nav class="p-0">
     <ul class="list-unstyled p-0 m-0">
       <li class="border-bottom border-secondary">
-        <a href="{{ route('records.index') }}" class="sidebar-link">実績データ</a>
+        <a href="{{ route('records.index') }}" class="sidebar-link"><i class="nf nf-fa-file_text_o"></i> 実績データ</a>
       </li>
       <li class="border-bottom border-secondary">
-        <a href="{{ route('reports.index') }}" class="sidebar-link">報告書データ</a>
+        <a href="{{ route('reports.index') }}" class="sidebar-link"><i class="nf nf-md-message_reply_text_outline"></i> 報告書データ</a>
       </li>
       <li class="border-bottom border-secondary">
-        <a href="{{ route('schedules.index') }}" class="sidebar-link">スケジュール</a>
+        <a href="{{ route('schedules.index') }}" class="sidebar-link"><i class="nf nf-md-calendar_month_outline"></i> スケジュール</a>
       </li>
       <li class="border-bottom border-secondary">
         <div class="sidebar-link sidebar-submenu-toggle" data-target="master-submenu">
-          <span>マスター登録</span>
+          <span><i class="nf nf-fa-edit"></i> マスター登録</span>
           <span class="submenu-arrow">▼</span>
         </div>
         <ul id="master-submenu" class="submenu">
@@ -45,13 +45,13 @@
         </ul>
       </li>
       <li class="border-bottom border-secondary">
-        <a href="{{ route('prints.index') }}" class="sidebar-link">印刷メニュー</a>
+        <a href="{{ route('prints.index') }}" class="sidebar-link"><i class="nf nf-md-printer_outline"></i> 印刷メニュー</a>
       </li>
       <li class="border-bottom border-secondary">
-        <a href="{{ route('therapy-periods.index') }}" class="sidebar-link">要加療期間リスト</a>
+        <a href="{{ route('therapy-periods.index') }}" class="sidebar-link"><i class="nf nf-fa-list"></i> 要加療期間リスト</a>
       </li>
       <li class="border-bottom border-secondary">
-        <a href="{{ route('deposits.index') }}" class="sidebar-link">入金管理</a>
+        <a href="{{ route('deposits.index') }}" class="sidebar-link"><i class="nf nf-fa-yen"></i> 入金管理</a>
       </li>
     </ul>
   </nav>
