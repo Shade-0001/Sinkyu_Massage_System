@@ -25,6 +25,7 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
   const DATA_COL_W        = 34;
   const MAX_COLS_PER_PAGE = 5;
   const CELL_PADDING_X    = 2.4;
+  const CELL_PADDING_Y    = 1.8;  // セル上下パディング mm（改行行は1mm）
   const BASE_ROW_H        = 6;
   const LINE_PITCH        = 3.2;
   const FONT_SIZE         = 9;
@@ -263,7 +264,9 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
       $textH       = $maxLines > 1
         ? $fontMm + ($maxLines - 1) * self::LINE_PITCH
         : $fontMm;
-      $heights[$i] = max(self::BASE_ROW_H, $textH + (self::BASE_ROW_H - $fontMm));
+      // 改行が発生する行は上下パディング1mm、それ以外は CELL_PADDING_Y
+      $paddingY    = $maxLines > 1 ? 1.0 * 2 : self::CELL_PADDING_Y * 2;
+      $heights[$i] = max(self::BASE_ROW_H, $textH + $paddingY);
       $maxLinesPerRow[$i] = $maxLines;
     }
     return ['heights' => $heights, 'maxLines' => $maxLinesPerRow];
