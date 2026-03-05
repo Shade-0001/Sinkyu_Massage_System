@@ -160,14 +160,12 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="receipt_clinic_user_ids" class="form-label mb-0">利用者 <span class="text-danger">*</span></label>
+                <label for="receipt_clinic_user_ids" class="form-label mb-0">利用者｜［ID］氏名（カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('receipt_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="receipt_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">
-                    {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
-                  </option>
+                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '（' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '）' }}</option>
                 @endforeach
               </select>
               <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -236,14 +234,12 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="massage_clinic_user_ids" class="form-label mb-0">利用者 <span class="text-danger">*</span></label>
+                <label for="massage_clinic_user_ids" class="form-label mb-0">利用者｜［ID］氏名（カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('massage_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="massage_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">
-                    {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
-                  </option>
+                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '（' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '）' }}</option>
                 @endforeach
               </select>
               <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -299,14 +295,12 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="medical_assistance_clinic_user_ids" class="form-label mb-0">利用者 <span class="text-danger">*</span></label>
+                <label for="medical_assistance_clinic_user_ids" class="form-label mb-0">利用者｜［ID］氏名（カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('medical_assistance_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="medical_assistance_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">
-                    {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
-                  </option>
+                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '（' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '）' }}</option>
                 @endforeach
               </select>
               <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -379,14 +373,12 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="late_elderly_medical_clinic_user_ids" class="form-label mb-0">利用者 <span class="text-danger">*</span></label>
+                <label for="late_elderly_medical_clinic_user_ids" class="form-label mb-0">利用者｜［ID］氏名（カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('late_elderly_medical_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="late_elderly_medical_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">
-                    {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
-                  </option>
+                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '（' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '）' }}</option>
                 @endforeach
               </select>
               <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -519,14 +511,12 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="consent_request_sample_clinic_user_ids" class="form-label mb-0">利用者 <span class="text-danger">*</span></label>
+                <label for="consent_request_sample_clinic_user_ids" class="form-label mb-0">利用者｜［ID］氏名（カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('consent_request_sample_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="consent_request_sample_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">
-                    {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
-                  </option>
+                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '（' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '）' }}</option>
                 @endforeach
               </select>
               <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -563,14 +553,12 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="consent_request_designated_clinic_user_ids" class="form-label mb-0">利用者 <span class="text-danger">*</span></label>
+                <label for="consent_request_designated_clinic_user_ids" class="form-label mb-0">利用者｜［ID］氏名（カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('consent_request_designated_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="consent_request_designated_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">
-                    {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
-                  </option>
+                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '（' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '）' }}</option>
                 @endforeach
               </select>
               <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -638,14 +626,12 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="treatment_record_clinic_user_ids" class="form-label mb-0">利用者 <span class="text-danger">*</span></label>
+                <label for="treatment_record_clinic_user_ids" class="form-label mb-0">利用者｜［ID］氏名（カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('treatment_record_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="treatment_record_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">
-                    {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
-                  </option>
+                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '（' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '）' }}</option>
                 @endforeach
               </select>
               <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -771,14 +757,12 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="consent_form_clinic_user_ids" class="form-label mb-0">利用者 <span class="text-danger">*</span></label>
+                <label for="consent_form_clinic_user_ids" class="form-label mb-0">利用者｜［ID］氏名（カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('consent_form_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="consent_form_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">
-                    {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
-                  </option>
+                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '（' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '）' }}</option>
                 @endforeach
               </select>
               <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -844,14 +828,12 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="doctor_thank_you_clinic_user_ids" class="form-label mb-0">利用者 <span class="text-danger">*</span></label>
+                <label for="doctor_thank_you_clinic_user_ids" class="form-label mb-0">利用者｜［ID］氏名（カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('doctor_thank_you_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="doctor_thank_you_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">
-                    {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
-                  </option>
+                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '（' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '）' }}</option>
                 @endforeach
               </select>
               <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -914,14 +896,12 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="referrer_thank_you_clinic_user_ids" class="form-label mb-0">利用者 <span class="text-danger">*</span></label>
+                <label for="referrer_thank_you_clinic_user_ids" class="form-label mb-0">利用者｜［ID］氏名（カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('referrer_thank_you_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="referrer_thank_you_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">
-                    {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
-                  </option>
+                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '（' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '）' }}</option>
                 @endforeach
               </select>
               <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -988,14 +968,12 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="implementation_plan_clinic_user_ids" class="form-label mb-0">利用者 <span class="text-danger">*</span></label>
+                <label for="implementation_plan_clinic_user_ids" class="form-label mb-0">利用者｜［ID］氏名（カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('implementation_plan_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="implementation_plan_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}" data-plan-months="{{ json_encode($implementationPlanUserMonths[$user->id] ?? []) }}">
-                    {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
-                  </option>
+                  <option value="{{ $user->id }}" data-plan-months="{{ json_encode($implementationPlanUserMonths[$user->id] ?? []) }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '（' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '）' }}</option>
                 @endforeach
               </select>
               <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -1024,13 +1002,11 @@
 
             <!-- 利用者 -->
             <div class="mb-3">
-              <label for="report_clinic_user_id" class="form-label">利用者 <span class="text-danger">*</span></label>
+              <label for="report_clinic_user_id" class="form-label">利用者｜［ID］氏名（カナ） <span class="text-danger">*</span></label>
               <select class="form-select" id="report_clinic_user_id" name="clinic_user_id" required>
                 <option value="">選択してください</option>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">
-                    {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
-                  </option>
+                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '（' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '）' }}</option>
                 @endforeach
               </select>
             </div>
@@ -1102,13 +1078,11 @@
 
             <!-- 利用者 -->
             <div class="mb-3">
-              <label for="report_greeting_clinic_user_id" class="form-label">利用者 <span class="text-danger">*</span></label>
+              <label for="report_greeting_clinic_user_id" class="form-label">利用者｜［ID］氏名（カナ） <span class="text-danger">*</span></label>
               <select class="form-select" id="report_greeting_clinic_user_id" name="clinic_user_id" required>
                 <option value="">選択してください</option>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">
-                    {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
-                  </option>
+                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '（' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '）' }}</option>
                 @endforeach
               </select>
             </div>
@@ -1229,14 +1203,12 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="schedule_list_clinic_user_ids" class="form-label mb-0">利用者 <span class="text-danger">*</span></label>
+                <label for="schedule_list_clinic_user_ids" class="form-label mb-0">利用者｜［ID］氏名（カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('schedule_list_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="schedule_list_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">
-                    {{ $user->last_name }} {{ $user->first_name }} ({{ $user->last_kana }} {{ $user->first_kana }})
-                  </option>
+                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '（' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '）' }}</option>
                 @endforeach
               </select>
               <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
