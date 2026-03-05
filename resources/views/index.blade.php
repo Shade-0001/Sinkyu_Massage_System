@@ -12,7 +12,7 @@
 
   <br>
 
-  <ul class="list-unstyled fs-2 ms-3">
+  <ul class="list-unstyled fs-1 ms-3">
     <li class="mb-2"><a class="text-decoration-none" href="{{ route('records.index') }}"><i class="nf nf-fa-file_text_o"></i> 実績データ</a></li>
     <li class="mb-2"><a class="text-decoration-none" href="{{ route('reports.index') }}"><i class="nf nf-md-message_reply_text_outline"></i> 報告書データ</a></li>
     <li class="mb-2"><a class="text-decoration-none" href="{{ route('schedules.index') }}"><i class="nf nf-md-calendar_month_outline"></i> スケジュール</a></li>
