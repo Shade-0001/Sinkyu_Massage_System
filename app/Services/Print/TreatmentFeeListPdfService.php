@@ -304,14 +304,6 @@ class TreatmentFeeListPdfService
       // 利用者氏名のセル結合用：彣数をカウント
       $userStartY = $currentY;
 
-      // リスト番号描画：ブロックの左上に 「［ listNo / totalUsers ］」
-      $listNumFontSize = 8;
-      $listNumFontMm   = $listNumFontSize * 0.352;
-      $pdf->SetFont('kozgopromedium', '', $listNumFontSize);
-      $pdf->SetTextColor(0, 0, 0);
-      $pdf->Text($startX, $userStartY - $listNumFontMm - 1, '［ ' . $listNo . '/' . $totalUsers . ' ］');
-      $pdf->SetFont('kozgopromedium', '', 9);
-
       $firstRow = true;
       $therapyGroupsArray = $therapyGroups->toArray();
       $therapyGroupKeys = array_keys($therapyGroupsArray);
@@ -349,6 +341,13 @@ class TreatmentFeeListPdfService
           // 左右は実線
           $pdf->Line($startX, $userStartY, $startX, $userStartY + $nameHeight); // 左
           $pdf->Line($startX + $colWidths['name'], $userStartY, $startX + $colWidths['name'], $userStartY + $nameHeight); // 右
+
+          // リスト番号：名前セル左上内側に小フォントで描画
+          $listNumFontSize = 7;
+          $pdf->SetFont('kozgopromedium', '', $listNumFontSize);
+          $pdf->SetTextColor(0, 0, 0);
+          $pdf->Text($startX + 0.8, $userStartY + $listNumFontSize * 0.352 + 0.5, '［ ' . $listNo . '/' . $totalUsers . ' ］');
+          $pdf->SetFont('kozgopromedium', '', 9);
         }
         // 最終行で利用者氏名セルの下辺を破線で描画
         if ($isLastRow) {
