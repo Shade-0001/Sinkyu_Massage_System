@@ -249,11 +249,14 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
     foreach ($rowDefs as $i => $row) {
       $dataKey  = $row[1];
       $maxLines = 1;
-      foreach ($users as $u) {
-        $text  = (string)($u[$dataKey] ?? '');
-        $lines = count($this->wrapText($pdf, $text, $this->dynDataColW));
-        if ($lines > $maxLines) {
-          $maxLines = $lines;
+      // 年月日行は改行を許可しない（1行固定）
+      if (!$this->isDateField($dataKey)) {
+        foreach ($users as $u) {
+          $text  = (string)($u[$dataKey] ?? '');
+          $lines = count($this->wrapText($pdf, $text, $this->dynDataColW));
+          if ($lines > $maxLines) {
+            $maxLines = $lines;
+          }
         }
       }
       $fontMm      = self::FONT_SIZE * 0.352;
@@ -264,6 +267,14 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
       $maxLinesPerRow[$i] = $maxLines;
     }
     return ['heights' => $heights, 'maxLines' => $maxLinesPerRow];
+  }
+
+  /**
+   * データキーが日付フィールドかどうかを判定
+   */
+  protected function isDateField(string $dataKey): bool
+  {
+    return preg_match('/(_date|_start|_end|_expiry)$/', $dataKey) === 1;
   }
 
   /**
