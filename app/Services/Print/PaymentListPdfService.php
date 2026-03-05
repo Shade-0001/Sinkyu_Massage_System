@@ -239,6 +239,20 @@ class PaymentListPdfService
       }
     }
 
+    // 総計行の値も幅計算に含める（データ行合計が6桁以上になる場合にはみ出し防止）
+    $grandTotal   = array_sum(array_column($data['rows'], 'total_amount'));
+    $grandSelfpay = array_sum(array_column($data['rows'], 'selfpay_amount'));
+    $grandBilling = array_sum(array_column($data['rows'], 'insurance_billing_amount'));
+    foreach ([
+      'total'   => $grandTotal > 0 ? number_format($grandTotal) : '',
+      'selfpay' => $grandSelfpay > 0 ? number_format($grandSelfpay) : '',
+      'billing' => $grandBilling > 0 ? number_format($grandBilling) : '',
+    ] as $key => $text) {
+      if ($text !== '') {
+        $minW[$key] = max($minW[$key], $pdf->GetStringWidth($text) + $pad);
+      }
+    }
+
     $fixedTotal = array_sum(array_filter($minW, fn($k) => $k !== $wrapKey, ARRAY_FILTER_USE_KEY));
     $remaining  = $availW - $fixedTotal;
 
