@@ -197,7 +197,7 @@ class PaymentListPdfService
   protected function calcColWidths(Fpdi $pdf, array $data): array
   {
     $pad    = 1.6 * 2;       // 通常カラム用パッド（mm）
-    $numPad = 2 * 2 + 1;    // 数値カラム用パッド：描画時 padding*2=4mm + 安全マージン1mm = 5mm
+    $numPad = 4 + 2 + 1;    // 数値カラム用パッド：左4mm + 右2mm + 安全マージン1mm = 7mm
     $availW  = 281;
     $wrapKey = 'insurer';
 
@@ -422,11 +422,12 @@ class PaymentListPdfService
           $align = 'L';
         }
 
-        // 数値右揃えのパディング
-        $padding = in_array($key, $rightAlignKeys) ? 2 : 0;
+        // 数値右揃えのパディング（左4mm・右2mm）
+        $paddingL = in_array($key, $rightAlignKeys) ? 4 : 0;
+        $paddingR = in_array($key, $rightAlignKeys) ? 2 : 0;
 
         // テキスト幅がセル幅を超える場合はフォントサイズを縮小
-        $cellInnerW = $w - $padding * 2 - 1;
+        $cellInnerW = $w - $paddingL - $paddingR - 1;
         $baseFontSize = 9;
         $fontSize = $baseFontSize;
         if ($text !== '' && $pdf->GetStringWidth($text) > $cellInnerW) {
@@ -437,8 +438,8 @@ class PaymentListPdfService
           }
         }
 
-        $pdf->SetXY($x + $padding, $currentY + $dataOffsetY);
-        $pdf->Cell($w - $padding * 2, 0, $text, 0, 0, $align, false);
+        $pdf->SetXY($x + $paddingL, $currentY + $dataOffsetY);
+        $pdf->Cell($w - $paddingL - $paddingR, 0, $text, 0, 0, $align, false);
 
         // フォントサイズを元に戻す
         if ($fontSize !== $baseFontSize) {
@@ -482,12 +483,13 @@ class PaymentListPdfService
       $w   = $colWidths[$key];
 
       if (array_key_exists($key, $totalCells)) {
-        $text    = $totalCells[$key];
-        $align   = ($key === 'therapy') ? 'C' : 'R';
-        $padding = ($key !== 'therapy') ? 2 : 0;
+        $text     = $totalCells[$key];
+        $align    = ($key === 'therapy') ? 'C' : 'R';
+        $paddingL = ($key !== 'therapy') ? 4 : 0;
+        $paddingR = ($key !== 'therapy') ? 2 : 0;
 
-        $pdf->SetXY($x + $padding, $currentY + $dataOffsetY);
-        $pdf->Cell($w - $padding * 2, 0, $text, 0, 0, $align, false);
+        $pdf->SetXY($x + $paddingL, $currentY + $dataOffsetY);
+        $pdf->Cell($w - $paddingL - $paddingR, 0, $text, 0, 0, $align, false);
 
         // 枠線
         $pdf->Line($x,      $currentY,             $x + $w, $currentY);
