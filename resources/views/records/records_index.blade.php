@@ -10,12 +10,12 @@
   <!-- 利用者選択フォーム -->
   <form method="GET" action="{{ route('records.index') }}" id="filterForm">
     <div class="mb-3">
-      <label for="clinic_user_id"></label>
+      <label for="clinic_user_id">利用者氏名：</label>
       <select name="clinic_user_id" id="clinic_user_id" onchange="document.getElementById('filterForm').submit();">
         <option value="">╌╌╌</option>
         @foreach($clinicUsers as $user)
           <option value="{{ $user->id }}" {{ $selectedUserId == $user->id ? 'selected' : '' }}>
-            {{ $user->last_name }} {{ $user->first_name }}({{ $user->last_kana }} {{ $user->first_kana }})
+            {{ $user->last_name }} {{ $user->first_name }}（{{ $user->last_kana }} {{ $user->first_kana }}）
           </option>
         @endforeach
       </select>
@@ -52,8 +52,14 @@
     <div class="d-flex gap-3 align-items-start">
       <!-- カレンダー -->
       <div class="text-center position-relative" style="width: 15rem;">
-        <div id="calendar-title-display" class="fs-4 fw-bold py-1 d-inline-block" style="cursor: default;"></div>
-        <select id="calendar-title" class="position-absolute top-0 start-50 translate-middle-x opacity-0" style="cursor: pointer; font-size: 1.5rem; padding: 0.2em 0em; border: none; background: transparent;"></select>
+        <div class="d-flex align-items-center justify-content-center gap-1">
+          <button type="button" id="prev-month-btn" style="padding: 0.1em 0.5em; font-size: 1rem; line-height: 1;">◀</button>
+          <div class="position-relative" style="display: inline-block;">
+            <div id="calendar-title-display" class="fs-4 fw-bold py-1 d-inline-block" style="cursor: pointer; border: 1px solid #b0b8c1; border-radius: 4px; padding: 0.05em 0.5em;"></div>
+            <select id="calendar-title" class="position-absolute top-0 start-50 translate-middle-x opacity-0" style="cursor: pointer; font-size: 1.5rem; padding: 0.2em 0em; border: none; background: transparent; width: 100%; height: 100%;"></select>
+          </div>
+          <button type="button" id="next-month-btn" style="padding: 0.1em 0.5em; font-size: 1rem; line-height: 1;">▶</button>
+        </div>
         <div class="calendar" id="calendar">
           <!-- 曜日ヘッダー -->
           <div class="calendar-day-header sunday">日</div>

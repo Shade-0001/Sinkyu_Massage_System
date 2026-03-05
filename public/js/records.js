@@ -223,6 +223,48 @@ function setupCalendarEventListeners() {
     window.location.href = currentUrl.toString();
   });
 
+  // 前月ボタン
+  const prevMonthBtn = document.getElementById('prev-month-btn');
+  if (prevMonthBtn) {
+    prevMonthBtn.addEventListener('click', function() {
+      currentMonth--;
+      if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+      }
+      window.selectedDates.clear();
+      renderCalendar(currentYear, currentMonth);
+      updateTherapyDaysDisplay();
+      updateHousecallDistanceInputs();
+      updateCalendarTitleDisplay();
+      const currentUrl = new URL(window.location.href);
+      currentUrl.searchParams.set('year', currentYear);
+      currentUrl.searchParams.set('month', currentMonth + 1);
+      window.location.href = currentUrl.toString();
+    });
+  }
+
+  // 次月ボタン
+  const nextMonthBtn = document.getElementById('next-month-btn');
+  if (nextMonthBtn) {
+    nextMonthBtn.addEventListener('click', function() {
+      currentMonth++;
+      if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+      }
+      window.selectedDates.clear();
+      renderCalendar(currentYear, currentMonth);
+      updateTherapyDaysDisplay();
+      updateHousecallDistanceInputs();
+      updateCalendarTitleDisplay();
+      const currentUrl = new URL(window.location.href);
+      currentUrl.searchParams.set('year', currentYear);
+      currentUrl.searchParams.set('month', currentMonth + 1);
+      window.location.href = currentUrl.toString();
+    });
+  }
+
   // 選択解除ボタン
   document.getElementById('clear-selection-btn').addEventListener('click', function() {
     clearDateSelection();
