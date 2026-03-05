@@ -404,7 +404,7 @@ class PaymentListPdfService
         }
 
         // 数値右揃えのパディング
-        $padding = in_array($key, $rightAlignKeys) ? 1 : 0;
+        $padding = in_array($key, $rightAlignKeys) ? 2 : 0;
 
         // テキスト幅がセル幅を超える場合はフォントサイズを縮小
         $cellInnerW = $w - $padding * 2 - 1;
@@ -465,7 +465,7 @@ class PaymentListPdfService
       if (array_key_exists($key, $totalCells)) {
         $text    = $totalCells[$key];
         $align   = ($key === 'therapy') ? 'C' : 'R';
-        $padding = ($key !== 'therapy') ? 1 : 0;
+        $padding = ($key !== 'therapy') ? 2 : 0;
 
         $pdf->SetXY($x + $padding, $currentY + $dataOffsetY);
         $pdf->Cell($w - $padding * 2, 0, $text, 0, 0, $align, false);
