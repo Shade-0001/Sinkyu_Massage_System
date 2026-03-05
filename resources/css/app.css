@@ -24,8 +24,8 @@
 
 /* 白文字 + 黒縁取り */
 .text-outline-black {
-  color: #ffffff;
-  -webkit-text-stroke: 3px #000;
+  color: #ffffff;  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-weight: 700;  -webkit-text-stroke: 6px #000;
   paint-order: stroke fill;
 }
 /*---------------------------------------------------------*/
