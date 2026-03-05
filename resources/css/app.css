@@ -12,6 +12,11 @@
   text-decoration-line: none;
 }
 
+/* リンク内Nerd Fontsアイコンの色をテキスト色に合わせる */
+a i.nf {
+  color: inherit;
+}
+
 /* 閲覧専用フィールド */
 [readonly] {
   background-color: #eeeeee;
