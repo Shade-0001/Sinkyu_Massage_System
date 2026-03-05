@@ -442,8 +442,8 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
       $textH       = $maxLines > 1
         ? $fontMm + ($maxLines - 1) * self::LINE_PITCH
         : $fontMm;
-      // 改行が発生する行は上下パディング対象外
-      $paddingY    = $maxLines > 1 ? 0 : self::CELL_PADDING_Y * 2;
+      // 改行が発生する行は上下パディング1mm、それ以外は CELL_PADDING_Y
+      $paddingY    = $maxLines > 1 ? 1.0 * 2 : self::CELL_PADDING_Y * 2;
       $heights[$i] = max(self::BASE_ROW_H, $textH + $paddingY);
     }
     return $heights;
