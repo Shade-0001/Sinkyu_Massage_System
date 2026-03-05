@@ -46,7 +46,7 @@
     </div>
   @else
     <!-- 報告書データ一覧表示エリア -->
-    <div id="reports-list-area" style="max-height: 70vh; overflow-y: auto; overflow-x: hidden; border: 1px solid #dee2e6; padding: 1rem;">
+    <div id="reports-list-area" style="max-height: 70vh; overflow-y: auto; overflow-x: hidden; border: 1px solid #dee2e6;">
       @foreach($reportsByYear as $year => $yearData)
         @php
           $hasReports = $yearData['has_reports'];
@@ -55,13 +55,13 @@
         @endphp
 
         @if(!$loop->first)
-          <hr style="border: none; border-top: 3px solid #444; margin: 1.2rem 0;">
+          <div style="margin: 1.5rem 0;"></div>
         @endif
 
         <!-- 年ヘッダー（折り畳み・展開ボタン） -->
-        <div class="year-header mb-2">
+        <div class="year-header mb-2 d-flex align-items-center">
           <button
-            class="btn btn-link text-decoration-none p-0 fw-bold fs-4 text-dark d-flex align-items-center"
+            class="btn btn-link text-decoration-none p-0 fw-bold fs-4 text-dark d-flex align-items-center flex-shrink-0"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#{{ $collapseId }}"
@@ -75,6 +75,7 @@
               ［ {{ $year }} ］
             </span>
           </button>
+          <hr style="flex-grow: 1; border: none; border-top: 3px solid #444; margin: 0 0 0 0.75rem; opacity: 1;">
         </div>
 
         <!-- 月別データ（折り畳み可能） -->
@@ -135,7 +136,7 @@
               @endif
             </div>
             @if(!$loop->last)
-              <hr>
+              <hr class="border-secondary border-2 ms-4">
             @endif
           @endforeach
         </div>
