@@ -38,7 +38,8 @@ class ScheduleListPdfService extends BasePdfService
     $outputDate = date('Y-m-d H:i:s');
 
     // 定休日情報を取得（曜日番号 0=日〜6=土 → bool のマップ）
-    $closedDays = $this->fetchClosedDays();
+    // 月初日時点で有効なclinic_infoを基準とする
+    $closedDays = $this->fetchClosedDays($serviceYearMonth);
 
     foreach ($clinicUserIds as $clinicUserId) {
       $user = DB::table('clinic_users')->where('id', $clinicUserId)->first();
@@ -331,11 +332,25 @@ class ScheduleListPdfService extends BasePdfService
   /**
    * 定休日情報を取得
    *
+   * 月初日（$serviceYearMonth-01）以前で最も新しいclinic_infoを参照する。
+   * 該当レコードがなければ最古のレコードにフォールバック。
+   *
+   * @param string $serviceYearMonth  Y-m形式
    * @return array  曜日番号(0=日〜6=土) => bool(true=定休)
    */
-  protected function fetchClosedDays(): array
+  protected function fetchClosedDays(string $serviceYearMonth): array
   {
-    $info = DB::table('clinic_info')->orderByDesc('id')->first();
+    $firstDayOfMonth = $serviceYearMonth . '-01';
+
+    $info = DB::table('clinic_info')
+      ->where('created_at', '<=', $firstDayOfMonth . ' 23:59:59')
+      ->orderByDesc('created_at')
+      ->first();
+
+    // 月初日以前にレコードがない場合は最古のレコードにフォールバック
+    if (!$info) {
+      $info = DB::table('clinic_info')->orderBy('created_at')->first();
+    }
 
     // closed_day_* カラムを曜日番号にマッピング
     $map = [
