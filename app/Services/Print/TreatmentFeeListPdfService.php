@@ -59,7 +59,18 @@ class TreatmentFeeListPdfService
     $outputDate = date('Y-m-d H:i:s');
 
     // PDFを描画
-    $this->renderPdf($pdf, $data, $serviceYearMonth, $outputDate);
+    $listHeaders = $this->renderPdf($pdf, $data, $serviceYearMonth, $outputDate);
+
+    // リスト番号を後処理で描画
+    $totalLists = count($listHeaders);
+    foreach ($listHeaders as $idx => $lh) {
+      $pdf->setPage($lh['page']);
+      $listNumFontSize = 7;
+      $listNumFontMm   = $listNumFontSize * 0.352;
+      $pdf->SetFont('kozgopromedium', '', $listNumFontSize);
+      $pdf->SetTextColor(0, 0, 0);
+      $pdf->Text($lh['x'], $lh['y'] - $listNumFontMm - 2, '［ ' . ($idx + 1) . '/' . $totalLists . ' ］');
+    }
 
     // 2ページ以上の場合、全ページにページ番号を描画（後処理）
     $totalPages = $pdf->getNumPages();
@@ -204,7 +215,7 @@ class TreatmentFeeListPdfService
   /**
    * PDFを描画
    */
-  protected function renderPdf(Fpdi $pdf, array $data, string $serviceYearMonth, string $outputDate = ''): void
+  protected function renderPdf(Fpdi $pdf, array $data, string $serviceYearMonth, string $outputDate = ''): array
   {
     $pdf->SetFont('kozgopromedium', '', 13);
     $pdf->SetTextColor(0, 0, 0);
@@ -247,7 +258,11 @@ class TreatmentFeeListPdfService
     $totalWidth = array_sum($colWidths);
     $rowHeight = 7;  // 9pt/10ptフォントに合わせた行高
 
+    // リストヘッダー座標を収集（リスト番号後処理用）
+    $listHeaders = [];
+
     // ヘッダー描画
+    $listHeaders[] = ['page' => $pdf->getPage(), 'y' => $currentY, 'x' => $startX];
     $this->renderTableHeader($pdf, $currentY, $colWidths, $rowHeight, $startX);
 
     // データ部分
@@ -267,14 +282,9 @@ class TreatmentFeeListPdfService
     $grandTotalCopayment = 0;
     $grandTotalInsurance = 0;
 
-    $listNo = 0;
-    $totalUsers = $userGroups->count();
-
     foreach ($userGroups as $clinicUserId => $records) {
       $clinicUser = $clinicUsers[$clinicUserId] ?? null;
       if (!$clinicUser) continue;
-
-      $listNo++;
 
       $fullName = ($clinicUser->last_name ?? '') . "\u{2002}" . ($clinicUser->first_name ?? '');
       $ratioId = $clinicUser->ratio_id ?? 1;
@@ -294,6 +304,7 @@ class TreatmentFeeListPdfService
       if ($currentY + $neededHeight > 267) {
         $pdf->AddPage();
         $currentY = 20;
+        $listHeaders[] = ['page' => $pdf->getPage(), 'y' => $currentY, 'x' => $startX];
         $this->renderTableHeader($pdf, $currentY, $colWidths, $rowHeight, $startX);
         $pdf->SetFillColor(255, 255, 255);
         $pdf->SetFont('kozgopromedium', '', 9);
@@ -342,12 +353,6 @@ class TreatmentFeeListPdfService
           $pdf->Line($startX, $userStartY, $startX, $userStartY + $nameHeight); // 左
           $pdf->Line($startX + $colWidths['name'], $userStartY, $startX + $colWidths['name'], $userStartY + $nameHeight); // 右
 
-          // リスト番号：名前セル左上内側に小フォントで描画
-          $listNumFontSize = 7;
-          $pdf->SetFont('kozgopromedium', '', $listNumFontSize);
-          $pdf->SetTextColor(0, 0, 0);
-          $pdf->Text($startX + 0.8, $userStartY + $listNumFontSize * 0.352 + 0.5, '［ ' . $listNo . '/' . $totalUsers . ' ］');
-          $pdf->SetFont('kozgopromedium', '', 9);
         }
         // 最終行で利用者氏名セルの下辺を破線で描画
         if ($isLastRow) {
@@ -539,11 +544,9 @@ class TreatmentFeeListPdfService
     $pdf->Line($x, $currentY + $rowHeight, $x + $colWidths['insurance'], $currentY + $rowHeight); // 下
     $pdf->Line($x, $currentY, $x, $currentY + $rowHeight); // 左
     $pdf->Line($x + $colWidths['insurance'], $currentY, $x + $colWidths['insurance'], $currentY + $rowHeight); // 右
-  }
 
-  /**
-   * テーブルヘッダーを描画（ページ先頭で再利用）
-   */
+    return $listHeaders;
+  }
   protected function renderTableHeader(Fpdi $pdf, float &$currentY, array $colWidths, float $rowHeight, float $startX): void
   {
     $pdf->SetFont('kozgopromedium', '', 10);
