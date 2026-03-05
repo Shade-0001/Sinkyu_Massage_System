@@ -55,7 +55,7 @@
         @endphp
 
         @if(!$loop->first)
-          <div style="margin: 1.5rem 0;"></div>
+          <div style="margin: 5rem 0 0 0;"></div>
         @endif
 
         <!-- 年ヘッダー（折り畳み・展開ボタン） -->
@@ -71,11 +71,11 @@
             <span class="toggle-icon">
               {{ $hasReports ? '▾' : '▸' }}
             </span>
-            <span>
+            <span class="border border-black border-opacity-25 border-2 rounded-1 bg-light">
               ［ {{ $year }} ］
             </span>
           </button>
-          <hr style="flex-grow: 1; border: none; border-top: 3px solid #444; margin: 0 0 0 0.75rem; opacity: 1;">
+          <hr style="flex-grow: 1; border: none; border-top: 4px solid #000; margin: 0rem;">
         </div>
 
         <!-- 月別データ（折り畳み可能） -->
@@ -135,9 +135,7 @@
                 </div>
               @endif
             </div>
-            @if(!$loop->last)
-              <hr class="border-secondary border-2 ms-4">
-            @endif
+            <hr class="border-secondary border-2 ms-4">
           @endforeach
         </div>
       @endforeach
