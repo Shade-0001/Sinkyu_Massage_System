@@ -196,7 +196,7 @@ class PaymentListPdfService
    */
   protected function calcColWidths(Fpdi $pdf, array $data): array
   {
-    $pad    = 1.6 * 2;       // 通常カラム用パッド（mm）
+    $pad    = 1 + 1 + 1;     // 通常カラム用パッド：左1mm + 右1mm + 安全マージン1mm = 3mm
     $numPad = 4 + 2 + 1;    // 数値カラム用パッド：左4mm + 右2mm + 安全マージン1mm = 7mm
     $availW  = 281;
     $wrapKey = 'insurer';
@@ -422,9 +422,9 @@ class PaymentListPdfService
           $align = 'L';
         }
 
-        // 数値右揃えのパディング（左4mm・右2mm）
-        $paddingL = in_array($key, $rightAlignKeys) ? 4 : 0;
-        $paddingR = in_array($key, $rightAlignKeys) ? 2 : 0;
+        // パディング（数値：左4mm・右2mm、その他：左右1mm）
+        $paddingL = in_array($key, $rightAlignKeys) ? 4 : 1;
+        $paddingR = in_array($key, $rightAlignKeys) ? 2 : 1;
 
         // テキスト幅がセル幅を超える場合はフォントサイズを縮小
         $cellInnerW = $w - $paddingL - $paddingR - 1;
@@ -485,8 +485,8 @@ class PaymentListPdfService
       if (array_key_exists($key, $totalCells)) {
         $text     = $totalCells[$key];
         $align    = ($key === 'therapy') ? 'C' : 'R';
-        $paddingL = ($key !== 'therapy') ? 4 : 0;
-        $paddingR = ($key !== 'therapy') ? 2 : 0;
+        $paddingL = ($key !== 'therapy') ? 4 : 1;
+        $paddingR = ($key !== 'therapy') ? 2 : 1;
 
         $pdf->SetXY($x + $paddingL, $currentY + $dataOffsetY);
         $pdf->Cell($w - $paddingL - $paddingR, 0, $text, 0, 0, $align, false);
