@@ -10,6 +10,16 @@ use Illuminate\Support\Facades\DB;
  */
 class TreatmentFeeListPdfService extends BasePdfService
 {
+  protected function getDefaultCoordinatesPath(): string
+  {
+    return storage_path('app/config/treatment_fee_list_coordinates.json');
+  }
+
+  protected function getDefaultCoordinates(): array
+  {
+    return [];
+  }
+
   /**
    * 施術タイプ（acupuncture or massage）
    */

@@ -10,6 +10,16 @@ use Illuminate\Support\Facades\DB;
  */
 class SelfFeeListPdfService extends BasePdfService
 {
+  protected function getDefaultCoordinatesPath(): string
+  {
+    return storage_path('app/config/self_fee_list_coordinates.json');
+  }
+
+  protected function getDefaultCoordinates(): array
+  {
+    return [];
+  }
+
   // 動的カラム幅（generate()内で確定）
   protected array $colWidths = [];
 
