@@ -23,11 +23,10 @@ class RecordSeeder extends Seeder
     $massageContentIds = $therapyContents->get(2, collect())->pluck('id')->toArray();
     $acuContentIds     = $therapyContents->get(1, collect())->pluck('id')->toArray();
 
-    // clinic_info から定休日・営業時間を取得
-    $clinicInfo = DB::connection('sinkyu_massage_system_db')->table('clinic_info')->first();
+    // 全 clinic_info を created_at 昇順で取得（日付ベースで有効なレコードを動的参照するため）
+    $allClinicInfos = DB::connection('sinkyu_massage_system_db')->table('clinic_info')->orderBy('created_at')->get();
 
-    // 定休日の曜日番号マップ (0=日, 1=月, ..., 6=土)
-    $closedDays = [];
+    // 曜日番号マップ (0=日, 1=月, ..., 6=土)
     $dayMap = [
       'closed_day_sunday'    => 0,
       'closed_day_monday'    => 1,
@@ -37,22 +36,29 @@ class RecordSeeder extends Seeder
       'closed_day_friday'    => 5,
       'closed_day_saturday'  => 6,
     ];
-    foreach ($dayMap as $col => $dayNum) {
-      if ($clinicInfo->$col == 1) {
-        $closedDays[] = $dayNum;
+
+    // 指定日付時点で有効な clinic_info を返す（日付以前で最新、なければ最古）
+    $getClinicInfoForDate = function (string $date) use ($allClinicInfos): object {
+      $dateTs  = strtotime($date);
+      $matched = null;
+      foreach ($allClinicInfos as $info) {
+        if (strtotime($info->created_at) <= $dateTs) {
+          $matched = $info;
+        }
       }
-    }
+      return $matched ?? $allClinicInfos->first();
+    };
 
-    // 営業時間をminutes単位に変換
-    [$bStartH, $bStartM] = array_map('intval', explode(':', $clinicInfo->business_hours_start));
-    [$bEndH,   $bEndM]   = array_map('intval', explode(':', $clinicInfo->business_hours_end));
-    $businessStartMin = $bStartH * 60 + $bStartM;
-    $businessEndMin   = $bEndH   * 60 + $bEndM;
-
-    // 定休日かどうか判定
-    $isClosedDay = function (string $date) use ($closedDays): bool {
-      $dow = (int) date('w', strtotime($date)); // 0=日〜6=土
-      return in_array($dow, $closedDays, true);
+    // 定休日かどうか判定（日付ごとに有効な clinic_info を参照）
+    $isClosedDay = function (string $date) use ($getClinicInfoForDate, $dayMap): bool {
+      $info = $getClinicInfoForDate($date);
+      $dow  = (int) date('w', strtotime($date)); // 0=日〜6=土
+      foreach ($dayMap as $col => $dayNum) {
+        if ($dayNum === $dow && $info->$col == 1) {
+          return true;
+        }
+      }
+      return false;
     };
 
     // 2つの時間帯が重複するか判定 (分単位)
@@ -98,12 +104,18 @@ class RecordSeeder extends Seeder
       int    $userId
     ) use (
       &$slots, &$data,
-      $businessStartMin, $businessEndMin,
+      $getClinicInfoForDate,
       $isOverlapping,
       $therapistIds, $billCategoryIds,
       $massageContentIds, $acuContentIds,
       $userHousecallDistance
     ): bool {
+      // 日付時点で有効な clinic_info から営業時間を取得
+      $clinicInfo       = $getClinicInfoForDate($date);
+      [$bStartH, $bStartM] = array_map('intval', explode(':', $clinicInfo->business_hours_start));
+      [$bEndH,   $bEndM]   = array_map('intval', explode(':', $clinicInfo->business_hours_end));
+      $businessStartMin = $bStartH * 60 + $bStartM;
+      $businessEndMin   = $bEndH   * 60 + $bEndM;
       // 同日内に同ユーザーのスロットが既に存在する場合は不可
       $daySlots = $slots[$date] ?? [];
       foreach ($daySlots as $s) {
