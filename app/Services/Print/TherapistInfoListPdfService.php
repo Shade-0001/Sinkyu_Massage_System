@@ -285,7 +285,9 @@ class TherapistInfoListPdfService extends BasePdfService
   }
 
   /**
-   * ヘッダー・データの最大テキスト幅から各カラム幅を動的計算し、AVAILABLE_Wにスケールして返す
+   * 各カラム幅を動的計算して返す
+   * - 住所（COL3）以外：ヘッダー・データテキストで改行しない最小幅に固定
+   * - 住所（COL3）：AVAILABLE_W から他カラム合計を引いた残余幅を割り当て
    */
   protected function calcColWidths(Fpdi $pdf, array $therapists): array
   {
@@ -326,16 +328,26 @@ class TherapistInfoListPdfService extends BasePdfService
       }
     }
 
-    // AVAILABLE_W に比例スケール
-    $totalW = array_sum($minWidths);
-    if ($totalW > 0) {
-      $scale = self::AVAILABLE_W / $totalW;
-      for ($i = 0; $i < 12; $i++) {
-        $minWidths[$i] = round($minWidths[$i] * $scale, 4);
+    // 住所（COL3）以外の合計を固定し、住所に余導全てを割り当てる
+    $addressIdx = 3;
+    $otherTotal = array_sum($minWidths) - $minWidths[$addressIdx];
+    $addressW   = self::AVAILABLE_W - $otherTotal;
+    $minWidthAddr = 8.0; // 住所最低保証幅 mm
+
+    if ($addressW >= $minWidthAddr) {
+      // 通常ケース：住所以外は最小幅固定、住所に余導
+      $minWidths[$addressIdx] = round($addressW, 4);
+    } else {
+      // フォールバック：住所以外の合計がAVAILABLE_Wを超えた場合は全カラムを比例スケール
+      $totalW = array_sum($minWidths);
+      if ($totalW > 0) {
+        $scale = self::AVAILABLE_W / $totalW;
+        for ($i = 0; $i < 12; $i++) {
+          $minWidths[$i] = round($minWidths[$i] * $scale, 4);
+        }
+        $diff = self::AVAILABLE_W - array_sum($minWidths);
+        $minWidths[$addressIdx] = round($minWidths[$addressIdx] + $diff, 4);
       }
-      // 丸め誤差を最後のカラムで吸収
-      $diff = self::AVAILABLE_W - array_sum($minWidths);
-      $minWidths[11] = round($minWidths[11] + $diff, 4);
     }
 
     return $minWidths;
