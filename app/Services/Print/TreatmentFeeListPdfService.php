@@ -53,7 +53,7 @@ class TreatmentFeeListPdfService
     $data = $this->fetchData($serviceYearMonth);
 
     // カラム幅を計算
-    $pdf->SetFont('kozgopromedium', '', 11);
+    $pdf->SetFont('kozgopromedium', '', 9);
     $this->colWidths = $this->calcColWidths($pdf, $data);
 
     $outputDate = date('Y-m-d H:i:s');
@@ -139,8 +139,8 @@ class TreatmentFeeListPdfService
       'insurance'  => 0.0,
     ];
 
-    // ヘッダー（12pt）
-    $pdf->SetFont('kozgopromedium', '', 12);
+    // ヘッダー（10pt）
+    $pdf->SetFont('kozgopromedium', '', 10);
     $headerTexts = [
       'name'      => '利用者氏名',
       'treatment' => '施術名',
@@ -153,8 +153,8 @@ class TreatmentFeeListPdfService
       $minW[$key] = max($minW[$key], $pdf->GetStringWidth($label) + $pad);
     }
 
-    // データ（11pt）
-    $pdf->SetFont('kozgopromedium', '', 11);
+    // データ（9pt）
+    $pdf->SetFont('kozgopromedium', '', 9);
     foreach ($data['clinicUsers'] as $user) {
       $name = ($user->last_name ?? '') . "\u{2002}" . ($user->first_name ?? '');
       $minW['name'] = max($minW['name'], $pdf->GetStringWidth($name) + $pad);
@@ -232,10 +232,10 @@ class TreatmentFeeListPdfService
     $colWidths = $this->colWidths;
 
     $totalWidth = array_sum($colWidths);
-    $rowHeight = 8;  // フォントサイズに合わせて6から8に増加
+    $rowHeight = 7;  // 9pt/10ptフォントに合わせた行高
 
     // ヘッダー描画
-    $pdf->SetFont('kozgopromedium', '', 12);
+    $pdf->SetFont('kozgopromedium', '', 10);
     $pdf->SetFillColor(220, 220, 220);
     $pdf->SetLineWidth(0.2);
     // テーブル全体を実線に設定
@@ -251,7 +251,7 @@ class TreatmentFeeListPdfService
     ];
 
     // TCPDFのcell_height_ratio=1.25を考慮した垂直中央配置
-    $headerFontMm  = 12 * 0.352 * 1.25;
+    $headerFontMm  = 10 * 0.352 * 1.25;
     $headerOffsetY = ($rowHeight - $headerFontMm) / 2;
 
     $x = $startX;
@@ -275,10 +275,10 @@ class TreatmentFeeListPdfService
 
     // データ部分
     $pdf->SetFillColor(255, 255, 255);
-    $pdf->SetFont('kozgopromedium', '', 11);
+    $pdf->SetFont('kozgopromedium', '', 9);
 
     // TCPDFのcell_height_ratio=1.25を考慮した垂直中央配置
-    $dataFontMm  = 11 * 0.352 * 1.25;
+    $dataFontMm  = 9 * 0.352 * 1.25;
     $dataOffsetY = ($rowHeight - $dataFontMm) / 2;
 
     $userGroups = $data['userGroups'];
