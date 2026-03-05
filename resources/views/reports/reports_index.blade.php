@@ -54,6 +54,10 @@
           $collapseId = 'year-' . $year;
         @endphp
 
+        @if(!$loop->first)
+          <hr style="border: none; border-top: 3px solid #444; margin: 1.2rem 0;">
+        @endif
+
         <!-- 年ヘッダー（折り畳み・展開ボタン） -->
         <div class="year-header mb-2">
           <button
