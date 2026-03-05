@@ -55,7 +55,7 @@
         <div class="d-flex align-items-center justify-content-center gap-1">
           <button type="button" id="prev-month-btn" style="padding: 0.1em 0.5em; font-size: 1rem; line-height: 1;">◀</button>
           <div class="position-relative" style="display: inline-block;">
-            <div id="calendar-title-display" class="fs-4 fw-bold py-1 d-inline-block" style="cursor: pointer; border: 1px solid #555; border-radius: 4px; padding: 0.05em 0.5em;"></div>
+            <div id="calendar-title-display" class="fs-4 fw-bold py-1 d-inline-block" style="cursor: pointer; background-color: ButtonFace; border: 1px solid #555; border-radius: 4px; padding: 0.05em 0.5em;"></div>
             <select id="calendar-title" class="position-absolute top-0 start-50 translate-middle-x opacity-0" style="cursor: pointer; font-size: 1.5rem; padding: 0.2em 0em; border: none; background: transparent; width: 100%; height: 100%;"></select>
           </div>
           <button type="button" id="next-month-btn" style="padding: 0.1em 0.5em; font-size: 1rem; line-height: 1;">▶</button>
