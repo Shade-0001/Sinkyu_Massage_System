@@ -134,7 +134,9 @@
                 </div>
               @endif
             </div>
-            <hr>
+            @if(!$loop->last)
+              <hr>
+            @endif
           @endforeach
         </div>
       @endforeach
