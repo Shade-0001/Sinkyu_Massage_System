@@ -39,7 +39,7 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
   // ページ座標
   const START_Y_PAGE1 = 30;
   const START_Y_OTHER = 12;
-  const LIST_GAP      = 14;  // 上段・下段リスト間の縦間隔 mm（上側6mm + 下側8mm）
+  const LIST_GAP      = 28;  // 上段・下段リスト間の縦間隔 mm（上側12mm + 下側16mm）
 
   protected function getDefaultCoordinatesPath(): string
   {
@@ -100,7 +100,7 @@ class ClinicUserInsuranceInfoListPdfService extends BasePdfService
 
         // 上段と下段の間に破線を描画（上段の直後のみ）
         if ($slotIndex === 0 && count($group) > 1) {
-          $sepY = $startY + $tableH + 6; // 上側6mm、下側8mm
+          $sepY = $startY + $tableH + 12; // 上側12mm、下側16mm
           $pdf->SetLineStyle(['width' => 0.3, 'dash' => '4,4', 'color' => [100, 100, 100]]);
           $pdf->Line(self::MARGIN_X, $sepY, self::MARGIN_X + self::AVAILABLE_W, $sepY);
           $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
