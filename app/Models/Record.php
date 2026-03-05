@@ -76,6 +76,14 @@ class Record extends Model
 
     $treatmentDates = $relatedRecords->pluck('date')->map(function ($date) {
       return $date->format('Y-m-d');
+    })->filter(function ($d) {
+      // 不正な日付（存在しない日付）を除外
+      try {
+        $dt = new \DateTime($d);
+        return $dt->format('Y-m-d') === $d;
+      } catch (\Exception $e) {
+        return false;
+      }
     })->sort()->values()->toArray();
 
     $therapyPeriodStart = min($treatmentDates);
@@ -149,6 +157,14 @@ class Record extends Model
       // まだrecordsが残っている場合は治療日を更新
       $treatmentDates = $relatedRecords->pluck('date')->map(function ($date) {
         return $date->format('Y-m-d');
+      })->filter(function ($d) {
+        // 不正な日付（存在しない日付）を除外
+        try {
+          $dt = new \DateTime($d);
+          return $dt->format('Y-m-d') === $d;
+        } catch (\Exception $e) {
+          return false;
+        }
       })->sort()->values()->toArray();
 
       $therapyPeriodStart = min($treatmentDates);

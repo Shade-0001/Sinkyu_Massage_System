@@ -120,7 +120,16 @@ class PaymentListPdfService
         $insuranceBillingAmount = $totalAmount - $selfpayAmount;
 
         // 治療期間（最初と最後の施術日）
-        $treatmentDates = $deposit->treatment_dates ?? [];
+        $rawDates = $deposit->treatment_dates ?? [];
+        // 不正な日付文字列を除外（例: 2026-03-32 など）
+        $treatmentDates = array_values(array_filter($rawDates, function ($d) {
+          try {
+            $dt = new \DateTime($d);
+            return $dt->format('Y-m-d') === $d;
+          } catch (\Exception $e) {
+            return false;
+          }
+        }));
         sort($treatmentDates);
         $periodStart = '';
         $periodEnd = '';
