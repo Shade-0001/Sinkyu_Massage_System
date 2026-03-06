@@ -1,6 +1,12 @@
 <div class="d-flex align-items-center gap-3 fw-bold user-select-none" style="height: 2rem;">
-  <!-- トグルボタン -->
-  <button id="sidebar-toggle" class="sidebar-toggle"><i class="nf nf-fa-reorder"></i></button>
+  <!-- トグルボタン (menu02) -->
+  <button id="sidebar-toggle" class="sidebar-toggle hamburger hamburger--menu02" type="button">
+    <span class="hamburger-lines">
+      <span class="hamburger-line hamburger-line--top"></span>
+      <span class="hamburger-line hamburger-line--middle"></span>
+      <span class="hamburger-line hamburger-line--bottom"></span>
+    </span>
+  </button>
 
   <div class="vr opacity-50"></div>
 

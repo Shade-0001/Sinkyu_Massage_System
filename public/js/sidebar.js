@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   if (sidebarState === 'closed') {
     sidebar.classList.add('closed');
+  } else {
+    // 開状態ならトグルボタンにis-activeを付与
+    if (toggleButton) toggleButton.classList.add('is-active');
   }
 
   // 事前読み込み用クラスを削除
@@ -18,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (toggleButton) {
     toggleButton.addEventListener('click', function() {
       sidebar.classList.toggle('closed');
+      toggleButton.classList.toggle('is-active');
 
       // 状態をローカルストレージに保存
       if (sidebar.classList.contains('closed')) {
