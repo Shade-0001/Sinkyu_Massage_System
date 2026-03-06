@@ -65,6 +65,7 @@
   width: 100%;
   height: var(--bar-h);
   left: 0;
+  overflow: hidden;
 }
 
 .sidebar-toggle span::before,
