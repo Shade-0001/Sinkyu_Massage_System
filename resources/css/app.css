@@ -32,19 +32,6 @@
 }
 /*---------------------------------------------------------*/
 
-/* 区切り線 */
-.divider-horizontal {
-  border-top: 1px solid #00000060;
-  margin: 1rem 0;
-  width: 100%;
-}
-
-.divider-vertical {
-  border-left: 1px solid #00000060;
-  margin: 0 1rem;
-  align-self: stretch;
-}
-
 /* ヘッダー内トグルボタン（暗背景対応） */
 .sidebar-toggle {
   background: none;
@@ -60,15 +47,6 @@
   color: #fff;
 }
 
-/* ヘッダー内区切り線（暗背景対応） */
-header .divider-vertical {
-  border-left-color: #ffffff60;
-}
-
-/* サイドバー内区切り線（暗背景対応） */
-.sidebar .divider-horizontal {
-  border-top-color: #ffffff30;
-}
 /*---------------------------------------------------------*/
 
 

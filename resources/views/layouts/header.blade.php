@@ -2,11 +2,11 @@
   <!-- トグルボタン -->
   <button id="sidebar-toggle" class="sidebar-toggle"><i class="nf nf-fa-reorder"></i></button>
 
-  <div class="divider-vertical"></div>
+  <div class="vr opacity-50"></div>
 
   <a href="{{route('index')}}" class="text-light">ホーム</a>
 
-  <div class="divider-vertical"></div>
+  <div class="vr opacity-50"></div>
 
   <form method="POST" action="{{ route('logout') }}" class="m-0">
   @csrf
