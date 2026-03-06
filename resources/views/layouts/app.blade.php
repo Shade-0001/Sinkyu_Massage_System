@@ -7,6 +7,7 @@
 
 		<title>{{ config('app.name', 'Laravel') }}</title>
 
+		<!-- Fonts -->
 		<!-- Google Fonts (Noto Sans JP + M PLUS Rounded 1c) -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
