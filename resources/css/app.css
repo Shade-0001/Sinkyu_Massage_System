@@ -66,7 +66,7 @@
 
 .hamburger-line--top    { top: 0; }
 .hamburger-line--middle { top: 50%; transform: translateY(-50%); }
-.hamburger-line--bottom { bottom: 0; }
+.hamburger-line--bottom { top: 100%; transform: translateY(-100%); }
 
 /* 開状態（サイドバーが open のとき .is-active を付与） */
 .sidebar-toggle.is-active .hamburger-line--top {
@@ -79,7 +79,6 @@
 }
 
 .sidebar-toggle.is-active .hamburger-line--bottom {
-  bottom: auto;
   top: 50%;
   transform: translateY(-50%) rotate(-45deg);
 }
