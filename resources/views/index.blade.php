@@ -10,78 +10,62 @@
     :title="$page_header_title"
   />
 
-  <div class="row g-3 mt-2 mx-1">
-    <div class="col-6">
-      <a class="text-decoration-none text-reset d-flex align-items-center" href="{{ route('records.index') }}">
-        <div class="d-flex align-items-center justify-content-center rounded text-white me-3 fs-2 flex-shrink-0" style="background-color:#e74c3c; width:3.5rem; height:3.5rem;"><i class="nf nf-fa-file_text_o"></i></div>
-        <div>
-          <div class="fs-1 fw-light text-outline-black">実績データ</div>
-          <div class="text-muted small">施術実績の入力・管理</div>
-        </div>
-      </a>
-    </div>
-    <div class="col-6">
-      <a class="text-decoration-none text-reset d-flex align-items-center" href="{{ route('submaster.index') }}">
-        <div class="d-flex align-items-center justify-content-center rounded text-white me-3 fs-2 flex-shrink-0" style="background-color:#27ae60; width:3.5rem; height:3.5rem;"><i class="nf nf-fa-edit"></i></div>
-        <div>
-          <div class="fs-5 text-outline-black">サブマスター登録</div>
-          <div class="text-muted small">医療機関・サービス提供者等の登録・管理</div>
-        </div>
-      </a>
-    </div>
-    <div class="col-6">
-      <a class="text-decoration-none text-reset d-flex align-items-center" href="{{ route('reports.index') }}">
-        <div class="d-flex align-items-center justify-content-center rounded text-white me-3 fs-2 flex-shrink-0" style="background-color:#e67e22; width:3.5rem; height:3.5rem;"><i class="nf nf-md-message_reply_text_outline"></i></div>
-        <div>
-          <div class="fs-5 text-outline-black">報告書データ</div>
-          <div class="text-muted small">各種報告書の作成・管理</div>
-        </div>
-      </a>
-    </div>
-    <div class="col-6">
-      <a class="text-decoration-none text-reset d-flex align-items-center" href="{{ route('prints.index') }}">
-        <div class="d-flex align-items-center justify-content-center rounded text-white me-3 fs-2 flex-shrink-0" style="background-color:#3498db; width:3.5rem; height:3.5rem;"><i class="nf nf-md-printer_outline"></i></div>
-        <div>
-          <div class="fs-5 text-outline-black">印刷メニュー</div>
-          <div class="text-muted small">各種帳票の印刷</div>
-        </div>
-      </a>
-    </div>
-    <div class="col-6">
-      <a class="text-decoration-none text-reset d-flex align-items-center" href="{{ route('schedules.index') }}">
-        <div class="d-flex align-items-center justify-content-center rounded text-white me-3 fs-2 flex-shrink-0" style="background-color:#f1c40f; width:3.5rem; height:3.5rem;"><i class="nf nf-md-calendar_month_outline"></i></div>
-        <div>
-          <div class="fs-5 text-outline-black">スケジュール</div>
-          <div class="text-muted small">施術スケジュールの確認・管理</div>
-        </div>
-      </a>
-    </div>
-    <div class="col-6">
-      <a class="text-decoration-none text-reset d-flex align-items-center" href="{{ route('therapy-periods.index') }}">
-        <div class="d-flex align-items-center justify-content-center rounded text-white me-3 fs-2 flex-shrink-0" style="background-color:#1a6bb5; width:3.5rem; height:3.5rem;"><i class="nf nf-fa-list"></i></div>
-        <div>
-          <div class="fs-5 text-outline-black">要加療期間リスト</div>
-          <div class="text-muted small">加療期間の一覧管理</div>
-        </div>
-      </a>
-    </div>
-    <div class="col-6">
-      <a class="text-decoration-none text-reset d-flex align-items-center" href="{{ route('master.index') }}">
-        <div class="d-flex align-items-center justify-content-center rounded text-white me-3 fs-2 flex-shrink-0" style="background-color:#8bc34a; width:3.5rem; height:3.5rem;"><i class="nf nf-fa-edit"></i></div>
-        <div>
-          <div class="fs-5 text-outline-black">マスター登録</div>
-          <div class="text-muted small">患者・医師・施術者等の登録・管理</div>
-        </div>
-      </a>
-    </div>
-    <div class="col-6">
-      <a class="text-decoration-none text-reset d-flex align-items-center" href="{{ route('deposits.index') }}">
-        <div class="d-flex align-items-center justify-content-center rounded text-white me-3 fs-2 flex-shrink-0" style="background-color:#9b59b6; width:3.5rem; height:3.5rem;"><i class="nf nf-fa-yen"></i></div>
-        <div>
-          <div class="fs-5 text-outline-black">入金管理</div>
-          <div class="text-muted small">入金・支払いの管理</div>
-        </div>
-      </a>
-    </div>
+  <div class="mt-2 mx-1" style="display:grid; grid-template-columns:1fr 1fr; grid-template-rows:repeat(4, auto); grid-auto-flow:column; gap:1rem;">
+    <a class="text-decoration-none text-reset d-flex align-items-center" href="{{ route('records.index') }}">
+      <div class="d-flex align-items-center justify-content-center rounded text-white me-3 fs-2 flex-shrink-0" style="background-color:#e74c3c; width:3.5rem; height:3.5rem;"><i class="nf nf-fa-file_text_o"></i></div>
+      <div>
+        <div class="fs-1 text-outline-black">実績データ</div>
+        <div class="text-muted small">施術実績の入力・管理</div>
+      </div>
+    </a>
+    <a class="text-decoration-none text-reset d-flex align-items-center" href="{{ route('reports.index') }}">
+      <div class="d-flex align-items-center justify-content-center rounded text-white me-3 fs-2 flex-shrink-0" style="background-color:#e67e22; width:3.5rem; height:3.5rem;"><i class="nf nf-md-message_reply_text_outline"></i></div>
+      <div>
+        <div class="fs-1 text-outline-black">報告書データ</div>
+        <div class="text-muted small">各種報告書の作成・管理</div>
+      </div>
+    </a>
+    <a class="text-decoration-none text-reset d-flex align-items-center" href="{{ route('schedules.index') }}">
+      <div class="d-flex align-items-center justify-content-center rounded text-white me-3 fs-2 flex-shrink-0" style="background-color:#f1c40f; width:3.5rem; height:3.5rem;"><i class="nf nf-md-calendar_month_outline"></i></div>
+      <div>
+        <div class="fs-5 text-outline-black">スケジュール</div>
+        <div class="text-muted small">施術スケジュールの確認・管理</div>
+      </div>
+    </a>
+    <a class="text-decoration-none text-reset d-flex align-items-center" href="{{ route('master.index') }}">
+      <div class="d-flex align-items-center justify-content-center rounded text-white me-3 fs-2 flex-shrink-0" style="background-color:#8bc34a; width:3.5rem; height:3.5rem;"><i class="nf nf-fa-edit"></i></div>
+      <div>
+        <div class="fs-5 text-outline-black">マスター登録</div>
+        <div class="text-muted small">患者・医師・施術者等の登録・管理</div>
+      </div>
+    </a>
+    <a class="text-decoration-none text-reset d-flex align-items-center" href="{{ route('submaster.index') }}">
+      <div class="d-flex align-items-center justify-content-center rounded text-white me-3 fs-2 flex-shrink-0" style="background-color:#27ae60; width:3.5rem; height:3.5rem;"><i class="nf nf-fa-edit"></i></div>
+      <div>
+        <div class="fs-5 text-outline-black">サブマスター登録</div>
+        <div class="text-muted small">医療機関・サービス提供者等の登録・管理</div>
+      </div>
+    </a>
+    <a class="text-decoration-none text-reset d-flex align-items-center" href="{{ route('prints.index') }}">
+      <div class="d-flex align-items-center justify-content-center rounded text-white me-3 fs-2 flex-shrink-0" style="background-color:#3498db; width:3.5rem; height:3.5rem;"><i class="nf nf-md-printer_outline"></i></div>
+      <div>
+        <div class="fs-5 text-outline-black">印刷メニュー</div>
+        <div class="text-muted small">各種帳票の印刷</div>
+      </div>
+    </a>
+    <a class="text-decoration-none text-reset d-flex align-items-center" href="{{ route('therapy-periods.index') }}">
+      <div class="d-flex align-items-center justify-content-center rounded text-white me-3 fs-2 flex-shrink-0" style="background-color:#1a6bb5; width:3.5rem; height:3.5rem;"><i class="nf nf-fa-list"></i></div>
+      <div>
+        <div class="fs-5 text-outline-black">要加療期間リスト</div>
+        <div class="text-muted small">加療期間の一覧管理</div>
+      </div>
+    </a>
+    <a class="text-decoration-none text-reset d-flex align-items-center" href="{{ route('deposits.index') }}">
+      <div class="d-flex align-items-center justify-content-center rounded text-white me-3 fs-2 flex-shrink-0" style="background-color:#9b59b6; width:3.5rem; height:3.5rem;"><i class="nf nf-fa-yen"></i></div>
+      <div>
+        <div class="fs-5 text-outline-black">入金管理</div>
+        <div class="text-muted small">入金・支払いの管理</div>
+      </div>
+    </a>
   </div>
 </x-app-layout>
