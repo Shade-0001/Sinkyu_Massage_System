@@ -45,7 +45,7 @@
   --bar-h: 2px;
   --mid-top: calc((var(--hamburger-size) * 0.88 - var(--bar-h)) / 2);
   --tx: calc(var(--hamburger-size) * 0.067);
-  --ty: var(--mid-top);
+  --ty: calc(var(--mid-top) * 0.55);
 
   position: relative;
   width: var(--hamburger-size);
