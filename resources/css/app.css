@@ -109,6 +109,7 @@ html.sidebar-preload-closed .sidebar {
   font-weight: 500;
   color: #444;
   transition: background-color 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
 }
 
 .sidebar-link:hover {
@@ -122,6 +123,7 @@ html.sidebar-preload-closed .sidebar {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  white-space: nowrap;
 }
 
 .submenu-arrow {
