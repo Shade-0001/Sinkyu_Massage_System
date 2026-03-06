@@ -37,11 +37,22 @@
           <li><a href="{{ route('therapists.index') }}" class="submenu-link">施術者</a></li>
           <li><a href="{{ route('caremanagers.index') }}" class="submenu-link">ケアマネ</a></li>
           <li><a href="{{ route('clinic-info.index') }}" class="submenu-link">自社情報</a></li>
-          <li><a href="{{ route('submaster.index') }}" class="submenu-link">サブマスター登録</a></li>
           <li><a href="{{ route('master.documents.index') }}" class="submenu-link">文面編集</a></li>
           <li><a href="{{ route('master.treatment-fees.index') }}" class="submenu-link">施術料金</a></li>
           <li><a href="{{ route('master.self-fees.index') }}" class="submenu-link">自費施術料金</a></li>
           <li><a href="{{ route('master.document-association.index') }}" class="submenu-link">登録済み標準文書の確認･関連付け</a></li>
+        </ul>
+      </li>
+      <li class="border-bottom border-secondary">
+        <div class="sidebar-link sidebar-submenu-toggle" data-target="submaster-submenu">
+          <span><i class="nf nf-fa-edit"></i> サブマスター登録</span>
+          <span class="submenu-arrow">▼</span>
+        </div>
+        <ul id="submaster-submenu" class="submenu">
+          <li><a href="{{ route('submaster.medical-institutions') }}" class="submenu-link">医療機関名</a></li>
+          <li><a href="{{ route('submaster.service-providers') }}" class="submenu-link">サービス事業者名</a></li>
+          <li><a href="{{ route('submaster.conditions') }}" class="submenu-link">発病負傷経過（あんま・マッサージ）</a></li>
+          <li><a href="{{ route('submaster.illnesses-massage') }}" class="submenu-link">傷病名（あんま・マッサージ）</a></li>
         </ul>
       </li>
       <li class="border-bottom border-secondary">
