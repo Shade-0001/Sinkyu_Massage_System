@@ -1,5 +1,3 @@
-<!-- resources/views/clinic-users/insurances/insurances_pdf.blade.php -->
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>

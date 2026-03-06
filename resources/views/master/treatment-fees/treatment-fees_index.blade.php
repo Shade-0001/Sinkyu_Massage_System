@@ -1,5 +1,3 @@
-<!-- resources/views/master/treatment-fees/treatment-fees_index.blade.php -->
-
 <x-app-layout>
   <x-page-header
     :title="$page_header_title"

@@ -1,5 +1,3 @@
-<!-- resources/views/clinic-info/clinic-info_index.blade.php -->
-
 <x-app-layout>
   <x-page-header
     :title="$page_header_title"

@@ -1,5 +1,3 @@
-<!-- resources/views/clinic-users/consents-massage/consents-massage_pdf.blade.php -->
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>

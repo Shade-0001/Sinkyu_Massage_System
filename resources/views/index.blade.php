@@ -1,6 +1,3 @@
-<!-- resources/views/index.blade.php -->
-
-
 <x-app-layout>
   @php
     $page_header_title = 'ホーム';

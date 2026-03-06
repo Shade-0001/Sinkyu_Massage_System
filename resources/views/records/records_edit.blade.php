@@ -1,6 +1,3 @@
-<!-- resources/views/records/records_edit.blade.php -->
-
-
 <x-app-layout>
   <x-page-header
     :title="$page_header_title"

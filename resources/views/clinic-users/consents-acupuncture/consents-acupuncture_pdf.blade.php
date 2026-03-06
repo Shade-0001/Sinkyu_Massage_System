@@ -1,5 +1,3 @@
-<!-- resources/views/clinic-users/consents-acupuncture/consents-acupuncture_pdf.blade.php -->
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>

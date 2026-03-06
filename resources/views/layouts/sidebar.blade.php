@@ -1,6 +1,3 @@
-<!-- resources/views/layouts/sidebar.blade.php -->
-
-
 <aside id="sidebar" class="sidebar border-end border-secondary border-2 bg-body-secondary">
   <div class="border-bottom border-secondary border-2 px-3 py-2">
     <div class="d-flex flex-column gap-2">
@@ -18,18 +15,18 @@
   <nav class="p-0">
     <ul class="list-unstyled p-0 m-0">
       <li class="border-bottom border-secondary">
-        <a href="{{ route('records.index') }}" class="sidebar-link user-select-none"><i class="nf nf-fa-edit"></i> 実績データ</a>
+        <a href="{{ route('records.index') }}" class="sidebar-link user-select-none"><i class="nf nf-fa-edit me-1"></i> 実績データ</a>
       </li>
       <li class="border-bottom border-secondary">
-        <a href="{{ route('reports.index') }}" class="sidebar-link user-select-none"><i class="nf nf-fa-file_text_o"></i> 報告書データ</a>
+        <a href="{{ route('reports.index') }}" class="sidebar-link user-select-none"><i class="nf nf-fa-file_text_o me-1"></i> 報告書データ</a>
       </li>
       <li class="border-bottom border-secondary">
-        <a href="{{ route('schedules.index') }}" class="sidebar-link user-select-none"><i class="nf nf-md-calendar_month_outline"></i> スケジュール</a>
+        <a href="{{ route('schedules.index') }}" class="sidebar-link user-select-none"><i class="nf nf-md-calendar_month_outline me-1"></i> スケジュール</a>
       </li>
       <li class="border-bottom border-secondary">
         <div class="sidebar-link sidebar-submenu-toggle user-select-none" data-target="master-submenu">
-          <span><i class="nf nf-oct-gear"></i> マスター登録</span>
-          <span class="submenu-arrow"><i class="nf nf-fa-chevron_right"></i></span>
+          <span><i class="nf nf-oct-gear me-1"></i> マスター登録</span>
+          <span class="submenu-arrow"><i class="nf nf-md-chevron_down"></i></span>
         </div>
         <ul id="master-submenu" class="submenu">
           <li><a href="{{ route('clinic-users.index') }}" class="submenu-link user-select-none">利用者</a></li>
@@ -45,8 +42,8 @@
       </li>
       <li class="border-bottom border-secondary">
         <div class="sidebar-link sidebar-submenu-toggle user-select-none" data-target="submaster-submenu">
-          <span><i class="nf nf-oct-gear"></i> サブマスター登録</span>
-          <span class="submenu-arrow"><i class="nf nf-fa-chevron_right"></i></span>
+          <span><i class="nf nf-oct-gear me-1"></i> サブマスター登録</span>
+          <span class="submenu-arrow"><i class="nf nf-md-chevron_down"></i></span>
         </div>
         <ul id="submaster-submenu" class="submenu">
           <li><a href="{{ route('submaster.medical-institutions') }}" class="submenu-link user-select-none">医療機関名</a></li>
@@ -56,13 +53,13 @@
         </ul>
       </li>
       <li class="border-bottom border-secondary">
-        <a href="{{ route('prints.index') }}" class="sidebar-link user-select-none"><i class="nf nf-md-printer_outline"></i> 印刷メニュー</a>
+        <a href="{{ route('prints.index') }}" class="sidebar-link user-select-none"><i class="nf nf-md-printer_outline me-1"></i> 印刷メニュー</a>
       </li>
       <li class="border-bottom border-secondary">
-        <a href="{{ route('therapy-periods.index') }}" class="sidebar-link user-select-none"><i class="nf nf-fa-list"></i> 要加療期間リスト</a>
+        <a href="{{ route('therapy-periods.index') }}" class="sidebar-link user-select-none"><i class="nf nf-fa-list me-1"></i> 要加療期間リスト</a>
       </li>
       <li class="border-bottom border-secondary">
-        <a href="{{ route('deposits.index') }}" class="sidebar-link user-select-none"><i class="nf nf-fa-yen"></i> 入金管理</a>
+        <a href="{{ route('deposits.index') }}" class="sidebar-link user-select-none"><i class="nf nf-fa-yen me-1"></i> 入金管理</a>
       </li>
     </ul>
   </nav>

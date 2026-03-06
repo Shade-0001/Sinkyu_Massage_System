@@ -1,6 +1,3 @@
-<!-- resources/views/reports/reports_form.blade.php -->
-
-
 <x-app-layout>
   @php
     // モードに応じたパンくずリスト定義名を決定

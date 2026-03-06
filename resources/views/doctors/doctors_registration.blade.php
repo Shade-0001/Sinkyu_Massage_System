@@ -1,5 +1,3 @@
-<!-- resources/views/doctors/doctors_registration.blade.php -->
-
 <x-app-layout>
   @php
     // モードに応じたパンくずリスト定義名を決定

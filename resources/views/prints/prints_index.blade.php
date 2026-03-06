@@ -1,5 +1,3 @@
-<!-- resources/views/prints/prints_index.blade.php -->
-
 <x-app-layout>
   @php
     $page_header_title = '印刷メニュー';

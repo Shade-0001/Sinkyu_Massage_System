@@ -1,5 +1,3 @@
-<!-- resources/views/master/self-pay-fees/index.blade.php -->
-
 <x-app-layout>
   <x-page-header
     :title="$page_header_title"

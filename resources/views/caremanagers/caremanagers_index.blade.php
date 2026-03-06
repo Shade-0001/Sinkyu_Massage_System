@@ -1,6 +1,3 @@
-<!-- resources/views/caremanagers/caremanagers_index.blade.php -->
-
-
 <x-app-layout>
   <x-page-header
     :title="$page_header_title"

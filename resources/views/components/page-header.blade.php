@@ -1,5 +1,3 @@
-<!-- resources/views/components/page-header.blade.php -->
-
 @props(['title', 'breadcrumbs' => []])
 
 <div class="page-header mb-4">

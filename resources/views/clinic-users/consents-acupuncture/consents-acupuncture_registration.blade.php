@@ -1,5 +1,3 @@
-<!-- resources/views/clinic-users/consents-acupuncture/consents-acupuncture_registration.blade.php -->
-
 <x-app-layout>
   @php
     // モードに応じたパンくずリスト定義名を決定

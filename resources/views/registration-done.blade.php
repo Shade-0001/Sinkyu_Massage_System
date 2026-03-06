@@ -1,6 +1,3 @@
-<!-- resources/views/registration-done.blade.php -->
-
-
 <x-app-layout>
   @if(isset($breadcrumb_name))
     <x-page-header

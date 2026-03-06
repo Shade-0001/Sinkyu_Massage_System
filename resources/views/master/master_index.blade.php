@@ -1,6 +1,3 @@
-<!-- resources/views/master-registration/master-index.blade.php -->
-
-
 <x-app-layout>
   @php
     $page_header_title = 'マスター登録';

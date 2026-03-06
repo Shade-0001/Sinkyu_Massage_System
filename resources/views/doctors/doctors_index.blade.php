@@ -1,6 +1,3 @@
-<!-- resources/views/doctors-info/di-index.blade.php -->
-
-
 <x-app-layout>
   <x-page-header
     title="医師"

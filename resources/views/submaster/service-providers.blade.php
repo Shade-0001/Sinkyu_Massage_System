@@ -1,5 +1,3 @@
-<!-- resources/views/submaster/service-providers.blade.php -->
-
 <x-app-layout>
   <x-page-header
     :title="$page_header_title"

@@ -1,5 +1,3 @@
-<!-- resources/views/user-search.blade.php -->
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
