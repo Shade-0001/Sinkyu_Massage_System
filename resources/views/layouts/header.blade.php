@@ -1,7 +1,7 @@
 <!-- resources/views/layouts/header.blade.php -->
 
 
-<div class="d-flex align-items-center gap-3 fw-bold" style="height: 2rem;">
+<div class="d-flex align-items-center gap-3 fw-bold user-select-none" style="height: 2rem;">
   <!-- トグルボタン -->
   <button id="sidebar-toggle" class="sidebar-toggle">☰</button>
 
