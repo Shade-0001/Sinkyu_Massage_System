@@ -50,7 +50,7 @@
 /* メインコンテンツ - サイドバー開閉時のトランジション */
 .main-content {
   position: absolute;
-  left: 200px;
+  left: 15rem;
   top: 0;
   right: 0;
   bottom: 0;
@@ -79,7 +79,7 @@ html.sidebar-preload-closed .main-content {
   left: 0;
   top: calc(0.5rem * 2 + 1.5rem + 2px);
   bottom: 0;
-  width: 200px;
+  width: 15rem;
   transition: margin-left 0.2s ease;
   overflow-y: auto;
   z-index: 999;
@@ -93,12 +93,12 @@ html.sidebar-preload-closed .main-content {
 
 /* サイドバー格納状態 */
 .sidebar.closed {
-  margin-left: -200px;
+  margin-left: -15rem;
 }
 
 /* ページ読み込み前の格納状態（ちらつき防止） */
 html.sidebar-preload-closed .sidebar {
-  margin-left: -200px;
+  margin-left: -15rem;
 }
 
 /* サイドバーリンク - カスタムスタイル（ホバーエフェクト含む） */
@@ -132,7 +132,7 @@ html.sidebar-preload-closed .sidebar {
 }
 
 .submenu-arrow.rotated {
-  transform: rotate(90deg);
+  transform: scaleY(-1);
 }
 
 /* サブメニュー */
