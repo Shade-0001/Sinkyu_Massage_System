@@ -42,7 +42,7 @@
 
 .sidebar-toggle {
   --hamburger-size: 30px;
-  --bar-h: 2px;
+  --bar-h: 4px;
   --mid-top: calc((var(--hamburger-size) * 0.88 - var(--bar-h)) / 2);
   --tx: calc(var(--hamburger-size) * 0.067);
   --ty: calc(var(--mid-top) * 0.55);
