@@ -1,6 +1,6 @@
 <div class="d-flex align-items-center gap-3 fw-bold user-select-none" style="height: 2rem;">
-  <!-- トグルボタン (menu02) -->
-  <button id="sidebar-toggle" class="sidebar-toggle hamburger hamburger--menu02" type="button">
+  <!-- トグルボタン -->
+  <button id="sidebar-toggle" class="sidebar-toggle hamburger" type="button">
     <span class="hamburger-lines">
       <span class="hamburger-line hamburger-line--top"></span>
       <span class="hamburger-line hamburger-line--middle"></span>
