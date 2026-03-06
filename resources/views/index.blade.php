@@ -48,6 +48,15 @@
       </a>
     </li>
     <li class="mb-3">
+      <a class="text-decoration-none text-reset d-flex align-items-center" href="{{ route('submaster.index') }}">
+        <div class="d-flex align-items-center justify-content-center rounded text-white me-3 fs-2 flex-shrink-0" style="background-color:#1abc9c; width:3.5rem; height:3.5rem;"><i class="nf nf-fa-edit"></i></div>
+        <div>
+          <div class="fs-5 text-outline-black">サブマスター登録</div>
+          <div class="text-muted small">医療機関・サービス提供者等の登録・管理</div>
+        </div>
+      </a>
+    </li>
+    <li class="mb-3">
       <a class="text-decoration-none text-reset d-flex align-items-center" href="{{ route('prints.index') }}">
         <div class="d-flex align-items-center justify-content-center rounded text-white me-3 fs-2 flex-shrink-0" style="background-color:#3498db; width:3.5rem; height:3.5rem;"><i class="nf nf-md-printer_outline"></i></div>
         <div>
