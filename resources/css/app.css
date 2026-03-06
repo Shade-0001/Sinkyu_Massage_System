@@ -33,54 +33,81 @@
 /*---------------------------------------------------------*/
 
 /* ヘッダー内トグルボタン（ハンバーガー） */
+.sidebar-toggle,
+.sidebar-toggle span {
+  display: inline-block;
+  box-sizing: border-box;
+}
+
 .sidebar-toggle {
+  position: relative;
+  width: 30px;
+  height: 26px;
   background: none;
   border: none;
-  padding: 0;
+  appearance: none;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.hamburger-lines {
-  display: inline-block;
-  width: 1.4rem;
-  height: 1.1rem;
-  position: relative;
+.sidebar-toggle:focus:not(:focus-visible) {
+  outline: none;
 }
 
-.hamburger-line {
-  display: block;
+.sidebar-toggle span {
+  position: absolute;
   width: 100%;
   height: 2px;
-  background-color: #ccc;
-  position: absolute;
   left: 0;
-  transition: transform 0.4s, top 0.4s, opacity 0.4s, background-color 0.2s;
 }
 
-.sidebar-toggle:hover .hamburger-line {
-  background-color: #fff;
+.sidebar-toggle span::before,
+.sidebar-toggle span::after {
+  content: '';
+  position: absolute;
+  width: 51%;
+  height: 2px;
+  background: #ccc;
+  transition: .2s;
 }
 
-.hamburger-line--top    { top: 0; }
-.hamburger-line--middle { top: 50%; transform: translateY(-50%); }
-.hamburger-line--bottom { top: 100%; transform: translateY(-100%); }
-
-/* 開状態（サイドバーが open のとき .is-active を付与） */
-.sidebar-toggle.is-active .hamburger-line--top {
-  top: 50%;
-  transform: translateY(-50%) rotate(45deg);
+.sidebar-toggle:hover span::before,
+.sidebar-toggle:hover span::after {
+  background: #fff;
 }
 
-.sidebar-toggle.is-active .hamburger-line--middle {
+.sidebar-toggle span::before {
+  left: 0;
+  border-radius: 2px 0 0 2px;
+}
+
+.sidebar-toggle span::after {
+  right: 0;
+  border-radius: 0 2px 2px 0;
+}
+
+.sidebar-toggle span:nth-of-type(1) { top: 0; }
+.sidebar-toggle span:nth-of-type(2) { top: 12px; }
+.sidebar-toggle span:nth-of-type(3) { bottom: 0; }
+
+.sidebar-toggle.active span:nth-of-type(1)::before {
+  transform: translate(2px, 7px) rotate(45deg);
+}
+.sidebar-toggle.active span:nth-of-type(1)::after {
+  transform: translate(-2px, 7px) rotate(-45deg);
+}
+.sidebar-toggle.active span:nth-of-type(2)::before {
+  transform: translateX(-75%);
   opacity: 0;
 }
-
-.sidebar-toggle.is-active .hamburger-line--bottom {
-  top: 50%;
-  transform: translateY(-50%) rotate(-45deg);
+.sidebar-toggle.active span:nth-of-type(2)::after {
+  transform: translateX(75%);
+  opacity: 0;
+}
+.sidebar-toggle.active span:nth-of-type(3)::before {
+  transform: translate(2px, -7px) rotate(-45deg);
+}
+.sidebar-toggle.active span:nth-of-type(3)::after {
+  transform: translate(-2px, -7px) rotate(45deg);
 }
 
 /*---------------------------------------------------------*/
