@@ -45,11 +45,11 @@
   --bar-h: 2px;
   --mid-top: calc((var(--hamburger-size) - var(--bar-h)) / 2);
   --tx: calc(var(--hamburger-size) * 0.067);
-  --ty: calc(var(--mid-top) / 2);
+  --ty: var(--mid-top);
 
   position: relative;
   width: var(--hamburger-size);
-  height: var(--hamburger-size);
+  height: calc(var(--hamburger-size) * 0.867);
   background: none;
   border: none;
   appearance: none;
