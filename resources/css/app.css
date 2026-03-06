@@ -129,6 +129,10 @@ html.sidebar-preload-closed .sidebar {
   transition: transform 0.2s ease;
 }
 
+.submenu-arrow.rotated {
+  transform: rotate(90deg);
+}
+
 /* サブメニュー */
 .submenu {
   list-style: none;

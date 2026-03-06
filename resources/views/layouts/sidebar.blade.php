@@ -29,7 +29,7 @@
       <li class="border-bottom border-secondary">
         <div class="sidebar-link sidebar-submenu-toggle" data-target="master-submenu">
           <span><i class="nf nf-oct-gear"></i> マスター登録</span>
-          <span class="submenu-arrow">▼</span>
+          <span class="submenu-arrow"><i class="nf nf-fa-chevron_right"></i></span>
         </div>
         <ul id="master-submenu" class="submenu">
           <li><a href="{{ route('clinic-users.index') }}" class="submenu-link">利用者</a></li>
@@ -46,7 +46,7 @@
       <li class="border-bottom border-secondary">
         <div class="sidebar-link sidebar-submenu-toggle" data-target="submaster-submenu">
           <span><i class="nf nf-oct-gear"></i> サブマスター登録</span>
-          <span class="submenu-arrow">▼</span>
+          <span class="submenu-arrow"><i class="nf nf-fa-chevron_right"></i></span>
         </div>
         <ul id="submaster-submenu" class="submenu">
           <li><a href="{{ route('submaster.medical-institutions') }}" class="submenu-link">医療機関名</a></li>

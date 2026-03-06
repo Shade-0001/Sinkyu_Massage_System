@@ -55,12 +55,12 @@ document.addEventListener('DOMContentLoaded', function() {
           submenu.style.maxHeight = '0';
         }, 10);
         submenu.classList.remove('open');
-        arrow.textContent = '▼';
+        arrow.classList.remove('rotated');
       } else {
         // 展開
         submenu.classList.add('open');
         submenu.style.maxHeight = submenu.scrollHeight + 'px';
-        arrow.textContent = '▲';
+        arrow.classList.add('rotated');
 
         // アニメーション完了後にmax-heightをautoに設定（リサイズ対応）
         submenu.addEventListener('transitionend', function handler() {
@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const parentToggle = document.querySelector(`[data-target="${parentSubmenu.id}"]`);
         if (parentToggle) {
           const arrow = parentToggle.querySelector('.submenu-arrow');
-          arrow.textContent = '▲';
+          arrow.classList.add('rotated');
         }
 
         // 次のフレームでアニメーション開始
