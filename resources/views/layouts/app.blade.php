@@ -7,13 +7,16 @@
 
 		<title>{{ config('app.name', 'Laravel') }}</title>
 
-		<!-- Google Fonts (Noto Sans JP) -->
+		<!-- Google Fonts (Noto Sans JP + M PLUS Rounded 1c) -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">		
+		<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=M+PLUS+Rounded+1c:wght@500&display=swap" rel="stylesheet">		
 
 		<!-- Bootstrap CSS -->
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+		<!-- Nerd Fonts (Webfont) -->
+		<link rel="stylesheet" href="https://www.nerdfonts.com/assets/css/webfont.css">
 
 		<!-- DataTables CSS -->
 		<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">

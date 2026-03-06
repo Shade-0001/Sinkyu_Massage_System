@@ -22,6 +22,15 @@
 }
 /*---------------------------------------------------------*/
 
+/* 白文字 + 黒縁取り */
+.text-outline-black {
+  color: #ffffff;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  -webkit-text-stroke: 7px #333;
+  paint-order: stroke fill;
+}
+/*---------------------------------------------------------*/
+
 
 
 

@@ -29,7 +29,7 @@ class TherapyDeadlineListPdfService extends BasePdfService
   protected function calcColWidths(Fpdi $pdf, array $data): array
   {
     $pad     = 1.6 * 2;
-    $availW  = 194;
+    $availW  = 281;
     $wrapKey = 'institution';
 
     $headers = [
@@ -97,7 +97,7 @@ class TherapyDeadlineListPdfService extends BasePdfService
    */
   public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate = '', string $remarks = ''): string
   {
-    $pdf = new Fpdi('P', 'mm', 'A4', true, 'UTF-8', false);
+    $pdf = new Fpdi('L', 'mm', 'A4', true, 'UTF-8', false);
     $pdf->SetAutoPageBreak(false);
     $pdf->SetMargins(0, 0, 0);
     $pdf->setPrintHeader(false);
@@ -108,7 +108,9 @@ class TherapyDeadlineListPdfService extends BasePdfService
     $data = $this->fetchData($serviceYearMonth);
     $pdf->SetFont('kozgopromedium', '', 9);
     $this->colWidths = $this->calcColWidths($pdf, $data);
-    $this->renderPdf($pdf, $data, $serviceYearMonth);
+
+    $outputDate = date('Y-m-d H:i:s');
+    $this->renderPdf($pdf, $data, $serviceYearMonth, $outputDate);
 
     return $pdf->Output('', 'S');
   }
@@ -127,8 +129,8 @@ class TherapyDeadlineListPdfService extends BasePdfService
 
     // テーブル別定義
     $tables = [
-      'consents_acupuncture' => 'HK',
-      'consents_massage'     => 'AM',
+      'consents_acupuncture' => 'ＨＫ',
+      'consents_massage'     => 'ＡＭ',
     ];
 
     foreach ($tables as $table => $division) {
@@ -174,12 +176,12 @@ class TherapyDeadlineListPdfService extends BasePdfService
   /**
    * PDFを描画
    */
-  protected function renderPdf(Fpdi $pdf, array $data, string $targetYearMonth): void
+  protected function renderPdf(Fpdi $pdf, array $data, string $targetYearMonth, string $outputDate = ''): void
   {
-    // A4縦：210mm × 297mm、左右マージン8mmで利用可能幅194mm
+    // A4横：297mm × 210mm、左右マージン8mmで利用可能幅281mm
     $startX         = 8;
     $startY         = 30;
-    $availableWidth = 194;
+    $availableWidth = 281;
     $rowHeight      = 7;
 
     $pdf->SetTextColor(0, 0, 0);
@@ -194,6 +196,15 @@ class TherapyDeadlineListPdfService extends BasePdfService
     $titleYearMonthWidth = $pdf->GetStringWidth($titleYearMonth);
     $oneCharWidth        = $pdf->GetStringWidth('年');
     $pdf->Text($startX + $availableWidth - $titleYearMonthWidth - $oneCharWidth, 15, $titleYearMonth);
+
+    // PDF出力日時（右上）
+    if ($outputDate) {
+      $ts      = strtotime($outputDate);
+      $dateStr = '〈 PDF出力日時 │ ' . date('Y/m/d', $ts) . "\u{2002}" . date('H:i', $ts) . ' 〉';
+      $pdf->SetFont('kozgopromedium', '', 8);
+      $pdf->SetXY($startX, 6);
+      $pdf->Cell($availableWidth, 0, $dateStr, 0, 0, 'R');
+    }
 
     // カラム幅（自動計算）
     $colWidths = $this->colWidths;
@@ -243,8 +254,8 @@ class TherapyDeadlineListPdfService extends BasePdfService
     $rows = $data['rows'];
 
     foreach ($rows as $row) {
-      // A4縦の有効高：297mm、下マージン10mm → 287mm まで
-      if ($currentY + $rowHeight > 287) {
+      // A4横の有効高：210mm、下マージン10mm → 200mm まで
+      if ($currentY + $rowHeight > 200) {
         $pdf->AddPage();
         $currentY = 20;
       }

@@ -9,7 +9,7 @@ use App\Models\Deposit;
 /**
  * 入金管理表（保険）PDF生成サービス
  */
-class PaymentListPdfService
+class PaymentListPdfService extends BasePdfService
 {
   /**
    * therapy_content_id → treatment_feesカラム名マッピング
@@ -32,16 +32,29 @@ class PaymentListPdfService
    */
   protected $ratioMap = [1 => 0.1, 2 => 0.2, 3 => 0.3];
 
+  protected function getDefaultCoordinatesPath(): string
+  {
+    return storage_path('app/config/payment_list_coordinates.json');
+  }
+
+  protected function getDefaultCoordinates(): array
+  {
+    return [];
+  }
+
   // 動的カラム幅（generate()内で確定）
   protected array $colWidths = [];
 
   /**
    * PDF生成
    *
+   * @param array  $clinicUserIds    （未使用 — BasePdfServiceとのシグネチャ統一のため保持）
    * @param string $serviceYearMonth サービス提供年月（Y-m形式）
+   * @param string $submissionDate   （未使用）
+   * @param string $remarks          （未使用）
    * @return string PDFバイナリ
    */
-  public function generate(string $serviceYearMonth): string
+  public function generate(array $clinicUserIds = [], string $serviceYearMonth = '', string $submissionDate = '', string $remarks = ''): string
   {
     // A4横向き
     $pdf = new Fpdi('L', 'mm', 'A4', true, 'UTF-8', false);
@@ -56,7 +69,14 @@ class PaymentListPdfService
     $data       = $this->fetchData($serviceYearMonth);
     $pdf->SetFont('kozgopromedium', '', 9);
     $this->colWidths = $this->calcColWidths($pdf, $data);
-    $this->renderPdf($pdf, $data, $serviceYearMonth, $outputDate);
+    $listHeaders = $this->renderPdf($pdf, $data, $serviceYearMonth, $outputDate);
+
+    // リスト番号を後処理で描画
+    $totalLists = count($listHeaders);
+    foreach ($listHeaders as $idx => $lh) {
+      $pdf->setPage($lh['page']);
+      $this->drawListNumber($pdf, $idx + 1, $totalLists, $lh['y'], $lh['x']);
+    }
 
     // 2ページ以上の場合、全ページにページ番号を描画（後処理）
     $totalPages = $pdf->getNumPages();
@@ -120,7 +140,16 @@ class PaymentListPdfService
         $insuranceBillingAmount = $totalAmount - $selfpayAmount;
 
         // 治療期間（最初と最後の施術日）
-        $treatmentDates = $deposit->treatment_dates ?? [];
+        $rawDates = $deposit->treatment_dates ?? [];
+        // 不正な日付文字列を除外（例: 2026-03-32 など）
+        $treatmentDates = array_values(array_filter($rawDates, function ($d) {
+          try {
+            $dt = new \DateTime($d);
+            return $dt->format('Y-m-d') === $d;
+          } catch (\Exception $e) {
+            return false;
+          }
+        }));
         sort($treatmentDates);
         $periodStart = '';
         $periodEnd = '';
@@ -137,7 +166,7 @@ class PaymentListPdfService
         }
 
         // 施術種別テキスト
-        $therapyText = $deposit->treatment_type == 1 ? '鍼灸' : '按摩';
+        $therapyText = $deposit->treatment_type == 1 ? 'ＨＫ' : 'ＡＭ';
 
         // 入金日フォーマット（元号年 月 日）
         if ($deposit->deposit_date) {
@@ -187,9 +216,13 @@ class PaymentListPdfService
    */
   protected function calcColWidths(Fpdi $pdf, array $data): array
   {
-    $pad     = 1.6 * 2;
+    $pad    = 1 + 1 + 1;     // 通常カラム用パッド：左1mm + 右1mm + 安全マージン1mm = 3mm
+    $numPad = 4 + 2 + 1;    // 数値カラム用パッド：左4mm + 右2mm + 安全マージン1mm = 7mm
     $availW  = 281;
     $wrapKey = 'insurer';
+
+    // 数値右揃えカラム（描画時に $padding=2 が適用されるカラム）
+    $numKeys = ['total', 'selfpay', 'billing', 'deposit'];
 
     $headers = [
       'no'       => 'No.',
@@ -197,7 +230,7 @@ class PaymentListPdfService
       'insured'  => '被保険者氏名',
       'user'     => '受療者氏名',
       'period'   => '治療期間',
-      'therapy'  => '施術',
+      'therapy'  => '区分',
       'total'    => '療養費',
       'selfpay'  => '自己負担額',
       'billing'  => '保険請求額',
@@ -208,7 +241,7 @@ class PaymentListPdfService
     $pdf->SetFont('kozgopromedium', '', 10);
     $minW = [];
     foreach ($headers as $key => $label) {
-      $minW[$key] = $pdf->GetStringWidth($label) + $pad;
+      $minW[$key] = $pdf->GetStringWidth($label) + (in_array($key, $numKeys) ? $numPad : $pad);
     }
 
     $pdf->SetFont('kozgopromedium', '', 9);
@@ -226,7 +259,22 @@ class PaymentListPdfService
         'dep_date' => $row['deposit_date'],
       ];
       foreach ($texts as $key => $text) {
-        $minW[$key] = max($minW[$key], $pdf->GetStringWidth($text) + $pad);
+        $p = in_array($key, $numKeys) ? $numPad : $pad;
+        $minW[$key] = max($minW[$key], $pdf->GetStringWidth($text) + $p);
+      }
+    }
+
+    // 総計行の値も幅計算に含める（データ行合計が6桁以上になる場合にはみ出し防止）
+    $grandTotal   = array_sum(array_column($data['rows'], 'total_amount'));
+    $grandSelfpay = array_sum(array_column($data['rows'], 'selfpay_amount'));
+    $grandBilling = array_sum(array_column($data['rows'], 'insurance_billing_amount'));
+    foreach ([
+      'total'   => $grandTotal > 0 ? number_format($grandTotal) : '',
+      'selfpay' => $grandSelfpay > 0 ? number_format($grandSelfpay) : '',
+      'billing' => $grandBilling > 0 ? number_format($grandBilling) : '',
+    ] as $key => $text) {
+      if ($text !== '') {
+        $minW[$key] = max($minW[$key], $pdf->GetStringWidth($text) + $numPad);
       }
     }
 
@@ -256,7 +304,7 @@ class PaymentListPdfService
   /**
    * PDFを描画
    */
-  protected function renderPdf(Fpdi $pdf, array $data, string $serviceYearMonth, string $outputDate = ''): void
+  protected function renderPdf(Fpdi $pdf, array $data, string $serviceYearMonth, string $outputDate = ''): array
   {
     // A4横向き：297mm × 210mm、左右マージン8mmで利用可能幅281mm
     $startX        = 8;
@@ -269,7 +317,7 @@ class PaymentListPdfService
 
     // タイトル（左上）
     $pdf->SetFont('kozgopromedium', '', 17);
-    $pdf->Text($startX, 15, '入金管理表（保険扱い）');
+    $pdf->Text($startX, 12, '入金管理表（保険扱い）');
 
     // 元号年月（右上）
     $titleYearMonth = $this->formatJapaneseYearMonth($serviceYearMonth);
@@ -296,7 +344,7 @@ class PaymentListPdfService
       ['text' => '被保険者氏名', 'key' => 'insured'],
       ['text' => '受療者氏名',  'key' => 'user'],
       ['text' => '治療期間',    'key' => 'period'],
-      ['text' => '施術',        'key' => 'therapy'],
+      ['text' => '区分',        'key' => 'therapy'],
       ['text' => '療養費',      'key' => 'total'],
       ['text' => '自己負担額',  'key' => 'selfpay'],
       ['text' => '保険請求額',  'key' => 'billing'],
@@ -308,6 +356,7 @@ class PaymentListPdfService
 
     // ヘッダー行描画クロージャ
     $renderHeaderRow = function (float $y) use ($pdf, $startX, $colWidths, $headers, $rowHeight): void {
+      // 注意: $y は float で渡すため、&参照は不可能
       $pdf->SetFont('kozgopromedium', '', 10);
       $pdf->SetFillColor(220, 220, 220);
       $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
@@ -328,7 +377,12 @@ class PaymentListPdfService
         $pdf->Line($x + $w, $y,              $x + $w, $y + $rowHeight);
         $x += $w;
       }
+      // ヘッダー描画後はデータ行用の9ptに戻す
+      $pdf->SetFont('kozgopromedium', '', 9);
     };
+
+    // 最初のページのリストヘッダー座標を記録
+    $listHeaders = [['page' => $pdf->getPage(), 'y' => $currentY, 'x' => $startX]];
 
     $renderHeaderRow($currentY);
 
@@ -356,6 +410,7 @@ class PaymentListPdfService
       if ($currentY + $rowHeight > 200) {
         $pdf->AddPage();
         $currentY = 20;
+        $listHeaders[] = ['page' => $pdf->getPage(), 'y' => $currentY, 'x' => $startX];
         $renderHeaderRow($currentY);
         $currentY += $rowHeight;
       }
@@ -394,11 +449,12 @@ class PaymentListPdfService
           $align = 'L';
         }
 
-        // 数値右揃えのパディング
-        $padding = in_array($key, $rightAlignKeys) ? 1 : 0;
+        // パディング（数値：左4mm・右2mm、その他：左右1mm）
+        $paddingL = in_array($key, $rightAlignKeys) ? 4 : 1;
+        $paddingR = in_array($key, $rightAlignKeys) ? 2 : 1;
 
         // テキスト幅がセル幅を超える場合はフォントサイズを縮小
-        $cellInnerW = $w - $padding * 2 - 1;
+        $cellInnerW = $w - $paddingL - $paddingR - 1;
         $baseFontSize = 9;
         $fontSize = $baseFontSize;
         if ($text !== '' && $pdf->GetStringWidth($text) > $cellInnerW) {
@@ -409,8 +465,8 @@ class PaymentListPdfService
           }
         }
 
-        $pdf->SetXY($x + $padding, $currentY + $dataOffsetY);
-        $pdf->Cell($w - $padding * 2, 0, $text, 0, 0, $align, false);
+        $pdf->SetXY($x + $paddingL, $currentY + $dataOffsetY);
+        $pdf->Cell($w - $paddingL - $paddingR, 0, $text, 0, 0, $align, false);
 
         // フォントサイズを元に戻す
         if ($fontSize !== $baseFontSize) {
@@ -434,6 +490,7 @@ class PaymentListPdfService
     if ($currentY + $rowHeight > 200) {
       $pdf->AddPage();
       $currentY = 20;
+      $listHeaders[] = ['page' => $pdf->getPage(), 'y' => $currentY, 'x' => $startX];
       $renderHeaderRow($currentY);
       $currentY += $rowHeight;
     }
@@ -454,12 +511,13 @@ class PaymentListPdfService
       $w   = $colWidths[$key];
 
       if (array_key_exists($key, $totalCells)) {
-        $text    = $totalCells[$key];
-        $align   = ($key === 'therapy') ? 'C' : 'R';
-        $padding = ($key !== 'therapy') ? 1 : 0;
+        $text     = $totalCells[$key];
+        $align    = ($key === 'therapy') ? 'C' : 'R';
+        $paddingL = ($key !== 'therapy') ? 4 : 1;
+        $paddingR = ($key !== 'therapy') ? 2 : 1;
 
-        $pdf->SetXY($x + $padding, $currentY + $dataOffsetY);
-        $pdf->Cell($w - $padding * 2, 0, $text, 0, 0, $align, false);
+        $pdf->SetXY($x + $paddingL, $currentY + $dataOffsetY);
+        $pdf->Cell($w - $paddingL - $paddingR, 0, $text, 0, 0, $align, false);
 
         // 枠線
         $pdf->Line($x,      $currentY,             $x + $w, $currentY);
@@ -470,6 +528,8 @@ class PaymentListPdfService
 
       $x += $w;
     }
+
+    return $listHeaders;
   }
 
   /**

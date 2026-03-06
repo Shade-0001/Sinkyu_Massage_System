@@ -463,7 +463,7 @@ class PrintsController extends Controller
       // サービスに施術タイプを設定
       $service->setReceiptType($receiptType);
 
-      $pdfBinary = $service->generate($validated['service_year_month']);
+      $pdfBinary = $service->generate([], $validated['service_year_month']);
 
       \Log::info("{$typeName}PDF生成完了", ['size' => strlen($pdfBinary)]);
 
@@ -507,7 +507,7 @@ class PrintsController extends Controller
         'service_year_month' => $validated['service_year_month'],
       ]);
 
-      $pdfBinary = $service->generate($validated['service_year_month']);
+      $pdfBinary = $service->generate([], $validated['service_year_month']);
 
       \Log::info("施術料金一覧表（自費）PDF生成完了", ['size' => strlen($pdfBinary)]);
 
@@ -551,7 +551,7 @@ class PrintsController extends Controller
       ]);
 
       $service = new \App\Services\Print\PaymentListPdfService();
-      $pdfBinary = $service->generate($validated['service_year_month']);
+      $pdfBinary = $service->generate([], $validated['service_year_month']);
 
       \Log::info("入金管理表（保険）PDF生成完了", ['size' => strlen($pdfBinary)]);
 

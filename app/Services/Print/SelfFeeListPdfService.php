@@ -8,13 +8,16 @@ use Illuminate\Support\Facades\DB;
 /**
  * 施術料金一覧表（自費）PDF生成サービス
  */
-class SelfFeeListPdfService
+class SelfFeeListPdfService extends BasePdfService
 {
-  /**
-   * コンストラクタ
-   */
-  public function __construct()
+  protected function getDefaultCoordinatesPath(): string
   {
+    return storage_path('app/config/self_fee_list_coordinates.json');
+  }
+
+  protected function getDefaultCoordinates(): array
+  {
+    return [];
   }
 
   // 動的カラム幅（generate()内で確定）
@@ -23,10 +26,13 @@ class SelfFeeListPdfService
   /**
    * PDF生成
    *
+   * @param array  $clinicUserIds    （未使用 — BasePdfServiceとのシグネチャ統一のため保持）
    * @param string $serviceYearMonth サービス提供年月（Y-m形式）
+   * @param string $submissionDate   （未使用）
+   * @param string $remarks          （未使用）
    * @return string PDFバイナリ
    */
-  public function generate(string $serviceYearMonth): string
+  public function generate(array $clinicUserIds = [], string $serviceYearMonth = '', string $submissionDate = '', string $remarks = ''): string
   {
     $pdf = new Fpdi('P', 'mm', 'A4', true, 'UTF-8', false);
     $pdf->SetAutoPageBreak(false);
@@ -43,8 +49,17 @@ class SelfFeeListPdfService
     $pdf->SetFont('kozgopromedium', '', 11);
     $this->colWidths = $this->calcColWidths($pdf, $data);
 
+    $outputDate = date('Y-m-d H:i:s');
+
     // PDFを描画
-    $this->renderPdf($pdf, $data, $serviceYearMonth);
+    $listHeaders = $this->renderPdf($pdf, $data, $serviceYearMonth, $outputDate);
+
+    // リスト番号を後処理で描画
+    $totalLists = count($listHeaders);
+    foreach ($listHeaders as $idx => $lh) {
+      $pdf->setPage($lh['page']);
+      $this->drawListNumber($pdf, $idx + 1, $totalLists, $lh['y'], $lh['x']);
+    }
 
     // 2ページ以上の場合、全ページにページ番号を描画（後処理）
     $totalPages = $pdf->getNumPages();
@@ -163,7 +178,7 @@ class SelfFeeListPdfService
   /**
    * PDFを描画
    */
-  protected function renderPdf(Fpdi $pdf, array $data, string $serviceYearMonth): void
+  protected function renderPdf(Fpdi $pdf, array $data, string $serviceYearMonth, string $outputDate = ''): array
   {
     $pdf->SetFont('kozgopromedium', '', 13);
     $pdf->SetTextColor(0, 0, 0);
@@ -179,7 +194,7 @@ class SelfFeeListPdfService
     // タイトル（テーブルの左辺に揃える）
     $titleText = '施術料金一覧表（自費）';
     $pdf->SetFont('kozgopromedium', '', 17);
-    $pdf->Text($startX, 15, $titleText);
+    $pdf->Text($startX, 12, $titleText);
 
     // 元号年月（テーブルの右辺に揃える、全角1文字分左にズラす）
     $titleYearMonth = $this->formatJapaneseYearMonth($serviceYearMonth);
@@ -187,6 +202,15 @@ class SelfFeeListPdfService
     $titleYearMonthWidth = $pdf->GetStringWidth($titleYearMonth);
     $oneCharWidth = $pdf->GetStringWidth('年'); // 全角1文字分の幅を取得
     $pdf->Text($startX + $availableWidth - $titleYearMonthWidth - $oneCharWidth, 15, $titleYearMonth);
+
+    // PDF出力日時（右上）
+    if ($outputDate) {
+      $ts      = strtotime($outputDate);
+      $dateStr = '〈 PDF出力日時 │ ' . date('Y/m/d', $ts) . "\u{2002}" . date('H:i', $ts) . ' 〉';
+      $pdf->SetFont('kozgopromedium', '', 8);
+      $pdf->SetXY($startX, 6);
+      $pdf->Cell($availableWidth, 0, $dateStr, 0, 0, 'R');
+    }
 
     // テーブル描画開始
     $availableWidth = 194;
@@ -197,42 +221,11 @@ class SelfFeeListPdfService
     $totalWidth = array_sum($colWidths);
     $rowHeight = 8;  // フォントサイズに合わせて6から8に増加
 
+    // 最初のページのリストヘッダー座標を記録
+    $listHeaders = [['page' => $pdf->getPage(), 'y' => $currentY, 'x' => $startX]];
+
     // ヘッダー描画
-    $pdf->SetFont('kozgopromedium', '', 12);
-    $pdf->SetFillColor(220, 220, 220);
-    $pdf->SetLineWidth(0.2);
-    // テーブル全体を実線に設定
-    $pdf->SetLineStyle(array('width' => 0.2, 'dash' => 0, 'color' => array(0, 0, 0)));
-
-    $headers = [
-      ['text' => '利用者氏名', 'width' => $colWidths['name']],
-      ['text' => '施術名', 'width' => $colWidths['treatment']],
-      ['text' => '回数', 'width' => $colWidths['count']],
-      ['text' => '料金', 'width' => $colWidths['fee']],
-    ];
-
-    // TCPDFのcell_height_ratio=1.25を考慮した垂直中央配置
-    $headerFontMm  = 12 * 0.352 * 1.25;
-    $headerOffsetY = ($rowHeight - $headerFontMm) / 2;
-
-    $x = $startX;
-    foreach ($headers as $header) {
-      // 背景色を塗りつぶし（枠線なし）
-      $pdf->Rect($x, $currentY, $header['width'], $rowHeight, 'F');
-      $pdf->setCellPaddings(0, 0, 0, 0);
-      $pdf->SetXY($x, $currentY + $headerOffsetY);
-      $pdf->Cell($header['width'], 0, $header['text'], 0, 0, 'C', false);
-
-      // 枠線を手動描画
-      $pdf->Line($x, $currentY, $x + $header['width'], $currentY); // 上
-      $pdf->Line($x, $currentY + $rowHeight, $x + $header['width'], $currentY + $rowHeight); // 下
-      $pdf->Line($x, $currentY, $x, $currentY + $rowHeight); // 左
-      $pdf->Line($x + $header['width'], $currentY, $x + $header['width'], $currentY + $rowHeight); // 右
-
-      $x += $header['width'];
-    }
-
-    $currentY += $rowHeight;
+    $this->renderTableHeader($pdf, $currentY, $rowHeight, $colWidths);
 
     // データ部分
     $pdf->SetFillColor(255, 255, 255);
@@ -364,6 +357,8 @@ class SelfFeeListPdfService
         if ($currentY > 270) {
           $pdf->AddPage();
           $currentY = 20;
+          $listHeaders[] = ['page' => $pdf->getPage(), 'y' => $currentY, 'x' => $startX];
+          $this->renderTableHeader($pdf, $currentY, $rowHeight, $colWidths);
         }
       }
 
@@ -411,6 +406,8 @@ class SelfFeeListPdfService
       if ($currentY > 270) {
         $pdf->AddPage();
         $currentY = 20;
+        $listHeaders[] = ['page' => $pdf->getPage(), 'y' => $currentY, 'x' => $startX];
+        $this->renderTableHeader($pdf, $currentY, $rowHeight, $colWidths);
       }
     }
 
@@ -443,10 +440,53 @@ class SelfFeeListPdfService
     $pdf->setCellPaddings(0, 0, 0, 0);
     $pdf->SetXY($x, $currentY + $totalOffsetY);
     $pdf->Cell($colWidths['fee'], 0, number_format($grandTotalFee), 0, 0, 'C', false);
-    $pdf->Line($x, $currentY, $x + $colWidths['fee'], $currentY); // 上
-    $pdf->Line($x, $currentY + $rowHeight, $x + $colWidths['fee'], $currentY + $rowHeight); // 下
+    $pdf->Line($x, $currentY, $x + $colWidths['fee'], $currentY + $rowHeight); // 下
     $pdf->Line($x, $currentY, $x, $currentY + $rowHeight); // 左
     $pdf->Line($x + $colWidths['fee'], $currentY, $x + $colWidths['fee'], $currentY + $rowHeight); // 右
+
+    return $listHeaders;
+  }
+
+  /**
+   * テーブルヘッダー行を描画（ページ跨ぎ時の再描画にも使用）
+   */
+  protected function renderTableHeader(Fpdi $pdf, float &$currentY, float $rowHeight, array $colWidths): void
+  {
+    $startX = 8;
+
+    $pdf->SetFont('kozgopromedium', '', 12);
+    $pdf->SetFillColor(220, 220, 220);
+    $pdf->SetLineWidth(0.2);
+    $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
+
+    $headers = [
+      ['text' => '利用者氏名', 'width' => $colWidths['name']],
+      ['text' => '施術名',     'width' => $colWidths['treatment']],
+      ['text' => '回数',       'width' => $colWidths['count']],
+      ['text' => '料金',       'width' => $colWidths['fee']],
+    ];
+
+    $headerFontMm  = 12 * 0.352 * 1.25;
+    $headerOffsetY = ($rowHeight - $headerFontMm) / 2;
+
+    $x = $startX;
+    foreach ($headers as $header) {
+      $pdf->Rect($x, $currentY, $header['width'], $rowHeight, 'F');
+      $pdf->setCellPaddings(0, 0, 0, 0);
+      $pdf->SetXY($x, $currentY + $headerOffsetY);
+      $pdf->Cell($header['width'], 0, $header['text'], 0, 0, 'C', false);
+
+      $pdf->Line($x, $currentY, $x + $header['width'], $currentY); // 上
+      $pdf->Line($x, $currentY + $rowHeight, $x + $header['width'], $currentY + $rowHeight); // 下
+      $pdf->Line($x, $currentY, $x, $currentY + $rowHeight); // 左
+      $pdf->Line($x + $header['width'], $currentY, $x + $header['width'], $currentY + $rowHeight); // 右
+
+      $x += $header['width'];
+    }
+
+    // ヘッダー描画後はデータ行用の11ptに戻す
+    $pdf->SetFont('kozgopromedium', '', 11);
+    $currentY += $rowHeight;
   }
 
   /**

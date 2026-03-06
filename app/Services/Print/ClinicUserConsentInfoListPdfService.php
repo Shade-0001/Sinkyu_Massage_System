@@ -36,6 +36,7 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
   const DATA_COL_W        = 32;   // データカラム幅
   const MAX_COLS_PER_PAGE = 5;    // 1ページのデータカラム数
   const CELL_PADDING_X    = 2.4;  // セル左右パディング合計 mm
+  const CELL_PADDING_Y    = 2.0;  // セル上下パディング mm
   const BASE_ROW_H        = 5;    // 行の基本高さ mm
   const LINE_PITCH        = 3.2;  // 折り返し行のピッチ mm
   const FONT_SIZE         = 9;    // データフォント
@@ -103,8 +104,8 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
     $users      = $this->fetchUsers();
     $rowDefs    = $this->getRowDefinitions();
 
-    // 動的レイアウト値を計算
-    $this->calcDynamicWidths($pdf, $rowDefs);
+    // 動的レイアウト値をセット
+    $this->setColWidths($pdf, $rowDefs);
 
     $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
 
@@ -361,7 +362,7 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
   /**
    * col2ラベル幅に基づいて動的レイアウト値を計算しプロパティにセット
    */
-  protected function calcDynamicWidths(Fpdi $pdf, array $rowDefs): void
+  protected function setColWidths(Fpdi $pdf, array $rowDefs): void
   {
     $pad = 1.6 * 2;
     $pdf->SetFont('kozgopromedium', '', self::HEADER_FONT);
@@ -441,7 +442,9 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
       $textH       = $maxLines > 1
         ? $fontMm + ($maxLines - 1) * self::LINE_PITCH
         : $fontMm;
-      $heights[$i] = max(self::BASE_ROW_H, $textH + (self::BASE_ROW_H - $fontMm));
+      // 改行が発生する行は上下パディング1mm、それ以外は CELL_PADDING_Y
+      $paddingY    = $maxLines > 1 ? 1.0 * 2 : self::CELL_PADDING_Y * 2;
+      $heights[$i] = max(self::BASE_ROW_H, $textH + $paddingY);
     }
     return $heights;
   }
@@ -539,7 +542,7 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
       foreach ($users as $j => $user) {
         $cellX = $dataStartX + $j * $this->dynDataColW;
         $text  = (string)($user[$dataKey] ?? '');
-        $this->drawCell($pdf, $cellX, $rowY, $this->dynDataColW, $rowH, $text, false, 'L');
+        $this->drawCell($pdf, $cellX, $rowY, $this->dynDataColW, $rowH, $text, false, 'C');
       }
     }
 
@@ -601,8 +604,13 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
     } else {
       foreach ($lines as $li => $line) {
         $lineY = $y + $offsetY + $li * self::LINE_PITCH;
-        $pdf->SetXY($x + 1.6, $lineY);
-        $pdf->Cell($w - 1.6, 0, $line, 0, 0, 'L', false);
+        if ($align === 'C') {
+          $pdf->SetXY($x, $lineY);
+          $pdf->Cell($w, 0, $line, 0, 0, 'C', false);
+        } else {
+          $pdf->SetXY($x + 1.6, $lineY);
+          $pdf->Cell($w - 1.6, 0, $line, 0, 0, 'L', false);
+        }
       }
     }
   }
@@ -646,6 +654,14 @@ class ClinicUserConsentInfoListPdfService extends BasePdfService
       }
     }
     return $ranges;
+  }
+
+  /**
+   * データキーが日付フィールドかどうかを判定
+   */
+  protected function isDateField(string $dataKey): bool
+  {
+    return preg_match('/(_date|_start|_end|_expiry)$/', $dataKey) === 1;
   }
 
   /**

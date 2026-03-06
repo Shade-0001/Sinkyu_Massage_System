@@ -8,8 +8,18 @@ use Illuminate\Support\Facades\DB;
 /**
  * 施術料金一覧表（保険扱い）PDF生成サービス
  */
-class TreatmentFeeListPdfService
+class TreatmentFeeListPdfService extends BasePdfService
 {
+  protected function getDefaultCoordinatesPath(): string
+  {
+    return storage_path('app/config/treatment_fee_list_coordinates.json');
+  }
+
+  protected function getDefaultCoordinates(): array
+  {
+    return [];
+  }
+
   /**
    * 施術タイプ（acupuncture or massage）
    */
@@ -17,13 +27,6 @@ class TreatmentFeeListPdfService
 
   // 動的カラム幅（generate()内で確定）
   protected array $colWidths = [];
-
-  /**
-   * コンストラクタ
-   */
-  public function __construct()
-  {
-  }
 
   /**
    * 施術タイプを設定
@@ -36,10 +39,13 @@ class TreatmentFeeListPdfService
   /**
    * PDF生成
    *
+   * @param array  $clinicUserIds    （未使用 — BasePdfServiceとのシグネチャ統一のため保持）
    * @param string $serviceYearMonth サービス提供年月（Y-m形式）
+   * @param string $submissionDate   （未使用）
+   * @param string $remarks          （未使用）
    * @return string PDFバイナリ
    */
-  public function generate(string $serviceYearMonth): string
+  public function generate(array $clinicUserIds = [], string $serviceYearMonth = '', string $submissionDate = '', string $remarks = ''): string
   {
     $pdf = new Fpdi('P', 'mm', 'A4', true, 'UTF-8', false);
     $pdf->SetAutoPageBreak(false);
@@ -53,11 +59,33 @@ class TreatmentFeeListPdfService
     $data = $this->fetchData($serviceYearMonth);
 
     // カラム幅を計算
-    $pdf->SetFont('kozgopromedium', '', 11);
+    $pdf->SetFont('kozgopromedium', '', 9);
     $this->colWidths = $this->calcColWidths($pdf, $data);
 
+    $outputDate = date('Y-m-d H:i:s');
+
     // PDFを描画
-    $this->renderPdf($pdf, $data, $serviceYearMonth);
+    $listHeaders = $this->renderPdf($pdf, $data, $serviceYearMonth, $outputDate);
+
+    // リスト番号を後処理で描画
+    $totalLists = count($listHeaders);
+    foreach ($listHeaders as $idx => $lh) {
+      $pdf->setPage($lh['page']);
+      $this->drawListNumber($pdf, $idx + 1, $totalLists, $lh['y'], $lh['x']);
+    }
+
+    // 2ページ以上の場合、全ページにページ番号を描画（後処理）
+    $totalPages = $pdf->getNumPages();
+    if ($totalPages >= 2) {
+      for ($p = 1; $p <= $totalPages; $p++) {
+        $pdf->setPage($p);
+        $pageText = '-' . "\u{2002}" . "\u{2002}" . $p . ' / ' . $totalPages . "\u{2002}" . "\u{2002}" . '-';
+        $pdf->SetFont('kozgopromedium', '', 9);
+        $pdf->SetTextColor(0, 0, 0);
+        $pdf->SetXY(0, 290);
+        $pdf->Cell(210, 0, $pageText, 0, 0, 'C');
+      }
+    }
 
     return $pdf->Output('', 'S');
   }
@@ -137,8 +165,8 @@ class TreatmentFeeListPdfService
       'insurance'  => 0.0,
     ];
 
-    // ヘッダー（12pt）
-    $pdf->SetFont('kozgopromedium', '', 12);
+    // ヘッダー（10pt）
+    $pdf->SetFont('kozgopromedium', '', 10);
     $headerTexts = [
       'name'      => '利用者氏名',
       'treatment' => '施術名',
@@ -151,8 +179,8 @@ class TreatmentFeeListPdfService
       $minW[$key] = max($minW[$key], $pdf->GetStringWidth($label) + $pad);
     }
 
-    // データ（11pt）
-    $pdf->SetFont('kozgopromedium', '', 11);
+    // データ（9pt）
+    $pdf->SetFont('kozgopromedium', '', 9);
     foreach ($data['clinicUsers'] as $user) {
       $name = ($user->last_name ?? '') . "\u{2002}" . ($user->first_name ?? '');
       $minW['name'] = max($minW['name'], $pdf->GetStringWidth($name) + $pad);
@@ -189,7 +217,7 @@ class TreatmentFeeListPdfService
   /**
    * PDFを描画
    */
-  protected function renderPdf(Fpdi $pdf, array $data, string $serviceYearMonth): void
+  protected function renderPdf(Fpdi $pdf, array $data, string $serviceYearMonth, string $outputDate = ''): array
   {
     $pdf->SetFont('kozgopromedium', '', 13);
     $pdf->SetTextColor(0, 0, 0);
@@ -205,7 +233,7 @@ class TreatmentFeeListPdfService
     // タイトル（テーブルの左辺に揃える）
     $titleText = '施術料金一覧表（保険扱い）';
     $pdf->SetFont('kozgopromedium', '', 17);
-    $pdf->Text($startX, 15, $titleText);
+    $pdf->Text($startX, 12, $titleText);
 
     // 元号年月（テーブルの右辺に揃える、全角1文字分左にズラす）
     $titleYearMonth = $this->formatJapaneseYearMonth($serviceYearMonth);
@@ -214,6 +242,15 @@ class TreatmentFeeListPdfService
     $oneCharWidth = $pdf->GetStringWidth('年'); // 全角1文字分の幅を取得
     $pdf->Text($startX + $availableWidth - $titleYearMonthWidth - $oneCharWidth, 15, $titleYearMonth);
 
+    // PDF出力日時（右上）
+    if ($outputDate) {
+      $ts      = strtotime($outputDate);
+      $dateStr = '〈 PDF出力日時 │ ' . date('Y/m/d', $ts) . "\u{2002}" . date('H:i', $ts) . ' 〉';
+      $pdf->SetFont('kozgopromedium', '', 8);
+      $pdf->SetXY($startX, 6);
+      $pdf->Cell($availableWidth, 0, $dateStr, 0, 0, 'R');
+    }
+
     // テーブル描画開始
     $availableWidth = 194;
 
@@ -221,53 +258,21 @@ class TreatmentFeeListPdfService
     $colWidths = $this->colWidths;
 
     $totalWidth = array_sum($colWidths);
-    $rowHeight = 8;  // フォントサイズに合わせて6から8に増加
+    $rowHeight = 7;  // 9pt/10ptフォントに合わせた行高
+
+    // リストヘッダー座標を収集（リスト番号後処理用）
+    $listHeaders = [];
 
     // ヘッダー描画
-    $pdf->SetFont('kozgopromedium', '', 12);
-    $pdf->SetFillColor(220, 220, 220);
-    $pdf->SetLineWidth(0.2);
-    // テーブル全体を実線に設定
-    $pdf->SetLineStyle(array('width' => 0.2, 'dash' => 0, 'color' => array(0, 0, 0)));
-
-    $headers = [
-      ['text' => '利用者氏名', 'width' => $colWidths['name']],
-      ['text' => '施術名', 'width' => $colWidths['treatment']],
-      ['text' => '回数', 'width' => $colWidths['count']],
-      ['text' => '料金', 'width' => $colWidths['fee']],
-      ['text' => '一部負担額', 'width' => $colWidths['copayment']],
-      ['text' => '保険請求額', 'width' => $colWidths['insurance']],
-    ];
-
-    // TCPDFのcell_height_ratio=1.25を考慮した垂直中央配置
-    $headerFontMm  = 12 * 0.352 * 1.25;
-    $headerOffsetY = ($rowHeight - $headerFontMm) / 2;
-
-    $x = $startX;
-    foreach ($headers as $header) {
-      // 背景色を塗りつぶし（枠線なし）
-      $pdf->Rect($x, $currentY, $header['width'], $rowHeight, 'F');
-      $pdf->setCellPaddings(0, 0, 0, 0);
-      $pdf->SetXY($x, $currentY + $headerOffsetY);
-      $pdf->Cell($header['width'], 0, $header['text'], 0, 0, 'C', false);
-
-      // 枠線を手動描画
-      $pdf->Line($x, $currentY, $x + $header['width'], $currentY); // 上
-      $pdf->Line($x, $currentY + $rowHeight, $x + $header['width'], $currentY + $rowHeight); // 下
-      $pdf->Line($x, $currentY, $x, $currentY + $rowHeight); // 左
-      $pdf->Line($x + $header['width'], $currentY, $x + $header['width'], $currentY + $rowHeight); // 右
-
-      $x += $header['width'];
-    }
-
-    $currentY += $rowHeight;
+    $listHeaders[] = ['page' => $pdf->getPage(), 'y' => $currentY, 'x' => $startX];
+    $this->renderTableHeader($pdf, $currentY, $colWidths, $rowHeight, $startX);
 
     // データ部分
     $pdf->SetFillColor(255, 255, 255);
-    $pdf->SetFont('kozgopromedium', '', 11);
+    $pdf->SetFont('kozgopromedium', '', 9);
 
     // TCPDFのcell_height_ratio=1.25を考慮した垂直中央配置
-    $dataFontMm  = 11 * 0.352 * 1.25;
+    $dataFontMm  = 9 * 0.352 * 1.25;
     $dataOffsetY = ($rowHeight - $dataFontMm) / 2;
 
     $userGroups = $data['userGroups'];
@@ -295,8 +300,21 @@ class TreatmentFeeListPdfService
       $userTotalFee = 0;
       $userTotalCount = 0;
 
-      // 利用者氏名のセル結合用：行数をカウント
+      // 利用者グループ（施術行 + 合計行）がページに収まるかチェック
       $userRowCount = $therapyGroups->count();
+      $neededHeight = ($userRowCount + 1) * $rowHeight; // 施術行 + 合計行
+      if ($currentY + $neededHeight > 267) {
+        $pdf->AddPage();
+        $currentY = 20;
+        $listHeaders[] = ['page' => $pdf->getPage(), 'y' => $currentY, 'x' => $startX];
+        $this->renderTableHeader($pdf, $currentY, $colWidths, $rowHeight, $startX);
+        $pdf->SetFillColor(255, 255, 255);
+        $pdf->SetFont('kozgopromedium', '', 9);
+        $pdf->SetTextColor(0, 0, 0);
+        $pdf->SetLineStyle(array('width' => 0.2, 'dash' => 0, 'color' => array(0, 0, 0)));
+      }
+
+      // 利用者氏名のセル結合用：彣数をカウント
       $userStartY = $currentY;
 
       $firstRow = true;
@@ -336,6 +354,7 @@ class TreatmentFeeListPdfService
           // 左右は実線
           $pdf->Line($startX, $userStartY, $startX, $userStartY + $nameHeight); // 左
           $pdf->Line($startX + $colWidths['name'], $userStartY, $startX + $colWidths['name'], $userStartY + $nameHeight); // 右
+
         }
         // 最終行で利用者氏名セルの下辺を破線で描画
         if ($isLastRow) {
@@ -346,8 +365,8 @@ class TreatmentFeeListPdfService
         $x += $colWidths['name'];
 
         // 施術名
-        $pdf->SetXY($x, $currentY + $dataOffsetY);
-        $pdf->Cell($colWidths['treatment'], 0, $therapyContent->therapy_content, 0, 0, 'L', false);
+        $pdf->SetXY($x + 5, $currentY + $dataOffsetY);
+        $pdf->Cell($colWidths['treatment'] - 5, 0, $therapyContent->therapy_content, 0, 0, 'L', false);
         // 上辺は最初の行のみ実線、それ以外は破線
         if (!$firstRow) {
           $pdf->SetLineStyle(array('width' => 0.2, 'dash' => '2,2', 'color' => array(0, 0, 0)));
@@ -378,9 +397,9 @@ class TreatmentFeeListPdfService
         $pdf->Line($x + $colWidths['count'], $currentY, $x + $colWidths['count'], $currentY + $rowHeight); // 右
         $x += $colWidths['count'];
 
-        // 料金（中央揃え）
+        // 料金（右揃え）
         $pdf->SetXY($x, $currentY + $dataOffsetY);
-        $pdf->Cell($colWidths['fee'], 0, number_format($totalFee), 0, 0, 'C', false);
+        $pdf->Cell($colWidths['fee'] - 4, 0, number_format($totalFee), 0, 0, 'R', false);
         if (!$firstRow) {
           $pdf->SetLineStyle(array('width' => 0.2, 'dash' => '2,2', 'color' => array(0, 0, 0)));
         }
@@ -392,9 +411,9 @@ class TreatmentFeeListPdfService
         $pdf->Line($x + $colWidths['fee'], $currentY, $x + $colWidths['fee'], $currentY + $rowHeight); // 右
         $x += $colWidths['fee'];
 
-        // 一部負担額（中央揃え）
+        // 一部負担額（右揃え）
         $pdf->SetXY($x, $currentY + $dataOffsetY);
-        $pdf->Cell($colWidths['copayment'], 0, number_format($copayment), 0, 0, 'C', false);
+        $pdf->Cell($colWidths['copayment'] - 4, 0, number_format($copayment), 0, 0, 'R', false);
         if (!$firstRow) {
           $pdf->SetLineStyle(array('width' => 0.2, 'dash' => '2,2', 'color' => array(0, 0, 0)));
         }
@@ -406,9 +425,9 @@ class TreatmentFeeListPdfService
         $pdf->Line($x + $colWidths['copayment'], $currentY, $x + $colWidths['copayment'], $currentY + $rowHeight); // 右
         $x += $colWidths['copayment'];
 
-        // 保険請求額（中央揃え）
+        // 保険請求額（右揃え）
         $pdf->SetXY($x, $currentY + $dataOffsetY);
-        $pdf->Cell($colWidths['insurance'], 0, number_format($insurance), 0, 0, 'C', false);
+        $pdf->Cell($colWidths['insurance'] - 4, 0, number_format($insurance), 0, 0, 'R', false);
         if (!$firstRow) {
           $pdf->SetLineStyle(array('width' => 0.2, 'dash' => '2,2', 'color' => array(0, 0, 0)));
         }
@@ -421,12 +440,6 @@ class TreatmentFeeListPdfService
 
         $currentY += $rowHeight;
         $firstRow = false;
-
-        // ページ末尾チェック
-        if ($currentY > 270) {
-          $pdf->AddPage();
-          $currentY = 20;
-        }
       }
 
       // 合計行
@@ -460,36 +473,30 @@ class TreatmentFeeListPdfService
       $pdf->Line($x + $colWidths['count'], $currentY, $x + $colWidths['count'], $currentY + $rowHeight); // 右
       $x += $colWidths['count'];
 
-      // 料金（中央揃え）
+      // 料金（右揃え）
       $pdf->SetXY($x, $currentY + $dataOffsetY);
-      $pdf->Cell($colWidths['fee'], 0, number_format($userTotalFee), 0, 0, 'C', false);
+      $pdf->Cell($colWidths['fee'] - 4, 0, number_format($userTotalFee), 0, 0, 'R', false);
       $pdf->Line($x, $currentY + $rowHeight, $x + $colWidths['fee'], $currentY + $rowHeight); // 下
       $pdf->Line($x, $currentY, $x, $currentY + $rowHeight); // 左
       $pdf->Line($x + $colWidths['fee'], $currentY, $x + $colWidths['fee'], $currentY + $rowHeight); // 右
       $x += $colWidths['fee'];
 
-      // 一部負担額（中央揃え）
+      // 一部負担額（右揃え）
       $pdf->SetXY($x, $currentY + $dataOffsetY);
-      $pdf->Cell($colWidths['copayment'], 0, number_format($userCopayment), 0, 0, 'C', false);
+      $pdf->Cell($colWidths['copayment'] - 4, 0, number_format($userCopayment), 0, 0, 'R', false);
       $pdf->Line($x, $currentY + $rowHeight, $x + $colWidths['copayment'], $currentY + $rowHeight); // 下
       $pdf->Line($x, $currentY, $x, $currentY + $rowHeight); // 左
       $pdf->Line($x + $colWidths['copayment'], $currentY, $x + $colWidths['copayment'], $currentY + $rowHeight); // 右
       $x += $colWidths['copayment'];
 
-      // 保険請求額（中央揃え）
+      // 保険請求額（右揃え）
       $pdf->SetXY($x, $currentY + $dataOffsetY);
-      $pdf->Cell($colWidths['insurance'], 0, number_format($userInsurance), 0, 0, 'C', false);
+      $pdf->Cell($colWidths['insurance'] - 4, 0, number_format($userInsurance), 0, 0, 'R', false);
       $pdf->Line($x, $currentY + $rowHeight, $x + $colWidths['insurance'], $currentY + $rowHeight); // 下
       $pdf->Line($x, $currentY, $x, $currentY + $rowHeight); // 左
       $pdf->Line($x + $colWidths['insurance'], $currentY, $x + $colWidths['insurance'], $currentY + $rowHeight); // 右
 
       $currentY += $rowHeight;
-
-      // ページ末尾チェック
-      if ($currentY > 270) {
-        $pdf->AddPage();
-        $currentY = 20;
-      }
     }
 
     // 総合計行
@@ -514,31 +521,69 @@ class TreatmentFeeListPdfService
     $pdf->Line($x + $colWidths['count'], $currentY, $x + $colWidths['count'], $currentY + $rowHeight); // 右
     $x += $colWidths['count'];
 
-    // 料金（中央揃え）
+    // 料金（右揃え）
     $pdf->SetXY($x, $currentY + $dataOffsetY);
-    $pdf->Cell($colWidths['fee'], 0, number_format($grandTotalFee), 0, 0, 'C', false);
+    $pdf->Cell($colWidths['fee'] - 4, 0, number_format($grandTotalFee), 0, 0, 'R', false);
     $pdf->Line($x, $currentY, $x + $colWidths['fee'], $currentY); // 上
     $pdf->Line($x, $currentY + $rowHeight, $x + $colWidths['fee'], $currentY + $rowHeight); // 下
     $pdf->Line($x, $currentY, $x, $currentY + $rowHeight); // 左
     $pdf->Line($x + $colWidths['fee'], $currentY, $x + $colWidths['fee'], $currentY + $rowHeight); // 右
     $x += $colWidths['fee'];
 
-    // 一部負担額（中央揃え）
+    // 一部負担額（右揃え）
     $pdf->SetXY($x, $currentY + $dataOffsetY);
-    $pdf->Cell($colWidths['copayment'], 0, number_format($grandTotalCopayment), 0, 0, 'C', false);
+    $pdf->Cell($colWidths['copayment'] - 4, 0, number_format($grandTotalCopayment), 0, 0, 'R', false);
     $pdf->Line($x, $currentY, $x + $colWidths['copayment'], $currentY); // 上
     $pdf->Line($x, $currentY + $rowHeight, $x + $colWidths['copayment'], $currentY + $rowHeight); // 下
     $pdf->Line($x, $currentY, $x, $currentY + $rowHeight); // 左
     $pdf->Line($x + $colWidths['copayment'], $currentY, $x + $colWidths['copayment'], $currentY + $rowHeight); // 右
     $x += $colWidths['copayment'];
 
-    // 保険請求額（中央揃え）
+    // 保険請求額（右揃え）
     $pdf->SetXY($x, $currentY + $dataOffsetY);
-    $pdf->Cell($colWidths['insurance'], 0, number_format($grandTotalInsurance), 0, 0, 'C', false);
+    $pdf->Cell($colWidths['insurance'] - 4, 0, number_format($grandTotalInsurance), 0, 0, 'R', false);
     $pdf->Line($x, $currentY, $x + $colWidths['insurance'], $currentY); // 上
     $pdf->Line($x, $currentY + $rowHeight, $x + $colWidths['insurance'], $currentY + $rowHeight); // 下
     $pdf->Line($x, $currentY, $x, $currentY + $rowHeight); // 左
     $pdf->Line($x + $colWidths['insurance'], $currentY, $x + $colWidths['insurance'], $currentY + $rowHeight); // 右
+
+    return $listHeaders;
+  }
+  protected function renderTableHeader(Fpdi $pdf, float &$currentY, array $colWidths, float $rowHeight, float $startX): void
+  {
+    $pdf->SetFont('kozgopromedium', '', 10);
+    $pdf->SetFillColor(220, 220, 220);
+    $pdf->SetLineWidth(0.2);
+    $pdf->SetLineStyle(array('width' => 0.2, 'dash' => 0, 'color' => array(0, 0, 0)));
+
+    $headers = [
+      ['text' => '利用者氏名', 'width' => $colWidths['name']],
+      ['text' => '施術名',    'width' => $colWidths['treatment']],
+      ['text' => '回数',      'width' => $colWidths['count']],
+      ['text' => '料金',      'width' => $colWidths['fee']],
+      ['text' => '一部負担額', 'width' => $colWidths['copayment']],
+      ['text' => '保険請求額', 'width' => $colWidths['insurance']],
+    ];
+
+    $headerFontMm  = 10 * 0.352 * 1.25;
+    $headerOffsetY = ($rowHeight - $headerFontMm) / 2;
+
+    $x = $startX;
+    foreach ($headers as $header) {
+      $pdf->Rect($x, $currentY, $header['width'], $rowHeight, 'F');
+      $pdf->setCellPaddings(0, 0, 0, 0);
+      $pdf->SetXY($x, $currentY + $headerOffsetY);
+      $pdf->Cell($header['width'], 0, $header['text'], 0, 0, 'C', false);
+
+      $pdf->Line($x, $currentY, $x + $header['width'], $currentY); // 上
+      $pdf->Line($x, $currentY + $rowHeight, $x + $header['width'], $currentY + $rowHeight); // 下
+      $pdf->Line($x, $currentY, $x, $currentY + $rowHeight); // 左
+      $pdf->Line($x + $header['width'], $currentY, $x + $header['width'], $currentY + $rowHeight); // 右
+
+      $x += $header['width'];
+    }
+
+    $currentY += $rowHeight;
   }
 
   /**
