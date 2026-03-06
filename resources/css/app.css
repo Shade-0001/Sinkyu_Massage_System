@@ -44,6 +44,31 @@
   margin: 0 1rem;
   align-self: stretch;
 }
+
+/* ヘッダー内トグルボタン（暗背景対応） */
+.sidebar-toggle {
+  background: none;
+  border: none;
+  color: #ccc;
+  font-size: 1.2rem;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.sidebar-toggle:hover {
+  color: #fff;
+}
+
+/* ヘッダー内区切り線（暗背景対応） */
+header .divider-vertical {
+  border-left-color: #ffffff60;
+}
+
+/* サイドバー内区切り線（暗背景対応） */
+.sidebar .divider-horizontal {
+  border-top-color: #ffffff30;
+}
 /*---------------------------------------------------------*/
 
 
@@ -122,14 +147,14 @@ html.sidebar-preload-closed .sidebar {
   padding: 15px 20px;
   text-decoration: none;
   font-weight: 500;
-  color: #444;
+  color: #ccc;
   transition: background-color 0.2s ease, color 0.2s ease;
   white-space: nowrap;
 }
 
 .sidebar-link:hover {
-  color: #000;
-  background-color: #00000010;
+  color: #fff;
+  background-color: #ffffff20;
 }
 
 /* サブメニュートグル */
@@ -155,14 +180,14 @@ html.sidebar-preload-closed .sidebar {
   list-style: none;
   padding: 0;
   margin: 0;
-  background-color: #f8f9fa;
+  background-color: #1a1a1a;
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease;
 }
 
 .submenu li {
-  border-bottom: 1px solid #dee2e6;
+  border-bottom: 1px solid #444;
 }
 
 .submenu li:last-child {
@@ -176,18 +201,18 @@ html.sidebar-preload-closed .sidebar {
   text-decoration: none;
   font-weight: 400;
   font-size: 14px;
-  color: #444;
+  color: #aaa;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .submenu-link:hover {
-  color: #000;
-  background-color: #e9ecef;
+  color: #fff;
+  background-color: #ffffff20;
 }
 
 .submenu-link.active {
-  background-color: #d3e5ff;
-  color: #0056b3;
+  background-color: #1a3a5c;
+  color: #6db3ff;
   font-weight: 500;
 }
 /*---------------------------------------------------------*/

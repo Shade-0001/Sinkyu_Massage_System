@@ -1,8 +1,8 @@
-<aside id="sidebar" class="sidebar border-end border-secondary border-2 bg-body-secondary">
+<aside id="sidebar" class="sidebar border-end border-secondary border-2 bg-dark text-light">
   <div class="border-bottom border-secondary border-2 px-3 py-2">
     <div class="d-flex flex-column gap-2">
-      <div class="small text-dark-emphasis">ログインユーザー名<br>：<b>{{ Auth::user()->name }}</b></div>
-      <div class="small text-dark-emphasis">
+      <div class="small text-light">ログインユーザー名<br>：<b>{{ Auth::user()->name }}</b></div>
+      <div class="small text-light">
         @if(Auth::user()->last_login_at)
           前回ログイン日時<br>：{{ Auth::user()->last_login_at->format('Y/m/d H:i') }}
         @else

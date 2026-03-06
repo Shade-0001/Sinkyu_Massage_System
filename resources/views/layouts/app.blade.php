@@ -30,7 +30,7 @@
 	<body class="min-vh-100 overflow-hidden">
 
 		<!-- ヘッダー -->
-		<header class="position-fixed top-0 start-0 end-0 border-bottom border-secondary border-2 px-3 py-2 bg-body-secondary" style="z-index: 1000;">
+		<header class="position-fixed top-0 start-0 end-0 border-bottom border-secondary border-2 px-3 py-2 bg-dark text-light" style="z-index: 1000;">
 			@include('layouts.header')
 		</header>
 

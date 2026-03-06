@@ -4,7 +4,7 @@
 
   <div class="divider-vertical"></div>
 
-  <a href="{{route('index')}}">ホーム</a>
+  <a href="{{route('index')}}" class="text-light">ホーム</a>
 
   <div class="divider-vertical"></div>
 
@@ -12,7 +12,7 @@
   @csrf
   <a href="{{ route('logout') }}"
     onclick="event.preventDefault(); this.closest('form').submit();"
-    class="fw-bold text-decoration-none">
+    class="fw-bold text-decoration-none text-light">
     {{ __('ログアウト') }}
   </a>
   </form>
