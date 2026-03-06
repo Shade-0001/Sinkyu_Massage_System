@@ -27,7 +27,7 @@
         <a href="{{ route('schedules.index') }}" class="sidebar-link user-select-none"><i class="nf nf-md-calendar_month_outline"></i> スケジュール</a>
       </li>
       <li class="border-bottom border-secondary">
-        <div class="sidebar-link sidebar-submenu-toggle" data-target="master-submenu">
+        <div class="sidebar-link sidebar-submenu-toggle user-select-none" data-target="master-submenu">
           <span><i class="nf nf-oct-gear"></i> マスター登録</span>
           <span class="submenu-arrow"><i class="nf nf-fa-chevron_right"></i></span>
         </div>
@@ -44,7 +44,7 @@
         </ul>
       </li>
       <li class="border-bottom border-secondary">
-        <div class="sidebar-link sidebar-submenu-toggle" data-target="submaster-submenu">
+        <div class="sidebar-link sidebar-submenu-toggle user-select-none" data-target="submaster-submenu">
           <span><i class="nf nf-oct-gear"></i> サブマスター登録</span>
           <span class="submenu-arrow"><i class="nf nf-fa-chevron_right"></i></span>
         </div>
