@@ -33,6 +33,7 @@
 /*---------------------------------------------------------*/
 
 /* ヘッダー内トグルボタン（ハンバーガー） */
+/* --hamburger-size を変更するだけで全体がスケール */
 .sidebar-toggle,
 .sidebar-toggle span {
   display: inline-block;
@@ -40,9 +41,15 @@
 }
 
 .sidebar-toggle {
+  --hamburger-size: 30px;
+  --bar-h: 2px;
+  --mid-top: calc((var(--hamburger-size) - var(--bar-h)) / 2);
+  --tx: calc(var(--hamburger-size) * 0.067);
+  --ty: calc(var(--mid-top) / 2);
+
   position: relative;
-  width: 30px;
-  height: 26px;
+  width: var(--hamburger-size);
+  height: var(--hamburger-size);
   background: none;
   border: none;
   appearance: none;
@@ -56,7 +63,7 @@
 .sidebar-toggle span {
   position: absolute;
   width: 100%;
-  height: 2px;
+  height: var(--bar-h);
   left: 0;
 }
 
@@ -65,7 +72,7 @@
   content: '';
   position: absolute;
   width: 50%;
-  height: 2px;
+  height: var(--bar-h);
   background: #ccc;
   transition: .2s;
 }
@@ -75,23 +82,18 @@
   background: #fff;
 }
 
-.sidebar-toggle span::before {
-  left: 0;
-}
-
-.sidebar-toggle span::after {
-  right: 0;
-}
+.sidebar-toggle span::before { left: 0; }
+.sidebar-toggle span::after  { right: 0; }
 
 .sidebar-toggle span:nth-of-type(1) { top: 0; }
-.sidebar-toggle span:nth-of-type(2) { top: 12px; }
+.sidebar-toggle span:nth-of-type(2) { top: var(--mid-top); }
 .sidebar-toggle span:nth-of-type(3) { bottom: 0; }
 
 .sidebar-toggle.active span:nth-of-type(1)::before {
-  transform: translate(2px, 7px) rotate(45deg);
+  transform: translate(var(--tx), var(--ty)) rotate(45deg);
 }
 .sidebar-toggle.active span:nth-of-type(1)::after {
-  transform: translate(-2px, 7px) rotate(-45deg);
+  transform: translate(calc(var(--tx) * -1), var(--ty)) rotate(-45deg);
 }
 .sidebar-toggle.active span:nth-of-type(2)::before {
   opacity: 0;
@@ -100,10 +102,10 @@
   opacity: 0;
 }
 .sidebar-toggle.active span:nth-of-type(3)::before {
-  transform: translate(2px, -7px) rotate(-45deg);
+  transform: translate(var(--tx), calc(var(--ty) * -1)) rotate(-45deg);
 }
 .sidebar-toggle.active span:nth-of-type(3)::after {
-  transform: translate(-2px, -7px) rotate(45deg);
+  transform: translate(calc(var(--tx) * -1), calc(var(--ty) * -1)) rotate(45deg);
 }
 
 /*---------------------------------------------------------*/
