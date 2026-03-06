@@ -44,7 +44,7 @@ body.app-layout {
 .divider-vertical { /* 垂直線 */
   border-left: 1px solid #00000060;
   margin: 0 1rem;
-  height: 100%;
+  align-self: stretch;
 }
 
 /* サイドバー ＋ メインコンテンツ */
