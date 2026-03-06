@@ -65,6 +65,9 @@
   width: 100%;
   height: var(--bar-h);
   left: 0;
+}
+
+.sidebar-toggle span:nth-of-type(2) {
   overflow: hidden;
 }
 
