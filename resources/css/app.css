@@ -96,11 +96,9 @@
   transform: translate(-2px, 7px) rotate(-45deg);
 }
 .sidebar-toggle.active span:nth-of-type(2)::before {
-  transform: translateX(-75%);
   opacity: 0;
 }
 .sidebar-toggle.active span:nth-of-type(2)::after {
-  transform: translateX(75%);
   opacity: 0;
 }
 .sidebar-toggle.active span:nth-of-type(3)::before {
