@@ -2,7 +2,7 @@
 /* ⚠️ public/css/app.css への変更はブラウザに反映されない */
 
 
-/*━━━━┫〈 グローバルスタイル 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/*━━━━┫〈 グローバルスタイル 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 * {
   font-family: 'Noto Sans JP', sans-serif;
   scroll-behavior: smooth;
@@ -116,7 +116,7 @@
 
 
 
-/*━━━━┫〈 レイアウト - サイドバー連動 〉┣━━━━━━━━━━━━━━━━━━━━━*/
+/*━━━━┫〈 レイアウト - サイドバー連動 〉┣━━━━━━━━━━━━━━━━━━━━━━━*/
 /* Content Wrapper */
 .content-wrapper {
   display: flex;
@@ -155,7 +155,7 @@ html.sidebar-preload-closed .main-content {
 
 
 
-/*━━━━┫〈 サイドバー 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/*━━━━┫〈 サイドバー 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 .sidebar {
   position: fixed;
   left: 0;
@@ -262,7 +262,7 @@ html.sidebar-preload-closed .sidebar {
 
 
 
-/*━━━━┫〈 実績データ - カレンダーカスタムコンポーネント 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/*━━━━┫〈 実績データ - カレンダーカスタムコンポーネント 〉┣━━━━━━━━━━━━━━*/
 /* カレンダータイトルセレクト - カスタムスタイル */
 #calendar-title {
   font-size: 25px;
@@ -334,7 +334,7 @@ html.sidebar-preload-closed .sidebar {
 
 
 
-/*━━━━┫〈 利用者検索 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/*━━━━┫〈 利用者検索 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 /* カタカナ選択状態 - !important必要なためカスタム定義 */
 .katakana-selected {
   background-color: #007bff !important;
@@ -345,7 +345,7 @@ html.sidebar-preload-closed .sidebar {
 
 
 
-/*━━━━┫〈 PDF出力 - 依頼書 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/*━━━━┫〈 PDF出力 - 依頼書 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 @page {
   margin: 40px;
 }
@@ -405,7 +405,7 @@ html.sidebar-preload-closed .sidebar {
 
 
 
-/*━━━━┫〈 PDF出力 - 計画情報 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/*━━━━┫〈 PDF出力 - 計画情報 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 .pdf-plans body {
   font-family: 'mplus1medium', sans-serif;
   font-size: 9px;
@@ -503,7 +503,7 @@ html.sidebar-preload-closed .sidebar {
 
 
 
-/*━━━━┫〈 PDF出力 - 同意医師（はり･きゅう） 〉┣━━━━━━━━━━━━━━━*/
+/*━━━━┫〈 PDF出力 - 同意医師（はり･きゅう） 〉┣━━━━━━━━━━━━━━━━━━━━*/
 .pdf-consents-acupuncture body {
   font-family: 'mplus1medium', sans-serif;
   font-size: 9px;
@@ -548,7 +548,7 @@ html.sidebar-preload-closed .sidebar {
 
 
 
-/*━━━━┫〈 PDF出力 - 同意医師（あんま･マッサージ） 〉┣━━━━━━━━━━*/
+/*━━━━┫〈 PDF出力 - 同意医師（あんま･マッサージ） 〉┣━━━━━━━━━━━━━━━━━*/
 .pdf-consents-massage body {
   font-family: 'mplus1medium', sans-serif;
   font-size: 9px;
@@ -593,7 +593,7 @@ html.sidebar-preload-closed .sidebar {
 
 
 
-/*━━━━┫〈 PDF出力 - 医療保険情報 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/*━━━━┫〈 PDF出力 - 医療保険情報 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 .pdf-insurances body {
   font-family: 'mplus1medium', sans-serif;
   font-size: 9px;
@@ -643,7 +643,7 @@ html.sidebar-preload-closed .sidebar {
 
 
 
-/*━━━━┫〈 その他 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/*━━━━┫〈 その他 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 /* カスタムCSSは必要最小限に抑制 */
 /* 全ての通常CSSクラスをBootstrapユーティリティクラスに置換済み */
 /* 残存するのは以下の必須カスタムCSS: */
