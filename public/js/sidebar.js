@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
   } else {
     // 開状態ならトグルボタンにactiveを付与
     if (toggleButton) toggleButton.classList.add('active');
+    document.documentElement.classList.add('sidebar-open');
   }
 
   // 事前読み込み用クラスを削除
@@ -26,8 +27,10 @@ document.addEventListener('DOMContentLoaded', function() {
       // 状態をローカルストレージに保存
       if (sidebar.classList.contains('closed')) {
         localStorage.setItem('sidebarState', 'closed');
+        document.documentElement.classList.remove('sidebar-open');
       } else {
         localStorage.setItem('sidebarState', 'open');
+        document.documentElement.classList.add('sidebar-open');
       }
     });
   }
