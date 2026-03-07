@@ -1,8 +1,8 @@
-/* ✅ CSSの編集はこのファイルで行う（app.blade.phpの@viteで読み込まれる） */
+/* ✅ CSS編集はこのファイルで行う（app.blade.phpの@viteで読み込まれる） */
 /* ⚠️ public/css/app.css への変更はブラウザに反映されない */
 
 
-/*━━━━┫〈 グローバルスタイル 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/*━━━━┫〈 グローバルスタイル 〉┣━━━━━━━━━━━━━━━━━━━━*/
 * {
   font-family: 'Noto Sans JP', sans-serif;
   scroll-behavior: smooth;
@@ -21,7 +21,6 @@
   cursor: default;
   outline: none;
 }
-/*---------------------------------------------------------*/
 
 /* 白文字 + 黒縁取り */
 .text-outline-black {
@@ -30,7 +29,6 @@
   -webkit-text-stroke: 7px #333;
   paint-order: stroke fill;
 }
-/*---------------------------------------------------------*/
 
 /* ヘッダー内トグルボタン（ハンバーガーメニュー） */
 /* ボタンサイズは hamburger-size プロパティで調整可能 */
@@ -111,12 +109,12 @@
   transform: translate(calc(var(--tx) * -1), calc(var(--ty) * -1)) rotate(45deg);
 }
 
-/*---------------------------------------------------------*/
+/*-------------------------------------------------*/
 
 
 
 
-/*━━━━┫〈 レイアウト - サイドバー連動 〉┣━━━━━━━━━━━━━━━━━━━━━━━*/
+/*━━━━┫〈 レイアウト - サイドバー連動 〉┣━━━━━━━━━━━━*/
 /* Content Wrapper */
 .content-wrapper {
   display: flex;
@@ -150,12 +148,12 @@
 html.sidebar-preload-closed .main-content {
   left: 0;
 }
-/*---------------------------------------------------------*/
+/*-------------------------------------------------*/
 
 
 
 
-/*━━━━┫〈 サイドバー 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/*━━━━┫〈 サイドバー 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 .sidebar {
   position: fixed;
   left: 0;
@@ -257,12 +255,12 @@ html.sidebar-preload-closed .sidebar {
   color: #6db3ff;
   font-weight: 500;
 }
-/*---------------------------------------------------------*/
+/*-------------------------------------------------*/
 
 
 
 
-/*━━━━┫〈 実績データ - カレンダーカスタムコンポーネント 〉┣━━━━━━━━━━━━━━*/
+/*━━━━┫〈 実績データ - カレンダー 〉┣━━━━━━━━━━━━━━━━*/
 /* カレンダータイトルセレクト - カスタムスタイル */
 #calendar-title {
   font-size: 25px;
@@ -329,23 +327,23 @@ html.sidebar-preload-closed .sidebar {
   color: rgba(0, 0, 0, 0.31);
   cursor: default;
 }
-/*---------------------------------------------------------*/
+/*-------------------------------------------------*/
 
 
 
 
-/*━━━━┫〈 利用者検索 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/*━━━━┫〈 利用者検索 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 /* カタカナ選択状態 - !important必要なためカスタム定義 */
 .katakana-selected {
   background-color: #007bff !important;
   color: white !important;
 }
-/*---------------------------------------------------------*/
+/*-------------------------------------------------*/
 
 
 
 
-/*━━━━┫〈 PDF出力 - 依頼書 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/*━━━━┫〈 PDF出力 - 依頼書 〉┣━━━━━━━━━━━━━━━━━━━━━━*/
 @page {
   margin: 40px;
 }
@@ -400,12 +398,12 @@ html.sidebar-preload-closed .sidebar {
   right: 40px;
   text-align: right;
 }
-/*---------------------------------------------------------*/
+/*-------------------------------------------------*/
 
 
 
 
-/*━━━━┫〈 PDF出力 - 計画情報 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/*━━━━┫〈 PDF出力 - 計画情報 〉┣━━━━━━━━━━━━━━━━━━━━*/
 .pdf-plans body {
   font-family: 'mplus1medium', sans-serif;
   font-size: 9px;
@@ -498,12 +496,12 @@ html.sidebar-preload-closed .sidebar {
   white-space: pre-wrap;
   word-wrap: break-word;
 }
-/*---------------------------------------------------------*/
+/*-------------------------------------------------*/
 
 
 
 
-/*━━━━┫〈 PDF出力 - 同意医師（はり･きゅう） 〉┣━━━━━━━━━━━━━━━━━━━━*/
+/*━━━━┫〈 PDF出力 - 同意医師（ＨＫ） 〉┣━━━━━━━━━━━━━*/
 .pdf-consents-acupuncture body {
   font-family: 'mplus1medium', sans-serif;
   font-size: 9px;
@@ -543,12 +541,12 @@ html.sidebar-preload-closed .sidebar {
 .pdf-consents-acupuncture .status-updated {
   color: #666666;
 }
-/*---------------------------------------------------------*/
+/*-------------------------------------------------*/
 
 
 
 
-/*━━━━┫〈 PDF出力 - 同意医師（あんま･マッサージ） 〉┣━━━━━━━━━━━━━━━━━*/
+/*━━━━┫〈 PDF出力 - 同意医師（ＡＭ） 〉┣━━━━━━━━━━━━━*/
 .pdf-consents-massage body {
   font-family: 'mplus1medium', sans-serif;
   font-size: 9px;
@@ -588,12 +586,12 @@ html.sidebar-preload-closed .sidebar {
 .pdf-consents-massage .status-updated {
   color: #666666;
 }
-/*---------------------------------------------------------*/
+/*-------------------------------------------------*/
 
 
 
 
-/*━━━━┫〈 PDF出力 - 医療保険情報 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/*━━━━┫〈 PDF出力 - 医療保険情報 〉┣━━━━━━━━━━━━━━━━*/
 .pdf-insurances body {
   font-family: 'mplus1medium', sans-serif;
   font-size: 9px;
@@ -638,19 +636,36 @@ html.sidebar-preload-closed .sidebar {
 .pdf-insurances .status-updated {
   color: #666666;
 }
-/*---------------------------------------------------------*/
+/*-------------------------------------------------*/
 
 
 
 
-/*━━━━┫〈 その他 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-/* カスタムCSSは必要最小限に抑制 */
-/* 全ての通常CSSクラスをBootstrapユーティリティクラスに置換済み */
-/* 残存するのは以下の必須カスタムCSS: */
-/*   - グローバルスタイル（*, [href], [readonly]） */
-/*   - サイドバー連動レイアウト（.content-wrapper, .main-content） */
-/*   - サイドバー位置制御とトランジション（.sidebar, .sidebar-link） */
-/*   - カレンダーグリッドレイアウト（CSS Grid使用） */
-/*   - PDF出力専用スタイル */
-/*   - !important必須のスタイル（.katakana-selected） */
-/*---------------------------------------------------------*/
+/*━━━━┫〈 ホーム画面 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/* 列優先グリッド（2列・4行） */
+.home-menu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(4, auto);
+  grid-auto-flow: column;
+  background-image: linear-gradient(to bottom, var(--bs-border-color), var(--bs-border-color));
+  background-size: 1px 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+@media (max-width: 880px) {
+  .home-menu-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    grid-auto-flow: row;
+    background-image: none;
+  }
+}
+/*-------------------------------------------------*/
+
+
+
+
+/*━━━━┫〈 その他 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/*-------------------------------------------------*/
