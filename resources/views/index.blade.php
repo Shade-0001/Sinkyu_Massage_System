@@ -6,8 +6,8 @@
   <x-page-header :title="$page_header_title"/>
 
   <div class="mt-2 mx-1 user-select-none" style="max-width: 1200px;">
-    <div class="d-flex flex-column flex-lg-row">
-      <div class="flex-fill">
+    <div id="home-menu" class="d-flex flex-column">
+      <div class="flex-fill me-lg-5">
         <a class="d-flex mb-3" href="{{ route('records.index') }}">
           <div class="d-flex align-items-center justify-content-center rounded text-white me-3 fs-2 flex-shrink-0" style="background-color:#e74c3c; aspect-ratio: 1/1;"><i class="nf nf-fa-edit px-4" style="font-size: 3rem;"></i></div>
           <div>
@@ -74,4 +74,28 @@
       </div>
     </div>
   </div>
+
+@push('scripts')
+<script>
+  // 〈 ホームメニューブレイクポイント切替スクリプト 〉
+  // ：サイドバー開閉状態に応じて#home-menuのクラスを切り替え
+  const homeMenu = document.getElementById('home-menu');
+
+  if (homeMenu) {
+    function updateHomeMenuLayout() {
+      const isOpen = document.documentElement.dataset.sidebar === 'open';
+      homeMenu.classList.toggle('flex-lg-row', !isOpen);
+      homeMenu.classList.toggle('flex-xl-row', isOpen);
+    }
+
+    updateHomeMenuLayout();
+
+    new MutationObserver(updateHomeMenuLayout).observe(
+      document.documentElement,
+      { attributeFilter: ['data-sidebar'] }
+    );
+  }
+</script>
+@endpush
+
 </x-app-layout>
