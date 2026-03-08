@@ -29,8 +29,13 @@
   -webkit-text-stroke: 7px #333;
   paint-order: stroke fill;
 }
+/*-------------------------------------------------*/
 
-/* ヘッダー内トグルボタン（ハンバーガーメニュー） */
+
+
+
+/*━━━━┫〈 ヘッダー 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/* トグルボタン（ハンバーガーメニュー） */
 /* ボタンサイズは hamburger-size プロパティで調整可能 */
 /* バーの太さは bar-h プロパティで調整可能 */
 .sidebar-toggle,
@@ -108,7 +113,6 @@ html[data-sidebar="open"] .sidebar-toggle span:nth-of-type(3)::before {
 html[data-sidebar="open"] .sidebar-toggle span:nth-of-type(3)::after {
   transform: translate(calc(var(--tx) * -1), calc(var(--ty) * -1)) rotate(45deg);
 }
-
 /*-------------------------------------------------*/
 
 
@@ -245,6 +249,21 @@ html[data-sidebar="closed"] .sidebar {
   background-color: #1a3a5c;
   color: #6db3ff;
   font-weight: 500;
+}
+/*-------------------------------------------------*/
+
+
+
+
+/*━━━━┫〈 ホーム画面 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/* 縦区切り線：lg(992px)以上で表示、サイドバー展開時はlg+sidebar幅(1232px)以上で表示 */
+.home-menu-vr { display: none; }
+@media (min-width: 992px) {
+  .home-menu-vr { display: block; }
+}
+html[data-sidebar="open"] .home-menu-vr { display: none; }
+@media (min-width: 1232px) {
+  html[data-sidebar="open"] .home-menu-vr { display: block; }
 }
 /*-------------------------------------------------*/
 
@@ -626,21 +645,6 @@ html[data-sidebar="closed"] .sidebar {
 
 .pdf-insurances .status-updated {
   color: #666666;
-}
-/*-------------------------------------------------*/
-
-
-
-
-/*━━━━┫〈 ホーム画面 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-/* 縦区切り線：lg(992px)以上で表示、サイドバー展開時はlg+sidebar幅(1232px)以上で表示 */
-.home-menu-vr { display: none; }
-@media (min-width: 992px) {
-  .home-menu-vr { display: block; }
-}
-html[data-sidebar="open"] .home-menu-vr { display: none; }
-@media (min-width: 1232px) {
-  html[data-sidebar="open"] .home-menu-vr { display: block; }
 }
 /*-------------------------------------------------*/
 
