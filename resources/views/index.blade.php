@@ -75,4 +75,27 @@
     </div>
   </div>
 
+@push('scripts')
+<script>
+  // 〈 ホームメニューブレイクポイント切替スクリプト 〉
+  // サイドバー開閉状態に応じて#home-menuのBreakpointクラスを切り替え
+  const homeMenu = document.getElementById('home-menu');
+
+  if (homeMenu) {
+    function updateHomeMenuLayout() {
+      const isOpen = document.documentElement.dataset.sidebar === 'open';
+      homeMenu.classList.toggle('flex-lg-row', !isOpen);
+      homeMenu.classList.toggle('flex-xl-row', isOpen);
+    }
+
+    updateHomeMenuLayout();
+
+    new MutationObserver(updateHomeMenuLayout).observe(
+      document.documentElement,
+      { attributeFilter: ['data-sidebar'] }
+    );
+  }
+</script>
+@endpush
+
 </x-app-layout>
