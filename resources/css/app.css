@@ -8,7 +8,38 @@
   scroll-behavior: smooth;
 }
 
-/* リンクの下線を削除 */
+/* コンテンツラッパー（サイドバー ＋ メインコンテンツ ＋ フッター）*/
+.content-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  position: fixed;
+  top: calc(0.5rem * 2 + 1.5rem + 2px);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+/* メインコンテンツ */
+.main-content {
+  position: absolute;
+  left: 15rem;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1rem 1rem 0 1rem;
+  overflow-y: auto;
+  transition: left 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+/* メインコンテンツ - サイドバー格納状態 */
+html[data-sidebar="closed"] .main-content {
+  left: 0;
+}
+
+/* リンク下線を削除 */
 [href] {
   text-decoration-line: none;
 }
@@ -118,41 +149,6 @@ html[data-sidebar="open"] .sidebar-toggle span:nth-of-type(3)::after {
 
 
 
-/*━━━━┫〈 レイアウト - サイドバー連動 〉┣━━━━━━━━━━━━*/
-/* Content Wrapper */
-.content-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  position: fixed;
-  top: calc(0.5rem * 2 + 1.5rem + 2px);
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: hidden;
-}
-
-/* メインコンテンツ - サイドバー開閉時のトランジション */
-.main-content {
-  position: absolute;
-  left: 15rem;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  padding: 1rem 1rem 0 1rem;
-  overflow-y: auto;
-  transition: left 0.2s ease;
-  display: flex;
-  flex-direction: column;
-}
-
-html[data-sidebar="closed"] .main-content {
-  left: 0;
-}
-/*-------------------------------------------------*/
-
-
-
-
 /*━━━━┫〈 サイドバー 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 .sidebar {
   position: fixed;
@@ -255,16 +251,7 @@ html[data-sidebar="closed"] .sidebar {
 
 
 
-/*━━━━┫〈 ホーム画面 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-/* 縦区切り線：lg(992px)以上で表示、サイドバー展開時はlg+sidebar幅(1232px)以上で表示 */
-.home-menu-vr { display: none; }
-@media (min-width: 992px) {
-  .home-menu-vr { display: block; }
-}
-html[data-sidebar="open"] .home-menu-vr { display: none; }
-@media (min-width: 1232px) {
-  html[data-sidebar="open"] .home-menu-vr { display: block; }
-}
+/*━━━━┫〈 ホーム 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 /*-------------------------------------------------*/
 
 

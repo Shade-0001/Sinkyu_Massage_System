@@ -7,7 +7,7 @@
 
   <div class="mt-2 mx-1 user-select-none" style="max-width: 1200px;">
     <div id="home-menu" class="d-flex flex-column">
-      <div class="flex-fill me-lg-5">
+      <div class="flex-fill">
         <a class="d-flex mb-3" href="{{ route('records.index') }}">
           <div class="d-flex align-items-center justify-content-center rounded text-white me-3 fs-2 flex-shrink-0" style="background-color:#e74c3c; aspect-ratio: 1/1;"><i class="nf nf-fa-edit px-4" style="font-size: 3rem;"></i></div>
           <div>
@@ -38,7 +38,7 @@
         </a>
       </div>
 
-      <div class="home-menu-vr flex-fill">
+      <div class="home-menu-vr d-none flex-fill">
         <div class="vr h-100"></div>
       </div>
 
@@ -78,14 +78,19 @@
 @push('scripts')
 <script>
   // 〈 ホームメニューブレイクポイント切替スクリプト 〉
-  // サイドバー開閉状態に応じて#home-menuのBreakpointクラスを切り替え
+  // サイドバー開閉状態に応じて#home-menuのクラスを切り替え
   const homeMenu = document.getElementById('home-menu');
+  const homeMenuVr = document.querySelector('.home-menu-vr');
 
   if (homeMenu) {
     function updateHomeMenuLayout() {
       const isOpen = document.documentElement.dataset.sidebar === 'open';
       homeMenu.classList.toggle('flex-lg-row', !isOpen);
       homeMenu.classList.toggle('flex-xl-row', isOpen);
+      if (homeMenuVr) {
+        homeMenuVr.classList.toggle('d-lg-block', !isOpen);
+        homeMenuVr.classList.toggle('d-xl-block', isOpen);
+      }
     }
 
     updateHomeMenuLayout();
