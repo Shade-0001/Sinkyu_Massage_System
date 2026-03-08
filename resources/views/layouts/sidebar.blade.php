@@ -1,7 +1,7 @@
 <div class="border-bottom border-secondary border-2 px-3 py-2">
     <div class="d-flex flex-column gap-2">
-      <div class="small text-light"><b>{{ Auth::user()->name }}</b>&nbsp;&nbsp;様</div>
-      <div class="small text-light">
+      <div class="small text-light opacity-75"><b>{{ Auth::user()->name }}</b>&nbsp;&nbsp;様</div>
+      <div class="small text-light opacity-75">
         @if(Auth::user()->last_login_at)
           <small>前回ログイン日時：</small><br><b>{{ Auth::user()->last_login_at->format('Y/m/d') }}&nbsp;&nbsp;{{ Auth::user()->last_login_at->format('H:i') }}</b>
         @endif
@@ -25,16 +25,16 @@
           <span><i class="nf nf-oct-gear me-1"></i> マスター登録</span>
           <span class="submenu-arrow"><i class="nf nf-md-chevron_down"></i></span>
         </div>
-        <ul id="master-submenu" class="submenu list-unstyled p-0 m-0 overflow-hidden bg-black">
-          <li><a href="{{ route('clinic-users.index') }}" class="submenu-link d-block text-decoration-none fw-normal py-1 px-3 small text-white-50 user-select-none">利用者</a></li>
-          <li><a href="{{ route('doctors.index') }}" class="submenu-link d-block text-decoration-none fw-normal py-1 px-3 small text-white-50 user-select-none">医師</a></li>
-          <li><a href="{{ route('therapists.index') }}" class="submenu-link d-block text-decoration-none fw-normal py-1 px-3 small text-white-50 user-select-none">施術者</a></li>
-          <li><a href="{{ route('caremanagers.index') }}" class="submenu-link d-block text-decoration-none fw-normal py-1 px-3 small text-white-50 user-select-none">ケアマネ</a></li>
-          <li><a href="{{ route('clinic-info.index') }}" class="submenu-link d-block text-decoration-none fw-normal py-1 px-3 small text-white-50 user-select-none">自社情報</a></li>
-          <li><a href="{{ route('master.documents.index') }}" class="submenu-link d-block text-decoration-none fw-normal py-1 px-3 small text-white-50 user-select-none">文面編集</a></li>
-          <li><a href="{{ route('master.treatment-fees.index') }}" class="submenu-link d-block text-decoration-none fw-normal py-1 px-3 small text-white-50 user-select-none">施術料金</a></li>
-          <li><a href="{{ route('master.self-fees.index') }}" class="submenu-link d-block text-decoration-none fw-normal py-1 px-3 small text-white-50 user-select-none">自費施術料金</a></li>
-          <li><a href="{{ route('master.document-association.index') }}" class="submenu-link d-block text-decoration-none fw-normal py-1 px-3 small text-white-50 user-select-none">登録済み標準文書の確認･関連付け</a></li>
+        <ul id="master-submenu" class="submenu list-unstyled p-0 m-0 overflow-hidden">
+          <li><a href="{{ route('clinic-users.index') }}" class="submenu-link text-light opacity-75 small py-1 px-3 d-block text-decoration-none fw-normal user-select-none">利用者</a></li>
+          <li><a href="{{ route('doctors.index') }}" class="submenu-link text-light opacity-75 small py-1 px-3 d-block text-decoration-none fw-normal user-select-none">医師</a></li>
+          <li><a href="{{ route('therapists.index') }}" class="submenu-link text-light opacity-75 small py-1 px-3 d-block text-decoration-none fw-normal user-select-none">施術者</a></li>
+          <li><a href="{{ route('caremanagers.index') }}" class="submenu-link text-light opacity-75 small py-1 px-3 d-block text-decoration-none fw-normal user-select-none">ケアマネ</a></li>
+          <li><a href="{{ route('clinic-info.index') }}" class="submenu-link text-light opacity-75 small py-1 px-3 d-block text-decoration-none fw-normal user-select-none">自社情報</a></li>
+          <li><a href="{{ route('master.documents.index') }}" class="submenu-link text-light opacity-75 small py-1 px-3 d-block text-decoration-none fw-normal user-select-none">文面編集</a></li>
+          <li><a href="{{ route('master.treatment-fees.index') }}" class="submenu-link text-light opacity-75 small py-1 px-3 d-block text-decoration-none fw-normal user-select-none">施術料金</a></li>
+          <li><a href="{{ route('master.self-fees.index') }}" class="submenu-link text-light opacity-75 small py-1 px-3 d-block text-decoration-none fw-normal user-select-none">自費施術料金</a></li>
+          <li><a href="{{ route('master.document-association.index') }}" class="submenu-link text-light opacity-75 small py-1 px-3 d-block text-decoration-none fw-normal user-select-none">登録済み標準文書の確認･関連付け</a></li>
         </ul>
       </li>
       <li class="border-bottom border-secondary">
@@ -42,11 +42,11 @@
           <span><i class="nf nf-oct-gear me-1"></i> サブマスター登録</span>
           <span class="submenu-arrow"><i class="nf nf-md-chevron_down"></i></span>
         </div>
-        <ul id="submaster-submenu" class="submenu list-unstyled p-0 m-0 overflow-hidden bg-black">
-          <li><a href="{{ route('submaster.medical-institutions') }}" class="submenu-link d-block text-decoration-none fw-normal py-1 px-3 small text-white-50 user-select-none">医療機関名</a></li>
-          <li><a href="{{ route('submaster.service-providers') }}" class="submenu-link d-block text-decoration-none fw-normal py-1 px-3 small text-white-50 user-select-none">サービス事業者名</a></li>
-          <li><a href="{{ route('submaster.conditions') }}" class="submenu-link d-block text-decoration-none fw-normal py-1 px-3 small text-white-50 user-select-none">発病負傷経過（あんま・マッサージ）</a></li>
-          <li><a href="{{ route('submaster.illnesses-massage') }}" class="submenu-link d-block text-decoration-none fw-normal py-1 px-3 small text-white-50 user-select-none">傷病名（あんま・マッサージ）</a></li>
+        <ul id="submaster-submenu" class="submenu list-unstyled p-0 m-0 overflow-hidden">
+          <li><a href="{{ route('submaster.medical-institutions') }}" class="submenu-link text-light opacity-75 small py-1 px-3 d-block text-decoration-none fw-normal user-select-none">医療機関名</a></li>
+          <li><a href="{{ route('submaster.service-providers') }}" class="submenu-link text-light opacity-75 small py-1 px-3 d-block text-decoration-none fw-normal user-select-none">サービス事業者名</a></li>
+          <li><a href="{{ route('submaster.conditions') }}" class="submenu-link text-light opacity-75 small py-1 px-3 d-block text-decoration-none fw-normal user-select-none">発病負傷経過（あんま・マッサージ）</a></li>
+          <li><a href="{{ route('submaster.illnesses-massage') }}" class="submenu-link text-light opacity-75 small py-1 px-3 d-block text-decoration-none fw-normal user-select-none">傷病名（あんま・マッサージ）</a></li>
         </ul>
       </li>
       <li class="border-bottom border-secondary">
