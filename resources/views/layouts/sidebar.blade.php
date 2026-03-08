@@ -24,7 +24,7 @@
         <a href="{{ route('schedules.index') }}" class="sidebar-link user-select-none"><i class="nf nf-md-calendar_month_outline me-1"></i> スケジュール</a>
       </li>
       <li class="border-bottom border-secondary">
-        <div class="sidebar-link sidebar-submenu-toggle user-select-none" data-target="master-submenu">
+        <div class="sidebar-link sidebar-submenu-toggle user-select-none d-flex justify-content-between align-items-center text-nowrap" data-target="master-submenu">
           <span><i class="nf nf-oct-gear me-1"></i> マスター登録</span>
           <span class="submenu-arrow"><i class="nf nf-md-chevron_down"></i></span>
         </div>
@@ -41,7 +41,7 @@
         </ul>
       </li>
       <li class="border-bottom border-secondary">
-        <div class="sidebar-link sidebar-submenu-toggle user-select-none" data-target="submaster-submenu">
+        <div class="sidebar-link sidebar-submenu-toggle user-select-none d-flex justify-content-between align-items-center text-nowrap" data-target="submaster-submenu">
           <span><i class="nf nf-oct-gear me-1"></i> サブマスター登録</span>
           <span class="submenu-arrow"><i class="nf nf-md-chevron_down"></i></span>
         </div>
@@ -65,7 +65,7 @@
   </nav>
 </aside>
 
-{{-- サブメニュー展開状態をペイント前に即時復元（フラッシュ防止） --}}
+{{-- サブメニュー描画前に展開状態を復元（フリッカー防止） --}}
 <script>
   (function() {
     var states = JSON.parse(localStorage.getItem('submenuStates') || '{}');

@@ -59,13 +59,13 @@
         </div>
         <div class="calendar" id="calendar">
           <!-- 曜日ヘッダー -->
-          <div class="calendar-day-header sunday">日</div>
-          <div class="calendar-day-header">月</div>
-          <div class="calendar-day-header">火</div>
-          <div class="calendar-day-header">水</div>
-          <div class="calendar-day-header">木</div>
-          <div class="calendar-day-header">金</div>
-          <div class="calendar-day-header saturday">土</div>
+          <div class="calendar-day-header text-center p-1 fw-bold sunday">日</div>
+          <div class="calendar-day-header text-center p-1 fw-bold">月</div>
+          <div class="calendar-day-header text-center p-1 fw-bold">火</div>
+          <div class="calendar-day-header text-center p-1 fw-bold">水</div>
+          <div class="calendar-day-header text-center p-1 fw-bold">木</div>
+          <div class="calendar-day-header text-center p-1 fw-bold">金</div>
+          <div class="calendar-day-header text-center p-1 fw-bold saturday">土</div>
         </div>
         <button type="button" id="clear-selection-btn" class="mt-3 border-secondary rounded-1">選択解除</button>
       </div>

@@ -171,10 +171,6 @@ html[data-sidebar="closed"] .sidebar {
 /* サブメニュートグル */
 .sidebar-submenu-toggle {
   cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  white-space: nowrap;
 }
 
 .submenu-arrow {
@@ -231,6 +227,30 @@ html[data-sidebar="closed"] .sidebar {
 
 
 
+/*━━━━┫〈 ホーム 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/* ホームメニュー - サイドバー格納時：lg以上で横並び */
+@media (min-width: 992px) {
+  html[data-sidebar="closed"] #home-menu {
+    flex-direction: row !important;
+  }
+  html[data-sidebar="closed"] .home-menu-vr {
+    display: flex !important;
+  }
+}
+/* ホームメニュー - サイドバー展開時：xl以上で横並び */
+@media (min-width: 1200px) {
+  html[data-sidebar="open"] #home-menu {
+    flex-direction: row !important;
+  }
+  html[data-sidebar="open"] .home-menu-vr {
+    display: flex !important;
+  }
+}
+/*-------------------------------------------------*/
+
+
+
+
 /*━━━━┫〈 実績データ - カレンダー 〉┣━━━━━━━━━━━━━━━━*/
 /* カレンダータイトルセレクト - カスタムスタイル */
 #calendar-title {
@@ -255,12 +275,6 @@ html[data-sidebar="closed"] .sidebar {
   gap: 0;
 }
 
-/* カレンダーヘッダー - text-center p-1 fw-boldで代替可能だが、特定要素用のため保持 */
-.calendar-day-header {
-  text-align: center;
-  padding: 5px;
-  font-weight: bold;
-}
 
 /* 日曜日 - text-dangerで代替可能だが、特定色のため保持 */
 .calendar-day-header.sunday {
@@ -610,28 +624,6 @@ html[data-sidebar="closed"] .sidebar {
 /*-------------------------------------------------*/
 
 
-
-
-/*━━━━┫〈 ホームメニュー 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━*/
-/* サイドバー格納時: lg以上で横並び */
-@media (min-width: 992px) {
-  html[data-sidebar="closed"] #home-menu {
-    flex-direction: row !important;
-  }
-  html[data-sidebar="closed"] .home-menu-vr {
-    display: flex !important;
-  }
-}
-/* サイドバー展開時: xl以上で横並び */
-@media (min-width: 1200px) {
-  html[data-sidebar="open"] #home-menu {
-    flex-direction: row !important;
-  }
-  html[data-sidebar="open"] .home-menu-vr {
-    display: flex !important;
-  }
-}
-/*-------------------------------------------------*/
 
 
 /*━━━━┫〈 その他 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/

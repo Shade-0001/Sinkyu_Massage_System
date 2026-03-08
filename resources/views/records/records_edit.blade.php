@@ -30,13 +30,13 @@
         <select id="calendar-title" class="position-absolute top-0 start-50 translate-middle-x opacity-0" style="cursor: pointer; font-size: 1.5rem; padding: 0.2em 0em; border: none; background: transparent;"></select>
         <div class="calendar" id="calendar">
           <!-- 曜日ヘッダー -->
-          <div class="calendar-day-header sunday">日</div>
-          <div class="calendar-day-header">月</div>
-          <div class="calendar-day-header">火</div>
-          <div class="calendar-day-header">水</div>
-          <div class="calendar-day-header">木</div>
-          <div class="calendar-day-header">金</div>
-          <div class="calendar-day-header saturday">土</div>
+          <div class="calendar-day-header text-center p-1 fw-bold sunday">日</div>
+          <div class="calendar-day-header text-center p-1 fw-bold">月</div>
+          <div class="calendar-day-header text-center p-1 fw-bold">火</div>
+          <div class="calendar-day-header text-center p-1 fw-bold">水</div>
+          <div class="calendar-day-header text-center p-1 fw-bold">木</div>
+          <div class="calendar-day-header text-center p-1 fw-bold">金</div>
+          <div class="calendar-day-header text-center p-1 fw-bold saturday">土</div>
         </div>
         <button type="button" id="clear-selection-btn" class="mt-2">選択解除</button>
       </div>
