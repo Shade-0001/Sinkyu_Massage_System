@@ -51,6 +51,17 @@
 
 
 /*━━━━┫〈 ヘッダー 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/* ヘッダーリンク */
+.header-link {
+  transition: opacity 0.2s ease, background-color 0.2s ease;
+}
+
+.header-link:hover {
+  opacity: 1 !important;
+  background-color: #ffffff20;
+}
+/*-------------------------------------------------*/
+
 /* サイドバートグルボタン（ハンバーガーメニュー） */
 /* ・ボタンサイズは hamburger-size プロパティで調整可能 */
 /* ・バーの太さは bar-h プロパティで調整可能 */
@@ -159,6 +170,7 @@ html[data-sidebar="closed"] #sidebar {
 
 .sidebar-link:hover {
   color: #fff !important;
+  opacity: 1 !important;
   background-color: #ffffff20;
 }
 
