@@ -33,7 +33,7 @@
         </td>
         <td style="width: 15%;">
           @if($history->consentingDoctor)
-            {{ $history->consentingDoctor->last_name }}\u{2000}{{ $history->consentingDoctor->first_name }}
+            {{ $history->consentingDoctor->last_name }}{{ "\u{2000}" }}{{ $history->consentingDoctor->first_name }}
           @else
             未設定
           @endif

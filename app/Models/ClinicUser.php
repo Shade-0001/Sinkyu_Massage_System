@@ -50,7 +50,7 @@ class ClinicUser extends Model
    */
   public function getFullKanaAttribute(): string
   {
-    return $this->last_kana . ' ' . $this->first_kana;
+    return $this->last_kana . "\u{2000}" . $this->first_kana;
   }
 
   protected $casts = [

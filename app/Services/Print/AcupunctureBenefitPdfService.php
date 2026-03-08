@@ -227,7 +227,7 @@ class AcupunctureBenefitPdfService extends BasePdfService
     $clinicInfo = $data['clinic_info'];
     [$year, $month] = explode('-', $data['service_year_month']);
     $japaneseYear = $this->convertToJapaneseYear($year, $month);
-    $fullName = ($clinicUser->last_name ?? '') . '  ' . ($clinicUser->first_name ?? '');
+    $fullName = ($clinicUser->last_name ?? '') . "\u{2000}" . ($clinicUser->first_name ?? '');
 
     // タイトル年月
     $this->fillTitleYearMonth($pdf, $japaneseYear, (int)$month);

@@ -143,7 +143,7 @@
             <select class="form-select" id="new-user-select">
               <option value="">╌╌╌</option>
               @foreach($clinicUsers as $user)
-                <option value="{{ $user->id }}">{{ $user->last_name }} {{ $user->first_name }}</option>
+                <option value="{{ $user->id }}">{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}</option>
               @endforeach
             </select>
           </div>

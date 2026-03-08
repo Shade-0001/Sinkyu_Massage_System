@@ -137,7 +137,7 @@
               data-birthday="{{ $user->birthday ? $user->birthday->format('Y/n/j') : '' }}"
               data-age="{{ $user->age }}"
               data-note="{{ $user->note }}"
-            >{{ $user->last_name }} {{ $user->first_name }}</option>
+            >{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}</option>
           @endforeach
         </select>
       </div>
@@ -266,7 +266,7 @@
           option.dataset.birthday = user.birthday ? user.birthday.split('T')[0].replace(/-/g, '/') : '';
           option.dataset.age = user.age || '';
           option.dataset.note = user.note || '';
-          option.textContent = (user.last_name || '') + ' ' + (user.first_name || '');
+          option.textContent = (user.last_name || '') + '\u2000' + (user.first_name || '');
           userList.appendChild(option);
         });
         matchCount.textContent = users.length;
@@ -284,10 +284,10 @@
 
         const filtered = allUsers.filter(user => {
           if (target === 'name') {
-            const fullName = ((user.last_name || '') + ' ' + (user.first_name || '')).toLowerCase();
+            const fullName = ((user.last_name || '') + '\u2000' + (user.first_name || '')).toLowerCase();
             return fullName.includes(keyword);
           } else if (target === 'kana') {
-            const fullKana = ((user.last_kana || '') + ' ' + (user.first_kana || '')).toLowerCase();
+            const fullKana = ((user.last_kana || '') + '\u2000' + (user.first_kana || '')).toLowerCase();
             return fullKana.includes(keyword);
           } else if (target === 'tel') {
             const phone = (user.phone || '').toLowerCase();

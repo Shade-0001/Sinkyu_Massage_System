@@ -102,7 +102,7 @@
               </div>
               <select class="form-select" id="clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '（' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '）' }}</option>
+                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{2000}" . $user->first_name . '（' . $user->last_kana . "\u{2000}" . $user->first_kana . '）' }}</option>
                 @endforeach
               </select>
               <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -163,7 +163,7 @@
               </div>
               <select class="form-select" id="receipt_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '（' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '）' }}</option>
+                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{2000}" . $user->first_name . '（' . $user->last_kana . "\u{2000}" . $user->first_kana . '）' }}</option>
                 @endforeach
               </select>
               <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -237,7 +237,7 @@
               </div>
               <select class="form-select" id="massage_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '（' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '）' }}</option>
+                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{2000}" . $user->first_name . '（' . $user->last_kana . "\u{2000}" . $user->first_kana . '）' }}</option>
                 @endforeach
               </select>
               <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -298,7 +298,7 @@
               </div>
               <select class="form-select" id="medical_assistance_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '（' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '）' }}</option>
+                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{2000}" . $user->first_name . '（' . $user->last_kana . "\u{2000}" . $user->first_kana . '）' }}</option>
                 @endforeach
               </select>
               <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -376,7 +376,7 @@
               </div>
               <select class="form-select" id="late_elderly_medical_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '（' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '）' }}</option>
+                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{2000}" . $user->first_name . '（' . $user->last_kana . "\u{2000}" . $user->first_kana . '）' }}</option>
                 @endforeach
               </select>
               <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -514,7 +514,7 @@
               </div>
               <select class="form-select" id="consent_request_sample_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '（' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '）' }}</option>
+                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{2000}" . $user->first_name . '（' . $user->last_kana . "\u{2000}" . $user->first_kana . '）' }}</option>
                 @endforeach
               </select>
               <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -556,7 +556,7 @@
               </div>
               <select class="form-select" id="consent_request_designated_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '（' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '）' }}</option>
+                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{2000}" . $user->first_name . '（' . $user->last_kana . "\u{2000}" . $user->first_kana . '）' }}</option>
                 @endforeach
               </select>
               <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -568,7 +568,7 @@
               <select class="form-select" id="consent_request_designated_doctor_ids" name="doctor_ids[]" size="10" required>
                 @foreach($doctors as $doctor)
                   <option value="{{ $doctor->id }}">
-                    {{ $doctor->last_name }} {{ $doctor->first_name }} ({{ $doctor->last_name_kana }} {{ $doctor->first_name_kana }})
+                    {{ $doctor->last_name }}{{ "\u{2000}" }}{{ $doctor->first_name }}（{{ $doctor->last_name_kana }}{{ "\u{2000}" }}{{ $doctor->first_name_kana }}）
                   </option>
                 @endforeach
               </select>
@@ -629,7 +629,7 @@
               </div>
               <select class="form-select" id="treatment_record_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '（' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '）' }}</option>
+                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{2000}" . $user->first_name . '（' . $user->last_kana . "\u{2000}" . $user->first_kana . '）' }}</option>
                 @endforeach
               </select>
               <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -760,7 +760,7 @@
               </div>
               <select class="form-select" id="consent_form_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '（' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '）' }}</option>
+                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{2000}" . $user->first_name . '（' . $user->last_kana . "\u{2000}" . $user->first_kana . '）' }}</option>
                 @endforeach
               </select>
               <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -831,7 +831,7 @@
               </div>
               <select class="form-select" id="doctor_thank_you_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '（' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '）' }}</option>
+                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{2000}" . $user->first_name . '（' . $user->last_kana . "\u{2000}" . $user->first_kana . '）' }}</option>
                 @endforeach
               </select>
               <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -843,7 +843,7 @@
               <select class="form-select" id="doctor_thank_you_doctor_id" name="doctor_id" size="10" required>
                 @foreach($doctors as $doctor)
                   <option value="{{ $doctor->id }}">
-                    {{ $doctor->last_name }} {{ $doctor->first_name }} ({{ $doctor->last_name_kana }} {{ $doctor->first_name_kana }})
+                    {{ $doctor->last_name }}{{ "\u{2000}" }}{{ $doctor->first_name }}（{{ $doctor->last_name_kana }}{{ "\u{2000}" }}{{ $doctor->first_name_kana }}）
                   </option>
                 @endforeach
               </select>
@@ -899,7 +899,7 @@
               </div>
               <select class="form-select" id="referrer_thank_you_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '（' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '）' }}</option>
+                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{2000}" . $user->first_name . '（' . $user->last_kana . "\u{2000}" . $user->first_kana . '）' }}</option>
                 @endforeach
               </select>
               <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -911,7 +911,7 @@
               <select class="form-select" id="referrer_thank_you_caremanager_id" name="caremanager_id" size="10" required>
                 @foreach($caremanagers as $cm)
                   <option value="{{ $cm->id }}">
-                    {{ $cm->last_name }} {{ $cm->first_name }} ({{ $cm->last_name_kana }} {{ $cm->first_name_kana }})
+                    {{ $cm->last_name }}{{ "\u{2000}" }}{{ $cm->first_name }}（{{ $cm->last_name_kana }}{{ "\u{2000}" }}{{ $cm->first_name_kana }}）
                   </option>
                 @endforeach
               </select>
@@ -971,7 +971,7 @@
               </div>
               <select class="form-select" id="implementation_plan_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}" data-plan-months="{{ json_encode($implementationPlanUserMonths[$user->id] ?? []) }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '（' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '）' }}</option>
+                  <option value="{{ $user->id }}" data-plan-months="{{ json_encode($implementationPlanUserMonths[$user->id] ?? []) }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{2000}" . $user->first_name . '（' . $user->last_kana . "\u{2000}" . $user->first_kana . '）' }}</option>
                 @endforeach
               </select>
               <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -1004,7 +1004,7 @@
               <select class="form-select" id="report_clinic_user_id" name="clinic_user_id" required>
                 <option value="">選択してください</option>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '（' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '）' }}</option>
+                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{2000}" . $user->first_name . '（' . $user->last_kana . "\u{2000}" . $user->first_kana . '）' }}</option>
                 @endforeach
               </select>
             </div>
@@ -1080,7 +1080,7 @@
               <select class="form-select" id="report_greeting_clinic_user_id" name="clinic_user_id" required>
                 <option value="">選択してください</option>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '（' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '）' }}</option>
+                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{2000}" . $user->first_name . '（' . $user->last_kana . "\u{2000}" . $user->first_kana . '）' }}</option>
                 @endforeach
               </select>
             </div>
@@ -1092,7 +1092,7 @@
                 <option value="">選択してください</option>
                 @foreach($doctors as $doctor)
                   <option value="{{ $doctor->id }}">
-                    {{ $doctor->last_name }} {{ $doctor->first_name }} ({{ $doctor->last_name_kana }} {{ $doctor->first_name_kana }})
+                    {{ $doctor->last_name }}{{ "\u{2000}" }}{{ $doctor->first_name }}（{{ $doctor->last_name_kana }}{{ "\u{2000}" }}{{ $doctor->first_name_kana }}）
                   </option>
                 @endforeach
               </select>
@@ -1105,7 +1105,7 @@
                 <option value="">選択してください</option>
                 @foreach($caremanagers as $cm)
                   <option value="{{ $cm->id }}">
-                    {{ $cm->last_name }} {{ $cm->first_name }} ({{ $cm->last_name_kana }} {{ $cm->first_name_kana }})
+                    {{ $cm->last_name }}{{ "\u{2000}" }}{{ $cm->first_name }}（{{ $cm->last_name_kana }}{{ "\u{2000}" }}{{ $cm->first_name_kana }}）
                   </option>
                 @endforeach
               </select>
@@ -1206,7 +1206,7 @@
               </div>
               <select class="form-select" id="schedule_list_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{00A0}\u{00A0}" . $user->first_name . '（' . $user->last_kana . "\u{00A0}\u{00A0}" . $user->first_kana . '）' }}</option>
+                  <option value="{{ $user->id }}">{{ str_repeat("\u{00A0}", max(0, (3 - strlen((string)$user->id)) * 2)) . '［' . $user->id . '］' . $user->last_name . "\u{2000}" . $user->first_name . '（' . $user->last_kana . "\u{2000}" . $user->first_kana . '）' }}</option>
                 @endforeach
               </select>
               <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>

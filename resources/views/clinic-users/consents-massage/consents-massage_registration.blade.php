@@ -40,7 +40,7 @@
   <div class="alert alert-warning">
     <strong>複製元の履歴:</strong>
     @if($history->consentingDoctor)
-      {{ $history->consentingDoctor->last_name }}\u{2000}{{ $history->consentingDoctor->first_name }}
+      {{ $history->consentingDoctor->last_name }}{{ "\u{2000}" }}{{ $history->consentingDoctor->first_name }}
     @else
       同意医師未設定
     @endif

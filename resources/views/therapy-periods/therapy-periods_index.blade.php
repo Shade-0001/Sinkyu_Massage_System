@@ -38,8 +38,8 @@
     @forelse($therapyPeriods as $period)
     <tr>
       <td>
-      <a href="{{ route('clinic-users.index', ['search_name' => $period->last_name . ' ' . $period->first_name]) }}">
-        {{ $period->last_name }} {{ $period->first_name }}
+      <a href="{{ route('clinic-users.index', ['search_name' => $period->last_name . "\u{2000}" . $period->first_name]) }}">
+        {{ $period->last_name }}{{ "\u{2000}" }}{{ $period->first_name }}
       </a>
       </td>
       <td>{{ $period->category }}</td>
