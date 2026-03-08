@@ -51,16 +51,16 @@
 
 
 /*━━━━┫〈 ヘッダー 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-/* トグルボタン（ハンバーガーメニュー） */
-/* ボタンサイズは hamburger-size プロパティで調整可能 */
-/* バーの太さは bar-h プロパティで調整可能 */
-.sidebar-toggle,
-.sidebar-toggle span {
+/* サイドバートグルボタン（ハンバーガーメニュー） */
+/* ・ボタンサイズは hamburger-size プロパティで調整可能 */
+/* ・バーの太さは bar-h プロパティで調整可能 */
+#sidebar-toggle,
+#sidebar-toggle span {
   display: inline-block;
   box-sizing: border-box;
 }
 
-.sidebar-toggle {
+#sidebar-toggle {
   --hamburger-size: 25px;
   --bar-h: 3px;
   --mid-top: calc((var(--hamburger-size) * 0.88 - var(--bar-h)) / 2);
@@ -76,20 +76,19 @@
   cursor: pointer;
 }
 
-.sidebar-toggle:focus:not(:focus-visible) {
+#sidebar-toggle:focus:not(:focus-visible) {
   outline: none;
 }
 
-.sidebar-toggle span {
+#sidebar-toggle span {
   position: absolute;
   width: 100%;
   height: var(--bar-h);
   left: 0;
 }
 
-
-.sidebar-toggle span::before,
-.sidebar-toggle span::after {
+#sidebar-toggle span::before,
+#sidebar-toggle span::after {
   content: '';
   position: absolute;
   width: 50%;
@@ -99,34 +98,34 @@
   clip-path: inset(0 0% 0 0%);
 }
 
-.sidebar-toggle:hover span::before,
-.sidebar-toggle:hover span::after {
+#sidebar-toggle:hover span::before,
+#sidebar-toggle:hover span::after {
   background: #fff;
 }
 
-.sidebar-toggle span::before { left: 0;  width: 51%; }
-.sidebar-toggle span::after  { right: 0; width: 51%; }
+#sidebar-toggle span::before { left: 0;  width: 51%; }
+#sidebar-toggle span::after  { right: 0; width: 51%; }
 
-.sidebar-toggle span:nth-of-type(1) { top: 0; }
-.sidebar-toggle span:nth-of-type(2) { top: var(--mid-top); }
-.sidebar-toggle span:nth-of-type(3) { bottom: 0; }
+#sidebar-toggle span:nth-of-type(1) { top: 0; }
+#sidebar-toggle span:nth-of-type(2) { top: var(--mid-top); }
+#sidebar-toggle span:nth-of-type(3) { bottom: 0; }
 
-html[data-sidebar="open"] .sidebar-toggle span:nth-of-type(1)::before {
+html[data-sidebar="open"] #sidebar-toggle span:nth-of-type(1)::before {
   transform: translate(var(--tx), var(--ty)) rotate(45deg);
 }
-html[data-sidebar="open"] .sidebar-toggle span:nth-of-type(1)::after {
+html[data-sidebar="open"] #sidebar-toggle span:nth-of-type(1)::after {
   transform: translate(calc(var(--tx) * -1), var(--ty)) rotate(-45deg);
 }
-html[data-sidebar="open"] .sidebar-toggle span:nth-of-type(2)::before {
+html[data-sidebar="open"] #sidebar-toggle span:nth-of-type(2)::before {
   clip-path: inset(0 0% 0 100%);
 }
-html[data-sidebar="open"] .sidebar-toggle span:nth-of-type(2)::after {
+html[data-sidebar="open"] #sidebar-toggle span:nth-of-type(2)::after {
   clip-path: inset(0 100% 0 0%);
 }
-html[data-sidebar="open"] .sidebar-toggle span:nth-of-type(3)::before {
+html[data-sidebar="open"] #sidebar-toggle span:nth-of-type(3)::before {
   transform: translate(var(--tx), calc(var(--ty) * -1)) rotate(-45deg);
 }
-html[data-sidebar="open"] .sidebar-toggle span:nth-of-type(3)::after {
+html[data-sidebar="open"] #sidebar-toggle span:nth-of-type(3)::after {
   transform: translate(calc(var(--tx) * -1), calc(var(--ty) * -1)) rotate(45deg);
 }
 /*-------------------------------------------------*/

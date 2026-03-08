@@ -1,6 +1,6 @@
-<div class="d-flex align-items-center gap-3 fw-bold user-select-none" style="height: 2rem;">
-  <!-- トグルボタン -->
-  <button id="sidebar-toggle" class="sidebar-toggle" type="button">
+<div class="px-3 d-flex align-items-center gap-3 fw-bold">
+  <!-- サイドバートグルボタン -->
+  <button id="sidebar-toggle" type="button">
     <span></span>
     <span></span>
     <span></span>
@@ -8,7 +8,7 @@
 
   <div class="vr opacity-50"></div>
 
-  <a href="{{route('index')}}" class="text-light">ホーム</a>
+  <a href="{{route('index')}}" class="text-light py-3">ホーム</a>
 
   <div class="vr opacity-50"></div>
 
