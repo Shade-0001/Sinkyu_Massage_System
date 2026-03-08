@@ -38,7 +38,7 @@
         </a>
       </div>
 
-      <div class="home-vr flex-fill">
+      <div class="home-menu-vr flex-fill">
         <div class="vr h-100"></div>
       </div>
 
@@ -78,7 +78,7 @@
 @push('scripts')
 <script>
   // 〈 ホームメニューブレイクポイント切替スクリプト 〉
-  // ：サイドバー開閉状態に応じて#home-menuのクラスを切り替え
+  // サイドバー開閉状態に応じて#home-menuのクラスを切り替え
   const homeMenu = document.getElementById('home-menu');
 
   if (homeMenu) {

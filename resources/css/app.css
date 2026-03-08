@@ -634,13 +634,13 @@ html[data-sidebar="closed"] .sidebar {
 
 /*━━━━┫〈 ホーム画面 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 /* 縦区切り線：lg(992px)以上で表示、サイドバー展開時はlg+sidebar幅(1232px)以上で表示 */
-.home-vr { display: none; }
+.home-menu-vr { display: none; }
 @media (min-width: 992px) {
-  .home-vr { display: block; }
+  .home-menu-vr { display: block; }
 }
-html[data-sidebar="open"] .home-vr { display: none; }
+html[data-sidebar="open"] .home-menu-vr { display: none; }
 @media (min-width: 1232px) {
-  html[data-sidebar="open"] .home-vr { display: block; }
+  html[data-sidebar="open"] .home-menu-vr { display: block; }
 }
 /*-------------------------------------------------*/
 
