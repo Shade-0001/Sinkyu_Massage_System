@@ -63,7 +63,7 @@ function getClinicInfoBreadcrumbs() {
 // サブマスター登録
 function getSubMasterBreadcrumbs() {
   return [
-    ...getMasterBreadcrumbs(),
+    ...getIndexBreadcrumbs(),
     ['url' => route('submaster.index'), 'label' => 'サブマスター登録'],
   ];
 }

@@ -83,31 +83,31 @@ Route::middleware('auth')->group(function () {
   Route::post('/master/clinic-info/store', [CompanyInfoController::class, 'store'])->name('clinic-info.store');
 
   // サブマスター登録
-  Route::get('/master/submaster/index', [SubMasterController::class, 'index'])->name('submaster.index');
+  Route::get('/submaster/index', [SubMasterController::class, 'index'])->name('submaster.index');
 
   // 医療機関
-  Route::get('/master/submaster/medical-institutions', [SubMasterController::class, 'medicalInstitutions'])->name('submaster.medical-institutions');
-  Route::post('/master/submaster/medical-institutions', [SubMasterController::class, 'storeMedicalInstitution'])->name('submaster.medical-institutions.store');
-  Route::post('/master/submaster/medical-institutions/{id}', [SubMasterController::class, 'updateMedicalInstitution'])->name('submaster.medical-institutions.update');
-  Route::delete('/master/submaster/medical-institutions/{id}', [SubMasterController::class, 'destroyMedicalInstitution'])->name('submaster.medical-institutions.destroy');
+  Route::get('/submaster/medical-institutions', [SubMasterController::class, 'medicalInstitutions'])->name('submaster.medical-institutions');
+  Route::post('/submaster/medical-institutions', [SubMasterController::class, 'storeMedicalInstitution'])->name('submaster.medical-institutions.store');
+  Route::post('/submaster/medical-institutions/{id}', [SubMasterController::class, 'updateMedicalInstitution'])->name('submaster.medical-institutions.update');
+  Route::delete('/submaster/medical-institutions/{id}', [SubMasterController::class, 'destroyMedicalInstitution'])->name('submaster.medical-institutions.destroy');
 
   // サービス提供者
-  Route::get('/master/submaster/service-providers', [SubMasterController::class, 'serviceProviders'])->name('submaster.service-providers');
-  Route::post('/master/submaster/service-providers', [SubMasterController::class, 'storeServiceProvider'])->name('submaster.service-providers.store');
-  Route::post('/master/submaster/service-providers/{id}', [SubMasterController::class, 'updateServiceProvider'])->name('submaster.service-providers.update');
-  Route::delete('/master/submaster/service-providers/{id}', [SubMasterController::class, 'destroyServiceProvider'])->name('submaster.service-providers.destroy');
+  Route::get('/submaster/service-providers', [SubMasterController::class, 'serviceProviders'])->name('submaster.service-providers');
+  Route::post('/submaster/service-providers', [SubMasterController::class, 'storeServiceProvider'])->name('submaster.service-providers.store');
+  Route::post('/submaster/service-providers/{id}', [SubMasterController::class, 'updateServiceProvider'])->name('submaster.service-providers.update');
+  Route::delete('/submaster/service-providers/{id}', [SubMasterController::class, 'destroyServiceProvider'])->name('submaster.service-providers.destroy');
 
   // 状態
-  Route::get('/master/submaster/conditions', [SubMasterController::class, 'conditions'])->name('submaster.conditions');
-  Route::post('/master/submaster/conditions', [SubMasterController::class, 'storeCondition'])->name('submaster.conditions.store');
-  Route::post('/master/submaster/conditions/{id}', [SubMasterController::class, 'updateCondition'])->name('submaster.conditions.update');
-  Route::delete('/master/submaster/conditions/{id}', [SubMasterController::class, 'destroyCondition'])->name('submaster.conditions.destroy');
+  Route::get('/submaster/conditions', [SubMasterController::class, 'conditions'])->name('submaster.conditions');
+  Route::post('/submaster/conditions', [SubMasterController::class, 'storeCondition'])->name('submaster.conditions.store');
+  Route::post('/submaster/conditions/{id}', [SubMasterController::class, 'updateCondition'])->name('submaster.conditions.update');
+  Route::delete('/submaster/conditions/{id}', [SubMasterController::class, 'destroyCondition'])->name('submaster.conditions.destroy');
 
   // 疾病（あんま・マッサージ）
-  Route::get('/master/submaster/illnesses-massage', [SubMasterController::class, 'illnessesMassage'])->name('submaster.illnesses-massage');
-  Route::post('/master/submaster/illnesses-massage', [SubMasterController::class, 'storeIllnessMassage'])->name('submaster.illnesses-massage.store');
-  Route::post('/master/submaster/illnesses-massage/{id}', [SubMasterController::class, 'updateIllnessMassage'])->name('submaster.illnesses-massage.update');
-  Route::delete('/master/submaster/illnesses-massage/{id}', [SubMasterController::class, 'destroyIllnessMassage'])->name('submaster.illnesses-massage.destroy');
+  Route::get('/submaster/illnesses-massage', [SubMasterController::class, 'illnessesMassage'])->name('submaster.illnesses-massage');
+  Route::post('/submaster/illnesses-massage', [SubMasterController::class, 'storeIllnessMassage'])->name('submaster.illnesses-massage.store');
+  Route::post('/submaster/illnesses-massage/{id}', [SubMasterController::class, 'updateIllnessMassage'])->name('submaster.illnesses-massage.update');
+  Route::delete('/submaster/illnesses-massage/{id}', [SubMasterController::class, 'destroyIllnessMassage'])->name('submaster.illnesses-massage.destroy');
 
   // 文面編集
   Route::get('/master/documents/index', [DocumentController::class, 'index'])->name('master.documents.index');
