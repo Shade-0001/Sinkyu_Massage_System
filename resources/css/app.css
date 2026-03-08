@@ -90,22 +90,22 @@
 .sidebar-toggle span:nth-of-type(2) { top: var(--mid-top); }
 .sidebar-toggle span:nth-of-type(3) { bottom: 0; }
 
-.sidebar-toggle.active span:nth-of-type(1)::before {
+html[data-sidebar="open"] .sidebar-toggle span:nth-of-type(1)::before {
   transform: translate(var(--tx), var(--ty)) rotate(45deg);
 }
-.sidebar-toggle.active span:nth-of-type(1)::after {
+html[data-sidebar="open"] .sidebar-toggle span:nth-of-type(1)::after {
   transform: translate(calc(var(--tx) * -1), var(--ty)) rotate(-45deg);
 }
-.sidebar-toggle.active span:nth-of-type(2)::before {
+html[data-sidebar="open"] .sidebar-toggle span:nth-of-type(2)::before {
   clip-path: inset(0 0% 0 100%);
 }
-.sidebar-toggle.active span:nth-of-type(2)::after {
+html[data-sidebar="open"] .sidebar-toggle span:nth-of-type(2)::after {
   clip-path: inset(0 100% 0 0%);
 }
-.sidebar-toggle.active span:nth-of-type(3)::before {
+html[data-sidebar="open"] .sidebar-toggle span:nth-of-type(3)::before {
   transform: translate(var(--tx), calc(var(--ty) * -1)) rotate(-45deg);
 }
-.sidebar-toggle.active span:nth-of-type(3)::after {
+html[data-sidebar="open"] .sidebar-toggle span:nth-of-type(3)::after {
   transform: translate(calc(var(--tx) * -1), calc(var(--ty) * -1)) rotate(45deg);
 }
 
@@ -141,11 +141,7 @@
   flex-direction: column;
 }
 
-.sidebar.closed ~ .main-content {
-  left: 0;
-}
-
-html.sidebar-preload-closed .main-content {
+html[data-sidebar="closed"] .main-content {
   left: 0;
 }
 /*-------------------------------------------------*/
@@ -172,12 +168,7 @@ html.sidebar-preload-closed .main-content {
 }
 
 /* サイドバー格納状態 */
-.sidebar.closed {
-  margin-left: -15rem;
-}
-
-/* ページ読み込み前の格納状態（ちらつき防止） */
-html.sidebar-preload-closed .sidebar {
+html[data-sidebar="closed"] .sidebar {
   margin-left: -15rem;
 }
 
@@ -647,27 +638,10 @@ html.sidebar-preload-closed .sidebar {
 @media (min-width: 992px) {
   .home-vr { display: block; }
 }
-html.sidebar-open .home-vr { display: none; }
+html[data-sidebar="open"] .home-vr { display: none; }
 @media (min-width: 1232px) {
-  html.sidebar-open .home-vr { display: block; }
+  html[data-sidebar="open"] .home-vr { display: block; }
 }
-/*-------------------------------------------------*/
-
-/* 列優先グリッド（2列・4行） */
-/* .home-menu-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(4, auto);
-  grid-auto-flow: column;
-}
-
-@media (max-width: 880px) {
-  .home-menu-grid {
-    grid-template-columns: 1fr;
-    grid-template-rows: none;
-    grid-auto-flow: row;
-  }
-} */
 /*-------------------------------------------------*/
 
 

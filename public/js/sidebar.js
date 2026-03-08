@@ -1,37 +1,14 @@
 // public/js/sidebar.js
 
 document.addEventListener('DOMContentLoaded', function() {
-  const sidebar = document.getElementById('sidebar');
   const toggleButton = document.getElementById('sidebar-toggle');
-
-  // ローカルストレージからサイドバーの状態を読み込み
-  const sidebarState = localStorage.getItem('sidebarState');
-
-  if (sidebarState === 'closed') {
-    sidebar.classList.add('closed');
-  } else {
-    // 開状態ならトグルボタンにactiveを付与
-    if (toggleButton) toggleButton.classList.add('active');
-    document.documentElement.classList.add('sidebar-open');
-  }
-
-  // 事前読み込み用クラスを削除
-  document.documentElement.classList.remove('sidebar-preload-closed');
 
   // トグルボタンのクリックイベント
   if (toggleButton) {
     toggleButton.addEventListener('click', function() {
-      sidebar.classList.toggle('closed');
-      toggleButton.classList.toggle('active');
-
-      // 状態をローカルストレージに保存
-      if (sidebar.classList.contains('closed')) {
-        localStorage.setItem('sidebarState', 'closed');
-        document.documentElement.classList.remove('sidebar-open');
-      } else {
-        localStorage.setItem('sidebarState', 'open');
-        document.documentElement.classList.add('sidebar-open');
-      }
+      const newState = document.documentElement.dataset.sidebar === 'open' ? 'closed' : 'open';
+      document.documentElement.dataset.sidebar = newState;
+      localStorage.setItem('sidebarState', newState);
     });
   }
 

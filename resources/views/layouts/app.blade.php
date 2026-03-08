@@ -37,11 +37,8 @@
 
 		<!-- サイドバー状態の事前読み込み（ちらつき防止） -->
 		<script>
-			(function() {
-				if (localStorage.getItem('sidebarState') === 'closed') {
-					document.documentElement.classList.add('sidebar-preload-closed');
-				}
-			})();
+			document.documentElement.dataset.sidebar =
+				localStorage.getItem('sidebarState') === 'closed' ? 'closed' : 'open';
 		</script>
 
 		<!-- Content Wrapper（サイドバー ＋ メインコンテンツ ＋ フッター）-->
