@@ -28,6 +28,12 @@
 
 		<!-- 追加CSS -->
 		@stack('styles')
+
+		<!-- サイドバー状態の事前読み込み（フリッカー防止） -->
+		<script>
+			document.documentElement.dataset.sidebar =
+				localStorage.getItem('sidebarState') === 'closed' ? 'closed' : 'open';
+		</script>
 	</head>
 	<body class="d-flex flex-column vh-100">
 
@@ -35,12 +41,6 @@
 		<header class="sticky-top border-bottom border-secondary border-2 px-3 py-2 bg-dark text-light">
 			@include('layouts.header')
 		</header>
-
-		<!-- サイドバー状態の事前読み込み（ちらつき防止） -->
-		<script>
-			document.documentElement.dataset.sidebar =
-				localStorage.getItem('sidebarState') === 'closed' ? 'closed' : 'open';
-		</script>
 
 		<!-- コンテンツラッパー（サイドバー ＋ メインコンテンツ ＋ フッター）-->
 		<div class="content-wrapper">
