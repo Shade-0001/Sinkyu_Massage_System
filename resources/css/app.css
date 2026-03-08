@@ -633,6 +633,13 @@ html[data-sidebar="closed"] .sidebar {
 
 
 /*━━━━┫〈 ホーム画面 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/* メニューグリッド：sidebar閉時はlg(992px)以上、sidebar開時はxl(1200px)以上で横並び */
+@media (min-width: 992px) {
+  html[data-sidebar="closed"] #home-menu { flex-direction: row; }
+}
+@media (min-width: 1200px) {
+  html[data-sidebar="open"] #home-menu { flex-direction: row; }
+}
 /* 縦区切り線：lg(992px)以上で表示、サイドバー展開時はlg+sidebar幅(1232px)以上で表示 */
 .home-menu-vr { display: none; }
 @media (min-width: 992px) {
