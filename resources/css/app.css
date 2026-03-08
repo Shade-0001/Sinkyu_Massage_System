@@ -11,32 +11,17 @@
 /* コンテンツラッパー（サイドバー ＋ メインコンテンツ ＋ フッター）*/
 .content-wrapper {
   display: flex;
-  flex-wrap: wrap;
-  position: fixed;
-  top: calc(0.5rem * 2 + 1.5rem + 2px);
-  left: 0;
-  right: 0;
-  bottom: 0;
+  flex: 1;
   overflow: hidden;
 }
 
 /* メインコンテンツ */
 .main-content {
-  position: absolute;
-  left: 15rem;
-  top: 0;
-  right: 0;
-  bottom: 0;
+  flex: 1;
   padding: 1rem 1rem 0 1rem;
   overflow-y: auto;
-  transition: left 0.2s ease;
   display: flex;
   flex-direction: column;
-}
-
-/* メインコンテンツ - サイドバー格納状態 */
-html[data-sidebar="closed"] .main-content {
-  left: 0;
 }
 
 /* リンク下線を削除 */
@@ -151,14 +136,11 @@ html[data-sidebar="open"] .sidebar-toggle span:nth-of-type(3)::after {
 
 /*━━━━┫〈 サイドバー 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 .sidebar {
-  position: fixed;
-  left: 0;
-  top: calc(0.5rem * 2 + 1.5rem + 2px);
-  bottom: 0;
+  flex-shrink: 0;
   width: 15rem;
-  transition: margin-left 0.2s ease;
+  transition: width 0.2s ease;
   overflow-y: auto;
-  z-index: 999;
+  overflow-x: hidden;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE/Edge */
 }
@@ -169,7 +151,7 @@ html[data-sidebar="open"] .sidebar-toggle span:nth-of-type(3)::after {
 
 /* サイドバー格納状態 */
 html[data-sidebar="closed"] .sidebar {
-  margin-left: -15rem;
+  width: 0;
 }
 
 /* サイドバーリンク - カスタムスタイル（ホバーエフェクト含む） */
@@ -246,12 +228,6 @@ html[data-sidebar="closed"] .sidebar {
   color: #6db3ff;
   font-weight: 500;
 }
-/*-------------------------------------------------*/
-
-
-
-
-/*━━━━┫〈 ホーム 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 /*-------------------------------------------------*/
 
 
