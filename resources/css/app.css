@@ -154,13 +154,9 @@ html[data-sidebar="closed"] #sidebar {
 
 /* サイドバーリンク - カスタムスタイル（ホバーエフェクト含む） */
 .sidebar-link {
-  display: block;
   padding: 15px 20px;
-  text-decoration: none;
-  font-weight: 500;
   color: #ccc;
   transition: background-color 0.2s ease, color 0.2s ease;
-  white-space: nowrap;
 }
 
 .sidebar-link:hover {
