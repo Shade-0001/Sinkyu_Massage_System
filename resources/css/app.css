@@ -178,12 +178,7 @@ html[data-sidebar="closed"] #sidebar {
 
 /* サブメニュー */
 .submenu {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  background-color: #1a1a1a;
   max-height: 0;
-  overflow: hidden;
   transition: max-height 0.3s ease;
 }
 
