@@ -134,7 +134,7 @@ html[data-sidebar="open"] #sidebar-toggle span:nth-of-type(3)::after {
 
 
 /*━━━━┫〈 サイドバー 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-.sidebar {
+#sidebar {
   flex-shrink: 0;
   width: 15rem;
   transition: width 0.2s ease;
@@ -143,12 +143,12 @@ html[data-sidebar="open"] #sidebar-toggle span:nth-of-type(3)::after {
   -ms-overflow-style: none; /* IE/Edge */
 }
 
-.sidebar::-webkit-scrollbar {
+#sidebar::-webkit-scrollbar {
   display: none; /* Chrome/Safari */
 }
 
 /* サイドバー格納状態 */
-html[data-sidebar="closed"] .sidebar {
+html[data-sidebar="closed"] #sidebar {
   width: 0;
 }
 

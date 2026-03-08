@@ -45,7 +45,7 @@
 		<!-- コンテンツラッパー（サイドバー ＋ メインコンテンツ ＋ フッター）-->
 		<div class="content-wrapper">
 			<!-- サイドバー -->
-			<aside id="sidebar" class="sidebar border-end border-secondary border-2 bg-dark text-light">
+			<aside id="sidebar" class="bg-dark text-light border-end border-secondary border-2">
 				@include('layouts.sidebar')
 			</aside>
 

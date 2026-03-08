@@ -85,16 +85,6 @@ body.app-layout {
   overflow-y: auto;
 }
 
-/* サイドバー格納状態 */
-.sidebar.closed {
-  margin-left: -200px;
-}
-
-/* ページ読み込み前の格納状態（ちらつき防止） */
-html.sidebar-preload-closed .sidebar {
-  margin-left: -200px;
-}
-
 /* サイドバーヘッダー */
 .sidebar-header {
   padding: 10px 20px;
