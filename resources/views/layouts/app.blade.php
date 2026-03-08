@@ -35,26 +35,28 @@
 				localStorage.getItem('sidebarState') === 'closed' ? 'closed' : 'open';
 		</script>
 	</head>
-	<body class="d-flex flex-column vh-100">
 
+	<body class="d-flex flex-column vh-100">
 		<!-- ヘッダー -->
-		<header class="sticky-top border-bottom border-secondary border-2 px-3 py-2 bg-dark text-light">
+		<header class="sticky-top user-select-none border-bottom border-secondary border-2 bg-dark bg-opacity-75 text-light">
 			@include('layouts.header')
 		</header>
 
 		<!-- コンテンツラッパー（サイドバー ＋ メインコンテンツ ＋ フッター）-->
 		<div class="content-wrapper">
 			<!-- サイドバー -->
-			@include('layouts.sidebar')
+			<aside id="sidebar" class="sidebar border-end border-secondary border-2 bg-dark text-light">
+				@include('layouts.sidebar')
+			</aside>
 
 			<!-- メインコンテンツ -->
-			<div class="main-content">
+			<div class="main-content bg-secondary-subtle">
 				<main class="flex-fill">
 					{{ $slot }}
 				</main>
 				@unless($hideFooter)
 				<!-- フッター -->
-				   <footer class="py-2 text-muted border-top border-dark-subtle bg-body-secondary" style="margin: 2rem -1rem 0 -1rem;">
+				   <footer class="py-2 mt-5 text-muted border-top border-dark-subtle bg-body-secondary">
 					<p class="mx-3 my-0">Copyright © All rights reserved.</p>
 				</footer>
 				@endunless
