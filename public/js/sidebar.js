@@ -76,10 +76,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // localStorageから展開状態を復元（アニメーションなし）
+  // localStorageから展開状態を復元（インラインスクリプト未適用分のみ）
   const submenuStates = JSON.parse(localStorage.getItem('submenuStates') || '{}');
   document.querySelectorAll('.submenu').forEach(submenu => {
-    if (submenuStates[submenu.id]) {
+    if (submenuStates[submenu.id] && !submenu.classList.contains('open')) {
       const toggle = document.querySelector(`[data-target="${submenu.id}"]`);
       openSubmenu(submenu, toggle, false);
     }
