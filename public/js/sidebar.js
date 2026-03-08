@@ -22,7 +22,43 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // サブメニューの展開/格納機能
+  // サブメニュー展開状態の保存・復元ユーティリティ
+  function saveSubmenuStates() {
+    const states = {};
+    document.querySelectorAll('.submenu').forEach(submenu => {
+      states[submenu.id] = submenu.classList.contains('open');
+    });
+    localStorage.setItem('submenuStates', JSON.stringify(states));
+  }
+
+  function openSubmenu(submenu, toggle, animate) {
+    const arrow = toggle ? toggle.querySelector('.submenu-arrow') : null;
+    submenu.classList.add('open');
+    if (arrow) arrow.classList.add('rotated');
+    if (animate) {
+      submenu.style.maxHeight = submenu.scrollHeight + 'px';
+      submenu.addEventListener('transitionend', function handler() {
+        if (submenu.classList.contains('open')) {
+          submenu.style.maxHeight = 'none';
+        }
+        submenu.removeEventListener('transitionend', handler);
+      });
+    } else {
+      submenu.style.maxHeight = 'none';
+    }
+  }
+
+  function closeSubmenu(submenu, toggle) {
+    const arrow = toggle ? toggle.querySelector('.submenu-arrow') : null;
+    submenu.style.maxHeight = submenu.scrollHeight + 'px';
+    setTimeout(() => {
+      submenu.style.maxHeight = '0';
+    }, 10);
+    submenu.classList.remove('open');
+    if (arrow) arrow.classList.remove('rotated');
+  }
+
+  // サブメニューの展開･格納機能
   const submenuToggles = document.querySelectorAll('.sidebar-submenu-toggle');
 
   submenuToggles.forEach(toggle => {
@@ -30,61 +66,36 @@ document.addEventListener('DOMContentLoaded', function() {
       e.preventDefault();
       const targetId = this.getAttribute('data-target');
       const submenu = document.getElementById(targetId);
-      const arrow = this.querySelector('.submenu-arrow');
 
       if (submenu.classList.contains('open')) {
-        // 格納
-        submenu.style.maxHeight = submenu.scrollHeight + 'px';
-        setTimeout(() => {
-          submenu.style.maxHeight = '0';
-        }, 10);
-        submenu.classList.remove('open');
-        arrow.classList.remove('rotated');
+        closeSubmenu(submenu, this);
       } else {
-        // 展開
-        submenu.classList.add('open');
-        submenu.style.maxHeight = submenu.scrollHeight + 'px';
-        arrow.classList.add('rotated');
-
-        // アニメーション完了後にmax-heightをautoに設定（リサイズ対応）
-        submenu.addEventListener('transitionend', function handler() {
-          if (submenu.classList.contains('open')) {
-            submenu.style.maxHeight = 'none';
-          }
-          submenu.removeEventListener('transitionend', handler);
-        });
+        openSubmenu(submenu, this, true);
       }
+      saveSubmenuStates();
     });
   });
 
-  // サブメニューリンクのアクティブ状態設定
+  // localStorageから展開状態を復元（アニメーションなし）
+  const submenuStates = JSON.parse(localStorage.getItem('submenuStates') || '{}');
+  document.querySelectorAll('.submenu').forEach(submenu => {
+    if (submenuStates[submenu.id]) {
+      const toggle = document.querySelector(`[data-target="${submenu.id}"]`);
+      openSubmenu(submenu, toggle, false);
+    }
+  });
+
+  // サブメニューリンクのアクティブ状態設定（アクティブな親は強制展開）
   const submenuLinks = document.querySelectorAll('.submenu-link');
 
   submenuLinks.forEach(link => {
     if (link.getAttribute('href') === currentPath) {
       link.classList.add('active');
-      // 親サブメニューを自動展開（アニメーション付き）
       const parentSubmenu = link.closest('.submenu');
-      if (parentSubmenu) {
+      if (parentSubmenu && !parentSubmenu.classList.contains('open')) {
         const parentToggle = document.querySelector(`[data-target="${parentSubmenu.id}"]`);
-        if (parentToggle) {
-          const arrow = parentToggle.querySelector('.submenu-arrow');
-          arrow.classList.add('rotated');
-        }
-
-        // 次のフレームでアニメーション開始
-        setTimeout(() => {
-          parentSubmenu.classList.add('open');
-          parentSubmenu.style.maxHeight = parentSubmenu.scrollHeight + 'px';
-
-          // アニメーション完了後にmax-heightをnoneに設定
-          parentSubmenu.addEventListener('transitionend', function handler() {
-            if (parentSubmenu.classList.contains('open')) {
-              parentSubmenu.style.maxHeight = 'none';
-            }
-            parentSubmenu.removeEventListener('transitionend', handler);
-          });
-        }, 100);
+        openSubmenu(parentSubmenu, parentToggle, false);
+        saveSubmenuStates();
       }
     }
   });
