@@ -6,13 +6,13 @@
     <span></span>
   </button>
 
-  <div class="vr opacity-50"></div>
+  <div class="vr opacity-50 my-2"></div>
 
-  <a href="{{route('index')}}" class="text-light py-3">ホーム</a>
+  <a href="{{route('index')}}" class="text-decoration-none text-light py-3">ホーム</a>
 
-  <div class="vr opacity-50"></div>
+  <div class="vr opacity-50 my-2"></div>
 
-  <form method="POST" action="{{ route('logout') }}" class="m-0">
+  <form method="POST" action="{{ route('logout') }}">
   @csrf
   <a href="{{ route('logout') }}"
     onclick="event.preventDefault(); this.closest('form').submit();"
