@@ -140,7 +140,6 @@ html[data-sidebar="open"] .sidebar-toggle span:nth-of-type(3)::after {
   width: 15rem;
   transition: width 0.2s ease;
   overflow-y: auto;
-  overflow-x: hidden;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE/Edge */
 }
