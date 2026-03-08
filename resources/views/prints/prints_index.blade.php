@@ -574,10 +574,10 @@
               </select>
             </div>
 
-            <!-- 提出年月日 -->
+            <!-- 提出年月 -->
             <div class="mb-3">
-              <label for="consent_request_designated_submission_date" class="form-label">提出年月日 <span class="text-danger">*</span></label>
-              <input type="date" class="form-control" id="consent_request_designated_submission_date" name="submission_date" value="{{ now()->format('Y-m-d') }}" required>
+              <label for="consent_request_designated_submission_month" class="form-label">提出年月 <span class="text-danger">*</span></label>
+              <input type="month" class="form-control" id="consent_request_designated_submission_month" name="submission_month" value="{{ now()->format('Y-m') }}" required>
             </div>
           </form>
         </div>
