@@ -154,8 +154,6 @@ html[data-sidebar="closed"] #sidebar {
 
 /* サイドバーリンク - カスタムスタイル（ホバーエフェクト含む） */
 .sidebar-link {
-  padding: 15px 20px;
-  color: #ccc;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
@@ -199,12 +197,6 @@ html[data-sidebar="closed"] #sidebar {
 
 /* サブメニューリンク */
 .submenu-link {
-  display: block;
-  padding: 5px 20px;
-  text-decoration: none;
-  font-weight: 400;
-  font-size: 14px;
-  color: #aaa;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
