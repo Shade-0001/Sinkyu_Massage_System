@@ -1582,5 +1582,44 @@
         "lastY": 263,
         "firstX": 48,
         "lastX": 50
+    },
+    "fee_therapy_report_unit": {
+        "x": -5,
+        "y": 146.5,
+        "textAlign": "center",
+        "field": "fee_therapy_report_unit",
+        "label": "単価",
+        "type": "number",
+        "compositeGroup": "fee_therapy_report",
+        "compositeLabel": "施術報告書交付料",
+        "optionLabel": "単価",
+        "fontSize": 39.5,
+        "letterSpacing": 0
+    },
+    "fee_therapy_report_count": {
+        "x": 0,
+        "y": 0.5,
+        "textAlign": "left",
+        "field": "fee_therapy_report_count",
+        "label": "回数",
+        "type": "number",
+        "compositeGroup": "fee_therapy_report",
+        "compositeLabel": "施術報告書交付料",
+        "optionLabel": "回数",
+        "fontSize": 34,
+        "letterSpacing": 0
+    },
+    "previous_benefit_year": {
+        "x": 0.5,
+        "y": 0,
+        "textAlign": "left",
+        "field": "previous_benefit_year",
+        "label": "年",
+        "type": "number",
+        "compositeGroup": "previous_benefit",
+        "compositeLabel": "前回支給年月",
+        "optionLabel": "年",
+        "fontSize": 42.5,
+        "letterSpacing": 0
     }
 }

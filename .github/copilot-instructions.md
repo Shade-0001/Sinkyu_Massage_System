@@ -55,7 +55,7 @@
   - Step-3. git commitを実行
 
 ### 通常のコミット
-- ユーザーから直接指示を受けてコミットを実行する場合は、コミットメッセージ形式を "［normal-commit_YYMMDD-HHMM｜前回normal-commit以降の全autosave-commitの要約］"　（先頭と末尾に［］を付けて）（YYMMDD-HHMMのYYは西暦の下2ケタ）として。
+- ユーザーから直接指示を受けてコミットを実行する場合は、コミットメッセージ形式を "［normal-commit_YYMMDD-HHMM｜前回normal-commit以降の全autosave-commitの要約 + タスク内容の要約］"　（先頭と末尾に［］を付けて）（YYMMDD-HHMMのYYは西暦の下2ケタ）として。
 
 ### その他
 - インデント：2

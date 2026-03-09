@@ -154,6 +154,7 @@ html[data-sidebar="open"] #sidebar-toggle span:nth-of-type(3)::after {
   flex-shrink: 0;
   width: 15rem;
   transition: width 0.2s ease;
+  overflow-x: hidden;
   overflow-y: auto;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE/Edge */
@@ -167,6 +168,16 @@ html[data-sidebar="open"] #sidebar-toggle span:nth-of-type(3)::after {
 html[data-sidebar="closed"] #sidebar {
   width: 0;
   border-width: 0 !important;
+}
+
+/* サイドバーコンテンツ - スライドアニメーション */
+#sidebar-content {
+  width: 15rem;
+  transition: transform 0.2s ease;
+}
+
+html[data-sidebar="closed"] #sidebar-content {
+  transform: translateX(-100%);
 }
 
 /* サイドバーリンク - カスタムスタイル（ホバーエフェクト含む） */

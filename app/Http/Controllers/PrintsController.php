@@ -473,8 +473,8 @@ class PrintsController extends Controller
 
       // 後期高齢者医療専用のサービスクラスを取得
       $serviceClass = $assistanceType === 'acupuncture'
-        ? \App\Services\Print\LateElderlyMedicalAcupuncturePdfService::class
-        : \App\Services\Print\LateElderlyMedicalMassagePdfService::class;
+        ? \App\Services\Print\ElderlyTherapyBenefitAcupuncturePdfService::class
+        : \App\Services\Print\ElderlyTherapyBenefitMassagePdfService::class;
 
       $service = new $serviceClass();
 

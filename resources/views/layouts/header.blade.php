@@ -8,7 +8,7 @@
 
   <div class="vr opacity-50 my-2"></div>
 
-  <a href="{{route('index')}}" class="header-link opacity-75 text-decoration-none text-light py-3 px-3">ホーム</a>
+  <a href="{{route('index')}}" class="header-link text-decoration-none text-light py-3 px-3">ホーム</a>
 
   <div class="vr opacity-50 my-2"></div>
 
@@ -16,7 +16,7 @@
   @csrf
   <a href="{{ route('logout') }}"
     onclick="event.preventDefault(); localStorage.removeItem('sidebarState'); localStorage.removeItem('submenuStates'); this.closest('form').submit();"
-    class="header-link opacity-75 fw-bold text-decoration-none text-light py-3 px-3">
+    class="header-link fw-bold text-decoration-none text-light py-3 px-3">
     {{ __('ログアウト') }}
   </a>
   </form>
