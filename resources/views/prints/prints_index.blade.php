@@ -11,57 +11,57 @@
   <br>
 
   <h3>はり・きゅう関連</h3>
-  <button type="button" class="btn btn-primary" onclick="openAcupunctureBenefitModal()">療養費支給申請書</button>
-  <button type="button" class="btn btn-primary" onclick="openTreatmentReceiptModal('acupuncture')">施術料金領収書</button>
-  <button type="button" class="btn btn-primary" onclick="openMedicalAssistanceModal('acupuncture')">医療助成費支給申請書</button>
-  <button type="button" class="btn btn-primary" onclick="openLateElderlyMedicalModal('acupuncture')">後期高齢者医療療養費支給申請書</button>
-  <button type="button" class="btn btn-primary" onclick="openConsentRequestSampleModal('acupuncture')">同意書依頼状 (サンプル版)</button>
-  <button type="button" class="btn btn-primary" onclick="openConsentRequestDesignatedModal('acupuncture')">同意書依頼状 (医師指定)</button>
-  <button type="button" class="btn btn-primary" onclick="openConsentFormModal('acupuncture')">同意書</button>
-  <button type="button" class="btn btn-primary" onclick="openTreatmentFeeListModal('acupuncture')">施術料金一覧表(保険)</button>
-  <button type="button" class="btn btn-primary" onclick="openSelfFeeListModal()">施術料金一覧表(自費)</button>
-  <button type="button" class="btn btn-primary" onclick="openTreatmentRecordModal('acupuncture')">施術録</button>
-  <button type="button" class="btn btn-primary" onclick="openSummaryTableModal('acupuncture')">総括表</button>
+  <button type="button" class="btn" style="background-color:#3498db;border-color:#3498db;color:#fff;" onclick="openAcupunctureBenefitModal()">療養費支給申請書</button>
+  <button type="button" class="btn" style="background-color:#3498db;border-color:#3498db;color:#fff;" onclick="openTreatmentReceiptModal('acupuncture')">施術料金領収書</button>
+  <button type="button" class="btn" style="background-color:#3498db;border-color:#3498db;color:#fff;" onclick="openMedicalAssistanceModal('acupuncture')">医療助成費支給申請書</button>
+  <button type="button" class="btn" style="background-color:#3498db;border-color:#3498db;color:#fff;" onclick="openLateElderlyMedicalModal('acupuncture')">後期高齢者医療療養費支給申請書</button>
+  <button type="button" class="btn" style="background-color:#3498db;border-color:#3498db;color:#fff;" onclick="openConsentRequestSampleModal('acupuncture')">同意書依頼状 (サンプル版)</button>
+  <button type="button" class="btn" style="background-color:#3498db;border-color:#3498db;color:#fff;" onclick="openConsentRequestDesignatedModal('acupuncture')">同意書依頼状 (医師指定)</button>
+  <button type="button" class="btn" style="background-color:#3498db;border-color:#3498db;color:#fff;" onclick="openConsentFormModal('acupuncture')">同意書</button>
+  <button type="button" class="btn" style="background-color:#3498db;border-color:#3498db;color:#fff;" onclick="openTreatmentFeeListModal('acupuncture')">施術料金一覧表(保険)</button>
+  <button type="button" class="btn" style="background-color:#3498db;border-color:#3498db;color:#fff;" onclick="openSelfFeeListModal()">施術料金一覧表(自費)</button>
+  <button type="button" class="btn" style="background-color:#3498db;border-color:#3498db;color:#fff;" onclick="openTreatmentRecordModal('acupuncture')">施術録</button>
+  <button type="button" class="btn" style="background-color:#3498db;border-color:#3498db;color:#fff;" onclick="openSummaryTableModal('acupuncture')">総括表</button>
   <br><br>
 
   <h3>あんま・マッサージ関連</h3>
-  <button type="button" class="btn btn-primary" onclick="openMassageBenefitModal()">療養費支給申請書</button>
-  <button type="button" class="btn btn-primary" onclick="openTreatmentReceiptModal('massage')">施術料金領収書</button>
-  <button type="button" class="btn btn-primary" onclick="openMedicalAssistanceModal('massage')">医療助成費支給申請書</button>
-  <button type="button" class="btn btn-primary" onclick="openLateElderlyMedicalModal('massage')">後期高齢者医療療養費支給申請書</button>
-  <button type="button" class="btn btn-primary" onclick="openConsentRequestSampleModal('massage')">同意書依頼状 (サンプル版)</button>
-  <button type="button" class="btn btn-primary" onclick="openConsentRequestDesignatedModal('massage')">同意書依頼状 (医師指定)</button>
-  <button type="button" class="btn btn-primary" onclick="openConsentFormModal('massage')">同意書</button>
-  <button type="button" class="btn btn-primary" onclick="openTreatmentFeeListModal('massage')">施術料金一覧表(保険)</button>
-  <button type="button" class="btn btn-primary" onclick="openSelfFeeListModal()">施術料金一覧表(自費)</button>
-  <button type="button" class="btn btn-primary" onclick="openTreatmentRecordModal('massage')">施術録</button>
-  <button type="button" class="btn btn-primary" onclick="openSummaryTableModal('massage')">総括表</button>
+  <button type="button" class="btn" style="background-color:#1a6bb5;border-color:#1a6bb5;color:#fff;" onclick="openMassageBenefitModal()">療養費支給申請書</button>
+  <button type="button" class="btn" style="background-color:#1a6bb5;border-color:#1a6bb5;color:#fff;" onclick="openTreatmentReceiptModal('massage')">施術料金領収書</button>
+  <button type="button" class="btn" style="background-color:#1a6bb5;border-color:#1a6bb5;color:#fff;" onclick="openMedicalAssistanceModal('massage')">医療助成費支給申請書</button>
+  <button type="button" class="btn" style="background-color:#1a6bb5;border-color:#1a6bb5;color:#fff;" onclick="openLateElderlyMedicalModal('massage')">後期高齢者医療療養費支給申請書</button>
+  <button type="button" class="btn" style="background-color:#1a6bb5;border-color:#1a6bb5;color:#fff;" onclick="openConsentRequestSampleModal('massage')">同意書依頼状 (サンプル版)</button>
+  <button type="button" class="btn" style="background-color:#1a6bb5;border-color:#1a6bb5;color:#fff;" onclick="openConsentRequestDesignatedModal('massage')">同意書依頼状 (医師指定)</button>
+  <button type="button" class="btn" style="background-color:#1a6bb5;border-color:#1a6bb5;color:#fff;" onclick="openConsentFormModal('massage')">同意書</button>
+  <button type="button" class="btn" style="background-color:#1a6bb5;border-color:#1a6bb5;color:#fff;" onclick="openTreatmentFeeListModal('massage')">施術料金一覧表(保険)</button>
+  <button type="button" class="btn" style="background-color:#1a6bb5;border-color:#1a6bb5;color:#fff;" onclick="openSelfFeeListModal()">施術料金一覧表(自費)</button>
+  <button type="button" class="btn" style="background-color:#1a6bb5;border-color:#1a6bb5;color:#fff;" onclick="openTreatmentRecordModal('massage')">施術録</button>
+  <button type="button" class="btn" style="background-color:#1a6bb5;border-color:#1a6bb5;color:#fff;" onclick="openSummaryTableModal('massage')">総括表</button>
   <br><br>
 
   <h3>その他１</h3>
-  <button type="button" class="btn btn-primary" onclick="submitFirstExperienceMaterial()">初回体験用資料</button>
-  <button type="button" class="btn btn-primary" onclick="submitPowerOfAttorneyApplication()">委任状（申請・受領）</button>
-  <button type="button" class="btn btn-primary" onclick="submitPowerOfAttorneyConsent()">委任状（同意書取得）</button>
-  <button type="button" class="btn btn-primary" onclick="openPaymentListModal()">入金管理表（保険）</button>
-  <button type="button" class="btn btn-primary" onclick="openDoctorThankYouModal()">医師への御礼状</button>
-  <button type="button" class="btn btn-primary" onclick="openReferrerThankYouModal()">紹介者への御礼状</button>
-  <button type="button" class="btn btn-primary" onclick="openUserCountSummaryModal()">利用者数集計表</button>
-  <button type="button" class="btn btn-primary" onclick="openImplementationPlanModal()">実施計画書</button>
-  <button type="button" class="btn btn-primary" onclick="openReportGreetingModal()">報告書挨拶文</button>
-  <button type="button" class="btn btn-primary" onclick="openReportModal()">報告書</button>
-  <button type="button" class="btn btn-primary" onclick="openScheduleListModal()">予定表</button>
-  <button type="button" class="btn btn-primary" onclick="openTreatmentExpiryListModal()">要加療期限切れリスト</button>
+  <button type="button" class="btn" style="background-color:#27ae60;border-color:#27ae60;color:#fff;" onclick="submitFirstExperienceMaterial()">初回体験用資料</button>
+  <button type="button" class="btn" style="background-color:#27ae60;border-color:#27ae60;color:#fff;" onclick="submitPowerOfAttorneyApplication()">委任状（申請・受領）</button>
+  <button type="button" class="btn" style="background-color:#27ae60;border-color:#27ae60;color:#fff;" onclick="submitPowerOfAttorneyConsent()">委任状（同意書取得）</button>
+  <button type="button" class="btn" style="background-color:#27ae60;border-color:#27ae60;color:#fff;" onclick="openPaymentListModal()">入金管理表（保険）</button>
+  <button type="button" class="btn" style="background-color:#27ae60;border-color:#27ae60;color:#fff;" onclick="openDoctorThankYouModal()">医師への御礼状</button>
+  <button type="button" class="btn" style="background-color:#27ae60;border-color:#27ae60;color:#fff;" onclick="openReferrerThankYouModal()">紹介者への御礼状</button>
+  <button type="button" class="btn" style="background-color:#27ae60;border-color:#27ae60;color:#fff;" onclick="openUserCountSummaryModal()">利用者数集計表</button>
+  <button type="button" class="btn" style="background-color:#27ae60;border-color:#27ae60;color:#fff;" onclick="openImplementationPlanModal()">実施計画書</button>
+  <button type="button" class="btn" style="background-color:#27ae60;border-color:#27ae60;color:#fff;" onclick="openReportGreetingModal()">報告書挨拶文</button>
+  <button type="button" class="btn" style="background-color:#27ae60;border-color:#27ae60;color:#fff;" onclick="openReportModal()">報告書</button>
+  <button type="button" class="btn" style="background-color:#27ae60;border-color:#27ae60;color:#fff;" onclick="openScheduleListModal()">予定表</button>
+  <button type="button" class="btn" style="background-color:#27ae60;border-color:#27ae60;color:#fff;" onclick="openTreatmentExpiryListModal()">要加療期限切れリスト</button>
   <br><br>
 
   <h3>その他２</h3>
-  <button type="button" class="btn btn-primary" onclick="submitUserInfoBasicList()">利用者情報一覧（基本情報）</button>
-  <button type="button" class="btn btn-primary" onclick="submitUserInfoInsuranceList()">利用者情報一覧（医療保険情報）</button>
-  <button type="button" class="btn btn-primary" onclick="submitClinicUserConsentInfoList()">利用者情報一覧（同意医師情報）</button>
-  <button type="button" class="btn btn-primary" onclick="submitDoctorInfoList()">医師情報一覧</button>
-  <button type="button" class="btn btn-primary" onclick="submitCareManagerInfoList()">ケアマネ情報一覧</button>
-  <button type="button" class="btn btn-primary" onclick="submitTherapistInfoList()">施術者情報一覧</button>
-  <button type="button" class="btn btn-primary" onclick="openAddressLabelModal()">宛名シール・住所データCSV出力</button>
-  <button type="button" class="btn btn-primary" onclick="submitFaxCoverSheet()">FAX送信票表示</button>
+  <button type="button" class="btn" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="submitUserInfoBasicList()">利用者情報一覧（基本情報）</button>
+  <button type="button" class="btn" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="submitUserInfoInsuranceList()">利用者情報一覧（医療保険情報）</button>
+  <button type="button" class="btn" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="submitClinicUserConsentInfoList()">利用者情報一覧（同意医師情報）</button>
+  <button type="button" class="btn" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="submitDoctorInfoList()">医師情報一覧</button>
+  <button type="button" class="btn" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="submitCareManagerInfoList()">ケアマネ情報一覧</button>
+  <button type="button" class="btn" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="submitTherapistInfoList()">施術者情報一覧</button>
+  <button type="button" class="btn" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="openAddressLabelModal()">宛名シール・住所データCSV出力</button>
+  <button type="button" class="btn" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="submitFaxCoverSheet()">FAX送信票表示</button>
 
   <!-- はり・きゅう療養費支給申請書モーダル -->
   <div class="modal fade" id="acupunctureBenefitModal" tabindex="-1" aria-labelledby="acupunctureBenefitModalLabel" aria-hidden="true">
