@@ -1039,6 +1039,30 @@ trait MassageFormFieldsTrait
         $this->drawTextByKey($pdf, 'fee_previous_payment_total', (string)$custom['fee_previous_payment_total']);
       }
 
+      // 施術報告書交付料
+      if (isset($custom['fee_therapy_report_unit']) && $this->hasCoord('fee_therapy_report_unit')) {
+        $pdf->SetFontSize($this->coord('fee_therapy_report_unit', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_therapy_report_unit', (string)$custom['fee_therapy_report_unit']);
+      }
+      if (isset($custom['fee_therapy_report_count']) && $this->hasCoord('fee_therapy_report_count')) {
+        $pdf->SetFontSize($this->coord('fee_therapy_report_count', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_therapy_report_count', (string)$custom['fee_therapy_report_count']);
+      }
+      if (isset($custom['fee_therapy_report_total']) && $this->hasCoord('fee_therapy_report_total')) {
+        $pdf->SetFontSize($this->coord('fee_therapy_report_total', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_therapy_report_total', (string)$custom['fee_therapy_report_total']);
+      }
+
+      // 前回支給年月
+      if (isset($custom['previous_benefit_year']) && $this->hasCoord('previous_benefit_year')) {
+        $pdf->SetFontSize($this->coord('previous_benefit_year', 'fontSize'));
+        $this->drawTextByKey($pdf, 'previous_benefit_year', (string)$custom['previous_benefit_year']);
+      }
+      if (isset($custom['previous_benefit_month']) && $this->hasCoord('previous_benefit_month')) {
+        $pdf->SetFontSize($this->coord('previous_benefit_month', 'fontSize'));
+        $this->drawTextByKey($pdf, 'previous_benefit_month', (string)$custom['previous_benefit_month']);
+      }
+
       // 合計
       if (isset($custom['fee_subtotal']) && $this->hasCoord('fee_subtotal')) {
         $pdf->SetFontSize($this->coord('fee_subtotal', 'fontSize'));
