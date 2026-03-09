@@ -1717,6 +1717,30 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
         $this->drawTextByKey($pdf, 'fee_previous_payment_total', (string)($custom['fee_previous_payment_total'] ?? ''));
       }
 
+      // 施術報告書交付料
+      if (isset($custom['fee_therapy_report_unit']) && isset($this->coordinates['fee_therapy_report_unit'])) {
+        $pdf->SetFontSize($this->coord('fee_therapy_report_unit', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_therapy_report_unit', (string)($custom['fee_therapy_report_unit'] ?? ''));
+      }
+      if (isset($custom['fee_therapy_report_count']) && isset($this->coordinates['fee_therapy_report_count'])) {
+        $pdf->SetFontSize($this->coord('fee_therapy_report_count', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_therapy_report_count', (string)($custom['fee_therapy_report_count'] ?? ''));
+      }
+      if (isset($custom['fee_therapy_report_total']) && isset($this->coordinates['fee_therapy_report_total'])) {
+        $pdf->SetFontSize($this->coord('fee_therapy_report_total', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_therapy_report_total', (string)($custom['fee_therapy_report_total'] ?? ''));
+      }
+
+      // 前回支給年月
+      if (isset($custom['previous_benefit_year']) && isset($this->coordinates['previous_benefit_year'])) {
+        $pdf->SetFontSize($this->coord('previous_benefit_year', 'fontSize'));
+        $this->drawTextByKey($pdf, 'previous_benefit_year', (string)($custom['previous_benefit_year'] ?? ''));
+      }
+      if (isset($custom['previous_benefit_month']) && isset($this->coordinates['previous_benefit_month'])) {
+        $pdf->SetFontSize($this->coord('previous_benefit_month', 'fontSize'));
+        $this->drawTextByKey($pdf, 'previous_benefit_month', (string)($custom['previous_benefit_month'] ?? ''));
+      }
+
       // 合計
       if (isset($custom['fee_subtotal']) && isset($this->coordinates['fee_subtotal'])) {
         $pdf->SetFontSize($this->coord('fee_subtotal', 'fontSize'));
@@ -2212,6 +2236,12 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
         $totalFee += $initialExaminationFee;
       }
     }
+
+    // 施術報告書交付料（DB値なし・ノーマルモードでは描画スキップ）
+    // ノーマルモードではfee_therapy_report_totalをtotalFeeに加算しない
+    // （座標調整ツールで位置確認のみ用途）
+
+    // 前回支給年月（ノーマルモードでは描画スキップ）
 
     // 合計（fee_subtotal）
     if (isset($this->coordinates['fee_subtotal'])) {
