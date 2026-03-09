@@ -39,29 +39,29 @@
   <br><br>
 
   <h3>その他１</h3>
-  <button type="button" class="btn" style="background-color:#27ae60;border-color:#27ae60;color:#fff;" onclick="submitFirstExperienceMaterial()">初回体験用資料</button>
-  <button type="button" class="btn" style="background-color:#27ae60;border-color:#27ae60;color:#fff;" onclick="submitPowerOfAttorneyApplication()">委任状（申請・受領）</button>
-  <button type="button" class="btn" style="background-color:#27ae60;border-color:#27ae60;color:#fff;" onclick="submitPowerOfAttorneyConsent()">委任状（同意書取得）</button>
-  <button type="button" class="btn" style="background-color:#27ae60;border-color:#27ae60;color:#fff;" onclick="openPaymentListModal()">入金管理表（保険）</button>
-  <button type="button" class="btn" style="background-color:#27ae60;border-color:#27ae60;color:#fff;" onclick="openDoctorThankYouModal()">医師への御礼状</button>
-  <button type="button" class="btn" style="background-color:#27ae60;border-color:#27ae60;color:#fff;" onclick="openReferrerThankYouModal()">紹介者への御礼状</button>
-  <button type="button" class="btn" style="background-color:#27ae60;border-color:#27ae60;color:#fff;" onclick="openUserCountSummaryModal()">利用者数集計表</button>
-  <button type="button" class="btn" style="background-color:#27ae60;border-color:#27ae60;color:#fff;" onclick="openImplementationPlanModal()">実施計画書</button>
-  <button type="button" class="btn" style="background-color:#27ae60;border-color:#27ae60;color:#fff;" onclick="openReportGreetingModal()">報告書挨拶文</button>
-  <button type="button" class="btn" style="background-color:#27ae60;border-color:#27ae60;color:#fff;" onclick="openReportModal()">報告書</button>
-  <button type="button" class="btn" style="background-color:#27ae60;border-color:#27ae60;color:#fff;" onclick="openScheduleListModal()">予定表</button>
-  <button type="button" class="btn" style="background-color:#27ae60;border-color:#27ae60;color:#fff;" onclick="openTreatmentExpiryListModal()">要加療期限切れリスト</button>
+  <button type="button" class="btn" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="submitFirstExperienceMaterial()">初回体験用資料</button>
+  <button type="button" class="btn" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="submitPowerOfAttorneyApplication()">委任状（申請・受領）</button>
+  <button type="button" class="btn" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="submitPowerOfAttorneyConsent()">委任状（同意書取得）</button>
+  <button type="button" class="btn" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="openPaymentListModal()">入金管理表（保険）</button>
+  <button type="button" class="btn" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="openDoctorThankYouModal()">医師への御礼状</button>
+  <button type="button" class="btn" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="openReferrerThankYouModal()">紹介者への御礼状</button>
+  <button type="button" class="btn" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="openUserCountSummaryModal()">利用者数集計表</button>
+  <button type="button" class="btn" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="openImplementationPlanModal()">実施計画書</button>
+  <button type="button" class="btn" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="openReportGreetingModal()">報告書挨拶文</button>
+  <button type="button" class="btn" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="openReportModal()">報告書</button>
+  <button type="button" class="btn" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="openScheduleListModal()">予定表</button>
+  <button type="button" class="btn" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="openTreatmentExpiryListModal()">要加療期限切れリスト</button>
   <br><br>
 
   <h3>その他２</h3>
-  <button type="button" class="btn" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="submitUserInfoBasicList()">利用者情報一覧（基本情報）</button>
-  <button type="button" class="btn" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="submitUserInfoInsuranceList()">利用者情報一覧（医療保険情報）</button>
-  <button type="button" class="btn" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="submitClinicUserConsentInfoList()">利用者情報一覧（同意医師情報）</button>
-  <button type="button" class="btn" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="submitDoctorInfoList()">医師情報一覧</button>
-  <button type="button" class="btn" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="submitCareManagerInfoList()">ケアマネ情報一覧</button>
-  <button type="button" class="btn" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="submitTherapistInfoList()">施術者情報一覧</button>
-  <button type="button" class="btn" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="openAddressLabelModal()">宛名シール・住所データCSV出力</button>
-  <button type="button" class="btn" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="submitFaxCoverSheet()">FAX送信票表示</button>
+  <button type="button" class="btn" style="background-color:#e74c3c;border-color:#e74c3c;color:#fff;" onclick="submitUserInfoBasicList()">利用者情報一覧（基本情報）</button>
+  <button type="button" class="btn" style="background-color:#e74c3c;border-color:#e74c3c;color:#fff;" onclick="submitUserInfoInsuranceList()">利用者情報一覧（医療保険情報）</button>
+  <button type="button" class="btn" style="background-color:#e74c3c;border-color:#e74c3c;color:#fff;" onclick="submitClinicUserConsentInfoList()">利用者情報一覧（同意医師情報）</button>
+  <button type="button" class="btn" style="background-color:#e74c3c;border-color:#e74c3c;color:#fff;" onclick="submitDoctorInfoList()">医師情報一覧</button>
+  <button type="button" class="btn" style="background-color:#e74c3c;border-color:#e74c3c;color:#fff;" onclick="submitCareManagerInfoList()">ケアマネ情報一覧</button>
+  <button type="button" class="btn" style="background-color:#e74c3c;border-color:#e74c3c;color:#fff;" onclick="submitTherapistInfoList()">施術者情報一覧</button>
+  <button type="button" class="btn" style="background-color:#e74c3c;border-color:#e74c3c;color:#fff;" onclick="openAddressLabelModal()">宛名シール・住所データCSV出力</button>
+  <button type="button" class="btn" style="background-color:#e74c3c;border-color:#e74c3c;color:#fff;" onclick="submitFaxCoverSheet()">FAX送信票表示</button>
 
   <!-- はり・きゅう療養費支給申請書モーダル -->
   <div class="modal fade" id="acupunctureBenefitModal" tabindex="-1" aria-labelledby="acupunctureBenefitModalLabel" aria-hidden="true">
