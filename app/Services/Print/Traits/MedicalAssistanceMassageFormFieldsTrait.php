@@ -460,8 +460,31 @@ trait MedicalAssistanceMassageFormFieldsTrait
       $totalFee += $total;
     }
 
-    // 施術報告書交付料（DB値なし・ノーマルモードでは描画スキップ）
-    // 前回支給年月（DB値なし・ノーマルモードでは描画スキップ）
+    // 施術報告書交付料
+    if ($this->reportFeeUnit > 0 || $this->reportFeeCount > 0) {
+      $reportTotal = $this->reportFeeUnit * $this->reportFeeCount;
+      $totalFee += $reportTotal;
+      if ($this->hasCoord('fee_therapy_report_unit')) {
+        $pdf->SetFontSize($this->coord('fee_therapy_report_unit', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_therapy_report_unit', (string)$this->reportFeeUnit);
+        $this->drawTextByKey($pdf, 'fee_therapy_report_count', (string)$this->reportFeeCount);
+        $this->drawTextByKey($pdf, 'fee_therapy_report_total', (string)$reportTotal);
+      }
+    }
+
+    // 前回支給年月
+    if (!empty($this->previousYearMonth)) {
+      [$prevYear, $prevMonth] = explode('-', $this->previousYearMonth);
+      $prevJapaneseYear = $this->convertToJapaneseYear((int)$prevYear, (int)$prevMonth);
+      if ($this->hasCoord('previous_benefit_year')) {
+        $pdf->SetFontSize($this->coord('previous_benefit_year', 'fontSize'));
+        $this->drawTextByKey($pdf, 'previous_benefit_year', (string)$prevJapaneseYear['year']);
+      }
+      if ($this->hasCoord('previous_benefit_month')) {
+        $pdf->SetFontSize($this->coord('previous_benefit_month', 'fontSize'));
+        $this->drawTextByKey($pdf, 'previous_benefit_month', (string)(int)$prevMonth);
+      }
+    }
 
     // 合計
     if ($this->hasCoord('fee_subtotal')) {
