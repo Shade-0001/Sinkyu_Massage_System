@@ -879,3 +879,117 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeIndexPage();
   }
 });
+
+//━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━//
+// 支給申請書印刷モーダル（実績データページ）
+//━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━//
+
+/**
+ * はり・きゅう支給申請書モーダルを開く
+ */
+function openRecordAcupunctureBenefitModal() {
+  const cfg = window.recordsConfig;
+  const userId = cfg.selectedUserId;
+  const yearMonth = cfg.initialYear + '-' + String(cfg.initialMonth).padStart(2, '0');
+
+  document.getElementById('recordAcuBenefitUserId').value = userId;
+  document.getElementById('recordAcuBenefitYearMonth').value = yearMonth;
+  document.getElementById('recordAcuBenefitSubmissionDate').value = new Date().toISOString().split('T')[0];
+  document.getElementById('recordAcuBenefitReportFeeUnit').value = 0;
+  document.getElementById('recordAcuBenefitReportFeeCount').value = 0;
+  document.getElementById('recordAcuBenefitPreviousYearMonth').value = '';
+  document.getElementById('recordAcuBenefitBlankInsuredName').checked = false;
+
+  const modalEl = document.getElementById('recordAcupunctureBenefitModal');
+  if (modalEl.parentElement !== document.body) {
+    document.body.appendChild(modalEl);
+  }
+  bootstrap.Modal.getOrCreateInstance(modalEl).show();
+}
+
+/**
+ * はり・きゅう支給申請書PDF出力
+ */
+function submitRecordAcupunctureBenefit() {
+  const form = document.getElementById('recordAcupunctureBenefitForm');
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
+  const now = new Date();
+  const ts = now.getFullYear() + '-'
+    + String(now.getMonth() + 1).padStart(2, '0') + '-'
+    + String(now.getDate()).padStart(2, '0') + '_'
+    + String(now.getHours()).padStart(2, '0') + '-'
+    + String(now.getMinutes()).padStart(2, '0') + '-'
+    + String(now.getSeconds()).padStart(2, '0');
+  const filename = `療養費支給申請書（はり・きゅう）_${ts}.pdf`;
+
+  form.action = `/prints/acupuncture-benefit/${encodeURIComponent(filename)}`;
+  form.target = '_blank';
+  form.submit();
+
+  setTimeout(() => {
+    const modalEl = document.getElementById('recordAcupunctureBenefitModal');
+    if (modalEl) {
+      const inst = bootstrap.Modal.getInstance(modalEl);
+      if (inst) inst.hide();
+    }
+  }, 100);
+}
+
+/**
+ * あんま・マッサージ支給申請書モーダルを開く
+ */
+function openRecordMassageBenefitModal() {
+  const cfg = window.recordsConfig;
+  const userId = cfg.selectedUserId;
+  const yearMonth = cfg.initialYear + '-' + String(cfg.initialMonth).padStart(2, '0');
+
+  document.getElementById('recordMsgBenefitUserId').value = userId;
+  document.getElementById('recordMsgBenefitYearMonth').value = yearMonth;
+  document.getElementById('recordMsgBenefitSubmissionDate').value = new Date().toISOString().split('T')[0];
+  document.getElementById('recordMsgBenefitReportFeeUnit').value = 0;
+  document.getElementById('recordMsgBenefitReportFeeCount').value = 0;
+  document.getElementById('recordMsgBenefitPreviousYearMonth').value = '';
+  document.getElementById('recordMsgBenefitBlankInsuredName').checked = false;
+
+  const modalEl = document.getElementById('recordMassageBenefitModal');
+  if (modalEl.parentElement !== document.body) {
+    document.body.appendChild(modalEl);
+  }
+  bootstrap.Modal.getOrCreateInstance(modalEl).show();
+}
+
+/**
+ * あんま・マッサージ支給申請書PDF出力
+ */
+function submitRecordMassageBenefit() {
+  const form = document.getElementById('recordMassageBenefitForm');
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
+  const now = new Date();
+  const ts = now.getFullYear() + '-'
+    + String(now.getMonth() + 1).padStart(2, '0') + '-'
+    + String(now.getDate()).padStart(2, '0') + '_'
+    + String(now.getHours()).padStart(2, '0') + '-'
+    + String(now.getMinutes()).padStart(2, '0') + '-'
+    + String(now.getSeconds()).padStart(2, '0');
+  const filename = `療養費支給申請書（あんま・マッサージ）_${ts}.pdf`;
+
+  form.action = `/prints/massage-benefit/${encodeURIComponent(filename)}`;
+  form.target = '_blank';
+  form.submit();
+
+  setTimeout(() => {
+    const modalEl = document.getElementById('recordMassageBenefitModal');
+    if (modalEl) {
+      const inst = bootstrap.Modal.getInstance(modalEl);
+      if (inst) inst.hide();
+    }
+  }, 100);
+}

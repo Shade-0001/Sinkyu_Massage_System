@@ -289,8 +289,10 @@ class AcupunctureBenefitPdfService extends BasePdfService
     // 支払機関情報
     $this->fillPaymentInstitutionSection($pdf, $clinicInfo);
 
-    // 被保険者情報
-    $this->fillTemporaryInsurerName($pdf, $fullName);
+    // 被保険者情報（空白フラグが立っている場合はスキップ）
+    if (!$this->blankInsuredName) {
+      $this->fillTemporaryInsurerName($pdf, $fullName);
+    }
 
     // 実データモード専用フィールド
     if (!$this->sampleDataMode) {
@@ -299,5 +301,24 @@ class AcupunctureBenefitPdfService extends BasePdfService
 
     // 施術料金情報
     $this->fillTreatmentFees($pdf, $data);
+
+    // 前回年月
+    if ($this->previousYearMonth) {
+      [$prevYear, $prevMonth] = explode('-', $this->previousYearMonth);
+      $prevJapaneseYear = $this->convertToJapaneseYear((int)$prevYear, (int)$prevMonth);
+      if ($this->hasCoord('previous_year_month_era')) {
+        $pdf->SetFontSize($this->coord('previous_year_month_era', 'fontSize'));
+        $this->drawTextByKey($pdf, 'previous_year_month_era', $prevJapaneseYear['era']);
+      }
+      if ($this->hasCoord('previous_year_month_year')) {
+        $pdf->SetFontSize($this->coord('previous_year_month_year', 'fontSize'));
+        $this->drawTextByKey($pdf, 'previous_year_month_year', (string)$prevJapaneseYear['year']);
+      }
+      if ($this->hasCoord('previous_year_month_month')) {
+        $pdf->SetFontSize($this->coord('previous_year_month_month', 'fontSize'));
+        $this->drawTextByKey($pdf, 'previous_year_month_month', (string)(int)$prevMonth);
+      }
+    }
+
   }
 }

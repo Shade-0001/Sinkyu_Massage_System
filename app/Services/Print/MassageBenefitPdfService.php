@@ -246,6 +246,28 @@ class MassageBenefitPdfService extends BasePdfService
     $this->fillApplicantInfoSection($pdf, $clinicUser);
     $this->fillAgentInfoSection($pdf, $clinicInfo);
     $this->fillPaymentInstitutionSection($pdf);
-    $this->fillTemporaryInsurerNameSection($pdf, $fullName);
+
+    // 被保険者情報（空白フラグが立っている場合はスキップ）
+    if (!$this->blankInsuredName) {
+      $this->fillTemporaryInsurerNameSection($pdf, $fullName);
+    }
+
+    // 前回年月
+    if ($this->previousYearMonth) {
+      [$prevYear, $prevMonth] = explode('-', $this->previousYearMonth);
+      $prevJapaneseYear = $this->convertToJapaneseYear((int)$prevYear, (int)$prevMonth);
+      if ($this->hasCoord('previous_year_month_era')) {
+        $pdf->SetFontSize($this->coord('previous_year_month_era', 'fontSize'));
+        $this->drawTextByKey($pdf, 'previous_year_month_era', $prevJapaneseYear['era']);
+      }
+      if ($this->hasCoord('previous_year_month_year')) {
+        $pdf->SetFontSize($this->coord('previous_year_month_year', 'fontSize'));
+        $this->drawTextByKey($pdf, 'previous_year_month_year', (string)$prevJapaneseYear['year']);
+      }
+      if ($this->hasCoord('previous_year_month_month')) {
+        $pdf->SetFontSize($this->coord('previous_year_month_month', 'fontSize'));
+        $this->drawTextByKey($pdf, 'previous_year_month_month', (string)(int)$prevMonth);
+      }
+    }
   }
 }

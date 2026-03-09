@@ -275,8 +275,8 @@
 
       @if($records->count() > 0)
         <div class="mb-3">
-          <button type="button">はり･きゅう支給申請書印刷</button>
-          <button type="button">あんま･マッサージ支給申請書印刷</button>
+          <button type="button" onclick="openRecordAcupunctureBenefitModal()">はり･きゅう支給申請書印刷</button>
+          <button type="button" onclick="openRecordMassageBenefitModal()">あんま･マッサージ支給申請書印刷</button>
         </div>
 
         <div class="table-responsive">
@@ -370,6 +370,114 @@
     </div>
   @endif
   @endif
+
+  <!-- はり・きゅう支給申請書モーダル -->
+  <div class="modal fade" id="recordAcupunctureBenefitModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">はり･きゅう支給申請書 出力設定</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="recordAcupunctureBenefitForm" method="POST">
+            @csrf
+            <input type="hidden" name="clinic_user_ids[]" id="recordAcuBenefitUserId">
+            <input type="hidden" name="service_year_month" id="recordAcuBenefitYearMonth">
+
+            <!-- 出力年月日 -->
+            <div class="mb-3">
+              <label class="form-label">出力年月日 <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" name="submission_date" id="recordAcuBenefitSubmissionDate" required>
+            </div>
+
+            <!-- 施術報告交付料金 × 回数 -->
+            <div class="mb-3">
+              <label class="form-label">施術報告交付料金 × 回数</label>
+              <div class="d-flex align-items-center gap-2">
+                <input type="number" class="form-control" name="report_fee_unit" id="recordAcuBenefitReportFeeUnit" min="0" value="0" style="width: 100px;">
+                <span>円 ×</span>
+                <input type="number" class="form-control" name="report_fee_count" id="recordAcuBenefitReportFeeCount" min="0" value="0" style="width: 80px;">
+                <span>回</span>
+              </div>
+            </div>
+
+            <!-- 前回年月 -->
+            <div class="mb-3">
+              <label class="form-label">前回年月</label>
+              <input type="month" class="form-control" name="previous_year_month" id="recordAcuBenefitPreviousYearMonth">
+            </div>
+
+            <!-- 被保険者名署名欄を空白 -->
+            <div class="mb-3">
+              <label>
+                <input type="checkbox" name="blank_insured_name" value="1" id="recordAcuBenefitBlankInsuredName">
+                被保険者名署名欄を空白にする
+              </label>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-primary" onclick="submitRecordAcupunctureBenefit()">印刷</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- あんま・マッサージ支給申請書モーダル -->
+  <div class="modal fade" id="recordMassageBenefitModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">あんま･マッサージ支給申請書 出力設定</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="recordMassageBenefitForm" method="POST">
+            @csrf
+            <input type="hidden" name="clinic_user_ids[]" id="recordMsgBenefitUserId">
+            <input type="hidden" name="service_year_month" id="recordMsgBenefitYearMonth">
+
+            <!-- 出力年月日 -->
+            <div class="mb-3">
+              <label class="form-label">出力年月日 <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" name="submission_date" id="recordMsgBenefitSubmissionDate" required>
+            </div>
+
+            <!-- 施術報告交付料金 × 回数 -->
+            <div class="mb-3">
+              <label class="form-label">施術報告交付料金 × 回数</label>
+              <div class="d-flex align-items-center gap-2">
+                <input type="number" class="form-control" name="report_fee_unit" id="recordMsgBenefitReportFeeUnit" min="0" value="0" style="width: 100px;">
+                <span>円 ×</span>
+                <input type="number" class="form-control" name="report_fee_count" id="recordMsgBenefitReportFeeCount" min="0" value="0" style="width: 80px;">
+                <span>回</span>
+              </div>
+            </div>
+
+            <!-- 前回年月 -->
+            <div class="mb-3">
+              <label class="form-label">前回年月</label>
+              <input type="month" class="form-control" name="previous_year_month" id="recordMsgBenefitPreviousYearMonth">
+            </div>
+
+            <!-- 被保険者名署名欄を空白 -->
+            <div class="mb-3">
+              <label>
+                <input type="checkbox" name="blank_insured_name" value="1" id="recordMsgBenefitBlankInsuredName">
+                被保険者名署名欄を空白にする
+              </label>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn btn-primary" onclick="submitRecordMassageBenefit()">印刷</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   @push('scripts')
   <script>

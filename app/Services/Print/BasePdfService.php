@@ -96,6 +96,51 @@ abstract class BasePdfService
   }
 
   /**
+   * 施術報告書交付料（単価）
+   */
+  protected $reportFeeUnit = 0;
+
+  /**
+   * 施術報告書交付料（回数）
+   */
+  protected $reportFeeCount = 0;
+
+  /**
+   * 前回年月（YYYY-MM形式）
+   */
+  protected $previousYearMonth = '';
+
+  /**
+   * 被保険者名署名欄を空白にするか
+   */
+  protected $blankInsuredName = false;
+
+  /**
+   * 施術報告書交付料を設定
+   */
+  public function setReportFee(int $unit, int $count): void
+  {
+    $this->reportFeeUnit = $unit;
+    $this->reportFeeCount = $count;
+  }
+
+  /**
+   * 前回年月を設定
+   */
+  public function setPreviousYearMonth(string $yearMonth): void
+  {
+    $this->previousYearMonth = $yearMonth;
+  }
+
+  /**
+   * 被保険者名署名欄を空白にするかを設定
+   */
+  public function setBlankInsuredName(bool $blank): void
+  {
+    $this->blankInsuredName = $blank;
+  }
+
+  /**
    * 座標設定を読み込む
    */
   protected function loadCoordinates(): void

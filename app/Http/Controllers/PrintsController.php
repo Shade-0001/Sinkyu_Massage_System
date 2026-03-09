@@ -208,7 +208,7 @@ class PrintsController extends Controller
    */
   public function acupunctureBenefit(Request $request, \App\Services\Print\AcupunctureBenefitPdfService $service, string $filename)
   {
-    return $this->generatePdf($request, $service, 'はり・きゅう');
+    return $this->generateBenefitPdf($request, $service, 'はり・きゅう', $filename);
   }
 
   /**
@@ -221,7 +221,76 @@ class PrintsController extends Controller
    */
   public function massageBenefit(Request $request, \App\Services\Print\MassageBenefitPdfService $service, string $filename)
   {
-    return $this->generatePdf($request, $service, 'あんま・マッサージ');
+    return $this->generateBenefitPdf($request, $service, 'あんま・マッサージ', $filename);
+  }
+
+  /**
+   * 支給申請書PDF出力（はり・きゅう / あんま・マッサージ共通）
+   * 施術報告書交付料・前回年月・被保険者名署名欄空白オプションに対応
+   *
+   * @param Request $request
+   * @param object $service
+   * @param string $typeName
+   * @param string $filename
+   * @return \Illuminate\Http\Response
+   */
+  protected function generateBenefitPdf(Request $request, object $service, string $typeName, string $filename)
+  {
+    try {
+      $validated = $request->validate([
+        'clinic_user_ids'     => 'required|array',
+        'clinic_user_ids.*'   => 'exists:clinic_users,id',
+        'service_year_month'  => 'required|date_format:Y-m',
+        'submission_date'     => 'required|date',
+        'report_fee_unit'     => 'nullable|integer|min:0',
+        'report_fee_count'    => 'nullable|integer|min:0',
+        'previous_year_month' => 'nullable|date_format:Y-m',
+        'blank_insured_name'  => 'nullable|boolean',
+      ]);
+
+      \Log::info("{$typeName}支給申請書PDF生成開始", [
+        'clinic_user_ids'     => $validated['clinic_user_ids'],
+        'service_year_month'  => $validated['service_year_month'],
+        'submission_date'     => $validated['submission_date'],
+        'report_fee_unit'     => $validated['report_fee_unit'] ?? 0,
+        'report_fee_count'    => $validated['report_fee_count'] ?? 0,
+        'previous_year_month' => $validated['previous_year_month'] ?? '',
+        'blank_insured_name'  => $validated['blank_insured_name'] ?? false,
+      ]);
+
+      // 施術報告書交付料を設定
+      $reportFeeUnit  = (int)($validated['report_fee_unit'] ?? 0);
+      $reportFeeCount = (int)($validated['report_fee_count'] ?? 0);
+      if ($reportFeeUnit > 0 || $reportFeeCount > 0) {
+        $service->setReportFee($reportFeeUnit, $reportFeeCount);
+      }
+
+      // 前回年月を設定
+      if (!empty($validated['previous_year_month'])) {
+        $service->setPreviousYearMonth($validated['previous_year_month']);
+      }
+
+      // 被保険者名署名欄空白フラグを設定
+      if (!empty($validated['blank_insured_name'])) {
+        $service->setBlankInsuredName(true);
+      }
+
+      $pdfBinary = $service->generate(
+        $validated['clinic_user_ids'],
+        $validated['service_year_month'],
+        $validated['submission_date']
+      );
+
+      \Log::info("{$typeName}支給申請書PDF生成完了", ['size' => strlen($pdfBinary)]);
+
+      return response($pdfBinary, 200, [
+        'Content-Type'        => 'application/pdf',
+        'Content-Disposition' => 'inline; filename="' . $filename . '"',
+      ]);
+    } catch (\Exception $e) {
+      \Log::error("{$typeName}支給申請書PDF生成エラー", ['error' => $e->getMessage()]);
+      return response()->json(['error' => $e->getMessage()], 500);
+    }
   }
 
   /**

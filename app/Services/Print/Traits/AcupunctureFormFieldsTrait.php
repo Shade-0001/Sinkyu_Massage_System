@@ -2248,6 +2248,24 @@ protected function fillRealDataModeFields(Fpdi $pdf, array $data, $insurance, $c
       }
     }
 
+    // 施術報告書交付料
+    if ($this->reportFeeUnit > 0 || $this->reportFeeCount > 0) {
+      $reportTotal = $this->reportFeeUnit * $this->reportFeeCount;
+      if (isset($this->coordinates['fee_report_unit'])) {
+        $pdf->SetFontSize($this->coord('fee_report_unit', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_report_unit', (string)$this->reportFeeUnit);
+      }
+      if (isset($this->coordinates['fee_report_count'])) {
+        $pdf->SetFontSize($this->coord('fee_report_count', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_report_count', (string)$this->reportFeeCount);
+      }
+      if (isset($this->coordinates['fee_report_total'])) {
+        $pdf->SetFontSize($this->coord('fee_report_total', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_report_total', (string)$reportTotal);
+      }
+      $totalFee += $reportTotal;
+    }
+
     // 合計（fee_subtotal）
     if (isset($this->coordinates['fee_subtotal'])) {
       $pdf->SetFontSize($this->coord('fee_subtotal', 'fontSize'));
