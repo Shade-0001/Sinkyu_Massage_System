@@ -388,7 +388,7 @@
             <!-- 出力年月日 -->
             <div class="mb-3">
               <label class="form-label">出力年月日 <span class="text-danger">*</span></label>
-              <input type="date" class="form-control" name="submission_date" id="recordAcuBenefitSubmissionDate" required>
+              <input type="date" class="form-control" name="submission_date" id="recordAcuBenefitSubmissionDate" value="{{ now()->format('Y-m-d') }}" required>
             </div>
 
             <!-- 施術報告交付料金 × 回数 -->
@@ -407,11 +407,10 @@
             <div class="mb-3">
               <label class="form-label">前回年月</label>
               <select class="form-select" name="previous_year_month" id="recordAcuBenefitPreviousYearMonth">
-                <option value="">╌╌╌</option>
+                <option value="">選択してください</option>
                 @php
-                  $currentDate = now();
                   for ($i = 0; $i < 24; $i++) {
-                    $date = $currentDate->copy()->subMonths($i);
+                    $date = now()->copy()->subMonths($i);
                     $value = $date->format('Y-m');
                     $m = (int)$date->format('n');
                     $display = $date->format('Y年') . ($m < 10 ? "\u{00A0}\u{00A0}" : '') . $m . '月';
@@ -474,11 +473,10 @@
             <div class="mb-3">
               <label class="form-label">前回年月</label>
               <select class="form-select" name="previous_year_month" id="recordMsgBenefitPreviousYearMonth">
-                <option value="">╌╌╌</option>
+                <option value="">選択してください</option>
                 @php
-                  $currentDate = now();
                   for ($i = 0; $i < 24; $i++) {
-                    $date = $currentDate->copy()->subMonths($i);
+                    $date = now()->copy()->subMonths($i);
                     $value = $date->format('Y-m');
                     $m = (int)$date->format('n');
                     $display = $date->format('Y年') . ($m < 10 ? "\u{00A0}\u{00A0}" : '') . $m . '月';
