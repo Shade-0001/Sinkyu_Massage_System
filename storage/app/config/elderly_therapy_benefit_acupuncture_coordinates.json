@@ -1,12 +1,4 @@
 {
-    "custom_title_text": {
-        "x": 12,
-        "y": 14,
-        "fontSize": 16,
-        "letterSpacing": 0,
-        "textAlign": "left",
-        "type": "text"
-    },
     "submission_count": {
         "x": 11.5,
         "y": 12.2,
@@ -1577,6 +1569,71 @@
         "compositeGroup": "fee_housecall_additional",
         "compositeLabel": "往療4km超料金",
         "optionLabel": "合計",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_therapy_report_unit": {
+        "x": -12,
+        "y": 132,
+        "textAlign": "center",
+        "field": "fee_therapy_report_unit",
+        "label": "単価",
+        "type": "number",
+        "compositeGroup": "fee_therapy_report",
+        "compositeLabel": "施術報告書交付料",
+        "optionLabel": "単価",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_therapy_report_count": {
+        "x": 9,
+        "y": 132,
+        "textAlign": "center",
+        "field": "fee_therapy_report_count",
+        "label": "回数",
+        "type": "number",
+        "compositeGroup": "fee_therapy_report",
+        "compositeLabel": "施術報告書交付料",
+        "optionLabel": "回数",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "fee_therapy_report_total": {
+        "x": 31,
+        "y": 132,
+        "textAlign": "center",
+        "field": "fee_therapy_report_total",
+        "label": "合計",
+        "type": "number",
+        "compositeGroup": "fee_therapy_report",
+        "compositeLabel": "施術報告書交付料",
+        "optionLabel": "合計",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "previous_benefit_year": {
+        "x": -12,
+        "y": 134.5,
+        "textAlign": "center",
+        "field": "previous_benefit_year",
+        "label": "年",
+        "type": "number",
+        "compositeGroup": "previous_benefit",
+        "compositeLabel": "前回支給年月",
+        "optionLabel": "年",
+        "fontSize": 10,
+        "letterSpacing": 0
+    },
+    "previous_benefit_month": {
+        "x": 9,
+        "y": 134.5,
+        "textAlign": "center",
+        "field": "previous_benefit_month",
+        "label": "月",
+        "type": "number",
+        "compositeGroup": "previous_benefit",
+        "compositeLabel": "前回支給年月",
+        "optionLabel": "月",
         "fontSize": 10,
         "letterSpacing": 0
     },
