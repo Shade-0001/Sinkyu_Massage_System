@@ -1,5 +1,7 @@
 // public/js/sidebar.js
 
+const SIDEBAR_BREAKPOINT = 992; // lg
+
 document.addEventListener('DOMContentLoaded', function() {
   const toggleButton = document.getElementById('sidebar-toggle');
 
@@ -11,6 +13,32 @@ document.addEventListener('DOMContentLoaded', function() {
       localStorage.setItem('sidebarState', newState);
     });
   }
+
+  // ウィンドウ幅によるサイドバーの自動格納・復元
+  let autoCollapsed = false; // このセッションで自動格納したかどうか
+
+  function handleResize() {
+    const isNarrow = window.innerWidth < SIDEBAR_BREAKPOINT;
+    const currentState = document.documentElement.dataset.sidebar;
+
+    if (isNarrow && currentState === 'open') {
+      // 幅が狭くなったら自動格納（localStorageは変更しない）
+      document.documentElement.dataset.sidebar = 'closed';
+      autoCollapsed = true;
+    } else if (!isNarrow && autoCollapsed && currentState === 'closed') {
+      // 幅が戻ったら自動復元（自動格納した場合のみ）
+      document.documentElement.dataset.sidebar = 'open';
+      autoCollapsed = false;
+    }
+  }
+
+  // ページロード時に即時チェック
+  if (window.innerWidth < SIDEBAR_BREAKPOINT && document.documentElement.dataset.sidebar === 'open') {
+    document.documentElement.dataset.sidebar = 'closed';
+    autoCollapsed = true;
+  }
+
+  window.addEventListener('resize', handleResize);
 
   // アクティブリンクの設定
   const currentPath = window.location.pathname;
