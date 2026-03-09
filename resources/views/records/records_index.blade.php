@@ -393,10 +393,11 @@
 
             <!-- 施術報告交付料金 × 回数 -->
             <div class="mb-3">
-              <label class="form-label">施術報告交付料金 × 回数</label>
+              <label class="form-label">施術報告交付料金　　　回数</label>
               <div class="d-flex align-items-center gap-2">
                 <input type="number" class="form-control" name="report_fee_unit" id="recordAcuBenefitReportFeeUnit" min="0" value="0" style="width: 100px;">
-                <span>円 ×</span>
+                <span>円</span>
+                <span class="mx-2">×</span>
                 <input type="number" class="form-control" name="report_fee_count" id="recordAcuBenefitReportFeeCount" min="0" value="0" style="width: 80px;">
                 <span>回</span>
               </div>
@@ -405,7 +406,19 @@
             <!-- 前回年月 -->
             <div class="mb-3">
               <label class="form-label">前回年月</label>
-              <input type="month" class="form-control" name="previous_year_month" id="recordAcuBenefitPreviousYearMonth">
+              <select class="form-select" name="previous_year_month" id="recordAcuBenefitPreviousYearMonth">
+                <option value="">╌╌╌</option>
+                @php
+                  $currentDate = now();
+                  for ($i = 0; $i < 24; $i++) {
+                    $date = $currentDate->copy()->subMonths($i);
+                    $value = $date->format('Y-m');
+                    $m = (int)$date->format('n');
+                    $display = $date->format('Y年') . ($m < 10 ? "\u{00A0}\u{00A0}" : '') . $m . '月';
+                    echo "<option value=\"{$value}\">{$display}</option>";
+                  }
+                @endphp
+              </select>
             </div>
 
             <!-- 被保険者名署名欄を空白 -->
@@ -459,7 +472,19 @@
             <!-- 前回年月 -->
             <div class="mb-3">
               <label class="form-label">前回年月</label>
-              <input type="month" class="form-control" name="previous_year_month" id="recordMsgBenefitPreviousYearMonth">
+              <select class="form-select" name="previous_year_month" id="recordMsgBenefitPreviousYearMonth">
+                <option value="">╌╌╌</option>
+                @php
+                  $currentDate = now();
+                  for ($i = 0; $i < 24; $i++) {
+                    $date = $currentDate->copy()->subMonths($i);
+                    $value = $date->format('Y-m');
+                    $m = (int)$date->format('n');
+                    $display = $date->format('Y年') . ($m < 10 ? "\u{00A0}\u{00A0}" : '') . $m . '月';
+                    echo "<option value=\"{$value}\">{$display}</option>";
+                  }
+                @endphp
+              </select>
             </div>
 
             <!-- 被保険者名署名欄を空白 -->
