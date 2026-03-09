@@ -9,6 +9,7 @@
 <body class="bg-secondary-subtle d-flex align-items-center justify-content-center min-vh-100">
 
   <div style="width: 100%; max-width: 250px;">
+    <h1 class="text-center fs-6 fw-bold mb-3">鍼灸マッサージ管理システム v.1.0.0</h1>
     <div class="card bg-white rounded-2 shadow-sm">
       <div class="card-body p-4">
         @if ($errors->any())
