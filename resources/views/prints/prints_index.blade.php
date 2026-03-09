@@ -10,7 +10,7 @@
 
   <br>
 
-  <h3>はり・きゅう関連</h3>
+  <h3 class="text-nowrap">はり・きゅう関連</h3>
   <div class="row g-2 mb-4">
     <div class="col"><button type="button" class="btn w-100 text-nowrap" style="background-color:#3498db;border-color:#3498db;color:#fff;" onclick="openAcupunctureBenefitModal()">療養費支給申請書</button></div>
     <div class="col"><button type="button" class="btn w-100 text-nowrap" style="background-color:#3498db;border-color:#3498db;color:#fff;" onclick="openTreatmentReceiptModal('acupuncture')">施術料金領収書</button></div>
@@ -28,7 +28,7 @@
     </div>
   </div>
 
-  <h3>あんま・マッサージ関連</h3>
+  <h3 class="text-nowrap">あんま・マッサージ関連</h3>
   <div class="row g-2 mb-4">
     <div class="col"><button type="button" class="btn w-100 text-nowrap" style="background-color:#1a6bb5;border-color:#1a6bb5;color:#fff;" onclick="openMassageBenefitModal()">療養費支給申請書</button></div>
     <div class="col"><button type="button" class="btn w-100 text-nowrap" style="background-color:#1a6bb5;border-color:#1a6bb5;color:#fff;" onclick="openTreatmentReceiptModal('massage')">施術料金領収書</button></div>
@@ -46,7 +46,7 @@
     </div>
   </div>
 
-  <h3>その他１</h3>
+  <h3 class="text-nowrap">その他１</h3>
   <div class="row g-2 mb-4">
     <div class="col"><button type="button" class="btn w-100 text-nowrap" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="submitFirstExperienceMaterial()">初回体験用資料</button></div>
     <div class="col"><button type="button" class="btn w-100 text-nowrap" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="submitPowerOfAttorneyApplication()">委任状（申請・受領）</button></div>
@@ -64,7 +64,7 @@
     <div class="col"><button type="button" class="btn w-100 text-nowrap" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="openTreatmentExpiryListModal()">要加療期限切れリスト</button></div>
   </div>
 
-  <h3>その他２</h3>
+  <h3 class="text-nowrap">その他２</h3>
   <div class="row g-2 mb-4">
     <div class="col"><button type="button" class="btn w-100 text-nowrap" style="background-color:#e74c3c;border-color:#e74c3c;color:#fff;" onclick="submitUserInfoBasicList()">利用者情報一覧（基本情報）</button></div>
     <div class="col"><button type="button" class="btn w-100 text-nowrap" style="background-color:#e74c3c;border-color:#e74c3c;color:#fff;" onclick="submitUserInfoInsuranceList()">利用者情報一覧（医療保険情報）</button></div>
