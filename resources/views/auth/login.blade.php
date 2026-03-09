@@ -8,13 +8,9 @@
 </head>
 <body class="bg-secondary-subtle d-flex align-items-center justify-content-center min-vh-100">
 
-  <div style="width: 100%; max-width: 380px;">
-
-    <h1 class="text-center h5 fw-bold mb-4 text-dark">Sinkyu Massage System</h1>
-
+  <div style="width: 100%; max-width: 250px;">
     <div class="card bg-white rounded-2 shadow-sm">
       <div class="card-body p-4">
-
         @if ($errors->any())
           <div class="alert alert-danger py-2 mb-3">
             <ul class="mb-0 ps-3 small">
@@ -56,7 +52,7 @@
           </div>
 
           <div class="d-grid">
-            <button type="submit" class="btn btn-dark">ログイン</button>
+            <button type="submit" class="btn btn-primary fw-bold">ログイン</button>
           </div>
         </form>
 

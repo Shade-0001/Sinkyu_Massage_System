@@ -38,14 +38,14 @@
 
 	<body class="d-flex flex-column vh-100">
 		<!-- ヘッダー -->
-		<header class="sticky-top user-select-none border-bottom border-secondary border-2 bg-dark bg-opacity-75 text-light">
+		<header class="bg-black bg-opacity-75 text-light sticky-top user-select-none border-bottom border-secondary border-3">
 			@include('layouts.header')
 		</header>
 
 		<!-- コンテンツラッパー（サイドバー ＋ メインコンテンツ ＋ フッター）-->
 		<div class="content-wrapper">
 			<!-- サイドバー -->
-			<aside id="sidebar" class="bg-dark text-light border-end border-secondary border-2">
+			<aside id="sidebar" class="bg-black bg-opacity-75 text-light border-end border-secondary border-3">
 				@include('layouts.sidebar')
 			</aside>
 

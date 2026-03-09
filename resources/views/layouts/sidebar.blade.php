@@ -1,4 +1,4 @@
-<div class="border-bottom border-secondary border-2 px-3 py-2">
+<div class="border-bottom border-secondary border-3 px-3 py-2">
     <div class="d-flex flex-column gap-2">
       <div class="small text-light opacity-75"><b>{{ Auth::user()->name }}</b>&nbsp;&nbsp;様</div>
       <div class="small text-light opacity-75">
