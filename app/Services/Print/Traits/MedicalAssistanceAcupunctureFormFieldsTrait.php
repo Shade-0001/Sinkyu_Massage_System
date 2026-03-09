@@ -1576,7 +1576,7 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
     $records = $data['records'];
     $insurance = $data['insurance'];
 
-    if (!$treatmentFees) {
+    if (!$treatmentFees && !($this->sampleDataMode && $this->customSampleData)) {
       \Log::warning('施術料金データがありません');
       return;
     }
