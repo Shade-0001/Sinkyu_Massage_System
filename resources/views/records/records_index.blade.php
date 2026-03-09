@@ -415,7 +415,8 @@
                     $value = $date->format('Y-m');
                     $m = (int)$date->format('n');
                     $display = $date->format('Y年') . ($m < 10 ? "\u{00A0}\u{00A0}" : '') . $m . '月';
-                    echo "<option value=\"{$value}\">{$display}</option>";
+                    $selected = ($i === 0) ? 'selected' : '';
+                    echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
                 @endphp
               </select>
@@ -481,7 +482,8 @@
                     $value = $date->format('Y-m');
                     $m = (int)$date->format('n');
                     $display = $date->format('Y年') . ($m < 10 ? "\u{00A0}\u{00A0}" : '') . $m . '月';
-                    echo "<option value=\"{$value}\">{$display}</option>";
+                    $selected = ($i === 0) ? 'selected' : '';
+                    echo "<option value=\"{$value}\" {$selected}>{$display}</option>";
                   }
                 @endphp
               </select>
