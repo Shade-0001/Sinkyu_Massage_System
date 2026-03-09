@@ -32,7 +32,7 @@
 		<!-- サイドバー状態の事前読み込み（フリッカー防止） -->
 		<script>
 			document.documentElement.dataset.sidebar =
-				localStorage.getItem('sidebarState') === 'closed' ? 'closed' : 'open';
+				localStorage.getItem('sidebarState') === 'open' ? 'open' : 'closed';
 		</script>
 	</head>
 
