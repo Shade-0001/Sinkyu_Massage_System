@@ -380,6 +380,7 @@ class PrintsController extends Controller
         'assistance_type' => 'required|in:acupuncture,massage',
         'signature_option' => 'nullable|in:user_signature_blank,user_address_signature_blank',
         'submission_month' => 'required|date_format:Y-m',
+        'custom_title_text' => 'nullable|string|max:200',
       ]);
 
       $assistanceType = $validated['assistance_type'];
@@ -403,6 +404,11 @@ class PrintsController extends Controller
       // 署名オプションを設定
       if (method_exists($service, 'setSignatureOption')) {
         $service->setSignatureOption($validated['signature_option'] ?? null);
+      }
+
+      // カスタムタイトルを設定
+      if (!empty($validated['custom_title_text']) && method_exists($service, 'setCustomTitleText')) {
+        $service->setCustomTitleText($validated['custom_title_text']);
       }
 
       $pdfBinary = $service->generate(
@@ -451,6 +457,7 @@ class PrintsController extends Controller
         'assistance_type' => 'required|in:acupuncture,massage',
         'signature_option' => 'nullable|in:user_signature_blank,user_address_signature_blank',
         'submission_month' => 'required|date_format:Y-m',
+        'custom_title_text' => 'nullable|string|max:200',
       ]);
 
       $assistanceType = $validated['assistance_type'];
@@ -474,6 +481,11 @@ class PrintsController extends Controller
       // 署名オプションを設定
       if (method_exists($service, 'setSignatureOption')) {
         $service->setSignatureOption($validated['signature_option'] ?? null);
+      }
+
+      // カスタムタイトルを設定
+      if (!empty($validated['custom_title_text']) && method_exists($service, 'setCustomTitleText')) {
+        $service->setCustomTitleText($validated['custom_title_text']);
       }
 
       $pdfBinary = $service->generate(
