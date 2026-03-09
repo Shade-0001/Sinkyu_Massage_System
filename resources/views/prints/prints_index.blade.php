@@ -47,15 +47,17 @@
   </div>
 
   <h3>その他１</h3>
-  <div class="row row-cols-4 g-2 mb-4">
+  <div class="row g-2 mb-4">
     <div class="col"><button type="button" class="btn w-100 text-nowrap" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="submitFirstExperienceMaterial()">初回体験用資料</button></div>
     <div class="col"><button type="button" class="btn w-100 text-nowrap" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="submitPowerOfAttorneyApplication()">委任状（申請・受領）</button></div>
     <div class="col"><button type="button" class="btn w-100 text-nowrap" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="submitPowerOfAttorneyConsent()">委任状（同意書取得）</button></div>
     <div class="col"><button type="button" class="btn w-100 text-nowrap" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="openPaymentListModal()">入金管理表（保険）</button></div>
+    <div class="w-100"></div>
     <div class="col"><button type="button" class="btn w-100 text-nowrap" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="openDoctorThankYouModal()">医師への御礼状</button></div>
     <div class="col"><button type="button" class="btn w-100 text-nowrap" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="openReferrerThankYouModal()">紹介者への御礼状</button></div>
     <div class="col"><button type="button" class="btn w-100 text-nowrap" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="openUserCountSummaryModal()">利用者数集計表</button></div>
     <div class="col"><button type="button" class="btn w-100 text-nowrap" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="openImplementationPlanModal()">実施計画書</button></div>
+    <div class="w-100"></div>
     <div class="col"><button type="button" class="btn w-100 text-nowrap" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="openReportGreetingModal()">報告書挨拶文</button></div>
     <div class="col"><button type="button" class="btn w-100 text-nowrap" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="openReportModal()">報告書</button></div>
     <div class="col"><button type="button" class="btn w-100 text-nowrap" style="background-color:#e67e22;border-color:#e67e22;color:#fff;" onclick="openScheduleListModal()">予定表</button></div>
@@ -63,11 +65,12 @@
   </div>
 
   <h3>その他２</h3>
-  <div class="row row-cols-4 g-2 mb-4">
+  <div class="row g-2 mb-4">
     <div class="col"><button type="button" class="btn w-100 text-nowrap" style="background-color:#e74c3c;border-color:#e74c3c;color:#fff;" onclick="submitUserInfoBasicList()">利用者情報一覧（基本情報）</button></div>
     <div class="col"><button type="button" class="btn w-100 text-nowrap" style="background-color:#e74c3c;border-color:#e74c3c;color:#fff;" onclick="submitUserInfoInsuranceList()">利用者情報一覧（医療保険情報）</button></div>
     <div class="col"><button type="button" class="btn w-100 text-nowrap" style="background-color:#e74c3c;border-color:#e74c3c;color:#fff;" onclick="submitClinicUserConsentInfoList()">利用者情報一覧（同意医師情報）</button></div>
     <div class="col"><button type="button" class="btn w-100 text-nowrap" style="background-color:#e74c3c;border-color:#e74c3c;color:#fff;" onclick="submitDoctorInfoList()">医師情報一覧</button></div>
+    <div class="w-100"></div>
     <div class="col"><button type="button" class="btn w-100 text-nowrap" style="background-color:#e74c3c;border-color:#e74c3c;color:#fff;" onclick="submitCareManagerInfoList()">ケアマネ情報一覧</button></div>
     <div class="col"><button type="button" class="btn w-100 text-nowrap" style="background-color:#e74c3c;border-color:#e74c3c;color:#fff;" onclick="submitTherapistInfoList()">施術者情報一覧</button></div>
     <div class="col"><button type="button" class="btn w-100 text-nowrap" style="background-color:#e74c3c;border-color:#e74c3c;color:#fff;" onclick="openAddressLabelModal()">宛名シール・住所データCSV出力</button></div>
