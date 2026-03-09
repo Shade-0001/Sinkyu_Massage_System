@@ -395,10 +395,10 @@
             <div class="mb-3">
               <label class="form-label">施術報告交付料金　　　回数</label>
               <div class="d-flex align-items-center gap-2">
-                <input type="number" class="form-control" name="report_fee_unit" id="recordAcuBenefitReportFeeUnit" min="0" value="0" style="width: 100px;">
+                <input type="number" class="form-control" name="report_fee_unit" id="recordAcuBenefitReportFeeUnit" min="0" value="0" style="width: 100px;" onfocus="if(this.value==='0')this.value=''" onblur="if(this.value==='')this.value='0'">
                 <span>円</span>
                 <span class="mx-2">×</span>
-                <input type="number" class="form-control" name="report_fee_count" id="recordAcuBenefitReportFeeCount" min="0" value="0" style="width: 80px;">
+                <input type="number" class="form-control" name="report_fee_count" id="recordAcuBenefitReportFeeCount" min="0" value="0" style="width: 80px;" onfocus="if(this.value==='0')this.value=''" onblur="if(this.value==='')this.value='0'">
                 <span>回</span>
               </div>
             </div>
@@ -461,9 +461,9 @@
             <div class="mb-3">
               <label class="form-label">施術報告交付料金 × 回数</label>
               <div class="d-flex align-items-center gap-2">
-                <input type="number" class="form-control" name="report_fee_unit" id="recordMsgBenefitReportFeeUnit" min="0" value="0" style="width: 100px;">
+                <input type="number" class="form-control" name="report_fee_unit" id="recordMsgBenefitReportFeeUnit" min="0" value="0" style="width: 100px;" onfocus="if(this.value==='0')this.value=''" onblur="if(this.value==='')this.value='0'">
                 <span>円 ×</span>
-                <input type="number" class="form-control" name="report_fee_count" id="recordMsgBenefitReportFeeCount" min="0" value="0" style="width: 80px;">
+                <input type="number" class="form-control" name="report_fee_count" id="recordMsgBenefitReportFeeCount" min="0" value="0" style="width: 80px;" onfocus="if(this.value==='0')this.value=''" onblur="if(this.value==='')this.value='0'">
                 <span>回</span>
               </div>
             </div>
