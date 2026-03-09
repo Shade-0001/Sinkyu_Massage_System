@@ -166,6 +166,7 @@ html[data-sidebar="open"] #sidebar-toggle span:nth-of-type(3)::after {
 /* サイドバー格納状態 */
 html[data-sidebar="closed"] #sidebar {
   width: 0;
+  border-width: 0 !important;
 }
 
 /* サイドバーリンク - カスタムスタイル（ホバーエフェクト含む） */
