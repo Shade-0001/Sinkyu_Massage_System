@@ -43,10 +43,10 @@
           <span class="submenu-arrow"><i class="nf nf-md-chevron_down"></i></span>
         </div>
         <ul id="submaster-submenu" class="submenu bg-dark bg-opacity-75 list-unstyled overflow-hidden border-top border-1 border-secondary">
-          <li class="border-bottom border-2 border-secondary"><a href="{{ route('submaster.medical-institutions') }}" class="submenu-link text-light opacity-75 small py-2 px-3 d-block text-decoration-none fw-normal user-select-none">医療機関名</a></li>
-          <li class="border-bottom border-2 border-secondary"><a href="{{ route('submaster.service-providers') }}" class="submenu-link text-light opacity-75 small py-2 px-3 d-block text-decoration-none fw-normal user-select-none">サービス事業者名</a></li>
-          <li class="border-bottom border-2 border-secondary"><a href="{{ route('submaster.conditions') }}" class="submenu-link text-light opacity-75 small py-2 px-3 d-block text-decoration-none fw-normal user-select-none">発病負傷経過（あんま・マッサージ）</a></li>
-          <li class="border-bottom border-2 border-secondary"><a href="{{ route('submaster.illnesses-massage') }}" class="submenu-link text-light opacity-75 small py-2 px-3 d-block text-decoration-none fw-normal user-select-none">傷病名（あんま・マッサージ）</a></li>
+          <li class="border-bottom border-1 border-secondary"><a href="{{ route('submaster.medical-institutions') }}" class="submenu-link text-light opacity-75 small py-2 px-3 d-block text-decoration-none fw-normal user-select-none">医療機関名</a></li>
+          <li class="border-bottom border-1 border-secondary"><a href="{{ route('submaster.service-providers') }}" class="submenu-link text-light opacity-75 small py-2 px-3 d-block text-decoration-none fw-normal user-select-none">サービス事業者名</a></li>
+          <li class="border-bottom border-1 border-secondary"><a href="{{ route('submaster.conditions') }}" class="submenu-link text-light opacity-75 small py-2 px-3 d-block text-decoration-none fw-normal user-select-none">発病負傷経過（あんま・マッサージ）</a></li>
+          <li class="border-bottom border-1 border-secondary"><a href="{{ route('submaster.illnesses-massage') }}" class="submenu-link text-light opacity-75 small py-2 px-3 d-block text-decoration-none fw-normal user-select-none">傷病名（あんま・マッサージ）</a></li>
         </ul>
       </li>
       <li class="border-bottom border-2 border-secondary">

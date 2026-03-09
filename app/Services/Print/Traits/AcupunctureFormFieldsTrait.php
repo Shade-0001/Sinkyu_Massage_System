@@ -2287,7 +2287,28 @@ protected function fillRealDataModeFields(Fpdi $pdf, array $data, $insurance, $c
         $pdf->SetFontSize($this->coord('fee_report_total', 'fontSize'));
         $this->drawTextByKey($pdf, 'fee_report_total', (string)$reportTotal);
       }
+      // 新キー（fee_therapy_report_*）にも描画
+      if (isset($this->coordinates['fee_therapy_report_unit'])) {
+        $pdf->SetFontSize($this->coord('fee_therapy_report_unit', 'fontSize'));
+        $this->drawTextByKey($pdf, 'fee_therapy_report_unit', (string)$this->reportFeeUnit);
+        $this->drawTextByKey($pdf, 'fee_therapy_report_count', (string)$this->reportFeeCount);
+        $this->drawTextByKey($pdf, 'fee_therapy_report_total', (string)$reportTotal);
+      }
       $totalFee += $reportTotal;
+    }
+
+    // 前回支給年月
+    if (!empty($this->previousYearMonth)) {
+      [$prevYear, $prevMonth] = explode('-', $this->previousYearMonth);
+      $prevJapaneseYear = $this->convertToJapaneseYear((int)$prevYear, (int)$prevMonth);
+      if (isset($this->coordinates['previous_benefit_year'])) {
+        $pdf->SetFontSize($this->coord('previous_benefit_year', 'fontSize'));
+        $this->drawTextByKey($pdf, 'previous_benefit_year', (string)$prevJapaneseYear['year']);
+      }
+      if (isset($this->coordinates['previous_benefit_month'])) {
+        $pdf->SetFontSize($this->coord('previous_benefit_month', 'fontSize'));
+        $this->drawTextByKey($pdf, 'previous_benefit_month', (string)(int)$prevMonth);
+      }
     }
 
     // 合計（fee_subtotal）

@@ -261,9 +261,7 @@ class PrintsController extends Controller
       // 施術報告書交付料を設定
       $reportFeeUnit  = (int)($validated['report_fee_unit'] ?? 0);
       $reportFeeCount = (int)($validated['report_fee_count'] ?? 0);
-      if ($reportFeeUnit > 0 || $reportFeeCount > 0) {
-        $service->setReportFee($reportFeeUnit, $reportFeeCount);
-      }
+      $service->setReportFee($reportFeeUnit, $reportFeeCount);
 
       // 前回年月を設定
       if (!empty($validated['previous_year_month'])) {
