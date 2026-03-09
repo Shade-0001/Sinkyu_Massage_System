@@ -15,7 +15,7 @@
   <form method="POST" action="{{ route('logout') }}">
   @csrf
   <a href="{{ route('logout') }}"
-    onclick="event.preventDefault(); this.closest('form').submit();"
+    onclick="event.preventDefault(); localStorage.removeItem('sidebarState'); localStorage.removeItem('submenuStates'); this.closest('form').submit();"
     class="header-link opacity-75 fw-bold text-decoration-none text-light py-3 px-3">
     {{ __('ログアウト') }}
   </a>

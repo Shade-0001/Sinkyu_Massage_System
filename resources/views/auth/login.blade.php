@@ -8,9 +8,9 @@
 </head>
 <body class="bg-secondary-subtle d-flex align-items-center justify-content-center min-vh-100">
 
-  <div style="width: 100%; max-width: 250px;">
-    <h1 class="text-center fs-6 fw-bold mb-3">鍼灸マッサージ管理システム v.1.0.0</h1>
-    <div class="card bg-white rounded-2 shadow-sm">
+  <div style="width: 100%; max-width: 350px;">
+    <h1 class="text-secondary text-center fs-4 fw-bold mb-3">鍼灸マッサージ管理システム｜v1.0.0</h1><br>
+    <div class="card bg-white rounded-1 shadow-sm">
       <div class="card-body p-4">
         @if ($errors->any())
           <div class="alert alert-danger py-2 mb-3">
@@ -63,5 +63,9 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    localStorage.removeItem('sidebarState');
+    localStorage.removeItem('submenuStates');
+  </script>
 </body>
 </html>
