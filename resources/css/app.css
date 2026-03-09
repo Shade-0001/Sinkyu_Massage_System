@@ -51,17 +51,6 @@
 
 
 /*━━━━┫〈 ヘッダー 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-/* ヘッダーリンク */
-.header-link {
-  transition: opacity 0.2s ease, background-color 0.2s ease;
-}
-
-.header-link:hover {
-  opacity: 1 !important;
-  background-color: #ffffff20;
-}
-/*-------------------------------------------------*/
-
 /* サイドバートグルボタン（ハンバーガーメニュー） */
 /* ・ボタンサイズは hamburger-size プロパティで調整可能 */
 /* ・バーの太さは bar-h プロパティで調整可能 */
@@ -79,12 +68,18 @@
   --ty: calc(var(--mid-top) * 0.55);
 
   position: relative;
-  width: var(--hamburger-size);
-  height: calc(var(--hamburger-size) * 0.88);
+  width: calc(var(--hamburger-size) + 2rem);
+  height: calc(var(--hamburger-size) * 0.88 + 2rem);
+  padding: 1rem;
   background: none;
   border: none;
   appearance: none;
   cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+#sidebar-toggle:hover {
+  background-color: #ffffff20;
 }
 
 #sidebar-toggle:focus:not(:focus-visible) {
@@ -93,9 +88,9 @@
 
 #sidebar-toggle span {
   position: absolute;
-  width: 100%;
+  width: var(--hamburger-size);
   height: var(--bar-h);
-  left: 0;
+  left: 1rem;
 }
 
 #sidebar-toggle span::before,
@@ -117,9 +112,9 @@
 #sidebar-toggle span::before { left: 0;  width: 51%; }
 #sidebar-toggle span::after  { right: 0; width: 51%; }
 
-#sidebar-toggle span:nth-of-type(1) { top: 0; }
-#sidebar-toggle span:nth-of-type(2) { top: var(--mid-top); }
-#sidebar-toggle span:nth-of-type(3) { bottom: 0; }
+#sidebar-toggle span:nth-of-type(1) { top: 1rem; }
+#sidebar-toggle span:nth-of-type(2) { top: calc(1rem + var(--mid-top)); }
+#sidebar-toggle span:nth-of-type(3) { bottom: 1rem; }
 
 html[data-sidebar="open"] #sidebar-toggle span:nth-of-type(1)::before {
   transform: translate(var(--tx), var(--ty)) rotate(45deg);
@@ -138,6 +133,16 @@ html[data-sidebar="open"] #sidebar-toggle span:nth-of-type(3)::before {
 }
 html[data-sidebar="open"] #sidebar-toggle span:nth-of-type(3)::after {
   transform: translate(calc(var(--tx) * -1), calc(var(--ty) * -1)) rotate(45deg);
+}
+
+/* ヘッダーリンク */
+.header-link {
+  transition: opacity 0.2s ease, background-color 0.2s ease;
+}
+
+.header-link:hover {
+  opacity: 1 !important;
+  background-color: #ffffff20;
 }
 /*-------------------------------------------------*/
 
@@ -210,7 +215,7 @@ html[data-sidebar="closed"] #sidebar {
 .submenu-link:hover {
   color: #fff !important;
   opacity: 1 !important;
-  background-color: #ffffff30;
+  background-color: #ffffff20;
 }
 
 .submenu-link.active {
