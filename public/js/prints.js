@@ -778,21 +778,22 @@ function submitLateElderlyMedical() {
 
   const lateElderlyMedicalType = document.getElementById('late_elderly_medical_type').value;
 
-  // localStorageからカスタムタイトルを読み込み（massageのみ：acupunctureはテンプレートPDFにタイトル印刷済み）
-  if (lateElderlyMedicalType === 'massage') {
-    const titleStorageKey = 'customTitleText_elderly_therapy_benefit_massage';
-    const customTitleText = localStorage.getItem(titleStorageKey);
-    if (customTitleText) {
-      let titleInput = document.getElementById('late_elderly_medical_custom_title');
-      if (!titleInput) {
-        titleInput = document.createElement('input');
-        titleInput.type = 'hidden';
-        titleInput.id = 'late_elderly_medical_custom_title';
-        titleInput.name = 'custom_title_text';
-        form.appendChild(titleInput);
-      }
-      titleInput.value = customTitleText;
+  // localStorageからカスタムタイトルを読み込み
+  const pdfType = lateElderlyMedicalType === 'acupuncture'
+    ? 'elderly_therapy_benefit_acupuncture'
+    : 'elderly_therapy_benefit_massage';
+  const titleStorageKey = 'customTitleText_' + pdfType;
+  const customTitleText = localStorage.getItem(titleStorageKey);
+  if (customTitleText) {
+    let titleInput = document.getElementById('late_elderly_medical_custom_title');
+    if (!titleInput) {
+      titleInput = document.createElement('input');
+      titleInput.type = 'hidden';
+      titleInput.id = 'late_elderly_medical_custom_title';
+      titleInput.name = 'custom_title_text';
+      form.appendChild(titleInput);
     }
+    titleInput.value = customTitleText;
   }
 
   // 現在日時からファイル名を生成
