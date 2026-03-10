@@ -61,20 +61,20 @@
   filter: brightness(1.2);
 }
 
-/* ホバー時背景ハイライト（透過ホワイト20%） */
-.hover-highlight {
+/* ホバー時ハイライト（透過ホワイト20%） */
+.hover-bg-highlight {
   transition: opacity 0.1s ease, background-color 0.1s ease;
 }
-.hover-highlight:hover {
+.hover-bg-highlight:hover {
   opacity: 1 !important;
-  background-color: #fffffff0;
+  background-color: #ffffff20;
 }
 
-/* ホバー時背景を少し明るく（::beforeで背景のみ、子要素に影響なし） */
-.hover-darken {
+/* ホバー時ハイライト（背景のみ）*/
+.hover-bg-white {
   position: relative;
 }
-.hover-darken::before {
+.hover-bg-white::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -82,9 +82,14 @@
   background-color: transparent;
   transition: background-color 0.1s ease;
   pointer-events: none;
+  z-index: 0;
 }
-.hover-darken:hover::before {
-  background-color: rgba(255, 255, 255, 0.4);
+.hover-bg-white > * {
+  position: relative;
+  z-index: 1;
+}
+.hover-bg-white:hover::before {
+  background-color: rgba(255, 255, 255, 1.0);
 }
 
 /* 立体ボーダー */
