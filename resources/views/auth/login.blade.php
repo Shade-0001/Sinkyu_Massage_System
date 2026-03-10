@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ログイン</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  @vite(['resources/css/app.css'])
 </head>
 <body class="bg-secondary-subtle d-flex flex-column vh-100">
 
@@ -56,7 +57,7 @@
               </div>
 
               <div class="d-flex justify-content-center py-3">
-                <button type="submit" class="btn btn-primary fw-bold w-50 rounded-1">ログイン</button>
+                <button type="submit" class="btn btn-primary fw-bold w-50 rounded-1 border-white border-opacity-50 border-3 hover-lighter">ログイン</button>
               </div>
             </form>
           </div>
