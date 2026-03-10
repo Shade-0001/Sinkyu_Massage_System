@@ -38,11 +38,13 @@
   outline: none;
 }
 
-/* ホバー時に輝度上昇（.hover-bright-target子要素のみ） */
-.hover-bright .hover-bright-target {
+/* ホバー時に輝度上昇（.hover-bright-target要素とその子孫のみ） */
+.hover-bright .hover-bright-target,
+.hover-bright .hover-bright-target * {
   transition: filter 0.1s ease;
 }
-.hover-bright:hover .hover-bright-target {
+.hover-bright:hover .hover-bright-target,
+.hover-bright:hover .hover-bright-target * {
   filter: brightness(1.2);
 }
 
