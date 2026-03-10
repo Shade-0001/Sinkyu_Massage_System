@@ -46,38 +46,19 @@
   filter: brightness(1.2);
 }
 
-/* ホバー時に背景のみ輝度上昇（テキスト除外） */
-.hover-bright-bg {
-  position: relative;
-  isolation: isolate;
-}
-.hover-bright-bg::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: rgba(255, 255, 255, 0);
-  transition: background 0.1s ease;
-  z-index: -1;
-  pointer-events: none;
-}
-.hover-bright-bg:hover::after {
-  background: rgba(255, 255, 255, 0.15);
-}
-
 /* 立体的なボーダー */
 .border-bevel {
   box-shadow:
-    inset  5px  5px 1px rgba(255, 255, 255, 0.25),
-    inset -5px -5px 1px rgba(0,   0,   0,   0.25);
+    inset  3px  3px 1px rgba(255, 255, 255, 0.25),
+    inset -3px -3px 1px rgba(0,   0,   0,   0.15);
 }
 
-/* 要素不透明度90% */
+/* 不透明度90% */
 .opacity-90 {
   opacity: 0.9 !important;
 }
 
-/* 背景色不透明度90% */
+/* 背景不透明度90% */
 .bg-opacity-90 {
   --bs-bg-opacity: 0.9;
 }
@@ -112,9 +93,8 @@
   --ty: calc(var(--mid-top) * 0.55);
 
   position: relative;
-  width: calc(var(--hamburger-size) + 2rem);
-  height: calc(var(--hamburger-size) * 0.88 + 2rem);
-  padding: 1rem;
+  width: var(--hamburger-size);
+  height: calc(var(--hamburger-size) * 0.88);
   background: none;
   border: none;
   appearance: none;
@@ -134,7 +114,7 @@
   position: absolute;
   width: var(--hamburger-size);
   height: var(--bar-h);
-  left: 1rem;
+  left: 0;
 }
 
 #sidebar-toggle span::before,
@@ -156,9 +136,9 @@
 #sidebar-toggle span::before { left: 0;  width: 51%; }
 #sidebar-toggle span::after  { right: 0; width: 51%; }
 
-#sidebar-toggle span:nth-of-type(1) { top: 1rem; }
-#sidebar-toggle span:nth-of-type(2) { top: calc(1rem + var(--mid-top)); }
-#sidebar-toggle span:nth-of-type(3) { bottom: 1rem; }
+#sidebar-toggle span:nth-of-type(1) { top: 0; }
+#sidebar-toggle span:nth-of-type(2) { top: var(--mid-top); }
+#sidebar-toggle span:nth-of-type(3) { bottom: 0; }
 
 html[data-sidebar="open"] #sidebar-toggle span:nth-of-type(1)::before {
   transform: translate(var(--tx), var(--ty)) rotate(45deg);
