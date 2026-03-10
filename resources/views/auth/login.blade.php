@@ -11,9 +11,9 @@
 
     <div class="h-25"></div>
 
-    <div class="d-flex justify-content-center">
+    <div class="d-flex flex-column align-items-center">
+      <h1 class="text-center fs-4 fw-bold mb-3 opacity-75">鍼灸マッサージ管理システム｜v1.0.0</h1>
       <div style="width: 100%; max-width: 350px;">
-        <h1 class="text-center fs-4 fw-bold mb-3 opacity-75">鍼灸マッサージ管理システム｜v1.0.0</h1><br>
         <div class="card bg-white rounded-1 shadow-sm">
           <div class="card-body p-4">
             @if ($errors->any())
