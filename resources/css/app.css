@@ -37,18 +37,31 @@
   cursor: default;
   outline: none;
 }
+/*-------------------------------------------------*/
 
-/* ホバー時に輝度上昇（.hover-bright-target要素とその子孫のみ） */
-.hover-bright .hover-bright-target,
-.hover-bright .hover-bright-target * {
+
+
+
+/*━━━━┫〈 ユーティリティクラス 〉┣━━━━━━━━━━━━━━━━━━━*/
+/* フィルター効果トランジション */
+.hover-bright,
+.bright-target,
+.bright-target * {
   transition: filter 0.1s ease;
 }
-.hover-bright:hover .hover-bright-target,
-.hover-bright:hover .hover-bright-target * {
+
+/* ホバー時輝度上昇 */
+.hover-bright:hover {
   filter: brightness(1.2);
 }
 
-/* ホバー時にハイライト（透過ホワイト20%） */
+/* ホバー時輝度上昇（.bright-target要素＆子要素のみ） */
+.hover-bright-trigger:hover .bright-target,
+.hover-bright-trigger:hover .bright-target-all * {
+  filter: brightness(1.2);
+}
+
+/* ホバー時ハイライト（透過ホワイト20%） */
 .hover-highlight {
   transition: opacity 0.1s ease, background-color 0.1s ease;
 }
@@ -57,7 +70,7 @@
   background-color: #ffffff20;
 }
 
-/* 立体的なボーダー */
+/* 立体ボーダー */
 .border-bevel {
   box-shadow:
     inset  3px  3px 1px rgba(255, 255, 255, 0.25),
@@ -72,13 +85,6 @@
 /* 背景不透明度90% */
 .bg-opacity-90 {
   --bs-bg-opacity: 0.9;
-}
-
-/* 文字アウトライン */
-.text-outline-black {
-  font-family: 'M PLUS Rounded 1c', sans-serif;
-  -webkit-text-stroke: 7px #444;
-  paint-order: stroke fill;
 }
 
 /* グレーテキスト（明度10%刻み） */
@@ -270,7 +276,7 @@ html[data-sidebar="closed"] #sidebar-content {
 
 
 
-/*━━━━┫〈 ホーム 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/*━━━━┫〈 ホーム 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 /* ホームメニュー - サイドバー格納時：lg以上で横並び */
 @media (min-width: 992px) {
   html[data-sidebar="closed"] #home-menu {
@@ -288,6 +294,17 @@ html[data-sidebar="closed"] #sidebar-content {
   html[data-sidebar="open"] .home-menu-vr {
     display: flex !important;
   }
+}
+
+/*〈 項目ラベル 〉*/
+.home-menu-label {
+  /* フォント */
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-size: 2rem;
+  letter-spacing: 0.2rem;
+  /* 文字アウトライン */
+  -webkit-text-stroke: 7px #444;
+  paint-order: stroke fill;
 }
 /*-------------------------------------------------*/
 
