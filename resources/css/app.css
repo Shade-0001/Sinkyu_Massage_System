@@ -46,11 +46,40 @@
   filter: brightness(1.2);
 }
 
+/* ホバー時に背景のみ輝度上昇（テキスト除外） */
+.hover-bright-bg {
+  position: relative;
+  isolation: isolate;
+}
+.hover-bright-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgba(255, 255, 255, 0);
+  transition: background 0.1s ease;
+  z-index: -1;
+  pointer-events: none;
+}
+.hover-bright-bg:hover::after {
+  background: rgba(255, 255, 255, 0.15);
+}
+
 /* 立体的なボーダー */
 .border-bevel {
   box-shadow:
-    inset  3px  3px 1px rgba(255, 255, 255, 0.25),
-    inset -3px -3px 1px rgba(0,   0,   0,   0.25);
+    inset  5px  5px 1px rgba(255, 255, 255, 0.25),
+    inset -5px -5px 1px rgba(0,   0,   0,   0.25);
+}
+
+/* 要素不透明度90% */
+.opacity-90 {
+  opacity: 0.9 !important;
+}
+
+/* 背景色不透明度90% */
+.bg-opacity-90 {
+  --bs-bg-opacity: 0.9;
 }
 
 /* 白文字 + 黒縁取り */
