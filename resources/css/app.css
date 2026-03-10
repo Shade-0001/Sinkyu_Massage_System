@@ -70,12 +70,21 @@
   background-color: #fffffff0;
 }
 
-/* ホバー時背景を少し暗く */
+/* ホバー時背景を少し明るく（::beforeで背景のみ、子要素に影響なし） */
 .hover-darken {
-  transition: filter 0.1s ease;
+  position: relative;
 }
-.hover-darken:hover {
-  filter: brightness(0.92);
+.hover-darken::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-color: transparent;
+  transition: background-color 0.1s ease;
+  pointer-events: none;
+}
+.hover-darken:hover::before {
+  background-color: rgba(255, 255, 255, 0.4);
 }
 
 /* 立体ボーダー */
