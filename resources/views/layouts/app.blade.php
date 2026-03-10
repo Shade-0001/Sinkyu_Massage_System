@@ -38,21 +38,21 @@
 
 	<body class="d-flex flex-column vh-100">
 		<!-- ヘッダー -->
-		<header class="bg-black bg-opacity-75 text-light sticky-top user-select-none border-bottom border-secondary border-3">
+		<header class="bg-gray-26 text-light sticky-top user-select-none border-bottom border-secondary border-3">
 			@include('layouts.header')
 		</header>
 
 		<!-- コンテンツラッパー（サイドバー ＋ メインコンテンツ ＋ フッター）-->
 		<div class="content-wrapper">
 			<!-- サイドバー -->
-			<aside id="sidebar" class="bg-black bg-opacity-75 text-light border-end border-secondary border-3">
+			<aside id="sidebar" class="bg-gray-26 text-light border-end border-secondary border-3">
 				<div id="sidebar-content">
 					@include('layouts.sidebar')
 				</div>
 			</aside>
 
 			<!-- メインコンテンツ -->
-			<div class="main-content bg-gray-85">
+			<div class="main-content bg-gray-94">
 				<main class="flex-fill">
 					{{ $slot }}
 				</main>

@@ -43,34 +43,47 @@
 
 
 /*━━━━┫〈 ユーティリティクラス 〉┣━━━━━━━━━━━━━━━━━━━*/
-/* フィルター効果トランジション */
-.hover-bright,
-.bright-target,
-.bright-target * {
+/* ホバー時輝度上昇 */
+[class*="bright-target-"] {
   transition: filter 0.1s ease;
 }
-
-/* ホバー時輝度上昇 */
-.hover-bright:hover {
+.hover-bright-trigger:hover .bright-target-110 {
+  filter: brightness(1.1);
+}
+.hover-bright-trigger:hover .bright-target-120 {
   filter: brightness(1.2);
 }
-
-/* ホバー時輝度上昇（.bright-target要素＆子要素のみ） */
-.hover-bright-trigger:hover .bright-target,
-.hover-bright-trigger:hover .bright-target-all * {
-  filter: brightness(1.2);
+.hover-bright-trigger:hover .bright-target-130 {
+  filter: brightness(1.3);
 }
 
-/* ホバー時ハイライト（透過ホワイト20%） */
-.hover-bg-highlight {
-  transition: opacity 0.1s ease, background-color 0.1s ease;
+/* ホバー時ハイライト（透過オーバーレイ） */
+[class*="hover-highlight-"] {
+  position: relative;
 }
-.hover-bg-highlight:hover {
-  opacity: 1 !important;
-  background-color: #ffffff20;
+[class*="hover-highlight-"]::after {
+  transition: opacity 0.1s;
+  background: white;
+  opacity: 0;
+  pointer-events: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 2;
 }
+.hover-highlight-5:hover::after {opacity: 0.05;}
+.hover-highlight-10:hover::after {opacity: 0.1;}
+.hover-highlight-15:hover::after {opacity: 0.15;}
+.hover-highlight-20:hover::after {opacity: 0.2;}
+.hover-highlight-25:hover::after {opacity: 0.25;}
+.hover-highlight-30:hover::after {opacity: 0.3;}
+.hover-highlight-35:hover::after {opacity: 0.35;}
+.hover-highlight-40:hover::after {opacity: 0.4;}
+.hover-highlight-45:hover::after {opacity: 0.45;}
+.hover-highlight-50:hover::after {opacity: 0.5;}
 
-/* ホバー時ハイライト（背景のみ）*/
+/* ホバー時白背景 */
 .hover-bg-white {
   position: relative;
 }
@@ -82,20 +95,31 @@
   transition: background-color 0.1s ease;
   pointer-events: none;
   z-index: 0;
+  box-shadow:
+    inset  3px  3px 1px hsla(0, 0%, 100%, 1.0),
+    inset -3px -3px 1px hsla(0, 0%, 0%, 0.10);
 }
 .hover-bg-white > * {
   position: relative;
   z-index: 1;
 }
 .hover-bg-white:hover::before {
-  background-color: rgba(255, 255, 255, 1.0);
+  background-color: hsl(0, 0%, 100%) !important;
+  box-shadow:
+    inset  3px  3px 1px hsla(0, 0%, 100%, 1.0),
+    inset -3px -3px 1px hsla(0, 0%, 0%, 0.15);
 }
 
 /* 立体ボーダー */
 .border-bevel {
   box-shadow:
-    inset  3px  3px 1px rgba(255, 255, 255, 0.25),
-    inset -3px -3px 1px rgba(0,   0,   0,   0.15);
+    inset  3px  3px 1px hsla(0, 0%, 100%, 0.25),
+    inset -3px -3px 1px hsla(0, 0%, 0%, 0.15);
+}
+.border-bevel-light {
+  box-shadow:
+    inset  3px  3px 1px hsla(0, 0%, 100%, 0.50),
+    inset -3px -3px 1px hsla(0, 0%, 0%, 0.10);
 }
 
 /* 不透明度90% */
@@ -108,7 +132,7 @@
   --bs-bg-opacity: 0.9;
 }
 
-/* グレースケールテキスト色（明度10%ステップ）*/
+/* グレースケール - テキスト */
 .text-gray-90 {color: #E6E6E6 !important;}
 .text-gray-80 {color: #CCCCCC !important;}
 .text-gray-70 {color: #B3B3B3 !important;}
@@ -119,18 +143,38 @@
 .text-gray-20 {color: #333333 !important;}
 .text-gray-10 {color: #1A1A1A !important;}
 
-/* グレースケール背景色（明度10%ステップ）*/
-.bg-gray-95 {background-color: #F2F2F2 !important;}
-.bg-gray-90 {background-color: #E6E6E6 !important;}
-.bg-gray-85 {background-color: #D9D9D9 !important;}
-.bg-gray-80 {background-color: #CCCCCC !important;}
-.bg-gray-70 {background-color: #B3B3B3 !important;}
-.bg-gray-60 {background-color: #999999 !important;}
-.bg-gray-50 {background-color: #7F7F7F !important;}
-.bg-gray-40 {background-color: #666666 !important;}
-.bg-gray-30 {background-color: #4D4D4D !important;}
-.bg-gray-20 {background-color: #333333 !important;}
-.bg-gray-10 {background-color: #1A1A1A !important;}
+/* グレースケール - 背景 */
+.bg-gray-100 {background-color: hsl(200, 11%, 100%)  !important;}
+.bg-gray-98 {background-color: hsl(200, 10%, 98%) !important;}
+.bg-gray-96 {background-color: hsl(200, 10%, 96%) !important;}
+.bg-gray-94 {background-color: hsl(200, 10%, 94%) !important;}
+.bg-gray-92 {background-color: hsl(200, 10%, 92%) !important;}
+.bg-gray-90 {background-color: hsl(200, 10%, 90%) !important;}
+.bg-gray-88 {background-color: hsl(200, 9%, 88%) !important;}
+.bg-gray-86 {background-color: hsl(200, 9%, 86%) !important;}
+.bg-gray-84 {background-color: hsl(200, 9%, 84%) !important;}
+.bg-gray-82 {background-color: hsl(200, 9%, 82%) !important;}
+.bg-gray-80 {background-color: hsl(200, 9%, 80%) !important;}
+.bg-gray-70 {background-color: hsl(200, 8%, 70%) !important;}
+.bg-gray-60 {background-color: hsl(200, 7%, 60%) !important;}
+.bg-gray-50 {background-color: hsl(200, 6%, 50%) !important;}
+.bg-gray-40 {background-color: hsl(200, 5%, 40%) !important;}
+.bg-gray-30 {background-color: hsl(200, 4%, 30%) !important;}
+.bg-gray-28 {background-color: hsl(200, 3%, 28%) !important;}
+.bg-gray-26 {background-color: hsl(200, 3%, 26%) !important;}
+.bg-gray-24 {background-color: hsl(200, 3%, 24%) !important;}
+.bg-gray-22 {background-color: hsl(200, 3%, 22%) !important;}
+.bg-gray-20 {background-color: hsl(200, 3%, 20%) !important;}
+.bg-gray-18 {background-color: hsl(200, 2%, 18%) !important;}
+.bg-gray-16 {background-color: hsl(200, 2%, 16%) !important;}
+.bg-gray-14 {background-color: hsl(200, 2%, 14%) !important;}
+.bg-gray-12 {background-color: hsl(200, 2%, 12%) !important;}
+.bg-gray-10 {background-color: hsl(200, 2%, 10%) !important;}
+.bg-gray-8 {background-color: hsl(200, 1%, 8%) !important;}
+.bg-gray-6 {background-color: hsl(200, 1%, 6%) !important;}
+.bg-gray-4 {background-color: hsl(200, 1%, 4%) !important;}
+.bg-gray-2 {background-color: hsl(200, 1%, 2%) !important;}
+.bg-gray-0 {background-color: hsl(200, 1%, 0%) !important;}
 /*-------------------------------------------------*/
 
 

@@ -25,7 +25,7 @@
           <span><i class="nf nf-oct-gear me-1"></i> マスター登録</span>
           <span class="submenu-arrow"><i class="nf nf-md-chevron_down"></i></span>
         </div>
-        <ul id="master-submenu" class="submenu bg-dark bg-opacity-75 list-unstyled overflow-hidden border-top border-1 border-secondary">
+        <ul id="master-submenu" class="submenu bg-gray-20 list-unstyled overflow-hidden border-top border-1 border-secondary">
           <li class="border-bottom border-secondary"><a href="{{ route('clinic-users.index') }}" class="submenu-link text-light opacity-75 small py-2 px-3 d-block text-decoration-none fw-normal user-select-none">利用者</a></li>
           <li class="border-bottom border-secondary"><a href="{{ route('doctors.index') }}" class="submenu-link text-light opacity-75 small py-2 px-3 d-block text-decoration-none fw-normal user-select-none">医師</a></li>
           <li class="border-bottom border-secondary"><a href="{{ route('therapists.index') }}" class="submenu-link text-light opacity-75 small py-2 px-3 d-block text-decoration-none fw-normal user-select-none">施術者</a></li>
@@ -42,7 +42,7 @@
           <span><i class="nf nf-oct-gear me-1"></i> サブマスター登録</span>
           <span class="submenu-arrow"><i class="nf nf-md-chevron_down"></i></span>
         </div>
-        <ul id="submaster-submenu" class="submenu bg-dark bg-opacity-75 list-unstyled overflow-hidden border-top border-1 border-secondary">
+        <ul id="submaster-submenu" class="submenu bg-gray-20 list-unstyled overflow-hidden border-top border-1 border-secondary">
           <li class="border-bottom border-1 border-secondary"><a href="{{ route('submaster.medical-institutions') }}" class="submenu-link text-light opacity-75 small py-2 px-3 d-block text-decoration-none fw-normal user-select-none">医療機関名</a></li>
           <li class="border-bottom border-1 border-secondary"><a href="{{ route('submaster.service-providers') }}" class="submenu-link text-light opacity-75 small py-2 px-3 d-block text-decoration-none fw-normal user-select-none">サービス事業者名</a></li>
           <li class="border-bottom border-1 border-secondary"><a href="{{ route('submaster.conditions') }}" class="submenu-link text-light opacity-75 small py-2 px-3 d-block text-decoration-none fw-normal user-select-none">発病負傷経過（あんま･マッサージ）</a></li>
