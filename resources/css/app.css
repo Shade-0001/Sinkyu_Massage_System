@@ -38,12 +38,21 @@
   outline: none;
 }
 
-/* ホバー時に輝度上昇 */
-.hover-bright {
+/* ホバー時に輝度上昇（.hover-bright-target子要素のみ） */
+.hover-bright .hover-bright-target {
   transition: filter 0.1s ease;
 }
-.hover-bright:hover {
+.hover-bright:hover .hover-bright-target {
   filter: brightness(1.2);
+}
+
+/* ホバー時にハイライト（透過ホワイト20%） */
+.hover-highlight {
+  transition: opacity 0.1s ease, background-color 0.1s ease;
+}
+.hover-highlight:hover {
+  opacity: 1 !important;
+  background-color: #ffffff20;
 }
 
 /* 立体的なボーダー */
@@ -63,13 +72,23 @@
   --bs-bg-opacity: 0.9;
 }
 
-/* 白文字 + 黒縁取り */
+/* 文字アウトライン */
 .text-outline-black {
-  color: #eee;
   font-family: 'M PLUS Rounded 1c', sans-serif;
   -webkit-text-stroke: 7px #444;
   paint-order: stroke fill;
 }
+
+/* グレーテキスト（明度10%刻み） */
+.text-gray-90 {color: #E6E6E6 !important;}
+.text-gray-80 {color: #CCCCCC !important;}
+.text-gray-70 {color: #B3B3B3 !important;}
+.text-gray-60 {color: #999999 !important;}
+.text-gray-50 {color: #7F7F7F !important;}
+.text-gray-40 {color: #666666 !important;}
+.text-gray-30 {color: #4D4D4D !important;}
+.text-gray-20 {color: #333333 !important;}
+.text-gray-10 {color: #1A1A1A !important;}
 /*-------------------------------------------------*/
 
 
@@ -99,11 +118,6 @@
   border: none;
   appearance: none;
   cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-#sidebar-toggle:hover {
-  background-color: #ffffff20;
 }
 
 #sidebar-toggle:focus:not(:focus-visible) {
@@ -157,16 +171,6 @@ html[data-sidebar="open"] #sidebar-toggle span:nth-of-type(3)::before {
 }
 html[data-sidebar="open"] #sidebar-toggle span:nth-of-type(3)::after {
   transform: translate(calc(var(--tx) * -1), calc(var(--ty) * -1)) rotate(45deg);
-}
-
-/* ヘッダーリンク */
-.header-link {
-  transition: opacity 0.2s ease, background-color 0.2s ease;
-}
-
-.header-link:hover {
-  opacity: 1 !important;
-  background-color: #ffffff20;
 }
 /*-------------------------------------------------*/
 
