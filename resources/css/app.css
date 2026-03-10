@@ -38,6 +38,21 @@
   outline: none;
 }
 
+/* ホバー時に輝度上昇 */
+.hover-bright {
+  transition: filter 0.1s ease;
+}
+.hover-bright:hover {
+  filter: brightness(1.2);
+}
+
+/* 立体的なボーダー */
+.border-bevel {
+  box-shadow:
+    inset  3px  3px 1px rgba(255, 255, 255, 0.25),
+    inset -3px -3px 1px rgba(0,   0,   0,   0.25);
+}
+
 /* 白文字 + 黒縁取り */
 .text-outline-black {
   color: #eee;
@@ -152,7 +167,7 @@ html[data-sidebar="open"] #sidebar-toggle span:nth-of-type(3)::after {
 /*━━━━┫〈 サイドバー 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 #sidebar {
   flex-shrink: 0;
-  width: 15rem;
+  width: 220px;
   transition: width 0.2s ease;
   overflow-x: hidden;
   overflow-y: auto;
@@ -172,7 +187,7 @@ html[data-sidebar="closed"] #sidebar {
 
 /* サイドバーコンテンツ - スライドアニメーション */
 #sidebar-content {
-  width: 15rem;
+  width: 220px;
   transition: transform 0.2s ease;
 }
 
