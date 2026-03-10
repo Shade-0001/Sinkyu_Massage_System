@@ -12,7 +12,7 @@
     <div class="h-25"></div>
 
     <div class="d-flex flex-column align-items-center">
-      <h1 class="text-center fs-4 fw-bold mb-3 opacity-75">鍼灸マッサージ管理システム｜v1.0.0</h1>
+      <h1 class="text-center fs-4 fw-bold mb-5 opacity-90">鍼灸マッサージ管理システム｜v1.0.0</h1>
       <div style="width: 100%; max-width: 350px;">
         <div class="card bg-white rounded-1 shadow-sm">
           <div class="card-body p-4">
@@ -57,7 +57,7 @@
               </div>
 
               <div class="d-flex justify-content-center py-3">
-                <button type="submit" class="btn btn-primary fw-bold w-50 rounded-1 border-white border-opacity-50 border-3 hover-lighter">ログイン</button>
+                <button type="submit" class="btn bg-primary text-light fw-bold w-50 rounded-1 border-0 hover-bright border-bevel bg-opacity-90">ログイン</button>
               </div>
             </form>
           </div>

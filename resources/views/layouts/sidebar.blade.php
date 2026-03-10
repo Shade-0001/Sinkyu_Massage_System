@@ -9,8 +9,8 @@
     </div>
   </div>
 
-  <nav class="p-0">
-    <ul class="list-unstyled">
+  <nav>
+    <ul class="list-unstyled border-bottom border-secondary border-1">
       <li class="border-bottom border-2 border-secondary">
         <a href="{{ route('records.index') }}" class="sidebar-link text-light p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none"><i class="nf nf-fa-edit me-1"></i> 実績データ</a>
       </li>
@@ -45,8 +45,8 @@
         <ul id="submaster-submenu" class="submenu bg-dark bg-opacity-75 list-unstyled overflow-hidden border-top border-1 border-secondary">
           <li class="border-bottom border-1 border-secondary"><a href="{{ route('submaster.medical-institutions') }}" class="submenu-link text-light opacity-75 small py-2 px-3 d-block text-decoration-none fw-normal user-select-none">医療機関名</a></li>
           <li class="border-bottom border-1 border-secondary"><a href="{{ route('submaster.service-providers') }}" class="submenu-link text-light opacity-75 small py-2 px-3 d-block text-decoration-none fw-normal user-select-none">サービス事業者名</a></li>
-          <li class="border-bottom border-1 border-secondary"><a href="{{ route('submaster.conditions') }}" class="submenu-link text-light opacity-75 small py-2 px-3 d-block text-decoration-none fw-normal user-select-none">発病負傷経過（あんま・マッサージ）</a></li>
-          <li class="border-bottom border-1 border-secondary"><a href="{{ route('submaster.illnesses-massage') }}" class="submenu-link text-light opacity-75 small py-2 px-3 d-block text-decoration-none fw-normal user-select-none">傷病名（あんま・マッサージ）</a></li>
+          <li class="border-bottom border-1 border-secondary"><a href="{{ route('submaster.conditions') }}" class="submenu-link text-light opacity-75 small py-2 px-3 d-block text-decoration-none fw-normal user-select-none">発病負傷経過（あんま･マッサージ）</a></li>
+          <li class="border-bottom border-1 border-secondary"><a href="{{ route('submaster.illnesses-massage') }}" class="submenu-link text-light opacity-75 small py-2 px-3 d-block text-decoration-none fw-normal user-select-none">傷病名（あんま･マッサージ）</a></li>
         </ul>
       </li>
       <li class="border-bottom border-2 border-secondary">

@@ -52,7 +52,7 @@
 			</aside>
 
 			<!-- メインコンテンツ -->
-			<div class="main-content bg-secondary-subtle">
+			<div class="main-content bg-gray-85">
 				<main class="flex-fill">
 					{{ $slot }}
 				</main>
