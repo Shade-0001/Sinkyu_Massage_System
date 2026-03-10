@@ -61,13 +61,21 @@
   filter: brightness(1.2);
 }
 
-/* ホバー時ハイライト（透過ホワイト20%） */
+/* ホバー時背景ハイライト（透過ホワイト20%） */
 .hover-highlight {
   transition: opacity 0.1s ease, background-color 0.1s ease;
 }
 .hover-highlight:hover {
   opacity: 1 !important;
-  background-color: #ffffff20;
+  background-color: #fffffff0;
+}
+
+/* ホバー時背景を少し暗く */
+.hover-darken {
+  transition: filter 0.1s ease;
+}
+.hover-darken:hover {
+  filter: brightness(0.92);
 }
 
 /* 立体ボーダー */
@@ -87,7 +95,7 @@
   --bs-bg-opacity: 0.9;
 }
 
-/* グレーテキスト（明度10%刻み） */
+/* グレースケールテキスト色（明度10%ステップ）*/
 .text-gray-90 {color: #E6E6E6 !important;}
 .text-gray-80 {color: #CCCCCC !important;}
 .text-gray-70 {color: #B3B3B3 !important;}
@@ -97,6 +105,18 @@
 .text-gray-30 {color: #4D4D4D !important;}
 .text-gray-20 {color: #333333 !important;}
 .text-gray-10 {color: #1A1A1A !important;}
+
+/* グレースケール背景色（明度10%ステップ）*/
+.bg-gray-95 {background-color: #F2F2F2 !important;}
+.bg-gray-90 {background-color: #E6E6E6 !important;}
+.bg-gray-80 {background-color: #CCCCCC !important;}
+.bg-gray-70 {background-color: #B3B3B3 !important;}
+.bg-gray-60 {background-color: #999999 !important;}
+.bg-gray-50 {background-color: #7F7F7F !important;}
+.bg-gray-40 {background-color: #666666 !important;}
+.bg-gray-30 {background-color: #4D4D4D !important;}
+.bg-gray-20 {background-color: #333333 !important;}
+.bg-gray-10 {background-color: #1A1A1A !important;}
 /*-------------------------------------------------*/
 
 
