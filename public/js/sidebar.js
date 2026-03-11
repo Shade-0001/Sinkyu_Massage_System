@@ -2,12 +2,11 @@
 
 const SIDEBAR_BREAKPOINT = 992; // lg
 
-// フッターのX軸オフセットをサイドバー幅に合わせて動的補正
+// フッターのX軸オフセット（.main-contentのpadding-left分だけネガティブマージン）
 function updateFooterOffset() {
-  const sidebar = document.getElementById('sidebar');
   const mainContent = document.querySelector('.main-content');
-  if (!sidebar || !mainContent) return;
-  const offset = -sidebar.offsetWidth - parseFloat(getComputedStyle(mainContent).paddingLeft);
+  if (!mainContent) return;
+  const offset = -parseFloat(getComputedStyle(mainContent).paddingLeft);
   mainContent.style.setProperty('--footer-offset', offset + 'px');
 }
 
@@ -20,33 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
       const newState = document.documentElement.dataset.sidebar === 'open' ? 'closed' : 'open';
       document.documentElement.dataset.sidebar = newState;
       localStorage.setItem('sidebarState', newState);
-    });
-  }
-
-  // サイドバーのトランジション中、毎フレームフッターオフセットを更新
-  const sidebar = document.getElementById('sidebar');
-  if (sidebar) {
-    let rafId = null;
-    function startTracking() {
-      if (rafId) return;
-      function loop() {
-        updateFooterOffset();
-        rafId = requestAnimationFrame(loop);
-      }
-      rafId = requestAnimationFrame(loop);
-    }
-    function stopTracking() {
-      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
-      updateFooterOffset();
-    }
-    sidebar.addEventListener('transitionstart', function(e) {
-      if (e.propertyName === 'width') startTracking();
-    });
-    sidebar.addEventListener('transitionend', function(e) {
-      if (e.propertyName === 'width') stopTracking();
-    });
-    sidebar.addEventListener('transitioncancel', function(e) {
-      if (e.propertyName === 'width') stopTracking();
     });
   }
 
