@@ -280,6 +280,10 @@ html[data-sidebar="open"] #sidebar-toggle span:nth-of-type(3)::after {
   overflow-y: auto;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE/Edge */
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  max-height: 100vh;
 }
 
 #sidebar::-webkit-scrollbar {
