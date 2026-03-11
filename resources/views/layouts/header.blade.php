@@ -1,6 +1,6 @@
 <div class="px-3 d-flex align-items-center gap-3 fw-bold">
   <!-- サイドバートグルボタン -->
-  <button id="sidebar-toggle" type="button" class="my-2">
+  <button id="sidebar-toggle" type="button" class="my-2 d-flex flex-column align-items-center justify-content-center hover-highlight-30 rounded-1">
     <span></span>
     <span></span>
     <span></span>
@@ -8,7 +8,7 @@
 
   <div class="vr opacity-50 my-1"></div>
 
-  <a href="{{route('index')}}" class="text-decoration-none text-gray-90 py-1 px-3 hover-highlight hover-bright">ホーム</a>
+  <a href="{{route('index')}}" class="text-decoration-none text-gray-90 py-1 px-3 hover-highlight-30 rounded-1">ホーム</a>
 
   <div class="vr opacity-50 my-1"></div>
 
@@ -16,7 +16,7 @@
   @csrf
   <a href="{{ route('logout') }}"
     onclick="event.preventDefault(); localStorage.removeItem('sidebarState'); localStorage.removeItem('submenuStates'); this.closest('form').submit();"
-    class="fw-bold text-decoration-none text-gray-90 py-1 px-3 hover-highlight hover-bright">
+    class="fw-bold text-decoration-none text-gray-90 py-1 px-3 hover-highlight-30 rounded-1">
     {{ __('ログアウト') }}
   </a>
   </form>
