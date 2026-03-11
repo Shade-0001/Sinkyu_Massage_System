@@ -61,7 +61,7 @@
 
 		@unless($hideFooter)
 		<!-- フッター -->
-		<footer class="py-2 mt-auto text-muted border-top border-dark-subtle bg-body-secondary">
+		<footer class="py-2 text-muted border-top border-dark-subtle bg-body-secondary">
 			<p class="mx-3 my-0">Copyright © All rights reserved.</p>
 		</footer>
 		@endunless
