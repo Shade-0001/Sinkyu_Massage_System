@@ -52,18 +52,19 @@
 			</aside>
 
 			<!-- メインコンテンツ -->
-			<div class="main-content bg-gray-94">
+			<div class="main-content bg-gray-92">
 				<main class="flex-fill">
 					{{ $slot }}
 				</main>
-				@unless($hideFooter)
-				<!-- フッター -->
-				   <footer class="py-2 mt-5 text-muted border-top border-dark-subtle bg-body-secondary">
-					<p class="mx-3 my-0">Copyright © All rights reserved.</p>
-				</footer>
-				@endunless
 			</div>
 		</div>
+
+		@unless($hideFooter)
+		<!-- フッター -->
+		<footer class="py-2 mt-auto text-muted border-top border-dark-subtle bg-body-secondary">
+			<p class="mx-3 my-0">Copyright © All rights reserved.</p>
+		</footer>
+		@endunless
 
 		<!-- jQuery (required for DataTables) -->
 		<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
