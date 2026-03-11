@@ -36,7 +36,7 @@
 		</script>
 	</head>
 
-	<body class="d-flex flex-column min-vh-100">
+	<body class="d-flex flex-column vh-100">
 		<!-- ヘッダー -->
 		<header class="bg-gray-26 text-light sticky-top user-select-none border-bottom border-secondary border-3">
 			@include('layouts.header')
@@ -56,15 +56,14 @@
 				<main class="flex-fill">
 					{{ $slot }}
 				</main>
+				@unless($hideFooter)
+				<!-- フッター -->
+				   <footer class="py-2 mt-5 text-muted border-top border-dark-subtle bg-body-secondary">
+					<p class="mx-3 my-0">Copyright © All rights reserved.</p>
+				</footer>
+				@endunless
 			</div>
 		</div>
-
-		@unless($hideFooter)
-		<!-- フッター -->
-		<footer class="py-2 text-muted border-top border-dark-subtle bg-body-secondary">
-			<p class="mx-3 my-0">Copyright © All rights reserved.</p>
-		</footer>
-		@endunless
 
 		<!-- jQuery (required for DataTables) -->
 		<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
