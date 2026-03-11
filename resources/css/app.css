@@ -12,14 +12,12 @@
 .content-wrapper {
   display: flex;
   flex: 1;
-  overflow: hidden;
 }
 
 /* メインコンテンツ */
 .main-content {
   flex: 1;
   padding: 1rem 1rem 0 1rem;
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
 }
@@ -100,8 +98,8 @@
   pointer-events: none;
   z-index: 0;
   box-shadow:
-    inset  3px  3px 1px hsla(0, 0%, 100%, 1.0),
-    inset -3px -3px 1px hsla(0, 0%, 0%, 0.1);
+    inset  4px  4px 1px hsla(0, 0%, 100%, 1.0),
+    inset -4px -4px 1px hsla(0, 0%, 0%, 0.1);
 }
 .hover-bg-white > * {
   position: relative;
@@ -110,32 +108,26 @@
 .hover-bg-white:hover::before {
   background-color: hsl(200, 100%, 99%) !important;
   box-shadow:
-    inset  3px  3px 1px hsla(0, 0%, 100%, 1.0),
-    inset -3px -3px 1px hsla(0, 0%, 0%, 0.15);
+    inset  4px  4px 1px hsla(0, 0%, 100%, 1.0),
+    inset -4px -4px 1px hsla(0, 0%, 0%, 0.15);
 }
 
 /* 立体ボーダー */
 .border-bevel {
-  position: relative;
   box-shadow:
-    inset  3px  3px 1px hsla(0, 0%, 100%, 0.25),
-    inset -3px -3px 1px hsla(0, 0%, 0%, 0.15);
+    inset  4px  4px 1px hsla(0, 0%, 100%, 0.25),
+    inset -4px -4px 1px hsla(0, 0%, 0%, 0.15);
 }
-.border-bevel::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  z-index: 0;
-  box-shadow:
-    inset  6px  6px 1px hsla(0, 0%, 100%, 0.25),
-    inset -6px -6px 1px hsla(0, 0%, 0%, 0.15);
+/* ボタン用パディング補正プロパティ */
+.btn.border-bevel {
+  padding-top: calc(var(--bs-btn-padding-y) + 2px);
+  padding-bottom: calc(var(--bs-btn-padding-y) + 2px);
 }
+/* 立体ボーダー（明） */
 .border-bevel-light {
   box-shadow:
-    inset  3px  3px 1px hsla(0, 0%, 100%, 0.5),
-    inset -3px -3px 1px hsla(0, 0%, 0%, 0.1);
+    inset  4px  4px 1px hsla(0, 0%, 100%, 0.5),
+    inset -4px -4px 1px hsla(0, 0%, 0%, 0.1);
 }
 
 /* 不透明度90% */
@@ -148,7 +140,7 @@
   --bs-bg-opacity: 0.9;
 }
 
-/* グレースケール - テキスト */
+/* テキストカラー（グレースケール） */
 .text-gray-90 {color: #E6E6E6 !important;}
 .text-gray-80 {color: #CCCCCC !important;}
 .text-gray-70 {color: #B3B3B3 !important;}
@@ -159,7 +151,7 @@
 .text-gray-20 {color: #333333 !important;}
 .text-gray-10 {color: #1A1A1A !important;}
 
-/* グレースケール - 背景 */
+/* 背景カラー（グレースケール） */
 .bg-gray-100 {background-color: hsl(200,25%,100%) !important;}
 .bg-gray-98 {background-color: hsl(200,20%,98%) !important;}
 .bg-gray-96 {background-color: hsl(200,20%,96%) !important;}

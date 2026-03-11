@@ -36,7 +36,7 @@
 		</script>
 	</head>
 
-	<body class="d-flex flex-column vh-100">
+	<body class="d-flex flex-column min-vh-100">
 		<!-- ヘッダー -->
 		<header class="bg-gray-26 text-light sticky-top user-select-none border-bottom border-secondary border-3">
 			@include('layouts.header')
