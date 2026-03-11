@@ -23,11 +23,30 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // サイドバーのトランジション完了後にフッターオフセットを更新
+  // サイドバーのトランジション中、毎フレームフッターオフセットを更新
   const sidebar = document.getElementById('sidebar');
   if (sidebar) {
+    let rafId = null;
+    function startTracking() {
+      if (rafId) return;
+      function loop() {
+        updateFooterOffset();
+        rafId = requestAnimationFrame(loop);
+      }
+      rafId = requestAnimationFrame(loop);
+    }
+    function stopTracking() {
+      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+      updateFooterOffset();
+    }
+    sidebar.addEventListener('transitionstart', function(e) {
+      if (e.propertyName === 'width') startTracking();
+    });
     sidebar.addEventListener('transitionend', function(e) {
-      if (e.propertyName === 'width') updateFooterOffset();
+      if (e.propertyName === 'width') stopTracking();
+    });
+    sidebar.addEventListener('transitioncancel', function(e) {
+      if (e.propertyName === 'width') stopTracking();
     });
   }
 

@@ -22,21 +22,13 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  position: relative;
 }
 
 /* フッター（ウィンドウ幅いっぱいに拡張） */
 .main-content > footer {
-  position: absolute;
-  bottom: 0;
-  left: var(--footer-offset, 0px);
+  margin-left: var(--footer-offset, 0px);
   width: 100vw;
-  transition: left 0.2s ease;
-}
-
-/* フッター分の下余白確保 */
-.main-content > main {
-  padding-bottom: 3rem;
+  transition: margin-left 0.2s ease;
 }
 
 /* リンク下線を削除 */
