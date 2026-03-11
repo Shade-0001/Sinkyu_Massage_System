@@ -1,6 +1,6 @@
 <div class="px-3 d-flex align-items-center gap-3 fw-bold">
   <!-- サイドバートグルボタン -->
-  <button id="sidebar-toggle" type="button" class="my-2 d-flex flex-column align-items-center justify-content-center hover-highlight-30 rounded-1">
+  <button id="sidebar-toggle" type="button" class="my-2 px-5 hover-highlight-30 rounded-1">
     <span></span>
     <span></span>
     <span></span>

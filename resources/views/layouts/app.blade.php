@@ -38,7 +38,7 @@
 
 	<body class="d-flex flex-column vh-100">
 		<!-- ヘッダー -->
-		<header class="bg-gray-26 text-light sticky-top user-select-none border-bottom border-secondary border-3">
+		<header class="bg-gray-26 text-light sticky-top user-select-none border-bottom border-3 border-secondary">
 			@include('layouts.header')
 		</header>
 
@@ -58,8 +58,8 @@
 				</main>
 				@unless($hideFooter)
 				<!-- フッター -->
-				   <footer class="py-2 mt-5 text-muted border-top border-dark-subtle bg-body-secondary">
-					<p class="mx-3 my-0">Copyright © All rights reserved.</p>
+				   <footer class="py-2 mt-5 text-muted border-top border-1 border-secondary border-opacity-50" style="background-color: hsl(0,0%,90%)">
+					<p class="mx-4 my-0">Copyright © All rights reserved.</p>
 				</footer>
 				@endunless
 			</div>

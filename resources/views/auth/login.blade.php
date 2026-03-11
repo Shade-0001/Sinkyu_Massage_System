@@ -57,7 +57,7 @@
               </div>
 
               <div class="d-flex justify-content-center py-3">
-                <button type="submit" class="btn bg-primary text-light fw-bold w-50 rounded-1 border-0 hover-bright border-bevel bg-opacity-90">ログイン</button>
+                <button type="submit" class="btn bg-primary text-light fw-bold w-50 rounded-1 border-0 border-bevel bg-opacity-90 hover-highlight-20">ログイン</button>
               </div>
             </form>
           </div>
