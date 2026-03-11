@@ -2,6 +2,15 @@
 
 const SIDEBAR_BREAKPOINT = 992; // lg
 
+// フッターのX軸オフセットをサイドバー幅に合わせて動的補正
+function updateFooterOffset() {
+  const sidebar = document.getElementById('sidebar');
+  const mainContent = document.querySelector('.main-content');
+  if (!sidebar || !mainContent) return;
+  const offset = -sidebar.offsetWidth - parseFloat(getComputedStyle(mainContent).paddingLeft);
+  mainContent.style.setProperty('--footer-offset', offset + 'px');
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   const toggleButton = document.getElementById('sidebar-toggle');
 
@@ -13,6 +22,18 @@ document.addEventListener('DOMContentLoaded', function() {
       localStorage.setItem('sidebarState', newState);
     });
   }
+
+  // サイドバーのトランジション完了後にフッターオフセットを更新
+  const sidebar = document.getElementById('sidebar');
+  if (sidebar) {
+    sidebar.addEventListener('transitionend', function(e) {
+      if (e.propertyName === 'width') updateFooterOffset();
+    });
+  }
+
+  // 初期値セット・リサイズ時更新
+  updateFooterOffset();
+  window.addEventListener('resize', updateFooterOffset);
 
   // ウィンドウ幅によるサイドバーの自動格納・復元
   let autoCollapsed = false; // このセッションで自動格納したかどうか
