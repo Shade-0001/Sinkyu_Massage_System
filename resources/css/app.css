@@ -2,7 +2,7 @@
 /* ⚠️ public/css/app.css への変更はブラウザに反映されない */
 
 
-/*━━━━┫〈 グローバルスタイル 〉┣━━━━━━━━━━━━━━━━━━━━*/
+/*━━━━┫〈 グローバルスタイル 〉┣━━━━━━━━━━━━━━━━*/
 * {
   font-family: 'Noto Sans JP', sans-serif;
   scroll-behavior: smooth;
@@ -37,29 +37,12 @@
   cursor: default;
   outline: none;
 }
-/*-------------------------------------------------*/
+/*----------------------------------------------*/
 
 
 
 
-/*━━━━┫〈 ユーティリティクラス 〉┣━━━━━━━━━━━━━━━━━━━*/
-/* ホバー時輝度上昇 */
-[class*="bright-target-"] {
-  transition: filter 0.1s ease;
-}
-.hover-bright-trigger:hover .bright-target-105,
-.bright-target-105:hover {
-  filter: brightness(1.05);}
-.hover-bright-trigger:hover .bright-target-110,
-.bright-target-110:hover {
-  filter: brightness(1.1);}
-.hover-bright-trigger:hover .bright-target-120,
-.bright-target-120:hover {
-  filter: brightness(1.2);}
-.hover-bright-trigger:hover .bright-target-130,
-.bright-target-130:hover {
-  filter: brightness(1.3);}
-
+/*━━━━┫〈 ユーティリティクラス 〉┣━━━━━━━━━━━━━━━*/
 /* ホバー時ハイライト（透過オーバーレイ） */
 [class*="hover-highlight-"] {
   position: relative;
@@ -67,6 +50,7 @@
 [class*="hover-highlight-"]::after {
   transition: opacity 0.1s;
   background: white;
+  mix-blend-mode: overlay;
   opacity: 0;
   pointer-events: none;
   content: "";
@@ -85,6 +69,23 @@
 .hover-highlight-40:hover::after {opacity: 0.4;}
 .hover-highlight-45:hover::after {opacity: 0.45;}
 .hover-highlight-50:hover::after {opacity: 0.5;}
+
+/* ホバー時輝度上昇 */
+[class*="bright-target-"] {
+  transition: filter 0.1s ease;
+}
+.hover-bright-trigger:hover .bright-target-105,
+.bright-target-105:hover {
+  filter: brightness(1.05);}
+.hover-bright-trigger:hover .bright-target-110,
+.bright-target-110:hover {
+  filter: brightness(1.1);}
+.hover-bright-trigger:hover .bright-target-120,
+.bright-target-120:hover {
+  filter: brightness(1.2);}
+.hover-bright-trigger:hover .bright-target-130,
+.bright-target-130:hover {
+  filter: brightness(1.3);}
 
 /* ホバー時白背景 */
 .hover-bg-white {
@@ -115,6 +116,7 @@
 
 /* 立体ボーダー */
 .border-bevel {
+  position: relative;
   box-shadow:
     inset  3px  3px 1px hsla(0, 0%, 100%, 0.25),
     inset -3px -3px 1px hsla(0, 0%, 0%, 0.15);
@@ -124,7 +126,6 @@
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  transition: background-color 0.1s ease;
   pointer-events: none;
   z-index: 0;
   box-shadow:
@@ -190,12 +191,12 @@
 .bg-gray-4 {background-color: hsl(200,3%,4%) !important;}
 .bg-gray-2 {background-color: hsl(200,3%,2%) !important;}
 .bg-gray-0 {background-color: hsl(200,3%,0%) !important;}
-/*-------------------------------------------------*/
+/*---------------------------------------------*/
 
 
 
 
-/*━━━━┫〈 ヘッダー 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/*━━━━┫〈 ヘッダー 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 /* サイドバートグルボタン（ハンバーガーメニュー） */
 /* ・ボタンサイズは hamburger-size プロパティで調整可能 */
 /* ・バーの太さは bar-h プロパティで調整可能 */
@@ -273,12 +274,12 @@ html[data-sidebar="open"] #sidebar-toggle span:nth-of-type(3)::before {
 html[data-sidebar="open"] #sidebar-toggle span:nth-of-type(3)::after {
   transform: translate(calc(var(--tx) * -1), calc(var(--ty) * -1)) rotate(45deg);
 }
-/*-------------------------------------------------*/
+/*----------------------------------------------*/
 
 
 
 
-/*━━━━┫〈 サイドバー 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/*━━━━┫〈 サイドバー 〉┣━━━━━━━━━━━━━━━━━━━━━━━━*/
 #sidebar {
   flex-shrink: 0;
   width: 220px;
@@ -364,12 +365,12 @@ html[data-sidebar="closed"] #sidebar-content {
   color: #6db3ff;
   font-weight: 500;
 }
-/*-------------------------------------------------*/
+/*----------------------------------------------*/
 
 
 
 
-/*━━━━┫〈 ホーム 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/*━━━━┫〈 ホーム 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 /* ホームメニュー - サイドバー格納時：lg以上で横並び */
 @media (min-width: 992px) {
   html[data-sidebar="closed"] #home-menu {
@@ -404,7 +405,7 @@ html[data-sidebar="closed"] #sidebar-content {
 
 
 
-/*━━━━┫〈 実績データ - カレンダー 〉┣━━━━━━━━━━━━━━━━*/
+/*━━━━┫〈 実績データ - カレンダー 〉┣━━━━━━━━━━━━*/
 /* カレンダータイトルセレクト - カスタムスタイル */
 #calendar-title {
   font-size: 25px;
@@ -465,23 +466,23 @@ html[data-sidebar="closed"] #sidebar-content {
   color: rgba(0, 0, 0, 0.31);
   cursor: default;
 }
-/*-------------------------------------------------*/
+/*----------------------------------------------*/
 
 
 
 
-/*━━━━┫〈 利用者検索 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/*━━━━┫〈 利用者検索 〉┣━━━━━━━━━━━━━━━━━━━━━━━━*/
 /* カタカナ選択状態 - !important必要なためカスタム定義 */
 .katakana-selected {
   background-color: #007bff !important;
   color: white !important;
 }
-/*-------------------------------------------------*/
+/*----------------------------------------------*/
 
 
 
 
-/*━━━━┫〈 PDF出力 - 依頼書 〉┣━━━━━━━━━━━━━━━━━━━━━━*/
+/*━━━━┫〈 PDF出力 - 依頼書 〉┣━━━━━━━━━━━━━━━━━━*/
 @page {
   margin: 40px;
 }
@@ -536,12 +537,12 @@ html[data-sidebar="closed"] #sidebar-content {
   right: 40px;
   text-align: right;
 }
-/*-------------------------------------------------*/
+/*----------------------------------------------*/
 
 
 
 
-/*━━━━┫〈 PDF出力 - 計画情報 〉┣━━━━━━━━━━━━━━━━━━━━*/
+/*━━━━┫〈 PDF出力 - 計画情報 〉┣━━━━━━━━━━━━━━━━*/
 .pdf-plans body {
   font-family: 'mplus1medium', sans-serif;
   font-size: 9px;
@@ -634,12 +635,12 @@ html[data-sidebar="closed"] #sidebar-content {
   white-space: pre-wrap;
   word-wrap: break-word;
 }
-/*-------------------------------------------------*/
+/*----------------------------------------------*/
 
 
 
 
-/*━━━━┫〈 PDF出力 - 同意医師（ＨＫ） 〉┣━━━━━━━━━━━━━*/
+/*━━━━┫〈 PDF出力 - 同意医師（ＨＫ） 〉┣━━━━━━━━━*/
 .pdf-consents-acupuncture body {
   font-family: 'mplus1medium', sans-serif;
   font-size: 9px;
@@ -679,12 +680,12 @@ html[data-sidebar="closed"] #sidebar-content {
 .pdf-consents-acupuncture .status-updated {
   color: #666666;
 }
-/*-------------------------------------------------*/
+/*----------------------------------------------*/
 
 
 
 
-/*━━━━┫〈 PDF出力 - 同意医師（ＡＭ） 〉┣━━━━━━━━━━━━━*/
+/*━━━━┫〈 PDF出力 - 同意医師（ＡＭ） 〉┣━━━━━━━━━*/
 .pdf-consents-massage body {
   font-family: 'mplus1medium', sans-serif;
   font-size: 9px;
@@ -724,12 +725,12 @@ html[data-sidebar="closed"] #sidebar-content {
 .pdf-consents-massage .status-updated {
   color: #666666;
 }
-/*-------------------------------------------------*/
+/*----------------------------------------------*/
 
 
 
 
-/*━━━━┫〈 PDF出力 - 医療保険情報 〉┣━━━━━━━━━━━━━━━━*/
+/*━━━━┫〈 PDF出力 - 医療保険情報 〉┣━━━━━━━━━━━━*/
 .pdf-insurances body {
   font-family: 'mplus1medium', sans-serif;
   font-size: 9px;
@@ -774,10 +775,10 @@ html[data-sidebar="closed"] #sidebar-content {
 .pdf-insurances .status-updated {
   color: #666666;
 }
-/*-------------------------------------------------*/
+/*----------------------------------------------*/
 
 
 
 
-/*━━━━┫〈 その他 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-/*-------------------------------------------------*/
+/*━━━━┫〈 その他 〉┣━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/*----------------------------------------------*/
