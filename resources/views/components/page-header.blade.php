@@ -27,5 +27,5 @@
   </nav>
   @endif
 
-  <hr class="border border-black border-1">
+  <hr class="border border-1 border-black opacity-100">
 </div>
