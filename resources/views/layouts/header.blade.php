@@ -14,12 +14,15 @@
 
   <div class="vr opacity-50 my-1"></div>
 
-  <form method="POST" action="{{ route('logout') }}" class="ms-auto">
-  @csrf
-  <a href="{{ route('logout') }}"
-    onclick="event.preventDefault(); localStorage.removeItem('sidebarState'); localStorage.removeItem('submenuStates'); this.closest('form').submit();"
-    class="fw-bold text-decoration-none text-gray-90 py-1 px-3 hover-highlight-30 rounded-1">
-    {{ __('ログアウト') }}
-  </a>
-  </form>
+  <div class="ms-auto d-flex align-self-stretch align-items-center">
+    <div class="vr opacity-50 my-1"></div>
+    <form method="POST" action="{{ route('logout') }}">
+    @csrf
+    <a href="{{ route('logout') }}"
+      onclick="event.preventDefault(); localStorage.removeItem('sidebarState'); localStorage.removeItem('submenuStates'); this.closest('form').submit();"
+      class="fw-bold text-decoration-none text-gray-90 py-1 px-3 hover-highlight-30 rounded-1">
+      {{ __('ログアウト') }}
+    </a>
+    </form>
+  </div>
 </div>
