@@ -43,7 +43,7 @@
 		</header>
 
 		<!-- コンテンツラッパー（サイドバー ＋ メインコンテンツ ＋ フッター）-->
-		<div class="content-wrapper">
+		<div class="content-wrapper d-flex flex-grow-1 overflow-hidden">
 			<!-- サイドバー -->
 			<aside id="sidebar" class="bg-gray-26 text-light border-end border-secondary border-3">
 				<div id="sidebar-content">

@@ -9,13 +9,6 @@
   scroll-behavior: smooth;
 }
 
-/* コンテンツラッパー（サイドバー＆メインコンテンツ＆フッター）*/
-.content-wrapper {
-  display: flex;
-  flex: 1;
-  overflow: hidden;
-}
-
 
 /* フッター */
 .main-content > footer {
