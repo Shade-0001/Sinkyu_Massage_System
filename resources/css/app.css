@@ -240,8 +240,9 @@
 
 /*〈ボタン〉*/
 .btn-custom-blue {
-  background-color: hsl(200, 100%, 30%);
+  background-color: hsl(200, 100%, 35%);
   color: hsl(0, 0%, 95%);
+  font-weight: 500;
 }
 [class*="btn-custom-"]::after {
   transition: opacity 0.1s;
