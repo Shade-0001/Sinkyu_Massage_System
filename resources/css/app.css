@@ -63,12 +63,18 @@
 .hover-highlight-45:hover::after {opacity: 0.45;}
 .hover-highlight-50:hover::after {opacity: 0.5;}
 /* オプション - テキストハイライト */
+.highlight-target-text-white, .highlight-target-text-white *,
+.highlight-target-text-black, .highlight-target-text-black * { transition: color 0.1s; }
 [class*="hover-highlight-"]:hover:is(.highlight-target-text-white),
 [class*="hover-highlight-"]:hover .highlight-target-text-white,
-[class*="hover-highlight-"]:hover .highlight-target-text-white * { color: #fff !important; }
+[class*="hover-highlight-"]:hover .highlight-target-text-white * {
+  color: #FFFFFF !important;
+}
 [class*="hover-highlight-"]:hover:is(.highlight-target-text-black),
 [class*="hover-highlight-"]:hover .highlight-target-text-black,
-[class*="hover-highlight-"]:hover .highlight-target-text-black * { color: #000 !important; }
+[class*="hover-highlight-"]:hover .highlight-target-text-black * {
+  color: #000000 !important;
+}
 
 /*〈ホバー時輝度上昇〉*/
 [class*="bright-target-"] {
