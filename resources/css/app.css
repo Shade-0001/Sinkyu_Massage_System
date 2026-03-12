@@ -63,7 +63,20 @@
 .hover-highlight-45:hover::after {opacity: 0.45;}
 .hover-highlight-50:hover::after {opacity: 0.5;}
 /*〈サイドバーアクティブ〉*/
-.sidebar-active::after { opacity: 0.3; }
+.sidebar-active {
+  position: relative;
+}
+.sidebar-active::after {
+  background: #FFFFFF;
+  mix-blend-mode: overlay;
+  opacity: 0.3;
+  pointer-events: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 2;
+}
 .sidebar-active:hover::after { opacity: 0.3; }
 .sidebar-active, .sidebar-active * { color: #FFFFFF !important; transition: none; }
 /* アクティブ要素ではホバーによるテキストカラー変化を無効化 */
