@@ -62,7 +62,20 @@
 .hover-highlight-40:hover::after {opacity: 0.4;}
 .hover-highlight-45:hover::after {opacity: 0.45;}
 .hover-highlight-50:hover::after {opacity: 0.5;}
-/*〈サイドバーアクティブ〉*/
+/* テキストハイライト（.hover-highlight-50*必須） */
+.highlight-target-text-white, .highlight-target-text-white *,
+.highlight-target-text-black, .highlight-target-text-black * { transition: color 0.1s; }
+[class*="hover-highlight-"]:hover:is(.highlight-target-text-white),
+[class*="hover-highlight-"]:hover .highlight-target-text-white,
+[class*="hover-highlight-"]:hover .highlight-target-text-white * {
+  color: #FFFFFF !important;
+}
+[class*="hover-highlight-"]:hover:is(.highlight-target-text-black),
+[class*="hover-highlight-"]:hover .highlight-target-text-black,
+[class*="hover-highlight-"]:hover .highlight-target-text-black * {
+  color: #333333 !important;
+}
+/* サイドバーアクティブ状態 */
 .sidebar-active {
   position: relative;
 }
@@ -79,25 +92,11 @@
 }
 .sidebar-active:hover::after { opacity: 0.3; }
 .sidebar-active, .sidebar-active * { color: #FFFFFF !important; transition: none; }
-/* アクティブ要素ではホバーによるテキストカラー変化を無効化 */
+/* アクティブ要素はホバー効果無効化 */
 .sidebar-active.highlight-target-text-white,
 .sidebar-active.highlight-target-text-white *,
 .sidebar-active .highlight-target-text-white,
 .sidebar-active .highlight-target-text-white * { color: #FFFFFF !important; }
-
-/* オプション - テキストハイライト */
-.highlight-target-text-white, .highlight-target-text-white *,
-.highlight-target-text-black, .highlight-target-text-black * { transition: color 0.1s; }
-[class*="hover-highlight-"]:hover:is(.highlight-target-text-white),
-[class*="hover-highlight-"]:hover .highlight-target-text-white,
-[class*="hover-highlight-"]:hover .highlight-target-text-white * {
-  color: #FFFFFF !important;
-}
-[class*="hover-highlight-"]:hover:is(.highlight-target-text-black),
-[class*="hover-highlight-"]:hover .highlight-target-text-black,
-[class*="hover-highlight-"]:hover .highlight-target-text-black * {
-  color: #333333 !important;
-}
 
 /*〈ホバー時輝度上昇〉*/
 [class*="bright-target-"] {
@@ -144,13 +143,33 @@
 }
 
 /*〈立体ボーダー〉*/
-.border-bevel {
+.border-bevel-1 {
+  box-shadow:
+    inset  1px  1px 1px hsla(0, 0%, 100%, 0.25),
+    inset -1px -1px 1px hsla(0, 0%, 0%, 0.15);
+}
+.border-bevel-2 {
+  box-shadow:
+    inset  2px  2px 1px hsla(0, 0%, 100%, 0.25),
+    inset -2px -2px 1px hsla(0, 0%, 0%, 0.15);
+}
+.border-bevel-3 {
+  box-shadow:
+    inset  3px  3px 1px hsla(0, 0%, 100%, 0.25),
+    inset -3px -3px 1px hsla(0, 0%, 0%, 0.15);
+}
+.border-bevel-4 {
   box-shadow:
     inset  4px  4px 1px hsla(0, 0%, 100%, 0.25),
     inset -4px -4px 1px hsla(0, 0%, 0%, 0.15);
 }
+.border-bevel-5 {
+  box-shadow:
+    inset  5px  5px 1px hsla(0, 0%, 100%, 0.25),
+    inset -5px -5px 1px hsla(0, 0%, 0%, 0.15);
+}
 /* ボタン用パディング補正プロパティ */
-.btn.border-bevel {
+.btn[class*="border-bevel"] {
   padding-top: calc(var(--bs-btn-padding-y) + 2px);
   padding-bottom: calc(var(--bs-btn-padding-y) + 2px);
 }
