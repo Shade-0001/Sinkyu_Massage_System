@@ -42,7 +42,7 @@
 }
 [class*="hover-highlight-"]::after {
   transition: opacity 0.1s;
-  background: white;
+  background: #FFFFFF;
   mix-blend-mode: overlay;
   opacity: 0;
   pointer-events: none;
@@ -62,6 +62,16 @@
 .hover-highlight-40:hover::after {opacity: 0.4;}
 .hover-highlight-45:hover::after {opacity: 0.45;}
 .hover-highlight-50:hover::after {opacity: 0.5;}
+/*〈サイドバーアクティブ〉*/
+.sidebar-active::after { opacity: 0.3; }
+.sidebar-active:hover::after { opacity: 0.3; }
+.sidebar-active, .sidebar-active * { color: #FFFFFF !important; transition: none; }
+/* アクティブ要素ではホバーによるテキストカラー変化を無効化 */
+.sidebar-active.highlight-target-text-white,
+.sidebar-active.highlight-target-text-white *,
+.sidebar-active .highlight-target-text-white,
+.sidebar-active .highlight-target-text-white * { color: #FFFFFF !important; }
+
 /* オプション - テキストハイライト */
 .highlight-target-text-white, .highlight-target-text-white *,
 .highlight-target-text-black, .highlight-target-text-black * { transition: color 0.1s; }
@@ -73,7 +83,7 @@
 [class*="hover-highlight-"]:hover:is(.highlight-target-text-black),
 [class*="hover-highlight-"]:hover .highlight-target-text-black,
 [class*="hover-highlight-"]:hover .highlight-target-text-black * {
-  color: #000000 !important;
+  color: #333333 !important;
 }
 
 /*〈ホバー時輝度上昇〉*/
@@ -149,15 +159,19 @@
 }
 
 /*〈テキストカラー（グレースケール）〉*/
-.text-gray-90 {color: #E6E6E6 !important;}
-.text-gray-80 {color: #CCCCCC !important;}
-.text-gray-70 {color: #B3B3B3 !important;}
-.text-gray-60 {color: #999999 !important;}
-.text-gray-50 {color: #7F7F7F !important;}
-.text-gray-40 {color: #666666 !important;}
-.text-gray-30 {color: #4D4D4D !important;}
-.text-gray-20 {color: #333333 !important;}
-.text-gray-10 {color: #1A1A1A !important;}
+.text-gray-95 {color: hsl(0, 0%, 95%) !important;}
+.text-gray-90 {color: hsl(0, 0%, 90%) !important;}
+.text-gray-85 {color: hsl(0, 0%, 85%) !important;}
+.text-gray-80 {color: hsl(0, 0%, 80%) !important;}
+.text-gray-70 {color: hsl(0, 0%, 70%) !important;}
+.text-gray-60 {color: hsl(0, 0%, 60%) !important;}
+.text-gray-50 {color: hsl(0, 0%, 50%) !important;}
+.text-gray-40 {color: hsl(0, 0%, 40%) !important;}
+.text-gray-30 {color: hsl(0, 0%, 30%) !important;}
+.text-gray-20 {color: hsl(0, 0%, 20%) !important;}
+.text-gray-15 {color: hsl(0, 0%, 15%) !important;}
+.text-gray-10 {color: hsl(0, 0%, 10%) !important;}
+.text-gray-5 {color: hsl(0, 0%, 5%) !important;}
 
 /*〈背景カラー（グレースケール）〉*/
 .bg-gray-100 {background-color: hsl(200,25%,100%) !important;}
@@ -294,7 +308,6 @@ html[data-sidebar="open"] #sidebar-toggle-icon span:nth-of-type(3)::after {
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE/Edge */
 }
-
 #sidebar::-webkit-scrollbar {
   display: none; /* Chrome/Safari */
 }
@@ -310,32 +323,18 @@ html[data-sidebar="closed"] #sidebar {
   width: 220px;
   transition: transform 0.2s ease;
 }
-
 html[data-sidebar="closed"] #sidebar-content {
   transform: translateX(-100%);
-}
-
-/* サイドバーリンク - カスタムスタイル（ホバーエフェクト含む） */
-.sidebar-link {
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.sidebar-link:hover {
-  color: #fff !important;
-  opacity: 1 !important;
-  background-color: #ffffff20;
 }
 
 /* サブメニュートグル */
 .sidebar-submenu-toggle {
   cursor: pointer;
 }
-
 .submenu-arrow {
   font-size: 12px;
   transition: transform 0.2s ease;
 }
-
 .submenu-arrow.rotated {
   transform: scaleY(-1);
 }
@@ -344,31 +343,6 @@ html[data-sidebar="closed"] #sidebar-content {
 .submenu {
   max-height: 0;
   transition: max-height 0.3s ease;
-}
-
-.submenu li {
-  border-bottom: 1px solid #444;
-}
-
-.submenu li:last-child {
-  border-bottom: none;
-}
-
-/* サブメニューリンク */
-.submenu-link {
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.submenu-link:hover {
-  color: #fff !important;
-  opacity: 1 !important;
-  background-color: #ffffff20;
-}
-
-.submenu-link.active {
-  background-color: #1a3a5c;
-  color: #6db3ff;
-  font-weight: 500;
 }
 /*----------------------------------------------*/
 
