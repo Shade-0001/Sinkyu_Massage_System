@@ -237,6 +237,27 @@
 .bg-gray-4 {background-color: hsl(200,3%,4%) !important;}
 .bg-gray-2 {background-color: hsl(200,3%,2%) !important;}
 .bg-gray-0 {background-color: hsl(200,3%,0%) !important;}
+
+/*〈ボタン〉*/
+.btn-custom-blue {
+  background-color: hsl(200, 100%, 30%);
+  color: hsl(0, 0%, 95%);
+}
+[class*="btn-custom-"]::after {
+  transition: opacity 0.1s;
+  background: #FFFFFF;
+  mix-blend-mode: overlay;
+  opacity: 0;
+  pointer-events: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 2;
+}
+[class*="btn-custom-"]:hover::after {
+  opacity: 0.3;
+}
 /*---------------------------------------------*/
 
 

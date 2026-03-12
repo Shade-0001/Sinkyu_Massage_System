@@ -72,7 +72,7 @@
     <span class="text-danger ms-2">{{ $message }}</span>
   @enderror
   <br>
-  <input type="number" id="age" name="age" value="{{ $get('age') }}" min="0" max="150" readonly class="bg-light" style="cursor: default;" data-tooltip="生年月日から自動入力されます">
+  <input type="number" id="age" name="age" value="{{ $get('age') }}" min="0" max="150" readonly style="cursor: default;" data-tooltip="生年月日から自動入力されます">
   </div>
 
   <div class="mb-3">
