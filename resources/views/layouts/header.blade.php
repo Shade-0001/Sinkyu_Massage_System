@@ -1,6 +1,6 @@
-<div class="px-3 d-flex align-items-center gap-3 fw-bold">
+<div class="px-2 d-flex align-items-center gap-3 fw-bold">
   <!-- サイドバートグルボタン -->
-  <button id="sidebar-toggle" type="button" class="my-2 px-5 hover-highlight-30 rounded-1">
+  <button id="sidebar-toggle" type="button" class="px-2 py-2 hover-highlight-30 rounded-1">
     <div id="sidebar-toggle-icon">
       <span></span>
       <span></span>
@@ -14,7 +14,7 @@
 
   <div class="vr opacity-50 my-1"></div>
 
-  <form method="POST" action="{{ route('logout') }}">
+  <form method="POST" action="{{ route('logout') }}" class="ms-auto">
   @csrf
   <a href="{{ route('logout') }}"
     onclick="event.preventDefault(); localStorage.removeItem('sidebarState'); localStorage.removeItem('submenuStates'); this.closest('form').submit();"
