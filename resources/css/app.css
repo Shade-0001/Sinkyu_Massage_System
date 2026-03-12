@@ -62,14 +62,11 @@
 .hover-highlight-40:hover::after {opacity: 0.4;}
 .hover-highlight-45:hover::after {opacity: 0.45;}
 .hover-highlight-50:hover::after {opacity: 0.5;}
-
-/*〈ホバー時フォントハイライト〉*/
-.hover-text-white:hover, .hover-text-white:hover *
-{ color: #fff !important; }
-.hover-text-black:hover, .hover-text-black:hover *
-{ color: #000 !important; }
+/* オプション - テキストハイライト */
+[class*="hover-highlight-"]:hover:is(.highlight-target-text-white),
 [class*="hover-highlight-"]:hover .highlight-target-text-white,
 [class*="hover-highlight-"]:hover .highlight-target-text-white * { color: #fff !important; }
+[class*="hover-highlight-"]:hover:is(.highlight-target-text-black),
 [class*="hover-highlight-"]:hover .highlight-target-text-black,
 [class*="hover-highlight-"]:hover .highlight-target-text-black * { color: #000 !important; }
 
