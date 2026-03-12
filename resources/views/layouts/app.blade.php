@@ -52,7 +52,7 @@
 			</aside>
 
 			<!-- メインコンテンツ -->
-			<div class="main-content bg-gray-92">
+			<div class="main-content flex-grow-1 pt-3 px-3 pb-0 overflow-y-auto d-flex flex-column bg-gray-92">
 				<main class="flex-fill">
 					{{ $slot }}
 				</main>

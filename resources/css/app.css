@@ -3,28 +3,21 @@
 
 
 /*━━━━┫〈 グローバルスタイル 〉┣━━━━━━━━━━━━━━━━*/
+/* 全体 */
 * {
   font-family: 'Noto Sans JP', sans-serif;
   scroll-behavior: smooth;
 }
 
-/* コンテンツラッパー（サイドバー ＋ メインコンテンツ ＋ フッター）*/
+/* コンテンツラッパー（サイドバー＆メインコンテンツ＆フッター）*/
 .content-wrapper {
   display: flex;
   flex: 1;
   overflow: hidden;
 }
 
-/* メインコンテンツ */
-.main-content {
-  flex: 1;
-  padding: 1rem 1rem 0 1rem;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-}
 
-/* フッター（ウィンドウ幅いっぱいに拡張） */
+/* フッター */
 .main-content > footer {
   margin-left: var(--footer-offset, 0px);
   width: 100vw;
@@ -38,8 +31,9 @@
 
 /* 閲覧専用フィールド */
 [readonly] {
-  background-color: #eeeeee;
-  border-width: 0.1rem;
+  background-color: #ffffff;
+  border-color: #000000;
+  border-width: 0.1px;
   opacity: 0.6;
   cursor: default;
   outline: none;
@@ -50,7 +44,7 @@
 
 
 /*━━━━┫〈 ユーティリティクラス 〉┣━━━━━━━━━━━━━━━*/
-/* ホバー時ハイライト（透過オーバーレイ） */
+/*〈ホバー時ハイライト（透過オーバーレイ） */
 [class*="hover-highlight-"] {
   position: relative;
 }
@@ -77,7 +71,7 @@
 .hover-highlight-45:hover::after {opacity: 0.45;}
 .hover-highlight-50:hover::after {opacity: 0.5;}
 
-/* ホバー時輝度上昇 */
+/*〈ホバー時輝度上昇 */
 [class*="bright-target-"] {
   transition: filter 0.1s ease;
 }
@@ -94,7 +88,7 @@
 .bright-target-130:hover {
   filter: brightness(1.3);}
 
-/* ホバー時白背景 */
+/*〈ホバー時白背景 */
 .hover-bg-white {
   position: relative;
 }
@@ -121,7 +115,7 @@
     inset -4px -4px 1px hsla(0, 0%, 0%, 0.15);
 }
 
-/* 立体ボーダー */
+/*〈立体ボーダー */
 .border-bevel {
   box-shadow:
     inset  4px  4px 1px hsla(0, 0%, 100%, 0.25),
@@ -139,17 +133,17 @@
     inset -4px -4px 1px hsla(0, 0%, 0%, 0.1);
 }
 
-/* 不透明度90% */
+/*〈不透明度90% */
 .opacity-90 {
   opacity: 0.9 !important;
 }
 
-/* 背景不透明度90% */
+/*〈背景不透明度90% */
 .bg-opacity-90 {
   --bs-bg-opacity: 0.9;
 }
 
-/* テキストカラー（グレースケール） */
+/*〈テキストカラー（グレースケール） */
 .text-gray-90 {color: #E6E6E6 !important;}
 .text-gray-80 {color: #CCCCCC !important;}
 .text-gray-70 {color: #B3B3B3 !important;}
@@ -160,7 +154,7 @@
 .text-gray-20 {color: #333333 !important;}
 .text-gray-10 {color: #1A1A1A !important;}
 
-/* 背景カラー（グレースケール） */
+/*〈背景カラー（グレースケール） */
 .bg-gray-100 {background-color: hsl(200,25%,100%) !important;}
 .bg-gray-98 {background-color: hsl(200,20%,98%) !important;}
 .bg-gray-96 {background-color: hsl(200,20%,96%) !important;}
