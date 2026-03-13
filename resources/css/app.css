@@ -270,8 +270,7 @@
 [class*="btn-custom-"]:hover {
   color: #FFF;
 }
-[class*="btn-custom-"]:hover:not(:active)::after {
-  transition: opacity 0.15s;
+[class*="btn-custom-"]:hover::after {
   opacity: 0.15;
 }
 .btn-custom-blue:active {
@@ -289,7 +288,8 @@
     inset  2px  2px 1px hsla(0, 0%, 0%, 0.15),
     inset -2px -2px 1px hsla(0, 0%, 100%, 0.25);
 }
-[class*="btn-custom-"]:active::after {
+[class*="btn-custom-"]:active::after,
+[class*="btn-custom-"].btn-clicked::after {
   transition: opacity 0s;
   opacity: 0;
 }
