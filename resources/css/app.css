@@ -271,6 +271,7 @@
   color: #FFF;
 }
 [class*="btn-custom-"]:hover::after {
+  transition: opacity 0.15s;
   opacity: 0.15;
 }
 .btn-custom-blue:active {
