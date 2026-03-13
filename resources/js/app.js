@@ -9,7 +9,7 @@ window.Alpine = Alpine;
 Alpine.start();
 
 // btn-custom-blue: クリック終了時にホバーハイライトを一時的に無効化→フェードイン復活
-document.addEventListener('mouseup', (e) => {
+function onBtnCustomMouseup(e) {
   const btn = e.target.closest('.btn-custom-blue');
   if (!btn) return;
 
@@ -25,4 +25,5 @@ document.addEventListener('mouseup', (e) => {
       btn.classList.remove('btn-hover-highlight-fadein');
     }, 500);
   }, 1000);
-});
+}
+document.addEventListener('mouseup', onBtnCustomMouseup);
