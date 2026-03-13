@@ -270,7 +270,7 @@
 [class*="btn-custom-"]:hover {
   color: #FFF;
 }
-[class*="btn-custom-"]:hover::after {
+[class*="btn-custom-"]:hover:not(:active)::after {
   transition: opacity 0.15s;
   opacity: 0.15;
 }
