@@ -240,10 +240,14 @@
 
 /*〈ボタン〉*/
 .btn-custom-blue {
+  transition: all 1s;
   background-color: hsl(200, 100%, 40%);
   color: hsl(0, 0%, 95%);
-  font-weight: 500;
+  font-weight: 600;
+  border: none;
   border-radius: 3px;
+  padding: 6px 12px;
+  user-select: none;
   box-shadow:
     inset  4px  4px 1px hsla(0, 0%, 100%, 0.25),
     inset -4px -4px 1px hsla(0, 0%, 0%, 0.15);
@@ -253,8 +257,8 @@
   overflow: hidden;
 }
 [class*="btn-custom-"]::after {
-  transition: opacity 0.1s;
-  background: #FFFFFF;
+  transition: opacity 1s;
+  background: #FFF;
   opacity: 0;
   pointer-events: none;
   content: "";
@@ -263,8 +267,30 @@
   border-radius: inherit;
   z-index: 2;
 }
+[class*="btn-custom-"]:hover {
+  color: #FFF;
+}
 [class*="btn-custom-"]:hover::after {
-  opacity: 0.5;
+  opacity: 0.15;
+}
+.btn-custom-blue:active {
+  transition: all 0s;
+  transition: transform 0.1s, box-shadow 0.1s;
+  transform: scale(0.98);
+  background-color: hsl(200, 100%, 40%);
+  color: hsl(0, 0%, 95%);
+  font-weight: 600;
+  border: none;
+  border-radius: 3px;
+  padding: 6px 12px;
+  user-select: none;
+  box-shadow:
+    inset  2px  2px 1px hsla(0, 0%, 0%, 0.15),
+    inset -2px -2px 1px hsla(0, 0%, 100%, 0.25);
+}
+[class*="btn-custom-"]:active::after {
+  transition: opacity 0s;
+  opacity: 0;
 }
 /*---------------------------------------------*/
 
