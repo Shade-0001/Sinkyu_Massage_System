@@ -240,7 +240,8 @@
 
 /*〈ボタン〉*/
 .btn-custom {
-  --btn-color: hsl(205, 100%, 40%);
+  /* デフォルト値 */
+  --btn-color: hsl(0, 0%, 40%);
   --btn-shadow-size: 4px;
   --btn-padding: 6px 12px;
   --btn-font-size: 1rem;
@@ -288,30 +289,28 @@
     inset -2px -2px 1px hsla(0, 0%, 100%, 0.25);
 }
 .btn-custom.btn-hover-highlight-off:hover::after {
-  transition: opacity 0.1s linear;
+  transition: opacity 0.05s linear;
   opacity: 0;
 }
 .btn-custom.btn-hover-highlight-fadein:hover::after {
   transition: opacity 0.5s linear;
   opacity: 0.15;
 }
-
-/*〈ボタン：色〉*/
+/*〈ボタン-カスタムプロパティ｜カラー〉*/
 .btn-custom-blue  { --btn-color: hsl(205, 100%, 40%); }
 .btn-custom-red   { --btn-color: hsl(0,   100%, 40%); }
 .btn-custom-green { --btn-color: hsl(130,  60%, 35%); }
 .btn-custom-gray  { --btn-color: hsl(0,     0%, 50%); }
-
-/*〈ボタン：サイズ〉*/
+/*〈ボタン-カスタムプロパティ｜サイズ〉*/
 .btn-custom-lg {
   --btn-shadow-size: 6px;
   --btn-padding: 10px 20px;
-  --btn-font-size: 1.1rem;
+  --btn-font-size: 1.2rem;
 }
 .btn-custom-sm {
   --btn-shadow-size: 2px;
   --btn-padding: 3px 8px;
-  --btn-font-size: 0.85rem;
+  --btn-font-size: 0.8rem;
 }
 /*---------------------------------------------*/
 
