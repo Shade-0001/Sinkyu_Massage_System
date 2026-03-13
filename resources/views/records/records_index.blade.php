@@ -16,7 +16,7 @@
           </option>
         @endforeach
       </select>
-      <button type="button" onclick="openUserSearchPopup()" class="btn btn-custom-blue rounded-1 border-bevel-3 text-gray-95 mx-2">利用者検索</button>
+      <button type="button" onclick="openUserSearchPopup()" class="btn btn-custom btn-custom-blue rounded-1 border-bevel-3 text-gray-95 mx-2">利用者検索</button>
     </div>
   </form>
   <br>

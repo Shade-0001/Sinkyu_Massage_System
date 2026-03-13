@@ -19,4 +19,7 @@
   ・<a href="{{ route('master.treatment-fees.index') }}">施術料金</a><br>
   ・<a href="{{ route('master.self-fees.index') }}">自費施術料金</a><br>
   ・<a href="{{ route('master.document-association.index') }}">登録済み標準文書の確認･関連付け</a>
+
+  <br><br>
+  <button type="submit" class="btn-custom btn-custom-blue w-25">ボタン</button>
 </x-app-layout>

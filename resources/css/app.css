@@ -239,24 +239,28 @@
 .bg-gray-0 {background-color: hsl(200,3%,0%) !important;}
 
 /*〈ボタン〉*/
-.btn-custom-blue {
-  transition: all 0.15s linear 0.2s;
-  background-color: hsl(205, 100%, 40%);
+.btn-custom {
+  --btn-color: hsl(205, 100%, 40%);
+  --btn-shadow-size: 4px;
+  --btn-padding: 6px 12px;
+  --btn-font-size: 1rem;
+
+  transition: all 0.15s linear 0.15s;
+  background-color: var(--btn-color);
   color: hsl(0, 0%, 95%);
   font-weight: 600;
   border: none;
   border-radius: 3px;
-  padding: 6px 12px;
+  padding: var(--btn-padding);
+  font-size: var(--btn-font-size);
   user-select: none;
-  box-shadow:
-    inset  4px  4px 1px hsla(0, 0%, 100%, 0.25),
-    inset -4px -4px 1px hsla(0, 0%, 0%, 0.15);
-}
-[class*="btn-custom-"] {
   position: relative;
   overflow: hidden;
+  box-shadow:
+    inset  var(--btn-shadow-size)  var(--btn-shadow-size) 1px hsla(0, 0%, 100%, 0.25),
+    inset calc(var(--btn-shadow-size) * -1) calc(var(--btn-shadow-size) * -1) 1px hsla(0, 0%, 0%, 0.15);
 }
-[class*="btn-custom-"]::after {
+.btn-custom::after {
   transition: opacity 0.15s linear;
   background: #FFF;
   opacity: 0;
@@ -267,30 +271,47 @@
   border-radius: inherit;
   z-index: 2;
 }
-[class*="btn-custom-"]:hover {
+.btn-custom:hover {
   color: #FFF;
 }
-[class*="btn-custom-"]:hover::after {
+.btn-custom:hover::after {
   transition: opacity 0.05s linear;
   opacity: 0.15;
 }
-[class*="btn-custom-"].btn-hover-highlight-off:hover::after {
-  transition: opacity 0.15s linear;
-  opacity: 0;
-}
-[class*="btn-custom-"].btn-hover-highlight-fadein:hover::after {
-  transition: opacity 0.5s linear;
-  opacity: 0.15;
-}
-.btn-custom-blue:active {
+.btn-custom:active {
   transition: all 0.05s;
-  transition: transform 0.05s linear, box-shadow 0.05s linear;
   transform: scale(0.98);
   color: #FFF;
   border-radius: 2px;
   box-shadow:
     inset  2px  2px 1px hsla(0, 0%, 0%, 0.15),
     inset -2px -2px 1px hsla(0, 0%, 100%, 0.25);
+}
+.btn-custom.btn-hover-highlight-off:hover::after {
+  transition: opacity 0.1s linear;
+  opacity: 0;
+}
+.btn-custom.btn-hover-highlight-fadein:hover::after {
+  transition: opacity 0.5s linear;
+  opacity: 0.15;
+}
+
+/*〈ボタン：色〉*/
+.btn-custom-blue  { --btn-color: hsl(205, 100%, 40%); }
+.btn-custom-red   { --btn-color: hsl(0,   100%, 40%); }
+.btn-custom-green { --btn-color: hsl(130,  60%, 35%); }
+.btn-custom-gray  { --btn-color: hsl(0,     0%, 50%); }
+
+/*〈ボタン：サイズ〉*/
+.btn-custom-lg {
+  --btn-shadow-size: 6px;
+  --btn-padding: 10px 20px;
+  --btn-font-size: 1.1rem;
+}
+.btn-custom-sm {
+  --btn-shadow-size: 2px;
+  --btn-padding: 3px 8px;
+  --btn-font-size: 0.85rem;
 }
 /*---------------------------------------------*/
 

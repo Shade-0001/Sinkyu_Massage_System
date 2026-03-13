@@ -8,9 +8,9 @@ window.Alpine = Alpine;
 
 Alpine.start();
 
-// btn-custom-blue: クリック終了時にホバーハイライトを一時的に無効化→フェードイン復活
+// btn-custom: クリック終了時にホバーハイライトを一時的に無効化→フェードイン復活
 function onBtnCustomMouseup(e) {
-  const btn = e.target.closest('.btn-custom-blue');
+  const btn = e.target.closest('.btn-custom');
   if (!btn) return;
 
   clearTimeout(btn._hoverHighlightTimer);
