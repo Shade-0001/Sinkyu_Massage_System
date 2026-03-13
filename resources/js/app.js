@@ -8,12 +8,15 @@ window.Alpine = Alpine;
 
 Alpine.start();
 
-// btn-custom-* クリック後のハイライト抑制
-document.addEventListener('mousedown', e => {
-  const btn = e.target.closest('[class*="btn-custom-"]');
+// btn-custom-blue: クリック終了時にホバーハイライトを一時的に無効化
+document.addEventListener('mouseup', (e) => {
+  const btn = e.target.closest('.btn-custom-blue');
   if (!btn) return;
-  btn.classList.add('btn-clicked');
-  btn.addEventListener('mouseup', () => {
-    setTimeout(() => btn.classList.remove('btn-clicked'), 1000);
-  }, { once: true });
+
+  btn.classList.add('btn-hover-highlight-off');
+
+  clearTimeout(btn._hoverHighlightTimer);
+  btn._hoverHighlightTimer = setTimeout(() => {
+    btn.classList.remove('btn-hover-highlight-off');
+  }, 1000);
 });
