@@ -240,9 +240,17 @@
 
 /*〈ボタン〉*/
 .btn-custom-blue {
-  background-color: hsl(200, 100%, 35%);
+  background-color: hsl(200, 100%, 40%);
   color: hsl(0, 0%, 95%);
   font-weight: 500;
+  border-radius: 3px;
+  box-shadow:
+    inset  4px  4px 1px hsla(0, 0%, 100%, 0.25),
+    inset -4px -4px 1px hsla(0, 0%, 0%, 0.15);
+}
+[class*="btn-custom-"] {
+  position: relative;
+  overflow: hidden;
 }
 [class*="btn-custom-"]::after {
   transition: opacity 0.1s;
