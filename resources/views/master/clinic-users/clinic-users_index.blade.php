@@ -17,7 +17,7 @@
   <thead>
     <tr>
     <th>ID</th>
-    <th>名前 [編集] / カナ</th>
+    <th>名前 / カナ</th>
     <th>生年月日</th>
     <th>住所 / TEL</th>
     <th>データ登録日</th>
@@ -30,8 +30,8 @@
     <tr>
       <td>{{ $user->id }}</td>
       <td data-order="{{ $user->full_kana }}">
-      <a href="{{ route('clinic-users.edit', ['id' => $user->id]) }}">{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}［編集］</a><br>
-      {{ $user->full_kana }}
+      {{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}<br>
+      {{ $user->full_kana }}<br>
       </td>
       <td>
       @if(!empty($user->birthday))
@@ -50,16 +50,17 @@
       {{ optional($user->created_at)->format('H:i') }}
       </td>
       <td>
-      <a href="{{ route('clinic-users.insurances.index', ['id' => $user->id]) }}">保険情報</a><br>
-      <a href="{{ route('clinic-users.consents-acupuncture.index', ['id' => $user->id]) }}">同意医師履歴（はり・きゅう）</a><br>
-      <a href="{{ route('clinic-users.consents-massage.index', ['id' => $user->id]) }}">同意医師履歴（あんま・マッサージ）</a><br>
-      <a href="{{ route('clinic-users.plans.index', ['id' => $user->id]) }}">計画情報</a>
+        <a class="btn-custom btn-custom-blue btn-custom-sm" href="{{ route('clinic-users.edit', ['id' => $user->id]) }}">利用者情報</a>
+        <a class="btn-custom btn-custom-blue btn-custom-sm" href="{{ route('clinic-users.insurances.index', ['id' => $user->id]) }}">保険情報</a>
+        <a class="btn-custom btn-custom-blue btn-custom-sm" href="{{ route('clinic-users.plans.index', ['id' => $user->id]) }}">計画情報</a><br>
+        <a class="btn-custom btn-custom-blue btn-custom-sm" href="{{ route('clinic-users.consents-acupuncture.index', ['id' => $user->id]) }}">同意医師履歴（ＨＫ）</a>
+        <a class="btn-custom btn-custom-blue btn-custom-sm" href="{{ route('clinic-users.consents-massage.index', ['id' => $user->id]) }}">同意医師履歴（ＡＭ）</a>
       </td>
       <td>
       <form action="{{ route('clinic-users.delete', ['id' => $user->id]) }}" method="POST" class="delete-form d-inline">
         @csrf
         @method('DELETE')
-        <button type="submit" class="delete-btn btn btn-link p-0">削除</button>
+        <button type="submit" class="delete-btn btn-custom btn-custom-red btn-custom-sm">削除</button>
       </form>
       </td>
     </tr>
