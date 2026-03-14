@@ -14,19 +14,19 @@
     <h5 class="text-nowrap">はり・きゅう関連</h5>
     <hr class="mt-0">
     <div class="row g-2">
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#1a6bb5;color:#fff;" onclick="openAcupunctureBenefitModal()">療養費支給申請書</button></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#1a6bb5;color:#fff;" onclick="openTreatmentReceiptModal('acupuncture')">施術料金領収書</button></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#1a6bb5;color:#fff;" onclick="openMedicalAssistanceModal('acupuncture')">医療助成費支給申請書</button></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#1a6bb5;color:#fff;" onclick="openLateElderlyMedicalModal('acupuncture')">後期高齢者医療療養費支給申請書</button></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#1a6bb5;color:#fff;" onclick="openConsentRequestSampleModal('acupuncture')">同意書依頼状 (サンプル版)</button></div>
+      <div class="col"><button type="button" class="btn-custom w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#1F91CE;color:#FFF;" onclick="openAcupunctureBenefitModal()">療養費支給申請書</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#1F91CE;color:#FFF;" onclick="openTreatmentReceiptModal('acupuncture')">施術料金領収書</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#1F91CE;color:#FFF;" onclick="openMedicalAssistanceModal('acupuncture')">医療助成費支給申請書</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#1F91CE;color:#FFF;" onclick="openLateElderlyMedicalModal('acupuncture')">後期高齢者医療療養費支給申請書</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#1F91CE;color:#FFF;" onclick="openConsentRequestSampleModal('acupuncture')">同意書依頼状 (サンプル版)</button></div>
       <div class="w-100"></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#1a6bb5;color:#fff;" onclick="openConsentRequestDesignatedModal('acupuncture')">同意書依頼状 (医師指定)</button></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#1a6bb5;color:#fff;" onclick="openConsentFormModal('acupuncture')">同意書</button></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#1a6bb5;color:#fff;" onclick="openTreatmentFeeListModal('acupuncture')">施術料金一覧表(保険)</button></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#1a6bb5;color:#fff;" onclick="openSelfFeeListModal()">施術料金一覧表(自費)</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#1F91CE;color:#FFF;" onclick="openConsentRequestDesignatedModal('acupuncture')">同意書依頼状 (医師指定)</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#1F91CE;color:#FFF;" onclick="openConsentFormModal('acupuncture')">同意書</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#1F91CE;color:#FFF;" onclick="openTreatmentFeeListModal('acupuncture')">施術料金一覧表(保険)</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#1F91CE;color:#FFF;" onclick="openSelfFeeListModal()">施術料金一覧表(自費)</button></div>
       <div class="col d-flex gap-2">
-        <button type="button" class="btn flex-fill text-nowrap border-bevel hover-highlight-20" style="background-color:#1a6bb5;color:#fff;" onclick="openTreatmentRecordModal('acupuncture')">施術録</button>
-        <button type="button" class="btn flex-fill text-nowrap border-bevel hover-highlight-20" style="background-color:#1a6bb5;color:#fff;" onclick="openSummaryTableModal('acupuncture')">総括表</button>
+        <button type="button" class="btn flex-fill text-nowrap border-bevel hover-highlight-20" style="background-color:#1F91CE;color:#FFF;" onclick="openTreatmentRecordModal('acupuncture')">施術録</button>
+        <button type="button" class="btn flex-fill text-nowrap border-bevel hover-highlight-20" style="background-color:#1F91CE;color:#FFF;" onclick="openSummaryTableModal('acupuncture')">総括表</button>
       </div>
     </div>
   </div>
@@ -35,19 +35,19 @@
     <h5 class="text-nowrap">あんま・マッサージ関連</h5>
     <hr class="mt-0">
     <div class="row g-2">
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#3498db;color:#fff;" onclick="openMassageBenefitModal()">療養費支給申請書</button></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#3498db;color:#fff;" onclick="openTreatmentReceiptModal('massage')">施術料金領収書</button></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#3498db;color:#fff;" onclick="openMedicalAssistanceModal('massage')">医療助成費支給申請書</button></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#3498db;color:#fff;" onclick="openLateElderlyMedicalModal('massage')">後期高齢者医療療養費支給申請書</button></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#3498db;color:#fff;" onclick="openConsentRequestSampleModal('massage')">同意書依頼状 (サンプル版)</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#00CAC0;color:#FFF;" onclick="openMassageBenefitModal()">療養費支給申請書</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#00CAC0;color:#FFF;" onclick="openTreatmentReceiptModal('massage')">施術料金領収書</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#00CAC0;color:#FFF;" onclick="openMedicalAssistanceModal('massage')">医療助成費支給申請書</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#00CAC0;color:#FFF;" onclick="openLateElderlyMedicalModal('massage')">後期高齢者医療療養費支給申請書</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#00CAC0;color:#FFF;" onclick="openConsentRequestSampleModal('massage')">同意書依頼状 (サンプル版)</button></div>
       <div class="w-100"></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#3498db;color:#fff;" onclick="openConsentRequestDesignatedModal('massage')">同意書依頼状 (医師指定)</button></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#3498db;color:#fff;" onclick="openConsentFormModal('massage')">同意書</button></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#3498db;color:#fff;" onclick="openTreatmentFeeListModal('massage')">施術料金一覧表(保険)</button></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#3498db;color:#fff;" onclick="openSelfFeeListModal()">施術料金一覧表(自費)</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#00CAC0;color:#FFF;" onclick="openConsentRequestDesignatedModal('massage')">同意書依頼状 (医師指定)</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#00CAC0;color:#FFF;" onclick="openConsentFormModal('massage')">同意書</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#00CAC0;color:#FFF;" onclick="openTreatmentFeeListModal('massage')">施術料金一覧表(保険)</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#00CAC0;color:#FFF;" onclick="openSelfFeeListModal()">施術料金一覧表(自費)</button></div>
       <div class="col d-flex gap-2">
-        <button type="button" class="btn flex-fill text-nowrap border-bevel hover-highlight-20" style="background-color:#3498db;color:#fff;" onclick="openTreatmentRecordModal('massage')">施術録</button>
-        <button type="button" class="btn flex-fill text-nowrap border-bevel hover-highlight-20" style="background-color:#3498db;color:#fff;" onclick="openSummaryTableModal('massage')">総括表</button>
+        <button type="button" class="btn flex-fill text-nowrap border-bevel hover-highlight-20" style="background-color:#00CAC0;color:#FFF;" onclick="openTreatmentRecordModal('massage')">施術録</button>
+        <button type="button" class="btn flex-fill text-nowrap border-bevel hover-highlight-20" style="background-color:#00CAC0;color:#FFF;" onclick="openSummaryTableModal('massage')">総括表</button>
       </div>
     </div>
   </div>
@@ -56,20 +56,20 @@
     <h5 class="text-nowrap">その他１</h5>
     <hr class="mt-0">
     <div class="row g-2">
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#e74c3c;color:#fff;" onclick="submitFirstExperienceMaterial()">初回体験用資料</button></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#e74c3c;color:#fff;" onclick="submitPowerOfAttorneyApplication()">委任状（申請・受領）</button></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#e74c3c;color:#fff;" onclick="submitPowerOfAttorneyConsent()">委任状（同意書取得）</button></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#e74c3c;color:#fff;" onclick="openPaymentListModal()">入金管理表（保険）</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#E74C3C;color:#FFF;" onclick="submitFirstExperienceMaterial()">初回体験用資料</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#E74C3C;color:#FFF;" onclick="submitPowerOfAttorneyApplication()">委任状（申請・受領）</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#E74C3C;color:#FFF;" onclick="submitPowerOfAttorneyConsent()">委任状（同意書取得）</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#E74C3C;color:#FFF;" onclick="openPaymentListModal()">入金管理表（保険）</button></div>
       <div class="w-100"></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#e74c3c;color:#fff;" onclick="openDoctorThankYouModal()">医師への御礼状</button></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#e74c3c;color:#fff;" onclick="openReferrerThankYouModal()">紹介者への御礼状</button></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#e74c3c;color:#fff;" onclick="openUserCountSummaryModal()">利用者数集計表</button></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#e74c3c;color:#fff;" onclick="openImplementationPlanModal()">実施計画書</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#E74C3C;color:#FFF;" onclick="openDoctorThankYouModal()">医師への御礼状</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#E74C3C;color:#FFF;" onclick="openReferrerThankYouModal()">紹介者への御礼状</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#E74C3C;color:#FFF;" onclick="openUserCountSummaryModal()">利用者数集計表</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#E74C3C;color:#FFF;" onclick="openImplementationPlanModal()">実施計画書</button></div>
       <div class="w-100"></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#e74c3c;color:#fff;" onclick="openReportGreetingModal()">報告書挨拶文</button></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#e74c3c;color:#fff;" onclick="openReportModal()">報告書</button></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#e74c3c;color:#fff;" onclick="openScheduleListModal()">予定表</button></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#e74c3c;color:#fff;" onclick="openTreatmentExpiryListModal()">要加療期限切れリスト</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#E74C3C;color:#FFF;" onclick="openReportGreetingModal()">報告書挨拶文</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#E74C3C;color:#FFF;" onclick="openReportModal()">報告書</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#E74C3C;color:#FFF;" onclick="openScheduleListModal()">予定表</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#E74C3C;color:#FFF;" onclick="openTreatmentExpiryListModal()">要加療期限切れリスト</button></div>
     </div>
   </div>
   
@@ -77,15 +77,15 @@
     <h5 class="text-nowrap">その他２</h5>
     <hr class="mt-0">
     <div class="row g-2">
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#e67e22;color:#fff;" onclick="submitUserInfoBasicList()">利用者情報一覧（基本情報）</button></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#e67e22;color:#fff;" onclick="submitUserInfoInsuranceList()">利用者情報一覧（医療保険情報）</button></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#e67e22;color:#fff;" onclick="submitClinicUserConsentInfoList()">利用者情報一覧（同意医師情報）</button></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#e67e22;color:#fff;" onclick="submitDoctorInfoList()">医師情報一覧</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#E67E22;color:#FFF;" onclick="submitUserInfoBasicList()">利用者情報一覧（基本情報）</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#E67E22;color:#FFF;" onclick="submitUserInfoInsuranceList()">利用者情報一覧（医療保険情報）</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#E67E22;color:#FFF;" onclick="submitClinicUserConsentInfoList()">利用者情報一覧（同意医師情報）</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#E67E22;color:#FFF;" onclick="submitDoctorInfoList()">医師情報一覧</button></div>
       <div class="w-100"></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#e67e22;color:#fff;" onclick="submitCareManagerInfoList()">ケアマネ情報一覧</button></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#e67e22;color:#fff;" onclick="submitTherapistInfoList()">施術者情報一覧</button></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#e67e22;color:#fff;" onclick="openAddressLabelModal()">宛名シール・住所データCSV出力</button></div>
-      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#e67e22;color:#fff;" onclick="submitFaxCoverSheet()">FAX送信票表示</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#E67E22;color:#FFF;" onclick="submitCareManagerInfoList()">ケアマネ情報一覧</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#E67E22;color:#FFF;" onclick="submitTherapistInfoList()">施術者情報一覧</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#E67E22;color:#FFF;" onclick="openAddressLabelModal()">宛名シール・住所データCSV出力</button></div>
+      <div class="col"><button type="button" class="btn w-100 text-nowrap border-bevel hover-highlight-20" style="background-color:#E67E22;color:#FFF;" onclick="submitFaxCoverSheet()">FAX送信票表示</button></div>
     </div>
   </div>
 
@@ -1339,7 +1339,7 @@
         /* ensure modals sit above page content */
         .modal { z-index: 2000; }
         .modal-backdrop { z-index: 1990; }
-        .modal .modal-content { background-color: #fff; }
+        .modal .modal-content { background-color: #FFF; }
         /* 利用者選択リストのスクロールアニメーションを無効化 */
         #clinic_user_ids,
         #massage_clinic_user_ids,
