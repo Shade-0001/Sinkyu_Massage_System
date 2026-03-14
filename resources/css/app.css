@@ -247,7 +247,6 @@
   --btn-font-size: 1rem;
   --btn-font-weight: 600;
 
-  display: inline-block;
   transition: all 0.15s linear 0.15s;
   background-color: var(--btn-color);
   color: hsl(0, 0%, 95%);
@@ -259,6 +258,8 @@
   user-select: none;
   position: relative;
   overflow: hidden;
+  display: inline-block;
+  text-wrap: nowrap;
   box-shadow:
     inset  var(--btn-shadow-size)  var(--btn-shadow-size) 1px hsla(0, 0%, 100%, 0.25),
     inset calc(var(--btn-shadow-size) * -1) calc(var(--btn-shadow-size) * -1) 1px hsla(0, 0%, 0%, 0.15);
