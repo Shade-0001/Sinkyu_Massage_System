@@ -98,7 +98,7 @@
                             @method('DELETE')
                             <button type="submit">削除</button>
                           </form>
-                          <button type="button">印刷</button>
+                          <button type="button" onclick="openReportPrintModal('{{ $selectedUserId }}', '{{ $yearMonth }}')">印刷</button>
                         </td>
                       </tr>
                       <tr>
@@ -280,6 +280,42 @@
       if (popup) {
         popup.focus();
       }
+    }
+
+    // 報告書PDF印刷
+    function openReportPrintModal(userId, yearMonth) {
+      const now = new Date();
+      const yyyy = now.getFullYear();
+      const mm = String(now.getMonth() + 1).padStart(2, '0');
+      const dd = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      const today = `${yyyy}-${mm}-${dd}`;
+      const filename = `報告書_${yyyy}-${mm}-${dd}_${hours}-${minutes}-${seconds}.pdf`;
+
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = `/prints/report/${encodeURIComponent(filename)}`;
+      form.target = '_blank';
+
+      const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+      const addHidden = (name, value) => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        input.value = value;
+        form.appendChild(input);
+      };
+
+      addHidden('_token', csrfToken);
+      addHidden('clinic_user_id', userId);
+      addHidden('service_year_month', yearMonth);
+      addHidden('submission_date', today);
+
+      document.body.appendChild(form);
+      form.submit();
+      document.body.removeChild(form);
     }
 
     // 利用者検索ポップアップからの選択を受け取る
