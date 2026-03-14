@@ -243,7 +243,7 @@
   /* デフォルト値 */
   --btn-color: hsl(0, 0%, 40%);
   --btn-shadow-size: 4px;
-  --btn-padding: 6px 12px;
+  --btn-padding: 8px 12px;
   --btn-font-size: 1rem;
 
   transition: all 0.15s linear 0.15s;
@@ -297,14 +297,19 @@
   opacity: 0.15;
 }
 /*〈ボタン-カスタムプロパティ｜カラー〉*/
-.btn-custom-blue  { --btn-color: hsl(205, 100%, 40%); }
-.btn-custom-red   { --btn-color: hsl(0,   100%, 40%); }
-.btn-custom-green { --btn-color: hsl(130,  60%, 35%); }
-.btn-custom-gray  { --btn-color: hsl(0,     0%, 50%); }
+.btn-custom-red   { --btn-color: #E74C3C; }
+.btn-custom-orange{ --btn-color: #E67E22; }
+.btn-custom-yellow{ --btn-color: #EDBE00; }
+.btn-custom-lime  { --btn-color: #8FDC00; }
+.btn-custom-green { --btn-color: #1BAD50; }
+.btn-custom-cyan  { --btn-color: #00bcb3; }
+.btn-custom-blue  { --btn-color: #1F91CE; }
+.btn-custom-purple{ --btn-color: #B164E4; }
+.btn-custom-gray  { --btn-color: #75838A; }
 /*〈ボタン-カスタムプロパティ｜サイズ〉*/
 .btn-custom-lg {
   --btn-shadow-size: 6px;
-  --btn-padding: 10px 20px;
+  --btn-padding: 12px 20px;
   --btn-font-size: 1.2rem;
 }
 .btn-custom-sm {

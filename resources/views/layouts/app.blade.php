@@ -52,13 +52,13 @@
 			</aside>
 
 			<!-- メインコンテンツ -->
-			<div class="main-content flex-grow-1 pt-3 px-3 pb-0 overflow-y-auto d-flex flex-column bg-gray-92">
+			<div class="main-content flex-grow-1 pt-3 px-3 pb-0 overflow-y-auto d-flex flex-column bg-gray-90">
 				<main class="flex-fill">
 					{{ $slot }}
 				</main>
 				@unless($hideFooter)
 				<!-- フッター -->
-				   <footer class="py-2 mt-5 text-muted border-top border-1 border-secondary border-opacity-50" style="background-color: hsl(0,0%,90%)">
+				   <footer class="py-2 mt-5 text-muted border-top border-1 border-secondary border-opacity-50 bg-gray-80">
 					<p class="mx-4 my-0">Copyright © All rights reserved.</p>
 				</footer>
 				@endunless

@@ -23,7 +23,7 @@ class DoctorsController extends Controller
       ->orderBy('doctors.id', 'desc')
       ->get();
 
-    return view('doctors.doctors_index', compact('doctors'));
+    return view('master.doctors.doctors_index', compact('doctors'));
   }
 
   // 医師新規登録画面表示
@@ -43,7 +43,7 @@ class DoctorsController extends Controller
       ->orderBy('medical_institution_name', 'asc')
       ->get();
 
-    return view('doctors.doctors_registration', [
+    return view('master.doctors.doctors_registration', [
       'mode' => 'create',
       'page_header_title' => '医師‐登録 (新規)',
       'doctor' => null,
@@ -144,7 +144,7 @@ class DoctorsController extends Controller
       ->orderBy('medical_institution_name', 'asc')
       ->get();
 
-    return view('doctors.doctors_registration', [
+    return view('master.doctors.doctors_registration', [
       'mode' => 'edit',
       'page_header_title' => '医師‐登録 (編集)',
       'doctor' => $doctor,
@@ -245,7 +245,7 @@ class DoctorsController extends Controller
       ->orderBy('medical_institution_name', 'asc')
       ->get();
 
-    return view('doctors.doctors_registration', [
+    return view('master.doctors.doctors_registration', [
       'mode' => 'duplicate',
       'page_header_title' => '医師‐登録 (複製)',
       'doctor' => $doctor,

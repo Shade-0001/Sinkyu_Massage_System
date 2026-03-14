@@ -31,7 +31,7 @@ class ClinicUserController extends Controller
         // DataTablesを使用するため、全件取得
         $clinicUsers = ClinicUser::orderBy('id', 'desc')->get();
 
-        return view('clinic-users.clinic-users_index', [
+        return view('master.clinic-users.clinic-users_index', [
             'clinicUsers' => $clinicUsers,
             'page_header_title' => '利用者',
         ]);
@@ -44,7 +44,7 @@ class ClinicUserController extends Controller
      */
     public function create()
     {
-        return view('clinic-users.clinic-users_registration', [
+        return view('master.clinic-users.clinic-users_registration', [
             'mode' => 'create',
             'page_header_title' => '利用者‐登録 (新規)',
             'clinicUser' => null
@@ -120,7 +120,7 @@ class ClinicUserController extends Controller
     {
         $clinicUser = ClinicUser::findOrFail($id);
         
-        return view('clinic-users.clinic-users_registration', [
+        return view('master.clinic-users.clinic-users_registration', [
             'mode' => 'edit',
             'page_header_title' => '利用者‐登録 (編集)',
             'clinicUser' => $clinicUser

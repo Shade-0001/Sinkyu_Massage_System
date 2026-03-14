@@ -54,7 +54,7 @@ class ConsentMassageController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('clinic-users.consents-massage.consents-massage_index', [
+        return view('master.clinic-users.consents-massage.consents-massage_index', [
             'id' => $id,
             'name' => $user->full_name,
             'consentingHistories' => $consentingHistories,
@@ -76,7 +76,7 @@ class ConsentMassageController extends Controller
         $sessionData = $request->session()->get('consents_massage_registration_data');
         $history = $sessionData ? (object)$sessionData : null;
 
-        return view('clinic-users.consents-massage.consents-massage_registration', array_merge([
+        return view('master.clinic-users.consents-massage.consents-massage_registration', array_merge([
             'mode' => 'create',
             'page_header_title' => $user->last_name . "\u{2000}" . $user->first_name . "\u{2000}" . '様の同意医師履歴新規登録',
             'id' => $id,
@@ -168,7 +168,7 @@ class ConsentMassageController extends Controller
         // マスターデータを取得
         $masterData = $this->getMasterData();
 
-        return view('clinic-users.consents-massage.consents-massage_registration', array_merge([
+        return view('master.clinic-users.consents-massage.consents-massage_registration', array_merge([
             'mode' => 'edit',
             'page_header_title' => $user->last_name . "\u{2000}" . $user->first_name . "\u{2000}" . '様の同意医師履歴編集',
             'id' => $id,
@@ -263,7 +263,7 @@ class ConsentMassageController extends Controller
         // マスターデータを取得
         $masterData = $this->getMasterData();
 
-        return view('clinic-users.consents-massage.consents-massage_registration', array_merge([
+        return view('master.clinic-users.consents-massage.consents-massage_registration', array_merge([
             'mode' => 'duplicate',
             'page_header_title' => $user->last_name . "\u{2000}" . $user->first_name . "\u{2000}" . '様の同意医師履歴複製',
             'id' => $id,
@@ -360,7 +360,7 @@ class ConsentMassageController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('clinic-users.consents-massage.consents-massage_pdf', [
+        return view('master.clinic-users.consents-massage.consents-massage_pdf', [
             'user' => $user,
             'histories' => $histories
         ]);

@@ -18,7 +18,7 @@ class TherapistsController extends Controller
       ->orderBy('id', 'desc')
       ->get();
 
-    return view('therapists.therapists_index', [
+    return view('master.therapists.therapists_index', [
       'therapists' => $therapists,
       'page_header_title' => '施術者',
     ]);
@@ -36,7 +36,7 @@ class TherapistsController extends Controller
       session()->put('therapists_registration_data', $sessionData);
     }
 
-    return view('therapists.therapists_registration', [
+    return view('master.therapists.therapists_registration', [
       'mode' => 'create',
       'page_header_title' => '施術者新規登録',
       'therapist' => null
@@ -126,7 +126,7 @@ class TherapistsController extends Controller
       return redirect()->route('therapists.index')->with('error', '施術者が見つかりません。');
     }
 
-    return view('therapists.therapists_registration', [
+    return view('master.therapists.therapists_registration', [
       'mode' => 'edit',
       'page_header_title' => '施術者編集',
       'therapist' => $therapist

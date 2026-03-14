@@ -36,7 +36,7 @@ class CompanyInfoController extends Controller
     // 帳票フォーマットの選択肢
     $documentFormats = ['標準2013', '神奈川2013', '大阪', '福岡', '愛知', '茨城'];
 
-    return view('clinic-info.clinic-info_index', [
+    return view('master.clinic-info.clinic-info_index', [
       'companyInfo' => $companyInfo,
       'prefectures' => $prefectures,
       'bankAccountTypes' => $bankAccountTypes,

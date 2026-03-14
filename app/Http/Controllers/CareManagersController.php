@@ -24,7 +24,7 @@ class CareManagersController extends Controller
       ->orderBy('caremanagers.id', 'desc')
       ->get();
 
-    return view('caremanagers.caremanagers_index', [
+    return view('master.caremanagers.caremanagers_index', [
       'careManagers' => $careManagers,
       'page_header_title' => 'ケアマネ',
     ]);
@@ -47,7 +47,7 @@ class CareManagersController extends Controller
       ->orderBy('service_provider_name', 'asc')
       ->get();
 
-    return view('caremanagers.caremanagers_registration', [
+    return view('master.caremanagers.caremanagers_registration', [
       'mode' => 'create',
       'page_header_title' => 'ケアマネ新規登録',
       'careManager' => null,
@@ -152,7 +152,7 @@ class CareManagersController extends Controller
       ->orderBy('service_provider_name', 'asc')
       ->get();
 
-    return view('caremanagers.caremanagers_registration', [
+    return view('master.caremanagers.caremanagers_registration', [
       'mode' => 'edit',
       'page_header_title' => 'ケアマネ編集',
       'careManager' => $careManager,

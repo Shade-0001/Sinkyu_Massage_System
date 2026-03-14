@@ -47,7 +47,7 @@ class InsuranceController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('clinic-users.insurances.insurances_index', [
+        return view('master.clinic-users.insurances.insurances_index', [
             'id' => $id,
             'name' => $user->full_name,
             'insurances' => $insurances,
@@ -73,7 +73,7 @@ class InsuranceController extends Controller
             session()->put('insurances_registration_data', $sessionData);
         }
 
-        return view('clinic-users.insurances.insurances_registration', [
+        return view('master.clinic-users.insurances.insurances_registration', [
             'mode' => 'create',
             'page_header_title' => $user->last_name . "\u{2000}" . $user->first_name . "\u{2000}" . '様の保険情報新規登録',
             'userId' => $id,
@@ -154,7 +154,7 @@ class InsuranceController extends Controller
         $insurance = Insurance::with('insurer')->findOrFail($insurance_id);
         $insurers = Insurer::all();
 
-        return view('clinic-users.insurances.insurances_registration', [
+        return view('master.clinic-users.insurances.insurances_registration', [
             'mode' => 'edit',
             'page_header_title' => $user->last_name . "\u{2000}" . $user->first_name . "\u{2000}" . '様の保険情報編集',
             'userId' => $id,
@@ -231,7 +231,7 @@ class InsuranceController extends Controller
         $insurance = Insurance::with('insurer')->findOrFail($insurance_id);
         $insurers = Insurer::all();
 
-        return view('clinic-users.insurances.insurances_registration', [
+        return view('master.clinic-users.insurances.insurances_registration', [
             'mode' => 'duplicate',
             'page_header_title' => $user->last_name . "\u{2000}" . $user->first_name . "\u{2000}" . '様の保険情報複製',
             'userId' => $id,
@@ -350,7 +350,7 @@ class InsuranceController extends Controller
         $pdf->AddPage();
 
         // HTMLコンテンツを生成
-        $html = view('clinic-users.insurances.insurances_pdf', [
+        $html = view('master.clinic-users.insurances.insurances_pdf', [
             'user' => $user,
             'insurances' => $insurances
         ])->render();

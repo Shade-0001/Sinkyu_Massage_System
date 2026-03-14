@@ -56,7 +56,7 @@ class ConsentAcupunctureController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('clinic-users.consents-acupuncture.consents-acupuncture_index', [
+        return view('master.clinic-users.consents-acupuncture.consents-acupuncture_index', [
             'id' => $id,
             'name' => $user->full_name,
             'consentingHistories' => $consentingHistories,
@@ -78,7 +78,7 @@ class ConsentAcupunctureController extends Controller
         $sessionData = $request->session()->get('consents_acupuncture_registration_data');
         $history = $sessionData ? (object)$sessionData : null;
 
-        return view('clinic-users.consents-acupuncture.consents-acupuncture_registration', array_merge([
+        return view('master.clinic-users.consents-acupuncture.consents-acupuncture_registration', array_merge([
             'mode' => 'create',
             'page_header_title' => $user->last_name . "\u{2000}" . $user->first_name . "\u{2000}" . '様の同意医師履歴新規登録',
             'id' => $id,
@@ -157,7 +157,7 @@ class ConsentAcupunctureController extends Controller
         // マスターデータを取得
         $masterData = $this->getMasterData();
 
-        return view('clinic-users.consents-acupuncture.consents-acupuncture_registration', array_merge([
+        return view('master.clinic-users.consents-acupuncture.consents-acupuncture_registration', array_merge([
             'mode' => 'edit',
             'page_header_title' => $user->last_name . "\u{2000}" . $user->first_name . "\u{2000}" . '様の同意医師履歴編集',
             'id' => $id,
@@ -237,7 +237,7 @@ class ConsentAcupunctureController extends Controller
         // マスターデータを取得
         $masterData = $this->getMasterData();
 
-        return view('clinic-users.consents-acupuncture.consents-acupuncture_registration', array_merge([
+        return view('master.clinic-users.consents-acupuncture.consents-acupuncture_registration', array_merge([
             'mode' => 'duplicate',
             'page_header_title' => $user->last_name . "\u{2000}" . $user->first_name . "\u{2000}" . '様の同意医師履歴複製',
             'id' => $id,
@@ -322,7 +322,7 @@ class ConsentAcupunctureController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('clinic-users.consents-acupuncture.consents-acupuncture_pdf', [
+        return view('master.clinic-users.consents-acupuncture.consents-acupuncture_pdf', [
             'user' => $user,
             'histories' => $histories
         ]);

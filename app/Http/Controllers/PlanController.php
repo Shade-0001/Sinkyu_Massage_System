@@ -30,7 +30,7 @@ class PlanController extends Controller
             ->orderBy('assessment_date', 'desc')
             ->get();
 
-        return view('clinic-users.plans.plans_index', [
+        return view('master.clinic-users.plans.plans_index', [
             'id' => $id,
             'name' => $user->full_name,
             'planInfos' => $planInfos,
@@ -55,7 +55,7 @@ class PlanController extends Controller
         $sessionData = $request->session()->get('plan_infos_registration_data');
         $planInfo = $sessionData ? (object)$sessionData : null;
 
-        return view('clinic-users.plans.plans_registration', [
+        return view('master.clinic-users.plans.plans_registration', [
             'mode' => 'create',
             'page_header_title' => $user->last_name . "\u{2000}" . $user->first_name . "\u{2000}" . '様の計画情報新規登録',
             'id' => $id,
@@ -139,7 +139,7 @@ class PlanController extends Controller
             $planInfo = (object)$sessionData;
         }
 
-        return view('clinic-users.plans.plans_registration', [
+        return view('master.clinic-users.plans.plans_registration', [
             'mode' => 'edit',
             'page_header_title' => $user->last_name . "\u{2000}" . $user->first_name . "\u{2000}" . '様の計画情報編集',
             'id' => $id,
@@ -216,7 +216,7 @@ class PlanController extends Controller
         $sessionData = $request->session()->get('plan_infos_duplicate_data');
         $planInfo = $sessionData ? (object)$sessionData : $originalPlanInfo;
 
-        return view('clinic-users.plans.plans_registration', [
+        return view('master.clinic-users.plans.plans_registration', [
             'mode' => 'duplicate',
             'page_header_title' => $user->last_name . "\u{2000}" . $user->first_name . "\u{2000}" . '様の計画情報複製',
             'id' => $id,
