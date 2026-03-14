@@ -245,11 +245,13 @@
   --btn-shadow-size: 4px;
   --btn-padding: 8px 12px;
   --btn-font-size: 1rem;
+  --btn-font-weight: 600;
 
+  display: inline-block;
   transition: all 0.15s linear 0.15s;
   background-color: var(--btn-color);
   color: hsl(0, 0%, 95%);
-  font-weight: 600;
+  font-weight: var(--btn-font-weight);
   border: none;
   border-radius: 3px;
   padding: var(--btn-padding);
@@ -311,11 +313,13 @@
   --btn-shadow-size: 6px;
   --btn-padding: 12px 20px;
   --btn-font-size: 1.2rem;
+  --btn-font-weight: 700;
 }
 .btn-custom-sm {
-  --btn-shadow-size: 2px;
+  --btn-shadow-size: 3px;
   --btn-padding: 3px 8px;
-  --btn-font-size: 0.8rem;
+  --btn-font-size: 0.9rem;
+  --btn-font-weight: 500;
 }
 /*---------------------------------------------*/
 
