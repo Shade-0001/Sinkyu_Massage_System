@@ -40,7 +40,7 @@
   @endphp
 
   <form action="{{ $formAction }}" method="POST">
-    @include('clinic-users.insurances.components.insurances_form', [
+    @include('master.clinic-users.insurances.components.insurances_form', [
       'isEdit' => $isEdit,
       'insurance' => $insurance,
       'insurers' => $insurers ?? null,

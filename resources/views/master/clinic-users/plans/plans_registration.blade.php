@@ -45,7 +45,7 @@
   @endif
 
   <form action="{{ $formAction }}" method="POST">
-    @include('clinic-users.plans.components.plans_form', [
+    @include('master.clinic-users.plans.components.plans_form', [
       'planInfo' => $planInfo ?? null,
       'assistanceLevels' => $assistanceLevels,
       'submitLabel' => '登録確認へ',

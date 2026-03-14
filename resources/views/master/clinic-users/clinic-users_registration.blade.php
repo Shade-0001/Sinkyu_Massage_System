@@ -46,7 +46,7 @@
     }
   @endphp
 
-  @include('clinic-users.clinic-users_form', [
+  @include('master.clinic-users.clinic-users_form', [
   'action' => $formAction,
   'sessionKey' => $sessionKey,
   'clinicUser' => $clinicUser,

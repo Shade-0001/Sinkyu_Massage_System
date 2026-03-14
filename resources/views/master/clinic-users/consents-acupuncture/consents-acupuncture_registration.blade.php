@@ -49,7 +49,7 @@
   @endif
 
   <form action="{{ $formAction }}" method="POST">
-    @include('clinic-users.consents-acupuncture.components.consents-acupuncture_form', [
+    @include('master.clinic-users.consents-acupuncture.components.consents-acupuncture_form', [
       'history' => $history ?? null,
       'submitLabel' => '登録確認へ',
       'cancelRoute' => route('clinic-users.consents-acupuncture.index', $id)

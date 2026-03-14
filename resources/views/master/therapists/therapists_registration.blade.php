@@ -35,7 +35,7 @@
   @endphp
 
   <form action="{{ $formAction }}" method="POST">
-    @include('therapists.components.therapists_form', [
+    @include('master.therapists.components.therapists_form', [
       'therapist' => $therapist,
       'submitLabel' => '登録確認へ',
       'cancelRoute' => route('therapists.index')

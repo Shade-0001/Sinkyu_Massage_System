@@ -23,7 +23,7 @@
   @endif
 
   <form action="{{ route('clinic-info.confirm') }}" method="POST">
-    @include('clinic-info.components.clinic-info_form', [
+    @include('master.clinic-info.components.clinic-info_form', [
       'companyInfo' => $companyInfo,
       'prefectures' => $prefectures,
       'bankAccountTypes' => $bankAccountTypes,
