@@ -20,7 +20,7 @@
     <th class="text-center">名前 / カナ</th>
     <th class="text-center">生年月日</th>
     <th class="text-center">住所 / TEL</th>
-    <th class="text-center">データ登録日</th>
+    <th class="text-center text-nowrap">データ登録日</th>
     <th class="text-center">各種編集</th>
     <th class="text-center">削除</th>
     </tr>
@@ -43,11 +43,15 @@
       @if(!empty($user->postal_code))
         〒{{ $user->postal_code }}<br>
       @endif
-      {{ $user->address_1 }} {{ $user->address_2 }} {{ $user->address_3 }}
+      {{ $user->address_1 }} {{ $user->address_2 }} {{ $user->address_3 }}<br>
+      @if(!empty($user->phone))
+        {{ $user->phone }}<br>
+      @elseif(!empty($user->cell_phone))
+        {{ $user->cell_phone }}<br>
+      @endif
       </td>
       <td data-order="{{ $user->created_at ? $user->created_at->timestamp : 0 }}">
-      {{ optional($user->created_at)->format('Y/n/j') }}<br>
-      {{ optional($user->created_at)->format('H:i') }}
+      {{ optional($user->created_at)->format('Y/n/j') }}{{ "\u{2000}" }}{{ optional($user->created_at)->format('H:i') }}
       </td>
       <td>
         <a class="btn-custom btn-custom-blue btn-custom-sm" href="{{ route('clinic-users.edit', ['id' => $user->id]) }}">利用者情報</a>
