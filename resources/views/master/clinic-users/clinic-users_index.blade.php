@@ -16,13 +16,13 @@
   <table id="userTable" class="table table-bordered table-striped">
   <thead>
     <tr>
-    <th>ID</th>
-    <th>名前 / カナ</th>
-    <th>生年月日</th>
-    <th>住所 / TEL</th>
-    <th>データ登録日</th>
-    <th>各種編集</th>
-    <th>削除</th>
+    <th class="text-center">ID</th>
+    <th class="text-center">名前 / カナ</th>
+    <th class="text-center">生年月日</th>
+    <th class="text-center">住所 / TEL</th>
+    <th class="text-center">データ登録日</th>
+    <th class="text-center">各種編集</th>
+    <th class="text-center">削除</th>
     </tr>
   </thead>
   <tbody>
