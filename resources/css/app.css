@@ -278,7 +278,9 @@
   user-select: none;
   position: relative;
   overflow: hidden;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   text-wrap: nowrap;
   box-shadow:
     /*左上*/ inset var(--btn-shadow-size) var(--btn-shadow-size) 1px var(--btn-shadow-color-light),
@@ -314,7 +316,7 @@
   transition: all 0.05s;
   transform: scale(0.95);
   --btn-text-color: hsl(0, 0%, 100%);
-  border-radius: calc(var(--btn-br-tl) / 1.2) calc(var(--btn-br-tr) / 1.2) calc(var(--btn-br-br) / 1.2) calc(var(--btn-br-bl) / 1.2);
+  border-radius: calc(var(--btn-br-tl) / 1.2) calc(var(--btn-br-tr) / 1.2) calc(var(--btn-br-br) / 1.2) calc(var(--btn-br-bl) / 1.3);
   box-shadow:
     /*左上*/ inset var(--btn-shadow-size-half) var(--btn-shadow-size-half) 1px var(--btn-shadow-color-dark),
     /*上*/ inset 0 var(--btn-shadow-size-half) 1px var(--btn-shadow-color-dark),
