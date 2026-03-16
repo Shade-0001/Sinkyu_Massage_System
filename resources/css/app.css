@@ -253,23 +253,27 @@
   --btn-text-color: hsl(0, 0%, 95%);
   --btn-font-size: 1rem;
   --btn-font-weight: 600;
+  --btn-padding: 8px 12px;
+  --btn-br-tl: 3px;
+  --btn-br-tr: 3px;
+  --btn-br-br: 3px;
+  --btn-br-bl: 3px;
   --btn-shadow-color-light: hsla(0, 0%, 100%, 0.15);
   --btn-shadow-color-mid: hsla(0, 0%, 50%, 0.15);
   --btn-shadow-color-dark: hsla(0, 0%, 0%, 0.15);
   --btn-shadow-size: 4px;
   --btn-shadow-size-neg: calc(var(--btn-shadow-size) * -1);
-  --btn-shadow-size-half: calc(var(--btn-shadow-size) / 2);
+  --btn-shadow-size-half: calc(var(--btn-shadow-size) / 1.5);
   --btn-shadow-size-half-neg: calc(var(--btn-shadow-size) / 1.5 * -1);
-  --btn-padding: 8px 12px;
 
-  transition: all 0.15s linear 0.1s, color 0.05s linear 0s;
+  transition: all 0.15s linear 0s, color 0.05s linear 0s;
   background-color: var(--btn-bg-color);
   color: var(--btn-text-color);
   font-size: var(--btn-font-size);
   font-weight: var(--btn-font-weight);
   padding: var(--btn-padding);
+  border-radius: var(--btn-br-tl) var(--btn-br-tr) var(--btn-br-br) var(--btn-br-bl);
   border: none;
-  border-radius: 3px;
   cursor: pointer;
   user-select: none;
   position: relative;
@@ -310,7 +314,7 @@
   transition: all 0.05s;
   transform: scale(0.95);
   --btn-text-color: hsl(0, 0%, 100%);
-  border-radius: 2px;
+  border-radius: calc(var(--btn-br-tl) / 1.2) calc(var(--btn-br-tr) / 1.2) calc(var(--btn-br-br) / 1.2) calc(var(--btn-br-bl) / 1.2);
   box-shadow:
     /*左上*/ inset var(--btn-shadow-size-half) var(--btn-shadow-size-half) 1px var(--btn-shadow-color-dark),
     /*上*/ inset 0 var(--btn-shadow-size-half) 1px var(--btn-shadow-color-dark),
@@ -358,14 +362,13 @@
 }
 /*〈カスタムボタン-ライトver〉*/
 .btn-custom-light {
-  --btn-text-color: hsl(0, 0%, 20%);
+  --btn-text-color: hsl(0, 0%, 25%);
 }
 .btn-custom-light:hover {
-  --btn-text-color: hsl(0, 0%, 20%);
-  color: var(--btn-text-color);
+  --btn-text-color: hsl(0, 0%, 25%);
 }
 .btn-custom-light:active {
-  color: var(--btn-text-color);
+  --btn-text-color: hsl(0, 0%, 25%);
 }
 .btn-custom-light-red   { --btn-bg-color: #F5A49D; }
 .btn-custom-light-orange{ --btn-bg-color: #F5C49A; }

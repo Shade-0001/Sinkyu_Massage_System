@@ -8,6 +8,8 @@
     :breadcrumbs="App\Support\Breadcrumbs::generate('master.index')"
   />
 
+  <div class="btn-custom my-4" style="--btn-br-tl: 16px; --btn-br-tr: 16px; --btn-br-br: 16px; --btn-br-bl: 16px;">ボタン</div><br>
+  
   ・<a href="{{ route('clinic-users.index') }}">利用者</a><br>
   ・<a href="{{ route('doctors.index') }}">医師</a><br>
   ・<a href="{{ route('therapists.index') }}">施術者</a><br>
