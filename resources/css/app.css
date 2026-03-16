@@ -243,6 +243,9 @@
   /* デフォルト値 */
   --btn-color: hsl(0, 0%, 40%);
   --btn-shadow-size: 4px;
+  --btn-shadow-size-neg: calc(var(--btn-shadow-size) * -1);
+  --btn-shadow-size-half: calc(var(--btn-shadow-size) / 2);
+  --btn-shadow-size-half-neg: calc(var(--btn-shadow-size) / 2 * -1);
   --btn-padding: 8px 12px;
   --btn-font-size: 1rem;
   --btn-font-weight: 600;
@@ -265,11 +268,11 @@
     /*左上*/ inset var(--btn-shadow-size) var(--btn-shadow-size) 1px hsla(0, 0%, 100%, 0.15),
     /*上*/ inset 0 var(--btn-shadow-size) 1px hsla(0, 0%, 100%, 0.15),
     /*左*/ inset var(--btn-shadow-size) 0 1px hsla(0, 0%, 100%, 0.15),
-    /*左下*/ inset var(--btn-shadow-size) calc(var(--btn-shadow-size) * -1) 1px hsla(0, 0%, 50%, 0.15),
-    /*右上*/ inset calc(var(--btn-shadow-size) * -1) var(--btn-shadow-size) 1px hsla(0, 0%, 50%, 0.15),
-    /*右*/ inset calc(var(--btn-shadow-size) * -1) 0 1px hsla(0, 0%, 0%, 0.15),
-    /*下*/ inset 0 calc(var(--btn-shadow-size) * -1) 1px hsla(0, 0%, 0%, 0.15),
-    /*右下*/ inset calc(var(--btn-shadow-size) * -1) calc(var(--btn-shadow-size) * -1) 1px hsla(0, 0%, 0%, 0.15);
+    /*左下*/ inset var(--btn-shadow-size) var(--btn-shadow-size-neg) 1px hsla(0, 0%, 50%, 0.15),
+    /*右上*/ inset var(--btn-shadow-size-neg) var(--btn-shadow-size) 1px hsla(0, 0%, 50%, 0.15),
+    /*右*/ inset var(--btn-shadow-size-neg) 0 1px hsla(0, 0%, 0%, 0.15),
+    /*下*/ inset 0 var(--btn-shadow-size-neg) 1px hsla(0, 0%, 0%, 0.15),
+    /*右下*/ inset var(--btn-shadow-size-neg) var(--btn-shadow-size-neg) 1px hsla(0, 0%, 0%, 0.15);
 }
 .btn-custom::before,
 .btn-custom::after {
@@ -296,21 +299,19 @@
   transform: scale(0.95);
   color: #FFF;
   border-radius: 2px;
-  --sh: calc(var(--btn-shadow-size) / 2);
-  --shn: calc(var(--btn-shadow-size) / 2 * -1);
   box-shadow:
-    /*左上*/ inset var(--sh) var(--sh) 1px hsla(0, 0%, 0%, 0.15),
-    /*上*/ inset 0 var(--sh) 1px hsla(0, 0%, 0%, 0.15),
-    /*左*/ inset var(--sh) 0 1px hsla(0, 0%, 0%, 0.15),
-    /*左下*/ inset var(--sh) var(--shn) 1px hsla(0, 0%, 50%, 0.15),
-    /*右上*/ inset var(--shn) var(--sh) 1px hsla(0, 0%, 50%, 0.15),
-    /*右*/ inset var(--shn) 0 1px hsla(0, 0%, 100%, 0.15),
-    /*下*/ inset 0 var(--shn) 1px hsla(0, 0%, 100%, 0.15),
-    /*右下*/ inset var(--shn) var(--shn) 1px hsla(0, 0%, 100%, 0.25);
+    /*左上*/ inset var(--btn-shadow-size-half) var(--btn-shadow-size-half) 1px hsla(0, 0%, 0%, 0.15),
+    /*上*/ inset 0 var(--btn-shadow-size-half) 1px hsla(0, 0%, 0%, 0.15),
+    /*左*/ inset var(--btn-shadow-size-half) 0 1px hsla(0, 0%, 0%, 0.15),
+    /*左下*/ inset var(--btn-shadow-size-half) var(--btn-shadow-size-half-neg) 1px hsla(0, 0%, 50%, 0.15),
+    /*右上*/ inset var(--btn-shadow-size-half-neg) var(--btn-shadow-size-half) 1px hsla(0, 0%, 50%, 0.15),
+    /*右*/ inset var(--btn-shadow-size-half-neg) 0 1px hsla(0, 0%, 100%, 0.15),
+    /*下*/ inset 0 var(--btn-shadow-size-half-neg) 1px hsla(0, 0%, 100%, 0.15),
+    /*右下*/ inset var(--btn-shadow-size-half-neg) var(--btn-shadow-size-half-neg) 1px hsla(0, 0%, 100%, 0.25);
 }
 .btn-custom:active::after {
   transition: opacity 0.05s linear;
-  opacity: 0.05;
+  opacity: 0.1;
 }
 .btn-custom.btn-hover-highlight-off:hover::before {
   transition: opacity 0.05s linear;
