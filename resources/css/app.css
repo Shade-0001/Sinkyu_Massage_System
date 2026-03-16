@@ -372,18 +372,11 @@
   --btn-border-size: calc(var(--btn-shadow-size) * 2);
   --btn-primary-color: var(--btn-bg-color);
 
-  background-color: #75838A20;
+  background-color: color-mix(in srgb, var(--btn-primary-color) 50%, transparent);
   color: var(--btn-primary-color);
-  /* テキストアウトライン（2重：内側白shadow + 外側黒shadow） */
-  text-shadow:
-    -1px -1px 0 #FFF,  1px -1px 0 #FFF,
-    -1px  1px 0 #FFF,  1px  1px 0 #FFF,
-    -1px  0   0 #FFF,  1px  0   0 #FFF,
-     0   -1px 0 #FFF,  0    1px 0 #FFF,
-    -3px -3px 0 #000,  3px -3px 0 #000,
-    -3px  3px 0 #000,  3px  3px 0 #000,
-    -3px  0   0 #000,  3px  0   0 #000,
-     0   -3px 0 #000,  0    3px 0 #000;
+  /* テキストアウトライン */
+  -webkit-text-stroke: 3px hsla(0, 0%, 100%, 0.75);
+  paint-order: stroke fill;
   box-shadow:
     /*── ベベル ─────*/
     /*左上*/ inset var(--btn-shadow-size) var(--btn-shadow-size) 1px var(--btn-shadow-color-light),
