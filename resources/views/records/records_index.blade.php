@@ -49,15 +49,13 @@
     <div class="d-flex gap-3 align-items-start">
       <!-- カレンダー -->
       <div class="text-center position-relative" style="width: fit-content; min-width: 15rem;">
-        <div class="d-flex align-items-center justify-content-center gap-1 mb-3">
-          <div class="btn-group" role="group" aria-label="カレンダー月移動ボタン">
-            <button type="button" id="prev-month-btn" class="btn-custom btn-custom-blue" style="--btn-br-tl: 16px; --btn-br-tr: 0; --btn-br-br: 0; --btn-br-bl: 16px;"><i class="nf nf-fa-angle_left fs-4"></i></button>
-            <div class="btn-custom btn-custom-blue rounded-0 fs-4">
-              <div id="calendar-title-display" class="px-3"></div>
-              <select id="calendar-title" class="position-absolute top-0 start-50 translate-middle-x opacity-0" style="cursor: pointer; font-size: 1.5rem; padding: 0.2em 0em; border: none; background: transparent; width: 100%; height: 100%;"></select>
-            </div>
-            <button type="button" id="next-month-btn" class="btn-custom btn-custom-blue" style="--btn-br-tl: 0; --btn-br-tr: 16px; --btn-br-br: 16px; --btn-br-bl: 0;"><i class="nf nf-fa-angle_right fs-4"></i></button>
+        <div class="d-flex align-items-center justify-content-center mb-3">
+          <button type="button" id="prev-month-btn" class="btn-custom btn-custom-blue" style="--btn-br-tl: 16px; --btn-br-tr: 0; --btn-br-br: 0; --btn-br-bl: 16px;"><i class="nf nf-fa-angle_left fs-4"></i></button>
+          <div class="btn-custom btn-custom-blue rounded-0 fs-4">
+            <div id="calendar-title-display" class="px-3"></div>
+            <select id="calendar-title" class="position-absolute top-0 start-50 translate-middle-x opacity-0" style="cursor: pointer; font-size: 1.5rem; padding: 0.2em 0em; border: none; background: transparent; width: 100%; height: 100%;"></select>
           </div>
+          <button type="button" id="next-month-btn" class="btn-custom btn-custom-blue" style="--btn-br-tl: 0; --btn-br-tr: 16px; --btn-br-br: 16px; --btn-br-bl: 0;"><i class="nf nf-fa-angle_right fs-4"></i></button>
         </div>
         <div class="calendar" id="calendar">
           <!-- 曜日ヘッダー -->
