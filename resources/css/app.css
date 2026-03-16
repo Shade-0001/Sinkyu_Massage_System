@@ -258,11 +258,18 @@
   cursor: pointer;
   user-select: none;
   position: relative;
+  overflow: hidden;
   display: inline-block;
   text-wrap: nowrap;
   box-shadow:
-    inset  var(--btn-shadow-size)  var(--btn-shadow-size) 1px hsla(0, 0%, 100%, 0.25),
-    inset calc(var(--btn-shadow-size) * -1) calc(var(--btn-shadow-size) * -1) 1px hsla(0, 0%, 0%, 0.15);
+    inset calc(var(--btn-shadow-size) * -1) calc(var(--btn-shadow-size) * -1) 1px hsla(0, 0%, 100%, 0.25),  /* 左上：白（光） */
+    inset 0                                calc(var(--btn-shadow-size) * -1) 1px hsla(0, 0%, 100%, 0.15),  /* 上：白寄り */
+    inset calc(var(--btn-shadow-size) * -1) 0               1px hsla(0, 0%, 100%, 0.15),  /* 左：白寄り */
+    inset calc(var(--btn-shadow-size) * -1) var(--btn-shadow-size) 1px hsla(0, 0%, 75%, 0.10),  /* 左下：中間 */
+    inset var(--btn-shadow-size)            calc(var(--btn-shadow-size) * -1) 1px hsla(0, 0%, 25%, 0.10),  /* 右上：中間 */
+    inset var(--btn-shadow-size)            0               1px hsla(0, 0%, 0%, 0.10),  /* 右：黒寄り */
+    inset 0                                var(--btn-shadow-size) 1px hsla(0, 0%, 0%, 0.10),  /* 下：黒寄り */
+    inset var(--btn-shadow-size)            var(--btn-shadow-size) 1px hsla(0, 0%, 0%, 0.15);  /* 右下：黒（影） */
 }
 .btn-custom::before,
 .btn-custom::after {
