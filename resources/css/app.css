@@ -310,16 +310,22 @@
 .btn-custom-blue  { --btn-color: #1F91CE; }
 .btn-custom-purple{ --btn-color: #B164E4; }
 .btn-custom-gray  { --btn-color: #75838A; }
-/*〈ボタン-カスタムプロパティ｜ライト〉*/
+/*〈ボタン-カスタムプロパティ｜ライト（黒文字）〉*/
 .btn-custom-light {
-  --btn-color: #f7f7f7;
-  color: #444444 !important;
+  --btn-text-color: #444444;
+  color: var(--btn-text-color);
 }
-.btn-custom-light:hover,
-.btn-custom-light:active {
-  color: #444444 !important;
-  background-color: #ececec;
-}
+.btn-custom-light:hover  { color: var(--btn-text-color); }
+.btn-custom-light:active { color: var(--btn-text-color); }
+.btn-custom-light-red   { --btn-color: #F5A49D; }
+.btn-custom-light-orange{ --btn-color: #F5C49A; }
+.btn-custom-light-yellow{ --btn-color: #F5E27A; }
+.btn-custom-light-lime  { --btn-color: #C5F07A; }
+.btn-custom-light-green { --btn-color: #7AE0A0; }
+.btn-custom-light-cyan  { --btn-color: #7AE0DC; }
+.btn-custom-light-blue  { --btn-color: #7AC5EE; }
+.btn-custom-light-purple{ --btn-color: #D4A7F5; }
+.btn-custom-light-gray  { --btn-color: #C0C8CC; }
 /*〈ボタン-カスタムプロパティ｜サイズ〉*/
 .btn-custom-lg {
   --btn-shadow-size: 6px;
