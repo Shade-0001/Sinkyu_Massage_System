@@ -247,7 +247,7 @@
   --btn-font-size: 1rem;
   --btn-font-weight: 600;
 
-  transition: all 0.15s linear 0.15s;
+  transition: all 0.15s linear 0.1s;
   background-color: var(--btn-color);
   color: hsl(0, 0%, 95%);
   font-weight: var(--btn-font-weight);
@@ -265,9 +265,9 @@
     inset  var(--btn-shadow-size)  var(--btn-shadow-size) 1px hsla(0, 0%, 100%, 0.25),
     inset calc(var(--btn-shadow-size) * -1) calc(var(--btn-shadow-size) * -1) 1px hsla(0, 0%, 0%, 0.15);
 }
+.btn-custom::before,
 .btn-custom::after {
   transition: opacity 0.15s linear;
-  background: #FFF;
   opacity: 0;
   pointer-events: none;
   content: "";
@@ -276,6 +276,8 @@
   border-radius: inherit;
   z-index: 2;
 }
+.btn-custom::before { background: #000; }
+.btn-custom::after  { background: #FFF; }
 .btn-custom:hover {
   color: #FFF;
 }
@@ -292,10 +294,9 @@
     inset  2px  2px 1px hsla(0, 0%, 0%, 0.15),
     inset -2px -2px 1px hsla(0, 0%, 100%, 0.25);
 }
-.btn-custom:active::after {
+.btn-custom:active::before {
   transition: opacity 0.05s linear;
-  background: #000;
-  opacity: 0.15;
+  opacity: 0.1;
 }
 .btn-custom.btn-hover-highlight-off:hover::after {
   transition: opacity 0.05s linear;
