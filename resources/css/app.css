@@ -282,18 +282,18 @@
   border-radius: inherit;
   z-index: 2;
 }
-.btn-custom::before { background: #000; }
-.btn-custom::after  { background: #FFF; }
+.btn-custom::before { background: #FFF; }
+.btn-custom::after  { background: #000; }
 .btn-custom:hover {
   color: #FFF;
 }
-.btn-custom:hover::after {
+.btn-custom:hover::before {
   transition: opacity 0.05s linear;
   opacity: 0.15;
 }
 .btn-custom:active {
   transition: all 0.05s;
-  transform: scale(0.98);
+  transform: scale(0.95);
   color: #FFF;
   border-radius: 2px;
   --sh: calc(var(--btn-shadow-size) / 2);
@@ -308,15 +308,15 @@
     /*下*/ inset 0 var(--shn) 1px hsla(0, 0%, 100%, 0.15),
     /*右下*/ inset var(--shn) var(--shn) 1px hsla(0, 0%, 100%, 0.25);
 }
-.btn-custom:active::before {
+.btn-custom:active::after {
   transition: opacity 0.05s linear;
   opacity: 0.05;
 }
-.btn-custom.btn-hover-highlight-off:hover::after {
+.btn-custom.btn-hover-highlight-off:hover::before {
   transition: opacity 0.05s linear;
   opacity: 0;
 }
-.btn-custom.btn-hover-highlight-fadein:hover::after {
+.btn-custom.btn-hover-highlight-fadein:hover::before {
   transition: opacity 0.5s linear;
   opacity: 0.15;
 }
