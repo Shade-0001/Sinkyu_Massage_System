@@ -318,9 +318,9 @@
 }
 .btn-custom:active {
   transition: all 0.05s;
-  transform: scale(0.95);
+  transform: scale(0.95, 0.95);
   --btn-text-color: hsl(0, 0%, 100%);
-  border-radius: calc(var(--btn-br-tl) / 1.5) calc(var(--btn-br-tr) / 1.5) calc(var(--btn-br-br) / 1.5) calc(var(--btn-br-bl) / 1.5);
+  border-radius: calc(var(--btn-br-tl) * 0.75) calc(var(--btn-br-tr) * 0.75) calc(var(--btn-br-br) * 0.75) calc(var(--btn-br-bl) * 0.75);
   box-shadow:
     /*左上*/ inset var(--btn-shadow-size-half) var(--btn-shadow-size-half) 1px var(--btn-shadow-color-dark),
     /*上*/ inset 0 var(--btn-shadow-size-half) 1px var(--btn-shadow-color-dark),
@@ -333,7 +333,7 @@
 }
 .btn-custom:active::after {
   transition: opacity 0.05s linear;
-  opacity: 0.1;
+  opacity: 0.07;
 }
 .btn-custom.btn-hover-highlight-off:hover::before {
   transition: opacity 0.05s linear;
@@ -367,13 +367,14 @@
   --btn-font-size: 0.9rem;
   --btn-font-weight: 500;
 }
-/*〔カスタムボタン-サブ〕*/
+/*〔カスタムボタン-サブボタン〕*/
 .btn-custom-sub {
-  --btn-border-size: calc(var(--btn-shadow-size) * 2);
-  --btn-border-blur: calc(var(--btn-shadow-size) * 0);
+  --btn-border-size: calc(var(--btn-shadow-size) * 1.5);
+  --btn-border-blur: calc(var(--btn-shadow-size) * 0.25);
   --btn-primary-color: var(--btn-bg-color);
+  --btn-shadow-color-light: hsla(0, 0%, 100%, 0.25);
 
-  background-color: color-mix(in srgb, var(--btn-primary-color) 20%, transparent);
+  background-color: color-mix(in srgb, var(--btn-primary-color) 40%, transparent);
   color: var(--btn-primary-color);
   -webkit-text-stroke: 3px rgba(255, 255, 255, 0.75);
   paint-order: stroke fill;
@@ -388,14 +389,14 @@
     /*下*/ inset 0 var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-dark),
     /*右下*/ inset var(--btn-shadow-size-neg) var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-dark),
     /*── 枠線 ─────*/
-    /*左上*/ inset var(--btn-border-size) calc(var(--btn-border-size) * -1) var(--btn-border-blur) var(--btn-primary-color),
+    /*左上*/ inset calc(var(--btn-border-size) * 0.75) calc(var(--btn-border-size) * 0.75 * -1) var(--btn-border-blur) var(--btn-primary-color),
     /*上*/ inset 0 calc(var(--btn-border-size) * -1) var(--btn-border-blur) var(--btn-primary-color),
     /*左*/ inset var(--btn-border-size) 0 var(--btn-border-blur) var(--btn-primary-color),
-    /*左下*/ inset var(--btn-border-size) var(--btn-border-size) var(--btn-border-blur) var(--btn-primary-color),
-    /*右上*/ inset calc(var(--btn-border-size) * -1) calc(var(--btn-border-size) * -1) var(--btn-border-blur) var(--btn-primary-color),
+    /*左下*/ inset calc(var(--btn-border-size) * 0.75) calc(var(--btn-border-size) * 0.75) var(--btn-border-blur) var(--btn-primary-color),
+    /*右上*/ inset calc(var(--btn-border-size) * -0.75) calc(var(--btn-border-size) * -0.75) var(--btn-border-blur) var(--btn-primary-color),
     /*右*/ inset calc(var(--btn-border-size) * -1) 0 var(--btn-border-blur) var(--btn-primary-color),
     /*下*/ inset 0 var(--btn-border-size) var(--btn-border-blur) var(--btn-primary-color),
-    /*右下*/ inset calc(var(--btn-border-size) * -1) var(--btn-border-size) var(--btn-border-blur) var(--btn-primary-color);
+    /*右下*/ inset calc(var(--btn-border-size) * 0.75 * -1) calc(var(--btn-border-size) * 0.75) var(--btn-border-blur) var(--btn-primary-color);
 }
 .btn-custom-sub:active {
   box-shadow: 
@@ -409,16 +410,16 @@
     /*下*/ inset 0 var(--btn-shadow-size-half-neg) 1px var(--btn-shadow-color-light),
     /*右下*/ inset var(--btn-shadow-size-half-neg) var(--btn-shadow-size-half-neg) 1px var(--btn-shadow-color-light),
     /*── 枠線 ─────*/
-    /*左上*/ inset var(--btn-border-size) calc(var(--btn-border-size) * -1) var(--btn-border-blur) var(--btn-primary-color),
-    /*上*/ inset 0 calc(var(--btn-border-size) * -1) var(--btn-border-blur) var(--btn-primary-color),
-    /*左*/ inset var(--btn-border-size) 0 var(--btn-border-blur) var(--btn-primary-color),
-    /*左下*/ inset var(--btn-border-size) var(--btn-border-size) var(--btn-border-blur) var(--btn-primary-color),
-    /*右上*/ inset calc(var(--btn-border-size) * -1) calc(var(--btn-border-size) * -1) var(--btn-border-blur) var(--btn-primary-color),
-    /*右*/ inset calc(var(--btn-border-size) * -1) 0 var(--btn-border-blur) var(--btn-primary-color),
-    /*下*/ inset 0 var(--btn-border-size) var(--btn-border-blur) var(--btn-primary-color),
-    /*右下*/ inset calc(var(--btn-border-size) * -1) var(--btn-border-size) var(--btn-border-blur) var(--btn-primary-color);
+    /*左上*/ inset calc(var(--btn-border-size) * 0.75) calc(var(--btn-border-size) * -0.75) var(--btn-border-blur) var(--btn-primary-color),
+    /*上*/ inset 0 calc(var(--btn-border-size) * -0.75) var(--btn-border-blur) var(--btn-primary-color),
+    /*左*/ inset calc(var(--btn-border-size) * 0.75) 0 var(--btn-border-blur) var(--btn-primary-color),
+    /*左下*/ inset calc(var(--btn-border-size) * 0.75) calc(var(--btn-border-size) * 0.75) var(--btn-border-blur) var(--btn-primary-color),
+    /*右上*/ inset calc(var(--btn-border-size) * -0.75) calc(var(--btn-border-size) * -0.75) var(--btn-border-blur) var(--btn-primary-color),
+    /*右*/ inset calc(var(--btn-border-size) * -0.75) 0 var(--btn-border-blur) var(--btn-primary-color),
+    /*下*/ inset 0 calc(var(--btn-border-size) * 0.75) var(--btn-border-blur) var(--btn-primary-color),
+    /*右下*/ inset calc(var(--btn-border-size) * -0.75) calc(var(--btn-border-size) * 0.75) var(--btn-border-blur) var(--btn-primary-color);
 }
-/*〔カスタムボタン-ライト〕*/
+/*〔カスタムボタン-ライトボタン〕*/
 .btn-custom-light {
   --btn-text-color: hsl(0, 0%, 25%);
 }
