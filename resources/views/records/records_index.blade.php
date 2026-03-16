@@ -50,13 +50,13 @@
       <!-- カレンダー -->
       <div class="text-center position-relative" style="width: fit-content; min-width: 15rem;">
         <div class="d-flex align-items-center justify-content-center gap-1 mb-3">
-          <div class="btn-group" role="group" aria-label="カレンダー月移動ボタン">
-            <button type="button" id="prev-month-btn" class="btn btn-outline-secondary d-flex align-items-center justify-content-center p-0" style="width: 2.5em; height: 2.5em; font-size: 0.8rem; color: #333;"><i class="nf nf-fa-angle_left fs-4"></i></button>
-            <div class="position-relative" style="display: inline-block;">
-              <div id="calendar-title-display" class="fs-4 fw-bold py-1 d-inline-block rounded-1" style="cursor: pointer; white-space: nowrap; background-color: ButtonFace; border: 2px outset #6c757d; padding: 0.05em 0.5em;"></div>
+          <div class="d-flex" role="group" aria-label="カレンダー月移動ボタン">
+            <button type="button" id="prev-month-btn" class="btn-custom btn-custom-light btn-custom-light-blue rounded-start-4 rounded-end-0"><i class="nf nf-fa-angle_left fs-4"></i></button>
+            <div class="btn-custom btn-custom-light btn-custom-light-blue fs-4" style="border-radius: 0;">
+              <div id="calendar-title-display"></div>
               <select id="calendar-title" class="position-absolute top-0 start-50 translate-middle-x opacity-0" style="cursor: pointer; font-size: 1.5rem; padding: 0.2em 0em; border: none; background: transparent; width: 100%; height: 100%;"></select>
             </div>
-            <button type="button" id="next-month-btn" class="btn btn-outline-secondary d-flex align-items-center justify-content-center p-0" style="width: 2.5em; height: 2.5em; font-size: 0.8rem; color: #333;"><i class="nf nf-fa-angle_right fs-4"></i></button>
+            <button type="button" id="next-month-btn" class="btn-custom btn-custom-light btn-custom-light-blue rounded-start-0 rounded-end-4"><i class="nf nf-fa-angle_right fs-4"></i></button>
           </div>
         </div>
         <div class="calendar" id="calendar">
@@ -69,7 +69,7 @@
           <div class="calendar-day-header text-center p-1 fw-bold">金</div>
           <div class="calendar-day-header text-center p-1 fw-bold saturday">土</div>
         </div>
-        <button type="button" id="clear-selection-btn" class="mt-3 border-secondary rounded-1">選択解除</button>
+        <button type="button" id="clear-selection-btn" class="btn-custom btn-custom-sm mt-3">選択解除</button>
       </div>
 
       <div class="vr border border-black border-1 mx-3"></div>
