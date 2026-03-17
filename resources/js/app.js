@@ -75,7 +75,6 @@ document.querySelectorAll('.btn-custom-sub').forEach(el => {
     if (el.dataset.originalBg) return;
 
     const style = getComputedStyle(el);
-    const originalBg = style.backgroundColor;
     let primaryColor = style.getPropertyValue('--btn-primary-color').trim();
     // --btn-primary-colorが未解決の場合は--btn-bg-colorを使用
     if (!primaryColor || primaryColor.startsWith('var(')) {
@@ -93,8 +92,17 @@ document.querySelectorAll('.btn-custom-sub').forEach(el => {
       return 'rgb(255, 255, 255)';
     })();
 
+    // CSS変数から直接構築（getComputedStyleのトランジション補間値を避ける）
+    // background-color: color-mix(in srgb, var(--btn-primary-color) 30%, transparent) と等価
+    const originalBg = `color-mix(in srgb, ${primaryColor} 30%, transparent)`;
+
     // ホバー前のbackground-color（透過）をページ背景と合成して不透明色を算出
-    const blendedColor = blendWithBackground(originalBg, pageBg);
+    // color-mix結果を直接パースできないのでprimaryColorをRGBに変換して0.3倍で合成
+    const primaryRgb = parseColorToRgb255(primaryColor);
+    const pageBgRgb = parseColorToRgb255(pageBg);
+    const blendedColor = primaryRgb && pageBgRgb
+      ? `rgb(${Math.round(primaryRgb[0] * 0.3 + pageBgRgb[0] * 0.7)}, ${Math.round(primaryRgb[1] * 0.3 + pageBgRgb[1] * 0.7)}, ${Math.round(primaryRgb[2] * 0.3 + pageBgRgb[2] * 0.7)})`
+      : style.color;
 
     el.dataset.originalBg = originalBg;
     el.dataset.originalColor = style.color;
