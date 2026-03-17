@@ -41,7 +41,7 @@ function blendBgWithPage(bgColor, el) {
   ctx.fillStyle = bgColor;
   ctx.fillRect(0, 0, 1, 1);
   const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
-  return rgbLighten(r, g, b, 1.2);
+  return rgbLighten(r, g, b, 1.15);
 }
 
 // RGBをHSLに変換して明度をfactor倍し、rgb文字列で返す

@@ -12,13 +12,6 @@
   scroll-behavior: smooth;
 }
 
-/* フッター */
-.main-content > footer {
-  margin-left: var(--footer-offset, 0px);
-  width: 100vw;
-  transition: margin-left 0.2s ease;
-}
-
 /* リンク下線を削除 */
 [href] {
   text-decoration-line: none;
@@ -32,6 +25,13 @@
   opacity: 0.6;
   cursor: default;
   outline: none;
+}
+
+/* フッター */
+.main-content > footer {
+  margin-left: var(--footer-offset, 0px);
+  width: 100vw;
+  transition: margin-left 0.2s ease;
 }
 
 
@@ -392,18 +392,15 @@
 /*  カスタムボタン - サブボタン                   */
 /*----------------------------------------------*/
 .btn-custom-sub {
-  --btn-border-size: calc(var(--btn-shadow-size) * 1.7);
-  --btn-border-blur: calc(var(--btn-shadow-size) * 0.25);
+  --btn-border-size: calc(var(--btn-shadow-size) * 1);
+  --btn-border-blur: calc(var(--btn-shadow-size) * 0.5);
   --btn-primary-color: var(--btn-bg-color);
 
   background-color: color-mix(in srgb, var(--btn-primary-color) 10%, transparent);
+  /* background-color: hsl(0, 0%, 90%); */
   color: var(--btn-primary-color);
-  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.5);
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.5);
   paint-order: stroke fill;
-  /* text-shadow:
-    0 0 0px rgba(255, 255, 255, 1.0),
-    0 0 0px rgba(255, 255, 255, 1.0),
-    0 0 0px rgba(255, 255, 255, 1.0); */
   box-shadow:
     /*── ベベル ──────────*/
     /*左上*/ inset var(--btn-shadow-size) var(--btn-shadow-size) 1px var(--btn-shadow-color-light),
@@ -660,7 +657,7 @@ html[data-sidebar="closed"] #sidebar-content {
 
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  実績データ - カレンダー                       ┃*/
+/*┃  実績データ - カレンダー                      ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 
 /* カレンダータイトルセレクト - カスタムスタイル */
@@ -725,7 +722,7 @@ html[data-sidebar="closed"] #sidebar-content {
 
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  利用者検索                                   ┃*/
+/*┃  利用者検索                                  ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 
 /* カタカナ選択状態 - !important必要なためカスタム定義 */
@@ -739,7 +736,7 @@ html[data-sidebar="closed"] #sidebar-content {
 
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  PDF出力 - 依頼書                             ┃*/
+/*┃  PDF出力 - 依頼書                            ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 
 @page {
@@ -800,7 +797,7 @@ html[data-sidebar="closed"] #sidebar-content {
 
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  PDF出力 - 計画情報                           ┃*/
+/*┃  PDF出力 - 計画情報                          ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 
 .pdf-plans body {
@@ -900,7 +897,7 @@ html[data-sidebar="closed"] #sidebar-content {
 
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  PDF出力 - 同意医師（ＨＫ）                    ┃*/
+/*┃  PDF出力 - 同意医師（ＨＫ）                   ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 
 .pdf-consents-acupuncture body {
@@ -948,7 +945,7 @@ html[data-sidebar="closed"] #sidebar-content {
 
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  PDF出力 - 同意医師（ＡＭ）                    ┃*/
+/*┃  PDF出力 - 同意医師（ＡＭ）                   ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 
 .pdf-consents-massage body {
