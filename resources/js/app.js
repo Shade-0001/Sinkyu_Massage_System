@@ -8,8 +8,9 @@ window.Alpine = Alpine;
 
 Alpine.start();
 
+
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-/*  Utility                                      */
+/*  ユーティリティ関数                            */
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
 // clone要素からトランジションなし・静的状態のbackground-colorを取得
@@ -43,8 +44,10 @@ function blendBgWithPage(bgColor, el) {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
+
+
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-/*  btn-custom                                   */
+/*  .btn-custom系関数                            */
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
 // クリック終了時にホバーハイライトを一時的に無効化→フェードイン復活
@@ -67,9 +70,9 @@ function onBtnCustomMouseup(e) {
 }
 document.addEventListener('mouseup', onBtnCustomMouseup);
 
-/*  ┣━ btn-custom-sub ━━━━━━━━━━━━━━━━━━━━━━━━━*/
-/*    ホバー時にbackground-colorとcolorを入れ替え  */
-/*  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/*  .btn-custom系関数  >  .btn-custom-sub        */
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
 function initBtnSubColors(el) {
   const staticBg = getStaticBgColor(el);
