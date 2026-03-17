@@ -27,3 +27,29 @@ function onBtnCustomMouseup(e) {
   }, 1000);
 }
 document.addEventListener('mouseup', onBtnCustomMouseup);
+
+// btn-custom-sub: ホバー時にbackground-colorとcolorを入れ替える
+document.querySelectorAll('.btn-custom-sub').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    const style = getComputedStyle(el);
+    const originalBg = style.backgroundColor;
+    let primaryColor = style.getPropertyValue('--btn-primary-color').trim();
+    // --btn-primary-colorが未解決の場合は--btn-bg-colorを使用
+    if (!primaryColor || primaryColor.startsWith('var(')) {
+      primaryColor = style.getPropertyValue('--btn-bg-color').trim();
+    }
+
+    el.dataset.originalBg = originalBg;
+    el.dataset.originalColor = style.color;
+
+    el.style.backgroundColor = primaryColor;
+    el.style.color = originalBg;
+  });
+
+  el.addEventListener('mouseleave', () => {
+    el.style.backgroundColor = el.dataset.originalBg ?? '';
+    el.style.color = el.dataset.originalColor ?? '';
+    delete el.dataset.originalBg;
+    delete el.dataset.originalColor;
+  });
+});
