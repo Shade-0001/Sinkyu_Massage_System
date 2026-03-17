@@ -28,24 +28,52 @@ function onBtnCustomMouseup(e) {
 }
 document.addEventListener('mouseup', onBtnCustomMouseup);
 
+// 任意の色文字列をrgb(R,G,B)形式（0〜255整数）に変換
+function parseColorToRgb255(colorStr) {
+  // color(srgb R G B / A) 形式
+  const srgbMatch = colorStr.match(/^color\(srgb\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)/);
+  if (srgbMatch) {
+    return [
+      Math.round(parseFloat(srgbMatch[1]) * 255),
+      Math.round(parseFloat(srgbMatch[2]) * 255),
+      Math.round(parseFloat(srgbMatch[3]) * 255),
+    ];
+  }
+  // rgb(R, G, B) / rgba(R, G, B, A) 形式
+  const rgbMatch = colorStr.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+  if (rgbMatch) {
+    return [parseInt(rgbMatch[1]), parseInt(rgbMatch[2]), parseInt(rgbMatch[3])];
+  }
+  return null;
+}
+
+// 任意の色文字列からアルファ値（0〜1）を取得
+function parseAlpha(colorStr) {
+  const slashMatch = colorStr.match(/\/\s*([\d.]+)\s*\)/);
+  if (slashMatch) return parseFloat(slashMatch[1]);
+  const rgbaMatch = colorStr.match(/^rgba\([^,]+,[^,]+,[^,]+,\s*([\d.]+)/);
+  if (rgbaMatch) return parseFloat(rgbaMatch[1]);
+  return 1;
+}
+
 // アルファ合成：透過色を背景色の上に乗せたときの最終的な不透明色を返す
-function blendWithBackground(fgRgba, bgRgb) {
-  const fg = fgRgba.match(/[\d.]+/g).map(Number);
-  const bg = bgRgb.match(/[\d.]+/g).map(Number);
-  const isSrgb = fgRgba.startsWith('color(srgb');
-  const fgR = isSrgb ? fg[0] * 255 : fg[0];
-  const fgG = isSrgb ? fg[1] * 255 : fg[1];
-  const fgB = isSrgb ? fg[2] * 255 : fg[2];
-  const a = fg[3] ?? 1;
-  const r = Math.round(fgR * a + bg[0] * (1 - a));
-  const g = Math.round(fgG * a + bg[1] * (1 - a));
-  const b = Math.round(fgB * a + bg[2] * (1 - a));
+function blendWithBackground(fgColor, bgRgb) {
+  const fg = parseColorToRgb255(fgColor);
+  const bg = parseColorToRgb255(bgRgb);
+  if (!fg || !bg) return fgColor;
+  const a = parseAlpha(fgColor);
+  const r = Math.round(fg[0] * a + bg[0] * (1 - a));
+  const g = Math.round(fg[1] * a + bg[1] * (1 - a));
+  const b = Math.round(fg[2] * a + bg[2] * (1 - a));
   return `rgb(${r}, ${g}, ${b})`;
 }
 
 // btn-custom-sub: ホバー時にbackground-colorとcolorを入れ替える
 document.querySelectorAll('.btn-custom-sub').forEach(el => {
   el.addEventListener('mouseenter', () => {
+    // すでにホバー済みの場合はスキップ（子要素への移動で再発火防止）
+    if (el.dataset.originalBg) return;
+
     const style = getComputedStyle(el);
     const originalBg = style.backgroundColor;
     let primaryColor = style.getPropertyValue('--btn-primary-color').trim();
