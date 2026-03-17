@@ -28,93 +28,71 @@ function onBtnCustomMouseup(e) {
 }
 document.addEventListener('mouseup', onBtnCustomMouseup);
 
-// 任意の色文字列をrgb(R,G,B)形式（0〜255整数）に変換
-function parseColorToRgb255(colorStr) {
-  // color(srgb R G B / A) 形式
-  const srgbMatch = colorStr.match(/^color\(srgb\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)/);
-  if (srgbMatch) {
-    return [
-      Math.round(parseFloat(srgbMatch[1]) * 255),
-      Math.round(parseFloat(srgbMatch[2]) * 255),
-      Math.round(parseFloat(srgbMatch[3]) * 255),
-    ];
-  }
-  // rgb(R, G, B) / rgba(R, G, B, A) 形式
-  const rgbMatch = colorStr.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)/);
-  if (rgbMatch) {
-    return [parseInt(rgbMatch[1]), parseInt(rgbMatch[2]), parseInt(rgbMatch[3])];
-  }
-  return null;
+// hex色文字列をRGB配列に変換
+function hexToRgb255(hex) {
+  const m = hex.replace('#', '').match(/.{2}/g);
+  if (!m) return null;
+  return [parseInt(m[0], 16), parseInt(m[1], 16), parseInt(m[2], 16)];
 }
 
-// 任意の色文字列からアルファ値（0〜1）を取得
-function parseAlpha(colorStr) {
-  const slashMatch = colorStr.match(/\/\s*([\d.]+)\s*\)/);
-  if (slashMatch) return parseFloat(slashMatch[1]);
-  const rgbaMatch = colorStr.match(/^rgba\([^,]+,[^,]+,[^,]+,\s*([\d.]+)/);
-  if (rgbaMatch) return parseFloat(rgbaMatch[1]);
-  return 1;
-}
-
-// アルファ合成：透過色を背景色の上に乗せたときの最終的な不透明色を返す
-function blendWithBackground(fgColor, bgRgb) {
-  const fg = parseColorToRgb255(fgColor);
-  const bg = parseColorToRgb255(bgRgb);
-  if (!fg || !bg) return fgColor;
-  const a = parseAlpha(fgColor);
-  const r = Math.round(fg[0] * a + bg[0] * (1 - a));
-  const g = Math.round(fg[1] * a + bg[1] * (1 - a));
-  const b = Math.round(fg[2] * a + bg[2] * (1 - a));
-  return `rgb(${r}, ${g}, ${b})`;
-}
-
-// btn-custom-sub: ホバー時にbackground-colorとcolorを入れ替える
+// btn-custom-sub: ページロード時に色を事前計算して保存、ホバー時に入れ替え
 document.querySelectorAll('.btn-custom-sub').forEach(el => {
-  el.addEventListener('mouseenter', () => {
-    // すでにホバー済みの場合はスキップ（子要素への移動で再発火防止）
-    if (el.dataset.originalBg) return;
-
+  // トランジションが落ち着いた後に事前計算（ロード直後のトランジション補間値を避ける）
+  setTimeout(() => {
     const style = getComputedStyle(el);
     let primaryColor = style.getPropertyValue('--btn-primary-color').trim();
-    // --btn-primary-colorが未解決の場合は--btn-bg-colorを使用
     if (!primaryColor || primaryColor.startsWith('var(')) {
       primaryColor = style.getPropertyValue('--btn-bg-color').trim();
     }
 
-    // ページ背景色を取得（透過の場合は白にフォールバック）
-    const pageBg = (() => {
-      let node = el.parentElement;
-      while (node && node !== document.documentElement) {
-        const bg = getComputedStyle(node).backgroundColor;
-        if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') return bg;
-        node = node.parentElement;
+    // primaryColorをRGB配列に変換（hex / rgb / color(srgb) 対応）
+    let primaryRgb =
+      hexToRgb255(primaryColor) ||
+      (() => {
+        const m = primaryColor.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+        return m ? [parseInt(m[1]), parseInt(m[2]), parseInt(m[3])] : null;
+      })() ||
+      (() => {
+        const m = primaryColor.match(/^color\(srgb\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)/);
+        return m ? [Math.round(m[1]*255), Math.round(m[2]*255), Math.round(m[3]*255)] : null;
+      })();
+
+    if (!primaryRgb) return;
+
+    // ページ背景色を取得
+    let pageBgRgb = null;
+    let node = el.parentElement;
+    while (node && node !== document.documentElement) {
+      const bg = getComputedStyle(node).backgroundColor;
+      if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') {
+        const m = bg.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+        if (m) { pageBgRgb = [parseInt(m[1]), parseInt(m[2]), parseInt(m[3])]; break; }
       }
-      return 'rgb(255, 255, 255)';
-    })();
+      node = node.parentElement;
+    }
+    if (!pageBgRgb) pageBgRgb = [255, 255, 255];
 
-    // CSS変数から直接構築（getComputedStyleのトランジション補間値を避ける）
-    // background-color: color-mix(in srgb, var(--btn-primary-color) 30%, transparent) と等価
-    const originalBg = `color-mix(in srgb, ${primaryColor} 30%, transparent)`;
+    // color-mix(in srgb, primaryColor 30%, transparent) をページ背景と合成した不透明色
+    const blendedColor = `rgb(${Math.round(primaryRgb[0]*0.3 + pageBgRgb[0]*0.7)}, ${Math.round(primaryRgb[1]*0.3 + pageBgRgb[1]*0.7)}, ${Math.round(primaryRgb[2]*0.3 + pageBgRgb[2]*0.7)})`;
+    // ホバー時のbackground-colorはprimaryColorをそのまま使う
+    const hoverBg = `rgb(${primaryRgb[0]}, ${primaryRgb[1]}, ${primaryRgb[2]})`;
 
-    // ホバー前のbackground-color（透過）をページ背景と合成して不透明色を算出
-    // color-mix結果を直接パースできないのでprimaryColorをRGBに変換して0.3倍で合成
-    const primaryRgb = parseColorToRgb255(primaryColor);
-    const pageBgRgb = parseColorToRgb255(pageBg);
-    const blendedColor = primaryRgb && pageBgRgb
-      ? `rgb(${Math.round(primaryRgb[0] * 0.3 + pageBgRgb[0] * 0.7)}, ${Math.round(primaryRgb[1] * 0.3 + pageBgRgb[1] * 0.7)}, ${Math.round(primaryRgb[2] * 0.3 + pageBgRgb[2] * 0.7)})`
-      : style.color;
+    // 事前計算した値を保存
+    el._btnSubHoverBg = hoverBg;
+    el._btnSubBlendedColor = blendedColor;
+    el._btnSubOriginalColor = style.color;
+  }, 200);
 
-    el.dataset.originalBg = originalBg;
-    el.dataset.originalColor = style.color;
-
-    el.style.backgroundColor = primaryColor;
-    el.style.color = blendedColor;
+  el.addEventListener('mouseenter', () => {
+    if (!el._btnSubHoverBg || el._btnSubHovering) return;
+    el._btnSubHovering = true;
+    el.style.backgroundColor = el._btnSubHoverBg;
+    el.style.color = el._btnSubBlendedColor;
   });
 
   el.addEventListener('mouseleave', () => {
-    el.style.backgroundColor = el.dataset.originalBg ?? '';
-    el.style.color = el.dataset.originalColor ?? '';
-    delete el.dataset.originalBg;
-    delete el.dataset.originalColor;
+    el._btnSubHovering = false;
+    el.style.backgroundColor = '';
+    el.style.color = el._btnSubOriginalColor ?? '';
   });
 });
