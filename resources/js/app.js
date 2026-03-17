@@ -32,10 +32,14 @@ document.addEventListener('mouseup', onBtnCustomMouseup);
 function blendWithBackground(fgRgba, bgRgb) {
   const fg = fgRgba.match(/[\d.]+/g).map(Number);
   const bg = bgRgb.match(/[\d.]+/g).map(Number);
+  const isSrgb = fgRgba.startsWith('color(srgb');
+  const fgR = isSrgb ? fg[0] * 255 : fg[0];
+  const fgG = isSrgb ? fg[1] * 255 : fg[1];
+  const fgB = isSrgb ? fg[2] * 255 : fg[2];
   const a = fg[3] ?? 1;
-  const r = Math.round(fg[0] * a + bg[0] * (1 - a));
-  const g = Math.round(fg[1] * a + bg[1] * (1 - a));
-  const b = Math.round(fg[2] * a + bg[2] * (1 - a));
+  const r = Math.round(fgR * a + bg[0] * (1 - a));
+  const g = Math.round(fgG * a + bg[1] * (1 - a));
+  const b = Math.round(fgB * a + bg[2] * (1 - a));
   return `rgb(${r}, ${g}, ${b})`;
 }
 
