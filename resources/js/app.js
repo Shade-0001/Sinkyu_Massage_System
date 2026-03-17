@@ -28,6 +28,17 @@ function onBtnCustomMouseup(e) {
 }
 document.addEventListener('mouseup', onBtnCustomMouseup);
 
+// アルファ合成：透過色を背景色の上に乗せたときの最終的な不透明色を返す
+function blendWithBackground(fgRgba, bgRgb) {
+  const fg = fgRgba.match(/[\d.]+/g).map(Number);
+  const bg = bgRgb.match(/[\d.]+/g).map(Number);
+  const a = fg[3] ?? 1;
+  const r = Math.round(fg[0] * a + bg[0] * (1 - a));
+  const g = Math.round(fg[1] * a + bg[1] * (1 - a));
+  const b = Math.round(fg[2] * a + bg[2] * (1 - a));
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
 // btn-custom-sub: ホバー時にbackground-colorとcolorを入れ替える
 document.querySelectorAll('.btn-custom-sub').forEach(el => {
   el.addEventListener('mouseenter', () => {
@@ -39,11 +50,25 @@ document.querySelectorAll('.btn-custom-sub').forEach(el => {
       primaryColor = style.getPropertyValue('--btn-bg-color').trim();
     }
 
+    // ページ背景色を取得（透過の場合は白にフォールバック）
+    const pageBg = (() => {
+      let node = el.parentElement;
+      while (node && node !== document.documentElement) {
+        const bg = getComputedStyle(node).backgroundColor;
+        if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') return bg;
+        node = node.parentElement;
+      }
+      return 'rgb(255, 255, 255)';
+    })();
+
+    // ホバー前のbackground-color（透過）をページ背景と合成して不透明色を算出
+    const blendedColor = blendWithBackground(originalBg, pageBg);
+
     el.dataset.originalBg = originalBg;
     el.dataset.originalColor = style.color;
 
     el.style.backgroundColor = primaryColor;
-    el.style.color = originalBg;
+    el.style.color = blendedColor;
   });
 
   el.addEventListener('mouseleave', () => {
