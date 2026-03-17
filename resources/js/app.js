@@ -64,32 +64,39 @@ function blendBgWithPage(bgColor, el) {
 }
 
 // btn-custom-sub: ホバー時にbackground-colorとcolorを入れ替え
-document.querySelectorAll('.btn-custom-sub').forEach(el => {
-  // ロード後にclone経由で静的な色を取得して保存
-  setTimeout(() => {
-    const staticBg = getStaticBgColor(el);
-    const style = getComputedStyle(el);
-    let primaryColor = style.getPropertyValue('--btn-primary-color').trim();
-    if (!primaryColor || primaryColor.startsWith('var(')) {
-      primaryColor = style.getPropertyValue('--btn-bg-color').trim();
-    }
+function initBtnSubColors(el) {
+  const staticBg = getStaticBgColor(el);
+  const style = getComputedStyle(el);
+  let primaryColor = style.getPropertyValue('--btn-primary-color').trim();
+  if (!primaryColor || primaryColor.startsWith('var(')) {
+    primaryColor = style.getPropertyValue('--btn-bg-color').trim();
+  }
 
-    el._btnSubOriginalBg = staticBg;
-    el._btnSubHoverBg = primaryColor;
-    el._btnSubBlendedColor = blendBgWithPage(staticBg, el);
-    el._btnSubOriginalColor = style.color;
-  }, 200);
+  el._btnSubOriginalBg = staticBg;
+  el._btnSubHoverBg = primaryColor;
+  el._btnSubBlendedColor = blendBgWithPage(staticBg, el);
+  el._btnSubOriginalColor = style.color;
+}
 
-  el.addEventListener('mouseenter', () => {
-    if (!el._btnSubHoverBg || el._btnSubHovering) return;
-    el._btnSubHovering = true;
-    el.style.backgroundColor = el._btnSubHoverBg;
-    el.style.color = el._btnSubBlendedColor;
-  });
+function onBtnSubMouseenter(e) {
+  const el = e.currentTarget;
+  if (!el._btnSubHoverBg || el._btnSubHovering) return;
+  el._btnSubHovering = true;
+  el.style.backgroundColor = el._btnSubHoverBg;
+  el.style.color = el._btnSubBlendedColor;
+}
 
-  el.addEventListener('mouseleave', () => {
-    el._btnSubHovering = false;
-    el.style.backgroundColor = '';
-    el.style.color = el._btnSubOriginalColor ?? '';
-  });
-});
+function onBtnSubMouseleave(e) {
+  const el = e.currentTarget;
+  el._btnSubHovering = false;
+  el.style.backgroundColor = '';
+  el.style.color = el._btnSubOriginalColor ?? '';
+}
+
+function setupBtnSub(el) {
+  setTimeout(initBtnSubColors, 200, el);
+  el.addEventListener('mouseenter', onBtnSubMouseenter);
+  el.addEventListener('mouseleave', onBtnSubMouseleave);
+}
+
+document.querySelectorAll('.btn-custom-sub').forEach(setupBtnSub);
