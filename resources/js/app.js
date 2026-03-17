@@ -10,7 +10,7 @@ Alpine.start();
 
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-/*  ユーティリティ関数                            */
+/*  ユーティリティ                               */
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
 // clone要素からトランジションなし・静的状態のbackground-colorを取得
@@ -46,8 +46,9 @@ function blendBgWithPage(bgColor, el) {
 
 
 
+
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-/*  .btn-custom系関数                            */
+/*  .btn-custom 関連                            */
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
 // クリック終了時にホバーハイライトを一時的に無効化→フェードイン復活
@@ -70,10 +71,10 @@ function onBtnCustomMouseup(e) {
 }
 document.addEventListener('mouseup', onBtnCustomMouseup);
 
-/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-/*  .btn-custom系関数  >  .btn-custom-sub        */
-/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-
+/*──────────────────────────────────────────────*/
+/*  .btn-custom-sub 関連                        */
+/*──────────────────────────────────────────────*/
+// ホバー時に使う色を事前計算して要素に保存
 function initBtnSubColors(el) {
   const staticBg = getStaticBgColor(el);
   const style = getComputedStyle(el);
@@ -88,6 +89,7 @@ function initBtnSubColors(el) {
   el._btnSubOriginalColor = style.color;
 }
 
+// ホバー開始：background-colorをprimaryColor、colorをblendedColorに切り替え
 function onBtnSubMouseenter(e) {
   const el = e.currentTarget;
   if (!el._btnSubHoverBg || el._btnSubHovering) return;
@@ -96,6 +98,7 @@ function onBtnSubMouseenter(e) {
   el.style.color = el._btnSubBlendedColor;
 }
 
+// ホバー終了：background-colorとcolorを元の状態に戻す
 function onBtnSubMouseleave(e) {
   const el = e.currentTarget;
   el._btnSubHovering = false;
@@ -103,6 +106,7 @@ function onBtnSubMouseleave(e) {
   el.style.color = el._btnSubOriginalColor ?? '';
 }
 
+// 各.btn-custom-sub要素に色の事前計算とイベントリスナーを登録
 function setupBtnSub(el) {
   setTimeout(initBtnSubColors, 200, el);
   el.addEventListener('mouseenter', onBtnSubMouseenter);
