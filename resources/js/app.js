@@ -8,7 +8,46 @@ window.Alpine = Alpine;
 
 Alpine.start();
 
-// btn-custom: クリック終了時にホバーハイライトを一時的に無効化→フェードイン復活
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/*  Utility                                      */
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+
+// clone要素からトランジションなし・静的状態のbackground-colorを取得
+function getStaticBgColor(el) {
+  const clone = el.cloneNode(false);
+  clone.style.cssText = 'position:absolute;visibility:hidden;transition:none!important;';
+  document.body.appendChild(clone);
+  const bg = getComputedStyle(clone).backgroundColor;
+  document.body.removeChild(clone);
+  return bg;
+}
+
+// 任意のbackground-color文字列をページ背景と合成して不透明rgb文字列を返す
+function blendBgWithPage(bgColor, el) {
+  let pageBg = 'rgb(255, 255, 255)';
+  let node = el.parentElement;
+  while (node && node !== document.documentElement) {
+    const bg = getComputedStyle(node).backgroundColor;
+    if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') { pageBg = bg; break; }
+    node = node.parentElement;
+  }
+
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = 1;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = pageBg;
+  ctx.fillRect(0, 0, 1, 1);
+  ctx.fillStyle = bgColor;
+  ctx.fillRect(0, 0, 1, 1);
+  const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/*  btn-custom                                   */
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+
+// クリック終了時にホバーハイライトを一時的に無効化→フェードイン復活
 function onBtnCustomMouseup(e) {
   const btn = e.target.closest('.btn-custom');
   if (!btn) return;
@@ -28,42 +67,10 @@ function onBtnCustomMouseup(e) {
 }
 document.addEventListener('mouseup', onBtnCustomMouseup);
 
-// clone要素からトランジションなし・静的状態のbackground-colorを取得
-function getStaticBgColor(el) {
-  const clone = el.cloneNode(false);
-  clone.style.cssText = 'position:absolute;visibility:hidden;transition:none!important;';
-  document.body.appendChild(clone);
-  const bg = getComputedStyle(clone).backgroundColor;
-  document.body.removeChild(clone);
-  return bg;
-}
+/*  ┣━ btn-custom-sub ━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/*    ホバー時にbackground-colorとcolorを入れ替え  */
+/*  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
-// 任意のbackground-color文字列をページ背景と合成して不透明rgb文字列を返す
-function blendBgWithPage(bgColor, el) {
-  // ページ背景色を取得（rgb形式で返ってくる想定）
-  let pageBg = 'rgb(255, 255, 255)';
-  let node = el.parentElement;
-  while (node && node !== document.documentElement) {
-    const bg = getComputedStyle(node).backgroundColor;
-    if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') { pageBg = bg; break; }
-    node = node.parentElement;
-  }
-
-  // bgColorとpageBgをcanvasで合成して正確なrgbを得る
-  const canvas = document.createElement('canvas');
-  canvas.width = canvas.height = 1;
-  const ctx = canvas.getContext('2d');
-  // ページ背景を先に塗る
-  ctx.fillStyle = pageBg;
-  ctx.fillRect(0, 0, 1, 1);
-  // 透過色を重ねる
-  ctx.fillStyle = bgColor;
-  ctx.fillRect(0, 0, 1, 1);
-  const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
-  return `rgb(${r}, ${g}, ${b})`;
-}
-
-// btn-custom-sub: ホバー時にbackground-colorとcolorを入れ替え
 function initBtnSubColors(el) {
   const staticBg = getStaticBgColor(el);
   const style = getComputedStyle(el);
