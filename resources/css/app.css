@@ -403,11 +403,12 @@
   /* ホバー時のcolor補正値 - hslモード（JS用） */
   --btn-lighten-factor: 1.15;
 
-  background-color: color-mix(in srgb, var(--btn-primary-color) 10%, transparent);
+  background-color: color-mix(in srgb, var(--btn-primary-color) 20%, transparent);
   color: oklch(from var(--btn-primary-color) calc(l + 0.0) calc(c + 0.0) calc(h + 0));
   -webkit-text-stroke: 0px rgba(255, 255, 255, 0.5);
   paint-order: stroke fill;
   text-shadow:
+    0 0 6px rgba(255, 255, 255, 1.0),
     0 0 6px rgba(255, 255, 255, 1.0);
   box-shadow:
     /*── ベベル ──────────*/
@@ -431,6 +432,8 @@
 }
 .btn-custom-sub:hover {
   -webkit-text-stroke: 0px rgba(255, 255, 255, 0.5);
+  text-shadow:
+    0 0 0px rgba(255, 255, 255, 1.0);
 }
 .btn-custom-sub:hover::before {
   opacity: 0;
