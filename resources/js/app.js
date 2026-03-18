@@ -49,7 +49,7 @@ function blendBgWithPage(bgColor, el) {
     const cFactor = parseFloat(style.getPropertyValue('--btn-lighten-c').trim()) || 1;
     return rgbLightenOklch(r, g, b, lOffset, cFactor);
   }
-  const factor = parseFloat(style.getPropertyValue('--btn-lighten-factor').trim()) || 1.15;
+  const factor = parseFloat(style.getPropertyValue('--btn-lighten-factor').trim()) || 1.0;
   return rgbLighten(r, g, b, factor);
 }
 
@@ -127,7 +127,6 @@ function rgbLighten(r, g, b, factor) {
   else               { r2 = c; g2 = 0; b2 = x; }
   return `rgb(${Math.round((r2 + m) * 255)}, ${Math.round((g2 + m) * 255)}, ${Math.round((b2 + m) * 255)})`;
 }
-
 
 
 
