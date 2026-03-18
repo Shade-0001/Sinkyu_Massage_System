@@ -395,11 +395,16 @@
   --btn-border-size: calc(var(--btn-shadow-size) * 1);
   --btn-border-blur: calc(var(--btn-shadow-size) * 0.5);
   --btn-primary-color: var(--btn-bg-color);
+  --btn-color-mode: oklch;
+  --btn-lighten-l: 0.0;
+  --btn-lighten-c: 1.0;
+  --btn-lighten-factor: 1.15;
 
   background-color: color-mix(in srgb, var(--btn-primary-color) 10%, transparent);
   /* background-color: hsl(0, 0%, 90%); */
-  color: var(--btn-primary-color);
-  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.5);
+  /* color: var(--btn-primary-color); */
+  color: oklch(from var(--btn-primary-color) calc(l + 0.0) calc(c + 0.0) calc(h + 0));
+  -webkit-text-stroke: 0px rgba(255, 255, 255, 0.5);
   paint-order: stroke fill;
   box-shadow:
     /*── ベベル ──────────*/

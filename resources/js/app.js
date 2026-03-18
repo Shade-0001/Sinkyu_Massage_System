@@ -41,7 +41,62 @@ function blendBgWithPage(bgColor, el) {
   ctx.fillStyle = bgColor;
   ctx.fillRect(0, 0, 1, 1);
   const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
-  return rgbLighten(r, g, b, 1.15);
+
+  const style = getComputedStyle(el);
+  const mode = style.getPropertyValue('--btn-color-mode').trim() || 'hsl';
+  if (mode === 'oklch') {
+    const lOffset = parseFloat(style.getPropertyValue('--btn-lighten-l').trim()) || 0;
+    const cFactor = parseFloat(style.getPropertyValue('--btn-lighten-c').trim()) || 1;
+    return rgbLightenOklch(r, g, b, lOffset, cFactor);
+  }
+  const factor = parseFloat(style.getPropertyValue('--btn-lighten-factor').trim()) || 1.15;
+  return rgbLighten(r, g, b, factor);
+}
+
+// RGBを知覚均等色空間に変換してL/Cを調整し、rgb文字列で返す
+function rgbLightenOklch(r, g, b, lOffset, cFactor) {
+  // sRGB → 線形化
+  const toLinear = v => {
+    v /= 255;
+    return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+  };
+  const lr = toLinear(r), lg = toLinear(g), lb = toLinear(b);
+
+  // 線形sRGB → 知覚均等Lab
+  const l_ = Math.cbrt(0.4122214708 * lr + 0.5363325363 * lg + 0.0514459929 * lb);
+  const m_ = Math.cbrt(0.2119034982 * lr + 0.6806995451 * lg + 0.1073969566 * lb);
+  const s_ = Math.cbrt(0.0883024619 * lr + 0.2817188376 * lg + 0.6299787005 * lb);
+  const L  = 0.2104542553 * l_ + 0.7936177850 * m_ - 0.0040720468 * s_;
+  const A  = 1.9779984951 * l_ - 2.4285922050 * m_ + 0.4505937099 * s_;
+  const B  = 0.0259040371 * l_ + 0.7827717662 * m_ - 0.8086757660 * s_;
+
+  // 極座標変換（彩度・色相）
+  const C = Math.sqrt(A * A + B * B);
+  const H = Math.atan2(B, A);
+
+  // 明度・彩度を調整
+  const L2 = Math.min(Math.max(L + lOffset, 0), 1);
+  const C2 = Math.max(C * cFactor, 0);
+
+  // 極座標 → 直交座標
+  const A2 = C2 * Math.cos(H);
+  const B2 = C2 * Math.sin(H);
+
+  // 知覚均等Lab → 線形sRGB
+  const l2_ = L2 + 0.3963377774 * A2 + 0.2158037573 * B2;
+  const m2_ = L2 - 0.1055613458 * A2 - 0.0638541728 * B2;
+  const s2_ = L2 - 0.0894841775 * A2 - 1.2914855480 * B2;
+  const lr2 = l2_ * l2_ * l2_, lg2 = m2_ * m2_ * m2_, lb2 = s2_ * s2_ * s2_;
+  const rL =  4.0767416621 * lr2 - 3.3077115913 * lg2 + 0.2309699292 * lb2;
+  const gL = -1.2684380046 * lr2 + 2.6097574011 * lg2 - 0.3413193965 * lb2;
+  const bL = -0.0041960863 * lr2 - 0.7034186147 * lg2 + 1.7076147010 * lb2;
+
+  // 線形 → sRGB
+  const toSrgb = v => {
+    v = Math.min(Math.max(v, 0), 1);
+    return Math.round((v <= 0.0031308 ? v * 12.92 : 1.055 * Math.pow(v, 1 / 2.4) - 0.055) * 255);
+  };
+  return `rgb(${toSrgb(rL)}, ${toSrgb(gL)}, ${toSrgb(bL)})`;
 }
 
 // RGBをHSLに変換して明度をfactor倍し、rgb文字列で返す
