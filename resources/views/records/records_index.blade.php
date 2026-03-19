@@ -263,7 +263,7 @@
           <textarea id="abstract" name="abstract" rows="3" class="w-100" data-tooltip="先に日付を選択してください">{{ old('abstract') }}</textarea>
         </div>
 
-        <button type="submit" data-tooltip="先に日付を選択してください">登録</button>
+        <button type="submit" class="btn-custom btn-custom-blue" data-tooltip="先に日付を選択してください">登録</button>
       </div>
     </div>
   </form>
@@ -300,13 +300,13 @@
               @foreach($records as $record)
                 <tr>
                   <td rowspan="3" class="align-middle">
-                    <a href="{{ route('records.edit', $record->id) }}"><button type="button">編集</button></a><br>
-                    <a href="{{ route('records.duplicate.current', $record->id) }}"><button type="button">当月へ複製</button></a><br>
-                    <a href="{{ route('records.duplicate.next', $record->id) }}"><button type="button">翌月へ複製</button></a><br>
+                    <a href="{{ route('records.edit', $record->id) }}"><button type="button" class="btn-custom btn-custom-blue btn-custom-sm mb-1">編集</button></a><br>
+                    <a href="{{ route('records.duplicate.current', $record->id) }}"><button type="button" class="btn-custom btn-custom-blue btn-custom-sm mb-1">当月へ複製</button></a><br>
+                    <a href="{{ route('records.duplicate.next', $record->id) }}"><button type="button" class="btn-custom btn-custom-blue btn-custom-sm mb-1">翌月へ複製</button></a><br>
                     <form method="POST" action="{{ route('records.destroy', $record->id) }}" style="display:inline;" onsubmit="return confirm('この実績データを削除してもよろしいですか？');">
                       @csrf
                       @method('DELETE')
-                      <button type="submit">削除</button>
+                      <button type="submit" class="btn-custom btn-custom-red btn-custom-sm">削除</button>
                     </form>
                   </td>
                   <td rowspan="3" class="align-middle">
@@ -363,7 +363,7 @@
             <input type="hidden" name="clinic_user_id" value="{{ $selectedUserId }}">
             <input type="hidden" name="year" value="{{ $selectedYear }}">
             <input type="hidden" name="month" value="{{ $selectedMonth }}">
-            <button type="submit">当月の全実績データを翌月へ複製</button>
+            <button type="submit" class="btn-custom btn-custom-blue">当月の全実績データを翌月へ複製</button>
           </form>
         </div>
       @else

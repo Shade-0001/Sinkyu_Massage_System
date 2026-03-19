@@ -313,8 +313,8 @@
 }
 .btn-custom:disabled {
   opacity: 0.5;
-  cursor: not-allowed;
   pointer-events: all;
+  cursor: not-allowed;
 }
 .btn-custom::before,
 .btn-custom::after {
