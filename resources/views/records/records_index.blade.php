@@ -7,12 +7,12 @@
   <!-- 利用者選択フォーム -->
   <form method="GET" action="{{ route('records.index') }}" id="filterForm">
     <div class="mb-3">
-      <label for="clinic_user_id">利用者氏名：</label>
+      <label for="clinic_user_id">利用者（ID｜氏名｜カナ）：</label>
       <select name="clinic_user_id" id="clinic_user_id" onchange="document.getElementById('filterForm').submit();">
         <option value="">╌╌╌</option>
         @foreach($clinicUsers as $user)
           <option value="{{ $user->id }}" {{ $selectedUserId == $user->id ? 'selected' : '' }}>
-            {{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}（{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}）
+            {{ $user->id }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}
           </option>
         @endforeach
       </select>
@@ -182,7 +182,7 @@
           <select id="therapist_id" name="therapist_id" data-tooltip="先に日付を選択してください">
             <option value="">╌╌╌</option>
             @foreach($therapists as $therapist)
-              <option value="{{ $therapist->id }}" {{ old('therapist_id') == $therapist->id ? 'selected' : '' }}>{{ $therapist->last_name }}{{ "\u{2000}" }}{{ $therapist->first_name }} @if($therapist->last_name_kana)({{ $therapist->last_name_kana }}{{ "\u{2000}" }}{{ $therapist->first_name_kana }})@endif</option>
+              <option value="{{ $therapist->id }}" {{ old('therapist_id') == $therapist->id ? 'selected' : '' }}>{{ $therapist->id }}｜{{ $therapist->last_name }}{{ "\u{2000}" }}{{ $therapist->first_name }}｜{{ $therapist->last_name_kana }}{{ "\u{2000}" }}{{ $therapist->first_name_kana }}</option>
             @endforeach
           </select>
         </div>
@@ -279,8 +279,8 @@
 
       @if($records->count() > 0)
         <div class="mb-3">
-          <button type="button" onclick="openRecordAcupunctureBenefitModal()">はり･きゅう支給申請書印刷</button>
-          <button type="button" onclick="openRecordMassageBenefitModal()">あんま･マッサージ支給申請書印刷</button>
+          <button type="button" class="btn-custom btn-custom-blue" onclick="openRecordAcupunctureBenefitModal()">はり･きゅう支給申請書印刷</button>
+          <button type="button" class="btn-custom btn-custom-blue" onclick="openRecordMassageBenefitModal()">あんま･マッサージ支給申請書印刷</button>
         </div>
 
         <div class="table-responsive">
