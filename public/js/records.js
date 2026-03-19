@@ -165,7 +165,8 @@ function toggleDateSelection(dayElement) {
 // カレンダータイトル表示を更新
 function updateCalendarTitleDisplay() {
   const display = document.getElementById('calendar-title-display');
-  const titleText = `${currentYear}年 ${String(currentMonth + 1).padStart(2, '0')}月`;
+  const monthStr = (currentMonth + 1 < 10) ? ` ${currentMonth + 1}` : `${currentMonth + 1}`;
+  const titleText = `${currentYear}年 ${monthStr}月`;
   display.textContent = titleText;
 }
 
