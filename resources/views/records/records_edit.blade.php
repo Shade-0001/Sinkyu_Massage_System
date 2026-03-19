@@ -26,7 +26,7 @@
     <div class="d-flex gap-3 align-items-start">
       <!-- カレンダー -->
       <div class="text-center position-relative" style="width: 15rem;">
-        <div id="calendar-title-display" class="fs-4 fw-bold py-1 d-inline-block" style="cursor: default;"></div>
+        <div id="calendar-title-display" class="fs-4 fw-bold py-1 d-inline-block" style="cursor: default; font-variant-numeric: tabular-nums;"></div>
         <select id="calendar-title" class="position-absolute top-0 start-50 translate-middle-x opacity-0" style="cursor: pointer; font-size: 1.5rem; padding: 0.2em 0em; border: none; background: transparent;"></select>
         <div class="calendar" id="calendar">
           <!-- 曜日ヘッダー -->
