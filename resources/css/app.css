@@ -408,8 +408,8 @@
   -webkit-text-stroke: 0px rgba(255, 255, 255, 0.5);
   paint-order: stroke fill;
   text-shadow:
-    0 0 6px rgba(255, 255, 255, 1.0),
-    0 0 6px rgba(255, 255, 255, 1.0);
+    0 0 3px rgba(255, 255, 255, 1.0),
+    0 0 3px rgba(255, 255, 255, 1.0);
   box-shadow:
     /*── ベベル ──────────*/
     /*左上*/ inset var(--btn-shadow-size) var(--btn-shadow-size) 1px var(--btn-shadow-color-light),
@@ -431,9 +431,10 @@
     /*右下*/ inset calc(var(--btn-border-size) * 0.75 * -1) calc(var(--btn-border-size) * 0.75) var(--btn-border-blur) var(--btn-primary-color);
 }
 .btn-custom-sub:hover {
-  -webkit-text-stroke: 0px rgba(255, 255, 255, 0.5);
+  -webkit-text-stroke: 0px rgba(255, 255, 255, 0.0);
   text-shadow:
-    0 0 0px rgba(255, 255, 255, 1.0);
+    0 0 3px rgba(255, 255, 255, 0.0),
+    0 0 3px rgba(255, 255, 255, 0.0);
 }
 .btn-custom-sub:hover::before {
   opacity: 0;
