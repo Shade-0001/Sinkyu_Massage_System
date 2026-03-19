@@ -424,7 +424,7 @@ function updateRecordFieldsState() {
     } else {
       // 日付が選択されていない場合は入力不可
       input.disabled = true;
-      input.style.cursor = 'default';
+      input.style.cursor = input.tagName === 'BUTTON' ? '' : 'default';
     }
   });
 
