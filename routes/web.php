@@ -37,6 +37,8 @@ Route::middleware('auth')->group(function () {
 
 	Route::view('/master/index', 'master.master_index')->name('master.index');
 
+	Route::view('/admin-panel/index', 'admin-panel.admin-panel_index')->name('admin-panel.index');
+
   // 医師情報
   Route::get('/master/doctors/index', [DoctorsController::class, 'index'])->name('doctors.index');
   Route::get('/master/doctors/create', [DoctorsController::class, 'create'])->name('doctors.create');

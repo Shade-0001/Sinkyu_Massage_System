@@ -144,6 +144,18 @@ Breadcrumbs::define('index', function() {
   return getIndexBreadcrumbs();
 });
 
+// 管理画面
+function getAdminPanelBreadcrumbs() {
+  return [
+    ...getIndexBreadcrumbs(),
+    ['url' => route('admin-panel.index'), 'label' => '管理画面'],
+  ];
+}
+
+Breadcrumbs::define('admin-panel.index', function() {
+  return getAdminPanelBreadcrumbs();
+});
+
 // マスター登録
 Breadcrumbs::define('master.index', function() {
   return getMasterBreadcrumbs();
