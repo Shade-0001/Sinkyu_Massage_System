@@ -54,12 +54,12 @@
       {{ optional($user->created_at)->format('Y/n/j') }}{{ "\u{2000}" }}{{ optional($user->created_at)->format('H:i') }}
       </td>
       <td>
-        <div class="d-flex flex-wrap gap-0">
-          <a class="btn-custom btn-custom-blue btn-custom-sm" href="{{ route('clinic-users.edit', ['id' => $user->id]) }}">利用者情報</a>
-          <a class="btn-custom btn-custom-blue btn-custom-sm" href="{{ route('clinic-users.insurances.index', ['id' => $user->id]) }}">保険情報</a>
-          <a class="btn-custom btn-custom-blue btn-custom-sm" href="{{ route('clinic-users.plans.index', ['id' => $user->id]) }}">計画情報</a>
-          <a class="btn-custom btn-custom-blue btn-custom-sm" href="{{ route('clinic-users.consents-acupuncture.index', ['id' => $user->id]) }}">同意医師履歴（ＨＫ）</a>
-          <a class="btn-custom btn-custom-blue btn-custom-sm" href="{{ route('clinic-users.consents-massage.index', ['id' => $user->id]) }}">同意医師履歴（ＡＭ）</a>
+        <div class="d-flex flex-wrap gap-0" style="max-width: 350px;">
+          <a class="btn-custom btn-custom-blue btn-custom-sm m-025" href="{{ route('clinic-users.edit', ['id' => $user->id]) }}">利用者情報</a>
+          <a class="btn-custom btn-custom-blue btn-custom-sm m-025" href="{{ route('clinic-users.insurances.index', ['id' => $user->id]) }}">保険情報</a>
+          <a class="btn-custom btn-custom-blue btn-custom-sm m-025" href="{{ route('clinic-users.plans.index', ['id' => $user->id]) }}">計画情報</a>
+          <a class="btn-custom btn-custom-blue btn-custom-sm m-025" href="{{ route('clinic-users.consents-acupuncture.index', ['id' => $user->id]) }}">同意医師履歴（ＨＫ）</a>
+          <a class="btn-custom btn-custom-blue btn-custom-sm m-025" href="{{ route('clinic-users.consents-massage.index', ['id' => $user->id]) }}">同意医師履歴（ＡＭ）</a>
         </div>
       </td>
       <td>
@@ -89,8 +89,10 @@
         pageLength: 10,
         lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
         columnDefs: [
-          { orderable: false, targets: [5, 6] }
-        ]
+          { orderable: false, targets: [5, 6] },
+          { width: '350px', targets: 5 }
+        ],
+        autoWidth: false
       });
 
       // 削除確認
