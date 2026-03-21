@@ -16,7 +16,7 @@
   <div class="alert alert-success">{{ session('success') }}</div>
   @endif
 
-  <!-- システム管理ユーザー一覧テーブル -->
+  <!-- システムユーザー一覧テーブル -->
   <table id="systemUsersTable" class="table table-bordered table-striped">
   <thead>
     <tr>

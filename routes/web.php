@@ -41,7 +41,7 @@ Route::middleware('auth')->group(function () {
 
 	Route::view('/admin-panel/index', 'admin-panel.admin-panel_index')->name('admin-panel.index');
 
-  // システム管理ユーザー
+  // システムユーザー
   Route::get('/admin-panel/system-users/index', [SystemUsersController::class, 'index'])->name('system-users.index');
   Route::get('/admin-panel/system-users/create', [SystemUsersController::class, 'create'])->name('system-users.create');
   Route::post('/admin-panel/system-users/store', [SystemUsersController::class, 'store'])->name('system-users.store');

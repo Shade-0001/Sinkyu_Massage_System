@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 class SystemUsersController extends Controller
 {
   /**
-   * システム管理ユーザー一覧を表示
+   * システムユーザー一覧を表示
    */
   public function index()
   {
@@ -18,7 +18,7 @@ class SystemUsersController extends Controller
 
     return view('admin-panel.system-users.system-users_index', [
       'systemUsers' => $systemUsers,
-      'page_header_title' => 'システム管理ユーザー',
+      'page_header_title' => 'システムユーザー',
     ]);
   }
 
@@ -29,7 +29,7 @@ class SystemUsersController extends Controller
   {
     return view('admin-panel.system-users.system-users_form', [
       'mode' => 'create',
-      'page_header_title' => 'システム管理ユーザー‐登録 (新規)',
+      'page_header_title' => 'システムユーザー‐登録 (新規)',
       'systemUser' => null,
     ]);
   }
@@ -53,7 +53,7 @@ class SystemUsersController extends Controller
     ]);
 
     return redirect()->route('system-users.index')
-      ->with('success', 'システム管理ユーザーを登録しました。');
+      ->with('success', 'システムユーザーを登録しました。');
   }
 
   /**
@@ -90,7 +90,7 @@ class SystemUsersController extends Controller
 
     return view('admin-panel.system-users.system-users_form', [
       'mode' => 'edit',
-      'page_header_title' => 'システム管理ユーザー‐登録 (編集)',
+      'page_header_title' => 'システムユーザー‐登録 (編集)',
       'systemUser' => $systemUser,
     ]);
   }
@@ -116,6 +116,6 @@ class SystemUsersController extends Controller
     ]);
 
     return redirect()->route('system-users.index')
-      ->with('success', 'システム管理ユーザーを更新しました。');
+      ->with('success', 'システムユーザーを更新しました。');
   }
 }
