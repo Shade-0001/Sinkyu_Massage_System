@@ -7,7 +7,7 @@
   <br>
 
   <a href="{{ route('notices.create') }}">
-  <button class="btn-custom btn-custom-blue">お知らせ新規登録</button>
+  <button class="btn-custom btn-custom-blue">新規登録</button>
   </a>
 
   <br><br>
@@ -33,7 +33,7 @@
     <tr>
       <td>{{ $notice->id }}</td>
       <td data-order="{{ $notice->created_at ? $notice->created_at->timestamp : 0 }}">
-      {{ optional($notice->created_at)->format('Y/n/j') }}{{ "\u{2000}" }}{{ optional($notice->created_at)->format('H:i') }}
+      {{ optional($notice->created_at)->format('Y/n/j') }}
       </td>
       <td>{{ $notice->title }}</td>
       <td>{{ $notice->content }}</td>
