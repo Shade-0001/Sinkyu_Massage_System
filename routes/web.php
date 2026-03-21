@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function () {
   Route::post('/admin-panel/system-users/store', [SystemUsersController::class, 'store'])->name('system-users.store');
   Route::get('/admin-panel/system-users/{id}/edit', [SystemUsersController::class, 'edit'])->name('system-users.edit');
   Route::post('/admin-panel/system-users/{id}/update', [SystemUsersController::class, 'update'])->name('system-users.update');
+  Route::post('/admin-panel/system-users/verify-password', [SystemUsersController::class, 'verifyPassword'])->name('system-users.verify-password');
 
   // お知らせ
   Route::get('/admin-panel/notices/index', [NoticesController::class, 'index'])->name('notices.index');

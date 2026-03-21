@@ -57,6 +57,31 @@ class SystemUsersController extends Controller
   }
 
   /**
+   * 編集前パスワード検証（Ajax）
+   */
+  public function verifyPassword(Request $request)
+  {
+    $editUrl  = $request->input('edit_url', '');
+    $password = $request->input('password', '');
+
+    // edit_url から id を抽出
+    if (!preg_match('#/admin-panel/system-users/(\d+)/edit$#', $editUrl, $m)) {
+      return response()->json(['success' => false]);
+    }
+
+    $systemUser = SystemUser::find((int) $m[1]);
+    if (!$systemUser) {
+      return response()->json(['success' => false]);
+    }
+
+    if ($password !== $systemUser->plain_password) {
+      return response()->json(['success' => false]);
+    }
+
+    return response()->json(['success' => true, 'redirect' => $editUrl]);
+  }
+
+  /**
    * 編集フォームを表示
    */
   public function edit($id)
