@@ -156,6 +156,42 @@ Breadcrumbs::define('admin-panel.index', function() {
   return getAdminPanelBreadcrumbs();
 });
 
+// お知らせ ｰ トップ
+function getNoticesBreadcrumbs() {
+  return [
+    ...getAdminPanelBreadcrumbs(),
+    ['url' => route('notices.index'), 'label' => 'お知らせ'],
+  ];
+}
+
+Breadcrumbs::define('notices.index', function() {
+  return getNoticesBreadcrumbs();
+});
+
+// お知らせ ｰ 新規登録
+Breadcrumbs::define('notices.create', function() {
+  return [
+    ...getNoticesBreadcrumbs(),
+    ['url' => null, 'label' => '登録 (新規)'],
+  ];
+});
+
+// お知らせ ｰ 編集
+Breadcrumbs::define('notices.edit', function() {
+  return [
+    ...getNoticesBreadcrumbs(),
+    ['url' => null, 'label' => '登録 (編集)'],
+  ];
+});
+
+// お知らせ ｰ 複製
+Breadcrumbs::define('notices.duplicate', function() {
+  return [
+    ...getNoticesBreadcrumbs(),
+    ['url' => null, 'label' => '登録 (複製)'],
+  ];
+});
+
 // マスター登録
 Breadcrumbs::define('master.index', function() {
   return getMasterBreadcrumbs();

@@ -25,6 +25,7 @@ use App\Http\Controllers\UserSearchController;
 use App\Http\Controllers\TherapyPeriodController;
 use App\Http\Controllers\DepositsController;
 use App\Http\Controllers\PrintsController;
+use App\Http\Controllers\NoticesController;
 
 Route::get('/', fn() => redirect()->route('login'));
 
@@ -38,6 +39,16 @@ Route::middleware('auth')->group(function () {
 	Route::view('/master/index', 'master.master_index')->name('master.index');
 
 	Route::view('/admin-panel/index', 'admin-panel.admin-panel_index')->name('admin-panel.index');
+
+  // お知らせ
+  Route::get('/admin-panel/notices/index', [NoticesController::class, 'index'])->name('notices.index');
+  Route::get('/admin-panel/notices/create', [NoticesController::class, 'create'])->name('notices.create');
+  Route::post('/admin-panel/notices/store', [NoticesController::class, 'store'])->name('notices.store');
+  Route::get('/admin-panel/notices/{id}/edit', [NoticesController::class, 'edit'])->name('notices.edit');
+  Route::post('/admin-panel/notices/{id}/update', [NoticesController::class, 'update'])->name('notices.update');
+  Route::get('/admin-panel/notices/{id}/duplicate', [NoticesController::class, 'duplicate'])->name('notices.duplicate');
+  Route::post('/admin-panel/notices/duplicate/store', [NoticesController::class, 'duplicateStore'])->name('notices.duplicate.store');
+  Route::delete('/admin-panel/notices/{id}', [NoticesController::class, 'destroy'])->name('notices.delete');
 
   // 医師情報
   Route::get('/master/doctors/index', [DoctorsController::class, 'index'])->name('doctors.index');
