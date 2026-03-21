@@ -89,10 +89,8 @@
         pageLength: 10,
         lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
         columnDefs: [
-          { orderable: false, targets: [5, 6] },
-          { width: '350px', targets: 5 }
-        ],
-        autoWidth: false
+          { orderable: false, targets: [5, 6] }
+        ]
       });
 
       // 削除確認
