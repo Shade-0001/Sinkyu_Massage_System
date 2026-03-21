@@ -287,7 +287,7 @@
           <table class="table table-bordered fw-medium" style="font-size: 0.7rem;">
             <thead>
               <tr>
-                <th class="align-middle text-center" style="min-width: 90px;">[ 編集 ]</th>
+                <th class="align-middle text-center" style="min-width: 90px;">編集</th>
                 <th class="align-middle text-center" style="min-width: 50px;">施術内容 / 施術者 / 時刻</th>
                 <th class="align-middle text-center" style="min-width: 50px;">登録日時 / 更新日時</th>
                 <th colspan="{{ date('t', strtotime("$selectedYear-$selectedMonth-01")) }}" class="text-center">施術日（通院：○｜往療：◎）</th>
@@ -300,9 +300,9 @@
               @foreach($records as $record)
                 <tr>
                   <td rowspan="3" class="align-middle">
-                    <a href="{{ route('records.edit', $record->id) }}"><button type="button" class="btn-custom btn-custom-blue btn-custom-sm mb-1">編集</button></a><br>
-                    <a href="{{ route('records.duplicate.current', $record->id) }}"><button type="button" class="btn-custom btn-custom-blue btn-custom-sm mb-1">当月へ複製</button></a><br>
-                    <a href="{{ route('records.duplicate.next', $record->id) }}"><button type="button" class="btn-custom btn-custom-blue btn-custom-sm mb-1">翌月へ複製</button></a><br>
+                    <a href="{{ route('records.edit', $record->id) }}"><button type="button" class="btn-custom btn-custom-blue btn-custom-sm mb-05">編集</button></a><br>
+                    <a href="{{ route('records.duplicate.current', $record->id) }}"><button type="button" class="btn-custom btn-custom-blue btn-custom-sm mb-05">当月へ複製</button></a><br>
+                    <a href="{{ route('records.duplicate.next', $record->id) }}"><button type="button" class="btn-custom btn-custom-blue btn-custom-sm mb-05">翌月へ複製</button></a><br>
                     <form method="POST" action="{{ route('records.destroy', $record->id) }}" style="display:inline;" onsubmit="return confirm('この実績データを削除してもよろしいですか？');">
                       @csrf
                       @method('DELETE')
