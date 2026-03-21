@@ -84,8 +84,8 @@
           }
         },
         order: [[0, 'asc']],
-        pageLength: 10,
-        lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
+        pageLength: 100,
+        dom: 'tp',
         columnDefs: [
           { orderable: false, targets: [5] }
         ]
