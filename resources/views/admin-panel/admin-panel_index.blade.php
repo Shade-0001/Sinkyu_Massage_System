@@ -9,7 +9,7 @@
   />
 
 
-  <a href="#">システム管理ユーザー</a><br>
+  <a href="{{ route('system-users.index') }}">システム管理ユーザー</a><br>
   <a href="{{ route('notices.index') }}">お知らせ</a><br>
   <a href="{{ route('prints.coordinate-adjuster') }}">PDFレイアウト調整ツール</a><br>
 </x-app-layout>

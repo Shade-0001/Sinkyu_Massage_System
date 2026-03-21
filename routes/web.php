@@ -26,6 +26,7 @@ use App\Http\Controllers\TherapyPeriodController;
 use App\Http\Controllers\DepositsController;
 use App\Http\Controllers\PrintsController;
 use App\Http\Controllers\NoticesController;
+use App\Http\Controllers\SystemUsersController;
 
 Route::get('/', fn() => redirect()->route('login'));
 
@@ -39,6 +40,13 @@ Route::middleware('auth')->group(function () {
 	Route::view('/master/index', 'master.master_index')->name('master.index');
 
 	Route::view('/admin-panel/index', 'admin-panel.admin-panel_index')->name('admin-panel.index');
+
+  // システム管理ユーザー
+  Route::get('/admin-panel/system-users/index', [SystemUsersController::class, 'index'])->name('system-users.index');
+  Route::get('/admin-panel/system-users/create', [SystemUsersController::class, 'create'])->name('system-users.create');
+  Route::post('/admin-panel/system-users/store', [SystemUsersController::class, 'store'])->name('system-users.store');
+  Route::get('/admin-panel/system-users/{id}/edit', [SystemUsersController::class, 'edit'])->name('system-users.edit');
+  Route::post('/admin-panel/system-users/{id}/update', [SystemUsersController::class, 'update'])->name('system-users.update');
 
   // お知らせ
   Route::get('/admin-panel/notices/index', [NoticesController::class, 'index'])->name('notices.index');

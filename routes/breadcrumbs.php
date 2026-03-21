@@ -156,6 +156,34 @@ Breadcrumbs::define('admin-panel.index', function() {
   return getAdminPanelBreadcrumbs();
 });
 
+// システム管理ユーザー
+function getSystemUsersBreadcrumbs() {
+  return [
+    ...getAdminPanelBreadcrumbs(),
+    ['url' => route('system-users.index'), 'label' => 'システム管理ユーザー'],
+  ];
+}
+
+Breadcrumbs::define('system-users.index', function() {
+  return getSystemUsersBreadcrumbs();
+});
+
+// システム管理ユーザー ｰ 新規登録
+Breadcrumbs::define('system-users.create', function() {
+  return [
+    ...getSystemUsersBreadcrumbs(),
+    ['url' => null, 'label' => '登録 (新規)'],
+  ];
+});
+
+// システム管理ユーザー ｰ 編集
+Breadcrumbs::define('system-users.edit', function() {
+  return [
+    ...getSystemUsersBreadcrumbs(),
+    ['url' => null, 'label' => '登録 (編集)'],
+  ];
+});
+
 // お知らせ ｰ トップ
 function getNoticesBreadcrumbs() {
   return [
