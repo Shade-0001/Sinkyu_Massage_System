@@ -18,6 +18,11 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\CheckSessionValidity::class,
         ]);
+
+        // ミドルウェアエイリアス登録
+        $middleware->alias([
+            'admin' => \App\Http\Middleware\CheckAdminPermission::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

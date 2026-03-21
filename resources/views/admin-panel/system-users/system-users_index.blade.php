@@ -21,6 +21,7 @@
   <thead>
     <tr>
     <th class="text-center">ID</th>
+    <th class="text-center">権限</th>
     <th class="text-center">名前</th>
     <th class="text-center">ログインID</th>
     <th class="text-center">パスワード</th>
@@ -31,6 +32,7 @@
     @foreach($systemUsers as $systemUser)
     <tr>
       <td>{{ $systemUser->id }}</td>
+      <td>{{ $systemUser->is_admin ? '管理者' : '通常' }}</td>
       <td>{{ $systemUser->name }}</td>
       <td>{{ $systemUser->login_id }}</td>
       <td>{{ $systemUser->plain_password ? '●●●●●' : '―' }}</td>
@@ -85,7 +87,7 @@
         pageLength: 10,
         lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
         columnDefs: [
-          { orderable: false, targets: [4] }
+          { orderable: false, targets: [5] }
         ]
       });
 

@@ -24,6 +24,7 @@ class User extends Authenticatable
   protected $fillable = [
     'login_id',
     'password',
+    'is_admin',
   ];
 
   /**
@@ -44,8 +45,9 @@ class User extends Authenticatable
   protected function casts(): array
   {
     return [
-      'password' => 'hashed',
+      'password'     => 'hashed',
       'last_login_at' => 'datetime',
+      'is_admin'     => 'integer',
     ];
   }
 

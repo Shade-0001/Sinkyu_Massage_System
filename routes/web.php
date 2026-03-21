@@ -39,25 +39,28 @@ Route::middleware('auth')->group(function () {
 
 	Route::view('/master/index', 'master.master_index')->name('master.index');
 
-	Route::view('/admin-panel/index', 'admin-panel.admin-panel_index')->name('admin-panel.index');
+  // 管理画面（is_admin=1のみアクセス可）
+  Route::middleware('admin')->group(function () {
+    Route::view('/admin-panel/index', 'admin-panel.admin-panel_index')->name('admin-panel.index');
 
-  // システムユーザー
-  Route::get('/admin-panel/system-users/index', [SystemUsersController::class, 'index'])->name('system-users.index');
-  Route::get('/admin-panel/system-users/create', [SystemUsersController::class, 'create'])->name('system-users.create');
-  Route::post('/admin-panel/system-users/store', [SystemUsersController::class, 'store'])->name('system-users.store');
-  Route::get('/admin-panel/system-users/{id}/edit', [SystemUsersController::class, 'edit'])->name('system-users.edit');
-  Route::post('/admin-panel/system-users/{id}/update', [SystemUsersController::class, 'update'])->name('system-users.update');
-  Route::post('/admin-panel/system-users/verify-password', [SystemUsersController::class, 'verifyPassword'])->name('system-users.verify-password');
+    // システムユーザー
+    Route::get('/admin-panel/system-users/index', [SystemUsersController::class, 'index'])->name('system-users.index');
+    Route::get('/admin-panel/system-users/create', [SystemUsersController::class, 'create'])->name('system-users.create');
+    Route::post('/admin-panel/system-users/store', [SystemUsersController::class, 'store'])->name('system-users.store');
+    Route::get('/admin-panel/system-users/{id}/edit', [SystemUsersController::class, 'edit'])->name('system-users.edit');
+    Route::post('/admin-panel/system-users/{id}/update', [SystemUsersController::class, 'update'])->name('system-users.update');
+    Route::post('/admin-panel/system-users/verify-password', [SystemUsersController::class, 'verifyPassword'])->name('system-users.verify-password');
 
-  // お知らせ
-  Route::get('/admin-panel/notices/index', [NoticesController::class, 'index'])->name('notices.index');
-  Route::get('/admin-panel/notices/create', [NoticesController::class, 'create'])->name('notices.create');
-  Route::post('/admin-panel/notices/store', [NoticesController::class, 'store'])->name('notices.store');
-  Route::get('/admin-panel/notices/{id}/edit', [NoticesController::class, 'edit'])->name('notices.edit');
-  Route::post('/admin-panel/notices/{id}/update', [NoticesController::class, 'update'])->name('notices.update');
-  Route::get('/admin-panel/notices/{id}/duplicate', [NoticesController::class, 'duplicate'])->name('notices.duplicate');
-  Route::post('/admin-panel/notices/duplicate/store', [NoticesController::class, 'duplicateStore'])->name('notices.duplicate.store');
-  Route::delete('/admin-panel/notices/{id}', [NoticesController::class, 'destroy'])->name('notices.delete');
+    // お知らせ
+    Route::get('/admin-panel/notices/index', [NoticesController::class, 'index'])->name('notices.index');
+    Route::get('/admin-panel/notices/create', [NoticesController::class, 'create'])->name('notices.create');
+    Route::post('/admin-panel/notices/store', [NoticesController::class, 'store'])->name('notices.store');
+    Route::get('/admin-panel/notices/{id}/edit', [NoticesController::class, 'edit'])->name('notices.edit');
+    Route::post('/admin-panel/notices/{id}/update', [NoticesController::class, 'update'])->name('notices.update');
+    Route::get('/admin-panel/notices/{id}/duplicate', [NoticesController::class, 'duplicate'])->name('notices.duplicate');
+    Route::post('/admin-panel/notices/duplicate/store', [NoticesController::class, 'duplicateStore'])->name('notices.duplicate.store');
+    Route::delete('/admin-panel/notices/{id}', [NoticesController::class, 'destroy'])->name('notices.delete');
+  });
 
   // 医師情報
   Route::get('/master/doctors/index', [DoctorsController::class, 'index'])->name('doctors.index');
