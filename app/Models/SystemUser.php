@@ -14,6 +14,7 @@ class SystemUser extends Model
     'login_id',
     'password',
     'plain_password',
+    'is_admin',
   ];
 
   protected $hidden = [

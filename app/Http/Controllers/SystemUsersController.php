@@ -43,6 +43,7 @@ class SystemUsersController extends Controller
       'name'           => 'required|string|max:255',
       'login_id'       => 'required|string|max:255|unique:system_users,login_id',
       'plain_password' => 'required|string|min:4|max:255',
+      'is_admin'       => 'required|in:0,1',
     ]);
 
     SystemUser::create([
@@ -50,6 +51,7 @@ class SystemUsersController extends Controller
       'login_id'       => $validated['login_id'],
       'password'       => Hash::make($validated['plain_password']),
       'plain_password' => $validated['plain_password'],
+      'is_admin'       => $validated['is_admin'],
     ]);
 
     return redirect()->route('system-users.index')
@@ -106,6 +108,7 @@ class SystemUsersController extends Controller
       'name'           => 'required|string|max:255',
       'login_id'       => 'required|string|max:255|unique:system_users,login_id,' . $id,
       'plain_password' => 'required|string|min:4|max:255',
+      'is_admin'       => 'required|in:0,1',
     ]);
 
     $systemUser->update([
@@ -113,6 +116,7 @@ class SystemUsersController extends Controller
       'login_id'       => $validated['login_id'],
       'password'       => Hash::make($validated['plain_password']),
       'plain_password' => $validated['plain_password'],
+      'is_admin'       => $validated['is_admin'],
     ]);
 
     return redirect()->route('system-users.index')

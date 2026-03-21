@@ -74,6 +74,23 @@
     @enderror
   </div>
 
+  <div class="mb-3">
+    <label for="is_admin" class="form-label fw-bold">権限 <span class="text-danger">*</span></label>
+    <select
+      id="is_admin"
+      name="is_admin"
+      class="form-select @error('is_admin') is-invalid @enderror"
+      required
+    >
+      <option value="" disabled {{ old('is_admin', $systemUser->is_admin ?? '') === '' ? 'selected' : '' }}>選択してください</option>
+      <option value="0" {{ old('is_admin', $systemUser->is_admin ?? '') === 0 || old('is_admin', $systemUser->is_admin ?? '') === '0' ? 'selected' : '' }}>通常</option>
+      <option value="1" {{ old('is_admin', $systemUser->is_admin ?? '') === 1 || old('is_admin', $systemUser->is_admin ?? '') === '1' ? 'selected' : '' }}>管理者</option>
+    </select>
+    @error('is_admin')
+    <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+  </div>
+
   <div class="d-flex gap-2">
     <button type="submit" class="btn-custom btn-custom-blue">
       @if($mode === 'edit') 更新する
