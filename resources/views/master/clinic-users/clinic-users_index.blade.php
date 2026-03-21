@@ -7,7 +7,7 @@
   <br>
 
   <a href="{{ route('clinic-users.create') }}">
-  <button>利用者新規登録</button>
+  <button class="btn-custom btn-custom-blue">利用者新規登録</button>
   </a>
 
   <br><br>
@@ -21,7 +21,7 @@
     <th class="text-center">生年月日</th>
     <th class="text-center">住所 / TEL</th>
     <th class="text-center text-nowrap">データ登録日</th>
-    <th class="text-center">各種編集</th>
+    <th class="text-center">編集</th>
     <th class="text-center">削除</th>
     </tr>
   </thead>
@@ -54,11 +54,13 @@
       {{ optional($user->created_at)->format('Y/n/j') }}{{ "\u{2000}" }}{{ optional($user->created_at)->format('H:i') }}
       </td>
       <td>
-        <a class="btn-custom btn-custom-blue btn-custom-sm" href="{{ route('clinic-users.edit', ['id' => $user->id]) }}">利用者情報</a>
-        <a class="btn-custom btn-custom-blue btn-custom-sm" href="{{ route('clinic-users.insurances.index', ['id' => $user->id]) }}">保険情報</a>
-        <a class="btn-custom btn-custom-blue btn-custom-sm" href="{{ route('clinic-users.plans.index', ['id' => $user->id]) }}">計画情報</a><br>
-        <a class="btn-custom btn-custom-blue btn-custom-sm" href="{{ route('clinic-users.consents-acupuncture.index', ['id' => $user->id]) }}">同意医師履歴（ＨＫ）</a>
-        <a class="btn-custom btn-custom-blue btn-custom-sm" href="{{ route('clinic-users.consents-massage.index', ['id' => $user->id]) }}">同意医師履歴（ＡＭ）</a>
+        <div class="d-flex flex-wrap gap-0">
+          <a class="btn-custom btn-custom-blue btn-custom-sm" href="{{ route('clinic-users.edit', ['id' => $user->id]) }}">利用者情報</a>
+          <a class="btn-custom btn-custom-blue btn-custom-sm" href="{{ route('clinic-users.insurances.index', ['id' => $user->id]) }}">保険情報</a>
+          <a class="btn-custom btn-custom-blue btn-custom-sm" href="{{ route('clinic-users.plans.index', ['id' => $user->id]) }}">計画情報</a>
+          <a class="btn-custom btn-custom-blue btn-custom-sm" href="{{ route('clinic-users.consents-acupuncture.index', ['id' => $user->id]) }}">同意医師履歴（ＨＫ）</a>
+          <a class="btn-custom btn-custom-blue btn-custom-sm" href="{{ route('clinic-users.consents-massage.index', ['id' => $user->id]) }}">同意医師履歴（ＡＭ）</a>
+        </div>
       </td>
       <td>
       <form action="{{ route('clinic-users.delete', ['id' => $user->id]) }}" method="POST" class="delete-form d-inline">
