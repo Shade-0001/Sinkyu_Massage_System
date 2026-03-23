@@ -59,7 +59,7 @@
             お知らせ
           </div>
           <div id="notice-list-body" class="notice-list-body flex-fill overflow-y-auto">
-            <div class="text-muted small px-3 py-3 text-center">読み込み中...</div>
+            <div class="text-gray-80 small px-3 py-3 text-center">読み込み中...</div>
           </div>
         </div>
 
