@@ -633,6 +633,7 @@ html[data-sidebar="closed"] #sidebar-content {
 .submenu-arrow {
   font-size: 12px;
   transition: transform 0.2s ease;
+  will-change: transform;
 }
 .submenu-arrow.rotated {
   transform: scaleY(-1);
@@ -1170,8 +1171,9 @@ html[data-sidebar="closed"] #sidebar-content {
   font-size: 11px;
   color: #888;
   transition: transform 0.2s ease;
+  will-change: transform;
 }
 .notice-list-item:hover .notice-item-chevron { color: #ccc; }
-.notice-item-chevron.rotated-left { transform: rotate(180deg); color: #fff; }
+.notice-item-chevron.rotated-left { transform: scaleX(-1); }
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
