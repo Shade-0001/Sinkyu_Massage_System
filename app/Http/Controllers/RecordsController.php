@@ -199,8 +199,12 @@ class RecordsController extends Controller
       ->select('id', 'bill_category')
       ->get();
 
+    $clinicInfo = DB::table('clinic_info')->first();
+
     return view('records.records_index', [
       'closedDays' => $closedDays,
+      'businessHoursStart' => $clinicInfo->business_hours_start ?? null,
+      'businessHoursEnd' => $clinicInfo->business_hours_end ?? null,
       'clinicUsers' => $clinicUsers,
       'selectedUserId' => $selectedUserId,
       'selectedTherapistId' => $selectedTherapistId,
@@ -394,11 +398,15 @@ class RecordsController extends Controller
         ->toArray();
     }
 
+    $clinicInfo = DB::table('clinic_info')->first();
+
     return view('records.records_edit', [
       'record' => $record,
       'originalDates' => $originalDates,
       'originalDistances' => $originalDistances,
       'closedDays' => $closedDays,
+      'businessHoursStart' => $clinicInfo->business_hours_start ?? null,
+      'businessHoursEnd' => $clinicInfo->business_hours_end ?? null,
       'insurances' => $insurances,
       'consentsAcupuncture' => $consentsAcupuncture,
       'consentsMassage' => $consentsMassage,
@@ -616,11 +624,15 @@ class RecordsController extends Controller
         ->toArray();
     }
 
+    $clinicInfo = DB::table('clinic_info')->first();
+
     return view('records.records_duplicate', [
       'record' => $record,
       'originalDates' => $duplicatedDates,
       'originalDistances' => $duplicatedDistances,
       'closedDays' => $closedDays,
+      'businessHoursStart' => $clinicInfo->business_hours_start ?? null,
+      'businessHoursEnd' => $clinicInfo->business_hours_end ?? null,
       'insurances' => $insurances,
       'consentsAcupuncture' => $consentsAcupuncture,
       'consentsMassage' => $consentsMassage,

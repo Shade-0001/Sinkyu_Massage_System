@@ -126,6 +126,14 @@
         </div>
 
         <!-- 開始時刻 & 終了時刻 -->
+        @php
+          $bhStart = $businessHoursStart ? (int)explode(':', $businessHoursStart)[0] : 0;
+          $bhEnd   = $businessHoursEnd   ? (int)explode(':', $businessHoursEnd)[0]   : 23;
+          $oldStartH = old('start_time') ? (int)explode(':', old('start_time'))[0] : $bhStart;
+          $oldStartM = old('start_time') ? (int)explode(':', old('start_time'))[1] : 0;
+          $oldEndH   = old('end_time')   ? (int)explode(':', old('end_time'))[0]   : $bhStart;
+          $oldEndM   = old('end_time')   ? (int)explode(':', old('end_time'))[1]   : 0;
+        @endphp
         <div class="mb-3">
           <label class="fw-semibold">開始時刻</label>
           @error('start_time')
@@ -134,14 +142,14 @@
           <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
           <div class="time-select-group d-inline-flex align-items-center gap-1" data-target="start_time">
             <select class="time-select-hour" data-tooltip="先に日付を選択してください">
-              @for($h = 0; $h <= 23; $h++)
-                <option value="{{ $h }}" {{ old('start_time') && (int)explode(':', old('start_time'))[0] === $h ? 'selected' : '' }}>{{ sprintf('%02d', $h) }}</option>
+              @for($h = $bhStart; $h <= $bhEnd; $h++)
+                <option value="{{ $h }}" {{ $oldStartH === $h ? 'selected' : '' }}>{{ sprintf('%02d', $h) }}</option>
               @endfor
             </select>
             <span>:</span>
             <select class="time-select-minute" data-tooltip="先に日付を選択してください">
               @foreach([0, 10, 20, 30, 40, 50] as $m)
-                <option value="{{ $m }}" {{ old('start_time') && isset(explode(':', old('start_time'))[1]) && (int)explode(':', old('start_time'))[1] === $m ? 'selected' : '' }}>{{ sprintf('%02d', $m) }}</option>
+                <option value="{{ $m }}" {{ $oldStartM === $m ? 'selected' : '' }}>{{ sprintf('%02d', $m) }}</option>
               @endforeach
             </select>
           </div>
@@ -156,14 +164,14 @@
           <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
           <div class="time-select-group d-inline-flex align-items-center gap-1" data-target="end_time">
             <select class="time-select-hour" data-tooltip="先に日付を選択してください">
-              @for($h = 0; $h <= 23; $h++)
-                <option value="{{ $h }}" {{ old('end_time') && (int)explode(':', old('end_time'))[0] === $h ? 'selected' : '' }}>{{ sprintf('%02d', $h) }}</option>
+              @for($h = $bhStart; $h <= $bhEnd; $h++)
+                <option value="{{ $h }}" {{ $oldEndH === $h ? 'selected' : '' }}>{{ sprintf('%02d', $h) }}</option>
               @endfor
             </select>
             <span>:</span>
             <select class="time-select-minute" data-tooltip="先に日付を選択してください">
               @foreach([0, 10, 20, 30, 40, 50] as $m)
-                <option value="{{ $m }}" {{ old('end_time') && isset(explode(':', old('end_time'))[1]) && (int)explode(':', old('end_time'))[1] === $m ? 'selected' : '' }}>{{ sprintf('%02d', $m) }}</option>
+                <option value="{{ $m }}" {{ $oldEndM === $m ? 'selected' : '' }}>{{ sprintf('%02d', $m) }}</option>
               @endforeach
             </select>
           </div>

@@ -88,20 +88,25 @@
         </div>
 
         <!-- 開始時刻 & 終了時刻 -->
+        @php
+          $bhStart = $businessHoursStart ? (int)explode(':', $businessHoursStart)[0] : 0;
+          $bhEnd   = $businessHoursEnd   ? (int)explode(':', $businessHoursEnd)[0]   : 23;
+          $startTimeVal = old('start_time', $record->start_time ? date('H:i', strtotime($record->start_time)) : '');
+          $startH = $startTimeVal ? (int)explode(':', $startTimeVal)[0] : $bhStart;
+          $startM = $startTimeVal ? (int)explode(':', $startTimeVal)[1] : 0;
+          $endTimeVal = old('end_time', $record->end_time ? date('H:i', strtotime($record->end_time)) : '');
+          $endH = $endTimeVal ? (int)explode(':', $endTimeVal)[0] : $bhStart;
+          $endM = $endTimeVal ? (int)explode(':', $endTimeVal)[1] : 0;
+        @endphp
         <div class="mb-3">
           <label class="fw-semibold">開始時刻</label>
           @error('start_time')
             <span class="text-danger ms-2">{{ $message }}</span>
           @enderror
           <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
-          @php
-            $startTimeVal = old('start_time', $record->start_time ? date('H:i', strtotime($record->start_time)) : '');
-            $startH = $startTimeVal ? (int)explode(':', $startTimeVal)[0] : 0;
-            $startM = $startTimeVal ? (int)explode(':', $startTimeVal)[1] : 0;
-          @endphp
           <div class="time-select-group d-inline-flex align-items-center gap-1" data-target="start_time">
             <select class="time-select-hour">
-              @for($h = 0; $h <= 23; $h++)
+              @for($h = $bhStart; $h <= $bhEnd; $h++)
                 <option value="{{ $h }}" {{ $startH === $h ? 'selected' : '' }}>{{ sprintf('%02d', $h) }}</option>
               @endfor
             </select>
@@ -121,14 +126,9 @@
             <span class="text-danger ms-2">{{ $message }}</span>
           @enderror
           <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
-          @php
-            $endTimeVal = old('end_time', $record->end_time ? date('H:i', strtotime($record->end_time)) : '');
-            $endH = $endTimeVal ? (int)explode(':', $endTimeVal)[0] : 0;
-            $endM = $endTimeVal ? (int)explode(':', $endTimeVal)[1] : 0;
-          @endphp
           <div class="time-select-group d-inline-flex align-items-center gap-1" data-target="end_time">
             <select class="time-select-hour">
-              @for($h = 0; $h <= 23; $h++)
+              @for($h = $bhStart; $h <= $bhEnd; $h++)
                 <option value="{{ $h }}" {{ $endH === $h ? 'selected' : '' }}>{{ sprintf('%02d', $h) }}</option>
               @endfor
             </select>
