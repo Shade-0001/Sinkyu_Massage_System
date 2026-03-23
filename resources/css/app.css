@@ -296,7 +296,6 @@
   font-weight: var(--btn-font-weight-base);
   padding: var(--btn-padding-base);
   border-radius: var(--btn-br-tl-base) var(--btn-br-tr-base) var(--btn-br-br-base) var(--btn-br-bl-base);
-  clip-path: inset(0 round var(--btn-br-tl-base) var(--btn-br-tr-base) var(--btn-br-br-base) var(--btn-br-bl-base));
   border: none;
   cursor: pointer;
   user-select: none;
@@ -411,14 +410,14 @@
     /*下*/ inset 0 var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-dark-base),
     /*右下*/ inset var(--btn-shadow-size-neg) var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-dark-base),
     /*── 枠線 ──────────*/
-    /*左上*/ inset calc(var(--btn-border-size) * 0.75) calc(var(--btn-border-size) * -0.75) var(--btn-border-blur) var(--btn-border-color),
+    /*左上*/ inset calc(var(--btn-border-size) * 0.85) calc(var(--btn-border-size) * -0.85) var(--btn-border-blur) var(--btn-border-color),
     /*上*/ inset 0 calc(var(--btn-border-size) * -1) var(--btn-border-blur) var(--btn-border-color),
     /*左*/ inset var(--btn-border-size) 0 var(--btn-border-blur) var(--btn-border-color),
-    /*左下*/ inset calc(var(--btn-border-size) * 0.75) calc(var(--btn-border-size) * 0.75) var(--btn-border-blur) var(--btn-border-color),
-    /*右上*/ inset calc(var(--btn-border-size) * -0.75) calc(var(--btn-border-size) * -0.75) var(--btn-border-blur) var(--btn-border-color),
+    /*左下*/ inset calc(var(--btn-border-size) * 0.85) calc(var(--btn-border-size) * 0.85) var(--btn-border-blur) var(--btn-border-color),
+    /*右上*/ inset calc(var(--btn-border-size) * -0.85) calc(var(--btn-border-size) * -0.85) var(--btn-border-blur) var(--btn-border-color),
     /*右*/ inset calc(var(--btn-border-size) * -1) 0 var(--btn-border-blur) var(--btn-border-color),
     /*下*/ inset 0 var(--btn-border-size) var(--btn-border-blur) var(--btn-border-color),
-    /*右下*/ inset calc(var(--btn-border-size) * -0.75) calc(var(--btn-border-size) * 0.75) var(--btn-border-blur) var(--btn-border-color);
+    /*右下*/ inset calc(var(--btn-border-size) * -0.85) calc(var(--btn-border-size) * 0.85) var(--btn-border-blur) var(--btn-border-color);
 }
 .btn-custom-sub:hover {
   -webkit-text-stroke: 0px rgba(255, 255, 255, 0.0);

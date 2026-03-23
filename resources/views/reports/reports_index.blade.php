@@ -67,7 +67,7 @@
           >
             <span>{{ $year }}</span>
             <span class="year-toggle-arrow {{ $year == $currentYear ? 'rotated' : '' }}" style="display: inline-flex; align-items: center; align-self: center;">
-              <i class="nf nf-md-chevron_down fs-5"></i>
+              <i class="nf nf-md-chevron_down fs-5 ps-2"></i>
             </span>
           </button>
           <hr style="flex-grow: 1; border: none; border-top: 4px solid #000; margin: 0rem;">
@@ -84,17 +84,16 @@
               @if($item['report'])
                 <!-- 報告書データあり -->
                 <div
-                  class="fw-bold fs-5 d-flex align-items-center gap-2"
+                  class="btn-custom btn-custom-sub"
                   role="button"
                   data-bs-toggle="collapse"
                   data-bs-target="#{{ $monthCollapseId }}"
                   aria-expanded="true"
                   aria-controls="{{ $monthCollapseId }}"
-                  style="cursor: pointer; user-select: none;"
                 >
                   {{ $item['year'] }}年 {{ sprintf('%02d', $item['month']) }}月
                   <span class="year-toggle-arrow rotated" style="display: inline-flex; align-items: center; align-self: center;">
-                    <i class="nf nf-md-chevron_down"></i>
+                    <i class="nf nf-md-chevron_down ps-2"></i>
                   </span>
                 </div>
                 <div class="collapse show" id="{{ $monthCollapseId }}" style="overflow-x: hidden;">
