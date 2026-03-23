@@ -66,7 +66,7 @@
             aria-controls="{{ $collapseId }}"
           >
             <span>{{ $year }}</span>
-            <span class="year-toggle-arrow {{ $year == $currentYear ? 'rotated' : '' }}" style="display: inline-flex; align-items: center;">
+            <span class="year-toggle-arrow {{ $year == $currentYear ? 'rotated' : '' }}" style="display: inline-flex; align-items: center; align-self: center;">
               <i class="nf nf-md-chevron_down fs-5"></i>
             </span>
           </button>
@@ -93,7 +93,7 @@
                   style="cursor: pointer; user-select: none;"
                 >
                   {{ $item['year'] }}年 {{ sprintf('%02d', $item['month']) }}月
-                  <span class="year-toggle-arrow rotated" style="display: inline-flex; align-items: center;">
+                  <span class="year-toggle-arrow rotated" style="display: inline-flex; align-items: center; align-self: center;">
                     <i class="nf nf-md-chevron_down"></i>
                   </span>
                 </div>
