@@ -1132,14 +1132,4 @@ html[data-sidebar="closed"] #sidebar-content {
 .notice-list-item.notice-active { background: rgba(255,255,255,0.12) !important; }
 .notice-dot { color: #EDBE00; font-size: 8px; line-height: 1.6; }
 
-/*──────────────────────────────────────────────*/
-/*  カスタムボタン - gray-sm                    */
-/*──────────────────────────────────────────────*/
-.btn-custom-gray-sm {
-  --btn-bg-color: #75838A;
-  --btn-shadow-size: 3px;
-  --btn-padding: 4px 10px;
-  --btn-font-size: 0.9rem;
-  --btn-font-weight: 500;
-}
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
