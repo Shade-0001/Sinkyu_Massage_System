@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Notice;
+use App\Models\NoticeRead;
+use Illuminate\Support\Facades\Auth;
 
 class NoticesController extends Controller
 {
@@ -121,5 +123,61 @@ class NoticesController extends Controller
 
     return redirect()->route('notices.index')
       ->with('success', 'お知らせを削除しました。');
+  }
+
+  // ─── ヘッダー通知API ─────────────────────────────────
+
+  /**
+   * 通知一覧をJSON返却（ヘッダー用）
+   */
+  public function apiList()
+  {
+    $userId = Auth::id();
+    $notices = Notice::orderBy('id', 'desc')->get();
+
+    $data = $notices->map(function ($notice) use ($userId) {
+      return [
+        'id'         => $notice->id,
+        'title'      => $notice->title,
+        'content'    => $notice->content,
+        'created_at' => $notice->created_at->format('Y/m/d'),
+        'is_read'    => $notice->isReadBy($userId),
+      ];
+    });
+
+    $unread_count = $data->filter(fn($n) => !$n['is_read'])->count();
+
+    return response()->json([
+      'notices'      => $data,
+      'unread_count' => $unread_count,
+    ]);
+  }
+
+  /**
+   * 既読をトグル（既読→未読 / 未読→既読）
+   */
+  public function apiToggleRead(Request $request, $id)
+  {
+    $userId = Auth::id();
+    $notice = Notice::findOrFail($id);
+
+    $existing = NoticeRead::where('user_id', $userId)
+      ->where('notice_id', $id)
+      ->first();
+
+    if ($existing) {
+      $existing->delete();
+      $is_read = false;
+    } else {
+      NoticeRead::create(['user_id' => $userId, 'notice_id' => $id]);
+      $is_read = true;
+    }
+
+    $unread_count = Notice::count() - NoticeRead::where('user_id', $userId)->count();
+
+    return response()->json([
+      'is_read'      => $is_read,
+      'unread_count' => max(0, $unread_count),
+    ]);
   }
 }

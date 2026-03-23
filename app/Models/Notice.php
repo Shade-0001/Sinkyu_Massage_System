@@ -17,4 +17,14 @@ class Notice extends Model
     'title',
     'content',
   ];
+
+  public function reads()
+  {
+    return $this->hasMany(NoticeRead::class, 'notice_id');
+  }
+
+  public function isReadBy(int $userId): bool
+  {
+    return $this->reads()->where('user_id', $userId)->exists();
+  }
 }
