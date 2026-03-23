@@ -118,21 +118,26 @@
       listBody.innerHTML = '<div class="text-muted small px-3 py-3 text-center">お知らせはありません</div>';
       return;
     }
-    listBody.innerHTML = notices.map(n => {
-      const isActive = currentNoticeId === n.id;
-      return `
-        <div class="notice-list-item px-3 py-2 d-flex align-items-center gap-2 border-bottom border-secondary border-opacity-10
-            ${n.is_read ? '' : 'notice-unread'} ${isActive ? 'notice-active' : ''}"
-             data-id="${n.id}" role="button" tabindex="0">
-          <span class="nf nf-md-chevron_left notice-item-chevron flex-shrink-0 ${isActive ? 'rotated-left' : ''}"></span>
-          <span class="notice-dot flex-shrink-0 ${n.is_read ? 'opacity-0' : ''}">●</span>
-          <div class="flex-grow-1 overflow-hidden">
-            <div class="small fw-bold text-truncate text-gray-90">${escHtml(n.title)}</div>
-            <div class="text-secondary" style="font-size:11px;">${n.created_at}</div>
-          </div>
+    listBody.innerHTML = notices.map(n => `
+      <div class="notice-list-item px-3 py-2 d-flex align-items-center gap-2 border-bottom border-secondary border-opacity-10
+          ${n.is_read ? '' : 'notice-unread'} ${currentNoticeId === n.id ? 'notice-active' : ''}"
+           data-id="${n.id}" role="button" tabindex="0">
+        <span class="nf nf-md-chevron_left notice-item-chevron flex-shrink-0"></span>
+        <span class="notice-dot flex-shrink-0 ${n.is_read ? 'opacity-0' : ''}">●</span>
+        <div class="flex-grow-1 overflow-hidden">
+          <div class="small fw-bold text-truncate text-gray-90">${escHtml(n.title)}</div>
+          <div class="text-secondary" style="font-size:11px;">${n.created_at}</div>
         </div>
-      `;
-    }).join('');
+      </div>
+    `).join('');
+
+    // rotated-left はDOM挿入後にrAFで付与してトランジションを発火させる
+    if (currentNoticeId !== null) {
+      requestAnimationFrame(() => {
+        const activeEl = listBody.querySelector(`.notice-list-item[data-id="${currentNoticeId}"]`);
+        if (activeEl) activeEl.querySelector('.notice-item-chevron').classList.add('rotated-left');
+      });
+    }
 
     listBody.querySelectorAll('.notice-list-item').forEach(el => {
       el.addEventListener('click', (e) => {
