@@ -20,15 +20,18 @@
     <div class="notice-widget position-relative d-flex align-items-center">
       <!-- ベルボタン -->
       <button id="notice-bell-btn" type="button"
-        class="notice-bell-btn px-2 py-1 hover-highlight-30 rounded-1 position-relative border-0 bg-transparent text-gray-90"
+        class="notice-bell-btn d-flex align-items-center gap-1 px-2 py-1 hover-highlight-30 rounded-1 position-relative border-0 bg-transparent text-gray-90"
         aria-label="お知らせ">
-        <span class="nf nf-fa-bell fs-5"></span>
-        <!-- 未読バッジ -->
-        <span id="notice-unread-badge"
-          class="position-absolute d-none badge rounded-pill"
-          style="top:-4px;left:-4px;min-width:18px;font-size:10px;padding:2px 4px;background:#EDBE00;color:#fff;">
-          0
+        <span class="position-relative">
+          <span class="nf nf-fa-bell fs-5"></span>
+          <!-- 未読バッジ -->
+          <span id="notice-unread-badge"
+            class="position-absolute d-none badge rounded-pill"
+            style="top:-4px;left:-4px;min-width:18px;font-size:10px;padding:2px 4px;background:#EDBE00;color:#fff;">
+            0
+          </span>
         </span>
+        <span id="notice-chevron" class="nf nf-md-chevron_down submenu-arrow" style="font-size:12px;"></span>
       </button>
 
       <!-- 通知リストパネル -->
@@ -94,6 +97,7 @@
   const detailBack    = document.getElementById('notice-detail-back');
   const toggleReadBtn = document.getElementById('notice-toggle-read-btn');
   const badge         = document.getElementById('notice-unread-badge');
+  const chevron       = document.getElementById('notice-chevron');
 
   let notices = [];
   let currentNoticeId = null;
@@ -193,12 +197,14 @@
   function openListPanel() {
     detailPanel.classList.add('d-none');
     listPanel.classList.remove('d-none');
+    chevron.classList.add('rotated');
     fetchNotices();
   }
 
   function closeAll() {
     listPanel.classList.add('d-none');
     detailPanel.classList.add('d-none');
+    chevron.classList.remove('rotated');
     currentNoticeId = null;
   }
 
