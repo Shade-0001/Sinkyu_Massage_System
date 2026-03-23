@@ -273,11 +273,7 @@
   });
 
   // ── 初回バッジ取得（パネルを開かずに） ────
-  const initSeq = ++fetchSeq;
-  fetch(ROUTES.list, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
-    .then(r => r.json())
-    .then(d => { if (initSeq !== fetchSeq) return; notices = d.notices; updateBadge(d.unread_count); })
-    .catch(() => {});
+  fetchNotices();
 
   // ── ユーティリティ ────────────────────────
   function escHtml(str) {

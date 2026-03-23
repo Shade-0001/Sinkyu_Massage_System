@@ -173,11 +173,13 @@ class NoticesController extends Controller
       $is_read = true;
     }
 
-    $unread_count = Notice::count() - NoticeRead::where('user_id', $userId)->count();
+    $total        = Notice::orderBy('id', 'desc')->get()->count();
+    $read_count   = NoticeRead::where('user_id', $userId)->count();
+    $unread_count = max(0, $total - $read_count);
 
     return response()->json([
       'is_read'      => $is_read,
-      'unread_count' => max(0, $unread_count),
+      'unread_count' => $unread_count,
     ]);
   }
 }
