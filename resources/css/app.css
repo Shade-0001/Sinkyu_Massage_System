@@ -490,6 +490,8 @@
   --btn-shadow-size-neg: calc(var(--btn-shadow-size-base) * -1);
   --btn-shadow-size-half: calc(var(--btn-shadow-size-base) / 1.5);
   --btn-shadow-size-half-neg: calc(var(--btn-shadow-size-base) / 1.5 * -1);
+  --btn-border-size: calc(var(--btn-shadow-size-base) * 1.5);
+  --btn-border-blur: calc(var(--btn-shadow-size-base) * 0.0);
   --btn-padding-base: 9px 24px;
   --btn-font-size-base: 1.2rem;
   --btn-font-weight-base: 700;
@@ -499,6 +501,8 @@
   --btn-shadow-size-neg: calc(var(--btn-shadow-size-base) * -1);
   --btn-shadow-size-half: calc(var(--btn-shadow-size-base) / 1.5);
   --btn-shadow-size-half-neg: calc(var(--btn-shadow-size-base) / 1.5 * -1);
+  --btn-border-size: calc(var(--btn-shadow-size-base) * 1.5);
+  --btn-border-blur: calc(var(--btn-shadow-size-base) * 0.0);
   --btn-padding-base: 3px 8px;
   --btn-font-size-base: 0.8rem;
   --btn-font-weight-base: 500;
