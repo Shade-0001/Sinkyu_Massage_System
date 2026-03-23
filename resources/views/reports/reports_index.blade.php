@@ -58,17 +58,17 @@
         <!-- 年ヘッダー（折り畳み・展開ボタン） -->
         <div class="year-header mb-2 d-flex align-items-center">
           <button
-            class="btn-custom btn-custom-sub btn-custom-blue btn-custom-lg fs-1 d-flex align-items-center gap-2"
+            class="btn-custom btn-custom-sub btn-custom-blue btn-custom-lg fs-2 d-flex align-items-center gap-2"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#{{ $collapseId }}"
             aria-expanded="{{ $year == $currentYear ? 'true' : 'false' }}"
             aria-controls="{{ $collapseId }}"
           >
+            <span>{{ $year }}</span>
             <span class="year-toggle-arrow {{ $year == $currentYear ? 'rotated' : '' }}" style="display: inline-flex; align-items: center;">
               <i class="nf nf-md-chevron_down"></i>
             </span>
-            <span>{{ $year }}</span>
           </button>
           <hr style="flex-grow: 1; border: none; border-top: 4px solid #000; margin: 0rem;">
         </div>
@@ -92,10 +92,10 @@
                   aria-controls="{{ $monthCollapseId }}"
                   style="cursor: pointer; user-select: none;"
                 >
+                  {{ $item['year'] }}年 {{ sprintf('%02d', $item['month']) }}月
                   <span class="year-toggle-arrow rotated" style="display: inline-flex; align-items: center;">
                     <i class="nf nf-md-chevron_down"></i>
                   </span>
-                  {{ $item['year'] }}年 {{ sprintf('%02d', $item['month']) }}月
                 </div>
                 <div class="collapse show" id="{{ $monthCollapseId }}" style="overflow-x: hidden;">
                   <table class="table table-bordered" style="font-size: 0.9rem; table-layout: fixed; width: 100%;">
