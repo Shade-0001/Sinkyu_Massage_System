@@ -58,19 +58,17 @@
         <!-- 年ヘッダー（折り畳み・展開ボタン） -->
         <div class="year-header mb-2 d-flex align-items-center">
           <button
-            class="btn btn-link text-decoration-none p-0 fw-bold fs-4 text-dark d-flex align-items-center flex-shrink-0"
+            class="btn-custom btn-custom-sub btn-custom-blue btn-custom-lg d-flex align-items-center gap-2"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#{{ $collapseId }}"
             aria-expanded="{{ $hasReports ? 'true' : 'false' }}"
             aria-controls="{{ $collapseId }}"
           >
-            <span class="toggle-icon">
-              {{ $hasReports ? '▾' : '▸' }}
+            <span class="year-toggle-arrow {{ $hasReports ? 'rotated' : '' }}" style="font-size: 12px; transition: transform 0.2s ease; will-change: transform; display: inline-flex; align-items: center;">
+              <i class="nf nf-md-chevron_down"></i>
             </span>
-            <span class="border border-black border-opacity-25 border-2 rounded-1 bg-light">
-              ［ {{ $year }} ］
-            </span>
+            <span>{{ $year }}</span>
           </button>
           <hr style="flex-grow: 1; border: none; border-top: 4px solid #000; margin: 0rem;">
         </div>
@@ -151,21 +149,20 @@
 
     // 年ヘッダーのアイコン切り替え（Bootstrapイベントを使用）
     document.addEventListener('DOMContentLoaded', function() {
-      // すべての折り畳みセクションにイベントリスナーを追加
       document.querySelectorAll('.collapse').forEach(function(collapseElement) {
         collapseElement.addEventListener('show.bs.collapse', function() {
           const button = document.querySelector(`[data-bs-target="#${this.id}"]`);
           if (button) {
-            const icon = button.querySelector('.toggle-icon');
-            if (icon) icon.textContent = '▾';
+            const arrow = button.querySelector('.year-toggle-arrow');
+            if (arrow) arrow.classList.add('rotated');
           }
         });
 
         collapseElement.addEventListener('hide.bs.collapse', function() {
           const button = document.querySelector(`[data-bs-target="#${this.id}"]`);
           if (button) {
-            const icon = button.querySelector('.toggle-icon');
-            if (icon) icon.textContent = '▸';
+            const arrow = button.querySelector('.year-toggle-arrow');
+            if (arrow) arrow.classList.remove('rotated');
           }
         });
       });
