@@ -67,7 +67,7 @@
           >
             <span>{{ $year }}</span>
             <span class="year-toggle-arrow {{ $year == $currentYear ? 'rotated' : '' }}" style="display: inline-flex; align-items: center;">
-              <i class="nf nf-md-chevron_down"></i>
+              <i class="nf nf-md-chevron_down fs-5"></i>
             </span>
           </button>
           <hr style="flex-grow: 1; border: none; border-top: 4px solid #000; margin: 0rem;">
@@ -164,16 +164,18 @@
     // 折り畳みアイコン切り替え（年ヘッダー・月ヘッダー共通）
     document.addEventListener('DOMContentLoaded', function() {
       document.querySelectorAll('.collapse').forEach(function(collapseElement) {
-        collapseElement.addEventListener('show.bs.collapse', function() {
-          const trigger = document.querySelector(`[data-bs-target="#${this.id}"]`);
+        collapseElement.addEventListener('show.bs.collapse', function(e) {
+          if (e.target !== collapseElement) return;
+          const trigger = document.querySelector(`[data-bs-target="#${collapseElement.id}"]`);
           if (trigger) {
             const arrow = trigger.querySelector('.year-toggle-arrow');
             if (arrow) arrow.classList.add('rotated');
           }
         });
 
-        collapseElement.addEventListener('hide.bs.collapse', function() {
-          const trigger = document.querySelector(`[data-bs-target="#${this.id}"]`);
+        collapseElement.addEventListener('hide.bs.collapse', function(e) {
+          if (e.target !== collapseElement) return;
+          const trigger = document.querySelector(`[data-bs-target="#${collapseElement.id}"]`);
           if (trigger) {
             const arrow = trigger.querySelector('.year-toggle-arrow');
             if (arrow) arrow.classList.remove('rotated');
