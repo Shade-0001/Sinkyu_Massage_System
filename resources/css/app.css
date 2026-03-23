@@ -1172,6 +1172,6 @@ html[data-sidebar="closed"] #sidebar-content {
   transition: transform 0.2s ease, color 0.15s;
 }
 .notice-list-item:hover .notice-item-chevron { color: #ccc; }
-.notice-item-chevron.rotated-left { transform: translateX(-3px); color: #fff; }
+.notice-item-chevron.rotated-left { transform: scaleX(-1); color: #fff; }
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
