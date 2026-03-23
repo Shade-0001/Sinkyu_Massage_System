@@ -1169,9 +1169,9 @@ html[data-sidebar="closed"] #sidebar-content {
 .notice-item-chevron {
   font-size: 11px;
   color: #888;
-  transition: transform 0.2s ease, color 0.15s;
+  transition: transform 0.2s ease;
 }
 .notice-list-item:hover .notice-item-chevron { color: #ccc; }
-.notice-item-chevron.rotated-left { transform: scaleX(-1); color: #fff; }
+.notice-item-chevron.rotated-left { transform: rotate(180deg); color: #fff; }
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/

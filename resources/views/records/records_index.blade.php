@@ -132,8 +132,7 @@
             <span class="text-danger ms-2">{{ $message }}</span>
           @enderror
           <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
-          <div class="time-picker-wrapper" id="start-time-picker" data-tooltip="先に日付を選択してください"></div>
-          <input type="hidden" id="start_time" name="start_time" value="{{ old('start_time') }}">
+          <input type="time" id="start_time" name="start_time" value="{{ old('start_time') }}" data-tooltip="先に日付を選択してください">
         </div>
 
         <div class="mb-3">
@@ -142,8 +141,7 @@
             <span class="text-danger ms-2">{{ $message }}</span>
           @enderror
           <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
-          <div class="time-picker-wrapper" id="end-time-picker" data-tooltip="先に日付を選択してください"></div>
-          <input type="hidden" id="end_time" name="end_time" value="{{ old('end_time') }}">
+          <input type="time" id="end_time" name="end_time" value="{{ old('end_time') }}" data-tooltip="先に日付を選択してください">
         </div>
 
         <!-- 施術内容 -->

@@ -428,12 +428,13 @@ function updateRecordFieldsState() {
     }
   });
 
-  // 時刻選択パネルのinputも制御
-  const timePickerInputs = recordFields.querySelectorAll('.time-picker-input');
-  timePickerInputs.forEach(input => {
+  // 時刻inputも制御
+  ['start_time', 'end_time'].forEach(id => {
+    const input = document.getElementById(id);
+    if (!input) return;
     if (hasSelectedDates) {
       input.disabled = false;
-      input.style.cursor = 'pointer';
+      input.style.cursor = '';
     } else {
       input.disabled = true;
       input.style.cursor = 'default';
@@ -494,8 +495,6 @@ function setupFormEventListeners() {
     });
   }
 
-  // 時刻選択パネルの初期化
-  initializeTimePickers();
 }
 
 // 保険区分の状態を更新（自費施術選択時は無選択・選択不可）
@@ -531,155 +530,6 @@ function updateTooltipText(element, newText) {
       tooltip.textContent = newText;
     }
   }
-}
-
-
-//━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━//
-// 時刻選択パネル
-//━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━//
-
-// 時刻選択パネルの初期化
-function initializeTimePickers() {
-  const startTimePicker = document.getElementById('start-time-picker');
-  const endTimePicker = document.getElementById('end-time-picker');
-  const startTimeInput = document.getElementById('start_time');
-  const endTimeInput = document.getElementById('end_time');
-
-  if (startTimePicker) {
-    createTimePicker(startTimePicker, startTimeInput);
-  }
-
-  if (endTimePicker) {
-    createTimePicker(endTimePicker, endTimeInput);
-  }
-}
-
-// 時刻選択パネルの作成
-function createTimePicker(wrapper, hiddenInput) {
-  // 初期値の設定
-  let hour = 0;
-  let minute = 0;
-  let hasInitialValue = false;
-
-  if (hiddenInput.value) {
-    const parts = hiddenInput.value.split(':');
-    hour = parseInt(parts[0]) || 0;
-    minute = parseInt(parts[1]) || 0;
-    hasInitialValue = true;
-  }
-
-  // 表示用input
-  const displayInput = document.createElement('input');
-  displayInput.type = 'text';
-  displayInput.className = 'time-picker-input';
-  displayInput.readOnly = true;
-  displayInput.value = hasInitialValue ? formatTime(hour, minute) : '--:--';
-  displayInput.placeholder = '--:--';
-
-  // パネル
-  const panel = document.createElement('div');
-  panel.className = 'time-picker-panel';
-
-  // 時間カラム
-  const hourColumn = document.createElement('div');
-  hourColumn.className = 'time-column';
-  hourColumn.innerHTML = `
-    <div class="time-arrow hour-up">▲</div>
-    <div class="time-value hour-value">${hour}</div>
-    <div class="time-arrow hour-down">▼</div>
-  `;
-
-  // セパレーター
-  const separator = document.createElement('div');
-  separator.className = 'time-separator';
-  separator.textContent = ':';
-
-  // 分カラム
-  const minuteColumn = document.createElement('div');
-  minuteColumn.className = 'time-column';
-  minuteColumn.innerHTML = `
-    <div class="time-arrow minute-up">▲</div>
-    <div class="time-value minute-value">${String(minute).padStart(2, '0')}</div>
-    <div class="time-arrow minute-down">▼</div>
-  `;
-
-  panel.appendChild(hourColumn);
-  panel.appendChild(separator);
-  panel.appendChild(minuteColumn);
-  wrapper.appendChild(displayInput);
-  wrapper.appendChild(panel);
-
-  // 強制的に非表示
-  panel.style.display = 'none';
-
-  // 時刻の更新関数
-  function updateTime() {
-    const hourValue = panel.querySelector('.hour-value');
-    const minuteValue = panel.querySelector('.minute-value');
-    hourValue.textContent = hour;
-    minuteValue.textContent = String(minute).padStart(2, '0');
-    displayInput.value = formatTime(hour, minute);
-    hiddenInput.value = formatTime(hour, minute);
-  }
-
-  // 時間の増減イベント
-  panel.querySelector('.hour-up').addEventListener('click', () => {
-    hour = (hour + 1) % 24;
-    updateTime();
-  });
-
-  panel.querySelector('.hour-down').addEventListener('click', () => {
-    hour = (hour - 1 + 24) % 24;
-    updateTime();
-  });
-
-  panel.querySelector('.minute-up').addEventListener('click', () => {
-    minute = (minute + 10) % 60;
-    updateTime();
-  });
-
-  panel.querySelector('.minute-down').addEventListener('click', () => {
-    minute = (minute - 10 + 60) % 60;
-    updateTime();
-  });
-
-  // パネルの表示/非表示
-  displayInput.addEventListener('click', (e) => {
-    e.stopPropagation();
-    // disabledの場合は何もしない
-    if (displayInput.disabled) {
-      return;
-    }
-    // 他のパネルを閉じる
-    document.querySelectorAll('.time-picker-panel').forEach(p => {
-      if (p !== panel) {
-        p.classList.remove('active');
-        p.style.display = 'none';
-      }
-    });
-    // 現在のパネルの表示を切り替え
-    const isActive = panel.classList.contains('active');
-    if (isActive) {
-      panel.classList.remove('active');
-      panel.style.display = 'none';
-    } else {
-      panel.classList.add('active');
-      panel.style.display = 'flex';
-    }
-  });
-
-  // 外側クリックで閉じる
-  document.addEventListener('click', (e) => {
-    if (!wrapper.contains(e.target)) {
-      panel.classList.remove('active');
-      panel.style.display = 'none';
-    }
-  });
-}
-
-// 時刻のフォーマット
-function formatTime(hour, minute) {
-  return `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
 }
 
 // 古い入力値を復元
@@ -770,25 +620,6 @@ function applyScheduleDateTime(dateStr, timeStr) {
     const startTimeInput = document.getElementById('start_time');
     if (startTimeInput) {
       startTimeInput.value = timeStr;
-
-      // タイムピッカーの表示を更新
-      const startTimePicker = document.getElementById('start-time-picker');
-      if (startTimePicker) {
-        const displayInput = startTimePicker.querySelector('.time-picker-input');
-        const panel = startTimePicker.querySelector('.time-picker-panel');
-
-        if (displayInput && panel) {
-          const [hour, minute] = timeStr.split(':').map(Number);
-          displayInput.value = timeStr;
-
-          const hourValue = panel.querySelector('.hour-value');
-          const minuteValue = panel.querySelector('.minute-value');
-          if (hourValue && minuteValue) {
-            hourValue.textContent = hour;
-            minuteValue.textContent = String(minute).padStart(2, '0');
-          }
-        }
-      }
     }
   }
 }
