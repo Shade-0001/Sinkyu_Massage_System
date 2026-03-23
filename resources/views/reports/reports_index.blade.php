@@ -78,12 +78,26 @@
           @foreach($months as $item)
             @php
               $yearMonth = sprintf('%04d-%02d', $item['year'], $item['month']);
+              $monthCollapseId = "month-{$year}-{$item['month']}";
             @endphp
             <div class="report-month-section mb-4 ms-4" data-year-month="{{ $yearMonth }}">
               @if($item['report'])
                 <!-- 報告書データあり -->
-                <div class="fw-bold fs-5">{{ $item['year'] }}年 {{ sprintf('%02d', $item['month']) }}月</div>
-                <div style="overflow-x: hidden;">
+                <div
+                  class="fw-bold fs-5 d-flex align-items-center gap-2"
+                  role="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#{{ $monthCollapseId }}"
+                  aria-expanded="true"
+                  aria-controls="{{ $monthCollapseId }}"
+                  style="cursor: pointer; user-select: none;"
+                >
+                  <span class="year-toggle-arrow rotated" style="display: inline-flex; align-items: center;">
+                    <i class="nf nf-md-chevron_down"></i>
+                  </span>
+                  {{ $item['year'] }}年 {{ sprintf('%02d', $item['month']) }}月
+                </div>
+                <div class="collapse show" id="{{ $monthCollapseId }}" style="overflow-x: hidden;">
                   <table class="table table-bordered" style="font-size: 0.9rem; table-layout: fixed; width: 100%;">
                     <tbody>
                       <tr>
@@ -147,21 +161,21 @@
       userSearchUrl: '{{ route("user.search") }}'
     };
 
-    // 年ヘッダーのアイコン切り替え（Bootstrapイベントを使用）
+    // 折り畳みアイコン切り替え（年ヘッダー・月ヘッダー共通）
     document.addEventListener('DOMContentLoaded', function() {
       document.querySelectorAll('.collapse').forEach(function(collapseElement) {
         collapseElement.addEventListener('show.bs.collapse', function() {
-          const button = document.querySelector(`[data-bs-target="#${this.id}"]`);
-          if (button) {
-            const arrow = button.querySelector('.year-toggle-arrow');
+          const trigger = document.querySelector(`[data-bs-target="#${this.id}"]`);
+          if (trigger) {
+            const arrow = trigger.querySelector('.year-toggle-arrow');
             if (arrow) arrow.classList.add('rotated');
           }
         });
 
         collapseElement.addEventListener('hide.bs.collapse', function() {
-          const button = document.querySelector(`[data-bs-target="#${this.id}"]`);
-          if (button) {
-            const arrow = button.querySelector('.year-toggle-arrow');
+          const trigger = document.querySelector(`[data-bs-target="#${this.id}"]`);
+          if (trigger) {
+            const arrow = trigger.querySelector('.year-toggle-arrow');
             if (arrow) arrow.classList.remove('rotated');
           }
         });
