@@ -186,6 +186,10 @@ class RecordsController extends Controller
       ->orderBy('last_name_kana')
       ->get();
 
+    // 施術者IDの最大桁数を算出（0埋め用）
+    $maxTherapistId = $therapists->max('id') ?? 1;
+    $therapistIdLength = strlen((string) $maxTherapistId);
+
     // 施術内容リストを取得
     $therapyContents = DB::table('therapy_contents')
       ->select('id', 'therapy_type', 'therapy_content')
@@ -211,6 +215,7 @@ class RecordsController extends Controller
       'businessHoursEnd' => $clinicInfo->business_hours_end ?? null,
       'clinicUsers' => $clinicUsers,
       'clinicUserIdLength' => $clinicUserIdLength,
+      'therapistIdLength' => $therapistIdLength,
       'selectedUserId' => $selectedUserId,
       'selectedTherapistId' => $selectedTherapistId,
       'startDate' => $scheduleStartDate,

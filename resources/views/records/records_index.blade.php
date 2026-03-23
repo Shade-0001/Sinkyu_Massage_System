@@ -7,7 +7,7 @@
   <!-- 利用者選択フォーム -->
   <form method="GET" action="{{ route('records.index') }}" id="filterForm">
     <div class="mb-3">
-      <label for="clinic_user_id">利用者（ID｜氏名｜カナ）：</label>
+      <label for="clinic_user_id">利用者：</label>
       <select name="clinic_user_id" id="clinic_user_id" onchange="document.getElementById('filterForm').submit();">
         <option value="">╌╌╌</option>
         @foreach($clinicUsers as $user)
@@ -214,7 +214,7 @@
           <select id="therapist_id" name="therapist_id" data-tooltip="先に日付を選択してください">
             <option value="">╌╌╌</option>
             @foreach($therapists as $therapist)
-              <option value="{{ $therapist->id }}" {{ old('therapist_id') == $therapist->id ? 'selected' : '' }}>{{ $therapist->id }}｜{{ $therapist->last_name }}{{ "\u{2000}" }}{{ $therapist->first_name }}｜{{ $therapist->last_name_kana }}{{ "\u{2000}" }}{{ $therapist->first_name_kana }}</option>
+              <option value="{{ $therapist->id }}" {{ old('therapist_id') == $therapist->id ? 'selected' : '' }}>ID-{{ str_pad($therapist->id, $therapistIdLength, '0', STR_PAD_LEFT) }}｜{{ $therapist->last_name }}{{ "\u{2000}" }}{{ $therapist->first_name }}｜{{ $therapist->last_name_kana }}{{ "\u{2000}" }}{{ $therapist->first_name_kana }}</option>
             @endforeach
           </select>
         </div>
