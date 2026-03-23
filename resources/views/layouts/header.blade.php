@@ -129,7 +129,7 @@
     `).join('');
 
     listBody.querySelectorAll('.notice-list-item').forEach(el => {
-      el.addEventListener('click', () => openDetail(parseInt(el.dataset.id)));
+      el.addEventListener('click', (e) => { e.stopPropagation(); openDetail(parseInt(el.dataset.id)); });
       el.addEventListener('keydown', e => { if (e.key === 'Enter') openDetail(parseInt(el.dataset.id)); });
     });
   }
