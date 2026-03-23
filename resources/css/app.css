@@ -283,6 +283,7 @@
   --btn-shadow-color-mid-base: hsla(0, 0%, 50%, 0.15);
   --btn-shadow-color-dark-base: hsla(0, 0%, 0%, 0.15);
   --btn-shadow-size-base: 4px;
+
   --btn-shadow-size: var(--btn-shadow-size-base);
   --btn-shadow-size-neg: calc(var(--btn-shadow-size) * -1);
   --btn-shadow-size-half: calc(var(--btn-shadow-size) / 1.5);
@@ -462,35 +463,55 @@
 .btn-custom-test1 { --btn-bg-color-base: #6C91A5; }
 
 /* サイズ */
+.btn-custom-xs {
+  --btn-font-size: calc(var(--btn-font-size-base) * 0.5);
+  --btn-font-weight: calc(var(--btn-font-weight-base) * 0.5);
+  --btn-padding-y: calc(var(--btn-padding-y-base) * 0.5);
+  --btn-padding-x: calc(var(--btn-padding-x-base) * 0.5);
+  --btn-br-tl: calc(var(--btn-br-tl-base) * 0.5);
+  --btn-br-tr: calc(var(--btn-br-tr-base) * 0.5);
+  --btn-br-bl: calc(var(--btn-br-bl-base) * 0.5);
+  --btn-br-br: calc(var(--btn-br-br-base) * 0.5);
+  --btn-shadow-size: calc(var(--btn-shadow-size-base) * 0.5);
+}
 .btn-custom-sm {
+  --btn-font-size: calc(var(--btn-font-size-base) * 0.75);
+  --btn-font-weight: calc(var(--btn-font-weight-base) * 0.75);
+  --btn-padding-y: calc(var(--btn-padding-y-base) * 0.75);
+  --btn-padding-x: calc(var(--btn-padding-x-base) * 0.75);
+  --btn-br-tl: calc(var(--btn-br-tl-base) * 0.75);
+  --btn-br-tr: calc(var(--btn-br-tr-base) * 0.75);
+  --btn-br-bl: calc(var(--btn-br-bl-base) * 0.75);
+  --btn-br-br: calc(var(--btn-br-br-base) * 0.75);
   --btn-shadow-size: calc(var(--btn-shadow-size-base) * 0.75);
-  --btn-padding-base: 3px 8px;
-  --btn-font-size-base: 0.8rem;
-  --btn-font-weight-base: 500;
 }
 .btn-custom-lg {
+  --btn-font-size: calc(var(--btn-font-size-base) * 1.25);
+  --btn-font-weight: calc(var(--btn-font-weight-base) * 1.25);
+  --btn-padding-y: calc(var(--btn-padding-y-base) * 1.25);
+  --btn-padding-x: calc(var(--btn-padding-x-base) * 1.25);
+  --btn-br-tl: calc(var(--btn-br-tl-base) * 1.25);
+  --btn-br-tr: calc(var(--btn-br-tr-base) * 1.25);
+  --btn-br-bl: calc(var(--btn-br-bl-base) * 1.25);
+  --btn-br-br: calc(var(--btn-br-br-base) * 1.25);
+  --btn-shadow-size: calc(var(--btn-shadow-size-base) * 1.25);
+}
+.btn-custom-xl {
+  --btn-font-size: calc(var(--btn-font-size-base) * 1.5);
+  --btn-font-weight: calc(var(--btn-font-weight-base) * 1.5);
+  --btn-padding-y: calc(var(--btn-padding-y-base) * 1.5);
+  --btn-padding-x: calc(var(--btn-padding-x-base) * 1.5);
+  --btn-br-tl: calc(var(--btn-br-tl-base) * 1.5);
+  --btn-br-tr: calc(var(--btn-br-tr-base) * 1.5);
+  --btn-br-bl: calc(var(--btn-br-bl-base) * 1.5);
+  --btn-br-br: calc(var(--btn-br-br-base) * 1.5);
   --btn-shadow-size: calc(var(--btn-shadow-size-base) * 1.5);
-  --btn-padding-base: 9px 24px;
-  --btn-font-size-base: 1.2rem;
-  --btn-font-weight-base: 700;
-  --btn-br-tl-base: 6px;
-  --btn-br-tr-base: 6px;
-  --btn-br-br-base: 6px;
-  --btn-br-bl-base: 6px;
 }
 /*  サイズ × sub  */
-.btn-custom-sub.btn-custom-sm {
-  --btn-shadow-size: calc(var(--btn-shadow-size-base) * 0.75);
-  --btn-padding-base: 3px 8px;
-  --btn-font-size-base: 0.8rem;
-  --btn-font-weight-base: 500;
-}
-.btn-custom-sub.btn-custom-lg {
-  --btn-shadow-size: calc(var(--btn-shadow-size-base) * 1.5);
-  --btn-padding-base: 9px 24px;
-  --btn-font-size-base: 1.2rem;
-  --btn-font-weight-base: 700;
-}
+.btn-custom-sub.btn-custom-xs { --btn-shadow-size: calc(var(--btn-shadow-size-base) * 0.5);  }
+.btn-custom-sub.btn-custom-sm { --btn-shadow-size: calc(var(--btn-shadow-size-base) * 0.75); }
+.btn-custom-sub.btn-custom-lg { --btn-shadow-size: calc(var(--btn-shadow-size-base) * 1.25); }
+.btn-custom-sub.btn-custom-xl { --btn-shadow-size: calc(var(--btn-shadow-size-base) * 1.5);  }
 
 /*──────────────────────────────────────────────*/
 /*  スペーシング                                 */
