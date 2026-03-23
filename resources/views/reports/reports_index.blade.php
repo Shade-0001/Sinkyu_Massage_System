@@ -58,14 +58,14 @@
         <!-- 年ヘッダー（折り畳み・展開ボタン） -->
         <div class="year-header mb-2 d-flex align-items-center">
           <button
-            class="btn-custom btn-custom-sub btn-custom-blue btn-custom-lg d-flex align-items-center gap-2"
+            class="btn-custom btn-custom-sub btn-custom-blue btn-custom-lg fs-1 d-flex align-items-center gap-2"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#{{ $collapseId }}"
-            aria-expanded="{{ $hasReports ? 'true' : 'false' }}"
+            aria-expanded="{{ $year == $currentYear ? 'true' : 'false' }}"
             aria-controls="{{ $collapseId }}"
           >
-            <span class="year-toggle-arrow {{ $hasReports ? 'rotated' : '' }}" style="display: inline-flex; align-items: center;">
+            <span class="year-toggle-arrow {{ $year == $currentYear ? 'rotated' : '' }}" style="display: inline-flex; align-items: center;">
               <i class="nf nf-md-chevron_down"></i>
             </span>
             <span>{{ $year }}</span>
@@ -74,7 +74,7 @@
         </div>
 
         <!-- 月別データ（折り畳み可能） -->
-        <div class="collapse {{ $hasReports ? 'show' : '' }}" id="{{ $collapseId }}" data-year="{{ $year }}">
+        <div class="collapse {{ $year == $currentYear ? 'show' : '' }}" id="{{ $collapseId }}" data-year="{{ $year }}">
           @foreach($months as $item)
             @php
               $yearMonth = sprintf('%04d-%02d', $item['year'], $item['month']);

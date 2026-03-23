@@ -113,6 +113,7 @@ class ReportsController extends Controller
       'selectedUserId' => $selectedUserId,
       'reportsByYear' => $reportsByYear,
       'scrollToYearMonth' => $scrollToYearMonth,
+      'currentYear' => (int)(new DateTime())->format('Y'),
       'page_header_title' => '報告書データ',
     ]);
   }
