@@ -35,6 +35,9 @@ class DatabaseSeeder extends Seeder
     // clinic_users（既存Seeder）
     $this->call(ClinicUserSeeder::class);
 
+    // notices ダミーデータ
+    $this->call(NoticeSeeder::class);
+
     // Group D: トランザクション（依存関係順）
     $this->call([
       InsuranceSeeder::class,
