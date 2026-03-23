@@ -34,35 +34,35 @@
         <span id="notice-chevron" class="nf nf-md-chevron_down submenu-arrow" style="font-size:12px;"></span>
       </button>
 
-      <!-- 通知リストパネル -->
-      <div id="notice-list-panel"
-        class="notice-list-panel d-none position-absolute d-flex flex-column overflow-hidden rounded-2 border border-secondary border-opacity-25 shadow-lg bg-gray-26">
-        <div class="flex-shrink-0 px-3 py-2 border-bottom border-secondary border-opacity-25 fw-bold small text-gray-90 bg-gray-20">
-          お知らせ
-        </div>
-        <div id="notice-list-body" class="notice-list-body flex-fill overflow-y-auto">
-          <div class="text-muted small px-3 py-3 text-center">読み込み中...</div>
-        </div>
-      </div>
+      <!-- パネルラッパー（リスト＋詳細を横並びで収める） -->
+      <div id="notice-panels" class="notice-panels d-none position-absolute d-flex">
 
-      <!-- 通知詳細パネル -->
-      <div id="notice-detail-panel"
-        class="notice-detail-panel d-none position-absolute d-flex flex-column overflow-hidden rounded-2 border border-secondary border-opacity-25 shadow-lg bg-gray-26">
-        <div class="flex-shrink-0 px-3 py-2 border-bottom border-secondary border-opacity-25 d-flex align-items-center gap-2 bg-gray-20">
-          <button id="notice-detail-back" type="button"
-            class="notice-icon-btn border-0 bg-transparent p-0 hover-highlight-30 rounded-1 px-1 lh-1 text-gray-90"
-            title="戻る">
-            <span class="nf nf-fa-chevron_left small"></span>
-          </button>
-          <span class="fw-bold small text-gray-90 flex-grow-1 text-truncate" id="notice-detail-title"></span>
-          <button id="notice-toggle-read-btn" type="button"
-            class="btn btn-custom-sm ms-auto flex-shrink-0"
-            style="font-size:11px;padding:2px 8px;">
-          </button>
+        <!-- 通知詳細パネル（リストの左側） -->
+        <div id="notice-detail-panel"
+          class="notice-detail-panel d-none d-flex flex-column overflow-hidden rounded-start-2 border border-secondary border-opacity-25 shadow-lg bg-gray-26">
+          <div class="flex-shrink-0 px-3 py-2 border-bottom border-secondary border-opacity-25 d-flex align-items-center gap-2 bg-gray-20">
+            <span class="fw-bold small text-gray-90 flex-grow-1 text-truncate" id="notice-detail-title"></span>
+            <button id="notice-toggle-read-btn" type="button"
+              class="btn btn-custom-sm ms-auto flex-shrink-0"
+              style="font-size:11px;padding:2px 8px;">
+            </button>
+          </div>
+          <div class="flex-shrink-0 px-3 pt-2 pb-1 small text-secondary" id="notice-detail-date"></div>
+          <div class="notice-detail-body flex-fill overflow-y-auto px-3 pb-3 text-gray-80"
+            style="white-space:pre-wrap;font-size:13px;line-height:1.7;" id="notice-detail-content"></div>
         </div>
-        <div class="flex-shrink-0 px-3 pt-2 pb-1 small text-secondary" id="notice-detail-date"></div>
-        <div class="notice-detail-body flex-fill overflow-y-auto px-3 pb-3 text-gray-80"
-          style="white-space:pre-wrap;font-size:13px;line-height:1.7;" id="notice-detail-content"></div>
+
+        <!-- 通知リストパネル -->
+        <div id="notice-list-panel"
+          class="notice-list-panel d-flex flex-column overflow-hidden rounded-end-2 border border-secondary border-opacity-25 shadow-lg bg-gray-26">
+          <div class="flex-shrink-0 px-3 py-2 border-bottom border-secondary border-opacity-25 fw-bold small text-gray-90 bg-gray-20">
+            お知らせ
+          </div>
+          <div id="notice-list-body" class="notice-list-body flex-fill overflow-y-auto">
+            <div class="text-muted small px-3 py-3 text-center">読み込み中...</div>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -88,13 +88,12 @@
   const CSRF = document.querySelector('meta[name="csrf-token"]').content;
 
   const bellBtn       = document.getElementById('notice-bell-btn');
-  const listPanel     = document.getElementById('notice-list-panel');
+  const panels        = document.getElementById('notice-panels');
   const listBody      = document.getElementById('notice-list-body');
   const detailPanel   = document.getElementById('notice-detail-panel');
   const detailTitle   = document.getElementById('notice-detail-title');
   const detailDate    = document.getElementById('notice-detail-date');
   const detailContent = document.getElementById('notice-detail-content');
-  const detailBack    = document.getElementById('notice-detail-back');
   const toggleReadBtn = document.getElementById('notice-toggle-read-btn');
   const badge         = document.getElementById('notice-unread-badge');
   const chevron       = document.getElementById('notice-chevron');
@@ -119,7 +118,7 @@
       return;
     }
     listBody.innerHTML = notices.map(n => `
-      <div class="notice-list-item px-3 py-2 d-flex align-items-start gap-2 border-bottom border-secondary border-opacity-10 ${n.is_read ? '' : 'notice-unread'}"
+      <div class="notice-list-item px-3 py-2 d-flex align-items-start gap-2 border-bottom border-secondary border-opacity-10 ${n.is_read ? '' : 'notice-unread'} ${currentNoticeId === n.id ? 'notice-active' : ''}"
            data-id="${n.id}" role="button" tabindex="0">
         <span class="notice-dot flex-shrink-0 mt-1 ${n.is_read ? 'opacity-0' : ''}">●</span>
         <div class="flex-grow-1 overflow-hidden">
@@ -135,8 +134,8 @@
     });
   }
 
-  // ── 詳細パネルを開く ─────────────────────
-  function openDetail(id) {
+  // ── 詳細パネルを開く（即時既読化） ──────────
+  async function openDetail(id) {
     const n = notices.find(x => x.id === id);
     if (!n) return;
     currentNoticeId = id;
@@ -144,8 +143,27 @@
     detailDate.textContent    = n.created_at;
     detailContent.textContent = n.content;
     syncToggleBtn(n.is_read);
-    listPanel.classList.add('d-none');
     detailPanel.classList.remove('d-none');
+    renderList();
+
+    // 未読なら即時既読化
+    if (!n.is_read) {
+      try {
+        const res = await fetch(ROUTES.toggleRead(id), {
+          method: 'POST',
+          headers: {
+            'X-CSRF-TOKEN':     CSRF,
+            'X-Requested-With': 'XMLHttpRequest',
+            'Content-Type':     'application/json',
+          },
+        });
+        const data = await res.json();
+        n.is_read = data.is_read;
+        updateBadge(data.unread_count);
+        syncToggleBtn(data.is_read);
+        renderList();
+      } catch {/* silent */}
+    }
   }
 
   // ── 既読ボタン状態同期 ────────────────────
@@ -172,7 +190,7 @@
     }
   }
 
-  // ── 既読トグル ────────────────────────────
+  // ── 既読トグル（ボタン押下） ──────────────
   async function toggleRead() {
     if (!currentNoticeId) return;
     try {
@@ -195,14 +213,13 @@
 
   // ── パネル開閉 ────────────────────────────
   function openListPanel() {
-    detailPanel.classList.add('d-none');
-    listPanel.classList.remove('d-none');
+    panels.classList.remove('d-none');
     chevron.classList.add('rotated');
     fetchNotices();
   }
 
   function closeAll() {
-    listPanel.classList.add('d-none');
+    panels.classList.add('d-none');
     detailPanel.classList.add('d-none');
     chevron.classList.remove('rotated');
     currentNoticeId = null;
@@ -211,17 +228,11 @@
   // ── イベント ──────────────────────────────
   bellBtn.addEventListener('click', (e) => {
     e.stopPropagation();
-    if (!listPanel.classList.contains('d-none') || !detailPanel.classList.contains('d-none')) {
+    if (!panels.classList.contains('d-none')) {
       closeAll();
     } else {
       openListPanel();
     }
-  });
-
-  detailBack.addEventListener('click', () => {
-    detailPanel.classList.add('d-none');
-    listPanel.classList.remove('d-none');
-    currentNoticeId = null;
   });
 
   toggleReadBtn.addEventListener('click', toggleRead);

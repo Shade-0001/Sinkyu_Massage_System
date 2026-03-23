@@ -1103,16 +1103,16 @@ html[data-sidebar="closed"] #sidebar-content {
 .notice-icon-btn:hover { color: #fff; }
 
 /*──────────────────────────────────────────────*/
-/*  パネル共通（位置・サイズ・z-index：BSで代替不可） */
+/*  パネルラッパー（位置・z-index：BSで代替不可） */
 /*──────────────────────────────────────────────*/
-.notice-list-panel,
-.notice-detail-panel {
+.notice-panels {
   top: calc(100% + 6px);
   right: 0;
   z-index: 1080;
+  align-items: flex-start;
 }
-.notice-list-panel  { width: 280px; max-height: 360px; }
-.notice-detail-panel { width: 340px; max-height: 420px; }
+.notice-list-panel   { width: 280px; max-height: 360px; border-left: none !important; }
+.notice-detail-panel { width: 320px; max-height: 360px; }
 
 /* スクロールバー細幅（BSで代替不可） */
 .notice-list-body::-webkit-scrollbar,
@@ -1129,6 +1129,7 @@ html[data-sidebar="closed"] #sidebar-content {
 .notice-list-item:hover { background: rgba(255,255,255,0.07); }
 .notice-list-item.notice-unread { background: rgba(237,190,0,0.08); }
 .notice-list-item.notice-unread:hover { background: rgba(237,190,0,0.14); }
+.notice-list-item.notice-active { background: rgba(255,255,255,0.12) !important; }
 .notice-dot { color: #EDBE00; font-size: 8px; line-height: 1.6; }
 
 /*──────────────────────────────────────────────*/
