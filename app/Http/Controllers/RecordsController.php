@@ -183,7 +183,7 @@ class RecordsController extends Controller
     // 施術者リストを取得
     $therapists = DB::table('therapists')
       ->select('id', 'last_name', 'first_name', 'last_name_kana', 'first_name_kana')
-      ->orderBy('last_name_kana')
+      ->orderBy('id', 'desc')
       ->get();
 
     // 施術者IDの最大桁数を算出（0埋め用）
@@ -387,7 +387,7 @@ class RecordsController extends Controller
     // 施術者リストを取得
     $therapists = DB::table('therapists')
       ->select('id', 'last_name', 'first_name', 'last_name_kana', 'first_name_kana')
-      ->orderBy('last_name_kana')
+      ->orderBy('id', 'desc')
       ->get();
 
     // 施術内容リストを取得
@@ -613,7 +613,7 @@ class RecordsController extends Controller
     // 施術者リストを取得
     $therapists = DB::table('therapists')
       ->select('id', 'last_name', 'first_name', 'last_name_kana', 'first_name_kana')
-      ->orderBy('last_name_kana')
+      ->orderBy('id', 'desc')
       ->get();
 
     // 施術内容リストを取得
