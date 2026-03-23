@@ -35,12 +35,12 @@
       </button>
 
       <!-- パネルラッパー（リスト＋詳細を横並びで収める） -->
-      <div id="notice-panels" class="notice-panels position-absolute" style="display:none;">
+      <div id="notice-panels" class="notice-panels position-absolute d-flex align-items-start">
 
         <!-- 通知詳細パネル（リストの左側） -->
         <div id="notice-detail-panel"
-          class="notice-detail-panel flex-column overflow-hidden rounded-start-2 border border-secondary border-opacity-25 shadow-lg bg-gray-26" style="display:none;">
-          <div class="flex-shrink-0 px-3 py-2 border-bottom border-secondary border-opacity-25 d-flex align-items-center gap-2 bg-gray-20">
+          class="notice-detail-panel d-flex flex-column overflow-hidden rounded-1 border border-secondary border-opacity-25 shadow-lg bg-gray-26">
+          <div class="flex-shrink-0 px-3 py-2 border-bottom border-secondary border-opacity-25 d-flex align-items-center gap-2 bg-gray-20 rounded-top-1">
             <span class="fw-bold small text-gray-90 flex-grow-1 text-truncate" id="notice-detail-title"></span>
             <button id="notice-toggle-read-btn" type="button"
               class="btn btn-custom btn-custom-blue btn-custom-sm ms-auto flex-shrink-0"
@@ -54,8 +54,8 @@
 
         <!-- 通知リストパネル -->
         <div id="notice-list-panel"
-          class="notice-list-panel d-flex flex-column overflow-hidden rounded-end-2 border border-secondary border-opacity-25 shadow-lg bg-gray-26">
-          <div class="flex-shrink-0 px-3 py-2 border-bottom border-secondary border-opacity-25 fw-bold small text-gray-90 bg-gray-20">
+          class="notice-list-panel d-flex flex-column overflow-hidden rounded-1 border border-secondary border-opacity-25 shadow-lg bg-gray-26">
+          <div class="flex-shrink-0 px-3 py-2 border-bottom border-secondary border-opacity-25 fw-bold small text-gray-90 bg-gray-20 rounded-top-1">
             お知らせ
           </div>
           <div id="notice-list-body" class="notice-list-body flex-fill overflow-y-auto">
@@ -89,6 +89,7 @@
 
   const bellBtn       = document.getElementById('notice-bell-btn');
   const panels        = document.getElementById('notice-panels');
+  const listPanel     = document.getElementById('notice-list-panel');
   const listBody      = document.getElementById('notice-list-body');
   const detailPanel   = document.getElementById('notice-detail-panel');
   const detailTitle   = document.getElementById('notice-detail-title');
@@ -117,16 +118,21 @@
       listBody.innerHTML = '<div class="text-muted small px-3 py-3 text-center">お知らせはありません</div>';
       return;
     }
-    listBody.innerHTML = notices.map(n => `
-      <div class="notice-list-item px-3 py-2 d-flex align-items-start gap-2 border-bottom border-secondary border-opacity-10 ${n.is_read ? '' : 'notice-unread'} ${currentNoticeId === n.id ? 'notice-active' : ''}"
-           data-id="${n.id}" role="button" tabindex="0">
-        <span class="notice-dot flex-shrink-0 mt-1 ${n.is_read ? 'opacity-0' : ''}">●</span>
-        <div class="flex-grow-1 overflow-hidden">
-          <div class="small fw-bold text-truncate text-gray-90">${escHtml(n.title)}</div>
-          <div class="text-secondary" style="font-size:11px;">${n.created_at}</div>
+    listBody.innerHTML = notices.map(n => {
+      const isActive = currentNoticeId === n.id;
+      return `
+        <div class="notice-list-item px-3 py-2 d-flex align-items-center gap-2 border-bottom border-secondary border-opacity-10
+            ${n.is_read ? '' : 'notice-unread'} ${isActive ? 'notice-active' : ''}"
+             data-id="${n.id}" role="button" tabindex="0">
+          <span class="notice-dot flex-shrink-0 ${n.is_read ? 'opacity-0' : ''}">●</span>
+          <div class="flex-grow-1 overflow-hidden">
+            <div class="small fw-bold text-truncate text-gray-90">${escHtml(n.title)}</div>
+            <div class="text-secondary" style="font-size:11px;">${n.created_at}</div>
+          </div>
+          <span class="nf nf-md-chevron_left notice-item-chevron flex-shrink-0 ${isActive ? 'rotated-left' : ''}"></span>
         </div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
 
     listBody.querySelectorAll('.notice-list-item').forEach(el => {
       el.addEventListener('click', (e) => { e.stopPropagation(); openDetail(parseInt(el.dataset.id)); });
@@ -143,7 +149,7 @@
     detailDate.textContent    = n.created_at;
     detailContent.textContent = n.content;
     syncToggleBtn(n.is_read);
-    detailPanel.style.display = 'flex';
+    detailPanel.classList.add('open');
     renderList();
 
     // 未読なら即時既読化
@@ -213,14 +219,16 @@
 
   // ── パネル開閉 ────────────────────────────
   function openListPanel() {
-    panels.style.display = 'flex';
+    panels.classList.add('open');
+    listPanel.classList.add('open');
     chevron.classList.add('rotated');
     fetchNotices();
   }
 
   function closeAll() {
-    panels.style.display = 'none';
-    detailPanel.style.display = 'none';
+    panels.classList.remove('open');
+    listPanel.classList.remove('open');
+    detailPanel.classList.remove('open');
     chevron.classList.remove('rotated');
     currentNoticeId = null;
   }
@@ -228,7 +236,7 @@
   // ── イベント ──────────────────────────────
   bellBtn.addEventListener('click', (e) => {
     e.stopPropagation();
-    if (panels.style.display !== 'none' && panels.style.display !== '') {
+    if (panels.classList.contains('open')) {
       closeAll();
     } else {
       openListPanel();

@@ -1093,28 +1093,61 @@ html[data-sidebar="closed"] #sidebar-content {
 /*┃  ヘッダー通知ウィジェット                    ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 
-/* ベルボタン（色・トランジション：BSで代替不可） */
+/* ベルボタン */
 .notice-bell-btn { color: #ccc; transition: color 0.15s; }
 .notice-bell-btn:hover { color: #fff; }
 .notice-bell-btn:focus:not(:focus-visible) { outline: none; }
 
-/* 戻るボタン（色・トランジション：BSで代替不可） */
-.notice-icon-btn { color: #aaa; transition: color 0.15s; cursor: pointer; }
-.notice-icon-btn:hover { color: #fff; }
-
 /*──────────────────────────────────────────────*/
-/*  パネルラッパー（位置・z-index：BSで代替不可） */
+/*  パネルラッパー                               */
 /*──────────────────────────────────────────────*/
 .notice-panels {
   top: calc(100% + 6px);
   right: 0;
   z-index: 1080;
-  align-items: flex-start;
+  /* 初期：非表示（pointerEvents無効・不可視） */
+  pointer-events: none;
+  visibility: hidden;
 }
-.notice-list-panel   { width: 280px; max-height: 360px; border-left: none !important; }
-.notice-detail-panel { width: 320px; max-height: 360px; }
+.notice-panels.open {
+  pointer-events: auto;
+  visibility: visible;
+}
 
-/* スクロールバー細幅（BSで代替不可） */
+/*──────────────────────────────────────────────*/
+/*  リストパネル（上下スライドアニメーション）   */
+/*──────────────────────────────────────────────*/
+.notice-list-panel {
+  width: 280px;
+  max-height: 360px;
+  transform-origin: top center;
+  transform: scaleY(0);
+  opacity: 0;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.notice-list-panel.open {
+  transform: scaleY(1);
+  opacity: 1;
+}
+
+/*──────────────────────────────────────────────*/
+/*  詳細パネル（左右スライドアニメーション）     */
+/*──────────────────────────────────────────────*/
+.notice-detail-panel {
+  width: 320px;
+  max-height: 360px;
+  transform: translateX(20px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.notice-detail-panel.open {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* スクロールバー細幅 */
 .notice-list-body::-webkit-scrollbar,
 .notice-detail-body::-webkit-scrollbar { width: 4px; }
 .notice-list-body::-webkit-scrollbar-track,
@@ -1123,7 +1156,7 @@ html[data-sidebar="closed"] #sidebar-content {
 .notice-detail-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
 
 /*──────────────────────────────────────────────*/
-/*  通知リストアイテム（ホバー・未読ハイライト：BSで代替不可） */
+/*  通知リストアイテム                           */
 /*──────────────────────────────────────────────*/
 .notice-list-item { cursor: pointer; transition: background 0.1s; }
 .notice-list-item:hover { background: rgba(255,255,255,0.07); }
@@ -1131,5 +1164,14 @@ html[data-sidebar="closed"] #sidebar-content {
 .notice-list-item.notice-unread:hover { background: rgba(237,190,0,0.14); }
 .notice-list-item.notice-active { background: rgba(255,255,255,0.12) !important; }
 .notice-dot { color: #EDBE00; font-size: 8px; line-height: 1.6; }
+
+/* アイテム内chevron */
+.notice-item-chevron {
+  font-size: 11px;
+  color: #888;
+  transition: transform 0.2s ease, color 0.15s;
+}
+.notice-list-item:hover .notice-item-chevron { color: #ccc; }
+.notice-item-chevron.rotated-left { transform: translateX(-3px); color: #fff; }
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
