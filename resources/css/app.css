@@ -1093,135 +1093,43 @@ html[data-sidebar="closed"] #sidebar-content {
 /*┃  ヘッダー通知ウィジェット                    ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 
-.notice-bell-btn {
-  cursor: pointer;
-  color: #ccc;
-  transition: color 0.15s;
-}
-.notice-bell-btn:hover {
-  color: #fff;
-}
-.notice-bell-btn:focus:not(:focus-visible) {
-  outline: none;
-}
+/* ベルボタン（色・トランジション：BSで代替不可） */
+.notice-bell-btn { color: #ccc; transition: color 0.15s; }
+.notice-bell-btn:hover { color: #fff; }
+.notice-bell-btn:focus:not(:focus-visible) { outline: none; }
+
+/* 戻るボタン（色・トランジション：BSで代替不可） */
+.notice-icon-btn { color: #aaa; transition: color 0.15s; cursor: pointer; }
+.notice-icon-btn:hover { color: #fff; }
 
 /*──────────────────────────────────────────────*/
-/*  通知リストパネル                             */
+/*  パネル共通（位置・サイズ・z-index：BSで代替不可） */
 /*──────────────────────────────────────────────*/
-.notice-list-panel {
-  top: calc(100% + 6px);
-  right: 0;
-  width: 280px;
-  max-height: 360px;
-  display: flex;
-  flex-direction: column;
-  background: #2e3640;
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 6px;
-  z-index: 1080;
-  overflow: hidden;
-}
-
-.notice-list-header {
-  background: #252c35;
-  color: #e0e4e8;
-  flex-shrink: 0;
-}
-
-.notice-list-body {
-  overflow-y: auto;
-  flex: 1;
-}
-.notice-list-body::-webkit-scrollbar {
-  width: 4px;
-}
-.notice-list-body::-webkit-scrollbar-track {
-  background: transparent;
-}
-.notice-list-body::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.2);
-  border-radius: 2px;
-}
-
-/*──────────────────────────────────────────────*/
-/*  通知リストアイテム                           */
-/*──────────────────────────────────────────────*/
-.notice-list-item {
-  cursor: pointer;
-  transition: background 0.1s;
-  color: #c8cdd3;
-}
-.notice-list-item:hover {
-  background: rgba(255,255,255,0.07);
-}
-.notice-list-item.notice-unread {
-  background: rgba(237,190,0,0.08);
-}
-.notice-list-item.notice-unread:hover {
-  background: rgba(237,190,0,0.14);
-}
-.notice-list-item .notice-dot {
-  color: #EDBE00;
-  font-size: 8px;
-  line-height: 1.6;
-}
-.notice-item-title {
-  color: #e0e4e8;
-}
-
-/*──────────────────────────────────────────────*/
-/*  通知詳細パネル                               */
-/*──────────────────────────────────────────────*/
+.notice-list-panel,
 .notice-detail-panel {
   top: calc(100% + 6px);
   right: 0;
-  width: 340px;
-  max-height: 420px;
-  display: flex;
-  flex-direction: column;
-  background: #2e3640;
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 6px;
   z-index: 1080;
-  overflow: hidden;
 }
+.notice-list-panel  { width: 280px; max-height: 360px; }
+.notice-detail-panel { width: 340px; max-height: 420px; }
 
-.notice-detail-header {
-  background: #252c35;
-  flex-shrink: 0;
-}
+/* スクロールバー細幅（BSで代替不可） */
+.notice-list-body::-webkit-scrollbar,
+.notice-detail-body::-webkit-scrollbar { width: 4px; }
+.notice-list-body::-webkit-scrollbar-track,
+.notice-detail-body::-webkit-scrollbar-track { background: transparent; }
+.notice-list-body::-webkit-scrollbar-thumb,
+.notice-detail-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
 
-.notice-detail-meta {
-  flex-shrink: 0;
-  color: #888;
-}
-
-.notice-detail-body {
-  overflow-y: auto;
-  flex: 1;
-  color: #c8cdd3;
-  font-size: 13px;
-  line-height: 1.7;
-}
-.notice-detail-body::-webkit-scrollbar {
-  width: 4px;
-}
-.notice-detail-body::-webkit-scrollbar-track {
-  background: transparent;
-}
-.notice-detail-body::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.2);
-  border-radius: 2px;
-}
-
-.btn-icon {
-  color: #aaa;
-  transition: color 0.15s;
-  line-height: 1;
-}
-.btn-icon:hover {
-  color: #fff;
-}
+/*──────────────────────────────────────────────*/
+/*  通知リストアイテム（ホバー・未読ハイライト：BSで代替不可） */
+/*──────────────────────────────────────────────*/
+.notice-list-item { cursor: pointer; transition: background 0.1s; }
+.notice-list-item:hover { background: rgba(255,255,255,0.07); }
+.notice-list-item.notice-unread { background: rgba(237,190,0,0.08); }
+.notice-list-item.notice-unread:hover { background: rgba(237,190,0,0.14); }
+.notice-dot { color: #EDBE00; font-size: 8px; line-height: 1.6; }
 
 /*──────────────────────────────────────────────*/
 /*  カスタムボタン - gray-sm                    */

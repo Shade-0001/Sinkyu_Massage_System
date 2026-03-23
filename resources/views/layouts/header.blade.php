@@ -25,27 +25,29 @@
         <span class="nf nf-fa-bell fs-5"></span>
         <!-- 未読バッジ -->
         <span id="notice-unread-badge"
-          class="notice-unread-badge position-absolute d-none"
-          style="top:-4px;left:-4px;min-width:18px;height:18px;font-size:10px;line-height:18px;padding:0 4px;border-radius:9px;background:#EDBE00;color:#fff;text-align:center;font-weight:bold;">
+          class="position-absolute d-none badge rounded-pill"
+          style="top:-4px;left:-4px;min-width:18px;font-size:10px;padding:2px 4px;background:#EDBE00;color:#fff;">
           0
         </span>
       </button>
 
       <!-- 通知リストパネル -->
-      <div id="notice-list-panel" class="notice-list-panel d-none position-absolute shadow-lg">
-        <div class="notice-list-header px-3 py-2 border-bottom border-secondary border-opacity-25 text-gray-90 fw-bold small">
+      <div id="notice-list-panel"
+        class="notice-list-panel d-none position-absolute d-flex flex-column overflow-hidden rounded-2 border border-secondary border-opacity-25 shadow-lg bg-gray-26">
+        <div class="flex-shrink-0 px-3 py-2 border-bottom border-secondary border-opacity-25 fw-bold small text-gray-90 bg-gray-20">
           お知らせ
         </div>
-        <div id="notice-list-body" class="notice-list-body">
+        <div id="notice-list-body" class="notice-list-body flex-fill overflow-y-auto">
           <div class="text-muted small px-3 py-3 text-center">読み込み中...</div>
         </div>
       </div>
 
       <!-- 通知詳細パネル -->
-      <div id="notice-detail-panel" class="notice-detail-panel d-none position-absolute shadow-lg">
-        <div class="notice-detail-header px-3 py-2 border-bottom border-secondary border-opacity-25 d-flex align-items-center gap-2">
+      <div id="notice-detail-panel"
+        class="notice-detail-panel d-none position-absolute d-flex flex-column overflow-hidden rounded-2 border border-secondary border-opacity-25 shadow-lg bg-gray-26">
+        <div class="flex-shrink-0 px-3 py-2 border-bottom border-secondary border-opacity-25 d-flex align-items-center gap-2 bg-gray-20">
           <button id="notice-detail-back" type="button"
-            class="btn-icon border-0 bg-transparent p-0 text-gray-90 hover-highlight-30 rounded-1 px-1"
+            class="notice-icon-btn border-0 bg-transparent p-0 hover-highlight-30 rounded-1 px-1 lh-1 text-gray-90"
             title="戻る">
             <span class="nf nf-fa-chevron_left small"></span>
           </button>
@@ -55,9 +57,9 @@
             style="font-size:11px;padding:2px 8px;">
           </button>
         </div>
-        <div class="notice-detail-meta px-3 pt-2 pb-1 small text-muted" id="notice-detail-date"></div>
-        <div class="notice-detail-body px-3 pb-3" id="notice-detail-content"
-          style="white-space:pre-wrap;font-size:13px;line-height:1.7;"></div>
+        <div class="flex-shrink-0 px-3 pt-2 pb-1 small text-secondary" id="notice-detail-date"></div>
+        <div class="notice-detail-body flex-fill overflow-y-auto px-3 pb-3 text-gray-80"
+          style="white-space:pre-wrap;font-size:13px;line-height:1.7;" id="notice-detail-content"></div>
       </div>
     </div>
 
@@ -117,8 +119,8 @@
            data-id="${n.id}" role="button" tabindex="0">
         <span class="notice-dot flex-shrink-0 mt-1 ${n.is_read ? 'opacity-0' : ''}">●</span>
         <div class="flex-grow-1 overflow-hidden">
-          <div class="notice-item-title small fw-bold text-truncate">${escHtml(n.title)}</div>
-          <div class="notice-item-date" style="font-size:11px;color:#999;">${n.created_at}</div>
+          <div class="small fw-bold text-truncate text-gray-90">${escHtml(n.title)}</div>
+          <div class="text-secondary" style="font-size:11px;">${n.created_at}</div>
         </div>
       </div>
     `).join('');
