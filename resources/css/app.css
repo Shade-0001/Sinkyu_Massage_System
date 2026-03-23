@@ -365,39 +365,6 @@
 }
 
 /*----------------------------------------------*/
-/*  カスタムボタン - モデファイアクラス            */
-/*----------------------------------------------*/
-/*  カラー  */
-.btn-custom-red   { --btn-bg-color: #E74C3C; }
-.btn-custom-orange{ --btn-bg-color: #E67E22; }
-.btn-custom-yellow{ --btn-bg-color: #EDBE00; }
-.btn-custom-lime  { --btn-bg-color: #8FDC00; }
-.btn-custom-green { --btn-bg-color: #1BAD50; }
-.btn-custom-cyan  { --btn-bg-color: #00BCB3; }
-.btn-custom-blue  { --btn-bg-color: #1F91CE; }
-.btn-custom-purple{ --btn-bg-color: #B164E4; }
-.btn-custom-gray  { --btn-bg-color: #75838A; }
-.btn-custom-test1 { --btn-bg-color: #6C91A5; }
-
-/*  サイズ  */
-.btn-custom-lg {
-  --btn-shadow-size: 6px;
-  --btn-padding: 9px 24px;
-  --btn-font-size: 1.2rem;
-  --btn-font-weight: 700;
-  --btn-br-tl: 6px;
-  --btn-br-tr: 6px;
-  --btn-br-br: 6px;
-  --btn-br-bl: 6px;
-}
-.btn-custom-sm {
-  --btn-shadow-size: 3px;
-  --btn-padding: 3px 8px;
-  --btn-font-size: 0.8rem;
-  --btn-font-weight: 500;
-}
-
-/*----------------------------------------------*/
 /*  カスタムボタン - サブボタン                   */
 /*----------------------------------------------*/
 .btn-custom-sub {
@@ -406,6 +373,10 @@
   --btn-border-color: oklch(from var(--btn-primary-color) calc(l + 0.0) calc(c + 0.01) calc(h + 0));
   --btn-border-size: calc(var(--btn-shadow-size) * 1.5);
   --btn-border-blur: calc(var(--btn-shadow-size) * 0.0);
+  --btn-br-tl: 4px;
+  --btn-br-tr: 4px;
+  --btn-br-bl: 4px;
+  --btn-br-br: 4px;
   /* モード切り替え（JS用） */
   --btn-color-mode: oklch;
   /* ホバー時のcolor補正値 - oklchモード（JS用） */
@@ -473,31 +444,58 @@
 }
 
 /*----------------------------------------------*/
-/*  カスタムボタン - ライトボタン                 */
+/*  カスタムボタン - モデファイアクラス            */
 /*----------------------------------------------*/
-.btn-custom-light {
-  --btn-text-color: hsl(0, 0%, 25%);
+/*  カラー  */
+.btn-custom-red   { --btn-bg-color: #E74C3C; }
+.btn-custom-orange{ --btn-bg-color: #E67E22; }
+.btn-custom-yellow{ --btn-bg-color: #EDBE00; }
+.btn-custom-lime  { --btn-bg-color: #8FDC00; }
+.btn-custom-green { --btn-bg-color: #1BAD50; }
+.btn-custom-cyan  { --btn-bg-color: #00BCB3; }
+.btn-custom-blue  { --btn-bg-color: #1F91CE; }
+.btn-custom-purple{ --btn-bg-color: #B164E4; }
+.btn-custom-gray  { --btn-bg-color: #75838A; }
+.btn-custom-test1 { --btn-bg-color: #6C91A5; }
+
+/*  サイズ  */
+.btn-custom-lg {
+  --btn-shadow-size: 6px;
+  --btn-padding: 9px 24px;
+  --btn-font-size: 1.2rem;
+  --btn-font-weight: 700;
+  --btn-br-tl: 6px;
+  --btn-br-tr: 6px;
+  --btn-br-br: 6px;
+  --btn-br-bl: 6px;
 }
-.btn-custom-light:hover {
-  --btn-text-color: hsl(0, 0%, 25%);
+.btn-custom-sm {
+  --btn-shadow-size: 3px;
+  --btn-padding: 3px 8px;
+  --btn-font-size: 0.8rem;
+  --btn-font-weight: 500;
 }
-.btn-custom-light:active {
-  --btn-text-color: hsl(0, 0%, 25%);
+/*  サイズ × sub  */
+.btn-custom-sub.btn-custom-lg {
+  --btn-shadow-size: 6px;
+  --btn-padding: 9px 24px;
+  --btn-font-size: 1.2rem;
+  --btn-font-weight: 700;
+  --btn-br-tl: 6px;
+  --btn-br-tr: 6px;
+  --btn-br-br: 6px;
+  --btn-br-bl: 6px;
 }
-.btn-custom-light-red   { --btn-bg-color: #F5A49D; }
-.btn-custom-light-orange{ --btn-bg-color: #F5C49A; }
-.btn-custom-light-yellow{ --btn-bg-color: #F5E27A; }
-.btn-custom-light-lime  { --btn-bg-color: #C5F07A; }
-.btn-custom-light-green { --btn-bg-color: #7AE0A0; }
-.btn-custom-light-cyan  { --btn-bg-color: #7AE0DC; }
-.btn-custom-light-blue  { --btn-bg-color: #7AC5EE; }
-.btn-custom-light-purple{ --btn-bg-color: #D4A7F5; }
-.btn-custom-light-gray  { --btn-bg-color: #C0C8CC; }
+.btn-custom-sub.btn-custom-sm {
+  --btn-shadow-size: 3px;
+  --btn-padding: 3px 8px;
+  --btn-font-size: 0.8rem;
+  --btn-font-weight: 500;
+}
 
 /*──────────────────────────────────────────────*/
 /*  スペーシング                                 */
 /*──────────────────────────────────────────────*/
-
 /* m-0.25 */
 .m-025 { margin: 0.0625rem !important; } 
 /* mb-0.5 */
