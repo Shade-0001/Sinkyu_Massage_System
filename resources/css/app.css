@@ -1132,20 +1132,19 @@ html[data-sidebar="closed"] #sidebar-content {
 }
 
 /*──────────────────────────────────────────────*/
-/*  詳細パネル（左右スライドアニメーション）     */
+/*  詳細パネル（リストパネルと同一アニメーション） */
 /*──────────────────────────────────────────────*/
 .notice-detail-panel {
   width: 320px;
   max-height: 360px;
-  transform: translateX(20px);
+  transform-origin: top center;
+  transform: scaleY(0);
   opacity: 0;
-  pointer-events: none;
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 .notice-detail-panel.open {
-  transform: translateX(0);
+  transform: scaleY(1);
   opacity: 1;
-  pointer-events: auto;
 }
 
 /* スクロールバー細幅 */
