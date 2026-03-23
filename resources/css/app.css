@@ -5,7 +5,6 @@
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  グローバルスタイル                           ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
-
 /* 全体 */
 * {
   font-family: 'Noto Sans JP', sans-serif;
@@ -38,10 +37,10 @@
 
 
 
+
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  ユーティリティクラス                         ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
-
 /*──────────────────────────────────────────────*/
 /*  ホバー時ハイライト（透過オーバーレイ）         */
 /*──────────────────────────────────────────────*/
@@ -273,11 +272,11 @@
   --btn-text-color: hsl(0, 0%, 95%);
   --btn-font-size: 1rem;
   --btn-font-weight: 600;
-  --btn-padding: 8px 12px;
+  --btn-padding: 6px 16px;
   --btn-br-tl: 3px;
   --btn-br-tr: 3px;
-  --btn-br-br: 3px;
   --btn-br-bl: 3px;
+  --btn-br-br: 3px;
   --btn-shadow-color-light: hsla(0, 0%, 100%, 0.15);
   --btn-shadow-color-mid: hsla(0, 0%, 50%, 0.15);
   --btn-shadow-color-dark: hsla(0, 0%, 0%, 0.15);
@@ -383,14 +382,18 @@
 /*  サイズ  */
 .btn-custom-lg {
   --btn-shadow-size: 6px;
-  --btn-padding: 12px 20px;
+  --btn-padding: 9px 24px;
   --btn-font-size: 1.2rem;
   --btn-font-weight: 700;
+  --btn-br-tl: 6px;
+  --btn-br-tr: 6px;
+  --btn-br-br: 6px;
+  --btn-br-bl: 6px;
 }
 .btn-custom-sm {
   --btn-shadow-size: 3px;
-  --btn-padding: 4px 10px;
-  --btn-font-size: 0.9rem;
+  --btn-padding: 3px 8px;
+  --btn-font-size: 0.8rem;
   --btn-font-weight: 500;
 }
 
@@ -398,10 +401,11 @@
 /*  カスタムボタン - サブボタン                   */
 /*----------------------------------------------*/
 .btn-custom-sub {
-  --btn-shadow-size: 4px;
-  --btn-border-size: calc(var(--btn-shadow-size) * 1.0);
-  --btn-border-blur: calc(var(--btn-shadow-size) * 0.0);
   --btn-primary-color: var(--btn-bg-color);
+  --btn-shadow-size: 3px;
+  --btn-border-color: oklch(from var(--btn-primary-color) calc(l + 0.0) calc(c + 0.01) calc(h + 0));
+  --btn-border-size: calc(var(--btn-shadow-size) * 1.5);
+  --btn-border-blur: calc(var(--btn-shadow-size) * 0.0);
   /* モード切り替え（JS用） */
   --btn-color-mode: oklch;
   /* ホバー時のcolor補正値 - oklchモード（JS用） */
@@ -428,14 +432,14 @@
     /*下*/ inset 0 var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-dark),
     /*右下*/ inset var(--btn-shadow-size-neg) var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-dark),
     /*── 枠線 ──────────*/
-    /*左上*/ inset calc(var(--btn-border-size) * 0.75) calc(var(--btn-border-size) * 0.75 * -1) var(--btn-border-blur) var(--btn-primary-color),
-    /*上*/ inset 0 calc(var(--btn-border-size) * -1) var(--btn-border-blur) var(--btn-primary-color),
-    /*左*/ inset var(--btn-border-size) 0 var(--btn-border-blur) var(--btn-primary-color),
-    /*左下*/ inset calc(var(--btn-border-size) * 0.75) calc(var(--btn-border-size) * 0.75) var(--btn-border-blur) var(--btn-primary-color),
-    /*右上*/ inset calc(var(--btn-border-size) * -0.75) calc(var(--btn-border-size) * -0.75) var(--btn-border-blur) var(--btn-primary-color),
-    /*右*/ inset calc(var(--btn-border-size) * -1) 0 var(--btn-border-blur) var(--btn-primary-color),
-    /*下*/ inset 0 var(--btn-border-size) var(--btn-border-blur) var(--btn-primary-color),
-    /*右下*/ inset calc(var(--btn-border-size) * 0.75 * -1) calc(var(--btn-border-size) * 0.75) var(--btn-border-blur) var(--btn-primary-color);
+    /*左上*/ inset calc(var(--btn-border-size) * 0.75) calc(var(--btn-border-size) * 0.75 * -1) var(--btn-border-blur) var(--btn-border-color),
+    /*上*/ inset 0 calc(var(--btn-border-size) * -1) var(--btn-border-blur) var(--btn-border-color),
+    /*左*/ inset var(--btn-border-size) 0 var(--btn-border-blur) var(--btn-border-color),
+    /*左下*/ inset calc(var(--btn-border-size) * 0.75) calc(var(--btn-border-size) * 0.75) var(--btn-border-blur) var(--btn-border-color),
+    /*右上*/ inset calc(var(--btn-border-size) * -0.75) calc(var(--btn-border-size) * -0.75) var(--btn-border-blur) var(--btn-border-color),
+    /*右*/ inset calc(var(--btn-border-size) * -1) 0 var(--btn-border-blur) var(--btn-border-color),
+    /*下*/ inset 0 var(--btn-border-size) var(--btn-border-blur) var(--btn-border-color),
+    /*右下*/ inset calc(var(--btn-border-size) * 0.75 * -1) calc(var(--btn-border-size) * 0.75) var(--btn-border-blur) var(--btn-border-color);
 }
 .btn-custom-sub:hover {
   -webkit-text-stroke: 0px rgba(255, 255, 255, 0.0);
@@ -503,11 +507,13 @@
 
 
 
+
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  ヘッダー                                    ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
-
-/* サイドバートグルボタン（ハンバーガーメニュー） */
+/*──────────────────────────────────────────────*/
+/* サイドバートグルボタン（ハンバーガーメニュー）   */
+/*──────────────────────────────────────────────*/
 /* ・ボタンサイズ調整方法：hamburger-sizeを変更 */
 /* ・バーの太さ調整方法：bar-hを変更 */
 #sidebar-toggle {
@@ -589,7 +595,85 @@ html[data-sidebar="open"] #sidebar-toggle-icon span:nth-of-type(3)::before {
 html[data-sidebar="open"] #sidebar-toggle-icon span:nth-of-type(3)::after {
   transform: translate(calc(var(--tx) * -1), calc(var(--ty) * -1)) rotate(45deg);
 }
+
+/*──────────────────────────────────────────────*/
+/*  通知ウィジェット                             */
+/*──────────────────────────────────────────────*/
+/* ベルボタン */
+.notice-bell-btn { color: #ccc; transition: color 0.15s; }
+.notice-bell-btn:hover { color: #fff; }
+.notice-bell-btn:focus:not(:focus-visible) { outline: none; }
+
+/* パネルラッパー */
+.notice-panels {
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 1080;
+  /* 初期：非表示（pointerEvents無効・不可視） */
+  pointer-events: none;
+  visibility: hidden;
+}
+.notice-panels.open {
+  pointer-events: auto;
+  visibility: visible;
+}
+
+/* リストパネル（上下スライドアニメーション） */
+.notice-list-panel {
+  width: 280px;
+  max-height: 360px;
+  transform-origin: top center;
+  transform: scaleY(0);
+  opacity: 0;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.notice-list-panel.open {
+  transform: scaleY(1);
+  opacity: 1;
+}
+
+/* 詳細パネル（左右スライドアニメーション） */
+.notice-detail-panel {
+  width: 320px;
+  max-height: 360px;
+  transform: translateX(20px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.notice-detail-panel.open {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* スクロールバー細幅 */
+.notice-list-body::-webkit-scrollbar,
+.notice-detail-body::-webkit-scrollbar { width: 4px; }
+.notice-list-body::-webkit-scrollbar-track,
+.notice-detail-body::-webkit-scrollbar-track { background: transparent; }
+.notice-list-body::-webkit-scrollbar-thumb,
+.notice-detail-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+
+/* 通知リストアイテム */
+.notice-list-item { cursor: pointer; transition: background 0.1s; }
+.notice-list-item:hover { background: rgba(255,255,255,0.07); }
+.notice-list-item.notice-unread { background: rgba(237,190,0,0.08); }
+.notice-list-item.notice-unread:hover { background: rgba(237,190,0,0.14); }
+.notice-list-item.notice-active { background: rgba(255,255,255,0.12) !important; }
+.notice-dot { color: #EDBE00; font-size: 8px; line-height: 1.6; }
+
+/* アイテム内chevron */
+.notice-item-chevron {
+  font-size: 11px;
+  color: #888;
+  transition: transform 0.2s ease;
+  will-change: transform;
+}
+.notice-list-item:hover .notice-item-chevron { color: #ccc; }
+.notice-item-chevron.rotated-left { transform: scaleX(-1); }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+
 
 
 
@@ -597,7 +681,6 @@ html[data-sidebar="open"] #sidebar-toggle-icon span:nth-of-type(3)::after {
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  サイドバー                                  ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
-
 #sidebar {
   flex-shrink: 0;
   width: 220px;
@@ -638,6 +721,14 @@ html[data-sidebar="closed"] #sidebar-content {
 .submenu-arrow.rotated {
   transform: scaleY(-1);
 }
+.year-toggle-arrow {
+  font-size: 12px;
+  transition: transform 0.2s ease;
+  will-change: transform;
+}
+.year-toggle-arrow.rotated {
+  transform: scaleY(-1);
+}
 
 /* サブメニュー */
 .submenu {
@@ -649,10 +740,10 @@ html[data-sidebar="closed"] #sidebar-content {
 
 
 
+
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  ホーム                                      ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
-
 /* ホームメニュー - サイドバー格納時：lg以上で横並び */
 @media (min-width: 992px) {
   html[data-sidebar="closed"] #home-menu {
@@ -688,10 +779,10 @@ html[data-sidebar="closed"] #sidebar-content {
 
 
 
+
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  実績データ - カレンダー                      ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
-
 /* カレンダータイトルセレクト - カスタムスタイル */
 #calendar-title {
   font-size: 25px;
@@ -754,10 +845,10 @@ html[data-sidebar="closed"] #sidebar-content {
 
 
 
+
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  利用者検索                                  ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
-
 /* カタカナ選択状態 - !important必要なためカスタム定義 */
 .katakana-selected {
   background-color: #007bff !important;
@@ -768,10 +859,10 @@ html[data-sidebar="closed"] #sidebar-content {
 
 
 
+
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  PDF出力 - 依頼書                            ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
-
 @page {
   margin: 40px;
 }
@@ -831,10 +922,10 @@ html[data-sidebar="closed"] #sidebar-content {
 
 
 
+
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  PDF出力 - 計画情報                          ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
-
 .pdf-plans body {
   font-family: 'mplus1medium', sans-serif;
   font-size: 9px;
@@ -932,10 +1023,10 @@ html[data-sidebar="closed"] #sidebar-content {
 
 
 
+
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  PDF出力 - 同意医師（ＨＫ）                   ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
-
 .pdf-consents-acupuncture body {
   font-family: 'mplus1medium', sans-serif;
   font-size: 9px;
@@ -980,10 +1071,10 @@ html[data-sidebar="closed"] #sidebar-content {
 
 
 
+
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  PDF出力 - 同意医師（ＡＭ）                   ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
-
 .pdf-consents-massage body {
   font-family: 'mplus1medium', sans-serif;
   font-size: 9px;
@@ -1028,10 +1119,10 @@ html[data-sidebar="closed"] #sidebar-content {
 
 
 
+
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  PDF出力 - 医療保険情報                       ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
-
 .pdf-insurances body {
   font-family: 'mplus1medium', sans-serif;
   font-size: 9px;
@@ -1076,95 +1167,4 @@ html[data-sidebar="closed"] #sidebar-content {
 .pdf-insurances .status-updated {
   color: #666666;
 }
-/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-
-
-
-
-/*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  ヘッダー通知ウィジェット                    ┃*/
-/*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
-
-/* ベルボタン */
-.notice-bell-btn { color: #ccc; transition: color 0.15s; }
-.notice-bell-btn:hover { color: #fff; }
-.notice-bell-btn:focus:not(:focus-visible) { outline: none; }
-
-/*──────────────────────────────────────────────*/
-/*  パネルラッパー                               */
-/*──────────────────────────────────────────────*/
-.notice-panels {
-  top: calc(100% + 6px);
-  right: 0;
-  z-index: 1080;
-  /* 初期：非表示（pointerEvents無効・不可視） */
-  pointer-events: none;
-  visibility: hidden;
-}
-.notice-panels.open {
-  pointer-events: auto;
-  visibility: visible;
-}
-
-/*──────────────────────────────────────────────*/
-/*  リストパネル（上下スライドアニメーション）   */
-/*──────────────────────────────────────────────*/
-.notice-list-panel {
-  width: 280px;
-  max-height: 360px;
-  transform-origin: top center;
-  transform: scaleY(0);
-  opacity: 0;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-.notice-list-panel.open {
-  transform: scaleY(1);
-  opacity: 1;
-}
-
-/*──────────────────────────────────────────────*/
-/*  詳細パネル（左右スライドアニメーション）     */
-/*──────────────────────────────────────────────*/
-.notice-detail-panel {
-  width: 320px;
-  max-height: 360px;
-  transform: translateX(20px);
-  opacity: 0;
-  pointer-events: none;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-.notice-detail-panel.open {
-  transform: translateX(0);
-  opacity: 1;
-  pointer-events: auto;
-}
-
-/* スクロールバー細幅 */
-.notice-list-body::-webkit-scrollbar,
-.notice-detail-body::-webkit-scrollbar { width: 4px; }
-.notice-list-body::-webkit-scrollbar-track,
-.notice-detail-body::-webkit-scrollbar-track { background: transparent; }
-.notice-list-body::-webkit-scrollbar-thumb,
-.notice-detail-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
-
-/*──────────────────────────────────────────────*/
-/*  通知リストアイテム                           */
-/*──────────────────────────────────────────────*/
-.notice-list-item { cursor: pointer; transition: background 0.1s; }
-.notice-list-item:hover { background: rgba(255,255,255,0.07); }
-.notice-list-item.notice-unread { background: rgba(237,190,0,0.08); }
-.notice-list-item.notice-unread:hover { background: rgba(237,190,0,0.14); }
-.notice-list-item.notice-active { background: rgba(255,255,255,0.12) !important; }
-.notice-dot { color: #EDBE00; font-size: 8px; line-height: 1.6; }
-
-/* アイテム内chevron */
-.notice-item-chevron {
-  font-size: 11px;
-  color: #888;
-  transition: transform 0.2s ease;
-  will-change: transform;
-}
-.notice-list-item:hover .notice-item-chevron { color: #ccc; }
-.notice-item-chevron.rotated-left { transform: scaleX(-1); }
-
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/

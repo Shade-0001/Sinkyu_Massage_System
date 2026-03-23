@@ -65,7 +65,7 @@
             aria-expanded="{{ $hasReports ? 'true' : 'false' }}"
             aria-controls="{{ $collapseId }}"
           >
-            <span class="year-toggle-arrow {{ $hasReports ? 'rotated' : '' }}" style="font-size: 12px; transition: transform 0.2s ease; will-change: transform; display: inline-flex; align-items: center;">
+            <span class="year-toggle-arrow {{ $hasReports ? 'rotated' : '' }}" style="display: inline-flex; align-items: center;">
               <i class="nf nf-md-chevron_down"></i>
             </span>
             <span>{{ $year }}</span>
