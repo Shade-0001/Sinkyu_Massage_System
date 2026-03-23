@@ -31,6 +31,10 @@ class ReportsController extends Controller
       ->orderBy('id', 'desc')
       ->get();
 
+    // 利用者IDの最大桁数を算出（0埋め用）
+    $maxClinicUserId = $clinicUsers->max('id') ?? 1;
+    $clinicUserIdLength = strlen((string) $maxClinicUserId);
+
     // 選択された利用者ID（未指定時は最上オプション＝最大IDをデフォルト選択）
     $selectedUserId = $request->input('clinic_user_id', $clinicUsers->first()?->id ?? null);
 
@@ -105,6 +109,7 @@ class ReportsController extends Controller
 
     return view('reports.reports_index', [
       'clinicUsers' => $clinicUsers,
+      'clinicUserIdLength' => $clinicUserIdLength,
       'selectedUserId' => $selectedUserId,
       'reportsByYear' => $reportsByYear,
       'scrollToYearMonth' => $scrollToYearMonth,

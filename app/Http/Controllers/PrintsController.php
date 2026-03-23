@@ -167,6 +167,10 @@ class PrintsController extends Controller
       ->orderByDesc('id')
       ->get();
 
+    // 利用者IDの最大桁数を算出（0埋め用）
+    $maxClinicUserId = $clinicUsers->max('id') ?? 1;
+    $clinicUserIdLength = strlen((string) $maxClinicUserId);
+
     $doctors = DB::table('doctors')
       ->select('id', 'last_name', 'first_name', 'last_name_kana', 'first_name_kana')
       ->orderByDesc('id')
@@ -195,7 +199,7 @@ class PrintsController extends Controller
       ->groupBy('clinic_user_id')
       ->map(fn($rows) => $rows->pluck('ym')->values()->all());
 
-    return view('prints.prints_index', compact('clinicUsers', 'doctors', 'caremanagers', 'pdfTypes', 'summaryTableDataMonths', 'userCountDataMonths', 'implementationPlanUserMonths'));
+    return view('prints.prints_index', compact('clinicUsers', 'clinicUserIdLength', 'doctors', 'caremanagers', 'pdfTypes', 'summaryTableDataMonths', 'userCountDataMonths', 'implementationPlanUserMonths'));
   }
 
   /**

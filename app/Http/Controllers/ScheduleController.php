@@ -25,18 +25,25 @@ class ScheduleController extends Controller
    */
   public function index(Request $request)
   {
-    // 施術者リストを取得（ID昇順）
+    // 施術者リストを取得（ID降順）
     $therapists = DB::table('therapists')
       ->select('id', 'last_name', 'first_name', 'last_name_kana', 'first_name_kana')
-      ->orderBy('id')
+      ->orderBy('id', 'desc')
       ->get();
 
-    // 利用者リストを取得（カナ昇順）
+    // 施術者IDの最大桁数を算出（0埋め用）
+    $maxTherapistId = $therapists->max('id') ?? 1;
+    $therapistIdLength = strlen((string) $maxTherapistId);
+
+    // 利用者リストを取得（ID降順）
     $clinicUsers = DB::table('clinic_users')
       ->select('id', 'last_name', 'first_name', 'last_kana', 'first_kana')
-      ->orderBy('last_kana')
-      ->orderBy('first_kana')
+      ->orderBy('id', 'desc')
       ->get();
+
+    // 利用者IDの最大桁数を算出（0埋め用）
+    $maxClinicUserId = $clinicUsers->max('id') ?? 1;
+    $clinicUserIdLength = strlen((string) $maxClinicUserId);
 
     // 選択された施術者ID（優先順位：リクエスト > Cookie > デフォルト）
     $selectedTherapistId = $request->input('therapist_id');
@@ -45,7 +52,7 @@ class ScheduleController extends Controller
       // リクエストで未指定の場合はCookieから取得
       $selectedTherapistId = $request->cookie('schedule_therapist_id');
 
-      // Cookieにもない場合はIDが最小の施術者を選択
+      // Cookieにもない場合はIDが最大の施術者を選択
       if (!$selectedTherapistId && $therapists->isNotEmpty()) {
         $selectedTherapistId = $therapists->first()->id;
       }
@@ -79,7 +86,9 @@ class ScheduleController extends Controller
     return response()
       ->view('schedules.schedules_index', [
         'therapists' => $therapists,
+        'therapistIdLength' => $therapistIdLength,
         'clinicUsers' => $clinicUsers,
+        'clinicUserIdLength' => $clinicUserIdLength,
         'selectedTherapistId' => $selectedTherapistId,
         'businessHoursStart' => $businessHoursStart,
         'businessHoursEnd' => $businessHoursEnd,

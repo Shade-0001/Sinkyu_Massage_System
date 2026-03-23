@@ -13,7 +13,7 @@
         <select id="therapist-select">
           @foreach($therapists as $therapist)
             <option value="{{ $therapist->id }}" {{ $selectedTherapistId == $therapist->id ? 'selected' : '' }}>
-              {{ $therapist->id }}｜{{ $therapist->last_name }}{{ "\u{2000}" }}{{ $therapist->first_name }}
+              ID-{{ str_pad($therapist->id, $therapistIdLength, '0', STR_PAD_LEFT) }}｜{{ $therapist->last_name }}{{ "\u{2000}" }}{{ $therapist->first_name }}
             </option>
           @endforeach
           <option value="all" {{ $selectedTherapistId === 'all' ? 'selected' : '' }}>［ 全表示 ］</option>
@@ -143,7 +143,7 @@
             <select class="form-select" id="new-user-select">
               <option value="">╌╌╌</option>
               @foreach($clinicUsers as $user)
-                <option value="{{ $user->id }}">{{ $user->id }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}</option>
+                <option value="{{ $user->id }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}</option>
               @endforeach
             </select>
           </div>
@@ -152,7 +152,7 @@
             <select class="form-select" id="new-therapist-select">
               <option value="">╌╌╌</option>
               @foreach($therapists as $therapist)
-                <option value="{{ $therapist->id }}">{{ $therapist->id }}｜{{ $therapist->last_name }}{{ "\u{2000}" }}{{ $therapist->first_name }}</option>
+                <option value="{{ $therapist->id }}">ID-{{ str_pad($therapist->id, $therapistIdLength, '0', STR_PAD_LEFT) }}｜{{ $therapist->last_name }}{{ "\u{2000}" }}{{ $therapist->first_name }}</option>
               @endforeach
             </select>
           </div>
