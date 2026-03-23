@@ -143,7 +143,7 @@
           <div class="time-select-group d-inline-flex align-items-center gap-1" data-target="start_time">
             <select class="time-select-hour" data-tooltip="先に日付を選択してください">
               @for($h = $bhStart; $h <= $bhEnd; $h++)
-                <option value="{{ $h }}" {{ $oldStartH === $h ? 'selected' : '' }}>{{ sprintf('%02d', $h) }}</option>
+                <option value="{{ $h }}" {{ $oldStartH === $h ? 'selected' : '' }}>{{ $h }}</option>
               @endfor
             </select>
             <span>:</span>
@@ -165,7 +165,7 @@
           <div class="time-select-group d-inline-flex align-items-center gap-1" data-target="end_time">
             <select class="time-select-hour" data-tooltip="先に日付を選択してください">
               @for($h = $bhStart; $h <= $bhEnd; $h++)
-                <option value="{{ $h }}" {{ $oldEndH === $h ? 'selected' : '' }}>{{ sprintf('%02d', $h) }}</option>
+                <option value="{{ $h }}" {{ $oldEndH === $h ? 'selected' : '' }}>{{ $h }}</option>
               @endfor
             </select>
             <span>:</span>

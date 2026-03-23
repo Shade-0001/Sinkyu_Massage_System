@@ -107,7 +107,7 @@
           <div class="time-select-group d-inline-flex align-items-center gap-1" data-target="start_time">
             <select class="time-select-hour">
               @for($h = $bhStart; $h <= $bhEnd; $h++)
-                <option value="{{ $h }}" {{ $startH === $h ? 'selected' : '' }}>{{ sprintf('%02d', $h) }}</option>
+                <option value="{{ $h }}" {{ $startH === $h ? 'selected' : '' }}>{{ $h }}</option>
               @endfor
             </select>
             <span>:</span>
@@ -129,7 +129,7 @@
           <div class="time-select-group d-inline-flex align-items-center gap-1" data-target="end_time">
             <select class="time-select-hour">
               @for($h = $bhStart; $h <= $bhEnd; $h++)
-                <option value="{{ $h }}" {{ $endH === $h ? 'selected' : '' }}>{{ sprintf('%02d', $h) }}</option>
+                <option value="{{ $h }}" {{ $endH === $h ? 'selected' : '' }}>{{ $h }}</option>
               @endfor
             </select>
             <span>:</span>
