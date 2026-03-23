@@ -94,7 +94,25 @@
             <span class="text-danger ms-2">{{ $message }}</span>
           @enderror
           <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
-          <input type="time" id="start_time" name="start_time" value="{{ old('start_time', $record->start_time ? date('H:i', strtotime($record->start_time)) : '') }}" step="600">
+          @php
+            $startTimeVal = old('start_time', $record->start_time ? date('H:i', strtotime($record->start_time)) : '');
+            $startH = $startTimeVal ? (int)explode(':', $startTimeVal)[0] : 0;
+            $startM = $startTimeVal ? (int)explode(':', $startTimeVal)[1] : 0;
+          @endphp
+          <div class="time-select-group d-inline-flex align-items-center gap-1" data-target="start_time">
+            <select class="time-select-hour">
+              @for($h = 0; $h <= 23; $h++)
+                <option value="{{ $h }}" {{ $startH === $h ? 'selected' : '' }}>{{ sprintf('%02d', $h) }}</option>
+              @endfor
+            </select>
+            <span>:</span>
+            <select class="time-select-minute">
+              @foreach([0, 10, 20, 30, 40, 50] as $m)
+                <option value="{{ $m }}" {{ $startM === $m ? 'selected' : '' }}>{{ sprintf('%02d', $m) }}</option>
+              @endforeach
+            </select>
+          </div>
+          <input type="hidden" id="start_time" name="start_time" value="{{ $startTimeVal }}">
         </div>
 
         <div class="mb-3">
@@ -103,7 +121,25 @@
             <span class="text-danger ms-2">{{ $message }}</span>
           @enderror
           <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
-          <input type="time" id="end_time" name="end_time" value="{{ old('end_time', $record->end_time ? date('H:i', strtotime($record->end_time)) : '') }}" step="600">
+          @php
+            $endTimeVal = old('end_time', $record->end_time ? date('H:i', strtotime($record->end_time)) : '');
+            $endH = $endTimeVal ? (int)explode(':', $endTimeVal)[0] : 0;
+            $endM = $endTimeVal ? (int)explode(':', $endTimeVal)[1] : 0;
+          @endphp
+          <div class="time-select-group d-inline-flex align-items-center gap-1" data-target="end_time">
+            <select class="time-select-hour">
+              @for($h = 0; $h <= 23; $h++)
+                <option value="{{ $h }}" {{ $endH === $h ? 'selected' : '' }}>{{ sprintf('%02d', $h) }}</option>
+              @endfor
+            </select>
+            <span>:</span>
+            <select class="time-select-minute">
+              @foreach([0, 10, 20, 30, 40, 50] as $m)
+                <option value="{{ $m }}" {{ $endM === $m ? 'selected' : '' }}>{{ sprintf('%02d', $m) }}</option>
+              @endforeach
+            </select>
+          </div>
+          <input type="hidden" id="end_time" name="end_time" value="{{ $endTimeVal }}">
         </div>
 
         <!-- 施術内容 -->

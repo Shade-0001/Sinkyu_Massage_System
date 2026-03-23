@@ -428,17 +428,10 @@ function updateRecordFieldsState() {
     }
   });
 
-  // 時刻inputも制御
-  ['start_time', 'end_time'].forEach(id => {
-    const input = document.getElementById(id);
-    if (!input) return;
-    if (hasSelectedDates) {
-      input.disabled = false;
-      input.style.cursor = '';
-    } else {
-      input.disabled = true;
-      input.style.cursor = 'default';
-    }
+  // 時刻セレクトも制御
+  document.querySelectorAll('.time-select-group select').forEach(select => {
+    select.disabled = !hasSelectedDates;
+    select.style.cursor = hasSelectedDates ? '' : 'default';
   });
 
   // disabled属性の変更後にツールチップを再初期化
@@ -532,6 +525,46 @@ function updateTooltipText(element, newText) {
   }
 }
 
+//━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━//
+// 時刻セレクト
+//━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━//
+
+// time-select-group の select 変更を hidden input に反映
+function initializeTimeSelects() {
+  document.querySelectorAll('.time-select-group').forEach(group => {
+    const targetId = group.dataset.target;
+    const hiddenInput = document.getElementById(targetId);
+    const hourSelect = group.querySelector('.time-select-hour');
+    const minuteSelect = group.querySelector('.time-select-minute');
+
+    function syncHidden() {
+      const h = String(hourSelect.value).padStart(2, '0');
+      const m = String(minuteSelect.value).padStart(2, '0');
+      hiddenInput.value = `${h}:${m}`;
+    }
+
+    hourSelect.addEventListener('change', syncHidden);
+    minuteSelect.addEventListener('change', syncHidden);
+
+    // 初期値を hidden に反映（既存値がなければ select の初期選択値で埋める）
+    if (!hiddenInput.value) syncHidden();
+  });
+}
+
+// 指定IDの time-select-group の選択値を更新
+function setTimeSelectValue(targetId, timeStr) {
+  const group = document.querySelector(`.time-select-group[data-target="${targetId}"]`);
+  if (!group || !timeStr) return;
+  const [h, m] = timeStr.split(':').map(Number);
+  const hourSelect = group.querySelector('.time-select-hour');
+  const minuteSelect = group.querySelector('.time-select-minute');
+  hourSelect.value = h;
+  // 最寄りの10分に丸める
+  minuteSelect.value = Math.round(m / 10) * 10 % 60;
+  const hiddenInput = document.getElementById(targetId);
+  if (hiddenInput) hiddenInput.value = timeStr;
+}
+
 // 古い入力値を復元
 function restoreOldInput() {
   const oldInput = window.recordsConfig.oldInput || {};
@@ -617,10 +650,7 @@ function applyScheduleDateTime(dateStr, timeStr) {
 
   // 開始時刻を設定
   if (timeStr) {
-    const startTimeInput = document.getElementById('start_time');
-    if (startTimeInput) {
-      startTimeInput.value = timeStr;
-    }
+    setTimeSelectValue('start_time', timeStr);
   }
 }
 
@@ -642,6 +672,8 @@ function initializeIndexPage() {
         applyScheduleDateTime(window.recordsConfig.startDate, window.recordsConfig.startTime);
       }, 0);
     }
+
+    initializeTimeSelects();
 
     // disabled属性が設定された後にツールチップを初期化
     if (typeof initializeReadonlyTooltips === 'function') {
@@ -693,6 +725,7 @@ function initializeEditPage() {
   updateConsentExpiryDisplay(); // 初期状態で同意有効期限を表示
   updateRecordFieldsState(); // 初期状態で実績フィールドの状態を更新
   updateInsuranceCategoryState(); // 初期状態で保険区分の状態を更新
+  initializeTimeSelects();
 }
 
 

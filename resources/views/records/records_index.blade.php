@@ -132,7 +132,20 @@
             <span class="text-danger ms-2">{{ $message }}</span>
           @enderror
           <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
-          <input type="time" id="start_time" name="start_time" value="{{ old('start_time') }}" step="600" data-tooltip="先に日付を選択してください">
+          <div class="time-select-group d-inline-flex align-items-center gap-1" data-target="start_time">
+            <select class="time-select-hour" data-tooltip="先に日付を選択してください">
+              @for($h = 0; $h <= 23; $h++)
+                <option value="{{ $h }}" {{ old('start_time') && (int)explode(':', old('start_time'))[0] === $h ? 'selected' : '' }}>{{ sprintf('%02d', $h) }}</option>
+              @endfor
+            </select>
+            <span>:</span>
+            <select class="time-select-minute" data-tooltip="先に日付を選択してください">
+              @foreach([0, 10, 20, 30, 40, 50] as $m)
+                <option value="{{ $m }}" {{ old('start_time') && isset(explode(':', old('start_time'))[1]) && (int)explode(':', old('start_time'))[1] === $m ? 'selected' : '' }}>{{ sprintf('%02d', $m) }}</option>
+              @endforeach
+            </select>
+          </div>
+          <input type="hidden" id="start_time" name="start_time" value="{{ old('start_time') }}">
         </div>
 
         <div class="mb-3">
@@ -141,7 +154,20 @@
             <span class="text-danger ms-2">{{ $message }}</span>
           @enderror
           <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
-          <input type="time" id="end_time" name="end_time" value="{{ old('end_time') }}" step="600" data-tooltip="先に日付を選択してください">
+          <div class="time-select-group d-inline-flex align-items-center gap-1" data-target="end_time">
+            <select class="time-select-hour" data-tooltip="先に日付を選択してください">
+              @for($h = 0; $h <= 23; $h++)
+                <option value="{{ $h }}" {{ old('end_time') && (int)explode(':', old('end_time'))[0] === $h ? 'selected' : '' }}>{{ sprintf('%02d', $h) }}</option>
+              @endfor
+            </select>
+            <span>:</span>
+            <select class="time-select-minute" data-tooltip="先に日付を選択してください">
+              @foreach([0, 10, 20, 30, 40, 50] as $m)
+                <option value="{{ $m }}" {{ old('end_time') && isset(explode(':', old('end_time'))[1]) && (int)explode(':', old('end_time'))[1] === $m ? 'selected' : '' }}>{{ sprintf('%02d', $m) }}</option>
+              @endforeach
+            </select>
+          </div>
+          <input type="hidden" id="end_time" name="end_time" value="{{ old('end_time') }}">
         </div>
 
         <!-- 施術内容 -->
