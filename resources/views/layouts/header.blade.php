@@ -241,11 +241,12 @@
   }
 
   function closeAll() {
-    panels.classList.remove('open');
     listPanel.classList.remove('open');
     detailPanel.classList.remove('open');
     chevron.classList.remove('rotated');
     currentNoticeId = null;
+    // トランジション完了後にラッパーを非表示（0.2s = transition duration）
+    setTimeout(() => { panels.classList.remove('open'); }, 200);
   }
 
   // ── イベント ──────────────────────────────
