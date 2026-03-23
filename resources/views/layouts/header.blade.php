@@ -124,18 +124,28 @@
         <div class="notice-list-item px-3 py-2 d-flex align-items-center gap-2 border-bottom border-secondary border-opacity-10
             ${n.is_read ? '' : 'notice-unread'} ${isActive ? 'notice-active' : ''}"
              data-id="${n.id}" role="button" tabindex="0">
+          <span class="nf nf-md-chevron_left notice-item-chevron flex-shrink-0 ${isActive ? 'rotated-left' : ''}"></span>
           <span class="notice-dot flex-shrink-0 ${n.is_read ? 'opacity-0' : ''}">●</span>
           <div class="flex-grow-1 overflow-hidden">
             <div class="small fw-bold text-truncate text-gray-90">${escHtml(n.title)}</div>
             <div class="text-secondary" style="font-size:11px;">${n.created_at}</div>
           </div>
-          <span class="nf nf-md-chevron_left notice-item-chevron flex-shrink-0 ${isActive ? 'rotated-left' : ''}"></span>
         </div>
       `;
     }).join('');
 
     listBody.querySelectorAll('.notice-list-item').forEach(el => {
-      el.addEventListener('click', (e) => { e.stopPropagation(); openDetail(parseInt(el.dataset.id)); });
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = parseInt(el.dataset.id);
+        if (currentNoticeId === id) {
+          currentNoticeId = null;
+          detailPanel.classList.remove('open');
+          renderList();
+        } else {
+          openDetail(id);
+        }
+      });
       el.addEventListener('keydown', e => { if (e.key === 'Enter') openDetail(parseInt(el.dataset.id)); });
     });
   }
