@@ -1132,18 +1132,18 @@ html[data-sidebar="closed"] #sidebar-content {
 }
 
 /*──────────────────────────────────────────────*/
-/*  詳細パネル（リストパネルと同一アニメーション） */
+/*  詳細パネル（左右スケールアニメーション）     */
 /*──────────────────────────────────────────────*/
 .notice-detail-panel {
   width: 320px;
   max-height: 360px;
-  transform-origin: top center;
-  transform: scaleY(0);
+  transform-origin: right center;
+  transform: scaleX(0);
   opacity: 0;
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 .notice-detail-panel.open {
-  transform: scaleY(1);
+  transform: scaleX(1);
   opacity: 1;
 }
 
