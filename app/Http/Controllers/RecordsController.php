@@ -45,6 +45,10 @@ class RecordsController extends Controller
       ->orderBy('id', 'desc')
       ->get();
 
+    // IDの最大桁数を算出（0埋め用）
+    $maxClinicUserId = $clinicUsers->max('id') ?? 1;
+    $clinicUserIdLength = strlen((string) $maxClinicUserId);
+
     // 選択された利用者ID（未指定時は最上オプション＝最大IDをデフォルト選択）
     $selectedUserId = $request->input('clinic_user_id', $clinicUsers->first()?->id ?? null);
 
@@ -206,6 +210,7 @@ class RecordsController extends Controller
       'businessHoursStart' => $clinicInfo->business_hours_start ?? null,
       'businessHoursEnd' => $clinicInfo->business_hours_end ?? null,
       'clinicUsers' => $clinicUsers,
+      'clinicUserIdLength' => $clinicUserIdLength,
       'selectedUserId' => $selectedUserId,
       'selectedTherapistId' => $selectedTherapistId,
       'startDate' => $scheduleStartDate,
