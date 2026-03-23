@@ -99,7 +99,7 @@
             <span class="text-danger ms-2">{{ $message }}</span>
           @enderror
           <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
-          <input type="time" id="start_time" name="start_time" value="{{ old('start_time', $record->start_time ? date('H:i', strtotime($record->start_time)) : '') }}">
+          <input type="time" id="start_time" name="start_time" value="{{ old('start_time', $record->start_time ? date('H:i', strtotime($record->start_time)) : '') }}" step="600">
         </div>
 
         <div class="mb-3">
@@ -108,7 +108,7 @@
             <span class="text-danger ms-2">{{ $message }}</span>
           @enderror
           <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
-          <input type="time" id="end_time" name="end_time" value="{{ old('end_time', $record->end_time ? date('H:i', strtotime($record->end_time)) : '') }}">
+          <input type="time" id="end_time" name="end_time" value="{{ old('end_time', $record->end_time ? date('H:i', strtotime($record->end_time)) : '') }}" step="600">
         </div>
 
         <!-- 施術内容 -->
