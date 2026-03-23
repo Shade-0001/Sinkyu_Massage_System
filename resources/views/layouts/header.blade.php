@@ -27,7 +27,7 @@
           <!-- 未読バッジ -->
           <span id="notice-unread-badge"
             class="position-absolute d-none badge rounded-pill"
-            style="top:-4px;left:-4px;min-width:18px;font-size:10px;padding:2px 4px;background:#EDBE00;color:#fff;">
+            style="top:-4px;left:-15px;min-width:18px;font-size:10px;padding:2px 4px;background:#d5ab00;color:#fff;">
             0
           </span>
         </span>
@@ -101,6 +101,7 @@
 
   let notices = [];
   let currentNoticeId = null;
+  let fetchSeq = 0; // fetch競合防止用シーケンス番号
 
   // ── バッジ更新 ──────────────────────────────
   function updateBadge(count) {
@@ -198,15 +199,18 @@
 
   // ── 一覧データ取得 ────────────────────────
   async function fetchNotices() {
+    const seq = ++fetchSeq;
     try {
       const res = await fetch(ROUTES.list, {
         headers: { 'X-Requested-With': 'XMLHttpRequest' }
       });
       const data = await res.json();
+      if (seq !== fetchSeq) return; // 古いレスポンスは破棄
       notices = data.notices;
       updateBadge(data.unread_count);
       renderList();
     } catch {
+      if (seq !== fetchSeq) return;
       listBody.innerHTML = '<div class="text-danger small px-3 py-2">取得失敗</div>';
     }
   }
@@ -269,9 +273,10 @@
   });
 
   // ── 初回バッジ取得（パネルを開かずに） ────
+  const initSeq = ++fetchSeq;
   fetch(ROUTES.list, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
     .then(r => r.json())
-    .then(d => { notices = d.notices; updateBadge(d.unread_count); })
+    .then(d => { if (initSeq !== fetchSeq) return; notices = d.notices; updateBadge(d.unread_count); })
     .catch(() => {});
 
   // ── ユーティリティ ────────────────────────
