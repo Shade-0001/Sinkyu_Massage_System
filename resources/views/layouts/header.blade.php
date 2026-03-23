@@ -35,11 +35,11 @@
       </button>
 
       <!-- パネルラッパー（リスト＋詳細を横並びで収める） -->
-      <div id="notice-panels" class="notice-panels d-none position-absolute d-flex">
+      <div id="notice-panels" class="notice-panels position-absolute" style="display:none;">
 
         <!-- 通知詳細パネル（リストの左側） -->
         <div id="notice-detail-panel"
-          class="notice-detail-panel d-none d-flex flex-column overflow-hidden rounded-start-2 border border-secondary border-opacity-25 shadow-lg bg-gray-26">
+          class="notice-detail-panel flex-column overflow-hidden rounded-start-2 border border-secondary border-opacity-25 shadow-lg bg-gray-26" style="display:none;">
           <div class="flex-shrink-0 px-3 py-2 border-bottom border-secondary border-opacity-25 d-flex align-items-center gap-2 bg-gray-20">
             <span class="fw-bold small text-gray-90 flex-grow-1 text-truncate" id="notice-detail-title"></span>
             <button id="notice-toggle-read-btn" type="button"
@@ -143,7 +143,7 @@
     detailDate.textContent    = n.created_at;
     detailContent.textContent = n.content;
     syncToggleBtn(n.is_read);
-    detailPanel.classList.remove('d-none');
+    detailPanel.style.display = 'flex';
     renderList();
 
     // 未読なら即時既読化
@@ -213,14 +213,14 @@
 
   // ── パネル開閉 ────────────────────────────
   function openListPanel() {
-    panels.classList.remove('d-none');
+    panels.style.display = 'flex';
     chevron.classList.add('rotated');
     fetchNotices();
   }
 
   function closeAll() {
-    panels.classList.add('d-none');
-    detailPanel.classList.add('d-none');
+    panels.style.display = 'none';
+    detailPanel.style.display = 'none';
     chevron.classList.remove('rotated');
     currentNoticeId = null;
   }
@@ -228,7 +228,7 @@
   // ── イベント ──────────────────────────────
   bellBtn.addEventListener('click', (e) => {
     e.stopPropagation();
-    if (!panels.classList.contains('d-none')) {
+    if (panels.style.display !== 'none' && panels.style.display !== '') {
       closeAll();
     } else {
       openListPanel();
