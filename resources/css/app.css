@@ -292,10 +292,10 @@
   transition: all 0.15s linear 0s, color 0.05s linear 0s;
   background-color: var(--btn-bg-color-base);
   color: var(--btn-text-color-base);
-  font-size: var(--btn-font-size-base);
-  font-weight: var(--btn-font-weight-base);
-  padding: var(--btn-padding-base);
-  border-radius: var(--btn-br-tl-base) var(--btn-br-tr-base) var(--btn-br-br-base) var(--btn-br-bl-base);
+  font-size: var(--btn-font-size, var(--btn-font-size-base));
+  font-weight: var(--btn-font-weight, var(--btn-font-weight-base));
+  padding: var(--btn-padding-y, var(--btn-padding-y-base)) var(--btn-padding-x, var(--btn-padding-x-base));
+  border-radius: var(--btn-br-tl, var(--btn-br-tl-base)) var(--btn-br-tr, var(--btn-br-tr-base)) var(--btn-br-br, var(--btn-br-br-base)) var(--btn-br-bl, var(--btn-br-bl-base));
   border: none;
   cursor: pointer;
   user-select: none;
@@ -410,21 +410,44 @@
     /*下*/ inset 0 var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-dark-base),
     /*右下*/ inset var(--btn-shadow-size-neg) var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-dark-base),
     /*── 枠線 ──────────*/
-    /*左上*/ inset calc(var(--btn-border-size) * 0.85) calc(var(--btn-border-size) * -0.85) var(--btn-border-blur) var(--btn-border-color),
+    /*左上*/ inset calc(var(--btn-border-size) * 0.95) calc(var(--btn-border-size) * -0.95) var(--btn-border-blur) var(--btn-border-color),
     /*上*/ inset 0 calc(var(--btn-border-size) * -1) var(--btn-border-blur) var(--btn-border-color),
     /*左*/ inset var(--btn-border-size) 0 var(--btn-border-blur) var(--btn-border-color),
-    /*左下*/ inset calc(var(--btn-border-size) * 0.85) calc(var(--btn-border-size) * 0.85) var(--btn-border-blur) var(--btn-border-color),
-    /*右上*/ inset calc(var(--btn-border-size) * -0.85) calc(var(--btn-border-size) * -0.85) var(--btn-border-blur) var(--btn-border-color),
+    /*左下*/ inset calc(var(--btn-border-size) * 0.95) calc(var(--btn-border-size) * 0.95) var(--btn-border-blur) var(--btn-border-color),
+    /*右上*/ inset calc(var(--btn-border-size) * -0.95) calc(var(--btn-border-size) * -0.95) var(--btn-border-blur) var(--btn-border-color),
     /*右*/ inset calc(var(--btn-border-size) * -1) 0 var(--btn-border-blur) var(--btn-border-color),
     /*下*/ inset 0 var(--btn-border-size) var(--btn-border-blur) var(--btn-border-color),
-    /*右下*/ inset calc(var(--btn-border-size) * -0.85) calc(var(--btn-border-size) * 0.85) var(--btn-border-blur) var(--btn-border-color);
+    /*右下*/ inset calc(var(--btn-border-size) * -0.95) calc(var(--btn-border-size) * 0.95) var(--btn-border-blur) var(--btn-border-color);
 }
-.btn-custom-sub:hover {
+.btn-custom-sub:hover,
+.btn-custom-sub-open-invert {
   -webkit-text-stroke: 0px rgba(255, 255, 255, 0.0);
 }
-.btn-custom-sub:hover::before {
+.btn-custom-sub:hover::before,
+.btn-custom-sub-open-invert::before {
   opacity: 0;
 }
+.btn-custom-sub-open-expand:not(.btn-custom-xs):not(.btn-custom-sm):not(.btn-custom-lg):not(.btn-custom-xl),
+.btn-custom-sub-open-expand.btn-custom-sm {
+  --btn-border-size: calc(var(--btn-shadow-size) * 2.5);
+}
+.btn-custom-sub-open-expand.btn-custom-xs {
+  --btn-border-size: calc(var(--btn-shadow-size) * 2.0);
+}
+.btn-custom-sub-open-expand.btn-custom-lg,
+.btn-custom-sub-open-expand.btn-custom-xl {
+  --btn-border-size: calc(var(--btn-shadow-size) * 2.8);
+}
+/* 展開中カラー */
+.btn-custom-sub-open-red    { --btn-primary-color: #E74C3C; }
+.btn-custom-sub-open-orange { --btn-primary-color: #E67E22; }
+.btn-custom-sub-open-yellow { --btn-primary-color: #EDBE00; }
+.btn-custom-sub-open-lime   { --btn-primary-color: #8FDC00; }
+.btn-custom-sub-open-green  { --btn-primary-color: #1BAD50; }
+.btn-custom-sub-open-cyan   { --btn-primary-color: #00BCB3; }
+.btn-custom-sub-open-blue   { --btn-primary-color: #1F91CE; }
+.btn-custom-sub-open-purple { --btn-primary-color: #B164E4; }
+.btn-custom-sub-open-gray   { --btn-primary-color: #75838A; }
 .btn-custom-sub:active {
   box-shadow:
     /*── ベベル ──────────*/
@@ -460,74 +483,96 @@
 .btn-custom-blue  { --btn-bg-color-base: #1F91CE; }
 .btn-custom-purple{ --btn-bg-color-base: #B164E4; }
 .btn-custom-gray  { --btn-bg-color-base: #75838A; }
-.btn-custom-test1 { --btn-bg-color-base: #6C91A5; }
 
 /* サイズ */
 .btn-custom-xs {
-  --btn-font-size: calc(var(--btn-font-size-base) * 0.5);
-  --btn-font-weight: calc(var(--btn-font-weight-base) * 0.5);
+  --btn-font-size: calc(var(--btn-font-size-base) * 0.7);
+  --btn-font-weight: calc(var(--btn-font-weight-base) - 100);
   --btn-padding-y: calc(var(--btn-padding-y-base) * 0.5);
   --btn-padding-x: calc(var(--btn-padding-x-base) * 0.5);
-  --btn-br-tl: calc(var(--btn-br-tl-base) * 0.5);
-  --btn-br-tr: calc(var(--btn-br-tr-base) * 0.5);
-  --btn-br-bl: calc(var(--btn-br-bl-base) * 0.5);
-  --btn-br-br: calc(var(--btn-br-br-base) * 0.5);
-  --btn-shadow-size: calc(var(--btn-shadow-size-base) * 0.5);
+  --btn-br-tl: calc(var(--btn-br-tl-base) * 0.7);
+  --btn-br-tr: calc(var(--btn-br-tr-base) * 0.7);
+  --btn-br-bl: calc(var(--btn-br-bl-base) * 0.7);
+  --btn-br-br: calc(var(--btn-br-br-base) * 0.7);
+  --btn-shadow-size: calc(var(--btn-shadow-size-base) * 0.7);
 }
 .btn-custom-sm {
-  --btn-font-size: calc(var(--btn-font-size-base) * 0.75);
-  --btn-font-weight: calc(var(--btn-font-weight-base) * 0.75);
+  --btn-font-size: calc(var(--btn-font-size-base) * 0.85);
+  --btn-font-weight: calc(var(--btn-font-weight-base) - 100);
   --btn-padding-y: calc(var(--btn-padding-y-base) * 0.75);
   --btn-padding-x: calc(var(--btn-padding-x-base) * 0.75);
-  --btn-br-tl: calc(var(--btn-br-tl-base) * 0.75);
-  --btn-br-tr: calc(var(--btn-br-tr-base) * 0.75);
-  --btn-br-bl: calc(var(--btn-br-bl-base) * 0.75);
-  --btn-br-br: calc(var(--btn-br-br-base) * 0.75);
-  --btn-shadow-size: calc(var(--btn-shadow-size-base) * 0.75);
+  --btn-br-tl: calc(var(--btn-br-tl-base) * 0.85);
+  --btn-br-tr: calc(var(--btn-br-tr-base) * 0.85);
+  --btn-br-bl: calc(var(--btn-br-bl-base) * 0.85);
+  --btn-br-br: calc(var(--btn-br-br-base) * 0.85);
+  --btn-shadow-size: calc(var(--btn-shadow-size-base) * 0.85);
 }
 .btn-custom-lg {
-  --btn-font-size: calc(var(--btn-font-size-base) * 1.25);
-  --btn-font-weight: calc(var(--btn-font-weight-base) * 1.25);
+  --btn-font-size: calc(var(--btn-font-size-base) * 1.15);
+  --btn-font-weight: calc(var(--btn-font-weight-base) + 100);
   --btn-padding-y: calc(var(--btn-padding-y-base) * 1.25);
   --btn-padding-x: calc(var(--btn-padding-x-base) * 1.25);
-  --btn-br-tl: calc(var(--btn-br-tl-base) * 1.25);
-  --btn-br-tr: calc(var(--btn-br-tr-base) * 1.25);
-  --btn-br-bl: calc(var(--btn-br-bl-base) * 1.25);
-  --btn-br-br: calc(var(--btn-br-br-base) * 1.25);
-  --btn-shadow-size: calc(var(--btn-shadow-size-base) * 1.25);
+  --btn-br-tl: calc(var(--btn-br-tl-base) * 1.15);
+  --btn-br-tr: calc(var(--btn-br-tr-base) * 1.15);
+  --btn-br-bl: calc(var(--btn-br-bl-base) * 1.15);
+  --btn-br-br: calc(var(--btn-br-br-base) * 1.15);
+  --btn-shadow-size: calc(var(--btn-shadow-size-base) * 1.15);
 }
 .btn-custom-xl {
-  --btn-font-size: calc(var(--btn-font-size-base) * 1.5);
-  --btn-font-weight: calc(var(--btn-font-weight-base) * 1.5);
+  --btn-font-size: calc(var(--btn-font-size-base) * 1.3);
+  --btn-font-weight: calc(var(--btn-font-weight-base) + 100);
   --btn-padding-y: calc(var(--btn-padding-y-base) * 1.5);
   --btn-padding-x: calc(var(--btn-padding-x-base) * 1.5);
-  --btn-br-tl: calc(var(--btn-br-tl-base) * 1.5);
-  --btn-br-tr: calc(var(--btn-br-tr-base) * 1.5);
-  --btn-br-bl: calc(var(--btn-br-bl-base) * 1.5);
-  --btn-br-br: calc(var(--btn-br-br-base) * 1.5);
-  --btn-shadow-size: calc(var(--btn-shadow-size-base) * 1.5);
+  --btn-br-tl: calc(var(--btn-br-tl-base) * 1.3);
+  --btn-br-tr: calc(var(--btn-br-tr-base) * 1.3);
+  --btn-br-bl: calc(var(--btn-br-bl-base) * 1.3);
+  --btn-br-br: calc(var(--btn-br-br-base) * 1.3);
+  --btn-shadow-size: calc(var(--btn-shadow-size-base) * 1.3);
 }
 /* サイズ - .btn-custom-sub用 */
 .btn-custom-sub.btn-custom-xs {
-  --btn-shadow-size: calc(var(--btn-shadow-size-base) * 0.5);
+
 }
 .btn-custom-sub.btn-custom-sm {
-  --btn-shadow-size: calc(var(--btn-shadow-size-base) * 0.75);
+
 }
 .btn-custom-sub.btn-custom-lg {
-  --btn-shadow-size: calc(var(--btn-shadow-size-base) * 1.25);
+
 }
 .btn-custom-sub.btn-custom-xl {
-  --btn-shadow-size: calc(var(--btn-shadow-size-base) * 1.5);
+
 }
 
 /*──────────────────────────────────────────────*/
 /*  スペーシング                                 */
 /*──────────────────────────────────────────────*/
+/* p-0.25 */
+.p-025 { padding: 0.0625rem !important; }
+.pt-025 { padding-top: 0.0625rem !important; }
+.pb-025 { padding-bottom: 0.0625rem !important; }
+.pl-025 { padding-left: 0.0625rem !important; }
+.pr-025 { padding-right: 0.0625rem !important; }
+
+/* p-0.5 */
+.p-05 { padding: 0.125rem !important; }
+.pt-05 { padding-top: 0.125rem !important; }
+.pb-05 { padding-bottom: 0.125rem !important; }
+.pl-05 { padding-left: 0.125rem !important; }
+.pr-05 { padding-right: 0.125rem !important; }
+
 /* m-0.25 */
-.m-025 { margin: 0.0625rem !important; } 
-/* mb-0.5 */
+.m-025 { margin: 0.0625rem !important; }
+.mt-025 { margin-top: 0.0625rem !important; }
+.mb-025 { margin-bottom: 0.0625rem !important; }
+.ml-025 { margin-left: 0.0625rem !important; }
+.mr-025 { margin-right: 0.0625rem !important; }
+
+/* m-0.5 */
+.m-05 { margin: 0.125rem !important; }
+.mt-05 { margin-top: 0.125rem !important; }
 .mb-05 { margin-bottom: 0.125rem !important; }
+.ml-05 { margin-left: 0.125rem !important; }
+.mr-05 { margin-right: 0.125rem !important; }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
 

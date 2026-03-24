@@ -27,7 +27,7 @@
           <!-- 未読バッジ -->
           <span id="notice-unread-badge"
             class="position-absolute d-none badge rounded-pill"
-            style="top:-4px;left:-15px;min-width:18px;font-size:10px;padding:2px 4px;background:#d5ab00;color:#fff;">
+            style="top:-4px;left:-15px;min-width:18px;font-size:10px;padding:2px 4px;background:#d5ab00;color:#fff;z-index:3;">
             0
           </span>
         </span>

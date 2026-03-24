@@ -181,12 +181,45 @@ function onBtnSubMouseenter(e) {
   el.style.color = el._btnSubBlendedColor;
 }
 
-// ホバー終了：background-colorとcolorを元の状態に戻す
+// ホバー終了：open-invert展開中は色を維持、それ以外はリセット
 function onBtnSubMouseleave(e) {
   const el = e.currentTarget;
+  if (getBtnOpenClasses(el).includes('btn-custom-sub-open-invert') && el.classList.contains('btn-custom-sub-open-invert')) return;
   el._btnSubHovering = false;
   el.style.backgroundColor = '';
   el.style.color = el._btnSubOriginalColor ?? '';
+}
+
+// data-bs-open-classで指定されたクラスを取得
+function getBtnOpenClasses(btn) {
+  return (btn.getAttribute('data-bs-open-class') || '').split(' ').filter(c => c);
+}
+
+// collapseトグル展開時：open-classを付与・invert指定があれば色も適用
+function onBtnSubCollapseShow(collapseEl) {
+  const btn = document.querySelector(`[data-bs-toggle="collapse"][data-bs-target="#${collapseEl.id}"]`);
+  if (!btn || !btn.classList.contains('btn-custom-sub')) return;
+  const openClasses = getBtnOpenClasses(btn);
+  if (openClasses.includes('btn-custom-sub-open-invert')) {
+    if (!btn._btnSubHoverBg) initBtnSubColors(btn);
+    btn._btnSubHovering = true;
+    btn.style.backgroundColor = btn._btnSubHoverBg;
+    btn.style.color = btn._btnSubBlendedColor;
+  }
+  btn.classList.add(...openClasses);
+}
+
+// collapseトグル格納時：open-classを削除・invert指定があれば色もリセット
+function onBtnSubCollapseHide(collapseEl) {
+  const btn = document.querySelector(`[data-bs-toggle="collapse"][data-bs-target="#${collapseEl.id}"]`);
+  if (!btn || !btn.classList.contains('btn-custom-sub')) return;
+  const openClasses = getBtnOpenClasses(btn);
+  if (openClasses.includes('btn-custom-sub-open-invert')) {
+    btn._btnSubHovering = false;
+    btn.style.backgroundColor = '';
+    btn.style.color = btn._btnSubOriginalColor ?? '';
+  }
+  btn.classList.remove(...openClasses);
 }
 
 // 各.btn-custom-sub要素に色の事前計算とイベントリスナーを登録
@@ -197,3 +230,27 @@ function setupBtnSub(el) {
 }
 
 document.querySelectorAll('.btn-custom-sub').forEach(setupBtnSub);
+
+// collapseイベントでホバー色を制御
+document.addEventListener('show.bs.collapse', e => onBtnSubCollapseShow(e.target));
+document.addEventListener('hide.bs.collapse', e => onBtnSubCollapseHide(e.target));
+
+// ページ読み込み時、既に展開中のcollapseトグルにホバー色を適用（initBtnSubColorsの遅延後に実行）
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    document.querySelectorAll('[data-bs-toggle="collapse"].btn-custom-sub').forEach(btn => {
+      const targetId = btn.getAttribute('data-bs-target');
+      if (!targetId) return;
+      const collapseEl = document.querySelector(targetId);
+      if (!collapseEl || !collapseEl.classList.contains('show')) return;
+      const openClasses = getBtnOpenClasses(btn);
+      if (openClasses.includes('btn-custom-sub-open-invert')) {
+        if (!btn._btnSubHoverBg) return;
+        btn._btnSubHovering = true;
+        btn.style.backgroundColor = btn._btnSubHoverBg;
+        btn.style.color = btn._btnSubBlendedColor;
+      }
+      btn.classList.add(...openClasses);
+    });
+  }, 250);
+});

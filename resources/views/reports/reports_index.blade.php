@@ -12,11 +12,11 @@
         <option value="">╌╌╌</option>
         @foreach($clinicUsers as $user)
           <option value="{{ $user->id }}" {{ $selectedUserId == $user->id ? 'selected' : '' }}>
-            ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}
+            ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{"\u{2000}"}}{{ $user->first_name }}｜{{ $user->last_kana }}{{"\u{2000}"}}{{ $user->first_kana }}
           </option>
         @endforeach
       </select>
-      <button type="button" onclick="openUserSearchPopup()" class="mx-2">利用者検索</button>
+      <button type="button" class="btn-custom btn-custom-blue btn-custom-sm ms-3" onclick="openUserSearchPopup()">利用者検索</button>
     </div>
   </form>
   <br>
@@ -44,11 +44,35 @@
   @else
     <!-- 報告書データ一覧表示エリア -->
     <div id="reports-list-area" style="max-height: 70vh; overflow-y: auto; overflow-x: hidden; border: 1px solid #dee2e6;">
-      @foreach($reportsByYear as $year => $yearData)
+      @php
+      // 現在年月に最も近いデータがある年月を特定
+      $currentYearMonthVal = $currentYear * 100 + $currentMonth;
+      $closestYearMonthVal = null;
+      $closestDiff = PHP_INT_MAX;
+      foreach($reportsByYear as $yr => $yrData) {
+        foreach($yrData['months'] as $item) {
+          if ($item['report']) {
+            $ymVal = $item['year'] * 100 + $item['month'];
+            $diff = $currentYearMonthVal - $ymVal; // 正=過去, 負=未来
+            $absDiff = abs($diff);
+            // 過去側優先（同距離なら過去を選ぶ）
+            if ($absDiff < $closestDiff || ($absDiff === $closestDiff && $diff >= 0)) {
+              $closestDiff = $absDiff;
+              $closestYearMonthVal = $ymVal;
+            }
+          }
+        }
+      }
+      $closestYear = $closestYearMonthVal ? intdiv($closestYearMonthVal, 100) : null;
+      $closestMonth = $closestYearMonthVal ? $closestYearMonthVal % 100 : null;
+    @endphp
+
+    @foreach($reportsByYear as $year => $yearData)
         @php
           $hasReports = $yearData['has_reports'];
           $months = $yearData['months'];
           $collapseId = 'year-' . $year;
+          $isYearExpanded = ($year == $closestYear);
         @endphp
 
         @if(!$loop->first)
@@ -58,15 +82,16 @@
         <!-- 年ヘッダー（折り畳み・展開ボタン） -->
         <div class="year-header mb-2 d-flex align-items-center">
           <button
-            class="btn-custom btn-custom-sub btn-custom-blue btn-custom-lg fs-2 d-flex align-items-center gap-2"
+            class="btn-custom btn-custom-sub btn-custom-xl fs-2 gap-2"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#{{ $collapseId }}"
-            aria-expanded="{{ $year == $currentYear ? 'true' : 'false' }}"
+            data-bs-open-class="btn-custom-sub-open-blue"
+            aria-expanded="{{ $isYearExpanded ? 'true' : 'false' }}"
             aria-controls="{{ $collapseId }}"
           >
-            <span>{{ $year }}</span>
-            <span class="year-toggle-arrow {{ $year == $currentYear ? 'rotated' : '' }}" style="display: inline-flex; align-items: center; align-self: center;">
+            <span class="align-self-center lh-1 pt-05 pb-1">{{ $year }}</span>
+            <span class="year-toggle-arrow {{ $isYearExpanded ? 'rotated' : '' }} d-inline-flex align-items-center align-self-center">
               <i class="nf nf-md-chevron_down fs-5 ps-2"></i>
             </span>
           </button>
@@ -74,42 +99,44 @@
         </div>
 
         <!-- 月別データ（折り畳み可能） -->
-        <div class="collapse {{ $year == $currentYear ? 'show' : '' }}" id="{{ $collapseId }}" data-year="{{ $year }}">
+        <div class="collapse {{ $isYearExpanded ? 'show' : '' }}" id="{{ $collapseId }}" data-year="{{ $year }}">
           @foreach($months as $item)
             @php
               $yearMonth = sprintf('%04d-%02d', $item['year'], $item['month']);
               $monthCollapseId = "month-{$year}-{$item['month']}";
+              $isMonthExpanded = ($item['year'] == $closestYear && $item['month'] == $closestMonth);
             @endphp
             <div class="report-month-section mb-4 ms-4" data-year-month="{{ $yearMonth }}">
               @if($item['report'])
                 <!-- 報告書データあり -->
                 <div
-                  class="btn-custom btn-custom-sub"
+                  class="btn-custom btn-custom-sub btn-custom-lg"
                   role="button"
                   data-bs-toggle="collapse"
                   data-bs-target="#{{ $monthCollapseId }}"
-                  aria-expanded="true"
+                  data-bs-open-class="btn-custom-sub-open-blue"
+                  aria-expanded="{{ $isMonthExpanded ? 'true' : 'false' }}"
                   aria-controls="{{ $monthCollapseId }}"
                 >
-                  {{ $item['year'] }}年 {{ sprintf('%02d', $item['month']) }}月
-                  <span class="year-toggle-arrow rotated" style="display: inline-flex; align-items: center; align-self: center;">
+                  {{ $item['year'] }}年{{"\u{2000}"}}{{ $item['month'] }}月
+                  <span class="year-toggle-arrow {{ $isMonthExpanded ? 'rotated' : '' }}" style="display: inline-flex; align-items: center; align-self: center;">
                     <i class="nf nf-md-chevron_down ps-2"></i>
                   </span>
                 </div>
-                <div class="collapse show" id="{{ $monthCollapseId }}" style="overflow-x: hidden;">
+                <div class="collapse {{ $isMonthExpanded ? 'show' : '' }}" id="{{ $monthCollapseId }}" style="overflow-x: hidden;">
                   <table class="table table-bordered" style="font-size: 0.9rem; table-layout: fixed; width: 100%;">
                     <tbody>
                       <tr>
                         <th class="align-middle text-center bg-light" style="width: 7rem;">データ操作</th>
                         <td class="align-middle" style="white-space: nowrap;">
-                          <a href="{{ route('reports.edit', $item['report']->id) }}"><button type="button">編集</button></a>
-                          <a href="{{ route('reports.duplicate', $item['report']->id) }}"><button type="button">複製</button></a>
+                          <a href="{{ route('reports.edit', $item['report']->id) }}"><button type="button" class="btn-custom btn-custom-blue btn-custom-sm">編集</button></a>
+                          <a href="{{ route('reports.duplicate', $item['report']->id) }}"><button type="button" class="btn-custom btn-custom-blue btn-custom-sm">複製</button></a>
+                          <button type="button" class="btn-custom btn-custom-blue btn-custom-sm" onclick="openReportPrintModal('{{ $selectedUserId }}', '{{ $yearMonth }}')">印刷</button>
                           <form method="POST" action="{{ route('reports.destroy', $item['report']->id) }}" style="display:inline;" onsubmit="return confirm('この報告書データを削除してもよろしいですか？');">
                             @csrf
                             @method('DELETE')
-                            <button type="submit">削除</button>
+                            <button type="submit" class="btn-custom btn-custom-red btn-custom-sm">削除</button>
                           </form>
-                          <button type="button" onclick="openReportPrintModal('{{ $selectedUserId }}', '{{ $yearMonth }}')">印刷</button>
                         </td>
                       </tr>
                       <tr>
@@ -134,11 +161,11 @@
               @else
                 <!-- 報告書データなし -->
                 <div class="d-flex align-items-center">
-                  <div class="fw-bold fs-5 mb-0">{{ $item['year'] }}年 {{ $item['month'] }}月</div>
+                  <div class="fw-medium fs-5 mb-0 opacity-75">{{ $item['year'] }}年{{"\u{2000}"}}{{ $item['month'] }}月</div>
                   <div class="vr ms-3 me-5" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
                   <span class="text-secondary me-3">該当データなし</span>
                   <a href="{{ route('reports.create', ['clinic_user_id' => $selectedUserId, 'year' => $item['year'], 'month' => $item['month']]) }}">
-                    <button type="button">新規登録</button>
+                    <button type="button" class="btn-custom btn-custom-blue btn-custom-sm">新規登録</button>
                   </a>
                 </div>
               @endif

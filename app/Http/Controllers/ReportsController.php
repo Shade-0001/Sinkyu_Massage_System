@@ -114,6 +114,7 @@ class ReportsController extends Controller
       'reportsByYear' => $reportsByYear,
       'scrollToYearMonth' => $scrollToYearMonth,
       'currentYear' => (int)(new DateTime())->format('Y'),
+      'currentMonth' => (int)(new DateTime())->format('n'),
       'page_header_title' => '報告書データ',
     ]);
   }
