@@ -6,33 +6,14 @@
   <title>利用者検索</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-  <style>
-    .pseudo-fieldset {
-      position: relative;
-      border: 1px solid #dee2e6;
-      border-radius: 0.25rem;
-      padding: 0.75rem 0.75rem 0.5rem;
-      margin-top: 0.6rem;
-    }
-    .pseudo-legend {
-      position: absolute;
-      top: -0.6rem;
-      left: 0.6rem;
-      padding: 0 0.25rem;
-      background: white;
-      font-size: 0.875rem;
-      line-height: 1;
-      white-space: nowrap;
-    }
-  </style>
 </head>
 <body>
   <div class="d-inline-flex gap-3 align-items-start m-3">
     <!-- 左パネル：検索ツール -->
     <div class="flex-shrink-0">
       <!-- 検索対象指定ラジオボタン -->
-      <div class="pseudo-fieldset">
-        <span class="pseudo-legend">氏名/TEL検索</span>
+      <div class="position-relative border rounded px-3 pb-2 mt-3">
+        <span class="position-absolute top-0 start-0 translate-middle-y ms-2 px-1 bg-white small">氏名/TEL検索</span>
         <label><input type="radio" name="search-target" value="name" checked> 氏名</label>
         <label><input type="radio" name="search-target" value="kana"> カナ</label>
         <label><input type="radio" name="search-target" value="tel"> TEL</label>
@@ -46,8 +27,8 @@
 
 
       <!-- 50音検索 -->
-      <div class="pseudo-fieldset">
-        <span class="pseudo-legend">50音検索</span>
+      <div class="position-relative border rounded px-3 pb-2 mt-3">
+        <span class="position-absolute top-0 start-0 translate-middle-y ms-2 px-1 bg-white small">50音検索</span>
         <table id="katakana-table">
           <thead>
             <tr>
@@ -154,8 +135,8 @@
 
     <!-- 右パネル：利用者情報表示ボックス -->
     <div class="flex-shrink-0">
-      <div id="selected-user-box" class="pseudo-fieldset">
-        <span class="pseudo-legend"><button type="button" id="select-user-btn" style="display: none;">この利用者を選択</button></span>
+      <div id="selected-user-box" class="position-relative border rounded px-3 pb-2 mt-3">
+        <span class="position-absolute top-0 start-0 translate-middle-y ms-2 px-1 bg-white small"><button type="button" id="select-user-btn" style="display: none;">この利用者を選択</button></span>
         <div id="selected-user-info">
           <p>利用者を選択してください</p>
         </div>
