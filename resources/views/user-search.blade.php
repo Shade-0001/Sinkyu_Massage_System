@@ -188,6 +188,7 @@
       setTimeout(resizeToContent, 100);
 
       const allUsers = @json($users);
+      const clinicUserIdLength = {{ $clinicUserIdLength }};
       const userList = document.getElementById('user-list');
       const matchCount = document.getElementById('match-count');
       const searchKeyword = document.getElementById('search-keyword');
@@ -266,7 +267,8 @@
           option.dataset.birthday = user.birthday ? user.birthday.split('T')[0].replace(/-/g, '/') : '';
           option.dataset.age = user.age || '';
           option.dataset.note = user.note || '';
-          option.textContent = (user.last_name || '') + '\u2000' + (user.first_name || '');
+          const paddedId = 'ID-' + String(user.id).padStart(clinicUserIdLength, '0');
+          option.textContent = paddedId + '｜' + (user.last_name || '') + '\u2000' + (user.first_name || '') + '｜' + (user.last_kana || '') + '\u2000' + (user.first_kana || '');
           userList.appendChild(option);
         });
         matchCount.textContent = users.length;
