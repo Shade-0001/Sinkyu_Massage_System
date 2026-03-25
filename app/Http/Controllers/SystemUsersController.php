@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\SystemUser;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class SystemUsersController extends Controller
@@ -43,7 +44,11 @@ class SystemUsersController extends Controller
       'name'           => 'required|string|max:255',
       'login_id'       => 'required|string|max:255|unique:system_users,login_id',
       'plain_password' => 'required|string|min:4|max:255',
-      'is_admin'       => 'required|in:0,1',
+      'is_admin'       => ['required', 'in:0,1', function ($attr, $value, $fail) {
+        if ($value == 1 && !Auth::user()->is_admin) {
+          $fail('管理者権限を付与できるのは管理者のみです。');
+        }
+      }],
     ]);
 
     SystemUser::create([
@@ -108,7 +113,11 @@ class SystemUsersController extends Controller
       'name'           => 'required|string|max:255',
       'login_id'       => 'required|string|max:255|unique:system_users,login_id,' . $id,
       'plain_password' => 'required|string|min:4|max:255',
-      'is_admin'       => 'required|in:0,1',
+      'is_admin'       => ['required', 'in:0,1', function ($attr, $value, $fail) {
+        if ($value == 1 && !Auth::user()->is_admin) {
+          $fail('管理者権限を付与できるのは管理者のみです。');
+        }
+      }],
     ]);
 
     $systemUser->update([

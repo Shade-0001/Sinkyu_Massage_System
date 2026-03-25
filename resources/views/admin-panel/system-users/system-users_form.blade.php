@@ -85,7 +85,7 @@
     >
       <option value="" disabled {{ old('is_admin', $systemUser->is_admin ?? '') === '' ? 'selected' : '' }}>選択してください</option>
       <option value="0" {{ old('is_admin', $systemUser->is_admin ?? '') === 0 || old('is_admin', $systemUser->is_admin ?? '') === '0' ? 'selected' : '' }}>通常</option>
-      <option value="1" {{ old('is_admin', $systemUser->is_admin ?? '') === 1 || old('is_admin', $systemUser->is_admin ?? '') === '1' ? 'selected' : '' }}>管理者</option>
+      <option value="1" {{ old('is_admin', $systemUser->is_admin ?? '') === 1 || old('is_admin', $systemUser->is_admin ?? '') === '1' ? 'selected' : '' }} {{ !Auth::user()->is_admin ? 'disabled' : '' }}>管理者</option>
     </select>
     @error('is_admin')
     <div class="invalid-feedback">{{ $message }}</div>
