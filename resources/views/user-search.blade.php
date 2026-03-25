@@ -8,12 +8,12 @@
   <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 <body>
-  <div class="d-inline-flex gap-3 align-items-start">
-    <!-- 左側: 検索機能 -->
+  <div class="d-inline-flex gap-3 align-items-start m-3">
+    <!-- 左パネル：検索ツール -->
     <div class="flex-shrink-0">
       <!-- 検索対象指定ラジオボタン -->
-      <fieldset>
-        <legend>検索対象</legend>
+      <fieldset style="border: 1px solid #dee2e6; padding: 0.5rem;">
+        <legend>氏名/TEL検索</legend>
         <label><input type="radio" name="search-target" value="name" checked> 氏名</label>
         <label><input type="radio" name="search-target" value="kana"> カナ</label>
         <label><input type="radio" name="search-target" value="tel"> TEL</label>
@@ -133,13 +133,13 @@
       </div>
     </div>
 
-    <!-- 右側: 利用者表示ボックス -->
+    <!-- 右パネル：利用者情報表示ボックス -->
     <div class="flex-shrink-0">
-      <fieldset id="selected-user-box">
-        <div id="selected-user-info">
-          <p>利用者が選択されていません</p>
-        </div>
+      <fieldset id="selected-user-box" style="border: 1px solid #dee2e6; padding: 0.5rem;">
         <legend><button type="button" id="select-user-btn" style="display: none;">この利用者を選択</button></legend>
+        <div id="selected-user-info">
+          <p>利用者を選択してください</p>
+        </div>
       </fieldset>
     </div>
   </div>
