@@ -148,9 +148,6 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // 初回リサイズ判定フラグ
-      let isFirstResize = true;
-
       // ウィンドウサイズをコンテンツに合わせて調整
       function resizeToContent() {
         const body = document.body;
@@ -164,13 +161,8 @@
         const chromeWidth = window.outerWidth - window.innerWidth;
         const chromeHeight = window.outerHeight - window.innerHeight;
 
-        // 初回のみマージンを追加
-        const margin = isFirstResize ? 40 : 0;
-        const targetWidth = contentWidth + chromeWidth + margin;
-        const targetHeight = contentHeight + chromeHeight + margin;
-
-        // フラグを更新
-        isFirstResize = false;
+        const targetWidth = contentWidth + chromeWidth;
+        const targetHeight = contentHeight + chromeHeight;
 
         // 画面サイズを超えないように制限
         const maxWidth = screen.availWidth * 0.9;
