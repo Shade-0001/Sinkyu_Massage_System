@@ -136,11 +136,10 @@
     <!-- 右側: 利用者表示ボックス -->
     <div class="flex-shrink-0">
       <fieldset id="selected-user-box">
-        <legend><button type="button" id="select-user-btn">この利用者を選択</button></legend>
         <div id="selected-user-info">
           <p>利用者が選択されていません</p>
         </div>
-
+        <legend><button type="button" id="select-user-btn" style="display: none;">この利用者を選択</button></legend>
       </fieldset>
     </div>
   </div>
@@ -207,9 +206,11 @@
       function displayUserInfo(option) {
         if (!option) {
           selectedUserInfo.innerHTML = '<p>利用者が選択されていません</p>';
+          selectUserBtn.style.display = 'none';
           currentSelectedUserId = null;
           return;
         }
+        selectUserBtn.style.display = '';
 
         currentSelectedUserId = option.value;
         const lastName = option.dataset.lastName || '';
