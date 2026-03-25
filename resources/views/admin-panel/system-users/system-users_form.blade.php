@@ -1,4 +1,5 @@
 <x-app-layout>
+  @section('title', $page_header_title)
   @php
     $breadcrumb_key = $mode === 'edit' ? 'system-users.edit' : 'system-users.create';
     $action = $mode === 'edit'

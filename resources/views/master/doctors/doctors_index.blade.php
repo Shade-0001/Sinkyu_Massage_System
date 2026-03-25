@@ -1,4 +1,5 @@
 <x-app-layout>
+  @section('title', '医師')
   <x-page-header
     title="医師"
     :breadcrumbs="App\Support\Breadcrumbs::generate('doctors.index')"

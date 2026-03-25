@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>利用者検索</title>
+  <title>利用者検索｜鍼灸マッサージ管理システム v1.0.0</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-90">
-  <div class="d-inline-flex gap-3 align-items-start m-4 mt-5">
+  <div class="d-inline-flex gap-3 align-items-start m-4 pt-2">
     <!-- 左パネル：検索ツール -->
     <div class="flex-shrink-0">
       <!-- 氏名/TEL検索 -->
@@ -112,9 +112,9 @@
 
 
       <!-- 該当利用者一覧ボックス -->
-      <div class="position-relative border border-2 border-dark-subtle rounded-1 px-3 pb-3 bg-gray-100 mb-5">
+      <div class="position-relative border border-2 border-dark-subtle rounded-1 px-3 pb-3 bg-gray-100">
         <p class="position-absolute top-0 start-0 translate-middle-y ms-3 py-1 px-2 bg-gray-100 border border-3 border-top-0 border-bottom-0 border-dark-subtle rounded-3 fw-medium">該当者 (<span id="match-count">{{ count($users) }}</span>件)</p>
-        <select id="user-list" size="10" class="mt-4">
+        <select id="user-list" size="6" class="mt-4 border border-0">
           @foreach($users as $user)
             <option value="{{ $user->id }}"
               data-last-name="{{ $user->last_name }}"
@@ -136,7 +136,7 @@
 
     <!-- 右パネル：利用者情報表示ボックス -->
     <div class="flex-shrink-0" style="width: 400px">
-      <div id="selected-user-box" class="position-relative border border-2 border-dark-subtle rounded-1 px-3 pb-3 bg-gray-100 mb-5">
+      <div id="selected-user-box" class="position-relative border border-2 border-dark-subtle rounded-1 px-3 pb-3 bg-gray-100">
         <span class="position-absolute top-0 start-0 translate-middle-y ms-3 py-1 px-2 bg-gray-100 border border-3 border-top-0 border-bottom-0 border-dark-subtle rounded-3 fw-medium">利用者情報</span>
         <div id="selected-user-info" class="mt-4">
           <p>利用者を選択してください</p>

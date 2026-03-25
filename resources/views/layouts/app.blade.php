@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="csrf-token" content="{{ csrf_token() }}">
 
-		<title>{{ config('app.name', 'Laravel') }}</title>
+		<title>@yield('title', 'ホーム')｜鍼灸マッサージ管理システム v1.0.0</title>
 
 		<!-- CSS -->
 		<!-- Bootstrap CSS -->

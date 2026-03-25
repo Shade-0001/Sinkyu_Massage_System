@@ -1,4 +1,5 @@
 <x-app-layout>
+  @section('title', $page_header_title)
   <x-page-header
     :title="$page_header_title"
     :breadcrumbs="App\Support\Breadcrumbs::generate('records.duplicate')"

@@ -2,6 +2,7 @@
   @php
     $page_header_title = '管理画面';
   @endphp
+  @section('title', $page_header_title)
 
   <x-page-header
     :title="$page_header_title"

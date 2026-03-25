@@ -1,4 +1,5 @@
 <x-app-layout>
+  @section('title', $page_header_title)
   @if(isset($breadcrumb_name))
     <x-page-header
       :title="$page_header_title"

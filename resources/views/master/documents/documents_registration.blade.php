@@ -1,4 +1,5 @@
 <x-app-layout>
+  @section('title', $page_header_title)
   @php
     // モードに応じたパンくずリスト定義名を決定
     if (($mode ?? 'create') === 'create') {

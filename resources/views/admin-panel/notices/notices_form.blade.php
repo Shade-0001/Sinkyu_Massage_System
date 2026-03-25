@@ -1,4 +1,5 @@
 <x-app-layout>
+  @section('title', $page_header_title)
   @php
     $breadcrumb_key = match($mode) {
       'edit'      => 'notices.edit',

@@ -2,6 +2,7 @@
   @php
     $page_header_title = '印刷メニュー';
   @endphp
+  @section('title', $page_header_title)
 
   <x-page-header
     :title="$page_header_title"

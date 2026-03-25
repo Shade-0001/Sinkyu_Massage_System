@@ -11,15 +11,15 @@
   scroll-behavior: smooth;
 }
 
-/* selectフォーカス効果を無効化 */
+/* リンク下線の削除 */
+[href] {
+  text-decoration-line: none;
+}
+
+/* セレクトボックスフォーカス効果の無効化 */
 select:focus {
   outline: none;
   box-shadow: none;
-}
-
-/* リンク下線を削除 */
-[href] {
-  text-decoration-line: none;
 }
 
 /* 閲覧専用フィールド */
