@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 <body>
-  <div class="d-flex gap-3">
+  <div class="d-flex gap-3 align-items-start">
     <!-- 左側: 検索機能 -->
     <div class="flex-grow-1">
       <!-- 検索対象指定ラジオボタン -->
