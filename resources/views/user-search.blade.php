@@ -8,12 +8,13 @@
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-90">
-  <div class="d-inline-flex gap-3 align-items-start m-3 mt-4">
+  <div class="d-inline-flex gap-3 align-items-start m-4 mt-5">
     <!-- 左パネル：検索ツール -->
     <div class="flex-shrink-0">
-      <!-- 検索対象指定ラジオボタン -->
-      <div class="position-relative border border-dark-subtle rounded-1 px-3 pb-3 bg-gray-98 mb-4">
-        <span class="position-absolute top-0 start-0 translate-middle-y ms-2 px-1 small bg-gray-98 border border-dark-subtle rounded-1">氏名/TEL検索</span>
+      <!-- 氏名/TEL検索 -->
+      <div class="position-relative border border-2 border-dark-subtle rounded-1 px-3 pb-3 bg-gray-100 mb-5">
+        <!-- 検索対象指定ラジオボタン -->
+        <span class="position-absolute top-0 start-0 translate-middle-y ms-3 py-1 px-2 bg-gray-100 border border-3 border-top-0 border-bottom-0 border-dark-subtle rounded-3 fw-medium">氏名/TEL検索</span>
         <div class="mt-4 mb-1">
           <label><input type="radio" name="search-target" value="name" checked> 氏名</label>
           <label><input type="radio" name="search-target" value="kana"> カナ</label>
@@ -21,89 +22,89 @@
         </div>
 
         <!-- 検索ワード入力フィールドと検索ボタン -->
-        <input type="text" id="search-keyword" placeholder="検索ワード入力">
-        <button type="button" id="search-btn" class="btn-custom btn-custom-blue btn-custom-sm">検索</button>
+        <input type="text" id="search-keyword" placeholder="検索ワード入力" class="align-middle">
+        <button type="button" id="search-btn" class="btn-custom btn-custom-blue btn-custom-sm align-middle">検索</button>
       </div>
 
 
       <!-- 50音検索 -->
-      <div class="position-relative border border-dark-subtle rounded-1 px-3 pb-3 bg-gray-98">
-        <span class="position-absolute top-0 start-0 translate-middle-y ms-2 px-1 small bg-gray-98 border border-dark-subtle rounded-1">50音検索</span>
+      <div class="position-relative border border-2 border-dark-subtle rounded-1 px-3 pb-3 bg-gray-100 mb-5">
+        <span class="position-absolute top-0 start-0 translate-middle-y ms-3 py-1 px-2 bg-gray-100 border border-3 border-top-0 border-bottom-0 border-dark-subtle rounded-3 fw-medium">50音検索</span>
         <table id="katakana-table" class="mt-4">
           <thead>
             <tr>
-              <th><input type="checkbox" class="katakana-column-checkbox" value="wa" data-chars="ワ,ヲ,ン"></th>
-              <th><input type="checkbox" class="katakana-column-checkbox" value="ra" data-chars="ラ,リ,ル,レ,ロ"></th>
-              <th><input type="checkbox" class="katakana-column-checkbox" value="ya" data-chars="ヤ,ユ,ヨ"></th>
+              <th class="text-center"><input type="checkbox" class="katakana-column-checkbox" value="wa" data-chars="ワ,ヲ,ン"></th>
+              <th class="text-center"><input type="checkbox" class="katakana-column-checkbox" value="ra" data-chars="ラ,リ,ル,レ,ロ"></th>
+              <th class="text-center"><input type="checkbox" class="katakana-column-checkbox" value="ya" data-chars="ヤ,ユ,ヨ"></th>
               <th><input type="checkbox" class="katakana-column-checkbox" value="ma" data-chars="マ,ミ,ム,メ,モ"></th>
-              <th><input type="checkbox" class="katakana-column-checkbox" value="ha" data-chars="ハ,ヒ,フ,ヘ,ホ"></th>
-              <th><input type="checkbox" class="katakana-column-checkbox" value="na" data-chars="ナ,ニ,ヌ,ネ,ノ"></th>
-              <th><input type="checkbox" class="katakana-column-checkbox" value="ta" data-chars="タ,チ,ツ,テ,ト"></th>
-              <th><input type="checkbox" class="katakana-column-checkbox" value="sa" data-chars="サ,シ,ス,セ,ソ"></th>
-              <th><input type="checkbox" class="katakana-column-checkbox" value="ka" data-chars="カ,キ,ク,ケ,コ"></th>
-              <th><input type="checkbox" class="katakana-column-checkbox" value="a" data-chars="ア,イ,ウ,エ,オ"></th>
+              <th class="text-center"><input type="checkbox" class="katakana-column-checkbox" value="ha" data-chars="ハ,ヒ,フ,ヘ,ホ"></th>
+              <th class="text-center"><input type="checkbox" class="katakana-column-checkbox" value="na" data-chars="ナ,ニ,ヌ,ネ,ノ"></th>
+              <th class="text-center"><input type="checkbox" class="katakana-column-checkbox" value="ta" data-chars="タ,チ,ツ,テ,ト"></th>
+              <th class="text-center"><input type="checkbox" class="katakana-column-checkbox" value="sa" data-chars="サ,シ,ス,セ,ソ"></th>
+              <th class="text-center"><input type="checkbox" class="katakana-column-checkbox" value="ka" data-chars="カ,キ,ク,ケ,コ"></th>
+              <th class="text-center"><input type="checkbox" class="katakana-column-checkbox" value="a" data-chars="ア,イ,ウ,エ,オ"></th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ワ">ワ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ラ">ラ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ヤ">ヤ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="マ">マ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ハ">ハ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ナ">ナ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="タ">タ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="サ">サ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="カ">カ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ア">ア</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75);" data-char="ワ">ワ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ラ">ラ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ヤ">ヤ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="マ">マ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ハ">ハ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ナ">ナ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="タ">タ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="サ">サ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="カ">カ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ア">ア</button></td>
             </tr>
             <tr>
               <td></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="リ">リ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="リ">リ</button></td>
               <td></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ミ">ミ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ヒ">ヒ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ニ">ニ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="チ">チ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="シ">シ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="キ">キ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="イ">イ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ミ">ミ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ヒ">ヒ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ニ">ニ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="チ">チ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="シ">シ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="キ">キ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="イ">イ</button></td>
             </tr>
             <tr>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ヲ">ヲ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ル">ル</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ユ">ユ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ム">ム</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="フ">フ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ヌ">ヌ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ツ">ツ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ス">ス</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ク">ク</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ウ">ウ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ヲ">ヲ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ル">ル</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ユ">ユ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ム">ム</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="フ">フ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ヌ">ヌ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ツ">ツ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ス">ス</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ク">ク</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ウ">ウ</button></td>
             </tr>
             <tr>
               <td></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="レ">レ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="レ">レ</button></td>
               <td></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="メ">メ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ヘ">ヘ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ネ">ネ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="テ">テ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="セ">セ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ケ">ケ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="エ">エ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="メ">メ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ヘ">ヘ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ネ">ネ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="テ">テ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="セ">セ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ケ">ケ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="エ">エ</button></td>
             </tr>
             <tr>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ン">ン</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ロ">ロ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ヨ">ヨ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="モ">モ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ホ">ホ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ノ">ノ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ト">ト</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ソ">ソ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="コ">コ</button></td>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="オ">オ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ン">ン</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ロ">ロ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ヨ">ヨ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="モ">モ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ホ">ホ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ノ">ノ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ト">ト</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ソ">ソ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="コ">コ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="オ">オ</button></td>
             </tr>
           </tbody>
         </table>
@@ -111,9 +112,9 @@
 
 
       <!-- 該当利用者一覧ボックス -->
-      <div>
-        <p>該当件数：<span id="match-count">{{ count($users) }}</span>件</p>
-        <select id="user-list" size="10">
+      <div class="position-relative border border-2 border-dark-subtle rounded-1 px-3 pb-3 bg-gray-100 mb-5">
+        <p class="position-absolute top-0 start-0 translate-middle-y ms-3 py-1 px-2 bg-gray-100 border border-3 border-top-0 border-bottom-0 border-dark-subtle rounded-3 fw-medium">該当者 (<span id="match-count">{{ count($users) }}</span>件)</p>
+        <select id="user-list" size="10" class="mt-4">
           @foreach($users as $user)
             <option value="{{ $user->id }}"
               data-last-name="{{ $user->last_name }}"
@@ -134,12 +135,13 @@
     </div>
 
     <!-- 右パネル：利用者情報表示ボックス -->
-    <div class="flex-shrink-0">
-      <div id="selected-user-box" class="position-relative border rounded-1 px-3 pb-2 mt-3">
-        <span class="position-absolute top-0 start-0 translate-middle-y ms-2 px-1 small"><button type="button" id="select-user-btn" style="display: none;">この利用者を選択</button></span>
-        <div id="selected-user-info">
+    <div class="flex-shrink-0" style="width: 400px">
+      <div id="selected-user-box" class="position-relative border border-2 border-dark-subtle rounded-1 px-3 pb-3 bg-gray-100 mb-5">
+        <span class="position-absolute top-0 start-0 translate-middle-y ms-3 py-1 px-2 bg-gray-100 border border-3 border-top-0 border-bottom-0 border-dark-subtle rounded-3 fw-medium">利用者情報</span>
+        <div id="selected-user-info" class="mt-4">
           <p>利用者を選択してください</p>
         </div>
+        <button type="button" id="select-user-btn" class="btn-custom btn-custom-blue d-block ms-auto" style="display: none;">この利用者を選択</button>
       </div>
     </div>
   </div>
@@ -231,14 +233,38 @@
         }
 
         selectedUserInfo.innerHTML = `
-          <p>氏名：<br> ${lastName}\u2000${firstName}</p>
-          <p>カナ：<br> ${lastKana}\u2000${firstKana}</p>
-          <p>固定電話番号：<br> ${phone || '-'}</p>
-          <p>携帯電話番号：<br> ${cellPhone || '-'}</p>
-          <p>住所：<br> ${address || '-'}</p>
-          <p>メールアドレス：<br> ${email || '-'}</p>
-          <p>生年月日：<br> ${birthdayDisplay || '-'}</p>
-          <p>メモ：<br> ${note || '-'}</p>
+          <div class="mb-3">
+            <div class="fw-medium opacity-75 small">氏名：</div>
+            <div class="fw-medium ms-1">${lastName}\u2000${firstName}</div>
+          </div>
+          <div class="mb-3">
+            <div class="fw-medium opacity-75 small">カナ：</div>
+            <div class="fw-medium ms-1">${lastKana}\u2000${firstKana}</div>
+          </div>
+          <div class="mb-3">
+            <div class="fw-medium opacity-75 small">固定電話番号：</div>
+            <div class="fw-medium ms-1">${phone || '-'}</div>
+          </div>
+          <div class="mb-3">
+            <div class="fw-medium opacity-75 small">携帯電話番号：</div>
+            <div class="fw-medium ms-1">${cellPhone || '-'}</div>
+          </div>
+          <div class="mb-3">
+            <div class="fw-medium opacity-75 small">住所：</div>
+            <div class="fw-medium ms-1">${address || '-'}</div>
+          </div>
+          <div class="mb-3">
+            <div class="fw-medium opacity-75 small">メールアドレス：</div>
+            <div class="fw-medium ms-1">${email || '-'}</div>
+          </div>
+          <div class="mb-3">
+            <div class="fw-medium opacity-75 small">生年月日：</div>
+            <div class="fw-medium ms-1">${birthdayDisplay || '-'}</div>
+          </div>
+          <div class="mb-3">
+            <div class="fw-medium opacity-75 small">メモ：</div>
+            <div class="fw-medium ms-1">${note || '-'}</div>
+          </div>
         `;
 
         // コンテンツサイズに応じてウィンドウサイズを調整
