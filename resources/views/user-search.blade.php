@@ -5,31 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>利用者検索</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
-  <div class="d-inline-flex gap-3 align-items-start m-3">
+<body class="bg-gray-90">
+  <div class="d-inline-flex gap-3 align-items-start m-3 mt-4">
     <!-- 左パネル：検索ツール -->
     <div class="flex-shrink-0">
       <!-- 検索対象指定ラジオボタン -->
-      <div class="position-relative border rounded px-3 pb-2 mt-3">
-        <span class="position-absolute top-0 start-0 translate-middle-y ms-2 px-1 bg-white small">氏名/TEL検索</span>
-        <label><input type="radio" name="search-target" value="name" checked> 氏名</label>
-        <label><input type="radio" name="search-target" value="kana"> カナ</label>
-        <label><input type="radio" name="search-target" value="tel"> TEL</label>
-      </div>
+      <div class="position-relative border border-dark-subtle rounded-1 px-3 pb-3 bg-gray-98 mb-4">
+        <span class="position-absolute top-0 start-0 translate-middle-y ms-2 px-1 small bg-gray-98 border border-dark-subtle rounded-1">氏名/TEL検索</span>
+        <div class="mt-4 mb-1">
+          <label><input type="radio" name="search-target" value="name" checked> 氏名</label>
+          <label><input type="radio" name="search-target" value="kana"> カナ</label>
+          <label><input type="radio" name="search-target" value="tel"> TEL</label>
+        </div>
 
-      <!-- 検索ワード入力フィールドと検索ボタン -->
-      <div>
-        <input type="text" id="search-keyword" placeholder="検索ワードを入力">
-        <button type="button" id="search-btn">検索</button>
+        <!-- 検索ワード入力フィールドと検索ボタン -->
+        <input type="text" id="search-keyword" placeholder="検索ワード入力">
+        <button type="button" id="search-btn" class="btn-custom btn-custom-blue btn-custom-sm">検索</button>
       </div>
 
 
       <!-- 50音検索 -->
-      <div class="position-relative border rounded px-3 pb-2 mt-3">
-        <span class="position-absolute top-0 start-0 translate-middle-y ms-2 px-1 bg-white small">50音検索</span>
-        <table id="katakana-table">
+      <div class="position-relative border border-dark-subtle rounded-1 px-3 pb-3 bg-gray-98">
+        <span class="position-absolute top-0 start-0 translate-middle-y ms-2 px-1 small bg-gray-98 border border-dark-subtle rounded-1">50音検索</span>
+        <table id="katakana-table" class="mt-4">
           <thead>
             <tr>
               <th><input type="checkbox" class="katakana-column-checkbox" value="wa" data-chars="ワ,ヲ,ン"></th>
@@ -46,7 +46,7 @@
           </thead>
           <tbody>
             <tr>
-              <td><button type="button" class="katakana-btn" data-char="ワ">ワ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: var(--btn-padding-y);" data-char="ワ">ワ</button></td>
               <td><button type="button" class="katakana-btn" data-char="ラ">ラ</button></td>
               <td><button type="button" class="katakana-btn" data-char="ヤ">ヤ</button></td>
               <td><button type="button" class="katakana-btn" data-char="マ">マ</button></td>
@@ -135,8 +135,8 @@
 
     <!-- 右パネル：利用者情報表示ボックス -->
     <div class="flex-shrink-0">
-      <div id="selected-user-box" class="position-relative border rounded px-3 pb-2 mt-3">
-        <span class="position-absolute top-0 start-0 translate-middle-y ms-2 px-1 bg-white small"><button type="button" id="select-user-btn" style="display: none;">この利用者を選択</button></span>
+      <div id="selected-user-box" class="position-relative border rounded-1 px-3 pb-2 mt-3">
+        <span class="position-absolute top-0 start-0 translate-middle-y ms-2 px-1 small"><button type="button" id="select-user-btn" style="display: none;">この利用者を選択</button></span>
         <div id="selected-user-info">
           <p>利用者を選択してください</p>
         </div>
