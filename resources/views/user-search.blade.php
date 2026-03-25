@@ -137,7 +137,7 @@
               data-birthday="{{ $user->birthday ? $user->birthday->format('Y/n/j') : '' }}"
               data-age="{{ $user->age }}"
               data-note="{{ $user->note }}"
-            >{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}</option>
+            >ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
           @endforeach
         </select>
       </div>

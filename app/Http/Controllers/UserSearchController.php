@@ -14,6 +14,9 @@ class UserSearchController extends Controller
       ->orderBy('first_kana', 'asc')
       ->get();
 
-    return view('user-search', compact('users'));
+    $maxClinicUserId = $users->max('id') ?? 1;
+    $clinicUserIdLength = strlen((string) $maxClinicUserId);
+
+    return view('user-search', compact('users', 'clinicUserIdLength'));
   }
 }
