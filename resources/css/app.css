@@ -921,10 +921,6 @@ html[data-sidebar="closed"] #sidebar-content {
 /*┃  利用者検索                                  ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 /* カタカナ選択状態 - !important必要なためカスタム定義 */
-.katakana-selected {
-  background-color: #007bff !important;
-  color: white !important;
-}
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
 

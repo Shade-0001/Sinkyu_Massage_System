@@ -46,64 +46,64 @@
           </thead>
           <tbody>
             <tr>
-              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm" style="--btn-padding-x: var(--btn-padding-y);" data-char="ワ">ワ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="ラ">ラ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="ヤ">ヤ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="マ">マ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="ハ">ハ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="ナ">ナ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="タ">タ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="サ">サ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="カ">カ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="ア">ア</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ワ">ワ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ラ">ラ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ヤ">ヤ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="マ">マ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ハ">ハ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ナ">ナ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="タ">タ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="サ">サ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="カ">カ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ア">ア</button></td>
             </tr>
             <tr>
               <td></td>
-              <td><button type="button" class="katakana-btn" data-char="リ">リ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="リ">リ</button></td>
               <td></td>
-              <td><button type="button" class="katakana-btn" data-char="ミ">ミ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="ヒ">ヒ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="ニ">ニ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="チ">チ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="シ">シ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="キ">キ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="イ">イ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ミ">ミ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ヒ">ヒ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ニ">ニ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="チ">チ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="シ">シ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="キ">キ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="イ">イ</button></td>
             </tr>
             <tr>
-              <td><button type="button" class="katakana-btn" data-char="ヲ">ヲ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="ル">ル</button></td>
-              <td><button type="button" class="katakana-btn" data-char="ユ">ユ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="ム">ム</button></td>
-              <td><button type="button" class="katakana-btn" data-char="フ">フ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="ヌ">ヌ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="ツ">ツ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="ス">ス</button></td>
-              <td><button type="button" class="katakana-btn" data-char="ク">ク</button></td>
-              <td><button type="button" class="katakana-btn" data-char="ウ">ウ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ヲ">ヲ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ル">ル</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ユ">ユ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ム">ム</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="フ">フ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ヌ">ヌ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ツ">ツ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ス">ス</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ク">ク</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ウ">ウ</button></td>
             </tr>
             <tr>
               <td></td>
-              <td><button type="button" class="katakana-btn" data-char="レ">レ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="レ">レ</button></td>
               <td></td>
-              <td><button type="button" class="katakana-btn" data-char="メ">メ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="ヘ">ヘ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="ネ">ネ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="テ">テ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="セ">セ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="ケ">ケ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="エ">エ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="メ">メ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ヘ">ヘ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ネ">ネ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="テ">テ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="セ">セ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ケ">ケ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="エ">エ</button></td>
             </tr>
             <tr>
-              <td><button type="button" class="katakana-btn" data-char="ン">ン</button></td>
-              <td><button type="button" class="katakana-btn" data-char="ロ">ロ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="ヨ">ヨ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="モ">モ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="ホ">ホ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="ノ">ノ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="ト">ト</button></td>
-              <td><button type="button" class="katakana-btn" data-char="ソ">ソ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="コ">コ</button></td>
-              <td><button type="button" class="katakana-btn" data-char="オ">オ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ン">ン</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ロ">ロ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ヨ">ヨ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="モ">モ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ホ">ホ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ノ">ノ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ト">ト</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="ソ">ソ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="コ">コ</button></td>
+              <td><button type="button" class="katakana-btn btn-custom btn-custom-sm lh-1" style="--btn-padding-x: var(--btn-padding-y-base);" data-char="オ">オ</button></td>
             </tr>
           </tbody>
         </table>
@@ -324,7 +324,7 @@
       // カタカナ選択状態をリセット
       function clearKatakanaSelection() {
         selectedKatakanaChars = [];
-        katakanaButtons.forEach(btn => btn.classList.remove('katakana-selected'));
+        katakanaButtons.forEach(btn => btn.classList.remove('btn-custom-blue'));
         katakanaColumnCheckboxes.forEach(cb => cb.checked = false);
         updateUserList(allUsers);
       }
@@ -356,8 +356,8 @@
           const char = this.dataset.char;
 
           // 単一文字選択モード
-          katakanaButtons.forEach(b => b.classList.remove('katakana-selected'));
-          this.classList.add('katakana-selected');
+          katakanaButtons.forEach(b => b.classList.remove('btn-custom-blue'));
+          this.classList.add('btn-custom-blue');
           selectedKatakanaChars = [char];
 
           performKatakanaFilter();
@@ -386,15 +386,15 @@
             // ボタンのハイライト更新
             katakanaButtons.forEach(btn => {
               if (chars.includes(btn.dataset.char)) {
-                btn.classList.add('katakana-selected');
+                btn.classList.add('btn-custom-blue');
               } else {
-                btn.classList.remove('katakana-selected');
+                btn.classList.remove('btn-custom-blue');
               }
             });
           } else {
             // チェックを外した場合はリセット
             selectedKatakanaChars = [];
-            katakanaButtons.forEach(btn => btn.classList.remove('katakana-selected'));
+            katakanaButtons.forEach(btn => btn.classList.remove('btn-custom-blue'));
           }
 
           performKatakanaFilter();
