@@ -230,8 +230,8 @@
         }
 
         selectedUserInfo.innerHTML = `
-          <p>氏名：<br> ${lastName} ${firstName}</p>
-          <p>カナ：<br> ${lastKana} ${firstKana}</p>
+          <p>氏名：<br> ${lastName}\u2000${firstName}</p>
+          <p>カナ：<br> ${lastKana}\u2000${firstKana}</p>
           <p>固定電話番号：<br> ${phone || '-'}</p>
           <p>携帯電話番号：<br> ${cellPhone || '-'}</p>
           <p>住所：<br> ${address || '-'}</p>
