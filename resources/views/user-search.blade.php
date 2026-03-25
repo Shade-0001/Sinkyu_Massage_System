@@ -8,9 +8,9 @@
   <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 <body>
-  <div class="d-flex gap-3 align-items-start">
+  <div class="d-inline-flex gap-3 align-items-start">
     <!-- 左側: 検索機能 -->
-    <div class="flex-grow-1">
+    <div class="flex-shrink-0">
       <!-- 検索対象指定ラジオボタン -->
       <fieldset>
         <legend>検索対象</legend>
@@ -134,7 +134,7 @@
     </div>
 
     <!-- 右側: 利用者表示ボックス -->
-    <div class="flex-shrink-0" style="width: 20rem;">
+    <div class="flex-shrink-0">
       <fieldset id="selected-user-box">
         <legend><button type="button" id="select-user-btn">この利用者を選択</button></legend>
         <div id="selected-user-info">
