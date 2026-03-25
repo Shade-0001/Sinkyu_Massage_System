@@ -11,6 +11,12 @@
   scroll-behavior: smooth;
 }
 
+/* selectフォーカス効果を無効化 */
+select:focus {
+  outline: none;
+  box-shadow: none;
+}
+
 /* リンク下線を削除 */
 [href] {
   text-decoration-line: none;
@@ -272,7 +278,7 @@
   --btn-text-color-base: hsl(0, 0%, 95%);
   --btn-font-size-base: 1rem;
   --btn-font-weight-base: 600;
-  --btn-padding-y-base: 6px;
+  --btn-padding-y-base: 10px;
   --btn-padding-x-base: 16px;
   --btn-padding-base: var(--btn-padding-y-base) var(--btn-padding-x-base);
   --btn-br-tl-base: 3px;
@@ -305,6 +311,8 @@
   align-items: center;
   justify-content: center;
   text-wrap: nowrap;
+  line-height: 1;
+  vertical-align: middle;
   box-shadow:
     /*左上*/ inset var(--btn-shadow-size) var(--btn-shadow-size) 1px var(--btn-shadow-color-light-base),
     /*上*/ inset 0 var(--btn-shadow-size) 1px var(--btn-shadow-color-light-base),
@@ -911,16 +919,6 @@ html[data-sidebar="closed"] #sidebar-content {
   color: rgba(0, 0, 0, 0.31);
   cursor: default;
 }
-/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-
-
-
-
-
-/*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  利用者検索                                  ┃*/
-/*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
-/* カタカナ選択状態 - !important必要なためカスタム定義 */
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
 
