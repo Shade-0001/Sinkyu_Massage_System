@@ -8,18 +8,7 @@
 </head>
 <body>
   <div class="d-flex gap-3">
-    <!-- 左側: 利用者表示ボックス -->
-    <div class="flex-shrink-0" style="width: 20rem;">
-      <fieldset id="selected-user-box">
-        <legend><button type="button" id="select-user-btn">この利用者を選択</button></legend>
-        <div id="selected-user-info">
-          <p>利用者が選択されていません</p>
-        </div>
-
-      </fieldset>
-    </div>
-
-    <!-- 右側: 検索機能 -->
+    <!-- 左側: 検索機能 -->
     <div class="flex-grow-1">
       <!-- 検索対象指定ラジオボタン -->
       <fieldset>
@@ -141,6 +130,17 @@
           @endforeach
         </select>
       </div>
+    </div>
+
+    <!-- 右側: 利用者表示ボックス -->
+    <div class="flex-shrink-0" style="width: 20rem;">
+      <fieldset id="selected-user-box">
+        <legend><button type="button" id="select-user-btn">この利用者を選択</button></legend>
+        <div id="selected-user-info">
+          <p>利用者が選択されていません</p>
+        </div>
+
+      </fieldset>
     </div>
   </div>
 
