@@ -141,7 +141,7 @@
         <div id="selected-user-info" class="mt-4">
           <p>利用者を選択してください</p>
         </div>
-        <button type="button" id="select-user-btn" class="btn-custom btn-custom-blue d-block ms-auto" style="display: none;">この利用者を選択</button>
+        <button type="button" id="select-user-btn" class="btn-custom btn-custom-blue ms-auto" style="display: none;">この利用者を選択</button>
       </div>
     </div>
   </div>
@@ -212,7 +212,7 @@
           currentSelectedUserId = null;
           return;
         }
-        selectUserBtn.style.display = '';
+        selectUserBtn.style.display = 'block';
 
         currentSelectedUserId = option.value;
         const lastName = option.dataset.lastName || '';
