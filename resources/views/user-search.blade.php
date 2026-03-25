@@ -6,18 +6,37 @@
   <title>利用者検索</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+  <style>
+    .pseudo-fieldset {
+      position: relative;
+      border: 1px solid #dee2e6;
+      border-radius: 0.25rem;
+      padding: 0.75rem 0.75rem 0.5rem;
+      margin-top: 0.6rem;
+    }
+    .pseudo-legend {
+      position: absolute;
+      top: -0.6rem;
+      left: 0.6rem;
+      padding: 0 0.25rem;
+      background: white;
+      font-size: 0.875rem;
+      line-height: 1;
+      white-space: nowrap;
+    }
+  </style>
 </head>
 <body>
   <div class="d-inline-flex gap-3 align-items-start m-3">
     <!-- 左パネル：検索ツール -->
     <div class="flex-shrink-0">
       <!-- 検索対象指定ラジオボタン -->
-      <fieldset style="border: 1px solid #dee2e6; padding: 0.5rem;">
-        <legend>氏名/TEL検索</legend>
+      <div class="pseudo-fieldset">
+        <span class="pseudo-legend">氏名/TEL検索</span>
         <label><input type="radio" name="search-target" value="name" checked> 氏名</label>
         <label><input type="radio" name="search-target" value="kana"> カナ</label>
         <label><input type="radio" name="search-target" value="tel"> TEL</label>
-      </fieldset>
+      </div>
 
       <!-- 検索ワード入力フィールドと検索ボタン -->
       <div>
@@ -27,8 +46,8 @@
 
 
       <!-- 50音検索 -->
-      <fieldset>
-        <legend>50音検索</legend>
+      <div class="pseudo-fieldset">
+        <span class="pseudo-legend">50音検索</span>
         <table id="katakana-table">
           <thead>
             <tr>
@@ -107,7 +126,7 @@
             </tr>
           </tbody>
         </table>
-      </fieldset>
+      </div>
 
 
       <!-- 該当利用者一覧ボックス -->
@@ -135,12 +154,12 @@
 
     <!-- 右パネル：利用者情報表示ボックス -->
     <div class="flex-shrink-0">
-      <fieldset id="selected-user-box" style="border: 1px solid #dee2e6; padding: 0.5rem;">
-        <legend><button type="button" id="select-user-btn" style="display: none;">この利用者を選択</button></legend>
+      <div id="selected-user-box" class="pseudo-fieldset">
+        <span class="pseudo-legend"><button type="button" id="select-user-btn" style="display: none;">この利用者を選択</button></span>
         <div id="selected-user-info">
           <p>利用者を選択してください</p>
         </div>
-      </fieldset>
+      </div>
     </div>
   </div>
 
