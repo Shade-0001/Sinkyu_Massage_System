@@ -146,7 +146,7 @@
         @endphp
 
         <div class="col-12 col-xl-6">
-          <div class="h-100 bg-gray-96 rounded-1 px-3 text-nowrap d-flex align-items-center">
+          <div class="h-100 bg-gray-96 rounded-1 p-2 px-3 text-nowrap d-flex align-items-center">
             <label class="fw-semibold">開始時刻</label>
             @error('start_time')
               <span class="text-danger ms-2">{{ $message }}</span>
@@ -195,28 +195,31 @@
 
         <!-- 施術内容 -->
         <div class="col-12 col-xl-6">
-          <div class="h-100 bg-gray-96 rounded-1 p-2 px-3 text-nowrap">
-            <label class="fw-semibold" for="therapy_content_id">施術内容</label>
-            @error('therapy_content_id')
-              <span class="text-danger ms-2">{{ $message }}</span>
-            @enderror
-            <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
-            <select id="therapy_content_id" name="therapy_content_id" data-tooltip="先に日付を選択してください">
-              <option value="">╌╌╌</option>
-              @foreach($therapyContents as $content)
-                <option value="{{ $content->id }}" data-therapy-type="{{ $content->therapy_type }}" {{ old('therapy_content_id') == $content->id ? 'selected' : '' }}>{{ $content->therapy_content }}</option>
-              @endforeach
-              @foreach($selfFees as $selfFee)
-                <option value="self_{{ $selfFee->id }}" data-therapy-type="self" {{ old('therapy_content_id') == 'self_'.$selfFee->id ? 'selected' : '' }}>{{ $selfFee->self_fee_name }}</option>
-              @endforeach
-            </select>
+          <div class="h-100 bg-gray-96 rounded-1 p-2 px-3 d-flex align-items-start">
+            <label class="fw-semibold text-nowrap pt-1" for="therapy_content_id">施術内容
+              @error('therapy_content_id')
+                <span class="text-danger ms-2">{{ $message }}</span>
+              @enderror
+            </label>
+            <div class="vr mx-2 align-self-stretch"></div>
+            <div class="text-nowrap">
+              <select id="therapy_content_id" name="therapy_content_id" data-tooltip="先に日付を選択してください">
+                <option value="">╌╌╌</option>
+                @foreach($therapyContents as $content)
+                  <option value="{{ $content->id }}" data-therapy-type="{{ $content->therapy_type }}" {{ old('therapy_content_id') == $content->id ? 'selected' : '' }}>{{ $content->therapy_content }}</option>
+                @endforeach
+                @foreach($selfFees as $selfFee)
+                  <option value="self_{{ $selfFee->id }}" data-therapy-type="self" {{ old('therapy_content_id') == 'self_'.$selfFee->id ? 'selected' : '' }}>{{ $selfFee->self_fee_name }}</option>
+                @endforeach
+              </select>
 
-            <!-- 複製チェックボックス(あんま･マッサージ選択時のみ表示) -->
-            <div id="therapy-content-duplication" class="d-none mt-2 ms-3">
-              <label><input type="checkbox" name="duplicate_massage" value="1" {{ old('duplicate_massage') ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> マッサージを同一内容で複製する</label><br>
-              <label><input type="checkbox" name="duplicate_warm_compress" value="1" {{ old('duplicate_warm_compress') ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> 温庵法を同一内容で複製する</label><br>
-              <label><input type="checkbox" name="duplicate_warm_electric" value="1" {{ old('duplicate_warm_electric') ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> 温庵法･電気光線器具を同一内容で複製する</label><br>
-              <label><input type="checkbox" name="duplicate_manual_correction" value="1" {{ old('duplicate_manual_correction') ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> 変形徒手矯正術を同一内容で複製する</label>
+              <!-- 複製チェックボックス(あんま･マッサージ選択時のみ表示) -->
+              <div id="therapy-content-duplication" class="d-none mt-2">
+                <label><input type="checkbox" name="duplicate_massage" value="1" {{ old('duplicate_massage') ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> マッサージを同一内容で複製する</label><br>
+                <label><input type="checkbox" name="duplicate_warm_compress" value="1" {{ old('duplicate_warm_compress') ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> 温庵法を同一内容で複製する</label><br>
+                <label><input type="checkbox" name="duplicate_warm_electric" value="1" {{ old('duplicate_warm_electric') ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> 温庵法･電気光線器具を同一内容で複製する</label><br>
+                <label><input type="checkbox" name="duplicate_manual_correction" value="1" {{ old('duplicate_manual_correction') ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> 変形徒手矯正術を同一内容で複製する</label>
+              </div>
             </div>
           </div>
         </div>
