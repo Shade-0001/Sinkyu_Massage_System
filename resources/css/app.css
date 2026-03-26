@@ -581,12 +581,18 @@ select:focus {
 .mb-05 { margin-bottom: 0.125rem !important; }
 .ml-05 { margin-left: 0.125rem !important; }
 .mr-05 { margin-right: 0.125rem !important; }
+
+/* ネガティブマージン */
 .my-n1 { margin-top: -0.25rem !important; margin-bottom: -0.25rem !important; }
 .my-n2 { margin-top: -0.5rem !important;  margin-bottom: -0.5rem !important;  }
 .my-n3 { margin-top: -1rem !important;    margin-bottom: -1rem !important;    }
+.my-n4 { margin-top: -1.5rem !important;  margin-bottom: -1.5rem !important;  }
+.my-n5 { margin-top: -3rem !important;    margin-bottom: -3rem !important;    }
 .mx-n1 { margin-left: -0.25rem !important; margin-right: -0.25rem !important; }
 .mx-n2 { margin-left: -0.5rem !important;  margin-right: -0.5rem !important;  }
 .mx-n3 { margin-left: -1rem !important;    margin-right: -1rem !important;    }
+.mx-n4 { margin-left: -1.5rem !important;  margin-right: -1.5rem !important;  }
+.mx-n5 { margin-left: -3rem !important;    margin-right: -3rem !important;    }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
 
