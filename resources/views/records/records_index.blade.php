@@ -78,9 +78,9 @@
       <div class="vr border border-black border-1 mx-3"></div>
 
       <!-- 実績フィールド -->
-      <div class="flex-grow-1" id="record-fields" style="min-width: 420px; max-width: 700px;">
+      <div class="flex-grow-1 d-flex flex-column align-items-start" id="record-fields" style="min-width: 420px; max-width: 700px;">
         <!-- 施術種類 -->
-        <div class="mb-3 bg-gray-94 rounded-1 py-2 px-3 d-inline-block">
+        <div class="mb-3 bg-gray-94 rounded-1 py-2 px-3">
           <div class="d-inline-flex">
             <label class="fw-semibold">施術種類</label>
             @error('therapy_type')
