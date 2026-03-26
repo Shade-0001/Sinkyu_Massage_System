@@ -80,10 +80,10 @@
 
 
       <!-- 実績フィールド -->
-      <div class="flex-grow-1 row g-2 align-content-start" id="record-fields" style="max-width: 1000px;">
+      <div class="flex-grow-1 row g-2 gx-3 align-content-start" id="record-fields" style="max-width: 1000px;">
         <!-- 施術種類 -->
         <div class="col-12 col-xl-6">
-          <div class="h-100 bg-gray-96 rounded-1 pt-2 pb-3 px-3 text-nowrap">
+          <div class="h-100 bg-gray-96 rounded-1 p-2 px-3 text-nowrap">
             <div class="d-inline-flex">
               <label class="fw-semibold">施術種類</label>
               @error('therapy_type')
@@ -112,7 +112,7 @@
 
         <!-- 施術区分 + 往療距離 -->
         <div class="col-12 col-xl-6">
-          <div class="h-100 bg-gray-96 rounded-1 pt-2 pb-3 px-3 text-nowrap">
+          <div class="h-100 bg-gray-96 rounded-1 p-2 px-3 text-nowrap">
             <div class="d-inline-flex">
               <label class="fw-semibold">施術区分</label>
               @error('therapy_category')
@@ -145,12 +145,12 @@
           $oldEndM   = old('end_time')   ? (int)explode(':', old('end_time'))[1]   : 0;
         @endphp
         <div class="col-12 col-xl-6">
-          <div class="h-100 bg-gray-96 rounded-1 pt-2 pb-3 px-3 text-nowrap">
+          <div class="h-100 bg-gray-96 rounded-1 p-2 px-3 text-nowrap d-flex align-items-center">
             <label class="fw-semibold">開始時刻</label>
             @error('start_time')
               <span class="text-danger ms-2">{{ $message }}</span>
             @enderror
-            <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
+            <div class="vr mx-2 align-self-stretch"></div>
             <div class="time-select-group d-inline-flex align-items-center gap-1" data-target="start_time">
               <select class="time-select-hour" data-tooltip="先に日付を選択してください">
                 @for($h = $bhStart; $h <= $bhEnd; $h++)
@@ -169,7 +169,7 @@
         </div>
 
         <div class="col-12 col-xl-6">
-          <div class="h-100 bg-gray-96 rounded-1 pt-2 pb-3 px-3 text-nowrap">
+          <div class="h-100 bg-gray-96 rounded-1 p-2 px-3 text-nowrap">
             <label class="fw-semibold">終了時刻</label>
             @error('end_time')
               <span class="text-danger ms-2">{{ $message }}</span>
@@ -194,7 +194,7 @@
 
         <!-- 施術内容 -->
         <div class="col-12 col-xl-6">
-          <div class="h-100 bg-gray-96 rounded-1 pt-2 pb-3 px-3 text-nowrap">
+          <div class="h-100 bg-gray-96 rounded-1 p-2 px-3 text-nowrap">
             <label class="fw-semibold" for="therapy_content_id">施術内容</label>
             @error('therapy_content_id')
               <span class="text-danger ms-2">{{ $message }}</span>
@@ -222,7 +222,7 @@
 
         <!-- 施術者 -->
         <div class="col-12 col-xl-6">
-          <div class="h-100 bg-gray-96 rounded-1 pt-2 pb-3 px-3 text-nowrap">
+          <div class="h-100 bg-gray-96 rounded-1 p-2 px-3 text-nowrap">
             <label class="fw-semibold" for="therapist_id">施術者</label>
             @error('therapist_id')
               <span class="text-danger ms-2">{{ $message }}</span>
@@ -239,7 +239,7 @@
 
         <!-- 保険区分 -->
         <div class="col-12 col-xl-6">
-          <div class="h-100 bg-gray-96 rounded-1 pt-2 pb-3 px-3 text-nowrap">
+          <div class="h-100 bg-gray-96 rounded-1 p-2 px-3 text-nowrap">
             <label class="fw-semibold">保険区分</label>
             @error('insurance_category')
               <span class="text-danger ms-2">{{ $message }}</span>
@@ -273,7 +273,7 @@
 
         <!-- 同意有効期限 -->
         <div class="col-12 col-xl-6">
-          <div class="h-100 d-flex bg-gray-96 rounded-1 pt-2 pb-3 px-3 text-nowrap">
+          <div class="h-100 d-flex bg-gray-96 rounded-1 p-2 px-3 text-nowrap">
             <label class="mb-1 fw-bold">同意有効期限</label>
             <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
             <div id="consent-expiry-display">
@@ -298,7 +298,7 @@
 
         <!-- 請求区分 -->
         <div class="col-12 col-xl-6">
-          <div class="h-100 d-flex bg-gray-96 rounded-1 pt-2 pb-3 px-3 text-nowrap">
+          <div class="h-100 d-flex bg-gray-96 rounded-1 p-2 px-3 text-nowrap">
             <label class="d-block mb-1 fw-bold">請求区分</label>
             <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
             <p>{{ $hasRecentRecords ? '継続' : '新規' }}</p>
@@ -308,7 +308,7 @@
 
         <!-- 施術実日数 -->
         <div class="col-12 col-xl-6">
-          <div class="h-100 d-flex bg-gray-96 rounded-1 pt-2 pb-3 px-3 text-nowrap">
+          <div class="h-100 d-flex bg-gray-96 rounded-1 p-2 px-3 text-nowrap">
             <label class="d-block mb-1 fw-bold">施術実日数</label>
             <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
             <p id="therapy-days-display">0日</p>
@@ -317,7 +317,7 @@
 
         <!-- 摘要 -->
         <div class="col-12">
-          <div class="bg-gray-96 rounded-1 pt-2 pb-3 px-3">
+          <div class="bg-gray-96 rounded-1 p-2 px-3">
             <label for="abstract" class="d-block mb-1 fw-bold">摘要</label>
             <textarea id="abstract" name="abstract" rows="3" class="w-100" data-tooltip="先に日付を選択してください">{{ old('abstract') }}</textarea>
           </div>
