@@ -5,11 +5,15 @@
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  グローバルスタイル                           ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
+/* vr縦線：sub-pixelレンダリングで0pxになる問題を防止 */
+.vr {
+  min-width: 1px;
+}
+
 /* 全体 */
 * {
   font-family: 'Noto Sans JP', sans-serif;
   scroll-behavior: smooth;
-  transition: color 0.2s linear, background-color 0.2s linear, border-color 0.2s linear, box-shadow 0.2s linear, opacity 0.2s linear, transform 0.2s linear
 }
 /* フォーカス効果の無効化 */
 *:focus {
@@ -23,11 +27,12 @@
 }
 
 /* 通常状態セレクトボックスのスタイル */
-select:not(:hover):not(:focus):not(:active):not(:disabled) {
-  background-color: hsl(0, 0%, 98%);
+select:not(:disabled),
+textarea:not(:disabled) {
+  background-color: hsl(0, 0%, 99%);
   border-color: hsl(0, 0%, 50%);
   border-radius: 3px;
-  transition: all 0.2s linear
+  transition: all 0.1s linear;
 }
 
 /* 閲覧専用フィールド */
@@ -245,9 +250,9 @@ select:not(:hover):not(:focus):not(:active):not(:disabled) {
 /*──────────────────────────────────────────────*/
 /*  背景カラー（グレースケール）                 */
 /*──────────────────────────────────────────────*/
-.bg-gray-100 {background-color: hsl(200,25%,100%) !important;}
-.bg-gray-98 {background-color: hsl(200,20%,98%) !important;}
-.bg-gray-96 {background-color: hsl(200,20%,96%) !important;}
+.bg-gray-100 {background-color: hsl(200,100%,99.5%) !important;}
+.bg-gray-98 {background-color: hsl(200,80%,98%) !important;}
+.bg-gray-96 {background-color: hsl(200,40%,96%) !important;}
 .bg-gray-94 {background-color: hsl(200,20%,94%) !important;}
 .bg-gray-92 {background-color: hsl(200,20%,92%) !important;}
 .bg-gray-90 {background-color: hsl(200,20%,90%) !important;}
