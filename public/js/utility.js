@@ -469,7 +469,7 @@ function autoGridLayout(containerId, colSelector = ':scope > [class*="col-"]') {
     // レイアウト確定後に計測
     return cols.reduce((max, col) => {
       const inner = col.firstElementChild;
-      return inner ? Math.max(max, inner.scrollWidth) : max;
+      return inner ? Math.max(max, inner.offsetWidth) : max;
     }, 0);
   }
 
