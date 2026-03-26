@@ -446,10 +446,42 @@ function initializeAutoHideAlerts() {
   });
 }
 
+/**
+ * Bootstrap row内の子col要素を、コンテンツ最小幅に基づいて2列/1列に自動切替する汎用関数
+ * ResizeObserverでコンテナ幅を監視し、2列分のコンテンツが収まる場合はcol-6を付与する
+ * @param {string} containerId - row要素のID
+ * @param {string} [colSelector=':scope > .col-12'] - 列要素のCSSセレクタ
+ */
+function autoGridLayout(containerId, colSelector = ':scope > .col-12') {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  function updateLayout() {
+    const cols = Array.from(container.querySelectorAll(colSelector));
+    if (!cols.length) return;
+
+    // 一時的に全列を1列化してscrollWidthを正確に計測
+    cols.forEach(col => col.classList.remove('col-6'));
+
+    const maxContentWidth = cols.reduce((max, col) => {
+      const inner = col.firstElementChild;
+      return inner ? Math.max(max, inner.scrollWidth) : max;
+    }, 0);
+
+    // gap(8px)込みで2列分収まるか判定
+    const fits = container.offsetWidth >= maxContentWidth * 2 + 8;
+    cols.forEach(col => col.classList.toggle('col-6', fits));
+  }
+
+  new ResizeObserver(updateLayout).observe(container);
+  updateLayout();
+}
+
 // 関数をグローバルスコープに公開
 if (typeof window !== 'undefined') {
   window.initializeReadonlyTooltips = initializeReadonlyTooltips;
   window.initializeAutoHideAlerts = initializeAutoHideAlerts;
+  window.autoGridLayout = autoGridLayout;
 }
 
 // ページ読み込み時に自動的にツールチップとアラート自動消去を初期化
