@@ -82,7 +82,7 @@
       <!-- 実績フィールド -->
       <div class="flex-grow-1 row g-2 align-content-start" id="record-fields" style="max-width: 1000px;">
         <!-- 施術種類 -->
-        <div class="col-12 col-lg-6">
+        <div class="col-12 col-xl-6">
           <div class="h-100 bg-gray-96 rounded-1 pt-2 pb-3 px-3 text-nowrap">
             <div class="d-inline-flex">
               <label class="fw-semibold">施術種類</label>
@@ -111,7 +111,7 @@
         </div>
 
         <!-- 施術区分 + 往療距離 -->
-        <div class="col-12 col-lg-6">
+        <div class="col-12 col-xl-6">
           <div class="h-100 bg-gray-96 rounded-1 pt-2 pb-3 px-3 text-nowrap">
             <div class="d-inline-flex">
               <label class="fw-semibold">施術区分</label>
@@ -144,7 +144,7 @@
           $oldEndH   = old('end_time')   ? (int)explode(':', old('end_time'))[0]   : $bhStart;
           $oldEndM   = old('end_time')   ? (int)explode(':', old('end_time'))[1]   : 0;
         @endphp
-        <div class="col-12 col-lg-6">
+        <div class="col-12 col-xl-6">
           <div class="h-100 bg-gray-96 rounded-1 pt-2 pb-3 px-3 text-nowrap">
             <label class="fw-semibold">開始時刻</label>
             @error('start_time')
@@ -168,7 +168,7 @@
           </div>
         </div>
 
-        <div class="col-12 col-lg-6">
+        <div class="col-12 col-xl-6">
           <div class="h-100 bg-gray-96 rounded-1 pt-2 pb-3 px-3 text-nowrap">
             <label class="fw-semibold">終了時刻</label>
             @error('end_time')
@@ -193,7 +193,7 @@
         </div>
 
         <!-- 施術内容 -->
-        <div class="col-12 col-lg-6">
+        <div class="col-12 col-xl-6">
           <div class="h-100 bg-gray-96 rounded-1 pt-2 pb-3 px-3 text-nowrap">
             <label class="fw-semibold" for="therapy_content_id">施術内容</label>
             @error('therapy_content_id')
@@ -221,7 +221,7 @@
         </div>
 
         <!-- 施術者 -->
-        <div class="col-12 col-lg-6">
+        <div class="col-12 col-xl-6">
           <div class="h-100 bg-gray-96 rounded-1 pt-2 pb-3 px-3 text-nowrap">
             <label class="fw-semibold" for="therapist_id">施術者</label>
             @error('therapist_id')
@@ -238,7 +238,7 @@
         </div>
 
         <!-- 保険区分 -->
-        <div class="col-12 col-lg-6">
+        <div class="col-12 col-xl-6">
           <div class="h-100 bg-gray-96 rounded-1 pt-2 pb-3 px-3 text-nowrap">
             <label class="fw-semibold">保険区分</label>
             @error('insurance_category')
@@ -272,7 +272,7 @@
         </div>
 
         <!-- 同意有効期限 -->
-        <div class="col-12 col-lg-6">
+        <div class="col-12 col-xl-6">
           <div class="h-100 d-flex bg-gray-96 rounded-1 pt-2 pb-3 px-3 text-nowrap">
             <label class="mb-1 fw-bold">同意有効期限</label>
             <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
@@ -297,7 +297,7 @@
         </div>
 
         <!-- 請求区分 -->
-        <div class="col-12 col-lg-6">
+        <div class="col-12 col-xl-6">
           <div class="h-100 d-flex bg-gray-96 rounded-1 pt-2 pb-3 px-3 text-nowrap">
             <label class="d-block mb-1 fw-bold">請求区分</label>
             <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
@@ -307,7 +307,7 @@
         </div>
 
         <!-- 施術実日数 -->
-        <div class="col-12 col-lg-6">
+        <div class="col-12 col-xl-6">
           <div class="h-100 d-flex bg-gray-96 rounded-1 pt-2 pb-3 px-3 text-nowrap">
             <label class="d-block mb-1 fw-bold">施術実日数</label>
             <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
