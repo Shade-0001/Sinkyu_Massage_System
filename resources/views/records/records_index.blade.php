@@ -80,10 +80,10 @@
 
 
       <!-- 実績フィールド -->
-      <div class="flex-grow-1 row g-2 gx-3 align-content-start" id="record-fields" style="max-width: 1000px;">
+      <div class="flex-grow-1 row g-2 gx-3 align-content-start align-items-start" id="record-fields" style="max-width: 1000px;">
         <!-- 施術種類 -->
         <div class="col-12 col-xl-6">
-          <div class="h-100 rounded-1 d-flex align-items-start overflow-hidden">
+          <div class="rounded-1 d-flex align-items-start overflow-hidden">
             <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3">施術種類
               @error('therapy_type')
                 <span class="text-danger ms-2">{{ $message }}</span>
@@ -109,7 +109,7 @@
 
         <!-- 施術区分 + 往療距離 -->
         <div class="col-12 col-xl-6">
-          <div class="h-100 rounded-1 d-flex align-items-start overflow-hidden">
+          <div class="rounded-1 d-flex align-items-start overflow-hidden">
             <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3">施術区分
               @error('therapy_category')
                 <span class="text-danger ms-2">{{ $message }}</span>
@@ -146,7 +146,7 @@
         @endphp
 
         <div class="col-12 col-xl-6">
-          <div class="h-100 rounded-1 d-flex align-items-start overflow-hidden">
+          <div class="rounded-1 d-flex align-items-start overflow-hidden">
             <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3">開始時刻
               @error('start_time')
                 <span class="text-danger ms-2">{{ $message }}</span>
@@ -173,7 +173,7 @@
         </div>
 
         <div class="col-12 col-xl-6">
-          <div class="h-100 rounded-1 d-flex align-items-start overflow-hidden">
+          <div class="rounded-1 d-flex align-items-start overflow-hidden">
             <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3">終了時刻
               @error('end_time')
                 <span class="text-danger ms-2">{{ $message }}</span>
@@ -201,7 +201,7 @@
 
         <!-- 施術内容 -->
         <div class="col-12 col-xl-6">
-          <div class="h-100 rounded-1 d-flex align-items-start overflow-hidden">
+          <div class="rounded-1 d-flex align-items-start overflow-hidden">
             <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3" for="therapy_content_id">施術内容
               @error('therapy_content_id')
                 <span class="text-danger ms-2">{{ $message }}</span>
@@ -232,7 +232,7 @@
 
         <!-- 施術者 -->
         <div class="col-12 col-xl-6">
-          <div class="h-100 rounded-1 d-flex align-items-start overflow-hidden">
+          <div class="rounded-1 d-flex align-items-start overflow-hidden">
             <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3" for="therapist_id">施術者
               @error('therapist_id')
                 <span class="text-danger ms-2">{{ $message }}</span>
@@ -252,7 +252,7 @@
 
         <!-- 保険区分 -->
         <div class="col-12 col-xl-6">
-          <div class="h-100 rounded-1 d-flex align-items-start overflow-hidden">
+          <div class="rounded-1 d-flex align-items-start overflow-hidden">
             <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3">保険区分
               @error('insurance_category')
                 <span class="text-danger ms-2">{{ $message }}</span>
@@ -289,7 +289,7 @@
 
         <!-- 同意有効期限 -->
         <div class="col-12 col-xl-6">
-          <div class="h-100 rounded-1 d-flex align-items-start overflow-hidden">
+          <div class="rounded-1 d-flex align-items-start overflow-hidden">
             <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3">同意有効期限</label>
             <div class="vr align-self-stretch"></div>
             <div class="text-nowrap bg-gray-96 align-self-stretch p-2 px-3 flex-grow-1">
@@ -316,7 +316,7 @@
 
         <!-- 請求区分 -->
         <div class="col-12 col-xl-6">
-          <div class="h-100 rounded-1 d-flex align-items-start overflow-hidden">
+          <div class="rounded-1 d-flex align-items-start overflow-hidden">
             <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3">請求区分</label>
             <div class="vr align-self-stretch"></div>
             <div class="text-nowrap bg-gray-96 align-self-stretch p-2 px-3 flex-grow-1 d-flex align-items-center">
@@ -328,7 +328,7 @@
 
         <!-- 施術実日数 -->
         <div class="col-12 col-xl-6">
-          <div class="h-100 rounded-1 d-flex align-items-start overflow-hidden">
+          <div class="rounded-1 d-flex align-items-start overflow-hidden">
             <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3">施術実日数</label>
             <div class="vr align-self-stretch"></div>
             <div class="text-nowrap bg-gray-96 align-self-stretch p-2 px-3 flex-grow-1 d-flex align-items-center">
