@@ -463,19 +463,22 @@ function autoGridLayout(containerId, colSelector = ':scope > [class*="col-"]') {
     const cols = Array.from(container.querySelectorAll(colSelector));
     if (!cols.length) return 0;
 
-    return cols.reduce((max, col) => {
+    // コンテナ全体のnowrapを一時解除して計測
+    const nowrapEls = Array.from(container.querySelectorAll('.text-nowrap'));
+    nowrapEls.forEach(el => el.classList.remove('text-nowrap'));
+
+    const result = cols.reduce((max, col) => {
       const inner = col.firstElementChild;
       if (!inner) return max;
-      // text-nowrap系を一時的に外してwrap状態のmax-content幅を計測
-      const nowrapEls = Array.from(inner.querySelectorAll('*')).concat(inner)
-        .filter(el => getComputedStyle(el).whiteSpace === 'nowrap');
-      nowrapEls.forEach(el => el.style.whiteSpace = 'normal');
+      const prevWidth = inner.style.width;
       inner.style.width = 'max-content';
       const w = inner.offsetWidth;
-      inner.style.width = '';
-      nowrapEls.forEach(el => el.style.whiteSpace = '');
+      inner.style.width = prevWidth;
       return Math.max(max, w);
     }, 0);
+
+    nowrapEls.forEach(el => el.classList.add('text-nowrap'));
+    return result;
   }
 
   function updateLayout() {
