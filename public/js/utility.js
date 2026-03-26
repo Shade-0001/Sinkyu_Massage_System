@@ -447,45 +447,33 @@ function initializeAutoHideAlerts() {
 }
 
 /**
- * Bootstrap row内の子col要素を、コンテンツ最小幅に基づいて2列/1列に自動切替する汎用関数
- * ResizeObserverでコンテナ幅を監視し、2列分のコンテンツが収まる場合はcol-6を付与する
+ * Bootstrap rowの子col要素をコンテンツ幅に基づいて2列/1列に自動切替する汎用関数
  * @param {string} containerId - row要素のID
- * @param {string} [colSelector=':scope > .col-12'] - 列要素のCSSセレクタ
  */
-function autoGridLayout(containerId, colSelector = ':scope > [class*="col-"]') {
+function autoGridLayout(containerId) {
   const container = document.getElementById(containerId);
   if (!container) return;
 
-  // 最大コンテンツ幅を1度だけ計測（col-12固定状態で計測）
-  let maxContentWidth = 0;
-
-  function measureContentWidth() {
-    const cols = Array.from(container.querySelectorAll(colSelector));
-    if (!cols.length) return 0;
-
-    // コンテナ全体のnowrapを一時解除して計測
+  // text-nowrapを一時解除しwidth:max-contentで各colの自然なコンテンツ幅を計測
+  function measureMaxContentWidth() {
+    const cols = Array.from(container.querySelectorAll(':scope > [class*="col-"]'));
     const nowrapEls = Array.from(container.querySelectorAll('.text-nowrap'));
     nowrapEls.forEach(el => el.classList.remove('text-nowrap'));
-
-    const result = cols.reduce((max, col) => {
+    const max = cols.reduce((acc, col) => {
       const inner = col.firstElementChild;
-      if (!inner) return max;
-      const prevWidth = inner.style.width;
+      if (!inner) return acc;
       inner.style.width = 'max-content';
-      void inner.offsetHeight; // 強制リフロー
+      void inner.offsetHeight;
       const w = inner.offsetWidth;
-      inner.style.width = prevWidth;
-      return Math.max(max, w);
+      inner.style.width = '';
+      return Math.max(acc, w);
     }, 0);
-
     nowrapEls.forEach(el => el.classList.add('text-nowrap'));
-    return result;
+    return max;
   }
 
-  function updateLayout() {
-    const cols = Array.from(container.querySelectorAll(colSelector));
-    if (!cols.length) return;
-
+  // 2列分（+gap 8px）収まるかで col-6/col-12 を切替
+  function updateLayout(cols, maxContentWidth) {
     const fits = container.offsetWidth >= maxContentWidth * 2 + 8;
     cols.forEach(col => {
       col.classList.toggle('col-12', !fits);
@@ -493,11 +481,11 @@ function autoGridLayout(containerId, colSelector = ':scope > [class*="col-"]') {
     });
   }
 
-  // 初回計測はレイアウト確定後に実行
   requestAnimationFrame(() => {
-    maxContentWidth = measureContentWidth();
-    updateLayout();
-    new ResizeObserver(updateLayout).observe(container);
+    const cols = Array.from(container.querySelectorAll(':scope > [class*="col-"]'));
+    const maxContentWidth = measureMaxContentWidth();
+    updateLayout(cols, maxContentWidth);
+    new ResizeObserver(() => updateLayout(cols, maxContentWidth)).observe(container);
   });
 }
 
