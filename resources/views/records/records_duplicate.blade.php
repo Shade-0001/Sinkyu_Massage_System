@@ -53,9 +53,9 @@
             <label class="ms-3"><input type="radio" name="therapy_type" value="2" id="therapy_type_massage" {{ old('therapy_type', $record->therapy_type) == '2' ? 'checked' : '' }}>あんま･マッサージ</label>
           </div>
         </div>
-        <div class="mb-3">
+        <div id="bodyparts-container" class="{{ $record->therapy_type == 2 ? '' : 'd-none' }} mb-3">
           <!-- 身体部位チェックボックス(あんま･マッサージ選択時のみ表示) -->
-          <div id="bodyparts-section" class="{{ $record->therapy_type == 2 ? '' : 'd-none' }}">
+          <div>
             <label class="fw-semibold">　　部位</label>
             <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
             <label><input type="checkbox" name="bodyparts[]" value="1" {{ in_array('1', old('bodyparts', $selectedBodyparts)) ? 'checked' : '' }}> 躯幹</label>

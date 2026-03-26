@@ -93,7 +93,7 @@
         </div>
         <div id="bodyparts-container" class="d-none mb-3 bg-gray-94 rounded-1 py-2 px-3">
           <!-- 身体部位チェックボックス(あんま･マッサージ選択時のみ表示) -->
-          <div id="bodyparts-section">
+          <div>
             <label class="fw-semibold">　　部位</label>
             <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
             <label><input type="checkbox" name="bodyparts[]" value="1" {{ in_array('1', old('bodyparts', [])) ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> 軀幹</label>
