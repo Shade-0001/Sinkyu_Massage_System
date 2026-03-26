@@ -144,8 +144,9 @@
           $oldEndH   = old('end_time')   ? (int)explode(':', old('end_time'))[0]   : $bhStart;
           $oldEndM   = old('end_time')   ? (int)explode(':', old('end_time'))[1]   : 0;
         @endphp
+
         <div class="col-12 col-xl-6">
-          <div class="h-100 bg-gray-96 rounded-1 p-2 px-3 text-nowrap d-flex align-items-center">
+          <div class="h-100 bg-gray-96 rounded-1 px-3 text-nowrap d-flex align-items-center">
             <label class="fw-semibold">開始時刻</label>
             @error('start_time')
               <span class="text-danger ms-2">{{ $message }}</span>
@@ -169,12 +170,12 @@
         </div>
 
         <div class="col-12 col-xl-6">
-          <div class="h-100 bg-gray-96 rounded-1 p-2 px-3 text-nowrap">
+          <div class="h-100 bg-gray-96 rounded-1 p-2 px-3 text-nowrap d-flex align-items-center">
             <label class="fw-semibold">終了時刻</label>
             @error('end_time')
               <span class="text-danger ms-2">{{ $message }}</span>
             @enderror
-            <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
+            <div class="vr mx-2 align-self-stretch"></div>
             <div class="time-select-group d-inline-flex align-items-center gap-1" data-target="end_time">
               <select class="time-select-hour" data-tooltip="先に日付を選択してください">
                 @for($h = $bhStart; $h <= $bhEnd; $h++)
