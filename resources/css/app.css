@@ -718,7 +718,7 @@ html[data-sidebar="open"] #sidebar-toggle-icon span:nth-of-type(3)::after {
   visibility: hidden;
 }
 .notice-panels.open {
-  pointer-events: auto;
+  /* pointer-eventsはパネル個別で管理するためここでは変更しない */
   visibility: visible;
 }
 
@@ -734,6 +734,7 @@ html[data-sidebar="open"] #sidebar-toggle-icon span:nth-of-type(3)::after {
 .notice-list-panel.open {
   transform: scaleY(1);
   opacity: 1;
+  pointer-events: auto;
 }
 
 /* 詳細パネル（左右スライドアニメーション） */
