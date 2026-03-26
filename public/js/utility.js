@@ -487,7 +487,10 @@ function autoGridLayout(containerId, colSelector = ':scope > [class*="col-"]') {
     if (!cols.length) return;
 
     const fits = container.offsetWidth >= maxContentWidth * 2 + 8;
-    cols.forEach(col => col.classList.toggle('col-6', fits));
+    cols.forEach(col => {
+      col.classList.toggle('col-12', !fits);
+      col.classList.toggle('col-6', fits);
+    });
   }
 
   // 初回計測はレイアウト確定後に実行
