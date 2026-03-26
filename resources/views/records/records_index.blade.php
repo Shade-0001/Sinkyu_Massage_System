@@ -49,13 +49,13 @@
 
     <div class="d-flex gap-3 align-items-start">
       <!-- カレンダー -->
-      <div class="text-center position-relative" style="width: fit-content; min-width: 250px;">
+      <div class="text-center position-relative" style="width: 250px;">
         <div class="d-flex align-items-stretch justify-content-center mb-3">
           <button type="button" id="prev-month-btn" class="btn-custom btn-custom-sub btn-custom-blue" style="--btn-br-tl: 16px; --btn-br-tr: 0px; --btn-br-br: 0px; --btn-br-bl: 16px;">
             <i class="nf nf-fa-angle_left fs-4"></i>
           </button>
           <div class="btn-custom btn-custom-sub btn-custom-blue rounded-0 fs-4">
-            <div id="calendar-title-display" class="px-2" style="min-width: 160px;"></div>
+            <div id="calendar-title-display" class="px-2"></div>
             <select id="calendar-title" class="position-absolute top-0 start-50 translate-middle-x opacity-0" style="font-size: 1.5rem; padding: 0.2em 0em; border: none; background: transparent; width: 100%; height: 100%;"></select>
           </div>
           <button type="button" id="next-month-btn" class="btn-custom btn-custom-sub btn-custom-blue" style="--btn-br-tl: 0px; --btn-br-tr: 16px; --btn-br-br: 16px; --btn-br-bl: 0px;">
@@ -80,7 +80,7 @@
 
 
       <!-- 実績フィールド -->
-      <div class="flex-grow-1 row g-2 gx-3 align-content-start align-items-start" id="record-fields" style="max-width: 1000px;">
+      <div class="flex-grow-1 row g-3 gx-3 align-content-start align-items-start" id="record-fields" style="max-width: 1000px;">
         <!-- 施術種類 -->
         <div class="col-12 col-xl-6">
           <div class="rounded-1 d-flex align-items-start overflow-hidden">
@@ -96,7 +96,7 @@
                 <label class="ms-3"><input type="radio" name="therapy_type" value="2" id="therapy_type_massage" {{ old('therapy_type') == '2' ? 'checked' : '' }} data-tooltip="先に日付を選択してください">あんま･マッサージ</label>
               </div>
               <!-- 身体部位チェックボックス(あんま･マッサージ選択時のみ表示) -->
-              <div id="bodyparts-container" class="d-none mt-2">
+              <div id="bodyparts-container" class="d-none mt-2 text-wrap">
                 <label><input type="checkbox" name="bodyparts[]" value="1" {{ in_array('1', old('bodyparts', [])) ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> 軀幹</label>
                 <label><input type="checkbox" name="bodyparts[]" value="2" {{ in_array('2', old('bodyparts', [])) ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> 右上肢</label>
                 <label><input type="checkbox" name="bodyparts[]" value="3" {{ in_array('3', old('bodyparts', [])) ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> 左上肢</label>
@@ -124,7 +124,7 @@
               <!-- 往療距離(往療選択時のみ表示) -->
               <div id="housecall-distance-section" class="d-none mt-2">
                 <label class="d-block mb-1 fw-bold">往療距離</label>
-                <p class="my-1 small text-secondary">往療料が発生する場合は往療距離を入力(往療料無しなら0を入力)</p>
+                <p class="my-1 small text-secondary">往療料が発生する場合は往療距離を入力</p>
                 <div id="housecall-distance-inputs"></div>
                 <div class="mt-2">
                   上記日付を全て <input type="number" id="bulk-distance" step="0.5" min="0" style="width: 80px;" data-tooltip="先に日付を選択してください"> km に
@@ -220,7 +220,7 @@
               </select>
 
               <!-- 複製チェックボックス(あんま･マッサージ選択時のみ表示) -->
-              <div id="therapy-content-duplication" class="d-none mt-2">
+              <div id="therapy-content-duplication" class="d-none mt-2 text-wrap">
                 <label><input type="checkbox" name="duplicate_massage" value="1" {{ old('duplicate_massage') ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> マッサージを同一内容で複製する</label><br>
                 <label><input type="checkbox" name="duplicate_warm_compress" value="1" {{ old('duplicate_warm_compress') ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> 温庵法を同一内容で複製する</label><br>
                 <label><input type="checkbox" name="duplicate_warm_electric" value="1" {{ old('duplicate_warm_electric') ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> 温庵法･電気光線器具を同一内容で複製する</label><br>
