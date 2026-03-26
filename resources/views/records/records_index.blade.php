@@ -581,9 +581,6 @@
       userSearchUrl: '{{ route("user.search") }}'
     };
 
-    // record-fields 2列/1列 自動切替
-    document.addEventListener('DOMContentLoaded', () => autoGridLayout('record-fields'));
-
     // 一括複製の確認ダイアログ
     function confirmBulkDuplicate() {
       const year = document.querySelector('input[name="year"]').value;
@@ -596,5 +593,6 @@
   </script>
   <script src="{{ asset('js/utility.js') }}"></script>
   <script src="{{ asset('js/records.js') }}"></script>
+  <script>autoGridLayout('record-fields');</script>
   @endpush
 </x-app-layout>
