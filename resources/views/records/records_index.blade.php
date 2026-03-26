@@ -80,28 +80,30 @@
       <!-- 実績フィールド -->
       <div class="flex-grow-1" id="record-fields" style="min-width: 420px; max-width: 700px;">
         <!-- 施術種類 -->
-        <div class="d-inline-flex bg-gray-94 rounded-1 py-2 px-3">
-          <label class="fw-semibold">施術種類</label>
-          @error('therapy_type')
-            <span class="text-danger ms-2">{{ $message }}</span>
-          @enderror
-          <div class="vr ms-2 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
-          <div>
-            <label><input type="radio" name="therapy_type" value="1" id="therapy_type_acupuncture" {{ old('therapy_type', '1') == '1' ? 'checked' : '' }} data-tooltip="先に日付を選択してください">はり･きゅう</label>
-            <label class="ms-3"><input type="radio" name="therapy_type" value="2" id="therapy_type_massage" {{ old('therapy_type') == '2' ? 'checked' : '' }} data-tooltip="先に日付を選択してください">あんま･マッサージ</label>
-          </div>
-        </div>
-        <div id="bodyparts-container" class="d-none mb-3 bg-gray-94 rounded-1 py-2 px-3">
-          <!-- 身体部位チェックボックス(あんま･マッサージ選択時のみ表示) -->
-          <div>
-            <label class="fw-semibold">　　部位</label>
-            <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
-            <label><input type="checkbox" name="bodyparts[]" value="1" {{ in_array('1', old('bodyparts', [])) ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> 軀幹</label>
-            <label><input type="checkbox" name="bodyparts[]" value="2" {{ in_array('2', old('bodyparts', [])) ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> 右上肢</label>
-            <label><input type="checkbox" name="bodyparts[]" value="3" {{ in_array('3', old('bodyparts', [])) ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> 左上肢</label>
-            <label><input type="checkbox" name="bodyparts[]" value="4" {{ in_array('4', old('bodyparts', [])) ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> 右下肢</label>
-            <label><input type="checkbox" name="bodyparts[]" value="5" {{ in_array('5', old('bodyparts', [])) ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> 左下肢</label>
+        <div class="mb-3 bg-gray-94 rounded-1 py-2 px-3">
+          <div class="d-inline-flex">
+            <label class="fw-semibold">施術種類</label>
+            @error('therapy_type')
+              <span class="text-danger ms-2">{{ $message }}</span>
+            @enderror
+            <div class="vr ms-2 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
+            <div>
+              <label><input type="radio" name="therapy_type" value="1" id="therapy_type_acupuncture" {{ old('therapy_type', '1') == '1' ? 'checked' : '' }} data-tooltip="先に日付を選択してください">はり･きゅう</label>
+              <label class="ms-3"><input type="radio" name="therapy_type" value="2" id="therapy_type_massage" {{ old('therapy_type') == '2' ? 'checked' : '' }} data-tooltip="先に日付を選択してください">あんま･マッサージ</label>
             </div>
+          </div>
+          <!-- 身体部位チェックボックス(あんま･マッサージ選択時のみ表示) -->
+          <div id="bodyparts-container" class="d-none mt-2">
+            <div class="d-inline-flex">
+              <label class="fw-semibold">　　部位</label>
+              <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
+              <label><input type="checkbox" name="bodyparts[]" value="1" {{ in_array('1', old('bodyparts', [])) ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> 軀幹</label>
+              <label><input type="checkbox" name="bodyparts[]" value="2" {{ in_array('2', old('bodyparts', [])) ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> 右上肢</label>
+              <label><input type="checkbox" name="bodyparts[]" value="3" {{ in_array('3', old('bodyparts', [])) ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> 左上肢</label>
+              <label><input type="checkbox" name="bodyparts[]" value="4" {{ in_array('4', old('bodyparts', [])) ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> 右下肢</label>
+              <label><input type="checkbox" name="bodyparts[]" value="5" {{ in_array('5', old('bodyparts', [])) ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> 左下肢</label>
+            </div>
+          </div>
         </div>
 
         <!-- 施術区分 -->
