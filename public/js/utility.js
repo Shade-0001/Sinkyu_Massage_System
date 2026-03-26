@@ -472,6 +472,7 @@ function autoGridLayout(containerId, colSelector = ':scope > [class*="col-"]') {
       if (!inner) return max;
       const prevWidth = inner.style.width;
       inner.style.width = 'max-content';
+      void inner.offsetHeight; // 強制リフロー
       const w = inner.offsetWidth;
       inner.style.width = prevWidth;
       return Math.max(max, w);
