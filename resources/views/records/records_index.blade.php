@@ -83,23 +83,20 @@
       <div class="flex-grow-1 row g-2 gx-3 align-content-start" id="record-fields" style="max-width: 1000px;">
         <!-- 施術種類 -->
         <div class="col-12 col-xl-6">
-          <div class="h-100 bg-gray-96 rounded-1 p-2 px-3 text-nowrap">
-            <div class="d-inline-flex">
-              <label class="fw-semibold">施術種類</label>
+          <div class="h-100 rounded-1 d-flex align-items-start overflow-hidden">
+            <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3">施術種類
               @error('therapy_type')
                 <span class="text-danger ms-2">{{ $message }}</span>
               @enderror
-              <div class="vr ms-2 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
+            </label>
+            <div class="vr align-self-stretch"></div>
+            <div class="text-nowrap bg-gray-96 align-self-stretch p-2 px-3 flex-grow-1">
               <div>
                 <label><input type="radio" name="therapy_type" value="1" id="therapy_type_acupuncture" {{ old('therapy_type', '1') == '1' ? 'checked' : '' }} data-tooltip="先に日付を選択してください">はり･きゅう</label>
                 <label class="ms-3"><input type="radio" name="therapy_type" value="2" id="therapy_type_massage" {{ old('therapy_type') == '2' ? 'checked' : '' }} data-tooltip="先に日付を選択してください">あんま･マッサージ</label>
               </div>
-            </div>
-            <!-- 身体部位チェックボックス(あんま･マッサージ選択時のみ表示) -->
-            <div id="bodyparts-container" class="d-none mt-2">
-              <div class="d-inline-flex">
-                <label class="fw-semibold">　　部位</label>
-                <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
+              <!-- 身体部位チェックボックス(あんま･マッサージ選択時のみ表示) -->
+              <div id="bodyparts-container" class="d-none mt-2">
                 <label><input type="checkbox" name="bodyparts[]" value="1" {{ in_array('1', old('bodyparts', [])) ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> 軀幹</label>
                 <label><input type="checkbox" name="bodyparts[]" value="2" {{ in_array('2', old('bodyparts', [])) ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> 右上肢</label>
                 <label><input type="checkbox" name="bodyparts[]" value="3" {{ in_array('3', old('bodyparts', [])) ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> 左上肢</label>
@@ -112,24 +109,27 @@
 
         <!-- 施術区分 + 往療距離 -->
         <div class="col-12 col-xl-6">
-          <div class="h-100 bg-gray-96 rounded-1 p-2 px-3 text-nowrap">
-            <div class="d-inline-flex">
-              <label class="fw-semibold">施術区分</label>
+          <div class="h-100 rounded-1 d-flex align-items-start overflow-hidden">
+            <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3">施術区分
               @error('therapy_category')
                 <span class="text-danger ms-2">{{ $message }}</span>
               @enderror
-              <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
-              <label><input type="radio" name="therapy_category" value="1" id="therapy_category_visit" {{ old('therapy_category') == '1' ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> 通院</label>
-              <label class="ms-3"><input type="radio" name="therapy_category" value="2" id="therapy_category_housecall" {{ old('therapy_category') == '2' ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> 往療</label>
-            </div>
-            <!-- 往療距離(往療選択時のみ表示) -->
-            <div id="housecall-distance-section" class="d-none mt-2">
-              <label class="d-block mb-1 fw-bold">往療距離</label>
-              <p class="my-1 small text-secondary">往療料が発生する場合は往療距離を入力(往療料無しなら0を入力)</p>
-              <div id="housecall-distance-inputs"></div>
-              <div class="mt-2">
-                上記日付を全て <input type="number" id="bulk-distance" step="0.5" min="0" style="width: 80px;" data-tooltip="先に日付を選択してください"> km に
-                <button type="button" id="apply-bulk-distance" data-tooltip="先に日付を選択してください">変更</button>
+            </label>
+            <div class="vr align-self-stretch"></div>
+            <div class="text-nowrap bg-gray-96 align-self-stretch p-2 px-3 flex-grow-1">
+              <div>
+                <label><input type="radio" name="therapy_category" value="1" id="therapy_category_visit" {{ old('therapy_category') == '1' ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> 通院</label>
+                <label class="ms-3"><input type="radio" name="therapy_category" value="2" id="therapy_category_housecall" {{ old('therapy_category') == '2' ? 'checked' : '' }} data-tooltip="先に日付を選択してください"> 往療</label>
+              </div>
+              <!-- 往療距離(往療選択時のみ表示) -->
+              <div id="housecall-distance-section" class="d-none mt-2">
+                <label class="d-block mb-1 fw-bold">往療距離</label>
+                <p class="my-1 small text-secondary">往療料が発生する場合は往療距離を入力(往療料無しなら0を入力)</p>
+                <div id="housecall-distance-inputs"></div>
+                <div class="mt-2">
+                  上記日付を全て <input type="number" id="bulk-distance" step="0.5" min="0" style="width: 80px;" data-tooltip="先に日付を選択してください"> km に
+                  <button type="button" id="apply-bulk-distance" data-tooltip="先に日付を選択してください">変更</button>
+                </div>
               </div>
             </div>
           </div>
@@ -146,50 +146,56 @@
         @endphp
 
         <div class="col-12 col-xl-6">
-          <div class="h-100 bg-gray-96 rounded-1 p-2 px-3 text-nowrap d-flex align-items-center">
-            <label class="fw-semibold">開始時刻</label>
-            @error('start_time')
-              <span class="text-danger ms-2">{{ $message }}</span>
-            @enderror
-            <div class="vr mx-2 align-self-stretch"></div>
-            <div class="time-select-group d-inline-flex align-items-center gap-1" data-target="start_time">
-              <select class="time-select-hour" data-tooltip="先に日付を選択してください">
-                @for($h = $bhStart; $h <= $bhEnd; $h++)
-                  <option value="{{ $h }}" {{ $oldStartH === $h ? 'selected' : '' }}>{{ $h }}</option>
-                @endfor
-              </select>
-              <span>:</span>
-              <select class="time-select-minute" data-tooltip="先に日付を選択してください">
-                @foreach([0, 10, 20, 30, 40, 50] as $m)
-                  <option value="{{ $m }}" {{ $oldStartM === $m ? 'selected' : '' }}>{{ sprintf('%02d', $m) }}</option>
-                @endforeach
-              </select>
+          <div class="h-100 rounded-1 d-flex align-items-start overflow-hidden">
+            <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3">開始時刻
+              @error('start_time')
+                <span class="text-danger ms-2">{{ $message }}</span>
+              @enderror
+            </label>
+            <div class="vr align-self-stretch"></div>
+            <div class="text-nowrap bg-gray-96 align-self-stretch p-2 px-3 flex-grow-1 d-flex align-items-center">
+              <div class="time-select-group d-inline-flex align-items-center gap-1" data-target="start_time">
+                <select class="time-select-hour" data-tooltip="先に日付を選択してください">
+                  @for($h = $bhStart; $h <= $bhEnd; $h++)
+                    <option value="{{ $h }}" {{ $oldStartH === $h ? 'selected' : '' }}>{{ $h }}</option>
+                  @endfor
+                </select>
+                <span>:</span>
+                <select class="time-select-minute" data-tooltip="先に日付を選択してください">
+                  @foreach([0, 10, 20, 30, 40, 50] as $m)
+                    <option value="{{ $m }}" {{ $oldStartM === $m ? 'selected' : '' }}>{{ sprintf('%02d', $m) }}</option>
+                  @endforeach
+                </select>
+              </div>
+              <input type="hidden" id="start_time" name="start_time" value="{{ old('start_time') }}">
             </div>
-            <input type="hidden" id="start_time" name="start_time" value="{{ old('start_time') }}">
           </div>
         </div>
 
         <div class="col-12 col-xl-6">
-          <div class="h-100 bg-gray-96 rounded-1 p-2 px-3 text-nowrap d-flex align-items-center">
-            <label class="fw-semibold">終了時刻</label>
-            @error('end_time')
-              <span class="text-danger ms-2">{{ $message }}</span>
-            @enderror
-            <div class="vr mx-2 align-self-stretch"></div>
-            <div class="time-select-group d-inline-flex align-items-center gap-1" data-target="end_time">
-              <select class="time-select-hour" data-tooltip="先に日付を選択してください">
-                @for($h = $bhStart; $h <= $bhEnd; $h++)
-                  <option value="{{ $h }}" {{ $oldEndH === $h ? 'selected' : '' }}>{{ $h }}</option>
-                @endfor
-              </select>
-              <span>:</span>
-              <select class="time-select-minute" data-tooltip="先に日付を選択してください">
-                @foreach([0, 10, 20, 30, 40, 50] as $m)
-                  <option value="{{ $m }}" {{ $oldEndM === $m ? 'selected' : '' }}>{{ sprintf('%02d', $m) }}</option>
-                @endforeach
-              </select>
+          <div class="h-100 rounded-1 d-flex align-items-start overflow-hidden">
+            <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3">終了時刻
+              @error('end_time')
+                <span class="text-danger ms-2">{{ $message }}</span>
+              @enderror
+            </label>
+            <div class="vr align-self-stretch"></div>
+            <div class="text-nowrap bg-gray-96 align-self-stretch p-2 px-3 flex-grow-1 d-flex align-items-center">
+              <div class="time-select-group d-inline-flex align-items-center gap-1" data-target="end_time">
+                <select class="time-select-hour" data-tooltip="先に日付を選択してください">
+                  @for($h = $bhStart; $h <= $bhEnd; $h++)
+                    <option value="{{ $h }}" {{ $oldEndH === $h ? 'selected' : '' }}>{{ $h }}</option>
+                  @endfor
+                </select>
+                <span>:</span>
+                <select class="time-select-minute" data-tooltip="先に日付を選択してください">
+                  @foreach([0, 10, 20, 30, 40, 50] as $m)
+                    <option value="{{ $m }}" {{ $oldEndM === $m ? 'selected' : '' }}>{{ sprintf('%02d', $m) }}</option>
+                  @endforeach
+                </select>
+              </div>
+              <input type="hidden" id="end_time" name="end_time" value="{{ old('end_time') }}">
             </div>
-            <input type="hidden" id="end_time" name="end_time" value="{{ old('end_time') }}">
           </div>
         </div>
 
@@ -226,104 +232,119 @@
 
         <!-- 施術者 -->
         <div class="col-12 col-xl-6">
-          <div class="h-100 bg-gray-96 rounded-1 p-2 px-3 text-nowrap">
-            <label class="fw-semibold" for="therapist_id">施術者</label>
-            @error('therapist_id')
-              <span class="text-danger ms-2">{{ $message }}</span>
-            @enderror
-            <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
-            <select id="therapist_id" name="therapist_id" data-tooltip="先に日付を選択してください">
-              <option value="">╌╌╌</option>
-              @foreach($therapists as $therapist)
-                <option value="{{ $therapist->id }}" {{ old('therapist_id') == $therapist->id ? 'selected' : '' }}>ID-{{ str_pad($therapist->id, $therapistIdLength, '0', STR_PAD_LEFT) }}｜{{ $therapist->last_name }}{{ "\u{2000}" }}{{ $therapist->first_name }}｜{{ $therapist->last_name_kana }}{{ "\u{2000}" }}{{ $therapist->first_name_kana }}</option>
-              @endforeach
-            </select>
+          <div class="h-100 rounded-1 d-flex align-items-start overflow-hidden">
+            <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3" for="therapist_id">施術者
+              @error('therapist_id')
+                <span class="text-danger ms-2">{{ $message }}</span>
+              @enderror
+            </label>
+            <div class="vr align-self-stretch"></div>
+            <div class="text-nowrap bg-gray-96 align-self-stretch p-2 px-3 flex-grow-1">
+              <select id="therapist_id" name="therapist_id" data-tooltip="先に日付を選択してください">
+                <option value="">╌╌╌</option>
+                @foreach($therapists as $therapist)
+                  <option value="{{ $therapist->id }}" {{ old('therapist_id') == $therapist->id ? 'selected' : '' }}>ID-{{ str_pad($therapist->id, $therapistIdLength, '0', STR_PAD_LEFT) }}｜{{ $therapist->last_name }}{{ "\u{2000}" }}{{ $therapist->first_name }}｜{{ $therapist->last_name_kana }}{{ "\u{2000}" }}{{ $therapist->first_name_kana }}</option>
+                @endforeach
+              </select>
+            </div>
           </div>
         </div>
 
         <!-- 保険区分 -->
         <div class="col-12 col-xl-6">
-          <div class="h-100 bg-gray-96 rounded-1 p-2 px-3 text-nowrap">
-            <label class="fw-semibold">保険区分</label>
-            @error('insurance_category')
-              <span class="text-danger ms-2">{{ $message }}</span>
-            @enderror
-            <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
-            @if($insurances && $insurances->count() > 0)
-              <select name="insurance_category" data-tooltip="先に日付を選択してください">
-                <option value="">╌╌╌</option>
-                @foreach($insurances as $insurance)
-                  @php
-                    $insurerNumberLength = strlen($insurance->insurer_number ?? '');
-                    $insuranceType = '';
-                    if($insurerNumberLength == 6) {
-                      $insuranceType = '国民健康保険';
-                    } elseif($insurerNumberLength == 8) {
-                      $insuranceType = '組合保険';
-                    } else {
-                      $insuranceType = '保険';
-                    }
-                    $expiryDate = $insurance->expiry_date ? date('Y/m/d', strtotime($insurance->expiry_date)) : '未設定';
-                    $isSelected = old('insurance_category') ? old('insurance_category') == $insurance->id : $latestInsuranceId == $insurance->id;
-                  @endphp
-                  <option value="{{ $insurance->id }}" {{ $isSelected ? 'selected' : '' }}>{{ $insuranceType }}（期限：{{ $expiryDate }}）</option>
-                @endforeach
-              </select>
-            @else
-              <p class="text-secondary">保険情報が登録されていません</p>
-            @endif
+          <div class="h-100 rounded-1 d-flex align-items-start overflow-hidden">
+            <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3">保険区分
+              @error('insurance_category')
+                <span class="text-danger ms-2">{{ $message }}</span>
+              @enderror
+            </label>
+            <div class="vr align-self-stretch"></div>
+            <div class="text-nowrap bg-gray-96 align-self-stretch p-2 px-3 flex-grow-1">
+              @if($insurances && $insurances->count() > 0)
+                <select name="insurance_category" data-tooltip="先に日付を選択してください">
+                  <option value="">╌╌╌</option>
+                  @foreach($insurances as $insurance)
+                    @php
+                      $insurerNumberLength = strlen($insurance->insurer_number ?? '');
+                      $insuranceType = '';
+                      if($insurerNumberLength == 6) {
+                        $insuranceType = '国民健康保険';
+                      } elseif($insurerNumberLength == 8) {
+                        $insuranceType = '組合保険';
+                      } else {
+                        $insuranceType = '保険';
+                      }
+                      $expiryDate = $insurance->expiry_date ? date('Y/m/d', strtotime($insurance->expiry_date)) : '未設定';
+                      $isSelected = old('insurance_category') ? old('insurance_category') == $insurance->id : $latestInsuranceId == $insurance->id;
+                    @endphp
+                    <option value="{{ $insurance->id }}" {{ $isSelected ? 'selected' : '' }}>{{ $insuranceType }}（期限：{{ $expiryDate }}）</option>
+                  @endforeach
+                </select>
+              @else
+                <p class="text-secondary">保険情報が登録されていません</p>
+              @endif
+            </div>
           </div>
         </div>
 
         <!-- 同意有効期限 -->
         <div class="col-12 col-xl-6">
-          <div class="h-100 d-flex bg-gray-96 rounded-1 p-2 px-3 text-nowrap">
-            <label class="mb-1 fw-bold">同意有効期限</label>
-            <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
-            <div id="consent-expiry-display">
-              <span id="consent-expiry-acupuncture" class="d-none">
-                @if($consentsAcupuncture && $consentsAcupuncture->consenting_end_date)
-                  {{ date('Y/m/d', strtotime($consentsAcupuncture->consenting_end_date)) }}
-                @else
-                  未登録
-                @endif
-              </span>
-              <span id="consent-expiry-massage" class="d-none">
-                @if($consentsMassage && $consentsMassage->consenting_end_date)
-                  {{ date('Y/m/d', strtotime($consentsMassage->consenting_end_date)) }}
-                @else
-                  未登録
-                @endif
-              </span>
+          <div class="h-100 rounded-1 d-flex align-items-start overflow-hidden">
+            <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3">同意有効期限</label>
+            <div class="vr align-self-stretch"></div>
+            <div class="text-nowrap bg-gray-96 align-self-stretch p-2 px-3 flex-grow-1">
+              <div id="consent-expiry-display">
+                <span id="consent-expiry-acupuncture" class="d-none">
+                  @if($consentsAcupuncture && $consentsAcupuncture->consenting_end_date)
+                    {{ date('Y/m/d', strtotime($consentsAcupuncture->consenting_end_date)) }}
+                  @else
+                    未登録
+                  @endif
+                </span>
+                <span id="consent-expiry-massage" class="d-none">
+                  @if($consentsMassage && $consentsMassage->consenting_end_date)
+                    {{ date('Y/m/d', strtotime($consentsMassage->consenting_end_date)) }}
+                  @else
+                    未登録
+                  @endif
+                </span>
+              </div>
+              <input type="hidden" name="consent_expiry" id="consent_expiry">
             </div>
-            <input type="hidden" name="consent_expiry" id="consent_expiry">
           </div>
         </div>
 
         <!-- 請求区分 -->
         <div class="col-12 col-xl-6">
-          <div class="h-100 d-flex bg-gray-96 rounded-1 p-2 px-3 text-nowrap">
-            <label class="d-block mb-1 fw-bold">請求区分</label>
-            <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
-            <p>{{ $hasRecentRecords ? '継続' : '新規' }}</p>
-            <input type="hidden" name="bill_category_id" value="{{ $hasRecentRecords ? 2 : 1 }}">
+          <div class="h-100 rounded-1 d-flex align-items-start overflow-hidden">
+            <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3">請求区分</label>
+            <div class="vr align-self-stretch"></div>
+            <div class="text-nowrap bg-gray-96 align-self-stretch p-2 px-3 flex-grow-1 d-flex align-items-center">
+              <p class="mb-0">{{ $hasRecentRecords ? '継続' : '新規' }}</p>
+              <input type="hidden" name="bill_category_id" value="{{ $hasRecentRecords ? 2 : 1 }}">
+            </div>
           </div>
         </div>
 
         <!-- 施術実日数 -->
         <div class="col-12 col-xl-6">
-          <div class="h-100 d-flex bg-gray-96 rounded-1 p-2 px-3 text-nowrap">
-            <label class="d-block mb-1 fw-bold">施術実日数</label>
-            <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
-            <p id="therapy-days-display">0日</p>
+          <div class="h-100 rounded-1 d-flex align-items-start overflow-hidden">
+            <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3">施術実日数</label>
+            <div class="vr align-self-stretch"></div>
+            <div class="text-nowrap bg-gray-96 align-self-stretch p-2 px-3 flex-grow-1 d-flex align-items-center">
+              <p id="therapy-days-display" class="mb-0">0日</p>
+            </div>
           </div>
         </div>
 
         <!-- 摘要 -->
         <div class="col-12">
-          <div class="bg-gray-96 rounded-1 p-2 px-3">
-            <label for="abstract" class="d-block mb-1 fw-bold">摘要</label>
-            <textarea id="abstract" name="abstract" rows="3" class="w-100" data-tooltip="先に日付を選択してください">{{ old('abstract') }}</textarea>
+          <div class="rounded-1 d-flex align-items-start overflow-hidden">
+            <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3" for="abstract">摘要</label>
+            <div class="vr align-self-stretch"></div>
+            <div class="bg-gray-96 align-self-stretch p-2 px-3 flex-grow-1">
+              <textarea id="abstract" name="abstract" rows="3" class="w-100" data-tooltip="先に日付を選択してください">{{ old('abstract') }}</textarea>
+            </div>
           </div>
         </div>
 
