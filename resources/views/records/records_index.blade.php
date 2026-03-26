@@ -195,14 +195,14 @@
 
         <!-- 施術内容 -->
         <div class="col-12 col-xl-6">
-          <div class="h-100 bg-gray-96 rounded-1 p-2 px-3 d-flex align-items-start">
-            <label class="fw-semibold text-nowrap pt-1" for="therapy_content_id">施術内容
+          <div class="h-100 rounded-1 d-flex align-items-start overflow-hidden">
+            <label class="fw-semibold text-nowrap bg-gray-98 align-self-stretch d-flex align-items-start p-2 px-3" for="therapy_content_id">施術内容
               @error('therapy_content_id')
                 <span class="text-danger ms-2">{{ $message }}</span>
               @enderror
             </label>
-            <div class="vr mx-2 align-self-stretch"></div>
-            <div class="text-nowrap">
+            <div class="vr align-self-stretch"></div>
+            <div class="text-nowrap bg-gray-96 align-self-stretch p-2 px-3">
               <select id="therapy_content_id" name="therapy_content_id" data-tooltip="先に日付を選択してください">
                 <option value="">╌╌╌</option>
                 @foreach($therapyContents as $content)
