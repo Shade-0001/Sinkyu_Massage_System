@@ -196,7 +196,7 @@
         <!-- 施術内容 -->
         <div class="col-12 col-xl-6">
           <div class="h-100 rounded-1 d-flex align-items-start overflow-hidden">
-            <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-start p-2 px-3" for="therapy_content_id">施術内容
+            <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3" for="therapy_content_id">施術内容
               @error('therapy_content_id')
                 <span class="text-danger ms-2">{{ $message }}</span>
               @enderror
