@@ -49,7 +49,7 @@
 
     <div class="d-flex gap-3 align-items-start">
       <!-- カレンダー -->
-      <div class="text-center position-relative" style="width: 380px;">
+      <div class="text-center position-relative" style="width: 280px;">
         <div class="d-flex align-items-stretch justify-content-center mb-3">
           <button type="button" id="prev-month-btn" class="btn-custom btn-custom-sub btn-custom-blue" style="--btn-br-tl: 16px; --btn-br-tr: 0px; --btn-br-br: 0px; --btn-br-bl: 16px;">
             <i class="nf nf-fa-angle_left fs-4"></i>
