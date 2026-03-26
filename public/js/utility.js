@@ -446,54 +446,54 @@ function initializeAutoHideAlerts() {
   });
 }
 
-/**
- * Bootstrap rowの子col要素をコンテンツ幅に基づいて2列/1列に自動切替する汎用関数
- * @param {string} containerId - row要素のID
- */
-function autoGridLayout(containerId) {
-  const container = document.getElementById(containerId);
-  if (!container) return;
-
-  // text-nowrapを一時解除しwidth:max-contentで各colの自然なコンテンツ幅を計測
-  function measureMaxContentWidth() {
-    const cols = Array.from(container.querySelectorAll(':scope > [class*="col-"]:not(.col-fixed)'));
-    const nowrapEls = Array.from(container.querySelectorAll('.text-nowrap'));
-    nowrapEls.forEach(el => el.classList.remove('text-nowrap'));
-    const max = cols.reduce((acc, col) => {
-      const inner = col.firstElementChild;
-      if (!inner) return acc;
-      inner.style.width = 'max-content';
-      void inner.offsetHeight;
-      const w = inner.offsetWidth;
-      inner.style.width = '';
-      return Math.max(acc, w);
-    }, 0);
-    nowrapEls.forEach(el => el.classList.add('text-nowrap'));
-    return max;
-  }
-
-  // 2列分（+gap 8px）収まるかで col-6/col-12 を切替
-  function updateLayout(cols, maxContentWidth) {
-    const fits = container.offsetWidth >= maxContentWidth * 2 + 8;
-    cols.forEach(col => {
-      col.classList.toggle('col-12', !fits);
-      col.classList.toggle('col-6', fits);
-    });
-  }
-
-  requestAnimationFrame(() => {
-    const cols = Array.from(container.querySelectorAll(':scope > [class*="col-"]:not(.col-fixed)'));
-    const maxContentWidth = measureMaxContentWidth();
-    updateLayout(cols, maxContentWidth);
-    new ResizeObserver(() => updateLayout(cols, maxContentWidth)).observe(container);
-  });
-}
+// /**
+//  * Bootstrap rowの子col要素をコンテンツ幅に基づいて2列/1列に自動切替する汎用関数
+//  * @param {string} containerId - row要素のID
+//  */
+// function autoGridLayout(containerId) {
+//   const container = document.getElementById(containerId);
+//   if (!container) return;
+//
+//   // text-nowrapを一時解除しwidth:max-contentで各colの自然なコンテンツ幅を計測
+//   function measureMaxContentWidth() {
+//     const cols = Array.from(container.querySelectorAll(':scope > [class*="col-"]:not(.col-fixed)'));
+//     const nowrapEls = Array.from(container.querySelectorAll('.text-nowrap'));
+//     nowrapEls.forEach(el => el.classList.remove('text-nowrap'));
+//     const max = cols.reduce((acc, col) => {
+//       const inner = col.firstElementChild;
+//       if (!inner) return acc;
+//       inner.style.width = 'max-content';
+//       void inner.offsetHeight;
+//       const w = inner.offsetWidth;
+//       inner.style.width = '';
+//       return Math.max(acc, w);
+//     }, 0);
+//     nowrapEls.forEach(el => el.classList.add('text-nowrap'));
+//     return max;
+//   }
+//
+//   // 2列分（+gap 8px）収まるかで col-6/col-12 を切替
+//   function updateLayout(cols, maxContentWidth) {
+//     const fits = container.offsetWidth >= maxContentWidth * 2 + 8;
+//     cols.forEach(col => {
+//       col.classList.toggle('col-12', !fits);
+//       col.classList.toggle('col-6', fits);
+//     });
+//   }
+//
+//   requestAnimationFrame(() => {
+//     const cols = Array.from(container.querySelectorAll(':scope > [class*="col-"]:not(.col-fixed)'));
+//     const maxContentWidth = measureMaxContentWidth();
+//     updateLayout(cols, maxContentWidth);
+//     new ResizeObserver(() => updateLayout(cols, maxContentWidth)).observe(container);
+//   });
+// }
 
 // 関数をグローバルスコープに公開
 if (typeof window !== 'undefined') {
   window.initializeReadonlyTooltips = initializeReadonlyTooltips;
   window.initializeAutoHideAlerts = initializeAutoHideAlerts;
-  window.autoGridLayout = autoGridLayout;
+  // window.autoGridLayout = autoGridLayout;
 }
 
 // ページ読み込み時に自動的にツールチップとアラート自動消去を初期化
