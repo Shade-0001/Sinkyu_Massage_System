@@ -21,7 +21,7 @@
   text-decoration-line: none;
 }
 
-/* 通常状態セレクトボックスのスタイル */
+/* 通常状態select＆textareaのスタイル */
 select:not(:disabled),
 textarea:not(:disabled) {
   background-color: hsl(0, 0%, 100%);
@@ -549,19 +549,6 @@ textarea:not(:disabled) {
   --btn-br-bl: calc(var(--btn-br-bl-base) * 1.3);
   --btn-br-br: calc(var(--btn-br-br-base) * 1.3);
   --btn-shadow-size: calc(var(--btn-shadow-size-base) * 1.3);
-}
-/* サイズ - .btn-custom-sub用 */
-.btn-custom-sub.btn-custom-xs {
-
-}
-.btn-custom-sub.btn-custom-sm {
-
-}
-.btn-custom-sub.btn-custom-lg {
-
-}
-.btn-custom-sub.btn-custom-xl {
-
 }
 
 /*──────────────────────────────────────────────*/
