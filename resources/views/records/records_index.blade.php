@@ -47,7 +47,7 @@
     @csrf
     <input type="hidden" name="clinic_user_id" value="{{ $selectedUserId }}">
 
-    <div class="d-flex gap-3 align-items-start">
+    <div class="d-flex flex-column flex-md-row gap-3 align-items-start">
       <!-- カレンダー -->
       <div class="text-center position-relative" style="width: fit-content; min-width: 250px;">
         <div class="d-flex align-items-stretch justify-content-center mb-3">
