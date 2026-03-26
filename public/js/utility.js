@@ -452,29 +452,41 @@ function initializeAutoHideAlerts() {
  * @param {string} containerId - row要素のID
  * @param {string} [colSelector=':scope > .col-12'] - 列要素のCSSセレクタ
  */
-function autoGridLayout(containerId, colSelector = ':scope > .col-12') {
+function autoGridLayout(containerId, colSelector = ':scope > [class*="col-"]') {
   const container = document.getElementById(containerId);
   if (!container) return;
+
+  // 最大コンテンツ幅を1度だけ計測（col-12固定状態で計測）
+  let maxContentWidth = 0;
+
+  function measureContentWidth() {
+    const cols = Array.from(container.querySelectorAll(colSelector));
+    if (!cols.length) return 0;
+
+    // 全colをcol-12に固定して計測
+    cols.forEach(col => { col.classList.remove('col-6'); });
+
+    // レイアウト確定後に計測
+    return cols.reduce((max, col) => {
+      const inner = col.firstElementChild;
+      return inner ? Math.max(max, inner.scrollWidth) : max;
+    }, 0);
+  }
 
   function updateLayout() {
     const cols = Array.from(container.querySelectorAll(colSelector));
     if (!cols.length) return;
 
-    // 一時的に全列を1列化してscrollWidthを正確に計測
-    cols.forEach(col => col.classList.remove('col-6'));
-
-    const maxContentWidth = cols.reduce((max, col) => {
-      const inner = col.firstElementChild;
-      return inner ? Math.max(max, inner.scrollWidth) : max;
-    }, 0);
-
-    // gap(8px)込みで2列分収まるか判定
     const fits = container.offsetWidth >= maxContentWidth * 2 + 8;
     cols.forEach(col => col.classList.toggle('col-6', fits));
   }
 
-  new ResizeObserver(updateLayout).observe(container);
-  updateLayout();
+  // 初回計測はレイアウト確定後に実行
+  requestAnimationFrame(() => {
+    maxContentWidth = measureContentWidth();
+    updateLayout();
+    new ResizeObserver(updateLayout).observe(container);
+  });
 }
 
 // 関数をグローバルスコープに公開
