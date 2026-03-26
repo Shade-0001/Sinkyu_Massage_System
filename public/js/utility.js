@@ -466,11 +466,14 @@ function autoGridLayout(containerId, colSelector = ':scope > [class*="col-"]') {
     return cols.reduce((max, col) => {
       const inner = col.firstElementChild;
       if (!inner) return max;
-      // width: max-content を一時適用して自然なコンテンツ幅を計測
-      const prev = inner.style.width;
+      // text-nowrap系を一時的に外してwrap状態のmax-content幅を計測
+      const nowrapEls = Array.from(inner.querySelectorAll('*')).concat(inner)
+        .filter(el => getComputedStyle(el).whiteSpace === 'nowrap');
+      nowrapEls.forEach(el => el.style.whiteSpace = 'normal');
       inner.style.width = 'max-content';
       const w = inner.offsetWidth;
-      inner.style.width = prev;
+      inner.style.width = '';
+      nowrapEls.forEach(el => el.style.whiteSpace = '');
       return Math.max(max, w);
     }, 0);
   }
