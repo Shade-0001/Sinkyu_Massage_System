@@ -456,7 +456,7 @@ function autoGridLayout(containerId) {
 
   // text-nowrapを一時解除しwidth:max-contentで各colの自然なコンテンツ幅を計測
   function measureMaxContentWidth() {
-    const cols = Array.from(container.querySelectorAll(':scope > [class*="col-"]'));
+    const cols = Array.from(container.querySelectorAll(':scope > [class*="col-"]:not(.col-fixed)'));
     const nowrapEls = Array.from(container.querySelectorAll('.text-nowrap'));
     nowrapEls.forEach(el => el.classList.remove('text-nowrap'));
     const max = cols.reduce((acc, col) => {
@@ -482,7 +482,7 @@ function autoGridLayout(containerId) {
   }
 
   requestAnimationFrame(() => {
-    const cols = Array.from(container.querySelectorAll(':scope > [class*="col-"]'));
+    const cols = Array.from(container.querySelectorAll(':scope > [class*="col-"]:not(.col-fixed)'));
     const maxContentWidth = measureMaxContentWidth();
     updateLayout(cols, maxContentWidth);
     new ResizeObserver(() => updateLayout(cols, maxContentWidth)).observe(container);

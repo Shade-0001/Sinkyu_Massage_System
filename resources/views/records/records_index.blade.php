@@ -316,14 +316,14 @@
         </div>
 
         <!-- 摘要 -->
-        <div class="col-12">
+        <div class="col-12 col-fixed">
           <div class="bg-gray-96 rounded-1 pt-2 pb-3 px-3">
             <label for="abstract" class="d-block mb-1 fw-bold">摘要</label>
             <textarea id="abstract" name="abstract" rows="3" class="w-100" data-tooltip="先に日付を選択してください">{{ old('abstract') }}</textarea>
           </div>
         </div>
 
-        <div class="col-12">
+        <div class="col-12 col-fixed">
           <button type="submit" class="btn-custom btn-custom-green d-block ms-auto" data-tooltip="先に日付を選択してください">登録</button>
         </div>
       </div>
