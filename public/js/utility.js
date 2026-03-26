@@ -463,13 +463,15 @@ function autoGridLayout(containerId, colSelector = ':scope > [class*="col-"]') {
     const cols = Array.from(container.querySelectorAll(colSelector));
     if (!cols.length) return 0;
 
-    // 全colをcol-12に固定して計測
-    cols.forEach(col => { col.classList.remove('col-6'); });
-
-    // レイアウト確定後に計測
     return cols.reduce((max, col) => {
       const inner = col.firstElementChild;
-      return inner ? Math.max(max, inner.offsetWidth) : max;
+      if (!inner) return max;
+      // width: max-content を一時適用して自然なコンテンツ幅を計測
+      const prev = inner.style.width;
+      inner.style.width = 'max-content';
+      const w = inner.offsetWidth;
+      inner.style.width = prev;
+      return Math.max(max, w);
     }, 0);
   }
 
