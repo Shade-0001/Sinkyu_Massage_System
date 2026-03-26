@@ -284,7 +284,7 @@ function updateConsentExpiryDisplay() {
   const therapyTypeRadios = document.querySelectorAll('input[name="therapy_type"]');
   const checkedRadio = Array.from(therapyTypeRadios).find(radio => radio.checked);
 
-  const bodypartsSection = document.getElementById('bodyparts-section');
+  const bodypartsContainer = document.getElementById('bodyparts-container');
   const therapyContentDuplication = document.getElementById('therapy-content-duplication');
   const consentExpiryAcupuncture = document.getElementById('consent-expiry-acupuncture');
   const consentExpiryMassage = document.getElementById('consent-expiry-massage');
@@ -292,14 +292,14 @@ function updateConsentExpiryDisplay() {
 
   if (checkedRadio) {
     if (checkedRadio.value === '2') { // あんま･マッサージ
-      bodypartsSection.classList.remove('d-none');
+      bodypartsContainer.classList.remove('d-none');
       therapyContentDuplication.classList.remove('d-none');
       consentExpiryAcupuncture.classList.add('d-none');
       consentExpiryMassage.classList.remove('d-none');
       const massageValue = consentExpiryMassage.textContent.trim();
       consentExpiryInput.value = massageValue === '未登録' ? '' : massageValue;
     } else { // はり･きゅう
-      bodypartsSection.classList.add('d-none');
+      bodypartsContainer.classList.add('d-none');
       therapyContentDuplication.classList.add('d-none');
       consentExpiryAcupuncture.classList.remove('d-none');
       consentExpiryMassage.classList.add('d-none');
