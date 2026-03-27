@@ -896,12 +896,14 @@ html[data-sidebar="closed"] #sidebar-content {
   grid-template-columns: repeat(7, 1fr);
   gap: 0;
   border-radius: 0.25rem;
+  border: 1px solid rgba(0, 0, 0, 0.31);
   overflow: hidden;
 }
 
 /* 曜日ヘッダー */
 .calendar-day-header {
-  border: 1px solid rgba(0, 0, 0, 0.31);
+  border-right: 1px solid rgba(0, 0, 0, 0.31);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.31);
 }
 
 /* 日曜日 - text-dangerで代替可能だが、特定色のため保持 */
@@ -918,7 +920,8 @@ html[data-sidebar="closed"] #sidebar-content {
   background-color: #fff;
   padding: 5px;
   text-align: center;
-  border: 1px solid rgba(0, 0, 0, 0.31);
+  border-right: 1px solid rgba(0, 0, 0, 0.31);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.31);
   cursor: pointer;
 }
 
