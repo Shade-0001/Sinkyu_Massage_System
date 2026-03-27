@@ -1,13 +1,12 @@
 /* ✅ CSS編集はこのファイルで行う（app.blade.phpの@viteで読み込まれる） */
 /* ⚠️ public/css/app.css への変更はブラウザに反映されない */
 
-
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  グローバルスタイル                           ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 /* 全体 */
 * {
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: "Noto Sans JP", sans-serif;
   scroll-behavior: smooth;
 }
 /* フォーカス効果の無効化 */
@@ -53,10 +52,6 @@ textarea:not(:disabled) {
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
-
-
-
-
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  ユーティリティクラス                         ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
@@ -68,7 +63,7 @@ textarea:not(:disabled) {
 }
 [class*="hover-highlight-"]::after {
   transition: opacity 0.1s;
-  background: #FFFFFF;
+  background: #ffffff;
   mix-blend-mode: overlay;
   opacity: 0;
   pointer-events: none;
@@ -78,23 +73,47 @@ textarea:not(:disabled) {
   border-radius: inherit;
   z-index: 2;
 }
-.hover-highlight-5:hover::after {opacity: 0.05;}
-.hover-highlight-10:hover::after {opacity: 0.1;}
-.hover-highlight-15:hover::after {opacity: 0.15;}
-.hover-highlight-20:hover::after {opacity: 0.2;}
-.hover-highlight-25:hover::after {opacity: 0.25;}
-.hover-highlight-30:hover::after {opacity: 0.3;}
-.hover-highlight-35:hover::after {opacity: 0.35;}
-.hover-highlight-40:hover::after {opacity: 0.4;}
-.hover-highlight-45:hover::after {opacity: 0.45;}
-.hover-highlight-50:hover::after {opacity: 0.5;}
+.hover-highlight-5:hover::after {
+  opacity: 0.05;
+}
+.hover-highlight-10:hover::after {
+  opacity: 0.1;
+}
+.hover-highlight-15:hover::after {
+  opacity: 0.15;
+}
+.hover-highlight-20:hover::after {
+  opacity: 0.2;
+}
+.hover-highlight-25:hover::after {
+  opacity: 0.25;
+}
+.hover-highlight-30:hover::after {
+  opacity: 0.3;
+}
+.hover-highlight-35:hover::after {
+  opacity: 0.35;
+}
+.hover-highlight-40:hover::after {
+  opacity: 0.4;
+}
+.hover-highlight-45:hover::after {
+  opacity: 0.45;
+}
+.hover-highlight-50:hover::after {
+  opacity: 0.5;
+}
 /* テキストハイライト（.hover-highlight-*併用） */
-.highlight-target-text-white, .highlight-target-text-white *,
-.highlight-target-text-black, .highlight-target-text-black * { transition: color 0.1s; }
+.highlight-target-text-white,
+.highlight-target-text-white *,
+.highlight-target-text-black,
+.highlight-target-text-black * {
+  transition: color 0.1s;
+}
 [class*="hover-highlight-"]:hover:is(.highlight-target-text-white),
 [class*="hover-highlight-"]:hover .highlight-target-text-white,
 [class*="hover-highlight-"]:hover .highlight-target-text-white * {
-  color: #FFFFFF !important;
+  color: #ffffff !important;
 }
 [class*="hover-highlight-"]:hover:is(.highlight-target-text-black),
 [class*="hover-highlight-"]:hover .highlight-target-text-black,
@@ -106,7 +125,7 @@ textarea:not(:disabled) {
   position: relative;
 }
 .sidebar-active::after {
-  background: #FFFFFF;
+  background: #ffffff;
   mix-blend-mode: overlay;
   opacity: 0.3;
   pointer-events: none;
@@ -116,16 +135,20 @@ textarea:not(:disabled) {
   border-radius: inherit;
   z-index: 2;
 }
-.sidebar-active:hover::after { opacity: 0.3; }
-.sidebar-active, .sidebar-active * {
-  color: #FFFFFF !important; transition: none;
+.sidebar-active:hover::after {
+  opacity: 0.3;
+}
+.sidebar-active,
+.sidebar-active * {
+  color: #ffffff !important;
+  transition: none;
 }
 /* アクティブ要素はホバー効果無効化 */
 .sidebar-active.highlight-target-text-white,
 .sidebar-active.highlight-target-text-white *,
 .sidebar-active .highlight-target-text-white,
 .sidebar-active .highlight-target-text-white * {
-  color: #FFFFFF !important;
+  color: #ffffff !important;
 }
 
 /*──────────────────────────────────────────────*/
@@ -136,16 +159,20 @@ textarea:not(:disabled) {
 }
 .hover-bright-trigger:hover .bright-target-105,
 .bright-target-105:hover {
-  filter: brightness(1.05);}
+  filter: brightness(1.05);
+}
 .hover-bright-trigger:hover .bright-target-110,
 .bright-target-110:hover {
-  filter: brightness(1.1);}
+  filter: brightness(1.1);
+}
 .hover-bright-trigger:hover .bright-target-120,
 .bright-target-120:hover {
-  filter: brightness(1.2);}
+  filter: brightness(1.2);
+}
 .hover-bright-trigger:hover .bright-target-130,
 .bright-target-130:hover {
-  filter: brightness(1.3);}
+  filter: brightness(1.3);
+}
 
 /*──────────────────────────────────────────────*/
 /*  ホバー時白背景                               */
@@ -154,7 +181,7 @@ textarea:not(:disabled) {
   position: relative;
 }
 .hover-bg-white::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   border-radius: inherit;
@@ -162,7 +189,7 @@ textarea:not(:disabled) {
   pointer-events: none;
   z-index: 0;
   box-shadow:
-    inset  4px  4px 1px hsla(0, 0%, 100%, 1.0),
+    inset 4px 4px 1px hsla(0, 0%, 100%, 1),
     inset -4px -4px 1px hsla(0, 0%, 0%, 0.1);
 }
 .hover-bg-white > * {
@@ -172,7 +199,7 @@ textarea:not(:disabled) {
 .hover-bg-white:hover::before {
   background-color: hsl(200, 100%, 99%) !important;
   box-shadow:
-    inset  4px  4px 1px hsla(0, 0%, 100%, 1.0),
+    inset 4px 4px 1px hsla(0, 0%, 100%, 1),
     inset -4px -4px 1px hsla(0, 0%, 0%, 0.15);
 }
 
@@ -181,27 +208,27 @@ textarea:not(:disabled) {
 /*──────────────────────────────────────────────*/
 .border-bevel-1 {
   box-shadow:
-    inset  1px  1px 1px hsla(0, 0%, 100%, 0.25),
+    inset 1px 1px 1px hsla(0, 0%, 100%, 0.25),
     inset -1px -1px 1px hsla(0, 0%, 0%, 0.15);
 }
 .border-bevel-2 {
   box-shadow:
-    inset  2px  2px 1px hsla(0, 0%, 100%, 0.25),
+    inset 2px 2px 1px hsla(0, 0%, 100%, 0.25),
     inset -2px -2px 1px hsla(0, 0%, 0%, 0.15);
 }
 .border-bevel-3 {
   box-shadow:
-    inset  3px  3px 1px hsla(0, 0%, 100%, 0.25),
+    inset 3px 3px 1px hsla(0, 0%, 100%, 0.25),
     inset -3px -3px 1px hsla(0, 0%, 0%, 0.15);
 }
 .border-bevel-4 {
   box-shadow:
-    inset  4px  4px 1px hsla(0, 0%, 100%, 0.25),
+    inset 4px 4px 1px hsla(0, 0%, 100%, 0.25),
     inset -4px -4px 1px hsla(0, 0%, 0%, 0.15);
 }
 .border-bevel-5 {
   box-shadow:
-    inset  5px  5px 1px hsla(0, 0%, 100%, 0.25),
+    inset 5px 5px 1px hsla(0, 0%, 100%, 0.25),
     inset -5px -5px 1px hsla(0, 0%, 0%, 0.15);
 }
 /* ボタン用パディング補正プロパティ */
@@ -212,7 +239,7 @@ textarea:not(:disabled) {
 /* 立体ボーダー（明） */
 .border-bevel-light {
   box-shadow:
-    inset  4px  4px 1px hsla(0, 0%, 100%, 0.5),
+    inset 4px 4px 1px hsla(0, 0%, 100%, 0.5),
     inset -4px -4px 1px hsla(0, 0%, 0%, 0.1);
 }
 
@@ -233,54 +260,142 @@ textarea:not(:disabled) {
 /*──────────────────────────────────────────────*/
 /*  テキストカラー（グレースケール）               */
 /*──────────────────────────────────────────────*/
-.text-gray-95 {color: hsl(0, 0%, 95%) !important;}
-.text-gray-90 {color: hsl(0, 0%, 90%) !important;}
-.text-gray-85 {color: hsl(0, 0%, 85%) !important;}
-.text-gray-80 {color: hsl(0, 0%, 80%) !important;}
-.text-gray-70 {color: hsl(0, 0%, 70%) !important;}
-.text-gray-60 {color: hsl(0, 0%, 60%) !important;}
-.text-gray-50 {color: hsl(0, 0%, 50%) !important;}
-.text-gray-40 {color: hsl(0, 0%, 40%) !important;}
-.text-gray-30 {color: hsl(0, 0%, 30%) !important;}
-.text-gray-20 {color: hsl(0, 0%, 20%) !important;}
-.text-gray-15 {color: hsl(0, 0%, 15%) !important;}
-.text-gray-10 {color: hsl(0, 0%, 10%) !important;}
-.text-gray-5 {color: hsl(0, 0%, 5%) !important;}
+.text-gray-95 {
+  color: hsl(0, 0%, 95%) !important;
+}
+.text-gray-90 {
+  color: hsl(0, 0%, 90%) !important;
+}
+.text-gray-85 {
+  color: hsl(0, 0%, 85%) !important;
+}
+.text-gray-80 {
+  color: hsl(0, 0%, 80%) !important;
+}
+.text-gray-70 {
+  color: hsl(0, 0%, 70%) !important;
+}
+.text-gray-60 {
+  color: hsl(0, 0%, 60%) !important;
+}
+.text-gray-50 {
+  color: hsl(0, 0%, 50%) !important;
+}
+.text-gray-40 {
+  color: hsl(0, 0%, 40%) !important;
+}
+.text-gray-30 {
+  color: hsl(0, 0%, 30%) !important;
+}
+.text-gray-20 {
+  color: hsl(0, 0%, 20%) !important;
+}
+.text-gray-15 {
+  color: hsl(0, 0%, 15%) !important;
+}
+.text-gray-10 {
+  color: hsl(0, 0%, 10%) !important;
+}
+.text-gray-5 {
+  color: hsl(0, 0%, 5%) !important;
+}
 
 /*──────────────────────────────────────────────*/
 /*  背景カラー（グレースケール）                 */
 /*──────────────────────────────────────────────*/
-.bg-gray-100 {background-color: hsl(200,100%,99.5%) !important;}
-.bg-gray-98 {background-color: hsl(200,80%,98%) !important;}
-.bg-gray-96 {background-color: hsl(200,40%,96%) !important;}
-.bg-gray-94 {background-color: hsl(200,20%,94%) !important;}
-.bg-gray-92 {background-color: hsl(200,20%,92%) !important;}
-.bg-gray-90 {background-color: hsl(200,20%,90%) !important;}
-.bg-gray-88 {background-color: hsl(200,15%,88%) !important;}
-.bg-gray-86 {background-color: hsl(200,15%,86%) !important;}
-.bg-gray-84 {background-color: hsl(200,15%,84%) !important;}
-.bg-gray-82 {background-color: hsl(200,15%,82%) !important;}
-.bg-gray-80 {background-color: hsl(200,15%,80%) !important;}
-.bg-gray-70 {background-color: hsl(200,10%,70%) !important;}
-.bg-gray-60 {background-color: hsl(200,9%,60%) !important;}
-.bg-gray-50 {background-color: hsl(200,8%,50%) !important;}
-.bg-gray-40 {background-color: hsl(200,7%,40%) !important;}
-.bg-gray-30 {background-color: hsl(200,6%,30%) !important;}
-.bg-gray-28 {background-color: hsl(200,5%,28%) !important;}
-.bg-gray-26 {background-color: hsl(200,5%,26%) !important;}
-.bg-gray-24 {background-color: hsl(200,5%,24%) !important;}
-.bg-gray-22 {background-color: hsl(200,5%,22%) !important;}
-.bg-gray-20 {background-color: hsl(200,5%,20%) !important;}
-.bg-gray-18 {background-color: hsl(200,4%,18%) !important;}
-.bg-gray-16 {background-color: hsl(200,4%,16%) !important;}
-.bg-gray-14 {background-color: hsl(200,4%,14%) !important;}
-.bg-gray-12 {background-color: hsl(200,4%,12%) !important;}
-.bg-gray-10 {background-color: hsl(200,4%,10%) !important;}
-.bg-gray-8 {background-color: hsl(200,3%,8%) !important;}
-.bg-gray-6 {background-color: hsl(200,3%,6%) !important;}
-.bg-gray-4 {background-color: hsl(200,3%,4%) !important;}
-.bg-gray-2 {background-color: hsl(200,3%,2%) !important;}
-.bg-gray-0 {background-color: hsl(200,3%,0%) !important;}
+.bg-gray-100 {
+  background-color: hsl(200, 100%, 99.5%) !important;
+}
+.bg-gray-98 {
+  background-color: hsl(200, 80%, 98%) !important;
+}
+.bg-gray-96 {
+  background-color: hsl(200, 40%, 96%) !important;
+}
+.bg-gray-94 {
+  background-color: hsl(200, 20%, 94%) !important;
+}
+.bg-gray-92 {
+  background-color: hsl(200, 20%, 92%) !important;
+}
+.bg-gray-90 {
+  background-color: hsl(200, 20%, 90%) !important;
+}
+.bg-gray-88 {
+  background-color: hsl(200, 15%, 88%) !important;
+}
+.bg-gray-86 {
+  background-color: hsl(200, 15%, 86%) !important;
+}
+.bg-gray-84 {
+  background-color: hsl(200, 15%, 84%) !important;
+}
+.bg-gray-82 {
+  background-color: hsl(200, 15%, 82%) !important;
+}
+.bg-gray-80 {
+  background-color: hsl(200, 15%, 80%) !important;
+}
+.bg-gray-70 {
+  background-color: hsl(200, 10%, 70%) !important;
+}
+.bg-gray-60 {
+  background-color: hsl(200, 9%, 60%) !important;
+}
+.bg-gray-50 {
+  background-color: hsl(200, 8%, 50%) !important;
+}
+.bg-gray-40 {
+  background-color: hsl(200, 7%, 40%) !important;
+}
+.bg-gray-30 {
+  background-color: hsl(200, 6%, 30%) !important;
+}
+.bg-gray-28 {
+  background-color: hsl(200, 5%, 28%) !important;
+}
+.bg-gray-26 {
+  background-color: hsl(200, 5%, 26%) !important;
+}
+.bg-gray-24 {
+  background-color: hsl(200, 5%, 24%) !important;
+}
+.bg-gray-22 {
+  background-color: hsl(200, 5%, 22%) !important;
+}
+.bg-gray-20 {
+  background-color: hsl(200, 5%, 20%) !important;
+}
+.bg-gray-18 {
+  background-color: hsl(200, 4%, 18%) !important;
+}
+.bg-gray-16 {
+  background-color: hsl(200, 4%, 16%) !important;
+}
+.bg-gray-14 {
+  background-color: hsl(200, 4%, 14%) !important;
+}
+.bg-gray-12 {
+  background-color: hsl(200, 4%, 12%) !important;
+}
+.bg-gray-10 {
+  background-color: hsl(200, 4%, 10%) !important;
+}
+.bg-gray-8 {
+  background-color: hsl(200, 3%, 8%) !important;
+}
+.bg-gray-6 {
+  background-color: hsl(200, 3%, 6%) !important;
+}
+.bg-gray-4 {
+  background-color: hsl(200, 3%, 4%) !important;
+}
+.bg-gray-2 {
+  background-color: hsl(200, 3%, 2%) !important;
+}
+.bg-gray-0 {
+  background-color: hsl(200, 3%, 0%) !important;
+}
 
 /*──────────────────────────────────────────────*/
 /*  カスタムボタン                               */
@@ -308,13 +423,19 @@ textarea:not(:disabled) {
   --btn-shadow-size-half: calc(var(--btn-shadow-size) / 1.5);
   --btn-shadow-size-half-neg: calc(var(--btn-shadow-size) / 1.5 * -1);
 
-  transition: all 0.15s linear 0s, color 0.05s linear 0s;
+  transition:
+    all 0.15s linear 0s,
+    color 0.05s linear 0s;
   background-color: var(--btn-bg-color-base);
   color: var(--btn-text-color-base);
   font-size: var(--btn-font-size, var(--btn-font-size-base));
   font-weight: var(--btn-font-weight, var(--btn-font-weight-base));
-  padding: var(--btn-padding-y, var(--btn-padding-y-base)) var(--btn-padding-x, var(--btn-padding-x-base));
-  border-radius: var(--btn-br-tl, var(--btn-br-tl-base)) var(--btn-br-tr, var(--btn-br-tr-base)) var(--btn-br-br, var(--btn-br-br-base)) var(--btn-br-bl, var(--btn-br-bl-base));
+  padding: var(--btn-padding-y, var(--btn-padding-y-base))
+    var(--btn-padding-x, var(--btn-padding-x-base));
+  border-radius: var(--btn-br-tl, var(--btn-br-tl-base))
+    var(--btn-br-tr, var(--btn-br-tr-base))
+    var(--btn-br-br, var(--btn-br-br-base))
+    var(--btn-br-bl, var(--btn-br-bl-base));
   border: none;
   cursor: pointer;
   user-select: none;
@@ -327,14 +448,21 @@ textarea:not(:disabled) {
   line-height: 1;
   vertical-align: middle;
   box-shadow:
-    /*左上*/ inset var(--btn-shadow-size) var(--btn-shadow-size) 1px var(--btn-shadow-color-light-base),
+    /*左上*/
+    inset var(--btn-shadow-size) var(--btn-shadow-size) 1px
+      var(--btn-shadow-color-light-base),
     /*上*/ inset 0 var(--btn-shadow-size) 1px var(--btn-shadow-color-light-base),
     /*左*/ inset var(--btn-shadow-size) 0 1px var(--btn-shadow-color-light-base),
-    /*左下*/ inset var(--btn-shadow-size) var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-mid-base),
-    /*右上*/ inset var(--btn-shadow-size-neg) var(--btn-shadow-size) 1px var(--btn-shadow-color-mid-base),
-    /*右*/ inset var(--btn-shadow-size-neg) 0 1px var(--btn-shadow-color-dark-base),
-    /*下*/ inset 0 var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-dark-base),
-    /*右下*/ inset var(--btn-shadow-size-neg) var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-dark-base);
+    /*左下*/ inset var(--btn-shadow-size) var(--btn-shadow-size-neg) 1px
+      var(--btn-shadow-color-mid-base),
+    /*右上*/ inset var(--btn-shadow-size-neg) var(--btn-shadow-size) 1px
+      var(--btn-shadow-color-mid-base),
+    /*右*/ inset var(--btn-shadow-size-neg) 0 1px
+      var(--btn-shadow-color-dark-base),
+    /*下*/ inset 0 var(--btn-shadow-size-neg) 1px
+      var(--btn-shadow-color-dark-base),
+    /*右下*/ inset var(--btn-shadow-size-neg) var(--btn-shadow-size-neg) 1px
+      var(--btn-shadow-color-dark-base);
 }
 .btn-custom:disabled {
   opacity: 0.5;
@@ -352,8 +480,12 @@ textarea:not(:disabled) {
   border-radius: inherit;
   z-index: 2;
 }
-.btn-custom::before { background: #FFF; }
-.btn-custom::after  { background: #000; }
+.btn-custom::before {
+  background: #fff;
+}
+.btn-custom::after {
+  background: #000;
+}
 .btn-custom:hover {
   --btn-text-color-base: hsl(0, 0%, 100%);
 }
@@ -365,16 +497,27 @@ textarea:not(:disabled) {
   transition: all 0.05s;
   transform: scale(0.95, 0.95);
   --btn-text-color-base: hsl(0, 0%, 100%);
-  border-radius: calc(var(--btn-br-tl-base) * 0.75) calc(var(--btn-br-tr-base) * 0.75) calc(var(--btn-br-br-base) * 0.75) calc(var(--btn-br-bl-base) * 0.75);
+  border-radius: calc(var(--btn-br-tl-base) * 0.75)
+    calc(var(--btn-br-tr-base) * 0.75) calc(var(--btn-br-br-base) * 0.75)
+    calc(var(--btn-br-bl-base) * 0.75);
   box-shadow:
-    /*左上*/ inset var(--btn-shadow-size-half) var(--btn-shadow-size-half) 1px var(--btn-shadow-color-dark-base),
-    /*上*/ inset 0 var(--btn-shadow-size-half) 1px var(--btn-shadow-color-dark-base),
-    /*左*/ inset var(--btn-shadow-size-half) 0 1px var(--btn-shadow-color-dark-base),
-    /*左下*/ inset var(--btn-shadow-size-half) var(--btn-shadow-size-half-neg) 1px var(--btn-shadow-color-mid-base),
-    /*右上*/ inset var(--btn-shadow-size-half-neg) var(--btn-shadow-size-half) 1px var(--btn-shadow-color-mid-base),
-    /*右*/ inset var(--btn-shadow-size-half-neg) 0 1px var(--btn-shadow-color-light-base),
-    /*下*/ inset 0 var(--btn-shadow-size-half-neg) 1px var(--btn-shadow-color-light-base),
-    /*右下*/ inset var(--btn-shadow-size-half-neg) var(--btn-shadow-size-half-neg) 1px var(--btn-shadow-color-light-base);
+    /*左上*/
+    inset var(--btn-shadow-size-half) var(--btn-shadow-size-half) 1px
+      var(--btn-shadow-color-dark-base),
+    /*上*/ inset 0 var(--btn-shadow-size-half) 1px
+      var(--btn-shadow-color-dark-base),
+    /*左*/ inset var(--btn-shadow-size-half) 0 1px
+      var(--btn-shadow-color-dark-base),
+    /*左下*/ inset var(--btn-shadow-size-half) var(--btn-shadow-size-half-neg)
+      1px var(--btn-shadow-color-mid-base),
+    /*右上*/ inset var(--btn-shadow-size-half-neg) var(--btn-shadow-size-half)
+      1px var(--btn-shadow-color-mid-base),
+    /*右*/ inset var(--btn-shadow-size-half-neg) 0 1px
+      var(--btn-shadow-color-light-base),
+    /*下*/ inset 0 var(--btn-shadow-size-half-neg) 1px
+      var(--btn-shadow-color-light-base),
+    /*右下*/ inset var(--btn-shadow-size-half-neg)
+      var(--btn-shadow-size-half-neg) 1px var(--btn-shadow-color-light-base);
 }
 .btn-custom:active::after {
   transition: opacity 0.05s linear;
@@ -405,105 +548,189 @@ textarea:not(:disabled) {
   --btn-shadow-size-neg: calc(var(--btn-shadow-size) * -1);
   --btn-shadow-size-half: calc(var(--btn-shadow-size) / 1.5);
   --btn-shadow-size-half-neg: calc(var(--btn-shadow-size) / 1.5 * -1);
-  --btn-border-color: oklch(from var(--btn-primary-color) calc(l + 0.0) calc(c + 0.01) calc(h + 0));
+  --btn-border-color: oklch(
+    from var(--btn-primary-color) calc(l + 0) calc(c + 0.01) calc(h + 0)
+  );
   --btn-border-size: calc(var(--btn-shadow-size) * 1.5);
-  --btn-border-blur: calc(var(--btn-shadow-size) * 0.0);
+  --btn-border-blur: calc(var(--btn-shadow-size) * 0);
   /* モード切り替え（JS用） */
   --btn-color-mode: oklch;
   /* ホバー時のcolor補正値 - oklchモード（JS用） */
   --btn-lighten-l: 0.2; /* 加算値 */
-  --btn-lighten-c: 1.0; /* 乗算値 */
+  --btn-lighten-c: 1; /* 乗算値 */
   /* ホバー時のcolor補正値 - hslモード（JS用） */
   --btn-lighten-factor: 1.15;
 
-  background-color: color-mix(in srgb, var(--btn-primary-color) 15%, transparent);
-  color: oklch(from var(--btn-primary-color) calc(l + 0.0) calc(c + 0.0) calc(h + 0));
+  background-color: color-mix(
+    in srgb,
+    var(--btn-primary-color) 15%,
+    transparent
+  );
+  color: oklch(
+    from var(--btn-primary-color) calc(l + 0) calc(c + 0) calc(h + 0)
+  );
   -webkit-text-stroke: 3px rgba(255, 255, 255, 0.5);
   paint-order: stroke fill;
   box-shadow:
     /*── ベベル ──────────*/
-    /*左上*/ inset var(--btn-shadow-size) var(--btn-shadow-size) 1px var(--btn-shadow-color-light-base),
+    /*左上*/
+    inset var(--btn-shadow-size) var(--btn-shadow-size) 1px
+      var(--btn-shadow-color-light-base),
     /*上*/ inset 0 var(--btn-shadow-size) 1px var(--btn-shadow-color-light-base),
     /*左*/ inset var(--btn-shadow-size) 0 1px var(--btn-shadow-color-light-base),
-    /*左下*/ inset var(--btn-shadow-size) var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-mid-base),
-    /*右上*/ inset var(--btn-shadow-size-neg) var(--btn-shadow-size) 1px var(--btn-shadow-color-mid-base),
-    /*右*/ inset var(--btn-shadow-size-neg) 0 1px var(--btn-shadow-color-dark-base),
-    /*下*/ inset 0 var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-dark-base),
-    /*右下*/ inset var(--btn-shadow-size-neg) var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-dark-base),
-    /*── 枠線 ──────────*/
-    /*左上*/ inset calc(var(--btn-border-size) * 0.95) calc(var(--btn-border-size) * -0.95) var(--btn-border-blur) var(--btn-border-color),
-    /*上*/ inset 0 calc(var(--btn-border-size) * -1) var(--btn-border-blur) var(--btn-border-color),
-    /*左*/ inset var(--btn-border-size) 0 var(--btn-border-blur) var(--btn-border-color),
-    /*左下*/ inset calc(var(--btn-border-size) * 0.95) calc(var(--btn-border-size) * 0.95) var(--btn-border-blur) var(--btn-border-color),
-    /*右上*/ inset calc(var(--btn-border-size) * -0.95) calc(var(--btn-border-size) * -0.95) var(--btn-border-blur) var(--btn-border-color),
-    /*右*/ inset calc(var(--btn-border-size) * -1) 0 var(--btn-border-blur) var(--btn-border-color),
-    /*下*/ inset 0 var(--btn-border-size) var(--btn-border-blur) var(--btn-border-color),
-    /*右下*/ inset calc(var(--btn-border-size) * -0.95) calc(var(--btn-border-size) * 0.95) var(--btn-border-blur) var(--btn-border-color);
+    /*左下*/ inset var(--btn-shadow-size) var(--btn-shadow-size-neg) 1px
+      var(--btn-shadow-color-mid-base),
+    /*右上*/ inset var(--btn-shadow-size-neg) var(--btn-shadow-size) 1px
+      var(--btn-shadow-color-mid-base),
+    /*右*/ inset var(--btn-shadow-size-neg) 0 1px
+      var(--btn-shadow-color-dark-base),
+    /*下*/ inset 0 var(--btn-shadow-size-neg) 1px
+      var(--btn-shadow-color-dark-base),
+    /*右下*/ inset var(--btn-shadow-size-neg) var(--btn-shadow-size-neg) 1px
+      var(--btn-shadow-color-dark-base),
+    /*── 枠線 ──────────*/ /*左上*/ inset calc(var(--btn-border-size) * 0.95)
+      calc(var(--btn-border-size) * -0.95) var(--btn-border-blur)
+      var(--btn-border-color),
+    /*上*/ inset 0 calc(var(--btn-border-size) * -1) var(--btn-border-blur)
+      var(--btn-border-color),
+    /*左*/ inset var(--btn-border-size) 0 var(--btn-border-blur)
+      var(--btn-border-color),
+    /*左下*/ inset calc(var(--btn-border-size) * 0.95)
+      calc(var(--btn-border-size) * 0.95) var(--btn-border-blur)
+      var(--btn-border-color),
+    /*右上*/ inset calc(var(--btn-border-size) * -0.95)
+      calc(var(--btn-border-size) * -0.95) var(--btn-border-blur)
+      var(--btn-border-color),
+    /*右*/ inset calc(var(--btn-border-size) * -1) 0 var(--btn-border-blur)
+      var(--btn-border-color),
+    /*下*/ inset 0 var(--btn-border-size) var(--btn-border-blur)
+      var(--btn-border-color),
+    /*右下*/ inset calc(var(--btn-border-size) * -0.95)
+      calc(var(--btn-border-size) * 0.95) var(--btn-border-blur)
+      var(--btn-border-color);
 }
 .btn-custom-sub:hover,
 .btn-custom-sub-open-invert {
-  -webkit-text-stroke: 0px rgba(255, 255, 255, 0.0);
+  -webkit-text-stroke: 0px rgba(255, 255, 255, 0);
 }
 .btn-custom-sub:hover::before,
 .btn-custom-sub-open-invert::before {
   opacity: 0;
 }
-.btn-custom-sub-open-expand:not(.btn-custom-xs):not(.btn-custom-sm):not(.btn-custom-lg):not(.btn-custom-xl),
+.btn-custom-sub-open-expand:not(.btn-custom-xs):not(.btn-custom-sm):not(
+    .btn-custom-lg
+  ):not(.btn-custom-xl),
 .btn-custom-sub-open-expand.btn-custom-sm {
   --btn-border-size: calc(var(--btn-shadow-size) * 2.5);
 }
 .btn-custom-sub-open-expand.btn-custom-xs {
-  --btn-border-size: calc(var(--btn-shadow-size) * 2.0);
+  --btn-border-size: calc(var(--btn-shadow-size) * 2);
 }
 .btn-custom-sub-open-expand.btn-custom-lg,
 .btn-custom-sub-open-expand.btn-custom-xl {
   --btn-border-size: calc(var(--btn-shadow-size) * 2.8);
 }
 /* 展開中カラー */
-.btn-custom-sub-open-red    { --btn-primary-color: #E74C3C; }
-.btn-custom-sub-open-orange { --btn-primary-color: #E67E22; }
-.btn-custom-sub-open-yellow { --btn-primary-color: #EDBE00; }
-.btn-custom-sub-open-lime   { --btn-primary-color: #8FDC00; }
-.btn-custom-sub-open-green  { --btn-primary-color: #1BAD50; }
-.btn-custom-sub-open-cyan   { --btn-primary-color: #00BCB3; }
-.btn-custom-sub-open-blue   { --btn-primary-color: #1F91CE; }
-.btn-custom-sub-open-purple { --btn-primary-color: #B164E4; }
-.btn-custom-sub-open-gray   { --btn-primary-color: #75838A; }
+.btn-custom-sub-open-red {
+  --btn-primary-color: #e74c3c;
+}
+.btn-custom-sub-open-orange {
+  --btn-primary-color: #e67e22;
+}
+.btn-custom-sub-open-yellow {
+  --btn-primary-color: #edbe00;
+}
+.btn-custom-sub-open-lime {
+  --btn-primary-color: #8fdc00;
+}
+.btn-custom-sub-open-green {
+  --btn-primary-color: #1bad50;
+}
+.btn-custom-sub-open-cyan {
+  --btn-primary-color: #00bcb3;
+}
+.btn-custom-sub-open-blue {
+  --btn-primary-color: #1f91ce;
+}
+.btn-custom-sub-open-purple {
+  --btn-primary-color: #b164e4;
+}
+.btn-custom-sub-open-gray {
+  --btn-primary-color: #75838a;
+}
 .btn-custom-sub:active {
   box-shadow:
     /*── ベベル ──────────*/
-    /*左上*/ inset var(--btn-shadow-size-half) var(--btn-shadow-size-half) 1px var(--btn-shadow-color-dark-base),
-    /*上*/ inset 0 var(--btn-shadow-size-half) 1px var(--btn-shadow-color-dark-base),
-    /*左*/ inset var(--btn-shadow-size-half) 0 1px var(--btn-shadow-color-dark-base),
-    /*左下*/ inset var(--btn-shadow-size-half) var(--btn-shadow-size-half-neg) 1px var(--btn-shadow-color-mid-base),
-    /*右上*/ inset var(--btn-shadow-size-half-neg) var(--btn-shadow-size-half) 1px var(--btn-shadow-color-mid-base),
-    /*右*/ inset var(--btn-shadow-size-half-neg) 0 1px var(--btn-shadow-color-light-base),
-    /*下*/ inset 0 var(--btn-shadow-size-half-neg) 1px var(--btn-shadow-color-light-base),
-    /*右下*/ inset var(--btn-shadow-size-half-neg) var(--btn-shadow-size-half-neg) 1px var(--btn-shadow-color-light-base),
-    /*── 枠線 ──────────*/
-    /*左上*/ inset calc(var(--btn-border-size) * 0.75) calc(var(--btn-border-size) * -0.75) var(--btn-border-blur) var(--btn-primary-color),
-    /*上*/ inset 0 calc(var(--btn-border-size) * -0.75) var(--btn-border-blur) var(--btn-primary-color),
-    /*左*/ inset calc(var(--btn-border-size) * 0.75) 0 var(--btn-border-blur) var(--btn-primary-color),
-    /*左下*/ inset calc(var(--btn-border-size) * 0.75) calc(var(--btn-border-size) * 0.75) var(--btn-border-blur) var(--btn-primary-color),
-    /*右上*/ inset calc(var(--btn-border-size) * -0.75) calc(var(--btn-border-size) * -0.75) var(--btn-border-blur) var(--btn-primary-color),
-    /*右*/ inset calc(var(--btn-border-size) * -0.75) 0 var(--btn-border-blur) var(--btn-primary-color),
-    /*下*/ inset 0 calc(var(--btn-border-size) * 0.75) var(--btn-border-blur) var(--btn-primary-color),
-    /*右下*/ inset calc(var(--btn-border-size) * -0.75) calc(var(--btn-border-size) * 0.75) var(--btn-border-blur) var(--btn-primary-color);
+    /*左上*/
+    inset var(--btn-shadow-size-half) var(--btn-shadow-size-half) 1px
+      var(--btn-shadow-color-dark-base),
+    /*上*/ inset 0 var(--btn-shadow-size-half) 1px
+      var(--btn-shadow-color-dark-base),
+    /*左*/ inset var(--btn-shadow-size-half) 0 1px
+      var(--btn-shadow-color-dark-base),
+    /*左下*/ inset var(--btn-shadow-size-half) var(--btn-shadow-size-half-neg)
+      1px var(--btn-shadow-color-mid-base),
+    /*右上*/ inset var(--btn-shadow-size-half-neg) var(--btn-shadow-size-half)
+      1px var(--btn-shadow-color-mid-base),
+    /*右*/ inset var(--btn-shadow-size-half-neg) 0 1px
+      var(--btn-shadow-color-light-base),
+    /*下*/ inset 0 var(--btn-shadow-size-half-neg) 1px
+      var(--btn-shadow-color-light-base),
+    /*右下*/ inset var(--btn-shadow-size-half-neg)
+      var(--btn-shadow-size-half-neg) 1px var(--btn-shadow-color-light-base),
+    /*── 枠線 ──────────*/ /*左上*/ inset calc(var(--btn-border-size) * 0.75)
+      calc(var(--btn-border-size) * -0.75) var(--btn-border-blur)
+      var(--btn-primary-color),
+    /*上*/ inset 0 calc(var(--btn-border-size) * -0.75) var(--btn-border-blur)
+      var(--btn-primary-color),
+    /*左*/ inset calc(var(--btn-border-size) * 0.75) 0 var(--btn-border-blur)
+      var(--btn-primary-color),
+    /*左下*/ inset calc(var(--btn-border-size) * 0.75)
+      calc(var(--btn-border-size) * 0.75) var(--btn-border-blur)
+      var(--btn-primary-color),
+    /*右上*/ inset calc(var(--btn-border-size) * -0.75)
+      calc(var(--btn-border-size) * -0.75) var(--btn-border-blur)
+      var(--btn-primary-color),
+    /*右*/ inset calc(var(--btn-border-size) * -0.75) 0 var(--btn-border-blur)
+      var(--btn-primary-color),
+    /*下*/ inset 0 calc(var(--btn-border-size) * 0.75) var(--btn-border-blur)
+      var(--btn-primary-color),
+    /*右下*/ inset calc(var(--btn-border-size) * -0.75)
+      calc(var(--btn-border-size) * 0.75) var(--btn-border-blur)
+      var(--btn-primary-color);
 }
 
 /*----------------------------------------------*/
 /*  カスタムボタン - モデファイアクラス            */
 /*----------------------------------------------*/
 /* カラー */
-.btn-custom-red   { --btn-bg-color-base: #E74C3C; }
-.btn-custom-orange{ --btn-bg-color-base: #E67E22; }
-.btn-custom-yellow{ --btn-bg-color-base: #EDBE00; }
-.btn-custom-lime  { --btn-bg-color-base: #8FDC00; }
-.btn-custom-green { --btn-bg-color-base: #1BAD50; }
-.btn-custom-cyan  { --btn-bg-color-base: #00BCB3; }
-.btn-custom-blue  { --btn-bg-color-base: #1F91CE; }
-.btn-custom-purple{ --btn-bg-color-base: #B164E4; }
-.btn-custom-gray  { --btn-bg-color-base: #75838A; }
+.btn-custom-red {
+  --btn-bg-color-base: #e74c3c;
+}
+.btn-custom-orange {
+  --btn-bg-color-base: #e67e22;
+}
+.btn-custom-yellow {
+  --btn-bg-color-base: #edbe00;
+}
+.btn-custom-lime {
+  --btn-bg-color-base: #8fdc00;
+}
+.btn-custom-green {
+  --btn-bg-color-base: #1bad50;
+}
+.btn-custom-cyan {
+  --btn-bg-color-base: #00bcb3;
+}
+.btn-custom-blue {
+  --btn-bg-color-base: #1f91ce;
+}
+.btn-custom-purple {
+  --btn-bg-color-base: #b164e4;
+}
+.btn-custom-gray {
+  --btn-bg-color-base: #75838a;
+}
 
 /* サイズ */
 .btn-custom-xs {
@@ -555,49 +782,115 @@ textarea:not(:disabled) {
 /*  スペーシング                                 */
 /*──────────────────────────────────────────────*/
 /* p-0.25 */
-.p-025 { padding: 0.0625rem !important; }
-.pt-025 { padding-top: 0.0625rem !important; }
-.pb-025 { padding-bottom: 0.0625rem !important; }
-.pl-025 { padding-left: 0.0625rem !important; }
-.pr-025 { padding-right: 0.0625rem !important; }
+.p-025 {
+  padding: 0.0625rem !important;
+}
+.pt-025 {
+  padding-top: 0.0625rem !important;
+}
+.pb-025 {
+  padding-bottom: 0.0625rem !important;
+}
+.pl-025 {
+  padding-left: 0.0625rem !important;
+}
+.pr-025 {
+  padding-right: 0.0625rem !important;
+}
 
 /* p-0.5 */
-.p-05 { padding: 0.125rem !important; }
-.pt-05 { padding-top: 0.125rem !important; }
-.pb-05 { padding-bottom: 0.125rem !important; }
-.pl-05 { padding-left: 0.125rem !important; }
-.pr-05 { padding-right: 0.125rem !important; }
+.p-05 {
+  padding: 0.125rem !important;
+}
+.pt-05 {
+  padding-top: 0.125rem !important;
+}
+.pb-05 {
+  padding-bottom: 0.125rem !important;
+}
+.pl-05 {
+  padding-left: 0.125rem !important;
+}
+.pr-05 {
+  padding-right: 0.125rem !important;
+}
 
 /* m-0.25 */
-.m-025 { margin: 0.0625rem !important; }
-.mt-025 { margin-top: 0.0625rem !important; }
-.mb-025 { margin-bottom: 0.0625rem !important; }
-.ml-025 { margin-left: 0.0625rem !important; }
-.mr-025 { margin-right: 0.0625rem !important; }
+.m-025 {
+  margin: 0.0625rem !important;
+}
+.mt-025 {
+  margin-top: 0.0625rem !important;
+}
+.mb-025 {
+  margin-bottom: 0.0625rem !important;
+}
+.ml-025 {
+  margin-left: 0.0625rem !important;
+}
+.mr-025 {
+  margin-right: 0.0625rem !important;
+}
 
 /* m-0.5 */
-.m-05 { margin: 0.125rem !important; }
-.mt-05 { margin-top: 0.125rem !important; }
-.mb-05 { margin-bottom: 0.125rem !important; }
-.ml-05 { margin-left: 0.125rem !important; }
-.mr-05 { margin-right: 0.125rem !important; }
+.m-05 {
+  margin: 0.125rem !important;
+}
+.mt-05 {
+  margin-top: 0.125rem !important;
+}
+.mb-05 {
+  margin-bottom: 0.125rem !important;
+}
+.ml-05 {
+  margin-left: 0.125rem !important;
+}
+.mr-05 {
+  margin-right: 0.125rem !important;
+}
 
 /* ネガティブマージン */
-.my-n1 { margin-top: -0.25rem !important; margin-bottom: -0.25rem !important; }
-.my-n2 { margin-top: -0.5rem !important;  margin-bottom: -0.5rem !important;  }
-.my-n3 { margin-top: -1rem !important;    margin-bottom: -1rem !important;    }
-.my-n4 { margin-top: -1.5rem !important;  margin-bottom: -1.5rem !important;  }
-.my-n5 { margin-top: -3rem !important;    margin-bottom: -3rem !important;    }
-.mx-n1 { margin-left: -0.25rem !important; margin-right: -0.25rem !important; }
-.mx-n2 { margin-left: -0.5rem !important;  margin-right: -0.5rem !important;  }
-.mx-n3 { margin-left: -1rem !important;    margin-right: -1rem !important;    }
-.mx-n4 { margin-left: -1.5rem !important;  margin-right: -1.5rem !important;  }
-.mx-n5 { margin-left: -3rem !important;    margin-right: -3rem !important;    }
+.my-n1 {
+  margin-top: -0.25rem !important;
+  margin-bottom: -0.25rem !important;
+}
+.my-n2 {
+  margin-top: -0.5rem !important;
+  margin-bottom: -0.5rem !important;
+}
+.my-n3 {
+  margin-top: -1rem !important;
+  margin-bottom: -1rem !important;
+}
+.my-n4 {
+  margin-top: -1.5rem !important;
+  margin-bottom: -1.5rem !important;
+}
+.my-n5 {
+  margin-top: -3rem !important;
+  margin-bottom: -3rem !important;
+}
+.mx-n1 {
+  margin-left: -0.25rem !important;
+  margin-right: -0.25rem !important;
+}
+.mx-n2 {
+  margin-left: -0.5rem !important;
+  margin-right: -0.5rem !important;
+}
+.mx-n3 {
+  margin-left: -1rem !important;
+  margin-right: -1rem !important;
+}
+.mx-n4 {
+  margin-left: -1.5rem !important;
+  margin-right: -1.5rem !important;
+}
+.mx-n5 {
+  margin-left: -3rem !important;
+  margin-right: -3rem !important;
+}
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-
-
-
-
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  ヘッダー                                    ┃*/
@@ -647,12 +940,12 @@ textarea:not(:disabled) {
 
 #sidebar-toggle-icon span::before,
 #sidebar-toggle-icon span::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 50%;
   height: var(--bar-h);
   background: #ccc;
-  transition: .2s;
+  transition: 0.2s;
   clip-path: inset(0 0% 0 0%);
 }
 
@@ -661,12 +954,24 @@ textarea:not(:disabled) {
   background: #fff;
 }
 
-#sidebar-toggle-icon span::before { left: 0;  width: 51%; }
-#sidebar-toggle-icon span::after  { right: 0; width: 51%; }
+#sidebar-toggle-icon span::before {
+  left: 0;
+  width: 51%;
+}
+#sidebar-toggle-icon span::after {
+  right: 0;
+  width: 51%;
+}
 
-#sidebar-toggle-icon span:nth-of-type(1) { top: 0; }
-#sidebar-toggle-icon span:nth-of-type(2) { top: var(--mid-top); }
-#sidebar-toggle-icon span:nth-of-type(3) { bottom: 0; }
+#sidebar-toggle-icon span:nth-of-type(1) {
+  top: 0;
+}
+#sidebar-toggle-icon span:nth-of-type(2) {
+  top: var(--mid-top);
+}
+#sidebar-toggle-icon span:nth-of-type(3) {
+  bottom: 0;
+}
 
 html[data-sidebar="open"] #sidebar-toggle-icon span:nth-of-type(1)::before {
   transform: translate(var(--tx), var(--ty)) rotate(45deg);
@@ -691,9 +996,16 @@ html[data-sidebar="open"] #sidebar-toggle-icon span:nth-of-type(3)::after {
 /*  通知ウィジェット                             */
 /*──────────────────────────────────────────────*/
 /* ベルボタン */
-.notice-bell-btn { color: #ccc; transition: color 0.15s; }
-.notice-bell-btn:hover { color: #fff; }
-.notice-bell-btn:focus:not(:focus-visible) { outline: none; }
+.notice-bell-btn {
+  color: #ccc;
+  transition: color 0.15s;
+}
+.notice-bell-btn:hover {
+  color: #fff;
+}
+.notice-bell-btn:focus:not(:focus-visible) {
+  outline: none;
+}
 
 /* パネルラッパー */
 .notice-panels {
@@ -716,7 +1028,9 @@ html[data-sidebar="open"] #sidebar-toggle-icon span:nth-of-type(3)::after {
   transform-origin: top center;
   transform: scaleY(0);
   opacity: 0;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 .notice-list-panel.open {
   transform: scaleY(1);
@@ -731,7 +1045,9 @@ html[data-sidebar="open"] #sidebar-toggle-icon span:nth-of-type(3)::after {
   transform: translateX(20px);
   opacity: 0;
   pointer-events: none;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 .notice-detail-panel.open {
   transform: translateX(0);
@@ -741,19 +1057,41 @@ html[data-sidebar="open"] #sidebar-toggle-icon span:nth-of-type(3)::after {
 
 /* スクロールバー細幅 */
 .notice-list-body::-webkit-scrollbar,
-.notice-detail-body::-webkit-scrollbar { width: 4px; }
+.notice-detail-body::-webkit-scrollbar {
+  width: 4px;
+}
 .notice-list-body::-webkit-scrollbar-track,
-.notice-detail-body::-webkit-scrollbar-track { background: transparent; }
+.notice-detail-body::-webkit-scrollbar-track {
+  background: transparent;
+}
 .notice-list-body::-webkit-scrollbar-thumb,
-.notice-detail-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+.notice-detail-body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+}
 
 /* 通知リストアイテム */
-.notice-list-item { cursor: pointer; transition: background 0.1s; }
-.notice-list-item:hover { background: rgba(255,255,255,0.07); }
-.notice-list-item.notice-unread { background: rgba(237,190,0,0.08); }
-.notice-list-item.notice-unread:hover { background: rgba(237,190,0,0.14); }
-.notice-list-item.notice-active { background: rgba(255,255,255,0.12) !important; }
-.notice-dot { color: #EDBE00; font-size: 8px; line-height: 1.6; }
+.notice-list-item {
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.notice-list-item:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+.notice-list-item.notice-unread {
+  background: rgba(237, 190, 0, 0.08);
+}
+.notice-list-item.notice-unread:hover {
+  background: rgba(237, 190, 0, 0.14);
+}
+.notice-list-item.notice-active {
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+.notice-dot {
+  color: #edbe00;
+  font-size: 8px;
+  line-height: 1.6;
+}
 
 /* アイテム内chevron */
 .notice-item-chevron {
@@ -762,13 +1100,13 @@ html[data-sidebar="open"] #sidebar-toggle-icon span:nth-of-type(3)::after {
   transition: transform 0.2s ease;
   will-change: transform;
 }
-.notice-list-item:hover .notice-item-chevron { color: #ccc; }
-.notice-item-chevron.rotated-left { transform: scaleX(-1); }
+.notice-list-item:hover .notice-item-chevron {
+  color: #ccc;
+}
+.notice-item-chevron.rotated-left {
+  transform: scaleX(-1);
+}
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-
-
-
-
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  サイドバー                                  ┃*/
@@ -829,10 +1167,6 @@ html[data-sidebar="closed"] #sidebar-content {
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
-
-
-
-
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  ホーム                                      ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
@@ -860,17 +1194,13 @@ html[data-sidebar="closed"] #sidebar-content {
 /*──────────────────────────────────────────────*/
 .home-menu-label {
   /* フォント */
-  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-family: "M PLUS Rounded 1c", sans-serif;
   font-size: 2rem;
   letter-spacing: 0.2rem;
   /* テキストアウトライン */
   -webkit-text-stroke: 7px #444;
   paint-order: stroke fill;
 }
-
-
-
-
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  実績データ - カレンダー                      ┃*/
@@ -896,14 +1226,16 @@ html[data-sidebar="closed"] #sidebar-content {
   grid-template-columns: repeat(7, 1fr);
   gap: 0;
   border-radius: 0.25rem;
-  border: 1px solid rgba(0, 0, 0, 0.31);
+  border: 2px solid rgba(0, 0, 0, 0.3);
   overflow: hidden;
+  background-color: #fff;
 }
 
 /* 曜日ヘッダー */
 .calendar-day-header {
-  border-left: 1px solid rgba(0, 0, 0, 0.31);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.31);
+  background-color: rgba(0, 0, 0, 0.01);
+  border-left: 2px solid rgba(0, 0, 0, 0.3);
+  border-bottom: 1.5px solid rgba(0, 0, 0, 0.3);
 }
 .calendar-day-header:nth-child(1) {
   border-left: none;
@@ -911,48 +1243,48 @@ html[data-sidebar="closed"] #sidebar-content {
 
 /* 日曜日 - text-dangerで代替可能だが、特定色のため保持 */
 .calendar-day-header.sunday {
-  color: rgb(255, 0, 0);
+  color: #d44737;
 }
 /* 土曜日 - text-primaryに近いが、特定色のため保持 */
 .calendar-day-header.saturday {
-  color: rgb(0, 80, 255);
+  color: #2d86c2;
 }
 
 /* カレンダー日付セル - bg-white p-1 text-center border cursor-pointerで代替可能だが、カスタムのため保持 */
 .calendar-day {
-  background-color: #fff;
+  font-weight: 450;
   padding: 5px;
   text-align: center;
-  border-left: 1px solid rgba(0, 0, 0, 0.31);
-  border-top: 1px solid rgba(0, 0, 0, 0.31);
+  border-left: 2px solid rgba(0, 0, 0, 0.3);
+  border-top: 1px solid rgba(0, 0, 0, 0.3);
   cursor: pointer;
 }
-.calendar-day:nth-child(7n+8) {
+.calendar-day:nth-child(7n + 8) {
   border-left: none;
 }
 
 /* 選択状態 - カスタム背景色 */
 .calendar-day.selected {
-  background-color: #c4e6ff;
+  background-color: #0091dfcc;
+  color: #fff;
+  font-weight: 700;
 }
 
 /* 定休日 - bg-secondaryに近いが、カスタムのため保持 */
 .calendar-day.closed {
-  background-color: #ccc;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: rgba(0, 0, 0, 0.3);
   cursor: default;
+  border-color: rgba(0, 0, 0, 0.15);
 }
 
 /* 他月の日付 - opacity-50で代替可能だが、特定スタイルのため保持 */
 .calendar-day.other-month {
-  background-color: rgba(255, 255, 255, 0.31);
-  color: rgba(0, 0, 0, 0.31);
+  background-color: rgba(0, 0, 0, 0.15);
+  color: rgba(0, 0, 0, 0.3);
   cursor: default;
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-
-
-
-
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  PDF出力 - 依頼書                            ┃*/
@@ -1013,15 +1345,11 @@ html[data-sidebar="closed"] #sidebar-content {
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
-
-
-
-
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  PDF出力 - 計画情報                          ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 .pdf-plans body {
-  font-family: 'mplus1medium', sans-serif;
+  font-family: "mplus1medium", sans-serif;
   font-size: 9px;
   margin: 0;
   padding: 0;
@@ -1067,7 +1395,8 @@ html[data-sidebar="closed"] #sidebar-content {
   margin-bottom: 10px;
 }
 
-.pdf-plans th, .pdf-plans td {
+.pdf-plans th,
+.pdf-plans td {
   border: 1px solid #000;
   padding: 3px;
   text-align: left;
@@ -1114,15 +1443,11 @@ html[data-sidebar="closed"] #sidebar-content {
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
-
-
-
-
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  PDF出力 - 同意医師（ＨＫ）                   ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 .pdf-consents-acupuncture body {
-  font-family: 'mplus1medium', sans-serif;
+  font-family: "mplus1medium", sans-serif;
   font-size: 9px;
   margin: 0;
   padding: 0;
@@ -1140,7 +1465,8 @@ html[data-sidebar="closed"] #sidebar-content {
   font-size: 8px;
 }
 
-.pdf-consents-acupuncture th, .pdf-consents-acupuncture td {
+.pdf-consents-acupuncture th,
+.pdf-consents-acupuncture td {
   border: 1px solid #000;
   padding: 4px;
   text-align: left;
@@ -1162,15 +1488,11 @@ html[data-sidebar="closed"] #sidebar-content {
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
-
-
-
-
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  PDF出力 - 同意医師（ＡＭ）                   ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 .pdf-consents-massage body {
-  font-family: 'mplus1medium', sans-serif;
+  font-family: "mplus1medium", sans-serif;
   font-size: 9px;
   margin: 0;
   padding: 0;
@@ -1188,7 +1510,8 @@ html[data-sidebar="closed"] #sidebar-content {
   font-size: 8px;
 }
 
-.pdf-consents-massage th, .pdf-consents-massage td {
+.pdf-consents-massage th,
+.pdf-consents-massage td {
   border: 1px solid #000;
   padding: 4px;
   text-align: left;
@@ -1210,15 +1533,11 @@ html[data-sidebar="closed"] #sidebar-content {
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
-
-
-
-
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  PDF出力 - 医療保険情報                       ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 .pdf-insurances body {
-  font-family: 'mplus1medium', sans-serif;
+  font-family: "mplus1medium", sans-serif;
   font-size: 9px;
   margin: 0;
   padding: 0;
@@ -1236,7 +1555,8 @@ html[data-sidebar="closed"] #sidebar-content {
   font-size: 8px;
 }
 
-.pdf-insurances th, .pdf-insurances td {
+.pdf-insurances th,
+.pdf-insurances td {
   border: 1px solid #000;
   padding: 4px;
   text-align: left;
