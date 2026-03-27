@@ -902,8 +902,11 @@ html[data-sidebar="closed"] #sidebar-content {
 
 /* 曜日ヘッダー */
 .calendar-day-header {
-  border-right: 1px solid rgba(0, 0, 0, 0.31);
+  border-left: 1px solid rgba(0, 0, 0, 0.31);
   border-bottom: 1px solid rgba(0, 0, 0, 0.31);
+}
+.calendar-day-header:nth-child(1) {
+  border-left: none;
 }
 
 /* 日曜日 - text-dangerで代替可能だが、特定色のため保持 */
@@ -920,9 +923,12 @@ html[data-sidebar="closed"] #sidebar-content {
   background-color: #fff;
   padding: 5px;
   text-align: center;
-  border-right: 1px solid rgba(0, 0, 0, 0.31);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.31);
+  border-left: 1px solid rgba(0, 0, 0, 0.31);
+  border-top: 1px solid rgba(0, 0, 0, 0.31);
   cursor: pointer;
+}
+.calendar-day:nth-child(7n+8) {
+  border-left: none;
 }
 
 /* 選択状態 - カスタム背景色 */
