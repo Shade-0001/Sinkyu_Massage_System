@@ -899,6 +899,11 @@ html[data-sidebar="closed"] #sidebar-content {
   overflow: hidden;
 }
 
+/* 曜日ヘッダー */
+.calendar-day-header {
+  border: 1px solid rgba(0, 0, 0, 0.31);
+}
+
 /* 日曜日 - text-dangerで代替可能だが、特定色のため保持 */
 .calendar-day-header.sunday {
   color: rgb(255, 0, 0);
