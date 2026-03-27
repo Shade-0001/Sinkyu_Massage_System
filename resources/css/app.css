@@ -895,6 +895,8 @@ html[data-sidebar="closed"] #sidebar-content {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 0;
+  border-radius: 0.25rem;
+  overflow: hidden;
 }
 
 /* 日曜日 - text-dangerで代替可能だが、特定色のため保持 */

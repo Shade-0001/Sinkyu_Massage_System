@@ -159,8 +159,6 @@ body.app-layout {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 0px;
-  border-radius: 0.25rem;
-  overflow: hidden;
 }
 
 .calendar-day-header {
