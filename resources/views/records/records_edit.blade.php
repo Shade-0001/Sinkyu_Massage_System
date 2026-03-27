@@ -26,12 +26,13 @@
 
     <div class="d-flex gap-3 align-items-start">
       <!-- カレンダー -->
-      <div class="text-center position-relative flex-shrink-0" style="width: 280px;">
+      <div class="text-center position-relative flex-shrink-0 user-select-none" style="width: 280px;">
+        <!-- カレンダーヘッダー -->
         <div class="d-flex align-items-stretch justify-content-center mb-3">
           <button type="button" id="prev-month-btn" class="btn-custom btn-custom-sub btn-custom-blue" style="--btn-br-tl: 16px; --btn-br-tr: 0px; --btn-br-br: 0px; --btn-br-bl: 16px; padding-left: 12px; padding-right: 12px;">
             <i class="nf nf-fa-angle_left" style="font-size: 24px;"></i>
           </button>
-          <div class="btn-custom btn-custom-sub btn-custom-blue rounded-0" style="font-size: 28px;">
+          <div class="btn-custom btn-custom-sub btn-custom-blue rounded-0" style="font-size: 28px; padding-top: 12px; padding-bottom: 12px;">
             <div id="calendar-title-display"></div>
             <select id="calendar-title" class="position-absolute top-0 start-50 translate-middle-x opacity-0" style="border: none; background: transparent; width: 100%; height: 100%;"></select>
           </div>
@@ -39,6 +40,7 @@
             <i class="nf nf-fa-angle_right" style="font-size: 24px;"></i>
           </button>
         </div>
+        <!-- カレンダーボディ -->
         <div class="calendar" id="calendar">
           <!-- 曜日ヘッダー -->
           <div class="calendar-day-header text-center p-1 fw-bold sunday">日</div>
