@@ -6,7 +6,7 @@
     "editor.tabSize": 2
   },
   "bladeFormatter.format.indentSize": 2,
-  "bladeFormatter.format.printWidth": 10000,
+  "bladeFormatter.format.wrapLineLength": 10000,
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true
