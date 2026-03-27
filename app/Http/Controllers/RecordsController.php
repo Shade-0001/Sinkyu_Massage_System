@@ -390,6 +390,10 @@ class RecordsController extends Controller
       ->orderBy('id', 'desc')
       ->get();
 
+    // 施術者IDの最大桁数を算出（0埋め用）
+    $maxTherapistId = $therapists->max('id') ?? 1;
+    $therapistIdLength = strlen((string) $maxTherapistId);
+
     // 施術内容リストを取得
     $therapyContents = DB::table('therapy_contents')
       ->select('id', 'therapy_type', 'therapy_content')
@@ -422,6 +426,7 @@ class RecordsController extends Controller
       'consentsMassage' => $consentsMassage,
       'hasRecentRecords' => $hasRecentRecords,
       'therapists' => $therapists,
+      'therapistIdLength' => $therapistIdLength,
       'therapyContents' => $therapyContents,
       'selectedBodyparts' => $selectedBodyparts,
       'from' => $request->input('from'),
@@ -616,6 +621,10 @@ class RecordsController extends Controller
       ->orderBy('id', 'desc')
       ->get();
 
+    // 施術者IDの最大桁数を算出（0埋め用）
+    $maxTherapistId = $therapists->max('id') ?? 1;
+    $therapistIdLength = strlen((string) $maxTherapistId);
+
     // 施術内容リストを取得
     $therapyContents = DB::table('therapy_contents')
       ->select('id', 'therapy_type', 'therapy_content')
@@ -648,6 +657,7 @@ class RecordsController extends Controller
       'consentsMassage' => $consentsMassage,
       'hasRecentRecords' => $hasRecentRecords,
       'therapists' => $therapists,
+      'therapistIdLength' => $therapistIdLength,
       'therapyContents' => $therapyContents,
       'selectedBodyparts' => $selectedBodyparts,
       'duplicateType' => $type,
