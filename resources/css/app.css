@@ -1224,21 +1224,16 @@ html[data-sidebar="closed"] #sidebar-content {
 .calendar {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 0;
+  gap: 1px;
   border-radius: 0.25rem;
-  border: 2px solid rgba(0, 0, 0, 0.3);
+  border: 1px solid #aaa;
   overflow: hidden;
-  background-color: #fff;
+  background-color: #aaa; /* gapがボーダーとして見える */
 }
 
 /* 曜日ヘッダー */
 .calendar-day-header {
-  background-color: rgba(0, 0, 0, 0.01);
-  border-left: 2px solid rgba(0, 0, 0, 0.3);
-  border-bottom: 1.5px solid rgba(0, 0, 0, 0.3);
-}
-.calendar-day-header:nth-child(1) {
-  border-left: none;
+  background-color: #f5f5f5;
 }
 
 /* 日曜日 - text-dangerで代替可能だが、特定色のため保持 */
@@ -1255,33 +1250,27 @@ html[data-sidebar="closed"] #sidebar-content {
   font-weight: 450;
   padding: 5px;
   text-align: center;
-  border-left: 2px solid rgba(0, 0, 0, 0.3);
-  border-top: 1px solid rgba(0, 0, 0, 0.3);
+  background-color: #fff;
   cursor: pointer;
-}
-.calendar-day:nth-child(7n + 8) {
-  border-left: none;
 }
 
 /* 選択状態 - カスタム背景色 */
 .calendar-day.selected {
-  background-color: #0091dfcc;
+  background-color: #45a3d6;
   color: #fff;
   font-weight: 700;
-  border-color: rgba(0, 119, 185, 0.5);
 }
 
 /* 定休日 - bg-secondaryに近いが、カスタムのため保持 */
 .calendar-day.closed {
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: #aaa;
   color: rgba(0, 0, 0, 0.3);
   cursor: default;
-  border-color: rgba(0, 0, 0, 0.15);
 }
 
 /* 他月の日付 - opacity-50で代替可能だが、特定スタイルのため保持 */
 .calendar-day.other-month {
-  background-color: rgba(0, 0, 0, 0.15);
+  background-color: #d9d9d9;
   color: rgba(0, 0, 0, 0.3);
   cursor: default;
 }
