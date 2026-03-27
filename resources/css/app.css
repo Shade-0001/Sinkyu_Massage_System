@@ -1268,6 +1268,7 @@ html[data-sidebar="closed"] #sidebar-content {
   background-color: #0091dfcc;
   color: #fff;
   font-weight: 700;
+  border-color: rgba(0, 119, 185, 0.5);
 }
 
 /* 定休日 - bg-secondaryに近いが、カスタムのため保持 */
