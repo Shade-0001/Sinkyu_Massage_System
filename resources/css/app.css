@@ -497,9 +497,9 @@ textarea:not(:disabled) {
   transition: all 0.05s;
   transform: scale(0.95, 0.95);
   --btn-text-color-base: hsl(0, 0%, 100%);
-  border-radius: calc(var(--btn-br-tl-base) * 0.75)
-    calc(var(--btn-br-tr-base) * 0.75) calc(var(--btn-br-br-base) * 0.75)
-    calc(var(--btn-br-bl-base) * 0.75);
+  border-radius: calc(var(--btn-br-tl, var(--btn-br-tl-base)) * 0.75)
+    calc(var(--btn-br-tr, var(--btn-br-tr-base)) * 0.75) calc(var(--btn-br-br, var(--btn-br-br-base)) * 0.75)
+    calc(var(--btn-br-bl, var(--btn-br-bl-base)) * 0.75);
   box-shadow:
     /*左上*/
     inset var(--btn-shadow-size-half) var(--btn-shadow-size-half) 1px
@@ -609,6 +609,8 @@ textarea:not(:disabled) {
       calc(var(--btn-border-size) * 0.95) var(--btn-border-blur)
       var(--btn-border-color);
 }
+/*── トグルボタン用クラス ──────────*/
+/* Invert - 展開中カラー反転 */
 .btn-custom-sub:hover,
 .btn-custom-sub-open-invert {
   -webkit-text-stroke: 0px rgba(255, 255, 255, 0);
@@ -617,6 +619,7 @@ textarea:not(:disabled) {
 .btn-custom-sub-open-invert::before {
   opacity: 0;
 }
+/* Expand - 展開中ボーダー拡大 */
 .btn-custom-sub-open-expand:not(.btn-custom-xs):not(.btn-custom-sm):not(
     .btn-custom-lg
   ):not(.btn-custom-xl),
@@ -630,7 +633,7 @@ textarea:not(:disabled) {
 .btn-custom-sub-open-expand.btn-custom-xl {
   --btn-border-size: calc(var(--btn-shadow-size) * 2.8);
 }
-/* 展開中カラー */
+/* Color - 展開中カラー変更 */
 .btn-custom-sub-open-red {
   --btn-primary-color: #e74c3c;
 }
@@ -729,7 +732,10 @@ textarea:not(:disabled) {
   --btn-bg-color-base: #b164e4;
 }
 .btn-custom-gray {
-  --btn-bg-color-base: #75838a;
+  --btn-bg-color-base: hsl(200, 8%, 50%);
+}
+.btn-custom-gray-light {
+  --btn-bg-color-base: hsl(200, 8%, 60%);
 }
 
 /* サイズ */
