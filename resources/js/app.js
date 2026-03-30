@@ -261,6 +261,24 @@ function setupBtnSub(el) {
 
 document.querySelectorAll('.btn-custom-sub').forEach(setupBtnSub);
 
+// data-bs-toggle="btn-custom" : 単独トグル（クリックでbtn-custom-activeをオン/オフ）
+document.addEventListener('click', e => {
+  const btn = e.target.closest('[data-bs-toggle="btn-custom"]');
+  if (!btn) return;
+  btn.classList.contains('btn-custom-active') ? deactivateBtnCustom(btn) : activateBtnCustom(btn);
+});
+
+// data-bs-toggle="btn-custom-group" : 排他グループ（クリックしたボタンをon、兄弟をoff）
+document.addEventListener('click', e => {
+  const group = e.target.closest('[data-bs-toggle="btn-custom-group"]');
+  if (!group) return;
+  const btn = e.target.closest('.btn-custom');
+  if (!btn || !group.contains(btn)) return;
+  group.querySelectorAll('.btn-custom').forEach(b => {
+    b === btn ? activateBtnCustom(b) : deactivateBtnCustom(b);
+  });
+});
+
 // collapseイベントでホバー色を制御
 document.addEventListener('show.bs.collapse', e => onBtnSubCollapseShow(e.target));
 document.addEventListener('hide.bs.collapse', e => onBtnSubCollapseHide(e.target));

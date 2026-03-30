@@ -283,19 +283,12 @@ function navigateSchedule(direction) {
 function switchViewMode(mode) {
   viewMode = mode;
 
-  const weekBtn = document.getElementById('week-view-btn');
-  const monthBtn = document.getElementById('month-view-btn');
-
   if (mode === 'week') {
     document.getElementById('week-view').style.display = 'block';
     document.getElementById('month-view').style.display = 'none';
-    window.activateBtnCustom(weekBtn);
-    window.deactivateBtnCustom(monthBtn);
   } else {
     document.getElementById('week-view').style.display = 'none';
     document.getElementById('month-view').style.display = 'block';
-    window.deactivateBtnCustom(weekBtn);
-    window.activateBtnCustom(monthBtn);
   }
 
   loadScheduleData();
