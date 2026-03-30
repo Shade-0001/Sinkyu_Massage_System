@@ -49,64 +49,64 @@
           </thead>
           <tbody>
             <tr>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75);" data-char="ワ">ワ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ラ">ラ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ヤ">ヤ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="マ">マ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ハ">ハ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ナ">ナ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="タ">タ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="サ">サ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="カ">カ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ア">ア</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75);" data-char="ワ">ワ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ラ">ラ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ヤ">ヤ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="マ">マ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ハ">ハ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ナ">ナ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="タ">タ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="サ">サ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="カ">カ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ア">ア</button></td>
             </tr>
             <tr>
               <td></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="リ">リ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="リ">リ</button></td>
               <td></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ミ">ミ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ヒ">ヒ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ニ">ニ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="チ">チ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="シ">シ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="キ">キ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="イ">イ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ミ">ミ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ヒ">ヒ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ニ">ニ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="チ">チ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="シ">シ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="キ">キ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="イ">イ</button></td>
             </tr>
             <tr>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ヲ">ヲ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ル">ル</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ユ">ユ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ム">ム</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="フ">フ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ヌ">ヌ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ツ">ツ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ス">ス</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ク">ク</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ウ">ウ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ヲ">ヲ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ル">ル</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ユ">ユ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ム">ム</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="フ">フ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ヌ">ヌ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ツ">ツ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ス">ス</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ク">ク</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ウ">ウ</button></td>
             </tr>
             <tr>
               <td></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="レ">レ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="レ">レ</button></td>
               <td></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="メ">メ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ヘ">ヘ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ネ">ネ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="テ">テ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="セ">セ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ケ">ケ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="エ">エ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="メ">メ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ヘ">ヘ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ネ">ネ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="テ">テ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="セ">セ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ケ">ケ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="エ">エ</button></td>
             </tr>
             <tr>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ン">ン</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ロ">ロ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ヨ">ヨ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="モ">モ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ホ">ホ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ノ">ノ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ト">ト</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ソ">ソ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="コ">コ</button></td>
-              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="オ">オ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ン">ン</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ロ">ロ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ヨ">ヨ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="モ">モ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ホ">ホ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ノ">ノ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ト">ト</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="ソ">ソ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="コ">コ</button></td>
+              <td><button type="button" class="katakana-btn btn-ex btn-ex-gray-light btn-ex-toggle-blue btn-ex-sm" style="--btn-padding-x: calc(var(--btn-padding-y-base) * 0.75)" data-char="オ">オ</button></td>
             </tr>
           </tbody>
         </table>
@@ -332,7 +332,7 @@
       // カタカナ選択状態をリセット
       function clearKatakanaSelection() {
         selectedKatakanaChars = [];
-        katakanaButtons.forEach(btn => btn.classList.remove('btn-ex-blue'));
+        katakanaButtons.forEach(btn => deactivateBtnCustom(btn));
         katakanaColumnCheckboxes.forEach(cb => cb.checked = false);
         updateUserList(allUsers);
       }
@@ -364,8 +364,8 @@
           const char = this.dataset.char;
 
           // 単一文字選択モード
-          katakanaButtons.forEach(b => b.classList.remove('btn-ex-blue'));
-          this.classList.add('btn-ex-blue');
+          katakanaButtons.forEach(b => deactivateBtnCustom(b));
+          activateBtnCustom(this);
           selectedKatakanaChars = [char];
 
           performKatakanaFilter();
@@ -394,15 +394,15 @@
             // ボタンのハイライト更新
             katakanaButtons.forEach(btn => {
               if (chars.includes(btn.dataset.char)) {
-                btn.classList.add('btn-ex-blue');
+                activateBtnCustom(btn);
               } else {
-                btn.classList.remove('btn-ex-blue');
+                deactivateBtnCustom(btn);
               }
             });
           } else {
             // チェックを外した場合はリセット
             selectedKatakanaChars = [];
-            katakanaButtons.forEach(btn => btn.classList.remove('btn-ex-blue'));
+            katakanaButtons.forEach(btn => deactivateBtnCustom(btn));
           }
 
           performKatakanaFilter();
