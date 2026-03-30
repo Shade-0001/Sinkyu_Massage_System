@@ -200,7 +200,7 @@ function onBtnSubMouseenter(e) {
 // ホバー終了：invert+アクティブ中は色を維持、それ以外はリセット
 function onBtnSubMouseleave(e) {
   const el = e.currentTarget;
-  if (el.classList.contains('btn-ex-invert') && el.classList.contains('btn-ex-active')) return;
+  if (el.classList.contains('btn-ex-sub-invert') && el.classList.contains('btn-ex-active')) return;
   el._btnSubHovering = false;
   el.style.backgroundColor = '';
   el.style.color = el.classList.contains('btn-ex-active') ? '' : (el._btnSubOriginalColor ?? '');
@@ -209,7 +209,7 @@ function onBtnSubMouseleave(e) {
 // btn-exをアクティブ化（btn-ex-activeを付与・subかつinvertなら色も適用）
 function activateBtnCustom(btn) {
   if (!btn || !btn.classList.contains('btn-ex')) return;
-  if (btn.classList.contains('btn-ex-sub') && btn.classList.contains('btn-ex-invert')) {
+  if (btn.classList.contains('btn-ex-sub') && btn.classList.contains('btn-ex-sub-invert')) {
     if (!btn._btnSubHoverBg) initBtnSubColors(btn);
     btn._btnSubHovering = true;
     btn.style.backgroundColor = btn._btnSubHoverBg;
@@ -223,7 +223,7 @@ function activateBtnCustom(btn) {
 // btn-exを非アクティブ化（btn-ex-activeを削除・subかつinvertなら色もリセット）
 function deactivateBtnCustom(btn) {
   if (!btn || !btn.classList.contains('btn-ex')) return;
-  if (btn.classList.contains('btn-ex-sub') && btn.classList.contains('btn-ex-invert')) {
+  if (btn.classList.contains('btn-ex-sub') && btn.classList.contains('btn-ex-sub-invert')) {
     if (btn._btnSubOriginalBg !== undefined) {
       btn._btnSubHoverBg = btn._btnSubOriginalHoverBg ?? btn._btnSubHoverBg;
       btn._btnSubBlendedColor = blendBgWithPage(btn._btnSubOriginalBg, btn);

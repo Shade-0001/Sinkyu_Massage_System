@@ -15,6 +15,7 @@
         @endforeach
       </select>
       <button type="button" class="btn-ex btn-ex-blue btn-ex-sm ms-3" onclick="openUserSearchPopup()">利用者検索</button>
+      <button type="button" class="btn-ex btn-ex-sub-invert" data-bs-toggle="btn-ex">ボタン</button>
     </div>
   </form>
   <br>
@@ -79,7 +80,7 @@
 
         <!-- 年ヘッダー（折り畳み・展開ボタン） -->
         <div class="year-header mb-2 d-flex align-items-center">
-          <button class="btn-ex btn-ex-sub btn-ex-blue btn-ex-xl btn-ex-invert fs-2 gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $collapseId }}" aria-expanded="{{ $isYearExpanded ? 'true' : 'false' }}" aria-controls="{{ $collapseId }}">
+          <button class="btn-ex btn-ex-sub btn-ex-blue btn-ex-xl btn-ex-sub-invert fs-2 gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $collapseId }}" aria-expanded="{{ $isYearExpanded ? 'true' : 'false' }}" aria-controls="{{ $collapseId }}">
             <span class="align-self-center lh-1 pt-05 pb-1">{{ $year }}</span>
             <span class="year-toggle-arrow {{ $isYearExpanded ? 'rotated' : '' }} d-inline-flex align-items-center align-self-center">
               <i class="nf nf-md-chevron_down fs-5 ps-2"></i>
@@ -99,7 +100,7 @@
             <div class="report-month-section mb-4 ms-4" data-year-month="{{ $yearMonth }}">
               @if ($item['report'])
                 <!-- 報告書データあり -->
-                <div class="btn-ex btn-ex-sub btn-ex-blue btn-ex-lg btn-ex-invert" role="button" data-bs-toggle="collapse" data-bs-target="#{{ $monthCollapseId }}" aria-expanded="{{ $isMonthExpanded ? 'true' : 'false' }}" aria-controls="{{ $monthCollapseId }}">
+                <div class="btn-ex btn-ex-sub btn-ex-blue btn-ex-lg btn-ex-sub-invert" role="button" data-bs-toggle="collapse" data-bs-target="#{{ $monthCollapseId }}" aria-expanded="{{ $isMonthExpanded ? 'true' : 'false' }}" aria-controls="{{ $monthCollapseId }}">
                   {{ $item['year'] }}年{{ "\u{2000}" }}{{ $item['month'] }}月
                   <span class="year-toggle-arrow {{ $isMonthExpanded ? 'rotated' : '' }}" style="display: inline-flex; align-items: center; align-self: center;">
                     <i class="nf nf-md-chevron_down ps-2"></i>

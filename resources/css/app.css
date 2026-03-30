@@ -2,7 +2,7 @@
 /* ⚠️ public/css/app.css への変更はブラウザに反映されない */
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  グローバル                                  ┃*/
+/*┃  グローバルスタイル                           ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 /* 全体 */
 * {
@@ -60,7 +60,7 @@ textarea:not(:disabled) {
 
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  ユーティリティ                              ┃*/
+/*┃  ユーティリティクラス                         ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 /*──────────────────────────────────────────────*/
 /*  ホバー時ハイライト（透過オーバーレイ）         */
@@ -263,6 +263,7 @@ textarea:not(:disabled) {
 .text-gray-15 { color: hsl(0, 0%, 15%) !important; }
 .text-gray-10 { color: hsl(0, 0%, 10%) !important; }
 .text-gray-5 { color: hsl(0, 0%, 5%) !important; }
+
 /*──────────────────────────────────────────────*/
 /*  背景カラー（グレースケール）                 */
 /*──────────────────────────────────────────────*/
@@ -299,10 +300,10 @@ textarea:not(:disabled) {
 .bg-gray-0 { background-color: hsl(200, 3%, 0%) !important; }
 
 /*──────────────────────────────────────────────*/
-/*  EXボタン                                    */
+/*  EXボタン（新規追加のオリジナルボタンクラス）    */
 /*──────────────────────────────────────────────*/
 /*----------------------------------------------*/
-/*  EXボタン - プライマリ                        */
+/*  EXボタン - メイン                            */
 /*----------------------------------------------*/
 .btn-ex {
   /* デフォルト値 */
@@ -619,35 +620,35 @@ textarea:not(:disabled) {
 /*----------------------------------------------*/
 /*── Invert - カラー反転 ──────────*/
 .btn-ex-sub:hover,
-.btn-ex-invert.btn-ex-active {
+.btn-ex-sub-invert.btn-ex-active {
   -webkit-text-stroke: 0px rgba(255, 255, 255, 0);
 }
 .btn-ex-sub:hover::before,
-.btn-ex-invert.btn-ex-active::before {
+.btn-ex-sub-invert.btn-ex-active::before {
   opacity: 0;
 }
 
 /*── Color - カラー変更 ───────────*/
-.btn-ex-color-red.btn-ex-active { --btn-primary-color: #e74c3c; }
-.btn-ex-color-orange.btn-ex-active { --btn-primary-color: #e67e22; }
-.btn-ex-color-yellow.btn-ex-active { --btn-primary-color: #edbe00; }
-.btn-ex-color-lime.btn-ex-active { --btn-primary-color: #8fdc00; }
-.btn-ex-color-green.btn-ex-active { --btn-primary-color: #1bad50; }
-.btn-ex-color-cyan.btn-ex-active { --btn-primary-color: #00bcb3; }
-.btn-ex-color-blue.btn-ex-active { --btn-primary-color: #1f91ce; }
-.btn-ex-color-purple.btn-ex-active { --btn-primary-color: #b164e4; }
-.btn-ex-color-gray.btn-ex-active { --btn-primary-color: #75838a; }
+.btn-ex-sub-color-red.btn-ex-active { --btn-primary-color: #e74c3c; }
+.btn-ex-sub-color-orange.btn-ex-active { --btn-primary-color: #e67e22; }
+.btn-ex-sub-color-yellow.btn-ex-active { --btn-primary-color: #edbe00; }
+.btn-ex-sub-color-lime.btn-ex-active { --btn-primary-color: #8fdc00; }
+.btn-ex-sub-color-green.btn-ex-active { --btn-primary-color: #1bad50; }
+.btn-ex-sub-color-cyan.btn-ex-active { --btn-primary-color: #00bcb3; }
+.btn-ex-sub-color-blue.btn-ex-active { --btn-primary-color: #1f91ce; }
+.btn-ex-sub-color-purple.btn-ex-active { --btn-primary-color: #b164e4; }
+.btn-ex-sub-color-gray.btn-ex-active { --btn-primary-color: #75838a; }
 
 /*── Expand - ボーダー拡大 ────────*/
-.btn-ex-expand.btn-ex-active:not(.btn-ex-xs):not(.btn-ex-sm):not(.btn-ex-lg):not(.btn-ex-xl),
-.btn-ex-expand.btn-ex-active.btn-ex-sm {
+.btn-ex-sub-expand.btn-ex-active:not(.btn-ex-xs):not(.btn-ex-sm):not(.btn-ex-lg):not(.btn-ex-xl),
+.btn-ex-sub-expand.btn-ex-active.btn-ex-sm {
   --btn-border-size: calc(var(--btn-shadow-size) * 2.5);
 }
-.btn-ex-expand.btn-ex-active.btn-ex-xs {
+.btn-ex-sub-expand.btn-ex-active.btn-ex-xs {
   --btn-border-size: calc(var(--btn-shadow-size) * 2);
 }
-.btn-ex-expand.btn-ex-active.btn-ex-lg,
-.btn-ex-expand.btn-ex-active.btn-ex-xl {
+.btn-ex-sub-expand.btn-ex-active.btn-ex-lg,
+.btn-ex-sub-expand.btn-ex-active.btn-ex-xl {
   --btn-border-size: calc(var(--btn-shadow-size) * 2.8);
 }
 
