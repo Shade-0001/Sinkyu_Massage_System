@@ -168,6 +168,7 @@ function initBtnSubColors(el) {
 
   el._btnSubOriginalBg = staticBg;
   el._btnSubHoverBg = primaryColor;
+  el._btnSubOriginalHoverBg = primaryColor;
   el._btnSubBlendedColor = blendBgWithPage(staticBg, el);
   el._btnSubOriginalColor = style.color;
 }
@@ -237,6 +238,11 @@ function onBtnSubCollapseHide(collapseEl) {
   const btn = document.querySelector(`[data-bs-toggle="collapse"][data-bs-target="#${collapseEl.id}"]`);
   if (!btn || !btn.classList.contains('btn-custom-sub')) return;
   const openClasses = getBtnOpenClasses(btn);
+  // ホバー色を格納前の状態（originalBg基準）に戻す
+  if (btn._btnSubOriginalBg !== undefined) {
+    btn._btnSubHoverBg = btn._btnSubOriginalHoverBg ?? btn._btnSubHoverBg;
+    btn._btnSubBlendedColor = blendBgWithPage(btn._btnSubOriginalBg, btn);
+  }
   if (openClasses.includes('btn-custom-sub-open-invert')) {
     btn._btnSubHovering = false;
     btn.style.backgroundColor = '';
