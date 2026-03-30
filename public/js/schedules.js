@@ -84,6 +84,8 @@ document.addEventListener('DOMContentLoaded', function() {
   weekViewConfig.weeksToShow = calculateTotalWeeks();
 
   initializeEventListeners();
+  // 初期アクティブ状態を適用（週表示がデフォルト）
+  setTimeout(() => window.activateBtnSub(document.getElementById('week-view-btn')), 250);
   loadScheduleData();
   adjustScheduleContainerHeight();
 
@@ -281,20 +283,19 @@ function navigateSchedule(direction) {
 function switchViewMode(mode) {
   viewMode = mode;
 
+  const weekBtn = document.getElementById('week-view-btn');
+  const monthBtn = document.getElementById('month-view-btn');
+
   if (mode === 'week') {
     document.getElementById('week-view').style.display = 'block';
     document.getElementById('month-view').style.display = 'none';
-    document.getElementById('week-view-btn').classList.add('btn-dark');
-    document.getElementById('week-view-btn').classList.remove('btn-outline-dark');
-    document.getElementById('month-view-btn').classList.remove('btn-dark');
-    document.getElementById('month-view-btn').classList.add('btn-outline-dark');
+    window.activateBtnSub(weekBtn);
+    window.deactivateBtnSub(monthBtn);
   } else {
     document.getElementById('week-view').style.display = 'none';
     document.getElementById('month-view').style.display = 'block';
-    document.getElementById('week-view-btn').classList.remove('btn-dark');
-    document.getElementById('week-view-btn').classList.add('btn-outline-dark');
-    document.getElementById('month-view-btn').classList.add('btn-dark');
-    document.getElementById('month-view-btn').classList.remove('btn-outline-dark');
+    window.deactivateBtnSub(weekBtn);
+    window.activateBtnSub(monthBtn);
   }
 
   loadScheduleData();
