@@ -205,6 +205,9 @@ function onBtnSubCollapseShow(collapseEl) {
     btn._btnSubHovering = true;
     btn.style.backgroundColor = btn._btnSubHoverBg;
     btn.style.color = btn._btnSubBlendedColor;
+  } else {
+    // inline styleのcolorをクリアしてCSSクラスの色を有効にする
+    btn.style.color = '';
   }
   btn.classList.add(...openClasses);
 }
@@ -218,6 +221,9 @@ function onBtnSubCollapseHide(collapseEl) {
     btn._btnSubHovering = false;
     btn.style.backgroundColor = '';
     btn.style.color = btn._btnSubOriginalColor ?? '';
+  } else {
+    // inline styleのcolorをクリアしてCSSクラスの色を有効にする
+    btn.style.color = '';
   }
   btn.classList.remove(...openClasses);
 }
