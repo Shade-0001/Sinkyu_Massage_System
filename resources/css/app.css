@@ -400,6 +400,9 @@ textarea:not(:disabled) {
 /*──────────────────────────────────────────────*/
 /*  カスタムボタン                               */
 /*──────────────────────────────────────────────*/
+/*----------------------------------------------*/
+/*  プライマリカスタムボタン                      */
+/*----------------------------------------------*/
 .btn-custom {
   /* デフォルト値 */
   --btn-bg-color-base: hsl(200, 8%, 50%);
@@ -498,7 +501,8 @@ textarea:not(:disabled) {
   transform: scale(0.95, 0.95);
   --btn-text-color-base: hsl(0, 0%, 100%);
   border-radius: calc(var(--btn-br-tl, var(--btn-br-tl-base)) * 0.75)
-    calc(var(--btn-br-tr, var(--btn-br-tr-base)) * 0.75) calc(var(--btn-br-br, var(--btn-br-br-base)) * 0.75)
+    calc(var(--btn-br-tr, var(--btn-br-tr-base)) * 0.75)
+    calc(var(--btn-br-br, var(--btn-br-br-base)) * 0.75)
     calc(var(--btn-br-bl, var(--btn-br-bl-base)) * 0.75);
   box-shadow:
     /*左上*/
@@ -533,7 +537,7 @@ textarea:not(:disabled) {
 }
 
 /*----------------------------------------------*/
-/*  カスタムボタン - サブボタン                   */
+/*  サブカスタムボタン                            */
 /*----------------------------------------------*/
 .btn-custom-sub {
   --btn-br-tl-base: 5px;
@@ -608,58 +612,6 @@ textarea:not(:disabled) {
     /*右下*/ inset calc(var(--btn-border-size) * -0.95)
       calc(var(--btn-border-size) * 0.95) var(--btn-border-blur)
       var(--btn-border-color);
-}
-/*── トグルボタン用クラス ──────────*/
-/* Invert - 展開中カラー反転 */
-.btn-custom-sub:hover,
-.btn-custom-sub-open-invert {
-  -webkit-text-stroke: 0px rgba(255, 255, 255, 0);
-}
-.btn-custom-sub:hover::before,
-.btn-custom-sub-open-invert::before {
-  opacity: 0;
-}
-/* Expand - 展開中ボーダー拡大 */
-.btn-custom-sub-open-expand:not(.btn-custom-xs):not(.btn-custom-sm):not(
-    .btn-custom-lg
-  ):not(.btn-custom-xl),
-.btn-custom-sub-open-expand.btn-custom-sm {
-  --btn-border-size: calc(var(--btn-shadow-size) * 2.5);
-}
-.btn-custom-sub-open-expand.btn-custom-xs {
-  --btn-border-size: calc(var(--btn-shadow-size) * 2);
-}
-.btn-custom-sub-open-expand.btn-custom-lg,
-.btn-custom-sub-open-expand.btn-custom-xl {
-  --btn-border-size: calc(var(--btn-shadow-size) * 2.8);
-}
-/* Color - 展開中カラー変更 */
-.btn-custom-sub-open-red {
-  --btn-primary-color: #e74c3c;
-}
-.btn-custom-sub-open-orange {
-  --btn-primary-color: #e67e22;
-}
-.btn-custom-sub-open-yellow {
-  --btn-primary-color: #edbe00;
-}
-.btn-custom-sub-open-lime {
-  --btn-primary-color: #8fdc00;
-}
-.btn-custom-sub-open-green {
-  --btn-primary-color: #1bad50;
-}
-.btn-custom-sub-open-cyan {
-  --btn-primary-color: #00bcb3;
-}
-.btn-custom-sub-open-blue {
-  --btn-primary-color: #1f91ce;
-}
-.btn-custom-sub-open-purple {
-  --btn-primary-color: #b164e4;
-}
-.btn-custom-sub-open-gray {
-  --btn-primary-color: #75838a;
 }
 .btn-custom-sub:active {
   box-shadow:
@@ -782,6 +734,61 @@ textarea:not(:disabled) {
   --btn-br-bl: calc(var(--btn-br-bl-base) * 1.3);
   --btn-br-br: calc(var(--btn-br-br-base) * 1.3);
   --btn-shadow-size: calc(var(--btn-shadow-size-base) * 1.3);
+}
+
+/*----------------------------------------------*/
+/*  カスタムボタン - トグルアクティブ状態         */
+/*----------------------------------------------*/
+/*── Invert - カラー反転 ──────────*/
+.btn-custom-sub:hover,
+.btn-custom-invert.btn-custom-active {
+  -webkit-text-stroke: 0px rgba(255, 255, 255, 0);
+}
+.btn-custom-sub:hover::before,
+.btn-custom-invert.btn-custom-active::before {
+  opacity: 0;
+}
+/*── Color - カラー変更 ───────────*/
+.btn-custom-color-red.btn-custom-active {
+  --btn-primary-color: #e74c3c;
+}
+.btn-custom-color-orange.btn-custom-active {
+  --btn-primary-color: #e67e22;
+}
+.btn-custom-color-yellow.btn-custom-active {
+  --btn-primary-color: #edbe00;
+}
+.btn-custom-color-lime.btn-custom-active {
+  --btn-primary-color: #8fdc00;
+}
+.btn-custom-color-green.btn-custom-active {
+  --btn-primary-color: #1bad50;
+}
+.btn-custom-color-cyan.btn-custom-active {
+  --btn-primary-color: #00bcb3;
+}
+.btn-custom-color-blue.btn-custom-active {
+  --btn-primary-color: #1f91ce;
+}
+.btn-custom-color-purple.btn-custom-active {
+  --btn-primary-color: #b164e4;
+}
+.btn-custom-color-gray.btn-custom-active {
+  --btn-primary-color: #75838a;
+}
+/*── Expand - ボーダー拡大 ────────*/
+.btn-custom-expand.btn-custom-active:not(.btn-custom-xs):not(.btn-custom-sm):not(
+    .btn-custom-lg
+  ):not(.btn-custom-xl),
+.btn-custom-expand.btn-custom-active.btn-custom-sm {
+  --btn-border-size: calc(var(--btn-shadow-size) * 2.5);
+}
+.btn-custom-expand.btn-custom-active.btn-custom-xs {
+  --btn-border-size: calc(var(--btn-shadow-size) * 2);
+}
+.btn-custom-expand.btn-custom-active.btn-custom-lg,
+.btn-custom-expand.btn-custom-active.btn-custom-xl {
+  --btn-border-size: calc(var(--btn-shadow-size) * 2.8);
 }
 
 /*──────────────────────────────────────────────*/

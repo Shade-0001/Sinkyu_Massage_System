@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   initializeEventListeners();
   // 初期アクティブ状態を適用（週表示がデフォルト）
-  setTimeout(() => window.activateBtnSub(document.getElementById('week-view-btn')), 250);
+  setTimeout(() => window.activateBtnCustom(document.getElementById('week-view-btn')), 250);
   loadScheduleData();
   adjustScheduleContainerHeight();
 
@@ -289,13 +289,13 @@ function switchViewMode(mode) {
   if (mode === 'week') {
     document.getElementById('week-view').style.display = 'block';
     document.getElementById('month-view').style.display = 'none';
-    window.activateBtnSub(weekBtn);
-    window.deactivateBtnSub(monthBtn);
+    window.activateBtnCustom(weekBtn);
+    window.deactivateBtnCustom(monthBtn);
   } else {
     document.getElementById('week-view').style.display = 'none';
     document.getElementById('month-view').style.display = 'block';
-    window.deactivateBtnSub(weekBtn);
-    window.activateBtnSub(monthBtn);
+    window.deactivateBtnCustom(weekBtn);
+    window.activateBtnCustom(monthBtn);
   }
 
   loadScheduleData();

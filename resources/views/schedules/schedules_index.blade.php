@@ -43,8 +43,8 @@
 
           <!-- 右：表示切り替えボタン -->
           <div class="d-flex align-items-stretch">
-            <button type="button" id="week-view-btn" class="btn-custom btn-custom-sub btn-custom-blue fw-medium px-3" data-bs-open-class="btn-custom-sub-open-invert" style="--btn-br-tl: 16px; --btn-br-tr: 0px; --btn-br-br: 0px; --btn-br-bl: 16px;">週表示</button>
-            <button type="button" id="month-view-btn" class="btn-custom btn-custom-sub btn-custom-blue fw-medium px-3" data-bs-open-class="btn-custom-sub-open-invert" style="--btn-br-tl: 0px; --btn-br-tr: 16px; --btn-br-br: 16px; --btn-br-bl: 0px;">月表示</button>
+            <button type="button" id="week-view-btn" class="btn-custom btn-custom-sub btn-custom-blue btn-custom-invert fw-medium px-3" style="--btn-br-tl: 16px; --btn-br-tr: 0px; --btn-br-br: 0px; --btn-br-bl: 16px;">週表示</button>
+            <button type="button" id="month-view-btn" class="btn-custom btn-custom-sub btn-custom-blue btn-custom-invert fw-medium px-3" style="--btn-br-tl: 0px; --btn-br-tr: 16px; --btn-br-br: 16px; --btn-br-bl: 0px;">月表示</button>
           </div>
         </div>
       </div>

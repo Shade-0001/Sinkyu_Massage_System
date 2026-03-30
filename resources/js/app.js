@@ -190,37 +190,26 @@ function refreshBtnSubHoverColors(el) {
 function onBtnSubMouseenter(e) {
   const el = e.currentTarget;
   if (!el._btnSubHoverBg || el._btnSubHovering) return;
-  // 展開中はopen-classによって--btn-primary-colorが変わっているため再計算（originalColorは保持）
-  const openClasses = getBtnOpenClasses(el);
-  const isOpen = openClasses.some(c => el.classList.contains(c));
-  if (isOpen) refreshBtnSubHoverColors(el);
+  // アクティブ中は--btn-primary-colorが変わっている可能性があるため再計算（originalColorは保持）
+  if (el.classList.contains('btn-custom-active')) refreshBtnSubHoverColors(el);
   el._btnSubHovering = true;
   el.style.backgroundColor = el._btnSubHoverBg;
   el.style.color = el._btnSubBlendedColor;
 }
 
-// ホバー終了：open-invert展開中は色を維持、それ以外はリセット
+// ホバー終了：invert+アクティブ中は色を維持、それ以外はリセット
 function onBtnSubMouseleave(e) {
   const el = e.currentTarget;
-  const openClasses = getBtnOpenClasses(el);
-  if (openClasses.includes('btn-custom-sub-open-invert') && el.classList.contains('btn-custom-sub-open-invert')) return;
+  if (el.classList.contains('btn-custom-invert') && el.classList.contains('btn-custom-active')) return;
   el._btnSubHovering = false;
   el.style.backgroundColor = '';
-  // 展開中（open-classが付いている）ならCSSクラスに委ねる、それ以外は元の色に戻す
-  const isOpen = openClasses.some(c => el.classList.contains(c));
-  el.style.color = isOpen ? '' : (el._btnSubOriginalColor ?? '');
+  el.style.color = el.classList.contains('btn-custom-active') ? '' : (el._btnSubOriginalColor ?? '');
 }
 
-// data-bs-open-classで指定されたクラスを取得
-function getBtnOpenClasses(btn) {
-  return (btn.getAttribute('data-bs-open-class') || '').split(' ').filter(c => c);
-}
-
-// btn-custom-subをアクティブ化（open-classを付与・invert指定があれば色も適用）
-function activateBtnSub(btn) {
-  if (!btn || !btn.classList.contains('btn-custom-sub')) return;
-  const openClasses = getBtnOpenClasses(btn);
-  if (openClasses.includes('btn-custom-sub-open-invert')) {
+// btn-customをアクティブ化（btn-custom-activeを付与・subかつinvertなら色も適用）
+function activateBtnCustom(btn) {
+  if (!btn || !btn.classList.contains('btn-custom')) return;
+  if (btn.classList.contains('btn-custom-sub') && btn.classList.contains('btn-custom-invert')) {
     if (!btn._btnSubHoverBg) initBtnSubColors(btn);
     btn._btnSubHovering = true;
     btn.style.backgroundColor = btn._btnSubHoverBg;
@@ -228,40 +217,39 @@ function activateBtnSub(btn) {
   } else {
     btn.style.color = '';
   }
-  btn.classList.add(...openClasses);
+  btn.classList.add('btn-custom-active');
 }
 
-// btn-custom-subを非アクティブ化（open-classを削除・invert指定があれば色もリセット）
-function deactivateBtnSub(btn) {
-  if (!btn || !btn.classList.contains('btn-custom-sub')) return;
-  const openClasses = getBtnOpenClasses(btn);
-  if (btn._btnSubOriginalBg !== undefined) {
-    btn._btnSubHoverBg = btn._btnSubOriginalHoverBg ?? btn._btnSubHoverBg;
-    btn._btnSubBlendedColor = blendBgWithPage(btn._btnSubOriginalBg, btn);
-  }
-  if (openClasses.includes('btn-custom-sub-open-invert')) {
+// btn-customを非アクティブ化（btn-custom-activeを削除・subかつinvertなら色もリセット）
+function deactivateBtnCustom(btn) {
+  if (!btn || !btn.classList.contains('btn-custom')) return;
+  if (btn.classList.contains('btn-custom-sub') && btn.classList.contains('btn-custom-invert')) {
+    if (btn._btnSubOriginalBg !== undefined) {
+      btn._btnSubHoverBg = btn._btnSubOriginalHoverBg ?? btn._btnSubHoverBg;
+      btn._btnSubBlendedColor = blendBgWithPage(btn._btnSubOriginalBg, btn);
+    }
     btn._btnSubHovering = false;
     btn.style.backgroundColor = '';
     btn.style.color = btn._btnSubOriginalColor ?? '';
   } else {
     btn.style.color = '';
   }
-  btn.classList.remove(...openClasses);
+  btn.classList.remove('btn-custom-active');
 }
 
-window.activateBtnSub = activateBtnSub;
-window.deactivateBtnSub = deactivateBtnSub;
+window.activateBtnCustom = activateBtnCustom;
+window.deactivateBtnCustom = deactivateBtnCustom;
 
-// collapseトグル展開時：activateBtnSubに委譲
+// collapseトグル展開時：activateBtnCustomに委譲
 function onBtnSubCollapseShow(collapseEl) {
   const btn = document.querySelector(`[data-bs-toggle="collapse"][data-bs-target="#${collapseEl.id}"]`);
-  activateBtnSub(btn);
+  activateBtnCustom(btn);
 }
 
-// collapseトグル格納時：deactivateBtnSubに委譲
+// collapseトグル格納時：deactivateBtnCustomに委譲
 function onBtnSubCollapseHide(collapseEl) {
   const btn = document.querySelector(`[data-bs-toggle="collapse"][data-bs-target="#${collapseEl.id}"]`);
-  deactivateBtnSub(btn);
+  deactivateBtnCustom(btn);
 }
 
 // 各.btn-custom-sub要素に色の事前計算とイベントリスナーを登録
@@ -286,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const collapseEl = document.querySelector(targetId);
       if (!collapseEl || !collapseEl.classList.contains('show')) return;
       if (!btn._btnSubHoverBg) return;
-      activateBtnSub(btn);
+      activateBtnCustom(btn);
     });
   }, 250);
 });
