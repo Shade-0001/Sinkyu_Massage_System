@@ -176,6 +176,10 @@ function initBtnSubColors(el) {
 function onBtnSubMouseenter(e) {
   const el = e.currentTarget;
   if (!el._btnSubHoverBg || el._btnSubHovering) return;
+  // 展開中はopen-classによって--btn-primary-colorが変わっているため再計算
+  const openClasses = getBtnOpenClasses(el);
+  const isOpen = openClasses.some(c => el.classList.contains(c));
+  if (isOpen) initBtnSubColors(el);
   el._btnSubHovering = true;
   el.style.backgroundColor = el._btnSubHoverBg;
   el.style.color = el._btnSubBlendedColor;
