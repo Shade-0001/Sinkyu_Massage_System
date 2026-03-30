@@ -184,10 +184,13 @@ function onBtnSubMouseenter(e) {
 // ホバー終了：open-invert展開中は色を維持、それ以外はリセット
 function onBtnSubMouseleave(e) {
   const el = e.currentTarget;
-  if (getBtnOpenClasses(el).includes('btn-custom-sub-open-invert') && el.classList.contains('btn-custom-sub-open-invert')) return;
+  const openClasses = getBtnOpenClasses(el);
+  if (openClasses.includes('btn-custom-sub-open-invert') && el.classList.contains('btn-custom-sub-open-invert')) return;
   el._btnSubHovering = false;
   el.style.backgroundColor = '';
-  el.style.color = el._btnSubOriginalColor ?? '';
+  // 展開中（open-classが付いている）ならCSSクラスに委ねる、それ以外は元の色に戻す
+  const isOpen = openClasses.some(c => el.classList.contains(c));
+  el.style.color = isOpen ? '' : (el._btnSubOriginalColor ?? '');
 }
 
 // data-bs-open-classで指定されたクラスを取得
