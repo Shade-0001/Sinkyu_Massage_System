@@ -629,15 +629,15 @@ textarea:not(:disabled) {
 }
 
 /*── Color - カラー変更 ───────────*/
-.btn-ex-sub-toggle-color-red.btn-ex-active { --btn-primary-color: #e74c3c; }
-.btn-ex-sub-toggle-color-orange.btn-ex-active { --btn-primary-color: #e67e22; }
-.btn-ex-sub-toggle-color-yellow.btn-ex-active { --btn-primary-color: #edbe00; }
-.btn-ex-sub-toggle-color-lime.btn-ex-active { --btn-primary-color: #8fdc00; }
-.btn-ex-sub-toggle-color-green.btn-ex-active { --btn-primary-color: #1bad50; }
-.btn-ex-sub-toggle-color-cyan.btn-ex-active { --btn-primary-color: #00bcb3; }
-.btn-ex-sub-toggle-color-blue.btn-ex-active { --btn-primary-color: #1f91ce; }
-.btn-ex-sub-toggle-color-purple.btn-ex-active { --btn-primary-color: #b164e4; }
-.btn-ex-sub-toggle-color-gray.btn-ex-active { --btn-primary-color: #75838a; }
+.btn-ex-sub-toggle-red.btn-ex-active { --btn-primary-color: #e74c3c; }
+.btn-ex-sub-toggle-orange.btn-ex-active { --btn-primary-color: #e67e22; }
+.btn-ex-sub-toggle-yellow.btn-ex-active { --btn-primary-color: #edbe00; }
+.btn-ex-sub-toggle-lime.btn-ex-active { --btn-primary-color: #8fdc00; }
+.btn-ex-sub-toggle-green.btn-ex-active { --btn-primary-color: #1bad50; }
+.btn-ex-sub-toggle-cyan.btn-ex-active { --btn-primary-color: #00bcb3; }
+.btn-ex-sub-toggle-blue.btn-ex-active { --btn-primary-color: #1f91ce; }
+.btn-ex-sub-toggle-purple.btn-ex-active { --btn-primary-color: #b164e4; }
+.btn-ex-sub-toggle-gray.btn-ex-active { --btn-primary-color: #75838a; }
 
 /*── Expand - ボーダー拡大 ────────*/
 .btn-ex-sub-toggle-expand.btn-ex-active:not(.btn-ex-xs):not(.btn-ex-sm):not(.btn-ex-lg):not(.btn-ex-xl),
