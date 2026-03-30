@@ -15,7 +15,6 @@
         @endforeach
       </select>
       <button type="button" class="btn-ex btn-ex-blue btn-ex-sm ms-3" onclick="openUserSearchPopup()">利用者検索</button>
-      <button type="button" class="btn-ex btn-ex-sub btn-ex-sub-toggle-invert" data-bs-toggle="btn-ex">ボタン</button>
     </div>
   </form>
   <br>
