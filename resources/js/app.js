@@ -157,7 +157,7 @@ document.addEventListener('mouseup', onBtnCustomMouseup);
 /*──────────────────────────────────────────────*/
 /*  サブボタン関連                               */
 /*──────────────────────────────────────────────*/
-// ホバー時に使う色を事前計算して要素に保存
+// ホバー時に使う色を事前計算して要素に保存（初回のみ・_btnSubOriginalColorを確定）
 function initBtnSubColors(el) {
   const staticBg = getStaticBgColor(el);
   const style = getComputedStyle(el);
@@ -172,14 +172,27 @@ function initBtnSubColors(el) {
   el._btnSubOriginalColor = style.color;
 }
 
+// ホバー色のみ再計算（_btnSubOriginalColorは上書きしない）
+function refreshBtnSubHoverColors(el) {
+  const staticBg = getStaticBgColor(el);
+  const style = getComputedStyle(el);
+  let primaryColor = style.getPropertyValue('--btn-primary-color').trim();
+  if (!primaryColor || primaryColor.startsWith('var(')) {
+    primaryColor = style.getPropertyValue('--btn-bg-color').trim();
+  }
+  el._btnSubOriginalBg = staticBg;
+  el._btnSubHoverBg = primaryColor;
+  el._btnSubBlendedColor = blendBgWithPage(staticBg, el);
+}
+
 // ホバー開始：background-colorをprimaryColor、colorをblendedColorに切り替え
 function onBtnSubMouseenter(e) {
   const el = e.currentTarget;
   if (!el._btnSubHoverBg || el._btnSubHovering) return;
-  // 展開中はopen-classによって--btn-primary-colorが変わっているため再計算
+  // 展開中はopen-classによって--btn-primary-colorが変わっているため再計算（originalColorは保持）
   const openClasses = getBtnOpenClasses(el);
   const isOpen = openClasses.some(c => el.classList.contains(c));
-  if (isOpen) initBtnSubColors(el);
+  if (isOpen) refreshBtnSubHoverColors(el);
   el._btnSubHovering = true;
   el.style.backgroundColor = el._btnSubHoverBg;
   el.style.color = el._btnSubBlendedColor;
