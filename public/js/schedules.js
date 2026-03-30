@@ -84,8 +84,6 @@ document.addEventListener('DOMContentLoaded', function() {
   weekViewConfig.weeksToShow = calculateTotalWeeks();
 
   initializeEventListeners();
-  // 初期アクティブ状態を適用（週表示がデフォルト）
-  setTimeout(() => window.activateBtnCustom(document.getElementById('week-view-btn')), 250);
   loadScheduleData();
   adjustScheduleContainerHeight();
 

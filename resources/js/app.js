@@ -283,15 +283,20 @@ document.addEventListener('click', e => {
 document.addEventListener('show.bs.collapse', e => onBtnSubCollapseShow(e.target));
 document.addEventListener('hide.bs.collapse', e => onBtnSubCollapseHide(e.target));
 
-// ページ読み込み時、既に展開中のcollapseトグルにホバー色を適用（initBtnSubColorsの遅延後に実行）
+// ページ読み込み時、初期アクティブ状態を適用（initBtnSubColorsの遅延後に実行）
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
+    // collapse連動ボタン：既に展開中のcollapseに対応するボタンをアクティブ化
     document.querySelectorAll('[data-bs-toggle="collapse"].btn-custom-sub').forEach(btn => {
       const targetId = btn.getAttribute('data-bs-target');
       if (!targetId) return;
       const collapseEl = document.querySelector(targetId);
       if (!collapseEl || !collapseEl.classList.contains('show')) return;
       if (!btn._btnSubHoverBg) return;
+      activateBtnCustom(btn);
+    });
+    // btn-custom-groupボタン：HTMLでbtn-custom-activeが付いているボタンをアクティブ化
+    document.querySelectorAll('[data-bs-toggle="btn-custom-group"] .btn-custom.btn-custom-active').forEach(btn => {
       activateBtnCustom(btn);
     });
   }, 250);
