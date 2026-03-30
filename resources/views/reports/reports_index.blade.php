@@ -14,7 +14,7 @@
           </option>
         @endforeach
       </select>
-      <button type="button" class="btn-custom btn-custom-blue btn-custom-sm ms-3" onclick="openUserSearchPopup()">利用者検索</button>
+      <button type="button" class="btn-ex btn-ex-blue btn-ex-sm ms-3" onclick="openUserSearchPopup()">利用者検索</button>
     </div>
   </form>
   <br>
@@ -79,7 +79,7 @@
 
         <!-- 年ヘッダー（折り畳み・展開ボタン） -->
         <div class="year-header mb-2 d-flex align-items-center">
-          <button class="btn-custom btn-custom-sub btn-custom-blue btn-custom-xl btn-custom-invert fs-2 gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $collapseId }}" aria-expanded="{{ $isYearExpanded ? 'true' : 'false' }}" aria-controls="{{ $collapseId }}">
+          <button class="btn-ex btn-ex-sub btn-ex-blue btn-ex-xl btn-ex-invert fs-2 gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $collapseId }}" aria-expanded="{{ $isYearExpanded ? 'true' : 'false' }}" aria-controls="{{ $collapseId }}">
             <span class="align-self-center lh-1 pt-05 pb-1">{{ $year }}</span>
             <span class="year-toggle-arrow {{ $isYearExpanded ? 'rotated' : '' }} d-inline-flex align-items-center align-self-center">
               <i class="nf nf-md-chevron_down fs-5 ps-2"></i>
@@ -99,7 +99,7 @@
             <div class="report-month-section mb-4 ms-4" data-year-month="{{ $yearMonth }}">
               @if ($item['report'])
                 <!-- 報告書データあり -->
-                <div class="btn-custom btn-custom-sub btn-custom-blue btn-custom-lg btn-custom-invert" role="button" data-bs-toggle="collapse" data-bs-target="#{{ $monthCollapseId }}" aria-expanded="{{ $isMonthExpanded ? 'true' : 'false' }}" aria-controls="{{ $monthCollapseId }}">
+                <div class="btn-ex btn-ex-sub btn-ex-blue btn-ex-lg btn-ex-invert" role="button" data-bs-toggle="collapse" data-bs-target="#{{ $monthCollapseId }}" aria-expanded="{{ $isMonthExpanded ? 'true' : 'false' }}" aria-controls="{{ $monthCollapseId }}">
                   {{ $item['year'] }}年{{ "\u{2000}" }}{{ $item['month'] }}月
                   <span class="year-toggle-arrow {{ $isMonthExpanded ? 'rotated' : '' }}" style="display: inline-flex; align-items: center; align-self: center;">
                     <i class="nf nf-md-chevron_down ps-2"></i>
@@ -111,13 +111,13 @@
                       <tr>
                         <th class="align-middle text-center bg-light" style="width: 7rem;">データ操作</th>
                         <td class="align-middle" style="white-space: nowrap;">
-                          <a href="{{ route('reports.edit', $item['report']->id) }}"><button type="button" class="btn-custom btn-custom-blue btn-custom-sm">編集</button></a>
-                          <a href="{{ route('reports.duplicate', $item['report']->id) }}"><button type="button" class="btn-custom btn-custom-blue btn-custom-sm">複製</button></a>
-                          <button type="button" class="btn-custom btn-custom-blue btn-custom-sm" onclick="openReportPrintModal('{{ $selectedUserId }}', '{{ $yearMonth }}')">印刷</button>
+                          <a href="{{ route('reports.edit', $item['report']->id) }}"><button type="button" class="btn-ex btn-ex-blue btn-ex-sm">編集</button></a>
+                          <a href="{{ route('reports.duplicate', $item['report']->id) }}"><button type="button" class="btn-ex btn-ex-blue btn-ex-sm">複製</button></a>
+                          <button type="button" class="btn-ex btn-ex-blue btn-ex-sm" onclick="openReportPrintModal('{{ $selectedUserId }}', '{{ $yearMonth }}')">印刷</button>
                           <form method="POST" action="{{ route('reports.destroy', $item['report']->id) }}" style="display:inline;" onsubmit="return confirm('この報告書データを削除してもよろしいですか？');">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn-custom btn-custom-red btn-custom-sm">削除</button>
+                            <button type="submit" class="btn-ex btn-ex-red btn-ex-sm">削除</button>
                           </form>
                         </td>
                       </tr>
@@ -147,7 +147,7 @@
                   <div class="vr ms-3 me-5" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
                   <span class="text-secondary me-3">該当データなし</span>
                   <a href="{{ route('reports.create', ['clinic_user_id' => $selectedUserId, 'year' => $item['year'], 'month' => $item['month']]) }}">
-                    <button type="button" class="btn-custom btn-custom-blue btn-custom-sm">新規登録</button>
+                    <button type="button" class="btn-ex btn-ex-blue btn-ex-sm">新規登録</button>
                   </a>
                 </div>
               @endif

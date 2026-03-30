@@ -57,7 +57,7 @@
               </div>
 
               <div class="d-flex justify-content-center py-3">
-                <button type="submit" class="btn-custom btn-custom-blue w-50">ログイン</button>
+                <button type="submit" class="btn-ex btn-ex-blue w-50">ログイン</button>
               </div>
             </form>
           </div>

@@ -8,7 +8,7 @@
   <br>
 
   <a href="{{ route('system-users.create') }}">
-  <button class="btn-custom btn-custom-blue">新規登録</button>
+  <button class="btn-ex btn-ex-blue">新規登録</button>
   </a>
 
   <br><br>
@@ -39,7 +39,7 @@
       <td>{{ $systemUser->plain_password ? '●●●●●' : '―' }}</td>
       <td>
         <button
-          class="btn-custom btn-custom-blue btn-custom-sm edit-btn"
+          class="btn-ex btn-ex-blue btn-ex-sm edit-btn"
           data-id="{{ $systemUser->id }}"
           data-name="{{ $systemUser->name }}"
         >編集</button>
@@ -66,8 +66,8 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn-custom btn-custom-gray" data-bs-dismiss="modal">キャンセル</button>
-      <button type="button" id="modal-confirm-btn" class="btn-custom btn-custom-blue">確認して編集</button>
+      <button type="button" class="btn-ex btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
+      <button type="button" id="modal-confirm-btn" class="btn-ex btn-ex-blue">確認して編集</button>
     </div>
     </div>
   </div>

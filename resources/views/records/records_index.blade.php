@@ -14,7 +14,7 @@
           </option>
         @endforeach
       </select>
-      <button type="button" onclick="openUserSearchPopup()" class="btn-custom btn-custom-sm btn-custom-blue mx-2">利用者検索</button>
+      <button type="button" onclick="openUserSearchPopup()" class="btn-ex btn-ex-sm btn-ex-blue mx-2">利用者検索</button>
     </div>
   </form>
   <br>
@@ -50,14 +50,14 @@
         <div class="text-center position-relative flex-shrink-0 user-select-none" style="width: 280px;">
           <!-- カレンダーヘッダー -->
           <div class="d-flex align-items-stretch justify-content-center mb-3">
-            <button type="button" id="prev-month-btn" class="btn-custom btn-custom-sub btn-custom-blue" style="--btn-br-tl: 16px; --btn-br-tr: 0px; --btn-br-br: 0px; --btn-br-bl: 16px; padding-left: 12px; padding-right: 12px;">
+            <button type="button" id="prev-month-btn" class="btn-ex btn-ex-sub btn-ex-blue" style="--btn-br-tl: 16px; --btn-br-tr: 0px; --btn-br-br: 0px; --btn-br-bl: 16px;">
               <i class="nf nf-fa-angle_left" style="font-size: 24px;"></i>
             </button>
-            <div class="btn-custom btn-custom-sub btn-custom-blue rounded-0" style="font-size: 28px; padding-top: 12px; padding-bottom: 12px;">
+            <div class="btn-ex btn-ex-sub btn-ex-blue rounded-0" style="font-size: 28px; padding-top: 12px; padding-bottom: 12px;">
               <div id="calendar-title-display"></div>
               <select id="calendar-title" class="position-absolute top-0 start-50 translate-middle-x opacity-0" style="border: none; background: transparent; width: 100%; height: 100%;"></select>
             </div>
-            <button type="button" id="next-month-btn" class="btn-custom btn-custom-sub btn-custom-blue" style="--btn-br-tl: 0px; --btn-br-tr: 16px; --btn-br-br: 16px; --btn-br-bl: 0px; padding-left: 12px; padding-right: 12px;">
+            <button type="button" id="next-month-btn" class="btn-ex btn-ex-sub btn-ex-blue" style="--btn-br-tl: 0px; --btn-br-tr: 16px; --btn-br-br: 16px; --btn-br-bl: 0px;">
               <i class="nf nf-fa-angle_right" style="font-size: 24px;"></i>
             </button>
           </div>
@@ -72,7 +72,7 @@
             <div class="calendar-day-header text-center p-1 fw-bold">金</div>
             <div class="calendar-day-header text-center p-1 fw-bold saturday">土</div>
           </div>
-          <button type="button" id="clear-selection-btn" class="btn-custom btn-custom-sm mt-3">選択解除</button>
+          <button type="button" id="clear-selection-btn" class="btn-ex btn-ex-sm mt-3">選択解除</button>
         </div>
 
 
@@ -367,7 +367,7 @@
           </div>
 
           <div class="col-12">
-            <button type="submit" class="btn-custom btn-custom-green d-block ms-auto" data-tooltip="先に日付を選択してください">登録</button>
+            <button type="submit" class="btn-ex btn-ex-green d-block ms-auto" data-tooltip="先に日付を選択してください">登録</button>
           </div>
         </div>
       </div>
@@ -384,8 +384,8 @@
 
         @if ($records->count() > 0)
           <div class="mb-3">
-            <button type="button" class="btn-custom btn-custom-blue" onclick="openRecordAcupunctureBenefitModal()">はり･きゅう支給申請書印刷</button>
-            <button type="button" class="btn-custom btn-custom-blue" onclick="openRecordMassageBenefitModal()">あんま･マッサージ支給申請書印刷</button>
+            <button type="button" class="btn-ex btn-ex-blue" onclick="openRecordAcupunctureBenefitModal()">はり･きゅう支給申請書印刷</button>
+            <button type="button" class="btn-ex btn-ex-blue" onclick="openRecordMassageBenefitModal()">あんま･マッサージ支給申請書印刷</button>
           </div>
 
           <div class="table-responsive">
@@ -406,13 +406,13 @@
                 @foreach ($records as $record)
                   <tr>
                     <td rowspan="3" class="align-middle">
-                      <a href="{{ route('records.edit', $record->id) }}"><button type="button" class="btn-custom btn-custom-blue btn-custom-sm mb-05">編集</button></a><br>
-                      <a href="{{ route('records.duplicate.current', $record->id) }}"><button type="button" class="btn-custom btn-custom-blue btn-custom-sm mb-05">当月へ複製</button></a><br>
-                      <a href="{{ route('records.duplicate.next', $record->id) }}"><button type="button" class="btn-custom btn-custom-blue btn-custom-sm mb-05">翌月へ複製</button></a><br>
+                      <a href="{{ route('records.edit', $record->id) }}"><button type="button" class="btn-ex btn-ex-blue btn-ex-sm mb-05">編集</button></a><br>
+                      <a href="{{ route('records.duplicate.current', $record->id) }}"><button type="button" class="btn-ex btn-ex-blue btn-ex-sm mb-05">当月へ複製</button></a><br>
+                      <a href="{{ route('records.duplicate.next', $record->id) }}"><button type="button" class="btn-ex btn-ex-blue btn-ex-sm mb-05">翌月へ複製</button></a><br>
                       <form method="POST" action="{{ route('records.destroy', $record->id) }}" style="display:inline;" onsubmit="return confirm('この実績データを削除してもよろしいですか？');">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn-custom btn-custom-red btn-custom-sm">削除</button>
+                        <button type="submit" class="btn-ex btn-ex-red btn-ex-sm">削除</button>
                       </form>
                     </td>
                     <td rowspan="3" class="align-middle">
@@ -471,7 +471,7 @@
               <input type="hidden" name="clinic_user_id" value="{{ $selectedUserId }}">
               <input type="hidden" name="year" value="{{ $selectedYear }}">
               <input type="hidden" name="month" value="{{ $selectedMonth }}">
-              <button type="submit" class="btn-custom btn-custom-blue">当月の全実績データを翌月へ複製</button>
+              <button type="submit" class="btn-ex btn-ex-blue">当月の全実績データを翌月へ複製</button>
             </form>
           </div>
         @else

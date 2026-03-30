@@ -136,7 +136,7 @@ function rgbLighten(r, g, b, factor) {
 
 // クリック終了時にホバーハイライトを一時的に無効化→フェードイン復活
 function onBtnCustomMouseup(e) {
-  const btn = e.target.closest('.btn-custom');
+  const btn = e.target.closest('.btn-ex');
   if (!btn) return;
 
   clearTimeout(btn._hoverHighlightTimer);
@@ -191,7 +191,7 @@ function onBtnSubMouseenter(e) {
   const el = e.currentTarget;
   if (!el._btnSubHoverBg || el._btnSubHovering) return;
   // アクティブ中は--btn-primary-colorが変わっている可能性があるため再計算（originalColorは保持）
-  if (el.classList.contains('btn-custom-active')) refreshBtnSubHoverColors(el);
+  if (el.classList.contains('btn-ex-active')) refreshBtnSubHoverColors(el);
   el._btnSubHovering = true;
   el.style.backgroundColor = el._btnSubHoverBg;
   el.style.color = el._btnSubBlendedColor;
@@ -200,16 +200,16 @@ function onBtnSubMouseenter(e) {
 // ホバー終了：invert+アクティブ中は色を維持、それ以外はリセット
 function onBtnSubMouseleave(e) {
   const el = e.currentTarget;
-  if (el.classList.contains('btn-custom-invert') && el.classList.contains('btn-custom-active')) return;
+  if (el.classList.contains('btn-ex-invert') && el.classList.contains('btn-ex-active')) return;
   el._btnSubHovering = false;
   el.style.backgroundColor = '';
-  el.style.color = el.classList.contains('btn-custom-active') ? '' : (el._btnSubOriginalColor ?? '');
+  el.style.color = el.classList.contains('btn-ex-active') ? '' : (el._btnSubOriginalColor ?? '');
 }
 
-// btn-customをアクティブ化（btn-custom-activeを付与・subかつinvertなら色も適用）
+// btn-exをアクティブ化（btn-ex-activeを付与・subかつinvertなら色も適用）
 function activateBtnCustom(btn) {
-  if (!btn || !btn.classList.contains('btn-custom')) return;
-  if (btn.classList.contains('btn-custom-sub') && btn.classList.contains('btn-custom-invert')) {
+  if (!btn || !btn.classList.contains('btn-ex')) return;
+  if (btn.classList.contains('btn-ex-sub') && btn.classList.contains('btn-ex-invert')) {
     if (!btn._btnSubHoverBg) initBtnSubColors(btn);
     btn._btnSubHovering = true;
     btn.style.backgroundColor = btn._btnSubHoverBg;
@@ -217,13 +217,13 @@ function activateBtnCustom(btn) {
   } else {
     btn.style.color = '';
   }
-  btn.classList.add('btn-custom-active');
+  btn.classList.add('btn-ex-active');
 }
 
-// btn-customを非アクティブ化（btn-custom-activeを削除・subかつinvertなら色もリセット）
+// btn-exを非アクティブ化（btn-ex-activeを削除・subかつinvertなら色もリセット）
 function deactivateBtnCustom(btn) {
-  if (!btn || !btn.classList.contains('btn-custom')) return;
-  if (btn.classList.contains('btn-custom-sub') && btn.classList.contains('btn-custom-invert')) {
+  if (!btn || !btn.classList.contains('btn-ex')) return;
+  if (btn.classList.contains('btn-ex-sub') && btn.classList.contains('btn-ex-invert')) {
     if (btn._btnSubOriginalBg !== undefined) {
       btn._btnSubHoverBg = btn._btnSubOriginalHoverBg ?? btn._btnSubHoverBg;
       btn._btnSubBlendedColor = blendBgWithPage(btn._btnSubOriginalBg, btn);
@@ -234,7 +234,7 @@ function deactivateBtnCustom(btn) {
   } else {
     btn.style.color = '';
   }
-  btn.classList.remove('btn-custom-active');
+  btn.classList.remove('btn-ex-active');
 }
 
 window.activateBtnCustom = activateBtnCustom;
@@ -252,29 +252,29 @@ function onBtnSubCollapseHide(collapseEl) {
   deactivateBtnCustom(btn);
 }
 
-// 各.btn-custom-sub要素に色の事前計算とイベントリスナーを登録
+// 各.btn-ex-sub要素に色の事前計算とイベントリスナーを登録
 function setupBtnSub(el) {
   setTimeout(initBtnSubColors, 200, el);
   el.addEventListener('mouseenter', onBtnSubMouseenter);
   el.addEventListener('mouseleave', onBtnSubMouseleave);
 }
 
-document.querySelectorAll('.btn-custom-sub').forEach(setupBtnSub);
+document.querySelectorAll('.btn-ex-sub').forEach(setupBtnSub);
 
-// data-bs-toggle="btn-custom" : 単独トグル（クリックでbtn-custom-activeをオン/オフ）
+// data-bs-toggle="btn-ex" : 単独トグル（クリックでbtn-ex-activeをオン/オフ）
 document.addEventListener('click', e => {
-  const btn = e.target.closest('[data-bs-toggle="btn-custom"]');
+  const btn = e.target.closest('[data-bs-toggle="btn-ex"]');
   if (!btn) return;
-  btn.classList.contains('btn-custom-active') ? deactivateBtnCustom(btn) : activateBtnCustom(btn);
+  btn.classList.contains('btn-ex-active') ? deactivateBtnCustom(btn) : activateBtnCustom(btn);
 });
 
-// data-bs-toggle="btn-custom-group" : 排他グループ（クリックしたボタンをon、兄弟をoff）
+// data-bs-toggle="btn-ex-group" : 排他グループ（クリックしたボタンをon、兄弟をoff）
 document.addEventListener('click', e => {
-  const group = e.target.closest('[data-bs-toggle="btn-custom-group"]');
+  const group = e.target.closest('[data-bs-toggle="btn-ex-group"]');
   if (!group) return;
-  const btn = e.target.closest('.btn-custom');
+  const btn = e.target.closest('.btn-ex');
   if (!btn || !group.contains(btn)) return;
-  group.querySelectorAll('.btn-custom').forEach(b => {
+  group.querySelectorAll('.btn-ex').forEach(b => {
     b === btn ? activateBtnCustom(b) : deactivateBtnCustom(b);
   });
 });
@@ -287,7 +287,7 @@ document.addEventListener('hide.bs.collapse', e => onBtnSubCollapseHide(e.target
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     // collapse連動ボタン：既に展開中のcollapseに対応するボタンをアクティブ化
-    document.querySelectorAll('[data-bs-toggle="collapse"].btn-custom-sub').forEach(btn => {
+    document.querySelectorAll('[data-bs-toggle="collapse"].btn-ex-sub').forEach(btn => {
       const targetId = btn.getAttribute('data-bs-target');
       if (!targetId) return;
       const collapseEl = document.querySelector(targetId);
@@ -295,8 +295,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!btn._btnSubHoverBg) return;
       activateBtnCustom(btn);
     });
-    // btn-custom-groupボタン：HTMLでbtn-custom-activeが付いているボタンをアクティブ化
-    document.querySelectorAll('[data-bs-toggle="btn-custom-group"] .btn-custom.btn-custom-active').forEach(btn => {
+    // btn-ex-groupボタン：HTMLでbtn-ex-activeが付いているボタンをアクティブ化
+    document.querySelectorAll('[data-bs-toggle="btn-ex-group"] .btn-ex.btn-ex-active').forEach(btn => {
       activateBtnCustom(btn);
     });
   }, 250);

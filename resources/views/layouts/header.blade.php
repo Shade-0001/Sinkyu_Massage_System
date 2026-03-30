@@ -43,7 +43,7 @@
           <div class="flex-shrink-0 px-3 py-2 border-bottom border-secondary border-opacity-25 d-flex align-items-center gap-2 bg-gray-20 rounded-top-1">
             <span class="fw-bold small text-gray-90 flex-grow-1 text-truncate" id="notice-detail-title"></span>
             <button id="notice-toggle-read-btn" type="button"
-              class="btn btn-custom btn-custom-blue btn-custom-sm ms-auto flex-shrink-0"
+              class="btn btn-ex btn-ex-blue btn-ex-sm ms-auto flex-shrink-0"
               style="font-size:11px;padding:2px 8px;">
             </button>
           </div>
@@ -192,8 +192,8 @@
   function syncToggleBtn(isRead) {
     toggleReadBtn.textContent = isRead ? '未読にする' : '既読にする';
     toggleReadBtn.className = isRead
-      ? 'btn btn-custom btn-custom-gray btn-custom-sm ms-auto flex-shrink-0'
-      : 'btn btn-custom btn-custom-blue btn-custom-sm ms-auto flex-shrink-0';
+      ? 'btn btn-ex btn-ex-gray btn-ex-sm ms-auto flex-shrink-0'
+      : 'btn btn-ex btn-ex-blue btn-ex-sm ms-auto flex-shrink-0';
     toggleReadBtn.style.cssText = 'font-size:11px;padding:2px 8px;';
   }
 

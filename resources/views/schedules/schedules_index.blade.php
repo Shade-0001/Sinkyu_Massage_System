@@ -25,11 +25,11 @@
         <div class="d-flex justify-content-between align-items-center">
           <!-- 左：スクロールボタン -->
           <div class="d-flex align-items-stretch">
-            <button type="button" id="prev-btn" class="btn-custom btn-custom-sub btn-custom-blue" style="--btn-br-tl: 16px; --btn-br-tr: 0px; --btn-br-br: 0px; --btn-br-bl: 16px;">
+            <button type="button" id="prev-btn" class="btn-ex btn-ex-sub btn-ex-blue" style="--btn-br-tl: 16px; --btn-br-tr: 0px; --btn-br-br: 0px; --btn-br-bl: 16px;">
               <i class="nf nf-fa-angle_left" style="font-size: 18px;"></i>
             </button>
-            <button type="button" id="current-btn" class="btn-custom btn-custom-sub btn-custom-blue rounded-0 fw-semibold px-3">現在</button>
-            <button type="button" id="next-btn" class="btn-custom btn-custom-sub btn-custom-blue" style="--btn-br-tl: 0px; --btn-br-tr: 16px; --btn-br-br: 16px; --btn-br-bl: 0px;">
+            <button type="button" id="current-btn" class="btn-ex btn-ex-sub btn-ex-blue rounded-0 fw-semibold px-3">現在</button>
+            <button type="button" id="next-btn" class="btn-ex btn-ex-sub btn-ex-blue" style="--btn-br-tl: 0px; --btn-br-tr: 16px; --btn-br-br: 16px; --btn-br-bl: 0px;">
               <i class="nf nf-fa-angle_right" style="font-size: 18px;"></i>
             </button>
           </div>
@@ -42,9 +42,9 @@
           </div>
 
           <!-- 右：表示切り替えボタン -->
-          <div class="d-flex align-items-stretch" data-bs-toggle="btn-custom-group">
-            <button type="button" id="week-view-btn" class="btn-custom btn-custom-sub btn-custom-blue btn-custom-invert btn-custom-active fw-medium px-3" style="--btn-br-tl: 16px; --btn-br-tr: 0px; --btn-br-br: 0px; --btn-br-bl: 16px;">週表示</button>
-            <button type="button" id="month-view-btn" class="btn-custom btn-custom-sub btn-custom-blue btn-custom-invert fw-medium px-3" style="--btn-br-tl: 0px; --btn-br-tr: 16px; --btn-br-br: 16px; --btn-br-bl: 0px;">月表示</button>
+          <div class="d-flex align-items-stretch" data-bs-toggle="btn-ex-group">
+            <button type="button" id="week-view-btn" class="btn-ex btn-ex-sub btn-ex-blue btn-ex-invert btn-ex-active fw-medium px-3" style="--btn-br-tl: 16px; --btn-br-tr: 0px; --btn-br-br: 0px; --btn-br-bl: 16px;">週表示</button>
+            <button type="button" id="month-view-btn" class="btn-ex btn-ex-sub btn-ex-blue btn-ex-invert fw-medium px-3" style="--btn-br-tl: 0px; --btn-br-tr: 16px; --btn-br-br: 16px; --btn-br-bl: 0px;">月表示</button>
           </div>
         </div>
       </div>

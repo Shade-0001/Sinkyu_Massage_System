@@ -403,7 +403,7 @@ textarea:not(:disabled) {
 /*----------------------------------------------*/
 /*  プライマリカスタムボタン                      */
 /*----------------------------------------------*/
-.btn-custom {
+.btn-ex {
   /* デフォルト値 */
   --btn-bg-color-base: hsl(200, 8%, 50%);
   --btn-text-color-base: hsl(0, 0%, 95%);
@@ -467,13 +467,13 @@ textarea:not(:disabled) {
     /*右下*/ inset var(--btn-shadow-size-neg) var(--btn-shadow-size-neg) 1px
       var(--btn-shadow-color-dark-base);
 }
-.btn-custom:disabled {
+.btn-ex:disabled {
   opacity: 0.5;
   pointer-events: all;
   cursor: not-allowed;
 }
-.btn-custom::before,
-.btn-custom::after {
+.btn-ex::before,
+.btn-ex::after {
   transition: all 0.1s linear;
   opacity: 0;
   pointer-events: none;
@@ -483,20 +483,20 @@ textarea:not(:disabled) {
   border-radius: inherit;
   z-index: 2;
 }
-.btn-custom::before {
+.btn-ex::before {
   background: #fff;
 }
-.btn-custom::after {
+.btn-ex::after {
   background: #000;
 }
-.btn-custom:hover {
+.btn-ex:hover {
   --btn-text-color-base: hsl(0, 0%, 100%);
 }
-.btn-custom:hover::before {
+.btn-ex:hover::before {
   transition: opacity 0.05s linear;
   opacity: 0.15;
 }
-.btn-custom:active {
+.btn-ex:active {
   transition: all 0.05s;
   transform: scale(0.95, 0.95);
   --btn-text-color-base: hsl(0, 0%, 100%);
@@ -523,15 +523,15 @@ textarea:not(:disabled) {
     /*右下*/ inset var(--btn-shadow-size-half-neg)
       var(--btn-shadow-size-half-neg) 1px var(--btn-shadow-color-light-base);
 }
-.btn-custom:active::after {
+.btn-ex:active::after {
   transition: opacity 0.05s linear;
   opacity: 0.07;
 }
-.btn-custom.btn-hover-highlight-off:hover::before {
+.btn-ex.btn-hover-highlight-off:hover::before {
   transition: opacity 0.05s linear;
   opacity: 0;
 }
-.btn-custom.btn-hover-highlight-fadein:hover::before {
+.btn-ex.btn-hover-highlight-fadein:hover::before {
   transition: opacity 0.5s linear;
   opacity: 0.15;
 }
@@ -539,7 +539,7 @@ textarea:not(:disabled) {
 /*----------------------------------------------*/
 /*  サブカスタムボタン                            */
 /*----------------------------------------------*/
-.btn-custom-sub {
+.btn-ex-sub {
   --btn-br-tl-base: 5px;
   --btn-br-tr-base: 5px;
   --btn-br-bl-base: 5px;
@@ -613,7 +613,7 @@ textarea:not(:disabled) {
       calc(var(--btn-border-size) * 0.95) var(--btn-border-blur)
       var(--btn-border-color);
 }
-.btn-custom-sub:active {
+.btn-ex-sub:active {
   box-shadow:
     /*── ベベル ──────────*/
     /*左上*/
@@ -659,39 +659,39 @@ textarea:not(:disabled) {
 /*  カスタムボタン - モデファイアクラス            */
 /*----------------------------------------------*/
 /* カラー */
-.btn-custom-red {
+.btn-ex-red {
   --btn-bg-color-base: #e74c3c;
 }
-.btn-custom-orange {
+.btn-ex-orange {
   --btn-bg-color-base: #e67e22;
 }
-.btn-custom-yellow {
+.btn-ex-yellow {
   --btn-bg-color-base: #edbe00;
 }
-.btn-custom-lime {
+.btn-ex-lime {
   --btn-bg-color-base: #8fdc00;
 }
-.btn-custom-green {
+.btn-ex-green {
   --btn-bg-color-base: #1bad50;
 }
-.btn-custom-cyan {
+.btn-ex-cyan {
   --btn-bg-color-base: #00bcb3;
 }
-.btn-custom-blue {
+.btn-ex-blue {
   --btn-bg-color-base: #1f91ce;
 }
-.btn-custom-purple {
+.btn-ex-purple {
   --btn-bg-color-base: #b164e4;
 }
-.btn-custom-gray {
+.btn-ex-gray {
   --btn-bg-color-base: hsl(200, 8%, 50%);
 }
-.btn-custom-gray-light {
+.btn-ex-gray-light {
   --btn-bg-color-base: hsl(200, 8%, 60%);
 }
 
 /* サイズ */
-.btn-custom-xs {
+.btn-ex-xs {
   --btn-font-size: calc(var(--btn-font-size-base) * 0.7);
   --btn-font-weight: calc(var(--btn-font-weight-base) - 100);
   --btn-padding-y: calc(var(--btn-padding-y-base) * 0.5);
@@ -702,7 +702,7 @@ textarea:not(:disabled) {
   --btn-br-br: calc(var(--btn-br-br-base) * 0.7);
   --btn-shadow-size: calc(var(--btn-shadow-size-base) * 0.7);
 }
-.btn-custom-sm {
+.btn-ex-sm {
   --btn-font-size: calc(var(--btn-font-size-base) * 0.85);
   --btn-font-weight: calc(var(--btn-font-weight-base) - 100);
   --btn-padding-y: calc(var(--btn-padding-y-base) * 0.75);
@@ -713,7 +713,7 @@ textarea:not(:disabled) {
   --btn-br-br: calc(var(--btn-br-br-base) * 0.85);
   --btn-shadow-size: calc(var(--btn-shadow-size-base) * 0.85);
 }
-.btn-custom-lg {
+.btn-ex-lg {
   --btn-font-size: calc(var(--btn-font-size-base) * 1.15);
   --btn-font-weight: calc(var(--btn-font-weight-base) + 100);
   --btn-padding-y: calc(var(--btn-padding-y-base) * 1.25);
@@ -724,7 +724,7 @@ textarea:not(:disabled) {
   --btn-br-br: calc(var(--btn-br-br-base) * 1.15);
   --btn-shadow-size: calc(var(--btn-shadow-size-base) * 1.15);
 }
-.btn-custom-xl {
+.btn-ex-xl {
   --btn-font-size: calc(var(--btn-font-size-base) * 1.3);
   --btn-font-weight: calc(var(--btn-font-weight-base) + 100);
   --btn-padding-y: calc(var(--btn-padding-y-base) * 1.5);
@@ -740,54 +740,54 @@ textarea:not(:disabled) {
 /*  カスタムボタン - トグルアクティブ状態         */
 /*----------------------------------------------*/
 /*── Invert - カラー反転 ──────────*/
-.btn-custom-sub:hover,
-.btn-custom-invert.btn-custom-active {
+.btn-ex-sub:hover,
+.btn-ex-invert.btn-ex-active {
   -webkit-text-stroke: 0px rgba(255, 255, 255, 0);
 }
-.btn-custom-sub:hover::before,
-.btn-custom-invert.btn-custom-active::before {
+.btn-ex-sub:hover::before,
+.btn-ex-invert.btn-ex-active::before {
   opacity: 0;
 }
 /*── Color - カラー変更 ───────────*/
-.btn-custom-color-red.btn-custom-active {
+.btn-ex-color-red.btn-ex-active {
   --btn-primary-color: #e74c3c;
 }
-.btn-custom-color-orange.btn-custom-active {
+.btn-ex-color-orange.btn-ex-active {
   --btn-primary-color: #e67e22;
 }
-.btn-custom-color-yellow.btn-custom-active {
+.btn-ex-color-yellow.btn-ex-active {
   --btn-primary-color: #edbe00;
 }
-.btn-custom-color-lime.btn-custom-active {
+.btn-ex-color-lime.btn-ex-active {
   --btn-primary-color: #8fdc00;
 }
-.btn-custom-color-green.btn-custom-active {
+.btn-ex-color-green.btn-ex-active {
   --btn-primary-color: #1bad50;
 }
-.btn-custom-color-cyan.btn-custom-active {
+.btn-ex-color-cyan.btn-ex-active {
   --btn-primary-color: #00bcb3;
 }
-.btn-custom-color-blue.btn-custom-active {
+.btn-ex-color-blue.btn-ex-active {
   --btn-primary-color: #1f91ce;
 }
-.btn-custom-color-purple.btn-custom-active {
+.btn-ex-color-purple.btn-ex-active {
   --btn-primary-color: #b164e4;
 }
-.btn-custom-color-gray.btn-custom-active {
+.btn-ex-color-gray.btn-ex-active {
   --btn-primary-color: #75838a;
 }
 /*── Expand - ボーダー拡大 ────────*/
-.btn-custom-expand.btn-custom-active:not(.btn-custom-xs):not(.btn-custom-sm):not(
-    .btn-custom-lg
-  ):not(.btn-custom-xl),
-.btn-custom-expand.btn-custom-active.btn-custom-sm {
+.btn-ex-expand.btn-ex-active:not(.btn-ex-xs):not(.btn-ex-sm):not(
+    .btn-ex-lg
+  ):not(.btn-ex-xl),
+.btn-ex-expand.btn-ex-active.btn-ex-sm {
   --btn-border-size: calc(var(--btn-shadow-size) * 2.5);
 }
-.btn-custom-expand.btn-custom-active.btn-custom-xs {
+.btn-ex-expand.btn-ex-active.btn-ex-xs {
   --btn-border-size: calc(var(--btn-shadow-size) * 2);
 }
-.btn-custom-expand.btn-custom-active.btn-custom-lg,
-.btn-custom-expand.btn-custom-active.btn-custom-xl {
+.btn-ex-expand.btn-ex-active.btn-ex-lg,
+.btn-ex-expand.btn-ex-active.btn-ex-xl {
   --btn-border-size: calc(var(--btn-shadow-size) * 2.8);
 }
 
