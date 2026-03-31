@@ -10,12 +10,7 @@
 		@php
 			// ファビコン - 実績データ（Edit Square）
 			if (request()->is('records', 'records/*'))
-				$faviconIcon = ['symbol_multi' => [
-					// 紙の外形（アウトラインのみ）
-					['d' => 'M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h357L280-563v283h282l278-278v358q0 33-23.5 56.5T760-120H200Z', 'fill' => 'none', 'stroke' => 'white', 'stroke-width' => '60'],
-					// ペン部分（塗りつぶし）
-					['d' => 'M360-360v-170l367-367q12-12 27-18t30-6q16 0 30.5 6t26.5 18l56 57q11 12 17 26.5t6 29.5q0 15-5.5 29.5T897-728L530-360H360Z', 'fill' => 'white'],
-				]];
+				$faviconIcon = ['symbol_evenodd' => 'M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h357l-80 80H200v560h560v-278l80-80v358q0 33-23.5 56.5T760-120H200ZM360-360v-170l367-367q12-12 27-18t30-6q16 0 30.5 6t26.5 18l56 57q11 12 17 26.5t6 29.5q0 15-5.5 29.5T897-728L530-360H360Z'];
 
 			// ファビコン - 報告書データ（Description Fill）
 			elseif (request()->is('reports', 'reports/*'))
@@ -53,10 +48,9 @@
 			else
 				$faviconIcon = ['d' => 'M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'];
 
-			if (isset($faviconIcon['symbol_multi'])) {
-				$paths = implode('', array_map(fn($p) => '<path fill="' . ($p['fill'] ?? 'white') . '" stroke="' . ($p['stroke'] ?? 'none') . '" stroke-width="' . ($p['stroke-width'] ?? '0') . '" d="' . $p['d'] . '"/>', $faviconIcon['symbol_multi']));
-				$faviconSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">' . $paths . '</svg>';
-			} elseif (isset($faviconIcon['symbol']))
+			if (isset($faviconIcon['symbol_evenodd']))
+				$faviconSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path fill="white" fill-rule="evenodd" d="' . $faviconIcon['symbol_evenodd'] . '"/></svg>';
+			elseif (isset($faviconIcon['symbol']))
 				$faviconSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path fill="white" d="' . $faviconIcon['symbol'] . '"/></svg>';
 			else
 				$faviconSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="' . $faviconIcon['d'] . '"/></svg>';
