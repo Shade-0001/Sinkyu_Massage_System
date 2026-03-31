@@ -54,10 +54,10 @@
     <!-- スケジュール表 -->
     <div class="row">
       <div class="col-12">
-        <div id="schedule-container" class="rounded" style="overflow: overlay; position: relative; border: 2px solid #888;">
+        <div id="schedule-container" class="rounded bg-white" style="overflow-x: auto; overflow-y: auto; position: relative; border: 2px solid #888;">
           <!-- 週表示 -->
           <div id="week-view" style="display: block;">
-            <table class="table table-bordered mb-0 bg-white" id="week-schedule-table" style="--bs-border-color: #888;">
+            <table class="table table-bordered mb-0" id="week-schedule-table" style="--bs-border-color: #888;">
               <thead class="sticky-top" style="background-color: rgba(0, 0, 0, 0.01);">
                 <tr id="week-header-row" style="font-size: 0.8rem">
                   <!-- テーブルヘッダーがJavaScriptで生成される -->
@@ -71,7 +71,7 @@
 
           <!-- 月表示 -->
           <div id="month-view" style="display: none;">
-            <table class="table table-bordered mb-0 bg-white" id="month-schedule-table" style="table-layout: fixed; --bs-border-color: #888;">
+            <table class="table table-bordered mb-0" id="month-schedule-table" style="table-layout: fixed; --bs-border-color: #888;">
               <thead class="sticky-top" style="background-color: rgba(0, 0, 0, 0.01);">
                 <tr>
                   <th class="fw-bold" style="width: 50px;">週</th>
@@ -190,6 +190,7 @@
           z-index: 20;
           background-color: rgba(0, 0, 0, 0.01);
           background-clip: padding-box;
+          overflow: hidden;
         }
 
         #week-schedule-table thead th:first-child {
@@ -217,12 +218,14 @@
         }
 
         #schedule-container::-webkit-scrollbar-thumb {
-          background: rgba(0, 0, 0, 0.25);
+          background: rgba(0, 0, 0, 0.35);
           border-radius: 8px;
+          border: 2px solid transparent;
+          background-clip: padding-box;
         }
 
         #schedule-container {
-          scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
+          scrollbar-color: rgba(0, 0, 0, 0.35) transparent;
         }
       </style>
     @endpush
