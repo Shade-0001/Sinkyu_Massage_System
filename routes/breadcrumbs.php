@@ -9,7 +9,7 @@ use App\Support\Breadcrumbs;
 // ホーム
 function getIndexBreadcrumbs() {
   return [
-    ['url' => route('index'), 'label' => 'ホーム'],
+    ['url' => route('index'), 'label' => 'ホーム', 'icon' => 'nf nf-fa-home'],
   ];
 }
 
@@ -17,7 +17,7 @@ function getIndexBreadcrumbs() {
 function getMasterBreadcrumbs() {
   return [
     ...getIndexBreadcrumbs(),
-    ['url' => route('master.index'), 'label' => 'マスター登録'],
+    ['url' => route('master.index'), 'label' => 'マスター登録', 'icon' => 'nf nf-fa-gear'],
   ];
 }
 
@@ -64,7 +64,7 @@ function getClinicInfoBreadcrumbs() {
 function getSubMasterBreadcrumbs() {
   return [
     ...getIndexBreadcrumbs(),
-    ['url' => route('submaster.index'), 'label' => 'サブマスター登録'],
+    ['url' => route('submaster.index'), 'label' => 'サブマスター登録', 'icon' => 'nf nf-fa-gear'],
   ];
 }
 
@@ -104,7 +104,7 @@ function getDocumentAssociationBreadcrumbs() {
 function getRecordsBreadcrumbs() {
   return [
     ...getIndexBreadcrumbs(),
-    ['url' => route('records.index'), 'label' => '実績データ'],
+    ['url' => route('records.index'), 'label' => '実績データ', 'icon' => 'nf nf-fa-edit'],
   ];
 }
 
@@ -112,7 +112,7 @@ function getRecordsBreadcrumbs() {
 function getReportsBreadcrumbs() {
   return [
     ...getIndexBreadcrumbs(),
-    ['url' => route('reports.index'), 'label' => '報告書データ'],
+    ['url' => route('reports.index'), 'label' => '報告書データ', 'icon' => 'nf nf-md-file_document'],
   ];
 }
 
@@ -120,7 +120,7 @@ function getReportsBreadcrumbs() {
 function getSchedulesBreadcrumbs() {
   return [
     ...getIndexBreadcrumbs(),
-    ['url' => route('schedules.index'), 'label' => 'スケジュール'],
+    ['url' => route('schedules.index'), 'label' => 'スケジュール', 'icon' => 'nf nf-md-calendar_month_outline'],
   ];
 }
 
@@ -128,7 +128,7 @@ function getSchedulesBreadcrumbs() {
 function getDepositsBreadcrumbs() {
   return [
     ...getIndexBreadcrumbs(),
-    ['url' => route('deposits.index'), 'label' => '入金管理'],
+    ['url' => route('deposits.index'), 'label' => '入金管理', 'icon' => 'nf nf-fa-yen'],
   ];
 }
 //---------------------------------------------------------------//
@@ -148,7 +148,7 @@ Breadcrumbs::define('index', function() {
 function getAdminPanelBreadcrumbs() {
   return [
     ...getIndexBreadcrumbs(),
-    ['url' => route('admin-panel.index'), 'label' => '管理画面'],
+    ['url' => route('admin-panel.index'), 'label' => '管理画面', 'icon' => 'nf nf-fa-shield'],
   ];
 }
 
@@ -641,5 +641,29 @@ Breadcrumbs::define('master.self-fees.index', function() {
 // 標準文書の確認および関連付け
 Breadcrumbs::define('master.document-association.index', function() {
   return getDocumentAssociationBreadcrumbs();
+});
+
+// 印刷メニュー
+function getPrintsBreadcrumbs() {
+  return [
+    ...getIndexBreadcrumbs(),
+    ['url' => route('prints.index'), 'label' => '印刷メニュー', 'icon' => 'nf nf-md-printer'],
+  ];
+}
+
+Breadcrumbs::define('prints.index', function() {
+  return getPrintsBreadcrumbs();
+});
+
+// 要加療期間リスト
+function getTherapyPeriodsBreadcrumbs() {
+  return [
+    ...getIndexBreadcrumbs(),
+    ['url' => route('therapy-periods.index'), 'label' => '要加療期間リスト', 'icon' => 'nf nf-fa-list'],
+  ];
+}
+
+Breadcrumbs::define('therapy-periods.index', function() {
+  return getTherapyPeriodsBreadcrumbs();
 });
 //---------------------------------------------------------------//

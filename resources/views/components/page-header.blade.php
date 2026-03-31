@@ -11,11 +11,15 @@
       @foreach($breadcrumbs as $index => $breadcrumb)
         <li class="d-flex align-items-center gap-2">
           @if(isset($breadcrumb['url']))
-            <a href="{{ $breadcrumb['url'] }}" class="fw-medium text-decoration-none">
+            <a href="{{ $breadcrumb['url'] }}" class="fw-medium text-decoration-none d-flex align-items-center gap-1">
+              @if(isset($breadcrumb['icon']))<i class="{{ $breadcrumb['icon'] }}"></i>@endif
               {{ $breadcrumb['label'] }}
             </a>
           @else
-            <span class="text-muted">{{ $breadcrumb['label'] }}</span>
+            <span class="text-muted d-flex align-items-center gap-1">
+              @if(isset($breadcrumb['icon']))<i class="{{ $breadcrumb['icon'] }}"></i>@endif
+              {{ $breadcrumb['label'] }}
+            </span>
           @endif
 
           @if($index < count($breadcrumbs) - 1)
