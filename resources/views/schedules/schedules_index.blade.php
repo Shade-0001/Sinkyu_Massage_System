@@ -190,8 +190,9 @@
           z-index: 20;
           background-color: #fff;
           background-clip: padding-box;
-          overflow: hidden;
-          box-shadow: 1px 0 0 0 #888;
+          border-right: 1px solid #888 !important;
+          border-bottom: 1px solid #888 !important;
+          border-left: 1px solid #888 !important;
         }
 
         #week-schedule-table thead th:first-child {
