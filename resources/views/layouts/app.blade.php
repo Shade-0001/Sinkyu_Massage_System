@@ -25,7 +25,7 @@
 			$pathTags = implode('', array_map(fn($p) => isset($p['text'])
 				? '<text x="12" y="18" text-anchor="middle" font-size="18" font-weight="bold" fill="white" font-family="sans-serif">' . $p['text'] . '</text>'
 				: (isset($p['symbol'])
-					? '<g transform="scale(0.025) translate(0,-960)"><path fill="white" d="' . $p['symbol'] . '"/></g>'
+					? '<g transform="translate(0,24) scale(0.025) translate(0,960)"><path fill="white" d="' . $p['symbol'] . '"/></g>'
 					: '<path fill="white" d="' . $p['d'] . '"/>'),
 				$faviconPaths));
 			$faviconSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">' . $pathTags . '</svg>';
