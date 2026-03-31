@@ -622,7 +622,7 @@ function renderWeekRangeWithCells(startWeekIndex, endWeekIndex, displayStartWeek
 
         const td = document.createElement('td');
         td.className = 'position-relative';
-        td.style.cssText = `width: ${dayColumnWidth}px; min-width: ${dayColumnWidth}px; max-width: ${dayColumnWidth}px; padding: 0; vertical-align: top; overflow: visible; border-top: 1px solid #888; border-bottom: ${minute === 45 ? '2px solid #888' : '0'};`;
+        td.style.cssText = `width: ${dayColumnWidth}px; min-width: ${dayColumnWidth}px; max-width: ${dayColumnWidth}px; padding: 0; vertical-align: top; overflow: visible; border-top: ${minute === 0 ? 'none' : '1px solid #888'}; border-bottom: ${minute === 50 ? '2px solid #888' : '0'};`;
         td.dataset.date = formatDate(date);
         td.dataset.hour = hour;
         td.dataset.minute = minute;
@@ -702,8 +702,8 @@ function createTimeRow(hour, minute) {
   timeTd.style.width = '40px';
   timeTd.style.minWidth = '40px';
   timeTd.style.maxWidth = '40px';
-  timeTd.style.borderTop = '1px solid #888';
-  timeTd.style.borderBottom = minute === 45 ? '2px solid #888' : '0';
+  timeTd.style.borderTop = minute === 0 ? 'none' : '1px solid #888';
+  timeTd.style.borderBottom = minute === 50 ? '2px solid #888' : '0';
   timeTd.style.borderRight = '3px solid #888';
 
   if (minute === 0 || minute === 30) {
