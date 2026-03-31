@@ -217,12 +217,14 @@
         }
 
         #schedule-container::-webkit-scrollbar-thumb {
-          background: rgba(0, 0, 0, 0.3);
-          border-radius: 4px;
+          background: rgba(0, 0, 0, 0.35);
+          border-radius: 8px;
+          border: 2px solid transparent;
+          background-clip: padding-box;
         }
 
         #schedule-container {
-          scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+          scrollbar-color: rgba(0, 0, 0, 0.35) transparent;
         }
       </style>
     @endpush
