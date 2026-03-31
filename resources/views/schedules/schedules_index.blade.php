@@ -191,7 +191,6 @@
           background-color: #fff;
           background-clip: padding-box;
           overflow: hidden;
-          border: 1px solid #888;
           box-shadow: 1px 0 0 0 #888;
         }
 
