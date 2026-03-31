@@ -506,11 +506,12 @@ function renderWeekView(preserveScrollPosition = false, preservedScrollLeft = 0)
           // 現在週の開始位置 + 今日の曜日分のオフセット
           const currentDayPosition = (relativeWeekIndex * 7 + todayDayOfWeek) * dayColumnWidth;
 
-          // 画面中央付近に表示されるようにスクロール位置を計算
-          const containerWidth = container.clientWidth;
-          const targetScrollPosition = currentDayPosition - (containerWidth / 2) + (dayColumnWidth / 2);
+          // 日付エリア（時刻列を除いた部分）の幅で中央計算
+          const timeColumnWidth = 40;
+          const dayAreaWidth = container.clientWidth - timeColumnWidth;
+          const targetScrollPosition = currentDayPosition - (dayAreaWidth / 2) + (dayColumnWidth / 2);
 
-          // 列の境界に合わせて調整（最も近い列の左端にスナップ）
+          // 列の境界にスナップ（= 時刻列右端が日付列左端にぴったり合う位置）
           const scrollPosition = Math.round(targetScrollPosition / dayColumnWidth) * dayColumnWidth;
 
           container.scrollLeft = Math.max(0, scrollPosition);
