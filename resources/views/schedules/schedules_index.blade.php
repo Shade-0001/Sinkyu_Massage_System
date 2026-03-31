@@ -205,6 +205,15 @@
         #month-schedule-table th {
           border-color: #888;
         }
+
+        /* スクロールバー背景を透明に */
+        #schedule-container::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        #schedule-container {
+          scrollbar-color: auto transparent;
+        }
       </style>
     @endpush
     <script>
