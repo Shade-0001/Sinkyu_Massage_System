@@ -441,7 +441,7 @@ function renderWeekView(preserveScrollPosition = false, preservedScrollLeft = 0)
   // 各曜日セルの幅を計算
   const containerWidth = container ? container.offsetWidth : 1200;
   const timeColumnWidth = 40;
-  const scrollbarWidth = 20;
+  const scrollbarWidth = container ? container.offsetWidth - container.clientWidth : 20;
   const availableWidth = containerWidth - timeColumnWidth - scrollbarWidth;
   const dayColumnWidth = Math.floor(availableWidth / 7);
 
