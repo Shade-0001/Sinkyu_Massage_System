@@ -14,7 +14,7 @@
 
 			// ファビコン - 報告書データ（Description）
 			elseif (request()->is('reports', 'reports/*'))
-				$faviconIcon = ['symbol_evenodd' => 'M240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640ZM320-240h320v-80H320v80ZM320-400h320v-80H320v80Z'];
+				$faviconIcon = ['symbol_evenodd' => 'M240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640ZM320-240v80h320v-80H320ZM320-400v80h320v-80H320Z'];
 
 			// ファビコン - スケジュール（Calendar Month）
 			elseif (request()->is('schedules', 'schedules/*'))
