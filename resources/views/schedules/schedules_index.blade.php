@@ -188,14 +188,14 @@
           position: sticky;
           left: 0;
           z-index: 20;
-          background-color: rgba(0, 0, 0, 0.01);
+          background-color: #fff;
           background-clip: padding-box;
           overflow: hidden;
         }
 
         #week-schedule-table thead th:first-child {
           z-index: 21;
-          background-color: rgba(0, 0, 0, 0.01);
+          background-color: #fff;
           background-clip: padding-box;
         }
 
