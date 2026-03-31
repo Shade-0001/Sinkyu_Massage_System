@@ -698,17 +698,15 @@ function createTimeRow(hour, minute, isMainLine) {
 
   // 時刻セルのみ
   const timeTd = document.createElement('td');
-  timeTd.className = 'text-center';
+  timeTd.className = `text-center${isMainLine ? ' time-main-line' : ''}`;
   timeTd.style.width = '40px';
   timeTd.style.minWidth = '40px';
   timeTd.style.maxWidth = '40px';
-  timeTd.style.borderTopWidth = isMainLine ? '2px' : '1px';
 
   if (minute === 0 || minute === 30) {
     timeTd.textContent = `${hour}:${String(minute).padStart(2, '0')}`;
-    timeTd.className = 'text-center fw-semibold p-0';
+    timeTd.className = `text-center fw-semibold p-0${isMainLine ? ' time-main-line' : ''}`;
     timeTd.style.fontSize = '11px';
-    timeTd.style.borderTopWidth = isMainLine ? '2px' : '1px';
   }
 
   tr.appendChild(timeTd);

@@ -58,7 +58,7 @@
           <!-- 週表示 -->
           <div id="week-view" style="display: block;">
             <table class="table table-bordered mb-0" id="week-schedule-table" style="--bs-border-color: #888;">
-              <thead class="sticky-top" style="background-color: #fff;">
+              <thead class="sticky-top" style="background-color: rgba(0, 0, 0, 0.01);">
                 <tr id="week-header-row" style="font-size: 0.8rem">
                   <!-- テーブルヘッダーがJavaScriptで生成される -->
                 </tr>
@@ -72,7 +72,7 @@
           <!-- 月表示 -->
           <div id="month-view" style="display: none;">
             <table class="table table-bordered mb-0" id="month-schedule-table" style="table-layout: fixed; --bs-border-color: #888;">
-              <thead class="sticky-top" style="background-color: #fff;">
+              <thead class="sticky-top" style="background-color: rgba(0, 0, 0, 0.01);">
                 <tr>
                   <th class="fw-bold" style="width: 50px;">週</th>
                   <th class="fw-bold" style="color: #d44737;">日</th>
@@ -188,13 +188,13 @@
           position: sticky;
           left: 0;
           z-index: 20;
-          background-color: #fff;
+          background-color: rgba(0, 0, 0, 0.01);
           background-clip: padding-box;
         }
 
         #week-schedule-table thead th:first-child {
           z-index: 21;
-          background-color: #fff;
+          background-color: rgba(0, 0, 0, 0.01);
           background-clip: padding-box;
         }
 
@@ -204,6 +204,16 @@
         #month-schedule-table td,
         #month-schedule-table th {
           border-color: #888;
+        }
+
+        /* 時刻列tdにborderを明示（stickyなtdはtrのborderTopを継承しないため） */
+        #week-schedule-table tbody td:first-child {
+          border-top: 1px solid #888;
+          border-bottom: 1px solid #888;
+        }
+
+        #week-schedule-table tbody td:first-child.time-main-line {
+          border-top: 2px solid #888;
         }
 
         /* スクロールバー背景を透明に */
