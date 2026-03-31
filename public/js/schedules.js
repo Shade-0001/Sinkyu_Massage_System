@@ -534,7 +534,7 @@ function renderWeekView(preserveScrollPosition = false, preservedScrollLeft = 0)
 // ヘッダー行を生成
 function renderWeekHeaders(displayStartWeek, currentWeekStart, dayColumnWidth, startWeekIndex, endWeekIndex) {
   const headerRow = document.getElementById('week-header-row');
-  headerRow.innerHTML = `<th class="text-center align-middle p-0" style="width: 40px; min-width: 40px; max-width: 40px;">時刻</th>`;
+  headerRow.innerHTML = `<th class="text-center align-middle p-0" style="width: 40px; min-width: 40px; max-width: 40px; border-right: 3px solid #888; border-bottom: 3px solid #888;">時刻</th>`;
 
   const dayNames = ['日', '月', '火', '水', '木', '金', '土'];
 
@@ -551,6 +551,7 @@ function renderWeekHeaders(displayStartWeek, currentWeekStart, dayColumnWidth, s
       th.style.minWidth = `${dayColumnWidth}px`;
       th.style.maxWidth = `${dayColumnWidth}px`;
       th.className = 'text-center';
+      th.style.borderBottom = '3px solid #888';
 
       // 現在の週の場合は背景色を変更
       const isCurrentWeek = weekStart.getTime() === currentWeekStart.getTime();
@@ -703,7 +704,7 @@ function createTimeRow(hour, minute, isMainLine) {
   timeTd.style.minWidth = '40px';
   timeTd.style.maxWidth = '40px';
   timeTd.style.borderTop = isMainLine ? '2px solid #888' : '1px solid #888';
-  timeTd.style.borderRight = '2px solid #888';
+  timeTd.style.borderRight = '3px solid #888';
 
   if (minute === 0 || minute === 30) {
     timeTd.textContent = `${hour}:${String(minute).padStart(2, '0')}`;
