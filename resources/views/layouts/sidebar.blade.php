@@ -79,7 +79,7 @@
         </ul>
       </li>
       <li class="border-bottom border-2 border-secondary">
-        <a href="{{ route('prints.index') }}" class="sidebar-link text-gray-85 {{ $onPrints ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none"><i class="nf nf-md-printer_outline me-2"></i>印刷メニュー</a>
+        <a href="{{ route('prints.index') }}" class="sidebar-link text-gray-85 {{ $onPrints ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none"><i class="nf nf-md-printer me-2"></i>印刷メニュー</a>
       </li>
       <li class="border-bottom border-2 border-secondary">
         <a href="{{ route('therapy-periods.index') }}" class="sidebar-link text-gray-85 {{ $onTherapyPeriod ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none"><i class="nf nf-fa-list me-2"></i>要加療期間リスト</a>
