@@ -693,7 +693,6 @@ function renderWeekRangeWithCells(startWeekIndex, endWeekIndex, displayStartWeek
 function createTimeRow(hour, minute, isMainLine) {
   const tr = document.createElement('tr');
   tr.style.height = '20px';
-  tr.style.borderTop = isMainLine ? '2px solid #888' : '1px solid #888';
   tr.dataset.hour = hour;
   tr.dataset.minute = minute;
 
