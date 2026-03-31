@@ -38,7 +38,7 @@
   <nav>
     <ul class="list-unstyled">
       <li class="border-bottom border-2 border-secondary">
-        <a href="{{ route('index') }}" class="sidebar-link text-gray-90 {{ $onHome ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none"><i class="nf nf-fa-home me-2"></i>ホーム</a>
+        <a href="{{ route('index') }}" class="sidebar-link text-gray-90 {{ $onHome ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none"><i class="nf nf-oct-home me-2"></i>ホーム</a>
       </li>
       <li class="border-bottom border-2 border-secondary">
         <a href="{{ route('records.index') }}" class="sidebar-link text-gray-90 {{ $onRecords ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none"><i class="nf nf-fa-edit me-2"></i>実績データ</a>
