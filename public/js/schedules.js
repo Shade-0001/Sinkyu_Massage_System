@@ -555,14 +555,17 @@ function renderWeekHeaders(displayStartWeek, currentWeekStart, dayColumnWidth, s
       // 現在の週の場合は背景色を変更
       const isCurrentWeek = weekStart.getTime() === currentWeekStart.getTime();
       if (isCurrentWeek) {
-        th.style.backgroundColor = '#e3f2fd';
+        th.style.backgroundColor = 'rgba(69, 163, 214, 0.15)';
       }
+
+      // 曜日色（日曜・土曜）
+      const dayColor = i === 0 ? '#d44737' : i === 6 ? '#2d86c2' : '';
 
       // 週番号は各週の最初の日（日曜日）のみ表示
       if (i === 0) {
-        th.innerHTML = `<div class="fw-bold" style="font-size: 0.75rem.">第${weekNumber}週</div><div>（${dayNames[i]}）${date.getMonth() + 1}/${date.getDate()}</div>`;
+        th.innerHTML = `<div class="fw-bold" style="font-size: 0.75rem;">第${weekNumber}週</div><div style="${dayColor ? `color: ${dayColor};` : ''}">（${dayNames[i]}）${date.getMonth() + 1}/${date.getDate()}</div>`;
       } else {
-        th.innerHTML = `<div>（${dayNames[i]}）${date.getMonth() + 1}/${date.getDate()}</div>`;
+        th.innerHTML = `<div style="${dayColor ? `color: ${dayColor};` : ''}">（${dayNames[i]}）${date.getMonth() + 1}/${date.getDate()}</div>`;
       }
 
       headerRow.appendChild(th);
@@ -626,12 +629,12 @@ function renderWeekRangeWithCells(startWeekIndex, endWeekIndex, displayStartWeek
         // 休診日判定
         const isClosed = isClosedDay(date);
         if (isClosed) {
-          td.style.backgroundColor = '#e0e0e0';
+          td.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
           td.style.cursor = 'default';
         } else {
           td.style.cursor = 'pointer';
           if (isCurrentWeek) {
-            td.style.backgroundColor = '#f0f8ff';
+            td.style.backgroundColor = 'rgba(69, 163, 214, 0.08)';
           }
         }
 
@@ -689,7 +692,7 @@ function renderWeekRangeWithCells(startWeekIndex, endWeekIndex, displayStartWeek
 function createTimeRow(hour, minute, isMainLine) {
   const tr = document.createElement('tr');
   tr.style.height = '20px';
-  tr.style.borderTop = isMainLine ? '2px solid #ccc' : '1px solid #ccc';
+  tr.style.borderTop = isMainLine ? '2px solid #888' : '1px solid #888';
   tr.dataset.hour = hour;
   tr.dataset.minute = minute;
 
@@ -1138,20 +1141,22 @@ function renderMonthView() {
 
       const dateDiv = document.createElement('div');
       dateDiv.className = 'fw-bold';
-      dateDiv.style.cssText = 'font-size: 12px; margin-bottom: 2px;';
+      const dayOfWeek = currentCalendarDate.getDay();
+      const dayColor = dayOfWeek === 0 ? '#d44737' : dayOfWeek === 6 ? '#2d86c2' : '';
+      dateDiv.style.cssText = `font-size: 12px; margin-bottom: 2px;${dayColor ? ` color: ${dayColor};` : ''}`;
       dateDiv.textContent = currentCalendarDate.getDate();
 
       // 休診日判定
       const isClosed = isClosedDay(currentCalendarDate);
       if (isClosed) {
-        td.style.backgroundColor = '#e0e0e0';
+        td.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
         td.style.cursor = 'default';
       } else {
         td.style.cursor = 'pointer';
         if (currentCalendarDate.getMonth() !== month) {
           // 当月以外はグレー表示
-          td.style.backgroundColor = '#f0f0f0';
-          dateDiv.style.color = '#999';
+          td.style.backgroundColor = 'rgba(0, 0, 0, 0.15)';
+          dateDiv.style.color = 'rgba(0, 0, 0, 0.3)';
         }
       }
 

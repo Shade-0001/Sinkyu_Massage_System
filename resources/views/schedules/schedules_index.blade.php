@@ -54,11 +54,11 @@
     <!-- スケジュール表 -->
     <div class="row">
       <div class="col-12">
-        <div id="schedule-container" class="border rounded bg-white" style="overflow-x: auto; overflow-y: auto; position: relative;">
+        <div id="schedule-container" class="rounded bg-white" style="overflow-x: auto; overflow-y: auto; position: relative; border: 2px solid #888;">
           <!-- 週表示 -->
           <div id="week-view" style="display: block;">
-            <table class="table table-bordered mb-0" id="week-schedule-table">
-              <thead class="table-light sticky-top">
+            <table class="table table-bordered mb-0" id="week-schedule-table" style="--bs-border-color: #888;">
+              <thead class="sticky-top" style="background-color: rgba(0, 0, 0, 0.01);">
                 <tr id="week-header-row" style="font-size: 0.8rem">
                   <!-- テーブルヘッダーがJavaScriptで生成される -->
                 </tr>
@@ -71,17 +71,17 @@
 
           <!-- 月表示 -->
           <div id="month-view" style="display: none;">
-            <table class="table table-bordered mb-0" id="month-schedule-table" style="table-layout: fixed;">
-              <thead class="table-light sticky-top">
+            <table class="table table-bordered mb-0" id="month-schedule-table" style="table-layout: fixed; --bs-border-color: #888;">
+              <thead class="sticky-top" style="background-color: rgba(0, 0, 0, 0.01);">
                 <tr>
-                  <th style="width: 50px;">週</th>
-                  <th>日</th>
-                  <th>月</th>
-                  <th>火</th>
-                  <th>水</th>
-                  <th>木</th>
-                  <th>金</th>
-                  <th>土</th>
+                  <th class="fw-bold" style="width: 50px;">週</th>
+                  <th class="fw-bold" style="color: #d44737;">日</th>
+                  <th class="fw-bold">月</th>
+                  <th class="fw-bold">火</th>
+                  <th class="fw-bold">水</th>
+                  <th class="fw-bold">木</th>
+                  <th class="fw-bold">金</th>
+                  <th class="fw-bold" style="color: #2d86c2;">土</th>
                 </tr>
               </thead>
               <tbody id="month-schedule-body">
@@ -188,14 +188,22 @@
           position: sticky;
           left: 0;
           z-index: 20;
-          background-color: #f8f9fa;
+          background-color: rgba(0, 0, 0, 0.01);
           background-clip: padding-box;
         }
 
         #week-schedule-table thead th:first-child {
           z-index: 21;
-          background-color: #f8f9fa;
+          background-color: rgba(0, 0, 0, 0.01);
           background-clip: padding-box;
+        }
+
+        /* 週表示・月表示テーブルの枠線色 */
+        #week-schedule-table td,
+        #week-schedule-table th,
+        #month-schedule-table td,
+        #month-schedule-table th {
+          border-color: #888;
         }
       </style>
     @endpush
