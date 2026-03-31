@@ -11,7 +11,7 @@
 			// URLパターンからfaviconアイコン（SVGパス複数対応）を決定
 			// 各要素は ['d' => 'パス文字列'] の配列
 			$faviconPaths = match(true) {
-				request()->is('records', 'records/*')                 => [['d' => 'M3 10h11v2H3zm0-4h11v2H3zm0 8h7v2H3zm13-1l-4 4v2h2l4-4zM3 20v2h2l5.5-5.5-2-2zm16.7-9.3a1 1 0 0 0-1.4 0l-1 1 2 2 1-1a1 1 0 0 0 0-1.4z']],                                                                                                                                                                                  // 紙とペン（実績）
+				request()->is('records', 'records/*')                 => [['symbol' => 'M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h357l-80 80H200v560h560v-278l80-80v358q0 33-23.5 56.5T760-120H200Zm280-360ZM360-360v-170l367-367q12-12 27-18t30-6q16 0 30.5 6t26.5 18l56 57q11 12 17 26.5t6 29.5q0 15-5.5 29.5T897-728L530-360H360Zm481-424-56-56 56 56ZM440-440h56l232-232-28-28-29-28-231 231v57Zm260-260-29-28 29 28 28 28-28-28Z']], // edit_square（実績）
 				request()->is('reports', 'reports/*')                 => [['d' => 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zm-1 1v5h5zM8 13h8v1.5H8zm0 3h8v1.5H8zm0-6h5v1.5H8z']],                                                                                                                                                                                                                        // ファイル（報告書）
 				request()->is('schedules', 'schedules/*')             => [['d' => 'M19 3h-1V1h-2v2H8V1H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 16H5V9h14zm0-12H5V5h14zM7 11h5v5H7z']],                                                                                                                                                                                                    // カレンダー（スケジュール）
 				request()->is('master', 'master/*')                   => [['d' => 'M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.1-1.64a.5.5 0 0 0 .12-.64l-2-3.46a.5.5 0 0 0-.61-.22l-2.49 1a7.4 7.4 0 0 0-1.68-.98l-.38-2.65A.49.49 0 0 0 14 2h-4a.49.49 0 0 0-.49.42l-.38 2.65c-.61.25-1.17.59-1.68.98l-2.49-1a.49.49 0 0 0-.61.22l-2 3.46a.48.48 0 0 0 .12.64l2.1 1.64c-.04.32-.07.65-.07.99s.03.66.07.98l-2.1 1.64a.49.49 0 0 0-.12.64l2 3.46c.12.22.37.3.61.22l2.49-1c.51.39 1.07.73 1.68.98l.38 2.65c.07.38.39.65.49.65h4c.27 0 .49-.2.49-.42l.38-2.65c.61-.25 1.17-.59 1.68-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46a.49.49 0 0 0-.12-.64zM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z']], // 歯車（マスター）
@@ -24,7 +24,9 @@
 			};
 			$pathTags = implode('', array_map(fn($p) => isset($p['text'])
 				? '<text x="12" y="18" text-anchor="middle" font-size="18" font-weight="bold" fill="white" font-family="sans-serif">' . $p['text'] . '</text>'
-				: '<path fill="white" d="' . $p['d'] . '"/>',
+				: (isset($p['symbol'])
+					? '<g transform="scale(0.025) translate(0,-960)"><path fill="white" d="' . $p['symbol'] . '"/></g>'
+					: '<path fill="white" d="' . $p['d'] . '"/>'),
 				$faviconPaths));
 			$faviconSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">' . $pathTags . '</svg>';
 			$faviconDataUri = 'data:image/svg+xml,' . rawurlencode($faviconSvg);
