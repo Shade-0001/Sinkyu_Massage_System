@@ -71,10 +71,10 @@
 
           <!-- 月表示 -->
           <div id="month-view" style="display: none;">
-            <table class="table table-bordered mb-0" id="month-schedule-table" style="table-layout: fixed; --bs-border-color: #888;">
+            <table class="table table-bordered mb-0" id="month-schedule-table" style="table-layout: fixed; --bs-border-color: #888; border-collapse: separate; border-spacing: 0;">
               <thead class="sticky-top" style="background-color: #fff;">
                 <tr>
-                  <th class="fw-bold" style="width: 50px;">週</th>
+                  <th class="fw-bold" style="width: 50px; border-right: 2px solid #888;">週</th>
                   <th class="fw-bold" style="color: #d44737;">日</th>
                   <th class="fw-bold">月</th>
                   <th class="fw-bold">火</th>
@@ -204,6 +204,11 @@
         #month-schedule-table td,
         #month-schedule-table th {
           border-color: #888;
+        }
+
+        /* 月表示テーブルのヘッダー */
+        #month-schedule-table thead th {
+          border-bottom: 3px solid #888;
         }
       </style>
     @endpush

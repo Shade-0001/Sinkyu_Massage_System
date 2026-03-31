@@ -47,7 +47,7 @@
 
       <div class="d-flex gap-3 align-items-start">
         <!-- カレンダー -->
-        <div class="text-center position-relative flex-shrink-0 user-select-none" style="width: 280px;">
+        <div class="text-center position-relative flex-shrink-0 user-select-none" style="width: 300px;">
           <!-- カレンダーヘッダー -->
           <div class="d-flex align-items-stretch justify-content-center mb-3">
             <button type="button" id="prev-month-btn" class="btn-ex btn-ex-sub btn-ex-blue" style="--btn-br-tl: 16px; --btn-br-tr: 0px; --btn-br-br: 0px; --btn-br-bl: 16px;">

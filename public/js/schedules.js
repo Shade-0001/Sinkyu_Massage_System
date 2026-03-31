@@ -3,7 +3,6 @@
 // グローバル変数
 let currentDate = new Date();
 let viewMode = 'week'; // 'week' or 'month'
-let isAutoScrolling = false; // 自動スクロール中フラグ（scrollイベント抑制用）
 let scheduleData = [];
 let selectedRecordId = null;
 let newEventDate = null;
@@ -108,7 +107,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let scrollTimeout;
     container.addEventListener('scroll', function() {
       if (viewMode !== 'week') return;
-      if (isAutoScrolling) return;
 
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
@@ -443,7 +441,7 @@ function renderWeekView(preserveScrollPosition = false, preservedScrollLeft = 0)
   // 各曜日セルの幅を計算
   const containerWidth = container ? container.offsetWidth : 1200;
   const timeColumnWidth = 40;
-  const scrollbarWidth = container ? container.offsetWidth - container.clientWidth : 20;
+  const scrollbarWidth = 20;
   const availableWidth = containerWidth - timeColumnWidth - scrollbarWidth;
   const dayColumnWidth = Math.floor(availableWidth / 7);
 
@@ -807,16 +805,7 @@ function scrollToCurrentTime() {
     // 行が中央に来るようにスクロール位置を計算
     const scrollPosition = rowTop - (containerHeight / 2) + (rowHeight / 2);
 
-    // scrollLeftが大きい状態ではscrollTopが効かないため、一旦0にしてから両方セット
-    // その間のscrollイベントはフラグで抑制
-    isAutoScrolling = true;
-    const savedScrollLeft = container.scrollLeft;
-    container.scrollLeft = 0;
     container.scrollTop = Math.max(0, scrollPosition);
-    container.scrollLeft = savedScrollLeft;
-    requestAnimationFrame(() => {
-      isAutoScrolling = false;
-    });
   }
 }
 
