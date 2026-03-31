@@ -702,11 +702,13 @@ function createTimeRow(hour, minute, isMainLine) {
   timeTd.style.width = '40px';
   timeTd.style.minWidth = '40px';
   timeTd.style.maxWidth = '40px';
+  timeTd.style.borderTop = isMainLine ? '2px solid #888' : '1px solid #888';
 
   if (minute === 0 || minute === 30) {
     timeTd.textContent = `${hour}:${String(minute).padStart(2, '0')}`;
     timeTd.className = 'text-center fw-semibold p-0';
     timeTd.style.fontSize = '11px';
+    timeTd.style.borderTop = isMainLine ? '2px solid #888' : '1px solid #888';
   }
 
   tr.appendChild(timeTd);
