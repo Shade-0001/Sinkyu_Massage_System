@@ -54,7 +54,7 @@
     <!-- スケジュール表 -->
     <div class="row">
       <div class="col-12">
-        <div id="schedule-container" class="rounded bg-white" style="overflow-x: auto; overflow-y: auto; position: relative; border: 2px solid #888;">
+        <div id="schedule-container" class="rounded bg-white" style="overflow-x: auto; overflow-y: auto; position: relative; border: 4px solid #888;">
           <!-- 週表示 -->
           <div id="week-view" style="display: block;">
             <table class="table table-bordered mb-0" id="week-schedule-table" style="--bs-border-color: #888; border-collapse: separate; border-spacing: 0;">
@@ -204,28 +204,6 @@
         #month-schedule-table td,
         #month-schedule-table th {
           border-color: #888;
-        }
-
-
-        /* スクロールバー背景を透明に */
-        #schedule-container::-webkit-scrollbar {
-          width: 8px;
-          height: 8px;
-        }
-
-        #schedule-container::-webkit-scrollbar-track {
-          background: transparent;
-        }
-
-        #schedule-container::-webkit-scrollbar-thumb {
-          background: rgba(0, 0, 0, 0.35);
-          border-radius: 8px;
-          border: 2px solid transparent;
-          background-clip: padding-box;
-        }
-
-        #schedule-container {
-          scrollbar-color: rgba(0, 0, 0, 0.35) transparent;
         }
       </style>
     @endpush
