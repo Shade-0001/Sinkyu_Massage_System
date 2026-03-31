@@ -703,6 +703,7 @@ function createTimeRow(hour, minute, isMainLine) {
   timeTd.style.minWidth = '40px';
   timeTd.style.maxWidth = '40px';
   timeTd.style.borderTop = isMainLine ? '2px solid #888' : '1px solid #888';
+  timeTd.style.borderRight = '2px solid #888';
 
   if (minute === 0 || minute === 30) {
     timeTd.textContent = `${hour}:${String(minute).padStart(2, '0')}`;
