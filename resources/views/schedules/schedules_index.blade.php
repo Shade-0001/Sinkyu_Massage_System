@@ -206,15 +206,6 @@
           border-color: #888;
         }
 
-        /* 時刻列tdにborderを明示（stickyなtdはtrのborderTopを継承しないため） */
-        #week-schedule-table tbody td:first-child {
-          border-top: 1px solid #888;
-          border-bottom: 1px solid #888;
-        }
-
-        #week-schedule-table tbody td:first-child.time-main-line {
-          border-top: 2px solid #888;
-        }
 
         /* スクロールバー背景を透明に */
         #schedule-container::-webkit-scrollbar {
