@@ -12,9 +12,9 @@
 			if (request()->is('records', 'records/*'))
 				$faviconIcon = ['symbol' => 'M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h357l-80 80H200v560h560v-278l80-80v358q0 33-23.5 56.5T760-120H200Zm280-360ZM360-360v-170l367-367q12-12 27-18t30-6q16 0 30.5 6t26.5 18l56 57q11 12 17 26.5t6 29.5q0 15-5.5 29.5T897-728L530-360H360Zm481-424-56-56 56 56ZM440-440h56l232-232-28-28-29-28-231 231v57Zm260-260-29-28 29 28 28 28-28-28Z'];
 
-			// ファビコン - 報告書データ（Description）
+			// ファビコン - 報告書データ（Description Fill）
 			elseif (request()->is('reports', 'reports/*'))
-				$faviconIcon = ['symbol_evenodd' => 'M240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640ZM320-240v80h320v-80H320ZM320-400v80h320v-80H320Z'];
+				$faviconIcon = ['symbol' => 'M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520h200L520-800v200Z'];
 
 			// ファビコン - スケジュール（Calendar Month）
 			elseif (request()->is('schedules', 'schedules/*'))
@@ -50,8 +50,6 @@
 
 			if (isset($faviconIcon['symbol']))
 				$faviconSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path fill="white" d="' . $faviconIcon['symbol'] . '"/></svg>';
-			elseif (isset($faviconIcon['symbol_evenodd']))
-				$faviconSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path fill="white" fill-rule="evenodd" d="' . $faviconIcon['symbol_evenodd'] . '"/></svg>';
 			else
 				$faviconSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="' . $faviconIcon['d'] . '"/></svg>';
 
