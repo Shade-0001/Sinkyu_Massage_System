@@ -191,6 +191,8 @@
           background-color: #fff;
           background-clip: padding-box;
           overflow: hidden;
+          border-right: 1px solid #888;
+          box-shadow: 1px 0 0 0 #888;
         }
 
         #week-schedule-table thead th:first-child {
