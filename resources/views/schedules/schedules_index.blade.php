@@ -207,12 +207,22 @@
         }
 
         /* スクロールバー背景を透明に */
+        #schedule-container::-webkit-scrollbar {
+          width: 8px;
+          height: 8px;
+        }
+
         #schedule-container::-webkit-scrollbar-track {
           background: transparent;
         }
 
+        #schedule-container::-webkit-scrollbar-thumb {
+          background: rgba(0, 0, 0, 0.3);
+          border-radius: 4px;
+        }
+
         #schedule-container {
-          scrollbar-color: auto transparent;
+          scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
         }
       </style>
     @endpush
