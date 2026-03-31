@@ -10,7 +10,7 @@
 
   <div class="vr opacity-50 my-1"></div>
 
-  <a href="{{route('index')}}" class="text-decoration-none text-gray-90 py-1 px-2 rounded-1 hover-highlight-30 highlight-target-text-white"><i class="nf nf-fa-home me-1"></i>ホーム</a>
+  <a href="{{route('index')}}" class="text-decoration-none text-gray-90 py-1 px-2 rounded-1 hover-highlight-30 highlight-target-text-white"><i class="nf nf-fa-home me-1" style="vertical-align:middle;"></i>ホーム</a>
 
   <div class="vr opacity-50 my-1"></div>
 
