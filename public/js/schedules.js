@@ -585,12 +585,12 @@ function renderWeekRangeWithCells(startWeekIndex, endWeekIndex, displayStartWeek
       const [hour] = timeSlot.split(':').map(Number);
 
       // 1時間おきの主線 (00分)
-      const tr = createTimeRow(hour, 0, true);
+      const tr = createTimeRow(hour, 0);
       tbody.appendChild(tr);
 
       // 10分おきの破線
       for (let min = 10; min < 60; min += 10) {
-        const subTr = createTimeRow(hour, min, false);
+        const subTr = createTimeRow(hour, min);
         tbody.appendChild(subTr);
       }
     });
@@ -622,8 +622,7 @@ function renderWeekRangeWithCells(startWeekIndex, endWeekIndex, displayStartWeek
 
         const td = document.createElement('td');
         td.className = 'position-relative';
-        const borderTop = minute === 0 ? '2px solid #888' : '1px solid #888';
-        td.style.cssText = `width: ${dayColumnWidth}px; min-width: ${dayColumnWidth}px; max-width: ${dayColumnWidth}px; padding: 0; vertical-align: top; overflow: visible; border-top: ${borderTop};`;
+        td.style.cssText = `width: ${dayColumnWidth}px; min-width: ${dayColumnWidth}px; max-width: ${dayColumnWidth}px; padding: 0; vertical-align: top; overflow: visible; border-top: 1px solid #888; border-bottom: ${minute === 45 ? '2px solid #888' : '0'};`;
         td.dataset.date = formatDate(date);
         td.dataset.hour = hour;
         td.dataset.minute = minute;
@@ -691,7 +690,7 @@ function renderWeekRangeWithCells(startWeekIndex, endWeekIndex, displayStartWeek
 }
 
 // 時間行を作成（セルなし）
-function createTimeRow(hour, minute, isMainLine) {
+function createTimeRow(hour, minute) {
   const tr = document.createElement('tr');
   tr.style.height = '20px';
   tr.dataset.hour = hour;
@@ -703,7 +702,8 @@ function createTimeRow(hour, minute, isMainLine) {
   timeTd.style.width = '40px';
   timeTd.style.minWidth = '40px';
   timeTd.style.maxWidth = '40px';
-  timeTd.style.borderTop = isMainLine ? '2px solid #888' : '1px solid #888';
+  timeTd.style.borderTop = '1px solid #888';
+  timeTd.style.borderBottom = minute === 45 ? '2px solid #888' : '0';
   timeTd.style.borderRight = '3px solid #888';
 
   if (minute === 0 || minute === 30) {
@@ -1135,13 +1135,14 @@ function renderMonthView() {
     weekTd.textContent = getWeekNumber(currentCalendarDate);
     weekTd.className = 'text-center fw-bold';
     weekTd.style.borderRight = '3px solid #888';
+    weekTd.style.borderBottom = '2px solid #888';
     tr.appendChild(weekTd);
 
     // 日〜土のセル
     for (let i = 0; i < 7; i++) {
       const td = document.createElement('td');
       td.className = 'position-relative';
-      td.style.cssText = 'height: 100px; min-height: 100px; max-height: 100px; vertical-align: top; padding: 2px; overflow: hidden; border: 1px solid #888;';
+      td.style.cssText = 'height: 100px; min-height: 100px; max-height: 100px; vertical-align: top; padding: 2px; overflow: hidden; border-bottom: 2px solid #888;';
 
       const dateDiv = document.createElement('div');
       dateDiv.className = 'fw-bold';
