@@ -805,12 +805,11 @@ function scrollToCurrentTime() {
     // 行が中央に来るようにスクロール位置を計算
     const scrollPosition = rowTop - (containerHeight / 2) + (rowHeight / 2);
 
-    // scrollTop設定時にブラウザがscrollLeftを自動調整することがあるため保存・復元
+    // scrollLeftが大きい状態ではscrollTopが効かないため、一旦0にしてから両方セット
     const savedScrollLeft = container.scrollLeft;
+    container.scrollLeft = 0;
     container.scrollTop = Math.max(0, scrollPosition);
-    requestAnimationFrame(() => {
-      container.scrollLeft = savedScrollLeft;
-    });
+    container.scrollLeft = savedScrollLeft;
   }
 }
 
