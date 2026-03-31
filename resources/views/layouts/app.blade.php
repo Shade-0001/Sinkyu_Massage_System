@@ -14,7 +14,7 @@
 
 			// ファビコン - 報告書データ（Description）
 			elseif (request()->is('reports', 'reports/*'))
-				$faviconIcon = ['symbol' => 'M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z'];
+				$faviconIcon = ['symbol_evenodd' => 'M240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640ZM320-240h320v-80H320v80ZM320-400h320v-80H320v80Z'];
 
 			// ファビコン - スケジュール（Calendar Month）
 			elseif (request()->is('schedules', 'schedules/*'))
@@ -50,6 +50,8 @@
 
 			if (isset($faviconIcon['symbol']))
 				$faviconSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path fill="white" d="' . $faviconIcon['symbol'] . '"/></svg>';
+			elseif (isset($faviconIcon['symbol_evenodd']))
+				$faviconSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path fill="white" fill-rule="evenodd" d="' . $faviconIcon['symbol_evenodd'] . '"/></svg>';
 			else
 				$faviconSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="' . $faviconIcon['d'] . '"/></svg>';
 
