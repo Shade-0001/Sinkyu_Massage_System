@@ -44,14 +44,14 @@
         <a href="{{ route('records.index') }}" class="sidebar-link text-gray-90 {{ $onRecords ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none"><i class="nf nf-fa-edit me-2"></i>実績データ</a>
       </li>
       <li class="border-bottom border-2 border-secondary">
-        <a href="{{ route('reports.index') }}" class="sidebar-link text-gray-90 {{ $onReports ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none"><i class="nf nf-fa-file_text_o me-2"></i>報告書データ</a>
+        <a href="{{ route('reports.index') }}" class="sidebar-link text-gray-90 {{ $onReports ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none"><i class="nf nf-md-file_document me-2"></i>報告書データ</a>
       </li>
       <li class="border-bottom border-2 border-secondary">
         <a href="{{ route('schedules.index') }}" class="sidebar-link text-gray-90 {{ $onSchedules ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none"><i class="nf nf-md-calendar_month_outline me-2"></i>スケジュール</a>
       </li>
       <li class="border-bottom border-1 border-secondary">
         <div class="sidebar-link text-gray-90 {{ $onMaster ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 sidebar-submenu-toggle fw-medium user-select-none d-flex justify-content-between align-items-center text-nowrap" data-target="master-submenu">
-          <span><i class="nf nf-oct-gear me-2"></i>マスター登録</span>
+          <span><i class="nf nf-fa-gear me-2"></i>マスター登録</span>
           <span class="submenu-arrow"><i class="nf nf-md-chevron_down"></i></span>
         </div>
         <ul id="master-submenu" class="submenu bg-gray-20 list-unstyled overflow-hidden border-top border-1 border-secondary">
@@ -68,7 +68,7 @@
       </li>
       <li class="border-bottom border-1 border-secondary">
         <div class="sidebar-link text-gray-85 {{ $onSubmaster ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 sidebar-submenu-toggle fw-medium user-select-none d-flex justify-content-between align-items-center text-nowrap" data-target="submaster-submenu">
-          <span><i class="nf nf-oct-gear me-2"></i>サブマスター登録</span>
+          <span><i class="nf nf-fa-gear me-2"></i>サブマスター登録</span>
           <span class="submenu-arrow"><i class="nf nf-md-chevron_down"></i></span>
         </div>
         <ul id="submaster-submenu" class="submenu bg-gray-20 list-unstyled overflow-hidden border-top border-1 border-secondary">
