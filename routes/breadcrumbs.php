@@ -104,7 +104,7 @@ function getDocumentAssociationBreadcrumbs() {
 function getRecordsBreadcrumbs() {
   return [
     ...getIndexBreadcrumbs(),
-    ['url' => route('records.index'), 'label' => '実績データ', 'icon' => 'nf nf-fa-edit'],
+    ['url' => route('records.index'), 'label' => '実績データ', 'icon' => 'nf nf-md-square_edit_outline'],
   ];
 }
 
