@@ -531,7 +531,7 @@ function renderWeekView(preserveScrollPosition = false, preservedScrollLeft = 0)
   });
 }
 
-// ヘッダー行を生成
+// 週表示ヘッダー行生成
 function renderWeekHeaders(displayStartWeek, currentWeekStart, dayColumnWidth, startWeekIndex, endWeekIndex) {
   const headerRow = document.getElementById('week-header-row');
   headerRow.innerHTML = `<th class="text-center align-middle p-0" style="width: 40px; min-width: 40px; max-width: 40px; border-right: 3px solid #888; border-bottom: 3px solid #888;">時刻</th>`;
@@ -1134,6 +1134,7 @@ function renderMonthView() {
     const weekTd = document.createElement('td');
     weekTd.textContent = getWeekNumber(currentCalendarDate);
     weekTd.className = 'text-center fw-bold';
+    weekTd.style.borderRight = '3px solid #888';
     tr.appendChild(weekTd);
 
     // 日〜土のセル
