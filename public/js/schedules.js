@@ -808,7 +808,9 @@ function scrollToCurrentTime() {
     // scrollTop設定時にブラウザがscrollLeftを自動調整することがあるため保存・復元
     const savedScrollLeft = container.scrollLeft;
     container.scrollTop = Math.max(0, scrollPosition);
-    container.scrollLeft = savedScrollLeft;
+    requestAnimationFrame(() => {
+      container.scrollLeft = savedScrollLeft;
+    });
   }
 }
 
