@@ -22,13 +22,17 @@
 				request()->is('admin-panel', 'admin-panel/*')         => [['d' => 'M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5zm0 4a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm0 14c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08s5.97 1.09 6 3.08A7.24 7.24 0 0 1 12 19z']],                                                                                                                                              // シールド（管理）
 				default                                               => [['d' => 'M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z']],                                                                                                                                                                                                                                                                                                     // ホーム（デフォルト）
 			};
-			$pathTags = implode('', array_map(fn($p) => isset($p['text'])
-				? '<text x="12" y="18" text-anchor="middle" font-size="18" font-weight="bold" fill="white" font-family="sans-serif">' . $p['text'] . '</text>'
-				: (isset($p['symbol'])
-					? '<g transform="translate(0,24) scale(0.025) translate(0,960)"><path fill="white" d="' . $p['symbol'] . '"/></g>'
-					: '<path fill="white" d="' . $p['d'] . '"/>'),
-				$faviconPaths));
-			$faviconSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">' . $pathTags . '</svg>';
+			// symbolキーがある場合はviewBoxを専用座標系に変更したSVGを直接生成
+			$hasSymbol = isset($faviconPaths[0]['symbol']);
+			if ($hasSymbol) {
+				$faviconSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path fill="white" d="' . $faviconPaths[0]['symbol'] . '"/></svg>';
+			} else {
+				$pathTags = implode('', array_map(fn($p) => isset($p['text'])
+					? '<text x="12" y="18" text-anchor="middle" font-size="18" font-weight="bold" fill="white" font-family="sans-serif">' . $p['text'] . '</text>'
+					: '<path fill="white" d="' . $p['d'] . '"/>',
+					$faviconPaths));
+				$faviconSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">' . $pathTags . '</svg>';
+			}
 			$faviconDataUri = 'data:image/svg+xml,' . rawurlencode($faviconSvg);
 		@endphp
 		<link rel="icon" type="image/svg+xml" href="{{ $faviconDataUri }}">
