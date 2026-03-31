@@ -57,7 +57,7 @@
         <div id="schedule-container" class="rounded bg-white" style="overflow-x: auto; overflow-y: auto; position: relative; border: 2px solid #888;">
           <!-- 週表示 -->
           <div id="week-view" style="display: block;">
-            <table class="table table-bordered mb-0" id="week-schedule-table" style="--bs-border-color: #888;">
+            <table class="table table-bordered mb-0" id="week-schedule-table" style="--bs-border-color: #888; border-collapse: separate; border-spacing: 0;">
               <thead class="sticky-top" style="background-color: #fff;">
                 <tr id="week-header-row" style="font-size: 0.8rem">
                   <!-- テーブルヘッダーがJavaScriptで生成される -->
