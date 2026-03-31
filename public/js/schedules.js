@@ -621,7 +621,8 @@ function renderWeekRangeWithCells(startWeekIndex, endWeekIndex, displayStartWeek
 
         const td = document.createElement('td');
         td.className = 'position-relative';
-        td.style.cssText = `width: ${dayColumnWidth}px; min-width: ${dayColumnWidth}px; max-width: ${dayColumnWidth}px; padding: 0; vertical-align: top; overflow: visible;`;
+        const borderTop = minute === 0 ? '2px solid #888' : '1px solid #888';
+        td.style.cssText = `width: ${dayColumnWidth}px; min-width: ${dayColumnWidth}px; max-width: ${dayColumnWidth}px; padding: 0; vertical-align: top; overflow: visible; border-top: ${borderTop};`;
         td.dataset.date = formatDate(date);
         td.dataset.hour = hour;
         td.dataset.minute = minute;
