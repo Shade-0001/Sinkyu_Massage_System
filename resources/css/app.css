@@ -304,7 +304,7 @@ textarea:not(:disabled) {
 /*----------------------------------------------*/
 /*  EXボタン - メインEXボタン                     */
 /*----------------------------------------------*/
-.btn-ex {
+.btn-ex-main {
   /* デフォルト値 */
   --btn-bg-color-base: hsl(200, 8%, 50%);
   --btn-text-color-base: hsl(0, 0%, 95%);
@@ -366,8 +366,8 @@ textarea:not(:disabled) {
     inset var(--btn-shadow-size-neg) var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-dark-base);
 }
 
-.btn-ex::before,
-.btn-ex::after {
+.btn-ex-main::before,
+.btn-ex-main::after {
   transition: all 0.1s linear;
   opacity: 0;
   pointer-events: none;
@@ -377,20 +377,20 @@ textarea:not(:disabled) {
   border-radius: inherit;
   z-index: 2;
 }
-.btn-ex::before {
+.btn-ex-main::before {
   background: #fff;
 }
-.btn-ex::after {
+.btn-ex-main::after {
   background: #000;
 }
-.btn-ex:hover {
+.btn-ex-main:hover {
   --btn-text-color-base: hsl(0, 0%, 100%);
 }
-.btn-ex:hover::before {
+.btn-ex-main:hover::before {
   transition: opacity 0.05s linear;
   opacity: 0.15;
 }
-.btn-ex:active {
+.btn-ex-main:active {
   transition: all 0.05s;
   transform: scale(0.95, 0.95);
   --btn-text-color-base: hsl(0, 0%, 100%);
@@ -413,19 +413,19 @@ textarea:not(:disabled) {
     /*右下*/
     inset var(--btn-shadow-size-half-neg) var(--btn-shadow-size-half-neg) 1px var(--btn-shadow-color-light-base);
 }
-.btn-ex:active::after {
+.btn-ex-main:active::after {
   transition: opacity 0.05s linear;
   opacity: 0.07;
 }
-.btn-ex.btn-hover-highlight-off:hover::before {
+.btn-ex-main.btn-hover-highlight-off:hover::before {
   transition: opacity 0.05s linear;
   opacity: 0;
 }
-.btn-ex.btn-hover-highlight-fadein:hover::before {
+.btn-ex-main.btn-hover-highlight-fadein:hover::before {
   transition: opacity 0.5s linear;
   opacity: 0.15;
 }
-.btn-ex:disabled {
+.btn-ex-main:disabled {
   opacity: 0.5;
   pointer-events: all;
   cursor: not-allowed;
@@ -435,10 +435,20 @@ textarea:not(:disabled) {
 /*  EXボタン - サブEXボタン                      */
 /*----------------------------------------------*/
 .btn-ex-sub {
+  /* デフォルト値 */
+  --btn-bg-color-base: hsl(200, 8%, 50%);
+  --btn-font-size-base: 1rem;
+  --btn-font-weight-base: 600;
+  --btn-padding-y-base: 10px;
+  --btn-padding-x-base: 16px;
+  --btn-padding-base: var(--btn-padding-y-base) var(--btn-padding-x-base);
   --btn-br-tl-base: 4px;
   --btn-br-tr-base: 4px;
   --btn-br-bl-base: 4px;
   --btn-br-br-base: 4px;
+  --btn-shadow-color-light-base: hsla(0, 0%, 100%, 0.15);
+  --btn-shadow-color-mid-base: hsla(0, 0%, 50%, 0.15);
+  --btn-shadow-color-dark-base: hsla(0, 0%, 0%, 0.15);
   --btn-shadow-size-base: 3px;
 
   --btn-primary-color: var(--btn-bg-color-base);
@@ -460,12 +470,61 @@ textarea:not(:disabled) {
   /* ホバー時のcolor補正値 - hslモード（JS用） */
   --btn-lighten-factor: 1.15;
 
-  background-color: color-mix(in srgb,
-      var(--btn-primary-color) 15%,
-      transparent);
+  font-size: var(--btn-font-size, var(--btn-font-size-base));
+  font-weight: var(--btn-font-weight, var(--btn-font-weight-base));
+  padding: var(--btn-padding-y, var(--btn-padding-y-base)) var(--btn-padding-x, var(--btn-padding-x-base));
+  border-radius: var(--btn-br-tl, var(--btn-br-tl-base)) var(--btn-br-tr, var(--btn-br-tr-base)) var(--btn-br-br, var(--btn-br-br-base)) var(--btn-br-bl, var(--btn-br-bl-base));
+  border: none;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-wrap: nowrap;
+  line-height: 1;
+  vertical-align: middle;
+  transition:
+    all 0.15s linear 0s,
+    color 0.05s linear 0s;
+  background-color: color-mix(in srgb, var(--btn-primary-color) 15%, transparent);
   color: oklch(from var(--btn-primary-color) calc(l + 0) calc(c + 0) calc(h + 0));
   -webkit-text-stroke: 3px rgba(255, 255, 255, 0.5);
   paint-order: stroke fill;
+  box-shadow:
+    /*── 枠線 ──────────*/
+    /*左上*/
+    inset calc(var(--btn-border-size) * 0.95) calc(var(--btn-border-size) * -0.95) var(--btn-border-blur) var(--btn-border-color),
+    /*上*/
+    inset 0 calc(var(--btn-border-size) * -1) var(--btn-border-blur) var(--btn-border-color),
+    /*左*/
+    inset var(--btn-border-size) 0 var(--btn-border-blur) var(--btn-border-color),
+    /*左下*/
+    inset calc(var(--btn-border-size) * 0.95) calc(var(--btn-border-size) * 0.95) var(--btn-border-blur) var(--btn-border-color),
+    /*右上*/
+    inset calc(var(--btn-border-size) * -0.95) calc(var(--btn-border-size) * -0.95) var(--btn-border-blur) var(--btn-border-color),
+    /*右*/
+    inset calc(var(--btn-border-size) * -1) 0 var(--btn-border-blur) var(--btn-border-color),
+    /*下*/
+    inset 0 var(--btn-border-size) var(--btn-border-blur) var(--btn-border-color),
+    /*右下*/
+    inset calc(var(--btn-border-size) * -0.95) calc(var(--btn-border-size) * 0.95) var(--btn-border-blur) var(--btn-border-color);
+}
+
+.btn-ex-sub::before,
+.btn-ex-sub::after {
+  transition: all 0.1s linear;
+  pointer-events: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+.btn-ex-sub::before {
+  background: none;
+  opacity: 1;
+  z-index: 0;
   box-shadow:
     /*── ベベル ──────────*/
     /*左上*/
@@ -483,19 +542,22 @@ textarea:not(:disabled) {
     /*下*/
     inset 0 var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-dark-base),
     /*右下*/
-    inset var(--btn-shadow-size-neg) var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-dark-base),
-    /*── 枠線 ──────────*/
-    /*上*/
-    inset 0 calc(var(--btn-border-size) * -1) var(--btn-border-blur) var(--btn-border-color),
-    /*左*/
-    inset var(--btn-border-size) 0 var(--btn-border-blur) var(--btn-border-color),
-    /*右*/
-    inset calc(var(--btn-border-size) * -1) 0 var(--btn-border-blur) var(--btn-border-color),
-    /*下*/
-    inset 0 var(--btn-border-size) var(--btn-border-blur) var(--btn-border-color);
+    inset var(--btn-shadow-size-neg) var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-dark-base);
 }
-
+.btn-ex-sub::after {
+  background: #000;
+  opacity: 0;
+  z-index: 2;
+}
+.btn-ex-sub:hover {
+  -webkit-text-stroke: 0px rgba(255, 255, 255, 0);
+}
+.btn-ex-sub:hover::before {
+  opacity: 1;
+}
 .btn-ex-sub:active {
+  transition: all 0.05s;
+  transform: scale(0.95, 0.95);
   box-shadow:
     /*── ベベル ──────────*/
     /*左上*/
@@ -515,14 +577,31 @@ textarea:not(:disabled) {
     /*右下*/
     inset var(--btn-shadow-size-half-neg) var(--btn-shadow-size-half-neg) 1px var(--btn-shadow-color-light-base),
     /*── 枠線 ──────────*/
+    /*左上*/
+    inset calc(var(--btn-border-size) * 0.75) calc(var(--btn-border-size) * -0.75) var(--btn-border-blur) var(--btn-primary-color),
     /*上*/
     inset 0 calc(var(--btn-border-size) * -0.75) var(--btn-border-blur) var(--btn-primary-color),
     /*左*/
     inset calc(var(--btn-border-size) * 0.75) 0 var(--btn-border-blur) var(--btn-primary-color),
+    /*左下*/
+    inset calc(var(--btn-border-size) * 0.75) calc(var(--btn-border-size) * 0.75) var(--btn-border-blur) var(--btn-primary-color),
+    /*右上*/
+    inset calc(var(--btn-border-size) * -0.75) calc(var(--btn-border-size) * -0.75) var(--btn-border-blur) var(--btn-primary-color),
     /*右*/
     inset calc(var(--btn-border-size) * -0.75) 0 var(--btn-border-blur) var(--btn-primary-color),
     /*下*/
-    inset 0 calc(var(--btn-border-size) * 0.75) var(--btn-border-blur) var(--btn-primary-color);
+    inset 0 calc(var(--btn-border-size) * 0.75) var(--btn-border-blur) var(--btn-primary-color),
+    /*右下*/
+    inset calc(var(--btn-border-size) * -0.75) calc(var(--btn-border-size) * 0.75) var(--btn-border-blur) var(--btn-primary-color);
+}
+.btn-ex-sub:active::after {
+  transition: opacity 0.05s linear;
+  opacity: 0.07;
+}
+.btn-ex-sub:disabled {
+  opacity: 0.5;
+  pointer-events: all;
+  cursor: not-allowed;
 }
 
 /*----------------------------------------------*/
@@ -618,11 +697,9 @@ textarea:not(:disabled) {
 .btn-ex-sub-toggle-gray.btn-ex-active { --btn-primary-color: #75838a; }
 
 /* サブEXボタン - トグル効果 - カラー反転 */
-.btn-ex-sub:hover,
 .btn-ex-sub-toggle-invert.btn-ex-active {
   -webkit-text-stroke: 0px rgba(255, 255, 255, 0);
 }
-.btn-ex-sub:hover::before,
 .btn-ex-sub-toggle-invert.btn-ex-active::before {
   opacity: 0;
 }

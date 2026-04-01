@@ -19,32 +19,42 @@
       </div>
     </div>
 
+    <div class="btn-ex-main btn-ex-sm">ボタン</div>
+    <div class="btn-ex-sub btn-ex-sm">ボタン</div>
+    <br><br>
+    <div class="btn-ex-main">ボタン</div>
+    <div class="btn-ex-sub">ボタン</div>
+    <br><br>
+    <div class="btn-ex-main btn-ex-lg">ボタン</div>
+    <div class="btn-ex-sub btn-ex-lg">ボタン</div>
+    <br><br>
+
     <!-- スケジュール表コントロール -->
     <div class="row mb-2">
       <div class="col-12">
         <div class="d-flex justify-content-between align-items-center">
-          <!-- 左：スクロールボタン -->
+          <!-- 左｜スクロールボタン -->
           <div class="d-flex align-items-stretch">
-            <button type="button" id="prev-btn" class="btn-ex btn-ex-sub btn-ex-blue" style="--btn-br-tl: 16px; --btn-br-tr: 0px; --btn-br-br: 0px; --btn-br-bl: 16px;">
-              <i class="nf nf-fa-angle_left" style="font-size: 18px;"></i>
+            <button type="button" id="prev-btn" class="btn-ex-sub btn-ex-blue btn-ex-lg px-3" style="--btn-br-tl: 12px; --btn-br-tr: 0px; --btn-br-br: 0px; --btn-br-bl: 12px;">
+              <i class="nf nf-fa-angle_left"></i>
             </button>
-            <button type="button" id="current-btn" class="btn-ex btn-ex-sub btn-ex-blue rounded-0 fw-semibold px-3">現在</button>
-            <button type="button" id="next-btn" class="btn-ex btn-ex-sub btn-ex-blue" style="--btn-br-tl: 0px; --btn-br-tr: 16px; --btn-br-br: 16px; --btn-br-bl: 0px;">
-              <i class="nf nf-fa-angle_right" style="font-size: 18px;"></i>
+            <button type="button" id="current-btn" class="btn-ex-sub btn-ex-blue rounded-0 btn-ex-lg">現在</button>
+            <button type="button" id="next-btn" class="btn-ex-sub btn-ex-blue btn-ex-lg px-3" style="--btn-br-tl: 0px; --btn-br-tr: 12px; --btn-br-br: 12px; --btn-br-bl: 0px;">
+              <i class="nf nf-fa-angle_right"></i>
             </button>
           </div>
 
-          <!-- 中央：表示中の年月日 -->
+          <!-- 中央｜表示中の年月日 -->
           <div class="text-center d-flex">
             <div id="current-year" class="fs-5 fw-semibold"></div>
             <div class="vr ms-2 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
             <div id="current-month-day" class="fs-5 fw-semibold"></div>
           </div>
 
-          <!-- 右：表示切り替えボタン -->
+          <!-- 右｜表示切り替えボタン -->
           <div class="d-flex align-items-stretch" data-bs-toggle="btn-ex-group">
-            <button type="button" id="week-view-btn" class="btn-ex btn-ex-sub btn-ex-blue btn-ex-sub-toggle-invert btn-ex-active fw-medium px-3" style="--btn-br-tl: 16px; --btn-br-tr: 0px; --btn-br-br: 0px; --btn-br-bl: 16px;">週表示</button>
-            <button type="button" id="month-view-btn" class="btn-ex btn-ex-sub btn-ex-blue btn-ex-sub-toggle-invert fw-medium px-3" style="--btn-br-tl: 0px; --btn-br-tr: 16px; --btn-br-br: 16px; --btn-br-bl: 0px;">月表示</button>
+            <button type="button" id="week-view-btn" class="btn-ex-sub btn-ex-blue btn-ex-lg btn-ex-sub-toggle-invert btn-ex-active" style="--btn-br-tl: 12px; --btn-br-tr: 0px; --btn-br-br: 0px; --btn-br-bl: 12px;">週表示</button>
+            <button type="button" id="month-view-btn" class="btn-ex-sub btn-ex-blue btn-ex-lg btn-ex-sub-toggle-invert" style="--btn-br-tl: 0px; --btn-br-tr: 12px; --btn-br-br: 12px; --btn-br-bl: 0px;">月表示</button>
           </div>
         </div>
       </div>
@@ -74,7 +84,7 @@
             <table class="table table-bordered mb-0" id="month-schedule-table" style="table-layout: fixed; --bs-border-color: #888; border-collapse: separate; border-spacing: 0;">
               <thead class="sticky-top" style="background-color: #fff;">
                 <tr>
-                  <th class="fw-bold" style="width: 50px; border-right: 2px solid #888;">週</th>
+                  <th class="fw-bold" style="width: 50px; border-right: 3px solid #888;">週</th>
                   <th class="fw-bold" style="color: #d44737; border-left: 0; border-right: 2px solid #888;">日</th>
                   <th class="fw-bold" style="border-left: 0; border-right: 2px solid #888;">月</th>
                   <th class="fw-bold" style="border-left: 0; border-right: 2px solid #888;">火</th>

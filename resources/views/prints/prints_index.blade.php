@@ -15,19 +15,19 @@
     <h5 class="text-nowrap">はり・きゅう関連</h5>
     <hr class="mt-0">
     <div class="row g-2">
-      <div class="col"><button type="button" class="btn-ex btn-ex-blue w-100 text-nowrap" onclick="openAcupunctureBenefitModal()">療養費支給申請書</button></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-blue w-100 text-nowrap" onclick="openTreatmentReceiptModal('acupuncture')">施術料金領収書</button></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-blue w-100 text-nowrap" onclick="openMedicalAssistanceModal('acupuncture')">医療助成費支給申請書</button></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-blue w-100 text-nowrap" onclick="openLateElderlyMedicalModal('acupuncture')">後期高齢者医療療養費支給申請書</button></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-blue w-100 text-nowrap" onclick="openConsentRequestSampleModal('acupuncture')">同意書依頼状 (サンプル版)</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-blue w-100 text-nowrap" onclick="openAcupunctureBenefitModal()">療養費支給申請書</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-blue w-100 text-nowrap" onclick="openTreatmentReceiptModal('acupuncture')">施術料金領収書</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-blue w-100 text-nowrap" onclick="openMedicalAssistanceModal('acupuncture')">医療助成費支給申請書</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-blue w-100 text-nowrap" onclick="openLateElderlyMedicalModal('acupuncture')">後期高齢者医療療養費支給申請書</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-blue w-100 text-nowrap" onclick="openConsentRequestSampleModal('acupuncture')">同意書依頼状 (サンプル版)</button></div>
       <div class="w-100"></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-blue w-100 text-nowrap" onclick="openConsentRequestDesignatedModal('acupuncture')">同意書依頼状 (医師指定)</button></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-blue w-100 text-nowrap" onclick="openConsentFormModal('acupuncture')">同意書</button></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-blue w-100 text-nowrap" onclick="openTreatmentFeeListModal('acupuncture')">施術料金一覧表(保険)</button></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-blue w-100 text-nowrap" onclick="openSelfFeeListModal()">施術料金一覧表(自費)</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-blue w-100 text-nowrap" onclick="openConsentRequestDesignatedModal('acupuncture')">同意書依頼状 (医師指定)</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-blue w-100 text-nowrap" onclick="openConsentFormModal('acupuncture')">同意書</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-blue w-100 text-nowrap" onclick="openTreatmentFeeListModal('acupuncture')">施術料金一覧表(保険)</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-blue w-100 text-nowrap" onclick="openSelfFeeListModal()">施術料金一覧表(自費)</button></div>
       <div class="col d-flex gap-2">
-        <button type="button" class="btn-ex btn-ex-blue flex-fill text-nowrap" onclick="openTreatmentRecordModal('acupuncture')">施術録</button>
-        <button type="button" class="btn-ex btn-ex-blue flex-fill text-nowrap" onclick="openSummaryTableModal('acupuncture')">総括表</button>
+        <button type="button" class="btn-ex-main btn-ex-blue flex-fill text-nowrap" onclick="openTreatmentRecordModal('acupuncture')">施術録</button>
+        <button type="button" class="btn-ex-main btn-ex-blue flex-fill text-nowrap" onclick="openSummaryTableModal('acupuncture')">総括表</button>
       </div>
     </div>
   </div>
@@ -36,19 +36,19 @@
     <h5 class="text-nowrap">あんま・マッサージ関連</h5>
     <hr class="mt-0">
     <div class="row g-2">
-      <div class="col"><button type="button" class="btn-ex btn-ex-cyan w-100 text-nowrap" onclick="openMassageBenefitModal()">療養費支給申請書</button></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-cyan w-100 text-nowrap" onclick="openTreatmentReceiptModal('massage')">施術料金領収書</button></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-cyan w-100 text-nowrap" onclick="openMedicalAssistanceModal('massage')">医療助成費支給申請書</button></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-cyan w-100 text-nowrap" onclick="openLateElderlyMedicalModal('massage')">後期高齢者医療療養費支給申請書</button></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-cyan w-100 text-nowrap" onclick="openConsentRequestSampleModal('massage')">同意書依頼状 (サンプル版)</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-cyan w-100 text-nowrap" onclick="openMassageBenefitModal()">療養費支給申請書</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-cyan w-100 text-nowrap" onclick="openTreatmentReceiptModal('massage')">施術料金領収書</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-cyan w-100 text-nowrap" onclick="openMedicalAssistanceModal('massage')">医療助成費支給申請書</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-cyan w-100 text-nowrap" onclick="openLateElderlyMedicalModal('massage')">後期高齢者医療療養費支給申請書</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-cyan w-100 text-nowrap" onclick="openConsentRequestSampleModal('massage')">同意書依頼状 (サンプル版)</button></div>
       <div class="w-100"></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-cyan w-100 text-nowrap" onclick="openConsentRequestDesignatedModal('massage')">同意書依頼状 (医師指定)</button></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-cyan w-100 text-nowrap" onclick="openConsentFormModal('massage')">同意書</button></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-cyan w-100 text-nowrap" onclick="openTreatmentFeeListModal('massage')">施術料金一覧表(保険)</button></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-cyan w-100 text-nowrap" onclick="openSelfFeeListModal()">施術料金一覧表(自費)</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-cyan w-100 text-nowrap" onclick="openConsentRequestDesignatedModal('massage')">同意書依頼状 (医師指定)</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-cyan w-100 text-nowrap" onclick="openConsentFormModal('massage')">同意書</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-cyan w-100 text-nowrap" onclick="openTreatmentFeeListModal('massage')">施術料金一覧表(保険)</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-cyan w-100 text-nowrap" onclick="openSelfFeeListModal()">施術料金一覧表(自費)</button></div>
       <div class="col d-flex gap-2">
-        <button type="button" class="btn-ex btn-ex-cyan w-100 text-nowrap" onclick="openTreatmentRecordModal('massage')">施術録</button>
-        <button type="button" class="btn-ex btn-ex-cyan w-100 text-nowrap" onclick="openSummaryTableModal('massage')">総括表</button>
+        <button type="button" class="btn-ex-main btn-ex-cyan w-100 text-nowrap" onclick="openTreatmentRecordModal('massage')">施術録</button>
+        <button type="button" class="btn-ex-main btn-ex-cyan w-100 text-nowrap" onclick="openSummaryTableModal('massage')">総括表</button>
       </div>
     </div>
   </div>
@@ -57,20 +57,20 @@
     <h5 class="text-nowrap">その他１</h5>
     <hr class="mt-0">
     <div class="row g-2">
-      <div class="col"><button type="button" class="btn-ex btn-ex-red w-100 text-nowrap" onclick="submitFirstExperienceMaterial()">初回体験用資料</button></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-red w-100 text-nowrap" onclick="submitPowerOfAttorneyApplication()">委任状（申請・受領）</button></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-red w-100 text-nowrap" onclick="submitPowerOfAttorneyConsent()">委任状（同意書取得）</button></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-red w-100 text-nowrap" onclick="openPaymentListModal()">入金管理表（保険）</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-red w-100 text-nowrap" onclick="submitFirstExperienceMaterial()">初回体験用資料</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-red w-100 text-nowrap" onclick="submitPowerOfAttorneyApplication()">委任状（申請・受領）</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-red w-100 text-nowrap" onclick="submitPowerOfAttorneyConsent()">委任状（同意書取得）</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-red w-100 text-nowrap" onclick="openPaymentListModal()">入金管理表（保険）</button></div>
       <div class="w-100"></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-red w-100 text-nowrap" onclick="openDoctorThankYouModal()">医師への御礼状</button></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-red w-100 text-nowrap" onclick="openReferrerThankYouModal()">紹介者への御礼状</button></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-red w-100 text-nowrap" onclick="openUserCountSummaryModal()">利用者数集計表</button></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-red w-100 text-nowrap" onclick="openImplementationPlanModal()">実施計画書</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-red w-100 text-nowrap" onclick="openDoctorThankYouModal()">医師への御礼状</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-red w-100 text-nowrap" onclick="openReferrerThankYouModal()">紹介者への御礼状</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-red w-100 text-nowrap" onclick="openUserCountSummaryModal()">利用者数集計表</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-red w-100 text-nowrap" onclick="openImplementationPlanModal()">実施計画書</button></div>
       <div class="w-100"></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-red w-100 text-nowrap" onclick="openReportGreetingModal()">報告書挨拶文</button></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-red w-100 text-nowrap" onclick="openReportModal()">報告書</button></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-red w-100 text-nowrap" onclick="openScheduleListModal()">予定表</button></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-red w-100 text-nowrap" onclick="openTreatmentExpiryListModal()">要加療期限切れリスト</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-red w-100 text-nowrap" onclick="openReportGreetingModal()">報告書挨拶文</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-red w-100 text-nowrap" onclick="openReportModal()">報告書</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-red w-100 text-nowrap" onclick="openScheduleListModal()">予定表</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-red w-100 text-nowrap" onclick="openTreatmentExpiryListModal()">要加療期限切れリスト</button></div>
     </div>
   </div>
   
@@ -78,15 +78,15 @@
     <h5 class="text-nowrap">その他２</h5>
     <hr class="mt-0">
     <div class="row g-2">
-      <div class="col"><button type="button" class="btn-ex btn-ex-orange w-100 text-nowrap" onclick="submitUserInfoBasicList()">利用者情報一覧（基本情報）</button></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-orange w-100 text-nowrap" onclick="submitUserInfoInsuranceList()">利用者情報一覧（医療保険情報）</button></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-orange w-100 text-nowrap" onclick="submitClinicUserConsentInfoList()">利用者情報一覧（同意医師情報）</button></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-orange w-100 text-nowrap" onclick="submitDoctorInfoList()">医師情報一覧</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-orange w-100 text-nowrap" onclick="submitUserInfoBasicList()">利用者情報一覧（基本情報）</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-orange w-100 text-nowrap" onclick="submitUserInfoInsuranceList()">利用者情報一覧（医療保険情報）</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-orange w-100 text-nowrap" onclick="submitClinicUserConsentInfoList()">利用者情報一覧（同意医師情報）</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-orange w-100 text-nowrap" onclick="submitDoctorInfoList()">医師情報一覧</button></div>
       <div class="w-100"></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-orange w-100 text-nowrap" onclick="submitCareManagerInfoList()">ケアマネ情報一覧</button></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-orange w-100 text-nowrap" onclick="submitTherapistInfoList()">施術者情報一覧</button></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-orange w-100 text-nowrap" onclick="openAddressLabelModal()">宛名シール・住所データCSV出力</button></div>
-      <div class="col"><button type="button" class="btn-ex btn-ex-orange w-100 text-nowrap" onclick="submitFaxCoverSheet()">FAX送信票表示</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-orange w-100 text-nowrap" onclick="submitCareManagerInfoList()">ケアマネ情報一覧</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-orange w-100 text-nowrap" onclick="submitTherapistInfoList()">施術者情報一覧</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-orange w-100 text-nowrap" onclick="openAddressLabelModal()">宛名シール・住所データCSV出力</button></div>
+      <div class="col"><button type="button" class="btn-ex-main btn-ex-orange w-100 text-nowrap" onclick="submitFaxCoverSheet()">FAX送信票表示</button></div>
     </div>
   </div>
 

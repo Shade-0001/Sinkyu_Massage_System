@@ -136,7 +136,7 @@ function rgbLighten(r, g, b, factor) {
 
 // クリック終了時にホバーハイライトを一時的に無効化→フェードイン復活
 function onBtnCustomMouseup(e) {
-  const btn = e.target.closest('.btn-ex');
+  const btn = e.target.closest('.btn-ex-main');
   if (!btn) return;
 
   clearTimeout(btn._hoverHighlightTimer);
@@ -208,7 +208,7 @@ function onBtnSubMouseleave(e) {
 
 // btn-exをアクティブ化（btn-ex-activeを付与・subかつinvertなら色も適用）
 function activateBtnCustom(btn) {
-  if (!btn || !btn.classList.contains('btn-ex')) return;
+  if (!btn || (!btn.classList.contains('btn-ex-main') && !btn.classList.contains('btn-ex-sub'))) return;
   if (btn.classList.contains('btn-ex-sub') && btn.classList.contains('btn-ex-sub-toggle-invert')) {
     if (!btn._btnSubHoverBg) initBtnSubColors(btn);
     btn._btnSubHovering = true;
@@ -222,7 +222,7 @@ function activateBtnCustom(btn) {
 
 // btn-exを非アクティブ化（btn-ex-activeを削除・subかつinvertなら色もリセット）
 function deactivateBtnCustom(btn) {
-  if (!btn || !btn.classList.contains('btn-ex')) return;
+  if (!btn || (!btn.classList.contains('btn-ex-main') && !btn.classList.contains('btn-ex-sub'))) return;
   if (btn.classList.contains('btn-ex-sub') && btn.classList.contains('btn-ex-sub-toggle-invert')) {
     if (btn._btnSubOriginalBg !== undefined) {
       btn._btnSubHoverBg = btn._btnSubOriginalHoverBg ?? btn._btnSubHoverBg;
@@ -272,9 +272,9 @@ document.addEventListener('click', e => {
 document.addEventListener('click', e => {
   const group = e.target.closest('[data-bs-toggle="btn-ex-group"]');
   if (!group) return;
-  const btn = e.target.closest('.btn-ex');
+  const btn = e.target.closest('.btn-ex-main, .btn-ex-sub');
   if (!btn || !group.contains(btn)) return;
-  group.querySelectorAll('.btn-ex').forEach(b => {
+  group.querySelectorAll('.btn-ex-main, .btn-ex-sub').forEach(b => {
     b === btn ? activateBtnCustom(b) : deactivateBtnCustom(b);
   });
 });
@@ -296,7 +296,7 @@ document.addEventListener('DOMContentLoaded', () => {
       activateBtnCustom(btn);
     });
     // btn-ex-groupボタン：HTMLでbtn-ex-activeが付いているボタンをアクティブ化
-    document.querySelectorAll('[data-bs-toggle="btn-ex-group"] .btn-ex.btn-ex-active').forEach(btn => {
+    document.querySelectorAll('[data-bs-toggle="btn-ex-group"] .btn-ex-main.btn-ex-active, [data-bs-toggle="btn-ex-group"] .btn-ex-sub.btn-ex-active').forEach(btn => {
       activateBtnCustom(btn);
     });
   }, 250);

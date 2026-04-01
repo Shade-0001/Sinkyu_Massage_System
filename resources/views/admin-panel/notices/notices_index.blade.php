@@ -8,7 +8,7 @@
   <br>
 
   <a href="{{ route('notices.create') }}">
-  <button class="btn-ex btn-ex-blue">新規登録</button>
+  <button class="btn-ex-main btn-ex-blue">新規登録</button>
   </a>
 
   <br><br>
@@ -39,14 +39,14 @@
       <td>{{ $notice->title }}</td>
       <td>{{ $notice->content }}</td>
       <td>
-        <a class="btn-ex btn-ex-blue btn-ex-sm" href="{{ route('notices.edit', ['id' => $notice->id]) }}">編集</a>
-        <a class="btn-ex btn-ex-blue btn-ex-sm" href="{{ route('notices.duplicate', ['id' => $notice->id]) }}">複製</a>
+        <a class="btn-ex-main btn-ex-blue btn-ex-sm" href="{{ route('notices.edit', ['id' => $notice->id]) }}">編集</a>
+        <a class="btn-ex-main btn-ex-blue btn-ex-sm" href="{{ route('notices.duplicate', ['id' => $notice->id]) }}">複製</a>
       </td>
       <td>
       <form action="{{ route('notices.delete', ['id' => $notice->id]) }}" method="POST" class="delete-form d-inline">
         @csrf
         @method('DELETE')
-        <button type="submit" class="delete-btn btn-ex btn-ex-red btn-ex-sm">削除</button>
+        <button type="submit" class="delete-btn btn-ex-main btn-ex-red btn-ex-sm">削除</button>
       </form>
       </td>
     </tr>

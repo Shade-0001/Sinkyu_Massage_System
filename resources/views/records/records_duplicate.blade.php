@@ -24,14 +24,14 @@
       <div class="text-center position-relative flex-shrink-0 user-select-none" style="width: 280px;">
         <!-- カレンダーヘッダー -->
         <div class="d-flex align-items-stretch justify-content-center mb-3">
-          <button type="button" id="prev-month-btn" class="btn-ex btn-ex-sub btn-ex-blue" style="--btn-br-tl: 16px; --btn-br-tr: 0px; --btn-br-br: 0px; --btn-br-bl: 16px; padding-left: 12px; padding-right: 12px;">
+          <button type="button" id="prev-month-btn" class="btn-ex-sub btn-ex-blue" style="--btn-br-tl: 16px; --btn-br-tr: 0px; --btn-br-br: 0px; --btn-br-bl: 16px; padding-left: 12px; padding-right: 12px;">
             <i class="nf nf-fa-angle_left" style="font-size: 24px;"></i>
           </button>
-          <div class="btn-ex btn-ex-sub btn-ex-blue rounded-0" style="font-size: 28px; padding-top: 12px; padding-bottom: 12px;">
+          <div class="btn-ex-sub btn-ex-blue rounded-0" style="font-size: 28px; padding-top: 12px; padding-bottom: 12px;">
             <div id="calendar-title-display"></div>
             <select id="calendar-title" class="position-absolute top-0 start-50 translate-middle-x opacity-0" style="border: none; background: transparent; width: 100%; height: 100%;"></select>
           </div>
-          <button type="button" id="next-month-btn" class="btn-ex btn-ex-sub btn-ex-blue" style="--btn-br-tl: 0px; --btn-br-tr: 16px; --btn-br-br: 16px; --btn-br-bl: 0px; padding-left: 12px; padding-right: 12px;">
+          <button type="button" id="next-month-btn" class="btn-ex-sub btn-ex-blue" style="--btn-br-tl: 0px; --btn-br-tr: 16px; --btn-br-br: 16px; --btn-br-bl: 0px; padding-left: 12px; padding-right: 12px;">
             <i class="nf nf-fa-angle_right" style="font-size: 24px;"></i>
           </button>
         </div>
@@ -46,7 +46,7 @@
           <div class="calendar-day-header text-center p-1 fw-bold">金</div>
           <div class="calendar-day-header text-center p-1 fw-bold saturday">土</div>
         </div>
-        <button type="button" id="clear-selection-btn" class="btn-ex btn-ex-sm mt-3">選択解除</button>
+        <button type="button" id="clear-selection-btn" class="btn-ex-main btn-ex-sm mt-3">選択解除</button>
       </div>
 
       <div class="vr border border-black border-1 mx-3"></div>
@@ -318,7 +318,7 @@
         </div>
 
         <div class="col-12">
-          <button type="submit" class="btn-ex btn-ex-green d-block ms-auto">登録</button>
+          <button type="submit" class="btn-ex-main btn-ex-green d-block ms-auto">登録</button>
         </div>
       </div>
     </div>

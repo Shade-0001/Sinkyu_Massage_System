@@ -63,13 +63,13 @@
   </div>
 
   <div class="d-flex gap-2">
-    <button type="submit" class="btn-ex btn-ex-blue">
+    <button type="submit" class="btn-ex-main btn-ex-blue">
       @if($mode === 'edit') 更新する
       @elseif($mode === 'duplicate') 複製して登録する
       @else 登録する
       @endif
     </button>
-    <a href="{{ route('notices.index') }}" class="btn-ex btn-ex-gray">一覧へ戻る</a>
+    <a href="{{ route('notices.index') }}" class="btn-ex-main btn-ex-gray">一覧へ戻る</a>
   </div>
 
   </form>

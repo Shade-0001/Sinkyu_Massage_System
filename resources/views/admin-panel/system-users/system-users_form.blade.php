@@ -93,12 +93,12 @@
   </div>
 
   <div class="d-flex gap-2">
-    <button type="submit" class="btn-ex btn-ex-blue">
+    <button type="submit" class="btn-ex-main btn-ex-blue">
       @if($mode === 'edit') 更新する
       @else 登録する
       @endif
     </button>
-    <a href="{{ route('system-users.index') }}" class="btn-ex btn-ex-gray">一覧へ戻る</a>
+    <a href="{{ route('system-users.index') }}" class="btn-ex-main btn-ex-gray">一覧へ戻る</a>
   </div>
 
   </form>
