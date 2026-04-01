@@ -206,6 +206,15 @@
           border-color: #888;
         }
 
+        /* 週表示テーブルのヘッダー上辺・左辺 */
+        #week-schedule-table thead th {
+          border-top: 0;
+        }
+        #week-schedule-table thead th:first-child,
+        #week-schedule-table tbody td:first-child {
+          border-left: 0;
+        }
+
         /* 月表示テーブルのヘッダー */
         #month-schedule-table thead th {
           border-top: 0;
