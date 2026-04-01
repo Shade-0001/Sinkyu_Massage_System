@@ -1,6 +1,6 @@
 <x-app-layout>
   @php
-    $page_header_title = '管理画面';
+    $page_header_title = 'アドミンパネル';
   @endphp
   @section('title', $page_header_title)
 

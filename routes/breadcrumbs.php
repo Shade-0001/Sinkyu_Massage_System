@@ -148,7 +148,7 @@ Breadcrumbs::define('index', function() {
 function getAdminPanelBreadcrumbs() {
   return [
     ...getIndexBreadcrumbs(),
-    ['url' => route('admin-panel.index'), 'label' => '管理画面', 'icon' => 'nf nf-md-wrench'],
+    ['url' => route('admin-panel.index'), 'label' => 'アドミンパネル', 'icon' => 'nf nf-md-wrench'],
   ];
 }
 
