@@ -68,9 +68,7 @@ function getRenderRange(currentWeekIndex, dayColumnWidth) {
 
 function getScrollLeftForColumn(container, column) {
   if (!container || !column) return 0;
-  const containerRect = container.getBoundingClientRect();
-  const columnRect = column.getBoundingClientRect();
-  return container.scrollLeft + (columnRect.left - containerRect.left);
+  return column.offsetLeft;
 }
 
 function getLeftmostVisibleDayColumnIndex(container, dayColumns) {
@@ -187,7 +185,7 @@ function initializeEventListeners() {
 
   document.getElementById('current-btn').addEventListener('click', function() {
     currentDate = new Date();
-    loadScheduleData(false, 0, true);
+    loadScheduleData(false, 0, null, true);
   });
 
   document.getElementById('next-btn').addEventListener('click', function() {
@@ -272,12 +270,11 @@ function navigateSchedule(direction) {
         const dayColumns = headerRow.querySelectorAll('th:not(:first-child)');
         if (dayColumns.length > 0) {
           const currentColumnIndex = getLeftmostVisibleDayColumnIndex(container, dayColumns);
-          const targetColumnIndex = currentColumnIndex + (direction * 7);
-          const clampedColumnIndex = Math.max(0, Math.min(targetColumnIndex, dayColumns.length - 1));
-          const adjustedScrollLeft = getScrollLeftForColumn(container, dayColumns[clampedColumnIndex]);
+          const currentAbsoluteDayIndex = (weekViewConfig.renderStartWeekIndex || 0) * 7 + currentColumnIndex;
+          const targetAbsoluteDayIndex = currentAbsoluteDayIndex + (direction * 7);
 
           currentDate.setDate(currentDate.getDate() + (direction * 7));
-          loadScheduleData(true, adjustedScrollLeft, true);
+          loadScheduleData(false, 0, targetAbsoluteDayIndex, true);
           return;
         }
       }
@@ -309,7 +306,7 @@ function switchViewMode(mode) {
 }
 
 // スケジュールデータ読み込み
-function loadScheduleData(preserveScroll = false, preservedScrollLeft = 0, smoothScroll = false) {
+function loadScheduleData(preserveScroll = false, preservedScrollLeft = 0, targetAbsoluteDayIndex = null, smoothScroll = false) {
   const therapistId = document.getElementById('therapist-select').value;
   const dateRange = getDateRange();
 
@@ -321,7 +318,7 @@ function loadScheduleData(preserveScroll = false, preservedScrollLeft = 0, smoot
       scheduleData = data.records;
       // 定休日の変化点をグローバルに保持
       window.scheduleConfig.closedDayRanges = data.closed_day_ranges || [];
-      renderSchedule(preserveScroll, preservedScrollLeft, smoothScroll);
+      renderSchedule(preserveScroll, preservedScrollLeft, targetAbsoluteDayIndex, smoothScroll);
       updateHeaderDisplay();
     })
     .catch(error => {
@@ -434,16 +431,16 @@ function updateHeaderDisplay() {
 }
 
 // スケジュール表示
-function renderSchedule(preserveScroll = false, preservedScrollLeft = 0, smoothScroll = false) {
+function renderSchedule(preserveScroll = false, preservedScrollLeft = 0, targetAbsoluteDayIndex = null, smoothScroll = false) {
   if (viewMode === 'week') {
-    renderWeekView(preserveScroll, preservedScrollLeft, smoothScroll);
+    renderWeekView(preserveScroll, preservedScrollLeft, targetAbsoluteDayIndex, smoothScroll);
   } else {
     renderMonthView();
   }
 }
 
 // 週表示レンダリング（スクロールベース遅延読み込み）
-function renderWeekView(preserveScrollPosition = false, preservedScrollLeft = 0, smoothScroll = false) {
+function renderWeekView(preserveScrollPosition = false, preservedScrollLeft = 0, targetAbsoluteDayIndex = null, smoothScroll = false) {
   const currentWeekStart = getWeekStart(currentDate);
   const displayStartWeek = getDisplayStartWeek();
 
@@ -508,10 +505,17 @@ function renderWeekView(preserveScrollPosition = false, preservedScrollLeft = 0,
       const relativeWeekIndex = currentWeekIndex - startWeekIndex;
       const headerRow = document.getElementById('week-header-row');
       const dayColumns = headerRow ? headerRow.querySelectorAll('th:not(:first-child)') : [];
-      const startOfCurrentWeekColumnIndex = relativeWeekIndex * 7;
 
-      if (dayColumns.length > startOfCurrentWeekColumnIndex && startOfCurrentWeekColumnIndex >= 0) {
-        scrollLeftToSet = getScrollLeftForColumn(container, dayColumns[startOfCurrentWeekColumnIndex]);
+      if (targetAbsoluteDayIndex !== null) {
+        const targetColumnIndex = targetAbsoluteDayIndex - (startWeekIndex * 7);
+        if (dayColumns.length > targetColumnIndex && targetColumnIndex >= 0) {
+          scrollLeftToSet = getScrollLeftForColumn(container, dayColumns[targetColumnIndex]);
+        }
+      } else {
+        const startOfCurrentWeekColumnIndex = relativeWeekIndex * 7;
+        if (dayColumns.length > startOfCurrentWeekColumnIndex && startOfCurrentWeekColumnIndex >= 0) {
+          scrollLeftToSet = getScrollLeftForColumn(container, dayColumns[startOfCurrentWeekColumnIndex]);
+        }
       }
     }
 
