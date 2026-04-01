@@ -250,15 +250,21 @@ function navigateSchedule(direction) {
       if (headerRow) {
         const dayColumns = headerRow.querySelectorAll('th:not(:first-child)');
         if (dayColumns.length > 0) {
-          const dayColumnWidth = dayColumns[0].offsetWidth;
           const currentScrollLeft = container.scrollLeft;
 
-          // 現在のスクロール位置から1週間分（7列）移動
-          const weekWidth = dayColumnWidth * 7;
-          const newScrollLeft = currentScrollLeft + (direction * weekWidth);
+          // 現在表示中の最左列インデックスを取得（offsetLeft基準）
+          let leftColumnIndex = 0;
+          for (let i = 0; i < dayColumns.length; i++) {
+            if (dayColumns[i].offsetLeft <= currentScrollLeft) {
+              leftColumnIndex = i;
+            } else {
+              break;
+            }
+          }
 
-          // 列境界に調整
-          const adjustedScrollLeft = Math.round(newScrollLeft / dayColumnWidth) * dayColumnWidth;
+          // 1週間分（7列）移動した列のoffsetLeftを直接使用
+          const targetIndex = Math.max(0, Math.min(dayColumns.length - 1, leftColumnIndex + direction * 7));
+          const adjustedScrollLeft = dayColumns[targetIndex].offsetLeft;
 
           currentDate.setDate(currentDate.getDate() + (direction * 7));
           loadScheduleData(true, adjustedScrollLeft);
@@ -493,8 +499,6 @@ function renderWeekView(preserveScrollPosition = false, preservedScrollLeft = 0)
       if (headerRow && container) {
         const dayColumns = headerRow.querySelectorAll('th:not(:first-child)');
         if (dayColumns.length > 0) {
-          const dayColumnWidth = dayColumns[0].offsetWidth;
-
           // 現在日（今日）を計算
           const today = new Date();
           const todayDayOfWeek = today.getDay(); // 0(日)〜6(土)
@@ -502,18 +506,15 @@ function renderWeekView(preserveScrollPosition = false, preservedScrollLeft = 0)
           // 描画範囲内での現在週の位置を計算
           // currentWeekIndexは全体での週番号、startWeekIndexは描画開始位置
           const relativeWeekIndex = currentWeekIndex - startWeekIndex;
+          const todayColumnIndex = relativeWeekIndex * 7 + todayDayOfWeek;
 
-          // 現在週の開始位置 + 今日の曜日分のオフセット
-          const currentDayPosition = (relativeWeekIndex * 7 + todayDayOfWeek) * dayColumnWidth;
-
-          // 画面中央付近に表示されるようにスクロール位置を計算
-          const containerWidth = container.clientWidth;
-          const targetScrollPosition = currentDayPosition - (containerWidth / 2) + (dayColumnWidth / 2);
-
-          // 列の境界に合わせて調整（最も近い列の左端にスナップ）
-          const scrollPosition = Math.round(targetScrollPosition / dayColumnWidth) * dayColumnWidth;
-
-          container.scrollLeft = Math.max(0, scrollPosition);
+          if (todayColumnIndex >= 0 && todayColumnIndex < dayColumns.length) {
+            // offsetLeftを直接使用（ボーダー込みの実際の列左端位置）
+            const todayColumn = dayColumns[todayColumnIndex];
+            const containerWidth = container.clientWidth;
+            const scrollPosition = todayColumn.offsetLeft - (containerWidth / 2) + (todayColumn.offsetWidth / 2);
+            container.scrollLeft = Math.max(0, scrollPosition);
+          }
         }
       }
     }
@@ -733,9 +734,6 @@ function scrollToCurrentWeek() {
   const dayColumns = headerRow.querySelectorAll('th:not(:first-child)');
   if (dayColumns.length === 0) return;
 
-  const dayColumnWidth = dayColumns[0].offsetWidth;
-  const weekWidth = dayColumnWidth * 7;
-
   // 表示開始週から現在週までの週数を計算
   const displayStartWeek = getDisplayStartWeek();
   const currentWeekStart = getWeekStart(currentDate);
@@ -744,10 +742,11 @@ function scrollToCurrentWeek() {
   const renderStartWeekIndex = weekViewConfig.renderStartWeekIndex || 0;
   const relativeWeekIndex = Math.max(0, currentWeekIndex - renderStartWeekIndex);
 
-  // 現在週の開始位置にスクロール
-  const scrollPosition = weekWidth * relativeWeekIndex;
-
-  container.scrollLeft = scrollPosition;
+  // 現在週の先頭列のoffsetLeftを直接使用（ボーダー込みの実際の列左端位置）
+  const weekStartColumnIndex = relativeWeekIndex * 7;
+  if (weekStartColumnIndex < dayColumns.length) {
+    container.scrollLeft = dayColumns[weekStartColumnIndex].offsetLeft;
+  }
 }
 
 // 現在時刻の行を中央に表示
