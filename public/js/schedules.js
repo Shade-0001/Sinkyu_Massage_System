@@ -551,6 +551,8 @@ function renderWeekHeaders(displayStartWeek, currentWeekStart, dayColumnWidth, s
       th.style.minWidth = `${dayColumnWidth}px`;
       th.style.maxWidth = `${dayColumnWidth}px`;
       th.className = 'text-center';
+      th.style.borderLeft = '0';
+      th.style.borderRight = '2px solid #888';
       th.style.borderBottom = '3px solid #888';
 
       // 現在の週の場合は背景色を変更
@@ -622,7 +624,7 @@ function renderWeekRangeWithCells(startWeekIndex, endWeekIndex, displayStartWeek
 
         const td = document.createElement('td');
         td.className = 'position-relative';
-        td.style.cssText = `width: ${dayColumnWidth}px; min-width: ${dayColumnWidth}px; max-width: ${dayColumnWidth}px; padding: 0; vertical-align: top; overflow: visible; border-top: ${minute === 0 ? 'none' : '1px solid #aaa'}; border-bottom: ${minute === 50 ? '2px solid #aaa' : '0'};`;
+        td.style.cssText = `width: ${dayColumnWidth}px; min-width: ${dayColumnWidth}px; max-width: ${dayColumnWidth}px; padding: 0; vertical-align: top; overflow: visible; border-left: 0; border-right: 2px solid #888; border-top: ${minute === 0 ? 'none' : '1px solid #aaa'}; border-bottom: ${minute === 50 ? '2px solid #aaa' : '0'};`;
         td.dataset.date = formatDate(date);
         td.dataset.hour = hour;
         td.dataset.minute = minute;
