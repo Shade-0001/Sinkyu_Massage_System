@@ -366,12 +366,6 @@ textarea:not(:disabled) {
     inset var(--btn-shadow-size-neg) var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-dark-base);
 }
 
-.btn-ex:disabled {
-  opacity: 0.5;
-  pointer-events: all;
-  cursor: not-allowed;
-}
-
 .btn-ex::before,
 .btn-ex::after {
   transition: all 0.1s linear;
@@ -383,24 +377,19 @@ textarea:not(:disabled) {
   border-radius: inherit;
   z-index: 2;
 }
-
 .btn-ex::before {
   background: #fff;
 }
-
 .btn-ex::after {
   background: #000;
 }
-
 .btn-ex:hover {
   --btn-text-color-base: hsl(0, 0%, 100%);
 }
-
 .btn-ex:hover::before {
   transition: opacity 0.05s linear;
   opacity: 0.15;
 }
-
 .btn-ex:active {
   transition: all 0.05s;
   transform: scale(0.95, 0.95);
@@ -424,30 +413,32 @@ textarea:not(:disabled) {
     /*右下*/
     inset var(--btn-shadow-size-half-neg) var(--btn-shadow-size-half-neg) 1px var(--btn-shadow-color-light-base);
 }
-
 .btn-ex:active::after {
   transition: opacity 0.05s linear;
   opacity: 0.07;
 }
-
 .btn-ex.btn-hover-highlight-off:hover::before {
   transition: opacity 0.05s linear;
   opacity: 0;
 }
-
 .btn-ex.btn-hover-highlight-fadein:hover::before {
   transition: opacity 0.5s linear;
   opacity: 0.15;
+}
+.btn-ex:disabled {
+  opacity: 0.5;
+  pointer-events: all;
+  cursor: not-allowed;
 }
 
 /*----------------------------------------------*/
 /*  EXボタン - サブEXボタン                      */
 /*----------------------------------------------*/
 .btn-ex-sub {
-  --btn-br-tl-base: 5px;
-  --btn-br-tr-base: 5px;
-  --btn-br-bl-base: 5px;
-  --btn-br-br-base: 5px;
+  --btn-br-tl-base: 4px;
+  --btn-br-tr-base: 4px;
+  --btn-br-bl-base: 4px;
+  --btn-br-br-base: 4px;
   --btn-shadow-size-base: 3px;
 
   --btn-primary-color: var(--btn-bg-color-base);
@@ -494,22 +485,14 @@ textarea:not(:disabled) {
     /*右下*/
     inset var(--btn-shadow-size-neg) var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-dark-base),
     /*── 枠線 ──────────*/
-    /*左上*/
-    inset calc(var(--btn-border-size) * 0.95) calc(var(--btn-border-size) * -0.95) var(--btn-border-blur) var(--btn-border-color),
     /*上*/
     inset 0 calc(var(--btn-border-size) * -1) var(--btn-border-blur) var(--btn-border-color),
     /*左*/
     inset var(--btn-border-size) 0 var(--btn-border-blur) var(--btn-border-color),
-    /*左下*/
-    inset calc(var(--btn-border-size) * 0.95) calc(var(--btn-border-size) * 0.95) var(--btn-border-blur) var(--btn-border-color),
-    /*右上*/
-    inset calc(var(--btn-border-size) * -0.95) calc(var(--btn-border-size) * -0.95) var(--btn-border-blur) var(--btn-border-color),
     /*右*/
     inset calc(var(--btn-border-size) * -1) 0 var(--btn-border-blur) var(--btn-border-color),
     /*下*/
-    inset 0 var(--btn-border-size) var(--btn-border-blur) var(--btn-border-color),
-    /*右下*/
-    inset calc(var(--btn-border-size) * -0.95) calc(var(--btn-border-size) * 0.95) var(--btn-border-blur) var(--btn-border-color);
+    inset 0 var(--btn-border-size) var(--btn-border-blur) var(--btn-border-color);
 }
 
 .btn-ex-sub:active {
@@ -532,22 +515,14 @@ textarea:not(:disabled) {
     /*右下*/
     inset var(--btn-shadow-size-half-neg) var(--btn-shadow-size-half-neg) 1px var(--btn-shadow-color-light-base),
     /*── 枠線 ──────────*/
-    /*左上*/
-    inset calc(var(--btn-border-size) * 0.75) calc(var(--btn-border-size) * -0.75) var(--btn-border-blur) var(--btn-primary-color),
     /*上*/
     inset 0 calc(var(--btn-border-size) * -0.75) var(--btn-border-blur) var(--btn-primary-color),
     /*左*/
     inset calc(var(--btn-border-size) * 0.75) 0 var(--btn-border-blur) var(--btn-primary-color),
-    /*左下*/
-    inset calc(var(--btn-border-size) * 0.75) calc(var(--btn-border-size) * 0.75) var(--btn-border-blur) var(--btn-primary-color),
-    /*右上*/
-    inset calc(var(--btn-border-size) * -0.75) calc(var(--btn-border-size) * -0.75) var(--btn-border-blur) var(--btn-primary-color),
     /*右*/
     inset calc(var(--btn-border-size) * -0.75) 0 var(--btn-border-blur) var(--btn-primary-color),
     /*下*/
-    inset 0 calc(var(--btn-border-size) * 0.75) var(--btn-border-blur) var(--btn-primary-color),
-    /*右下*/
-    inset calc(var(--btn-border-size) * -0.75) calc(var(--btn-border-size) * 0.75) var(--btn-border-blur) var(--btn-primary-color);
+    inset 0 calc(var(--btn-border-size) * 0.75) var(--btn-border-blur) var(--btn-primary-color);
 }
 
 /*----------------------------------------------*/
