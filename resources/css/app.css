@@ -478,7 +478,7 @@ textarea:not(:disabled) {
   cursor: pointer;
   user-select: none;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -525,25 +525,25 @@ textarea:not(:disabled) {
   background: none;
   opacity: 1;
   z-index: 0;
-  border-radius: calc(var(--btn-br-tl, var(--btn-br-tl-base)) + 1px) calc(var(--btn-br-tr, var(--btn-br-tr-base)) + 1px) calc(var(--btn-br-br, var(--btn-br-br-base)) + 1px) calc(var(--btn-br-bl, var(--btn-br-bl-base)) + 1px);
+  border-radius: calc(var(--btn-br-tl, var(--btn-br-tl-base)) + 0px) calc(var(--btn-br-tr, var(--btn-br-tr-base)) + 0px) calc(var(--btn-br-br, var(--btn-br-br-base)) + 0px) calc(var(--btn-br-bl, var(--btn-br-bl-base)) + 0px);
   box-shadow:
     /*── ベベル ──────────*/
     /*左上*/
-    inset var(--btn-shadow-size) var(--btn-shadow-size) 1px var(--btn-shadow-color-light-base),
+    inset var(--btn-shadow-size-neg) var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-light-base),
     /*上*/
-    inset 0 var(--btn-shadow-size) 1px var(--btn-shadow-color-light-base),
+    inset 0 var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-light-base),
     /*左*/
-    inset var(--btn-shadow-size) 0 1px var(--btn-shadow-color-light-base),
+    inset var(--btn-shadow-size-neg) 0 1px var(--btn-shadow-color-light-base),
     /*左下*/
-    inset var(--btn-shadow-size) var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-mid-base),
-    /*右上*/
     inset var(--btn-shadow-size-neg) var(--btn-shadow-size) 1px var(--btn-shadow-color-mid-base),
+    /*右上*/
+    inset var(--btn-shadow-size) var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-mid-base),
     /*右*/
-    inset var(--btn-shadow-size-neg) 0 1px var(--btn-shadow-color-dark-base),
+    inset var(--btn-shadow-size) 0 1px var(--btn-shadow-color-dark-base),
     /*下*/
-    inset 0 var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-dark-base),
+    inset 0 var(--btn-shadow-size) 1px var(--btn-shadow-color-dark-base),
     /*右下*/
-    inset var(--btn-shadow-size-neg) var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-dark-base);
+    inset var(--btn-shadow-size) var(--btn-shadow-size) 1px var(--btn-shadow-color-dark-base);
 }
 .btn-ex-sub::after {
   background: #000;
