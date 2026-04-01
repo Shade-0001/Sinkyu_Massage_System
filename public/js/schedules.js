@@ -1197,7 +1197,7 @@ function renderMonthView() {
     if (isLastRow) {
       // 最下行はborder-bottomを消す
       tr.querySelectorAll('td').forEach(td => {
-        td.style.borderBottom = '0';
+        td.style.borderBottom = '1px solid #888';
       });
       break;
     }
