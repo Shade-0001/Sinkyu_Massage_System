@@ -442,10 +442,10 @@ textarea:not(:disabled) {
   --btn-padding-y-base: 10px;
   --btn-padding-x-base: 16px;
   --btn-padding-base: var(--btn-padding-y-base) var(--btn-padding-x-base);
-  --btn-br-tl-base: 4px;
-  --btn-br-tr-base: 4px;
-  --btn-br-bl-base: 4px;
-  --btn-br-br-base: 4px;
+  --btn-br-tl-base: 3px;
+  --btn-br-tr-base: 3px;
+  --btn-br-bl-base: 3px;
+  --btn-br-br-base: 3px;
   --btn-shadow-color-light-base: hsla(0, 0%, 100%, 0.15);
   --btn-shadow-color-mid-base: hsla(0, 0%, 50%, 0.15);
   --btn-shadow-color-dark-base: hsla(0, 0%, 0%, 0.15);
@@ -453,7 +453,6 @@ textarea:not(:disabled) {
 
   --btn-primary-color: var(--btn-bg-color-base);
   --btn-shadow-size: var(--btn-shadow-size-base);
-
   --btn-shadow-size-neg: calc(var(--btn-shadow-size) * -1);
   --btn-shadow-size-half: calc(var(--btn-shadow-size) / 1.5);
   --btn-shadow-size-half-neg: calc(var(--btn-shadow-size) / 1.5 * -1);
@@ -522,11 +521,11 @@ textarea:not(:disabled) {
   border-radius: inherit;
 }
 .btn-ex-sub::before {
-  inset: -1px;
   background: none;
   opacity: 1;
   z-index: 0;
-  border-radius: calc(var(--btn-br-tl, var(--btn-br-tl-base)) + 1px) calc(var(--btn-br-tr, var(--btn-br-tr-base)) + 1px) calc(var(--btn-br-br, var(--btn-br-br-base)) + 1px) calc(var(--btn-br-bl, var(--btn-br-bl-base)) + 1px);
+  inset: -0.5px;
+  border-radius: calc(var(--btn-br-tl, var(--btn-br-tl-base)) * 1.1) calc(var(--btn-br-tr, var(--btn-br-tr-base)) * 1.1) calc(var(--btn-br-br, var(--btn-br-br-base)) * 1.1) calc(var(--btn-br-bl, var(--btn-br-bl-base)) * 1.1);
   box-shadow:
     /*── ベベル ──────────*/
     /*左上*/
