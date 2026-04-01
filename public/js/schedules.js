@@ -272,12 +272,11 @@ function navigateSchedule(direction) {
         const dayColumns = headerRow.querySelectorAll('th:not(:first-child)');
         if (dayColumns.length > 0) {
           const currentColumnIndex = getLeftmostVisibleDayColumnIndex(container, dayColumns);
-          const targetColumnIndex = currentColumnIndex + (direction * 7);
-          const clampedColumnIndex = Math.max(0, Math.min(targetColumnIndex, dayColumns.length - 1));
-          const adjustedScrollLeft = getScrollLeftForColumn(container, dayColumns[clampedColumnIndex]);
+          const currentAbsoluteDayIndex = (weekViewConfig.renderStartWeekIndex || 0) * 7 + currentColumnIndex;
+          const targetAbsoluteDayIndex = currentAbsoluteDayIndex + (direction * 7);
 
           currentDate.setDate(currentDate.getDate() + (direction * 7));
-          loadScheduleData(true, adjustedScrollLeft);
+          loadScheduleData(false, 0, targetAbsoluteDayIndex);
           return;
         }
       }
@@ -309,7 +308,7 @@ function switchViewMode(mode) {
 }
 
 // スケジュールデータ読み込み
-function loadScheduleData(preserveScroll = false, preservedScrollLeft = 0) {
+function loadScheduleData(preserveScroll = false, preservedScrollLeft = 0, targetAbsoluteDayIndex = null) {
   const therapistId = document.getElementById('therapist-select').value;
   const dateRange = getDateRange();
 
@@ -321,7 +320,7 @@ function loadScheduleData(preserveScroll = false, preservedScrollLeft = 0) {
       scheduleData = data.records;
       // 定休日の変化点をグローバルに保持
       window.scheduleConfig.closedDayRanges = data.closed_day_ranges || [];
-      renderSchedule(preserveScroll, preservedScrollLeft);
+      renderSchedule(preserveScroll, preservedScrollLeft, targetAbsoluteDayIndex);
       updateHeaderDisplay();
     })
     .catch(error => {
@@ -434,16 +433,16 @@ function updateHeaderDisplay() {
 }
 
 // スケジュール表示
-function renderSchedule(preserveScroll = false, preservedScrollLeft = 0) {
+function renderSchedule(preserveScroll = false, preservedScrollLeft = 0, targetAbsoluteDayIndex = null) {
   if (viewMode === 'week') {
-    renderWeekView(preserveScroll, preservedScrollLeft);
+    renderWeekView(preserveScroll, preservedScrollLeft, targetAbsoluteDayIndex);
   } else {
     renderMonthView();
   }
 }
 
 // 週表示レンダリング（スクロールベース遅延読み込み）
-function renderWeekView(preserveScrollPosition = false, preservedScrollLeft = 0) {
+function renderWeekView(preserveScrollPosition = false, preservedScrollLeft = 0, targetAbsoluteDayIndex = null) {
   const currentWeekStart = getWeekStart(currentDate);
   const displayStartWeek = getDisplayStartWeek();
 
@@ -451,7 +450,7 @@ function renderWeekView(preserveScrollPosition = false, preservedScrollLeft = 0)
   const container = document.getElementById('schedule-container');
   let savedScrollLeft = 0;
   if (preserveScrollPosition && container) {
-    savedScrollLeft = preservedScrollLeft || container.scrollLeft;
+    savedScrollLeft = preservedScrollLeft ?? container.scrollLeft;
   }
 
   // 各曜日セルの幅を計算
@@ -519,9 +518,20 @@ function renderWeekView(preserveScrollPosition = false, preservedScrollLeft = 0)
     if (preserveScrollPosition && container) {
       container.scrollLeft = savedScrollLeft;
     } else if (container) {
-      container.scrollLeft = initialScrollLeft;
+      let scrollLeftToSet = initialScrollLeft;
+
+      if (targetAbsoluteDayIndex !== null) {
+        const headerRow = document.getElementById('week-header-row');
+        const dayColumns = headerRow ? headerRow.querySelectorAll('th:not(:first-child)') : [];
+        const targetColumnIndex = targetAbsoluteDayIndex - (weekViewConfig.renderStartWeekIndex * 7);
+        if (dayColumns.length > targetColumnIndex && targetColumnIndex >= 0) {
+          scrollLeftToSet = getScrollLeftForColumn(container, dayColumns[targetColumnIndex]);
+        }
+      }
+
+      container.scrollLeft = scrollLeftToSet;
       // ブラウザのスクロール位置復元による上書きに対抗して再設定
-      setTimeout(() => { container.scrollLeft = initialScrollLeft; }, 0);
+      setTimeout(() => { container.scrollLeft = scrollLeftToSet; }, 0);
     }
 
     setTimeout(() => {
