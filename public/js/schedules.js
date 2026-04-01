@@ -483,32 +483,22 @@ function renderWeekView(preserveScrollPosition = false, preservedScrollLeft = 0)
   // 描画対象範囲のみセルを生成
   renderWeekRangeWithCells(startWeekIndex, endWeekIndex, displayStartWeek, currentWeekStart, timeSlots, tbody);
 
+  // 初回表示時のスクロール位置をRAF外で事前計算（DOM読み取りに依存しない）
+  let initialScrollLeft = 0;
+  if (!preserveScrollPosition) {
+    const today = new Date();
+    const relativeWeekIndex = currentWeekIndex - startWeekIndex;
+    initialScrollLeft = Math.max(0, (relativeWeekIndex * 7 + today.getDay()) * dayColumnWidth);
+  }
+
   // スクロール位置をDOM反映後に設定
   requestAnimationFrame(() => {
     if (preserveScrollPosition && container) {
       container.scrollLeft = savedScrollLeft;
-    } else {
-      // 初回読み込み時は現在日が表示されるように列境界に合わせてスクロール
-      const headerRow = document.getElementById('week-header-row');
-      if (headerRow && container) {
-        const dayColumns = headerRow.querySelectorAll('th:not(:first-child)');
-        if (dayColumns.length > 0) {
-          const dayColumnWidth = dayColumns[0].offsetWidth;
-
-          // 現在日（今日）を計算
-          const today = new Date();
-          const todayDayOfWeek = today.getDay(); // 0(日)〜6(土)
-
-          // 描画範囲内での現在週の位置を計算
-          // currentWeekIndexは全体での週番号、startWeekIndexは描画開始位置
-          const relativeWeekIndex = currentWeekIndex - startWeekIndex;
-
-          // 今日の列を時刻列右端にフィット（左右ボタンと同じ列左端スナップ）
-          const scrollPosition = (relativeWeekIndex * 7 + todayDayOfWeek) * dayColumnWidth;
-
-          container.scrollLeft = Math.max(0, scrollPosition);
-        }
-      }
+    } else if (container) {
+      container.scrollLeft = initialScrollLeft;
+      // ブラウザのスクロール位置復元による上書きに対抗して再設定
+      setTimeout(() => { container.scrollLeft = initialScrollLeft; }, 0);
     }
 
     setTimeout(() => {
