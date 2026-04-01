@@ -6,8 +6,11 @@ const SIDEBAR_BREAKPOINT = 992; // lg
 function updateFooterOffset() {
   const mainContent = document.querySelector('.main-content');
   if (!mainContent) return;
-  const offset = -parseFloat(getComputedStyle(mainContent).paddingLeft);
+  const style = getComputedStyle(mainContent);
+  const offset = -parseFloat(style.paddingLeft);
+  const paddingRight = parseFloat(style.paddingRight);
   mainContent.style.setProperty('--footer-offset', offset + 'px');
+  mainContent.style.setProperty('--footer-padding-right', paddingRight + 'px');
 }
 
 document.addEventListener('DOMContentLoaded', function() {
