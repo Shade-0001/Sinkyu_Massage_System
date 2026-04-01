@@ -144,7 +144,7 @@ Breadcrumbs::define('index', function() {
   return getIndexBreadcrumbs();
 });
 
-// 管理画面
+// アドミンパネル
 function getAdminPanelBreadcrumbs() {
   return [
     ...getIndexBreadcrumbs(),

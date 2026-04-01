@@ -43,7 +43,7 @@ Route::middleware('auth')->group(function () {
 
 	Route::view('/master/index', 'master.master_index')->name('master.index');
 
-  // 管理画面（is_admin=1のみアクセス可）
+  // アドミンパネル（is_admin=1のみアクセス可）
   Route::middleware('admin')->group(function () {
     Route::view('/admin-panel/index', 'admin-panel.admin-panel_index')->name('admin-panel.index');
 
