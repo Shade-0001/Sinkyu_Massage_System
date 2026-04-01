@@ -525,6 +525,7 @@ textarea:not(:disabled) {
   background: none;
   opacity: 1;
   z-index: 0;
+  border-radius: calc(var(--btn-br-tl, var(--btn-br-tl-base)) + 1px) calc(var(--btn-br-tr, var(--btn-br-tr-base)) + 1px) calc(var(--btn-br-br, var(--btn-br-br-base)) + 1px) calc(var(--btn-br-bl, var(--btn-br-bl-base)) + 1px);
   box-shadow:
     /*── ベベル ──────────*/
     /*左上*/
