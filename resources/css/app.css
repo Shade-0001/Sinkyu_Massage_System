@@ -43,7 +43,7 @@ textarea:not(:disabled) {
 /* フッター */
 .main-content>footer {
   margin-left: var(--footer-offset, 0px);
-  width: 100vw;
+  width: 100%;
   transition: margin-left 0.2s ease;
 }
 
