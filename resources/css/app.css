@@ -707,6 +707,19 @@ textarea:not(:disabled) {
   opacity: 0;
 }
 
+/* アクティブなサブEXボタンを視覚的に強調 */
+.btn-ex-sub.btn-ex-active {
+  background-color: var(--btn-primary-color);
+  color: #fff;
+}
+.btn-ex-sub.btn-ex-active::before {
+  opacity: 0;
+}
+.btn-ex-sub.btn-ex-active:hover {
+  background-color: var(--btn-primary-color);
+  color: #fff;
+}
+
 /* サブEXボタン - トグル効果 - ボーダー拡大 */
 .btn-ex-sub-toggle-expand.btn-ex-active:not(.btn-ex-xs):not(.btn-ex-sm):not(.btn-ex-lg):not(.btn-ex-xl),
 .btn-ex-sub-toggle-expand.btn-ex-active.btn-ex-sm {
