@@ -518,14 +518,6 @@ function renderWeekView(preserveScrollPosition = false, preservedScrollLeft = 0)
       }
     }
 
-    // 最終行のborder-bottomを消す（コンテナ下辺との二重線防止）
-    const lastRow = tbody.lastElementChild;
-    if (lastRow) {
-      Array.from(lastRow.cells).forEach(cell => {
-        cell.style.borderBottom = '0';
-      });
-    }
-
     setTimeout(() => {
       updateVisibleWeekDisplay();
     }, 100);
@@ -694,14 +686,6 @@ function renderWeekRangeWithCells(startWeekIndex, endWeekIndex, displayStartWeek
     });
 
     weekViewConfig.renderedWeeks.add(weekIndex);
-  }
-
-  // 最終行のborder-bottomを消す（コンテナ下辺との二重線防止）
-  const lastRow = tbody.lastElementChild;
-  if (lastRow) {
-    Array.from(lastRow.cells).forEach(cell => {
-      cell.style.borderBottom = '0';
-    });
   }
 }
 
