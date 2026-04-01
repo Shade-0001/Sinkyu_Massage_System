@@ -254,11 +254,10 @@ function navigateSchedule(direction) {
           const currentScrollLeft = container.scrollLeft;
 
           // 現在のスクロール位置から1週間分（7列）移動
-          const weekWidth = dayColumnWidth * 7;
-          const newScrollLeft = currentScrollLeft + (direction * weekWidth);
-
-          // 列境界に調整
-          const adjustedScrollLeft = Math.round(newScrollLeft / dayColumnWidth) * dayColumnWidth;
+          const currentColumnIndex = Math.round(currentScrollLeft / dayColumnWidth);
+          const targetColumnIndex = currentColumnIndex + (direction * 7);
+          const clampedColumnIndex = Math.max(0, Math.min(targetColumnIndex, dayColumns.length - 1));
+          const adjustedScrollLeft = dayColumns[clampedColumnIndex].offsetLeft;
 
           currentDate.setDate(currentDate.getDate() + (direction * 7));
           loadScheduleData(true, adjustedScrollLeft);
@@ -483,12 +482,20 @@ function renderWeekView(preserveScrollPosition = false, preservedScrollLeft = 0)
   // 描画対象範囲のみセルを生成
   renderWeekRangeWithCells(startWeekIndex, endWeekIndex, displayStartWeek, currentWeekStart, timeSlots, tbody);
 
-  // 初回表示時のスクロール位置をRAF外で事前計算（DOM読み取りに依存しない）
+  // 初回表示時のスクロール位置をRAF外で事前計算
   let initialScrollLeft = 0;
   if (!preserveScrollPosition) {
     const today = new Date();
     const relativeWeekIndex = currentWeekIndex - startWeekIndex;
-    initialScrollLeft = Math.max(0, (relativeWeekIndex * 7 + today.getDay()) * dayColumnWidth);
+    const headerRow = document.getElementById('week-header-row');
+    const dayColumns = headerRow ? headerRow.querySelectorAll('th:not(:first-child)') : [];
+    const todayColumnIndex = relativeWeekIndex * 7 + today.getDay();
+
+    if (dayColumns.length > todayColumnIndex) {
+      initialScrollLeft = dayColumns[todayColumnIndex].offsetLeft;
+    } else {
+      initialScrollLeft = Math.max(0, (relativeWeekIndex * 7 + today.getDay()) * dayColumnWidth);
+    }
   }
 
   // スクロール位置をDOM反映後に設定
@@ -728,9 +735,13 @@ function scrollToCurrentWeek() {
   const relativeWeekIndex = Math.max(0, currentWeekIndex - renderStartWeekIndex);
 
   // 現在週の開始位置にスクロール
-  const scrollPosition = weekWidth * relativeWeekIndex;
-
-  container.scrollLeft = scrollPosition;
+  const targetColumnIndex = relativeWeekIndex * 7;
+  const targetColumn = dayColumns[targetColumnIndex];
+  if (targetColumn) {
+    container.scrollLeft = targetColumn.offsetLeft;
+  } else {
+    container.scrollLeft = weekWidth * relativeWeekIndex;
+  }
 }
 
 // 現在時刻の行を中央に表示
