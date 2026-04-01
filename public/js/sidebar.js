@@ -2,15 +2,13 @@
 
 const SIDEBAR_BREAKPOINT = 992; // lg
 
-// フッターのX軸オフセット（.main-contentのpadding-left分だけネガティブマージン）
+// フッターのX軸マージン（.main-contentのpaddingを打ち消すネガティブマージン）
 function updateFooterOffset() {
   const mainContent = document.querySelector('.main-content');
   if (!mainContent) return;
   const style = getComputedStyle(mainContent);
-  const offset = -parseFloat(style.paddingLeft);
-  const paddingRight = parseFloat(style.paddingRight);
-  mainContent.style.setProperty('--footer-offset', offset + 'px');
-  mainContent.style.setProperty('--footer-padding-right', paddingRight + 'px');
+  mainContent.style.setProperty('--footer-padding-left', parseFloat(style.paddingLeft) + 'px');
+  mainContent.style.setProperty('--footer-padding-right', parseFloat(style.paddingRight) + 'px');
 }
 
 document.addEventListener('DOMContentLoaded', function() {

@@ -42,9 +42,8 @@ textarea:not(:disabled) {
 
 /* フッター */
 .main-content>footer {
-  margin-left: var(--footer-offset, 0px);
-  width: calc(100% - var(--footer-offset, 0px) + var(--footer-padding-right, 0px));
-  transition: margin-left 0.2s ease;
+  margin-left: calc(-1 * var(--footer-padding-left, 16px));
+  margin-right: calc(-1 * var(--footer-padding-right, 16px));
 }
 
 /* ウィンドウ幅縮小時のvr(縦線)消失を無効化 */
