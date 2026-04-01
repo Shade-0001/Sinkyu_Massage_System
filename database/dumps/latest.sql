@@ -165,6 +165,54 @@ INSERT INTO `bodyparts-records` VALUES (109,'2025-12-09 11:47:46','2025-12-09 11
 UNLOCK TABLES;
 
 --
+-- Table structure for table `cache`
+--
+
+DROP TABLE IF EXISTS `cache`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cache` (
+  `key` varchar(255) NOT NULL,
+  `value` mediumtext NOT NULL,
+  `expiration` int(11) NOT NULL,
+  PRIMARY KEY (`key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cache`
+--
+
+LOCK TABLES `cache` WRITE;
+/*!40000 ALTER TABLE `cache` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cache` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cache_locks`
+--
+
+DROP TABLE IF EXISTS `cache_locks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cache_locks` (
+  `key` varchar(255) NOT NULL,
+  `owner` varchar(255) NOT NULL,
+  `expiration` int(11) NOT NULL,
+  PRIMARY KEY (`key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cache_locks`
+--
+
+LOCK TABLES `cache_locks` WRITE;
+/*!40000 ALTER TABLE `cache_locks` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cache_locks` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `caremanagers`
 --
 
@@ -644,6 +692,35 @@ INSERT INTO `expenses_borne_ratios` VALUES (1,'2025-10-15 15:13:10','2025-10-17 
 UNLOCK TABLES;
 
 --
+-- Table structure for table `failed_jobs`
+--
+
+DROP TABLE IF EXISTS `failed_jobs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `failed_jobs` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(255) NOT NULL,
+  `connection` text NOT NULL,
+  `queue` text NOT NULL,
+  `payload` longtext NOT NULL,
+  `exception` longtext NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `failed_jobs`
+--
+
+LOCK TABLES `failed_jobs` WRITE;
+/*!40000 ALTER TABLE `failed_jobs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `failed_jobs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `gender`
 --
 
@@ -921,6 +998,66 @@ INSERT INTO `insurers` VALUES (1,'2026-03-02 12:15:19','2026-03-02 12:15:19','å…
 UNLOCK TABLES;
 
 --
+-- Table structure for table `job_batches`
+--
+
+DROP TABLE IF EXISTS `job_batches`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `job_batches` (
+  `id` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `total_jobs` int(11) NOT NULL,
+  `pending_jobs` int(11) NOT NULL,
+  `failed_jobs` int(11) NOT NULL,
+  `failed_job_ids` longtext NOT NULL,
+  `options` mediumtext DEFAULT NULL,
+  `cancelled_at` int(11) DEFAULT NULL,
+  `created_at` int(11) NOT NULL,
+  `finished_at` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `job_batches`
+--
+
+LOCK TABLES `job_batches` WRITE;
+/*!40000 ALTER TABLE `job_batches` DISABLE KEYS */;
+/*!40000 ALTER TABLE `job_batches` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `jobs`
+--
+
+DROP TABLE IF EXISTS `jobs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `jobs` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `queue` varchar(255) NOT NULL,
+  `payload` longtext NOT NULL,
+  `attempts` tinyint(3) unsigned NOT NULL,
+  `reserved_at` int(10) unsigned DEFAULT NULL,
+  `available_at` int(10) unsigned NOT NULL,
+  `created_at` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `jobs_queue_index` (`queue`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `jobs`
+--
+
+LOCK TABLES `jobs` WRITE;
+/*!40000 ALTER TABLE `jobs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `jobs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `license`
 --
 
@@ -1012,7 +1149,7 @@ CREATE TABLE `notice_reads` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `notice_reads_user_id_notice_id_unique` (`user_id`,`notice_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1021,7 +1158,7 @@ CREATE TABLE `notice_reads` (
 
 LOCK TABLES `notice_reads` WRITE;
 /*!40000 ALTER TABLE `notice_reads` DISABLE KEYS */;
-INSERT INTO `notice_reads` VALUES (3,1,6,'2026-03-23 02:09:12','2026-03-23 02:09:12'),(4,1,5,'2026-03-23 02:09:47','2026-03-23 02:09:47'),(5,1,4,'2026-03-23 02:11:08','2026-03-23 02:11:08'),(6,1,2,'2026-03-23 02:12:13','2026-03-23 02:12:13'),(7,1,3,'2026-03-23 02:12:14','2026-03-23 02:12:14'),(36,1,14,'2026-03-23 03:59:15','2026-03-23 03:59:15'),(37,1,15,'2026-03-23 04:05:17','2026-03-23 04:05:17'),(39,1,12,'2026-03-24 01:37:56','2026-03-24 01:37:56'),(40,1,7,'2026-03-25 00:59:17','2026-03-25 00:59:17'),(42,1,9,'2026-03-25 00:59:37','2026-03-25 00:59:37');
+INSERT INTO `notice_reads` VALUES (3,1,6,'2026-03-23 02:09:12','2026-03-23 02:09:12'),(4,1,5,'2026-03-23 02:09:47','2026-03-23 02:09:47'),(5,1,4,'2026-03-23 02:11:08','2026-03-23 02:11:08'),(6,1,2,'2026-03-23 02:12:13','2026-03-23 02:12:13'),(7,1,3,'2026-03-23 02:12:14','2026-03-23 02:12:14'),(34,1,1,'2026-03-23 03:16:41','2026-03-23 03:16:41'),(39,1,12,'2026-03-24 01:37:56','2026-03-24 01:37:56'),(41,1,8,'2026-03-25 00:59:21','2026-03-25 00:59:21'),(43,1,10,'2026-03-26 07:55:32','2026-03-26 07:55:32'),(44,1,14,'2026-03-26 07:55:47','2026-03-26 07:55:47');
 /*!40000 ALTER TABLE `notice_reads` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1455,6 +1592,34 @@ INSERT INTO `service_providers` VALUES (1,'2026-02-28 15:12:32','2026-02-28 15:1
 UNLOCK TABLES;
 
 --
+-- Table structure for table `sessions`
+--
+
+DROP TABLE IF EXISTS `sessions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sessions` (
+  `id` varchar(255) NOT NULL,
+  `user_id` bigint(20) unsigned DEFAULT NULL,
+  `ip_address` varchar(45) DEFAULT NULL,
+  `user_agent` text DEFAULT NULL,
+  `payload` longtext NOT NULL,
+  `last_activity` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sessions`
+--
+
+LOCK TABLES `sessions` WRITE;
+/*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
+INSERT INTO `sessions` VALUES ('t4bkkQtE0ErbTTdI9SPHxLqH1EBfeYmHVOnBxtUR',1,'127.0.0.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','YTo0OntzOjY6Il90b2tlbiI7czo0MDoiRXFKdWFFSnBrUmlKSFc0SzhFNHlLRXVTcU5MTTdtcW1FRGNldTRDaCI7czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTtzOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czo5MzoiaHR0cDovL2xvY2FsaG9zdDo4MDAwL3NjaGVkdWxlcy9kYXRhP2VuZF9kYXRlPTIwMjYtMDYtMjcmc3RhcnRfZGF0ZT0yMDI2LTAyLTAxJnRoZXJhcGlzdF9pZD03Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==',1775053388);
+/*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `system_users`
 --
 
@@ -1483,7 +1648,7 @@ CREATE TABLE `system_users` (
 
 LOCK TABLES `system_users` WRITE;
 /*!40000 ALTER TABLE `system_users` DISABLE KEYS */;
-INSERT INTO `system_users` VALUES (1,'2025-09-19 11:37:39','2026-03-31 10:42:46','SystemUser-01','user01','$2y$12$vV4msAjnN3/MwdrU3bEfQuPUjy7MFud8XTLVE2ptRB94gTtZTfMH6','user01','GjeZN4TX9qmQAhu72jw05OpBZjOKNCznjKySVuzy2Gegoa06L9gP2tmIE2gD','2026-03-31 01:42:46',1,''),(2,'2026-03-09 06:36:13','2026-03-21 15:21:50','SystemUser-02','user02','$2y$12$svGrg1y.7wjyh/Zn2iKVO.Yr9ldFyl62vkpCTp6.7/pnIub/AVtWy','user02','thONeMdCPw9Yu97XavqUrKFc1Vdg7L2BsZ8LE9dLMHQ7WkWZVZ3rVtfiQPP6','2026-03-19 02:28:07',0,'');
+INSERT INTO `system_users` VALUES (1,'2025-09-19 11:37:39','2026-03-26 16:55:22','SystemUser-01','user01','$2y$12$vV4msAjnN3/MwdrU3bEfQuPUjy7MFud8XTLVE2ptRB94gTtZTfMH6','user01','Kiiq1uVV9sJIDAG0V2sGIYYBFrPxMnjc0PzcTZC6Lj1CYHtx6qzJNMvzeCPX','2026-03-26 07:55:22',1,''),(2,'2026-03-09 06:36:13','2026-03-21 15:21:50','SystemUser-02','user02','$2y$12$svGrg1y.7wjyh/Zn2iKVO.Yr9ldFyl62vkpCTp6.7/pnIub/AVtWy','user02','thONeMdCPw9Yu97XavqUrKFc1Vdg7L2BsZ8LE9dLMHQ7WkWZVZ3rVtfiQPP6','2026-03-19 02:28:07',0,'');
 /*!40000 ALTER TABLE `system_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1686,4 +1851,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-04-01 16:21:27
+-- Dump completed on 2026-04-02  2:11:27

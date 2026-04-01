@@ -26,7 +26,7 @@
     <div class="btn-ex-sub">ボタン</div>
     <br><br>
     <div class="btn-ex-main btn-ex-lg">ボタン</div>
-    <div class="btn-ex-sub btn-ex-lg">ボタン</div>
+    <div class="btn-ex-sub btn-ex-lg btn-ex-sub-toggle-invert" data-bs-toggle="btn-ex">ボタン</div>
     <br><br>
 
     <!-- スケジュール表コントロール -->
@@ -35,11 +35,11 @@
         <div class="d-flex justify-content-between align-items-center">
           <!-- 左｜スクロールボタン -->
           <div class="d-flex align-items-stretch">
-            <button type="button" id="prev-btn" class="btn-ex-sub btn-ex-blue btn-ex-lg px-3" style="--btn-br-tl: 12px; --btn-br-tr: 0px; --btn-br-br: 0px; --btn-br-bl: 12px;">
+            <button type="button" id="prev-btn" class="btn-ex-sub btn-ex-blue btn-ex-lg px-3" style="--btn-br-tl: 14px; --btn-br-tr: 0px; --btn-br-br: 0px; --btn-br-bl: 14px;">
               <i class="nf nf-fa-angle_left"></i>
             </button>
             <button type="button" id="current-btn" class="btn-ex-sub btn-ex-blue rounded-0 btn-ex-lg">現在</button>
-            <button type="button" id="next-btn" class="btn-ex-sub btn-ex-blue btn-ex-lg px-3" style="--btn-br-tl: 0px; --btn-br-tr: 12px; --btn-br-br: 12px; --btn-br-bl: 0px;">
+            <button type="button" id="next-btn" class="btn-ex-sub btn-ex-blue btn-ex-lg px-3" style="--btn-br-tl: 0px; --btn-br-tr: 14px; --btn-br-br: 14px; --btn-br-bl: 0px;">
               <i class="nf nf-fa-angle_right"></i>
             </button>
           </div>
@@ -53,8 +53,8 @@
 
           <!-- 右｜表示切り替えボタン -->
           <div class="d-flex align-items-stretch" data-bs-toggle="btn-ex-group">
-            <button type="button" id="week-view-btn" class="btn-ex-sub btn-ex-blue btn-ex-lg btn-ex-sub-toggle-invert btn-ex-active" style="--btn-br-tl: 12px; --btn-br-tr: 0px; --btn-br-br: 0px; --btn-br-bl: 12px;">週表示</button>
-            <button type="button" id="month-view-btn" class="btn-ex-sub btn-ex-blue btn-ex-lg btn-ex-sub-toggle-invert" style="--btn-br-tl: 0px; --btn-br-tr: 12px; --btn-br-br: 12px; --btn-br-bl: 0px;">月表示</button>
+            <button type="button" id="week-view-btn" class="btn-ex-sub btn-ex-blue btn-ex-lg btn-ex-sub-toggle-invert btn-ex-active" style="--btn-br-tl: 14px; --btn-br-tr: 0px; --btn-br-br: 0px; --btn-br-bl: 14px;">週表示</button>
+            <button type="button" id="month-view-btn" class="btn-ex-sub btn-ex-blue btn-ex-lg btn-ex-sub-toggle-invert" style="--btn-br-tl: 0px; --btn-br-tr: 14px; --btn-br-br: 14px; --btn-br-bl: 0px;">月表示</button>
           </div>
         </div>
       </div>
