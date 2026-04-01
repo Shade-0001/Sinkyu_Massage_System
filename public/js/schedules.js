@@ -66,6 +66,27 @@ function getRenderRange(currentWeekIndex, dayColumnWidth) {
   return { startWeekIndex, endWeekIndex };
 }
 
+function getScrollLeftForColumn(container, column) {
+  if (!container || !column) return 0;
+  const containerRect = container.getBoundingClientRect();
+  const columnRect = column.getBoundingClientRect();
+  return container.scrollLeft + (columnRect.left - containerRect.left);
+}
+
+function getLeftmostVisibleDayColumnIndex(container, dayColumns) {
+  if (!container || !dayColumns || dayColumns.length === 0) return 0;
+  const currentScrollLeft = container.scrollLeft;
+  let currentIndex = 0;
+  for (let i = 0; i < dayColumns.length; i++) {
+    if (dayColumns[i].offsetLeft <= currentScrollLeft + 1) {
+      currentIndex = i;
+    } else {
+      break;
+    }
+  }
+  return currentIndex;
+}
+
 let weekViewConfig = {
   weeksToShow: 0, // 初期化時に計算
   currentWeekOffset: 0, // 現在の週のオフセット
@@ -250,14 +271,10 @@ function navigateSchedule(direction) {
       if (headerRow) {
         const dayColumns = headerRow.querySelectorAll('th:not(:first-child)');
         if (dayColumns.length > 0) {
-          const dayColumnWidth = dayColumns[0].offsetWidth;
-          const currentScrollLeft = container.scrollLeft;
-
-          // 現在のスクロール位置から1週間分（7列）移動
-          const currentColumnIndex = Math.round(currentScrollLeft / dayColumnWidth);
+          const currentColumnIndex = getLeftmostVisibleDayColumnIndex(container, dayColumns);
           const targetColumnIndex = currentColumnIndex + (direction * 7);
           const clampedColumnIndex = Math.max(0, Math.min(targetColumnIndex, dayColumns.length - 1));
-          const adjustedScrollLeft = dayColumns[clampedColumnIndex].offsetLeft;
+          const adjustedScrollLeft = getScrollLeftForColumn(container, dayColumns[clampedColumnIndex]);
 
           currentDate.setDate(currentDate.getDate() + (direction * 7));
           loadScheduleData(true, adjustedScrollLeft);
@@ -482,24 +499,23 @@ function renderWeekView(preserveScrollPosition = false, preservedScrollLeft = 0)
   // 描画対象範囲のみセルを生成
   renderWeekRangeWithCells(startWeekIndex, endWeekIndex, displayStartWeek, currentWeekStart, timeSlots, tbody);
 
-  // 初回表示時のスクロール位置をRAF外で事前計算
+  // 初回表示時のスクロール位置をDOMレイアウト後に決定
   let initialScrollLeft = 0;
-  if (!preserveScrollPosition) {
-    const today = new Date();
-    const relativeWeekIndex = currentWeekIndex - startWeekIndex;
-    const headerRow = document.getElementById('week-header-row');
-    const dayColumns = headerRow ? headerRow.querySelectorAll('th:not(:first-child)') : [];
-    const todayColumnIndex = relativeWeekIndex * 7 + today.getDay();
-
-    if (dayColumns.length > todayColumnIndex) {
-      initialScrollLeft = dayColumns[todayColumnIndex].offsetLeft;
-    } else {
-      initialScrollLeft = Math.max(0, (relativeWeekIndex * 7 + today.getDay()) * dayColumnWidth);
-    }
-  }
 
   // スクロール位置をDOM反映後に設定
   requestAnimationFrame(() => {
+    if (!preserveScrollPosition && container) {
+      const today = new Date();
+      const relativeWeekIndex = currentWeekIndex - startWeekIndex;
+      const headerRow = document.getElementById('week-header-row');
+      const dayColumns = headerRow ? headerRow.querySelectorAll('th:not(:first-child)') : [];
+      const todayColumnIndex = relativeWeekIndex * 7 + today.getDay();
+
+      if (dayColumns.length > todayColumnIndex) {
+        initialScrollLeft = getScrollLeftForColumn(container, dayColumns[todayColumnIndex]);
+      }
+    }
+
     if (preserveScrollPosition && container) {
       container.scrollLeft = savedScrollLeft;
     } else if (container) {
@@ -738,7 +754,7 @@ function scrollToCurrentWeek() {
   const targetColumnIndex = relativeWeekIndex * 7;
   const targetColumn = dayColumns[targetColumnIndex];
   if (targetColumn) {
-    container.scrollLeft = targetColumn.offsetLeft;
+    container.scrollLeft = getScrollLeftForColumn(container, targetColumn);
   } else {
     container.scrollLeft = weekWidth * relativeWeekIndex;
   }
