@@ -75,13 +75,13 @@
               <thead class="sticky-top" style="background-color: #fff;">
                 <tr>
                   <th class="fw-bold" style="width: 50px; border-right: 2px solid #888;">週</th>
-                  <th class="fw-bold" style="color: #d44737;">日</th>
-                  <th class="fw-bold">月</th>
-                  <th class="fw-bold">火</th>
-                  <th class="fw-bold">水</th>
-                  <th class="fw-bold">木</th>
-                  <th class="fw-bold">金</th>
-                  <th class="fw-bold" style="color: #2d86c2;">土</th>
+                  <th class="fw-bold" style="color: #d44737; border-left: 0; border-right: 2px solid #888;">日</th>
+                  <th class="fw-bold" style="border-left: 0; border-right: 2px solid #888;">月</th>
+                  <th class="fw-bold" style="border-left: 0; border-right: 2px solid #888;">火</th>
+                  <th class="fw-bold" style="border-left: 0; border-right: 2px solid #888;">水</th>
+                  <th class="fw-bold" style="border-left: 0; border-right: 2px solid #888;">木</th>
+                  <th class="fw-bold" style="border-left: 0; border-right: 2px solid #888;">金</th>
+                  <th class="fw-bold" style="color: #2d86c2; border-left: 0; border-right: 0;">土</th>
                 </tr>
               </thead>
               <tbody id="month-schedule-body">

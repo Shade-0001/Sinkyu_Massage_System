@@ -1145,7 +1145,7 @@ function renderMonthView() {
     for (let i = 0; i < 7; i++) {
       const td = document.createElement('td');
       td.className = 'position-relative';
-      td.style.cssText = 'height: 100px; min-height: 100px; max-height: 100px; vertical-align: top; padding: 2px; overflow: hidden; border-bottom: 2px solid #888;' + (i === 6 ? ' border-right: 0;' : '');
+      td.style.cssText = 'height: 100px; min-height: 100px; max-height: 100px; vertical-align: top; padding: 2px; overflow: hidden; border-left: 0; border-right: ' + (i === 6 ? '0;' : '2px solid #888;') + ' border-bottom: 2px solid #888;';
 
       const dateDiv = document.createElement('div');
       dateDiv.className = 'fw-bold';
