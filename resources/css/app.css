@@ -534,15 +534,15 @@ textarea:not(:disabled) {
     /*左*/
     inset calc(var(--btn-shadow-size) + 0.5px) 0 1px var(--btn-shadow-color-light-base),
     /*左下*/
-    inset calc(var(--btn-shadow-size) + 0.5px) calc(var(--btn-shadow-size-neg) + 0.5px) 1px var(--btn-shadow-color-mid-base),
+    inset calc(var(--btn-shadow-size) + 0.5px) calc(var(--btn-shadow-size-neg) - 0.5px) 1px var(--btn-shadow-color-mid-base),
     /*右上*/
-    inset calc(var(--btn-shadow-size-neg) + 0.5px) calc(var(--btn-shadow-size) + 0.5px) 1px var(--btn-shadow-color-mid-base),
+    inset calc(var(--btn-shadow-size-neg) - 0.5px) calc(var(--btn-shadow-size) + 0.5px) 1px var(--btn-shadow-color-mid-base),
     /*右*/
-    inset calc(var(--btn-shadow-size-neg) + 0.5px) 0 1px var(--btn-shadow-color-dark-base),
+    inset calc(var(--btn-shadow-size-neg) - 0.5px) 0 1px var(--btn-shadow-color-dark-base),
     /*下*/
-    inset 0 calc(var(--btn-shadow-size-neg) + 0.5px) 1px var(--btn-shadow-color-dark-base),
+    inset 0 calc(var(--btn-shadow-size-neg) - 0.5px) 1px var(--btn-shadow-color-dark-base),
     /*右下*/
-    inset calc(var(--btn-shadow-size-neg) + 0.5px) calc(var(--btn-shadow-size-neg) + 0.5px) 1px var(--btn-shadow-color-dark-base);
+    inset calc(var(--btn-shadow-size-neg) - 0.5px) calc(var(--btn-shadow-size-neg) - 0.5px) 1px var(--btn-shadow-color-dark-base);
 }
 .btn-ex-sub::after {
   background: #000;
