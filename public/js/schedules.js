@@ -187,7 +187,7 @@ function initializeEventListeners() {
 
   document.getElementById('current-btn').addEventListener('click', function() {
     currentDate = new Date();
-    loadScheduleData();
+    loadScheduleData(false, 0, true);
   });
 
   document.getElementById('next-btn').addEventListener('click', function() {
@@ -272,11 +272,12 @@ function navigateSchedule(direction) {
         const dayColumns = headerRow.querySelectorAll('th:not(:first-child)');
         if (dayColumns.length > 0) {
           const currentColumnIndex = getLeftmostVisibleDayColumnIndex(container, dayColumns);
-          const currentAbsoluteDayIndex = (weekViewConfig.renderStartWeekIndex || 0) * 7 + currentColumnIndex;
-          const targetAbsoluteDayIndex = currentAbsoluteDayIndex + (direction * 7);
+          const targetColumnIndex = currentColumnIndex + (direction * 7);
+          const clampedColumnIndex = Math.max(0, Math.min(targetColumnIndex, dayColumns.length - 1));
+          const adjustedScrollLeft = getScrollLeftForColumn(container, dayColumns[clampedColumnIndex]);
 
           currentDate.setDate(currentDate.getDate() + (direction * 7));
-          loadScheduleData(false, 0, targetAbsoluteDayIndex);
+          loadScheduleData(true, adjustedScrollLeft, true);
           return;
         }
       }
@@ -308,7 +309,7 @@ function switchViewMode(mode) {
 }
 
 // スケジュールデータ読み込み
-function loadScheduleData(preserveScroll = false, preservedScrollLeft = 0, targetAbsoluteDayIndex = null) {
+function loadScheduleData(preserveScroll = false, preservedScrollLeft = 0, smoothScroll = false) {
   const therapistId = document.getElementById('therapist-select').value;
   const dateRange = getDateRange();
 
@@ -320,7 +321,7 @@ function loadScheduleData(preserveScroll = false, preservedScrollLeft = 0, targe
       scheduleData = data.records;
       // 定休日の変化点をグローバルに保持
       window.scheduleConfig.closedDayRanges = data.closed_day_ranges || [];
-      renderSchedule(preserveScroll, preservedScrollLeft, targetAbsoluteDayIndex);
+      renderSchedule(preserveScroll, preservedScrollLeft, smoothScroll);
       updateHeaderDisplay();
     })
     .catch(error => {
@@ -433,16 +434,16 @@ function updateHeaderDisplay() {
 }
 
 // スケジュール表示
-function renderSchedule(preserveScroll = false, preservedScrollLeft = 0, targetAbsoluteDayIndex = null) {
+function renderSchedule(preserveScroll = false, preservedScrollLeft = 0, smoothScroll = false) {
   if (viewMode === 'week') {
-    renderWeekView(preserveScroll, preservedScrollLeft, targetAbsoluteDayIndex);
+    renderWeekView(preserveScroll, preservedScrollLeft, smoothScroll);
   } else {
     renderMonthView();
   }
 }
 
 // 週表示レンダリング（スクロールベース遅延読み込み）
-function renderWeekView(preserveScrollPosition = false, preservedScrollLeft = 0, targetAbsoluteDayIndex = null) {
+function renderWeekView(preserveScrollPosition = false, preservedScrollLeft = 0, smoothScroll = false) {
   const currentWeekStart = getWeekStart(currentDate);
   const displayStartWeek = getDisplayStartWeek();
 
@@ -499,40 +500,51 @@ function renderWeekView(preserveScrollPosition = false, preservedScrollLeft = 0,
   renderWeekRangeWithCells(startWeekIndex, endWeekIndex, displayStartWeek, currentWeekStart, timeSlots, tbody);
 
   // 初回表示時のスクロール位置をDOMレイアウト後に決定
-  let initialScrollLeft = 0;
+  let scrollLeftToSet = 0;
 
   // スクロール位置をDOM反映後に設定
   requestAnimationFrame(() => {
     if (!preserveScrollPosition && container) {
-      const today = new Date();
       const relativeWeekIndex = currentWeekIndex - startWeekIndex;
       const headerRow = document.getElementById('week-header-row');
       const dayColumns = headerRow ? headerRow.querySelectorAll('th:not(:first-child)') : [];
-      const todayColumnIndex = relativeWeekIndex * 7 + today.getDay();
+      const startOfCurrentWeekColumnIndex = relativeWeekIndex * 7;
 
-      if (dayColumns.length > todayColumnIndex) {
-        initialScrollLeft = getScrollLeftForColumn(container, dayColumns[todayColumnIndex]);
+      if (dayColumns.length > startOfCurrentWeekColumnIndex && startOfCurrentWeekColumnIndex >= 0) {
+        scrollLeftToSet = getScrollLeftForColumn(container, dayColumns[startOfCurrentWeekColumnIndex]);
       }
     }
 
     if (preserveScrollPosition && container) {
-      container.scrollLeft = savedScrollLeft;
+      if (smoothScroll && typeof container.scrollTo === 'function') {
+        container.scrollTo({ left: savedScrollLeft, behavior: 'smooth' });
+      } else {
+        container.scrollLeft = savedScrollLeft;
+      }
     } else if (container) {
-      let scrollLeftToSet = initialScrollLeft;
+      if (smoothScroll && typeof container.scrollTo === 'function') {
+        container.scrollTo({ left: scrollLeftToSet, behavior: 'smooth' });
+      } else {
+        container.scrollLeft = scrollLeftToSet;
+      }
+    }
 
-      if (targetAbsoluteDayIndex !== null) {
-        const headerRow = document.getElementById('week-header-row');
-        const dayColumns = headerRow ? headerRow.querySelectorAll('th:not(:first-child)') : [];
-        const targetColumnIndex = targetAbsoluteDayIndex - (weekViewConfig.renderStartWeekIndex * 7);
-        if (dayColumns.length > targetColumnIndex && targetColumnIndex >= 0) {
-          scrollLeftToSet = getScrollLeftForColumn(container, dayColumns[targetColumnIndex]);
+    // ブラウザのスクロール位置復元による上書きに対抗して再設定
+    setTimeout(() => {
+      if (preserveScrollPosition && container) {
+        if (smoothScroll && typeof container.scrollTo === 'function') {
+          container.scrollTo({ left: savedScrollLeft, behavior: 'smooth' });
+        } else {
+          container.scrollLeft = savedScrollLeft;
+        }
+      } else if (container) {
+        if (smoothScroll && typeof container.scrollTo === 'function') {
+          container.scrollTo({ left: scrollLeftToSet, behavior: 'smooth' });
+        } else {
+          container.scrollLeft = scrollLeftToSet;
         }
       }
-
-      container.scrollLeft = scrollLeftToSet;
-      // ブラウザのスクロール位置復元による上書きに対抗して再設定
-      setTimeout(() => { container.scrollLeft = scrollLeftToSet; }, 0);
-    }
+    }, 0);
 
     setTimeout(() => {
       updateVisibleWeekDisplay();
