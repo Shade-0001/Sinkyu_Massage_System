@@ -704,20 +704,7 @@ textarea:not(:disabled) {
   -webkit-text-stroke: 0px rgba(255, 255, 255, 0);
 }
 .btn-ex-sub-toggle-invert.btn-ex-active::before {
-  opacity: 0;
-}
-
-/* アクティブなサブEXボタンを視覚的に強調 */
-.btn-ex-sub.btn-ex-active {
-  background-color: var(--btn-primary-color);
-  color: #fff;
-}
-.btn-ex-sub.btn-ex-active::before {
-  opacity: 0;
-}
-.btn-ex-sub.btn-ex-active:hover {
-  background-color: var(--btn-primary-color);
-  color: #fff;
+  opacity: 1;
 }
 
 /* サブEXボタン - トグル効果 - ボーダー拡大 */
