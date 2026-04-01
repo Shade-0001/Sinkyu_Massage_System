@@ -54,7 +54,7 @@
     <!-- スケジュール表 -->
     <div class="row">
       <div class="col-12">
-        <div id="schedule-container" class="rounded bg-white" style="overflow-x: auto; overflow-y: auto; position: relative; border: 4px solid #888;">
+        <div id="schedule-container" class="rounded bg-white" style="overflow-x: auto; overflow-y: auto; position: relative; border: 3px solid #888;">
           <!-- 週表示 -->
           <div id="week-view" style="display: block;">
             <table class="table table-bordered mb-0" id="week-schedule-table" style="--bs-border-color: #888; border-collapse: separate; border-spacing: 0;">
@@ -208,7 +208,16 @@
 
         /* 月表示テーブルのヘッダー */
         #month-schedule-table thead th {
+          border-top: 0;
           border-bottom: 3px solid #888;
+        }
+
+        /* 月表示テーブルのヘッダー左端・右端 */
+        #month-schedule-table thead th:first-child {
+          border-left: 0;
+        }
+        #month-schedule-table thead th:last-child {
+          border-right: 0;
         }
       </style>
     @endpush

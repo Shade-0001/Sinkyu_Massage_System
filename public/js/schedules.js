@@ -1134,6 +1134,7 @@ function renderMonthView() {
     const weekTd = document.createElement('td');
     weekTd.textContent = getWeekNumber(currentCalendarDate);
     weekTd.className = 'text-center fw-bold';
+    weekTd.style.borderLeft = '0';
     weekTd.style.borderRight = '3px solid #888';
     weekTd.style.borderBottom = '2px solid #888';
     tr.appendChild(weekTd);
@@ -1142,7 +1143,7 @@ function renderMonthView() {
     for (let i = 0; i < 7; i++) {
       const td = document.createElement('td');
       td.className = 'position-relative';
-      td.style.cssText = 'height: 100px; min-height: 100px; max-height: 100px; vertical-align: top; padding: 2px; overflow: hidden; border-bottom: 2px solid #888;';
+      td.style.cssText = 'height: 100px; min-height: 100px; max-height: 100px; vertical-align: top; padding: 2px; overflow: hidden; border-bottom: 2px solid #888;' + (i === 6 ? ' border-right: 0;' : '');
 
       const dateDiv = document.createElement('div');
       dateDiv.className = 'fw-bold';
