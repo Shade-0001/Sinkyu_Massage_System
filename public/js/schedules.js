@@ -622,7 +622,7 @@ function renderWeekRangeWithCells(startWeekIndex, endWeekIndex, displayStartWeek
 
         const td = document.createElement('td');
         td.className = 'position-relative';
-        td.style.cssText = `width: ${dayColumnWidth}px; min-width: ${dayColumnWidth}px; max-width: ${dayColumnWidth}px; padding: 0; vertical-align: top; overflow: visible; border-top: ${minute === 0 ? 'none' : '1px solid #888'}; border-bottom: ${minute === 50 ? '2px solid #888' : '0'};`;
+        td.style.cssText = `width: ${dayColumnWidth}px; min-width: ${dayColumnWidth}px; max-width: ${dayColumnWidth}px; padding: 0; vertical-align: top; overflow: visible; border-top: ${minute === 0 ? 'none' : '1px solid #aaa'}; border-bottom: ${minute === 50 ? '2px solid #aaa' : '0'};`;
         td.dataset.date = formatDate(date);
         td.dataset.hour = hour;
         td.dataset.minute = minute;
@@ -702,8 +702,8 @@ function createTimeRow(hour, minute) {
   timeTd.style.width = '40px';
   timeTd.style.minWidth = '40px';
   timeTd.style.maxWidth = '40px';
-  timeTd.style.borderTop = minute === 0 ? 'none' : '1px solid #888';
-  timeTd.style.borderBottom = minute === 50 ? '2px solid #888' : '0';
+  timeTd.style.borderTop = minute === 0 ? 'none' : '1px solid #aaa';
+  timeTd.style.borderBottom = minute === 50 ? '2px solid #aaa' : '0';
   timeTd.style.borderRight = '3px solid #888';
 
   if (minute === 0 || minute === 30) {
@@ -960,7 +960,7 @@ function createEventElement(event, columnIndex = 0, totalColumns = 1) {
     left: ${leftPercent}%;
     width: ${widthPercent}%;
     height: ${height}px;
-    background-color: #007bff;
+    background-color: #0090dd;
     color: white;
     padding: 2px 4px;
     border-radius: 3px;
@@ -1191,9 +1191,14 @@ function renderMonthView() {
       currentCalendarDate.setDate(currentCalendarDate.getDate() + 1);
     }
 
+    const isLastRow = currentCalendarDate > lastDay && currentCalendarDate.getDay() === 0;
     tbody.appendChild(tr);
 
-    if (currentCalendarDate > lastDay && currentCalendarDate.getDay() === 0) {
+    if (isLastRow) {
+      // 最下行はborder-bottomを消す
+      tr.querySelectorAll('td').forEach(td => {
+        td.style.borderBottom = '0';
+      });
       break;
     }
   }
@@ -1209,7 +1214,7 @@ function getDayEvents(date) {
 function createMonthEventElement(event) {
   const div = document.createElement('div');
   div.className = 'schedule-event text-truncate';
-  div.style.cssText = 'background-color: #007bff; color: white; padding: 1px 3px; border-radius: 2px; margin-bottom: 1px; font-size: 0.8rem; cursor: pointer; line-height: 1.2;';
+  div.style.cssText = 'background-color: #0090dd; color: white; padding: 1px 3px; border-radius: 2px; margin-bottom: 1px; font-size: 0.8rem; cursor: pointer; line-height: 1.2;';
   div.dataset.recordId = event.id;
 
   const startTime = event.start_time.substring(0, 5);
