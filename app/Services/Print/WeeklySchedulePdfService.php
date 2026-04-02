@@ -216,7 +216,7 @@ class WeeklySchedulePdfService extends BasePdfService
     $pdf->SetFont('kozgopromedium', '', self::FONT_MIN);
     $legendFontMm = self::FONT_MIN * 0.352;           // フォント実寸 mm（line-height係数なし）
     $squareSize   = $legendFontMm * 0.72;            // キャップハイト相当サイズ
-    $squareY      = $legendY;                         // Text()のY=上端に合わせて配置
+    $squareY      = $legendY + $squareSize * 0.5;     // 視覚的中央合わせ（Text上端より少し下）
 
     // ブルー正方形（はり・きゅう）
     $pdf->SetFillColor(...self::EVENT_COLOR_ACUPUNCTURE);
