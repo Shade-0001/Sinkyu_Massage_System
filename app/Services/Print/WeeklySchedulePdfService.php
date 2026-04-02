@@ -27,8 +27,6 @@ class WeeklySchedulePdfService extends BasePdfService
   const EVENT_COLOR_ACUPUNCTURE = [31, 145, 206];   // #1f91ce
   // イベント矩形の色（あんま・マッサージ）
   const EVENT_COLOR_MASSAGE     = [230, 126, 34];   // #e67e22
-  // イベント矩形の白ボーダー幅 mm（2px ≒ 0.71mm）
-  const EVENT_BORDER_W = 0.71;
 
   protected function getDefaultCoordinatesPath(): string
   {
@@ -187,7 +185,7 @@ class WeeklySchedulePdfService extends BasePdfService
   ): void {
     $startX    = self::MARGIN_X;
     $availW    = self::AVAILABLE_W;
-    $titleY    = 14;
+    $titleY    = 15;
     $legendY   = 21;
     $subLineY  = 21;  // 施術者テキストのY（期間テキスト下）
 
@@ -207,7 +205,7 @@ class WeeklySchedulePdfService extends BasePdfService
     // ---- 期間テキスト（右端・タイトルと同Y） ----
     $startDateObj = new \DateTime($weekDates[0]);
     $endDateObj   = new \DateTime($weekDates[6]);
-    $periodText   = $this->formatJpDate($startDateObj) . '　～　' . $this->formatJpDate($endDateObj);
+    $periodText   = $this->formatJpDate($startDateObj) . ' ～ ' . $this->formatJpDate($endDateObj);
     $pdf->SetFont('kozgopromedium', '', 11);
     $pdf->SetTextColor(0, 0, 0);
     $periodW = $pdf->GetStringWidth($periodText);
@@ -216,9 +214,9 @@ class WeeklySchedulePdfService extends BasePdfService
     // ---- 凡例（タイトル下・左揃え・1行） ----
     // 全角サイズの正方形 + テキストで1行描画
     $pdf->SetFont('kozgopromedium', '', self::FONT_MIN);
-    $legendFontMm = self::FONT_MIN * 0.352 * 1.25; // フォント高さ mm
-    $squareSize   = $legendFontMm * 0.85;           // 全角ほぼ同サイズの正方形
-    $squareY      = $legendY - $squareSize + 0.3;   // テキストベースラインに合わせて配置
+    $legendFontMm = self::FONT_MIN * 0.352;           // フォント実寸 mm（line-height係数なし）
+    $squareSize   = $legendFontMm * 0.80;            // 全角ほぼ同サイズの正方形
+    $squareY      = $legendY - $squareSize;           // テキストキャップラインに合わせて配置
 
     // ブルー正方形（はり・きゅう）
     $pdf->SetFillColor(...self::EVENT_COLOR_ACUPUNCTURE);
@@ -495,30 +493,27 @@ class WeeklySchedulePdfService extends BasePdfService
     float  $eventW,
     float  $eventH
   ): void {
-    $border   = self::EVENT_BORDER_W;
+    // 1px ≒ 0.35mm のパディング（全周）
+    $padding  = 0.35;
     $fontSize = self::FONT_MIN;
     $lineH    = $fontSize * 0.352 * 1.25 + 0.6;
-    $innerW   = $eventW - $border * 2 - 0.5;
+    $innerW   = $eventW - $padding * 2 - 0.5;
 
-    // 白ボーダー（白Rectを先に描画）
-    $pdf->SetFillColor(255, 255, 255);
-    $pdf->Rect($eventX, $eventY, $eventW, $eventH, 'F');
-
-    // 施術種別による背景色（白ボーダー分だけ内側に描画）
+    // 施術種別による背景色
     if ((int)$rec['therapy_type'] === 1) {
       $pdf->SetFillColor(...self::EVENT_COLOR_ACUPUNCTURE);
     } else {
       $pdf->SetFillColor(...self::EVENT_COLOR_MASSAGE);
     }
 
-    $pdf->Rect($eventX + $border, $eventY + $border, $eventW - $border * 2, $eventH - $border * 2, 'F');
+    $pdf->Rect($eventX + $padding, $eventY + $padding, $eventW - $padding * 2, $eventH - $padding * 2, 'F');
 
     $pdf->SetFont('kozgopromedium', '', $fontSize);
     $pdf->SetTextColor(255, 255, 255);
     $pdf->setCellPaddings(0, 0, 0, 0);
 
-    // 時刻テキスト（HH:MM ~ HH:MM）
-    $timeText = $this->formatHHMM($rec['start_time']) . ' ~ ' . $this->formatHHMM($rec['end_time']);
+    // 時刻テキスト（HH:MM - HH:MM）
+    $timeText = $this->formatHHMM($rec['start_time']) . ' - ' . $this->formatHHMM($rec['end_time']);
     // 氏名テキスト（姓\u{2002}名）
     $nameText = ($rec['last_name'] ?? '') . "\u{2002}" . ($rec['first_name'] ?? '');
 
@@ -527,15 +522,15 @@ class WeeklySchedulePdfService extends BasePdfService
 
     // 2行をセル内縦中央配置
     $totalTextH = $lineH * 2;
-    $textStartY = $eventY + $border + ($eventH - $border * 2 - $totalTextH) / 2;
-    if ($textStartY < $eventY + $border) {
-      $textStartY = $eventY + $border + 0.3;
+    $textStartY = $eventY + $padding + ($eventH - $padding * 2 - $totalTextH) / 2;
+    if ($textStartY < $eventY + $padding) {
+      $textStartY = $eventY + $padding + 0.3;
     }
 
-    $pdf->SetXY($eventX + $border + 0.5, $textStartY);
+    $pdf->SetXY($eventX + $padding + 0.5, $textStartY);
     $pdf->Cell($innerW, 0, $timeText, 0, 0, 'L', false);
 
-    $pdf->SetXY($eventX + $border + 0.5, $textStartY + $lineH);
+    $pdf->SetXY($eventX + $padding + 0.5, $textStartY + $lineH);
     $pdf->Cell($innerW, 0, $nameText, 0, 0, 'L', false);
 
     $pdf->SetTextColor(0, 0, 0);
