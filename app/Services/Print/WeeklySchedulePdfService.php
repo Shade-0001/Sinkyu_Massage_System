@@ -494,8 +494,8 @@ class WeeklySchedulePdfService extends BasePdfService
     float  $eventW,
     float  $eventH
   ): void {
-    // 1px ≒ 0.35mm のパディング（上下左右均等）
-    $padding  = 0.35;
+    // 2px ≒ 0.71mm のパディング（上下左右均等）
+    $padding  = 0.71;
     $fontSize = self::FONT_MIN;
     $lineH    = $fontSize * 0.352 * 1.25 + 0.6;
     $innerW   = $eventW - $padding * 2;
