@@ -260,6 +260,14 @@ function initializeEventListeners() {
     });
   }
 
+  // 月間スケジュールPDF印刷ボタン（週間ボタンの隣・me-1なし）
+  const monthlyPrintBtn = document.querySelector('.btn-ex-main.btn-ex-blue:not(.me-1)');
+  if (monthlyPrintBtn) {
+    monthlyPrintBtn.addEventListener('click', function() {
+      printMonthlySchedule();
+    });
+  }
+
   // モーダルを閉じる処理
   document.querySelectorAll('[data-bs-dismiss="modal"]').forEach(button => {
     button.addEventListener('click', closeModal);
@@ -1292,6 +1300,26 @@ function printWeeklySchedule() {
   const filename = 'weekly_schedule_' + weekStartStr + '.pdf';
   const url = baseUrl + '/' + filename
     + '?week_start_date=' + encodeURIComponent(weekStartStr)
+    + '&therapist_id=' + encodeURIComponent(therapistId);
+
+  window.open(url, '_blank');
+}
+
+// 月間スケジュールPDF印刷
+function printMonthlySchedule() {
+  const therapistId = window.scheduleConfig?.therapistId ?? '';
+
+  const baseUrl = window.scheduleConfig?.monthlySchedulePdfUrlBase;
+  if (!baseUrl) return;
+
+  // currentDate から年月を取得
+  const year  = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+  const yearMonth = year + '-' + month;
+
+  const filename = 'monthly_schedule_' + yearMonth + '.pdf';
+  const url = baseUrl + '/' + filename
+    + '?year_month=' + encodeURIComponent(yearMonth)
     + '&therapist_id=' + encodeURIComponent(therapistId);
 
   window.open(url, '_blank');

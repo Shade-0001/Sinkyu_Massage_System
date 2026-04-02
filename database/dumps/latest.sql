@@ -165,54 +165,6 @@ INSERT INTO `bodyparts-records` VALUES (109,'2025-12-09 11:47:46','2025-12-09 11
 UNLOCK TABLES;
 
 --
--- Table structure for table `cache`
---
-
-DROP TABLE IF EXISTS `cache`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `cache` (
-  `key` varchar(255) NOT NULL,
-  `value` mediumtext NOT NULL,
-  `expiration` int(11) NOT NULL,
-  PRIMARY KEY (`key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `cache`
---
-
-LOCK TABLES `cache` WRITE;
-/*!40000 ALTER TABLE `cache` DISABLE KEYS */;
-/*!40000 ALTER TABLE `cache` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `cache_locks`
---
-
-DROP TABLE IF EXISTS `cache_locks`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `cache_locks` (
-  `key` varchar(255) NOT NULL,
-  `owner` varchar(255) NOT NULL,
-  `expiration` int(11) NOT NULL,
-  PRIMARY KEY (`key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `cache_locks`
---
-
-LOCK TABLES `cache_locks` WRITE;
-/*!40000 ALTER TABLE `cache_locks` DISABLE KEYS */;
-/*!40000 ALTER TABLE `cache_locks` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `caremanagers`
 --
 
@@ -692,35 +644,6 @@ INSERT INTO `expenses_borne_ratios` VALUES (1,'2025-10-15 15:13:10','2025-10-17 
 UNLOCK TABLES;
 
 --
--- Table structure for table `failed_jobs`
---
-
-DROP TABLE IF EXISTS `failed_jobs`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `failed_jobs` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(255) NOT NULL,
-  `connection` text NOT NULL,
-  `queue` text NOT NULL,
-  `payload` longtext NOT NULL,
-  `exception` longtext NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `failed_jobs`
---
-
-LOCK TABLES `failed_jobs` WRITE;
-/*!40000 ALTER TABLE `failed_jobs` DISABLE KEYS */;
-/*!40000 ALTER TABLE `failed_jobs` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `gender`
 --
 
@@ -998,66 +921,6 @@ INSERT INTO `insurers` VALUES (1,'2026-03-02 12:15:19','2026-03-02 12:15:19','�
 UNLOCK TABLES;
 
 --
--- Table structure for table `job_batches`
---
-
-DROP TABLE IF EXISTS `job_batches`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `job_batches` (
-  `id` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `total_jobs` int(11) NOT NULL,
-  `pending_jobs` int(11) NOT NULL,
-  `failed_jobs` int(11) NOT NULL,
-  `failed_job_ids` longtext NOT NULL,
-  `options` mediumtext DEFAULT NULL,
-  `cancelled_at` int(11) DEFAULT NULL,
-  `created_at` int(11) NOT NULL,
-  `finished_at` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `job_batches`
---
-
-LOCK TABLES `job_batches` WRITE;
-/*!40000 ALTER TABLE `job_batches` DISABLE KEYS */;
-/*!40000 ALTER TABLE `job_batches` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `jobs`
---
-
-DROP TABLE IF EXISTS `jobs`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `jobs` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `queue` varchar(255) NOT NULL,
-  `payload` longtext NOT NULL,
-  `attempts` tinyint(3) unsigned NOT NULL,
-  `reserved_at` int(10) unsigned DEFAULT NULL,
-  `available_at` int(10) unsigned NOT NULL,
-  `created_at` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `jobs_queue_index` (`queue`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `jobs`
---
-
-LOCK TABLES `jobs` WRITE;
-/*!40000 ALTER TABLE `jobs` DISABLE KEYS */;
-/*!40000 ALTER TABLE `jobs` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `license`
 --
 
@@ -1121,7 +984,7 @@ CREATE TABLE `migrations` (
   `migration` varchar(255) NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1130,7 +993,7 @@ CREATE TABLE `migrations` (
 
 LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
-INSERT INTO `migrations` VALUES (1,'2025_10_09_153328_rename_concenting_tables_to_consenting',1),(2,'2025_10_09_153935_rename_concenting_tables_to_consenting_v2',2),(3,'2025_11_11_121503_create_house_visit_reasons_table',3),(4,'2025_11_12_121217_rename_house_visit_reasons_to_housecall_reasons',4),(5,'2025_11_13_110509_create_plan_infos_table',5),(6,'2025_11_14_105352_rename_billing_prefecture_id_to_billing_prefecture_in_clinic_info_table',6),(7,'0001_01_01_000000_create_users_table',7),(8,'0001_01_01_000001_create_cache_table',7),(9,'0001_01_01_000002_create_jobs_table',7),(10,'2025_11_17_151942_add_columns_to_document_templates_table',8),(11,'2025_11_18_110145_change_documents_content_to_text',9),(12,'2025_11_11_121503_create_housecall_reasons_table',5),(13,'2025_11_18_111128_change_documents_name_to_varchar',10),(19,'2025_11_18_140329_change_clinic_info_columns_to_varchar',11),(20,'2025_11_19_112642_create_self_paid_fees_table',12),(21,'2025_11_20_103519_fix_document_association_foreign_keys',12),(22,'2025_11_20_104322_rename_document_association_columns',13),(23,'2025_11_21_130944_add_last_login_at_to_system_users_table',14),(24,'2025_11_21_140341_add_clinic_user_id_to_records_table',15),(25,'2025_11_28_105101_rename_consents_massage_bodyparts_table',16),(26,'2025_11_28_112410_rename_consenting_doctor_history_massage_id_column_in_bodyparts_consents_massage_table',17),(27,'2025_12_08_152118_modify_therapists_name_fields',18),(28,'2025_12_08_152238_update_doctors_table_split_name_to_first_last',19),(29,'2025_12_08_152412_modify_caremanagers_name_fields',19),(30,'2025_12_11_150230_add_therapy_period_dates_to_consent_tables',20),(31,'2025_12_12_151309_add_columns_to_deposits_table',21),(32,'2025_12_16_150407_change_insurance_number_columns_to_bigint_in_insurances_table',22),(33,'2025_12_17_135648_add_housecall_reason_columns_to_consents_acupuncture_table',23),(35,'2026_01_08_113432_add_therapy_type_to_therapy_contents_table',24),(36,'2026_01_08_113502_update_therapy_contents_data',24),(37,'2026_01_09_142907_rename_therapy_conetnt_id_to_therapy_content_id_in_records_table',25),(38,'2026_01_17_151011_add_self_fee_id_to_records_table',26),(39,'2026_01_20_105254_split_owner_name_in_clinic_info_table',27),(40,'2026_01_30_145709_drop_foreign_keys_from_therapists_table',28),(41,'2026_01_30_145938_drop_license_number_fields_from_therapists_table',29),(42,'2026_01_30_150511_rename_license_id_to_code_number_in_therapists_table',30),(43,'2026_01_30_152007_change_license_code_number_to_bigint_in_therapists_table',31),(47,'2026_02_27_000001_create_plan_infos_table',32),(48,'2026_02_27_000002_nullable_address3_in_clinic_users_table',33),(49,'2026_02_13_153341_add_comment_to_document_association_table',34),(50,'2026_02_27_000003_nullable_license_acquisition_date_in_insurances_table',34),(51,'2026_02_27_160839_remove_therapy_period_dates_from_consent_tables',35),(52,'2026_03_02_121444_change_insurer_number_to_string_in_insurers_table',36),(53,'2026_03_02_150125_rename_condition_to_condition_id_in_consents_acupuncture_table',37),(55,'2026_03_21_123004_create_notices_table',38),(56,'2026_03_21_134605_add_plain_password_to_system_users_table',39),(57,'2026_03_23_000001_create_notice_reads_table',40);
+INSERT INTO `migrations` VALUES (1,'2025_10_09_153328_rename_concenting_tables_to_consenting',1),(2,'2025_10_09_153935_rename_concenting_tables_to_consenting_v2',2),(3,'2025_11_11_121503_create_house_visit_reasons_table',3),(4,'2025_11_12_121217_rename_house_visit_reasons_to_housecall_reasons',4),(5,'2025_11_13_110509_create_plan_infos_table',5),(6,'2025_11_14_105352_rename_billing_prefecture_id_to_billing_prefecture_in_clinic_info_table',6),(7,'0001_01_01_000000_create_users_table',7),(8,'0001_01_01_000001_create_cache_table',7),(9,'0001_01_01_000002_create_jobs_table',7),(10,'2025_11_17_151942_add_columns_to_document_templates_table',8),(11,'2025_11_18_110145_change_documents_content_to_text',9),(12,'2025_11_11_121503_create_housecall_reasons_table',5),(13,'2025_11_18_111128_change_documents_name_to_varchar',10),(19,'2025_11_18_140329_change_clinic_info_columns_to_varchar',11),(20,'2025_11_19_112642_create_self_paid_fees_table',12),(21,'2025_11_20_103519_fix_document_association_foreign_keys',12),(22,'2025_11_20_104322_rename_document_association_columns',13),(23,'2025_11_21_130944_add_last_login_at_to_system_users_table',14),(24,'2025_11_21_140341_add_clinic_user_id_to_records_table',15),(25,'2025_11_28_105101_rename_consents_massage_bodyparts_table',16),(26,'2025_11_28_112410_rename_consenting_doctor_history_massage_id_column_in_bodyparts_consents_massage_table',17),(27,'2025_12_08_152118_modify_therapists_name_fields',18),(28,'2025_12_08_152238_update_doctors_table_split_name_to_first_last',19),(29,'2025_12_08_152412_modify_caremanagers_name_fields',19),(30,'2025_12_11_150230_add_therapy_period_dates_to_consent_tables',20),(31,'2025_12_12_151309_add_columns_to_deposits_table',21),(32,'2025_12_16_150407_change_insurance_number_columns_to_bigint_in_insurances_table',22),(33,'2025_12_17_135648_add_housecall_reason_columns_to_consents_acupuncture_table',23),(35,'2026_01_08_113432_add_therapy_type_to_therapy_contents_table',24),(36,'2026_01_08_113502_update_therapy_contents_data',24),(37,'2026_01_09_142907_rename_therapy_conetnt_id_to_therapy_content_id_in_records_table',25),(38,'2026_01_17_151011_add_self_fee_id_to_records_table',26),(39,'2026_01_20_105254_split_owner_name_in_clinic_info_table',27),(40,'2026_01_30_145709_drop_foreign_keys_from_therapists_table',28),(41,'2026_01_30_145938_drop_license_number_fields_from_therapists_table',29),(42,'2026_01_30_150511_rename_license_id_to_code_number_in_therapists_table',30),(43,'2026_01_30_152007_change_license_code_number_to_bigint_in_therapists_table',31),(47,'2026_02_27_000001_create_plan_infos_table',32),(48,'2026_02_27_000002_nullable_address3_in_clinic_users_table',33),(49,'2026_02_13_153341_add_comment_to_document_association_table',34),(50,'2026_02_27_000003_nullable_license_acquisition_date_in_insurances_table',34),(51,'2026_02_27_160839_remove_therapy_period_dates_from_consent_tables',35),(52,'2026_03_02_121444_change_insurer_number_to_string_in_insurers_table',36),(53,'2026_03_02_150125_rename_condition_to_condition_id_in_consents_acupuncture_table',37),(55,'2026_03_21_123004_create_notices_table',38),(56,'2026_03_21_134605_add_plain_password_to_system_users_table',39),(57,'2026_03_23_000001_create_notice_reads_table',40),(58,'2026_03_25_174552_add_is_admin_to_system_users_table',40),(59,'2026_04_02_104327_rename_system_users_to_user_accounts',41);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1149,7 +1012,7 @@ CREATE TABLE `notice_reads` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `notice_reads_user_id_notice_id_unique` (`user_id`,`notice_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1158,7 +1021,7 @@ CREATE TABLE `notice_reads` (
 
 LOCK TABLES `notice_reads` WRITE;
 /*!40000 ALTER TABLE `notice_reads` DISABLE KEYS */;
-INSERT INTO `notice_reads` VALUES (3,1,6,'2026-03-23 02:09:12','2026-03-23 02:09:12'),(4,1,5,'2026-03-23 02:09:47','2026-03-23 02:09:47'),(5,1,4,'2026-03-23 02:11:08','2026-03-23 02:11:08'),(6,1,2,'2026-03-23 02:12:13','2026-03-23 02:12:13'),(7,1,3,'2026-03-23 02:12:14','2026-03-23 02:12:14'),(34,1,1,'2026-03-23 03:16:41','2026-03-23 03:16:41'),(39,1,12,'2026-03-24 01:37:56','2026-03-24 01:37:56'),(41,1,8,'2026-03-25 00:59:21','2026-03-25 00:59:21'),(43,1,10,'2026-03-26 07:55:32','2026-03-26 07:55:32'),(44,1,14,'2026-03-26 07:55:47','2026-03-26 07:55:47');
+INSERT INTO `notice_reads` VALUES (3,1,6,'2026-03-23 02:09:12','2026-03-23 02:09:12'),(4,1,5,'2026-03-23 02:09:47','2026-03-23 02:09:47'),(5,1,4,'2026-03-23 02:11:08','2026-03-23 02:11:08'),(6,1,2,'2026-03-23 02:12:13','2026-03-23 02:12:13'),(7,1,3,'2026-03-23 02:12:14','2026-03-23 02:12:14'),(36,1,14,'2026-03-23 03:59:15','2026-03-23 03:59:15'),(37,1,15,'2026-03-23 04:05:17','2026-03-23 04:05:17'),(39,1,12,'2026-03-24 01:37:56','2026-03-24 01:37:56'),(40,1,7,'2026-03-25 00:59:17','2026-03-25 00:59:17'),(42,1,9,'2026-03-25 00:59:37','2026-03-25 00:59:37');
 /*!40000 ALTER TABLE `notice_reads` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1592,67 +1455,6 @@ INSERT INTO `service_providers` VALUES (1,'2026-02-28 15:12:32','2026-02-28 15:1
 UNLOCK TABLES;
 
 --
--- Table structure for table `sessions`
---
-
-DROP TABLE IF EXISTS `sessions`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `sessions` (
-  `id` varchar(255) NOT NULL,
-  `user_id` bigint(20) unsigned DEFAULT NULL,
-  `ip_address` varchar(45) DEFAULT NULL,
-  `user_agent` text DEFAULT NULL,
-  `payload` longtext NOT NULL,
-  `last_activity` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `sessions`
---
-
-LOCK TABLES `sessions` WRITE;
-/*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('t4bkkQtE0ErbTTdI9SPHxLqH1EBfeYmHVOnBxtUR',1,'127.0.0.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','YTo0OntzOjY6Il90b2tlbiI7czo0MDoiRXFKdWFFSnBrUmlKSFc0SzhFNHlLRXVTcU5MTTdtcW1FRGNldTRDaCI7czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTtzOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czo5MzoiaHR0cDovL2xvY2FsaG9zdDo4MDAwL3NjaGVkdWxlcy9kYXRhP2VuZF9kYXRlPTIwMjYtMDYtMjcmc3RhcnRfZGF0ZT0yMDI2LTAyLTAxJnRoZXJhcGlzdF9pZD03Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==',1775053388);
-/*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `system_users`
---
-
-DROP TABLE IF EXISTS `system_users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `system_users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `name` varchar(255) NOT NULL,
-  `login_id` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `plain_password` varchar(255) NOT NULL,
-  `remember_token` varchar(255) DEFAULT NULL,
-  `last_login_at` timestamp NULL DEFAULT NULL COMMENT '前回ログイン日時',
-  `is_admin` int(11) NOT NULL DEFAULT 0,
-  `comment` varchar(255) DEFAULT 'NULL',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='システムユーザー（システム管理者が作成）';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `system_users`
---
-
-LOCK TABLES `system_users` WRITE;
-/*!40000 ALTER TABLE `system_users` DISABLE KEYS */;
-INSERT INTO `system_users` VALUES (1,'2025-09-19 11:37:39','2026-03-26 16:55:22','SystemUser-01','user01','$2y$12$vV4msAjnN3/MwdrU3bEfQuPUjy7MFud8XTLVE2ptRB94gTtZTfMH6','user01','Kiiq1uVV9sJIDAG0V2sGIYYBFrPxMnjc0PzcTZC6Lj1CYHtx6qzJNMvzeCPX','2026-03-26 07:55:22',1,''),(2,'2026-03-09 06:36:13','2026-03-21 15:21:50','SystemUser-02','user02','$2y$12$svGrg1y.7wjyh/Zn2iKVO.Yr9ldFyl62vkpCTp6.7/pnIub/AVtWy','user02','thONeMdCPw9Yu97XavqUrKFc1Vdg7L2BsZ8LE9dLMHQ7WkWZVZ3rVtfiQPP6','2026-03-19 02:28:07',0,'');
-/*!40000 ALTER TABLE `system_users` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `therapists`
 --
 
@@ -1787,6 +1589,39 @@ INSERT INTO `treatment_fees` VALUES (1,'2025-11-15 15:25:58','2025-12-19 11:34:3
 UNLOCK TABLES;
 
 --
+-- Table structure for table `user_accounts`
+--
+
+DROP TABLE IF EXISTS `user_accounts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_accounts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `name` varchar(255) NOT NULL,
+  `login_id` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `plain_password` varchar(255) NOT NULL,
+  `remember_token` varchar(255) DEFAULT NULL,
+  `last_login_at` timestamp NULL DEFAULT NULL COMMENT '前回ログイン日時',
+  `is_admin` int(11) NOT NULL DEFAULT 0,
+  `comment` varchar(255) DEFAULT 'NULL',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='システムユーザー（システム管理者が作成）';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_accounts`
+--
+
+LOCK TABLES `user_accounts` WRITE;
+/*!40000 ALTER TABLE `user_accounts` DISABLE KEYS */;
+INSERT INTO `user_accounts` VALUES (1,'2025-09-19 11:37:39','2026-04-02 11:57:56','AdminUser-01','au-01','$2y$12$kx1gkBDMSImvCuKo20sHEOjUayWFXf.T.CEsOKEvQJeoInmrLyi7C','au-01','auKRjTEEDu2pQTwu4q7G0pB9BPbcmrY16lpWjb22ZyaSRiac8BuQ9Mm1uALM','2026-04-02 02:57:56',1,''),(2,'2026-03-09 06:36:13','2026-04-02 10:57:27','StandardUser-01','su-01','$2y$12$O47EHbYQI/SwJPwXyuV.M.orcpt0O99s0AgbORcGmnuqvt07hiBCa','su-01','9ku1kEmCH3OUJPE9tZ7Ce5A4XMzEsglPnvLAfICIsVXOUGtE3RaV0OeQXdg5','2026-04-02 01:56:43',0,'');
+/*!40000 ALTER TABLE `user_accounts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `users`
 --
 
@@ -1851,4 +1686,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-04-02  2:11:27
+-- Dump completed on 2026-04-02 15:25:36

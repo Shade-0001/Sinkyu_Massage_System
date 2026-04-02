@@ -2372,6 +2372,52 @@ class PrintsController extends Controller
   }
 
   /**
+   * 月間スケジュールPDF出力
+   */
+  public function monthlySchedule(Request $request, string $filename)
+  {
+    $validated = $request->validate([
+      'year_month'   => 'required|date_format:Y-m',
+      'therapist_id' => 'nullable|string',
+    ]);
+
+    try {
+      $service = new \App\Services\Print\MonthlySchedulePdfService();
+
+      \Log::info('月間スケジュールPDF生成開始', [
+        'year_month'   => $validated['year_month'],
+        'therapist_id' => $validated['therapist_id'] ?? null,
+      ]);
+
+      $pdfBinary = $service->generateMonthly(
+        $validated['year_month'],
+        $validated['therapist_id'] ?? null
+      );
+
+      \Log::info('月間スケジュールPDF生成完了', ['size' => strlen($pdfBinary)]);
+
+      return response($pdfBinary, 200, [
+        'Content-Type'        => 'application/pdf',
+        'Content-Disposition' => 'inline; filename="' . $filename . '"',
+      ]);
+    } catch (\Exception $e) {
+      \Log::error('月間スケジュールPDF生成エラー', [
+        'message' => $e->getMessage(),
+        'file'    => $e->getFile(),
+        'line'    => $e->getLine(),
+        'trace'   => $e->getTraceAsString(),
+      ]);
+
+      return response()->json([
+        'error'   => 'PDF生成に失敗しました',
+        'message' => $e->getMessage(),
+        'file'    => $e->getFile(),
+        'line'    => $e->getLine(),
+      ], 500);
+    }
+  }
+
+  /**
    * 週間スケジュールPDF出力
    */
   public function weeklySchedule(Request $request, string $filename)

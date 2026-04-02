@@ -306,6 +306,7 @@ Route::middleware('auth')->group(function () {
   Route::post('/prints/report/{filename}', [PrintsController::class, 'report'])->name('prints.report');
   Route::post('/prints/schedule-list/{filename}', [PrintsController::class, 'scheduleList'])->name('prints.schedule-list');
   Route::get('/prints/weekly-schedule/{filename}', [PrintsController::class, 'weeklySchedule'])->name('prints.weekly-schedule');
+  Route::get('/prints/monthly-schedule/{filename}', [PrintsController::class, 'monthlySchedule'])->name('prints.monthly-schedule');
   Route::post('/prints/treatment-expiry-list/{filename}', [PrintsController::class, 'treatmentExpiryList'])->name('prints.treatment-expiry-list');
   Route::get('/prints/clinic-user-consent-info-list/{filename}', [PrintsController::class, 'clinicUserConsentInfoList'])->name('prints.clinic-user-consent-info-list');
   Route::get('/prints/doctor-info-list/{filename}', [PrintsController::class, 'doctorInfoList'])->name('prints.doctor-info-list');

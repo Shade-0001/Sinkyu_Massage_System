@@ -246,7 +246,8 @@
         recordsStartYear: {{ $recordsStartYear }},
         recordsStartMonth: {{ $recordsStartMonth }},
         futureMonths: {{ $futureMonths }},
-        weeklySchedulePdfUrlBase: '{{ url('prints/weekly-schedule') }}'
+        weeklySchedulePdfUrlBase: '{{ url('prints/weekly-schedule') }}',
+        monthlySchedulePdfUrlBase: '{{ url('prints/monthly-schedule') }}'
       };
     </script>
     <script src="{{ asset('js/schedules.js') }}"></script>
