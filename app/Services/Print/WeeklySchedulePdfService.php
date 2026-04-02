@@ -344,11 +344,8 @@ class WeeklySchedulePdfService extends BasePdfService
     $pdf->SetFillColor(220, 220, 220);
     $pdf->Rect($x, $startY, $colWidths[0], $headerH, 'F');
     $this->drawCellBorder($pdf, $x, $startY, $colWidths[0], $headerH);
-    $pdf->SetDrawColor(160, 160, 160);
-    $pdf->SetLineWidth(0.3);
+    $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
     $pdf->Line($x, $startY, $x + $colWidths[0], $startY + $headerH);
-    $pdf->SetDrawColor(0, 0, 0);
-    $pdf->SetLineWidth(0.2);
     $x += $colWidths[0];
 
     for ($i = 0; $i < 7; $i++) {
