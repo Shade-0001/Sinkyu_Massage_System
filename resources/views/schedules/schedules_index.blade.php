@@ -16,8 +16,8 @@
           <option value="all" {{ $selectedTherapistId === 'all' ? 'selected' : '' }}>［ 全表示 ］</option>
         </select>
         <div class="vr mx-3"></div>
-        <button type="button" class="btn-ex-main btn-ex-blue me-1">印刷｜週間スケジュール</button>
-        <button type="button" class="btn-ex-main btn-ex-blue">印刷｜月間スケジュール</button>
+        <button type="button" id="weekly-schedule-print-btn" class="btn-ex-main btn-ex-blue me-1">印刷｜週間スケジュール</button>
+        <button type="button" id="monthly-schedule-print-btn" class="btn-ex-main btn-ex-blue">印刷｜月間スケジュール</button>
       </div>
     </div>
 

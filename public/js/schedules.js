@@ -253,15 +253,15 @@ function initializeEventListeners() {
   });
 
   // 週間スケジュールPDF印刷ボタン
-  const weeklyPrintBtn = document.querySelector('.btn-ex-blue.me-1');
+  const weeklyPrintBtn = document.getElementById('weekly-schedule-print-btn');
   if (weeklyPrintBtn) {
     weeklyPrintBtn.addEventListener('click', function() {
       printWeeklySchedule();
     });
   }
 
-  // 月間スケジュールPDF印刷ボタン（週間ボタンの隣・me-1なし）
-  const monthlyPrintBtn = document.querySelector('.btn-ex-main.btn-ex-blue:not(.me-1)');
+  // 月間スケジュールPDF印刷ボタン
+  const monthlyPrintBtn = document.getElementById('monthly-schedule-print-btn');
   if (monthlyPrintBtn) {
     monthlyPrintBtn.addEventListener('click', function() {
       printMonthlySchedule();
