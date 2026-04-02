@@ -10,16 +10,18 @@ use Illuminate\Support\Facades\DB;
  *
  * レイアウト概要：
  * - A4縦 (210mm × 297mm)、左右マージン 8mm → 利用可能幅 194mm
- * - ヘッダー：PDF出力日・タイトル・期間・施術担当者凡例
+ * - ヘッダー：PDF出力日・タイトル・期間・凡例・施術担当者
  * - テーブル：COL1=時刻, COL2=日(日), COL3-7=月-金, COL8=土
  * - 時刻スロット：30分刻み
+ * - イベントスクエア：施術時間に応じて複数スロットにまたがる
  */
 class WeeklySchedulePdfService extends BasePdfService
 {
   const MARGIN_X    = 8;    // 左右マージン mm
   const AVAILABLE_W = 194;  // 利用可能幅 mm
-  const ROW_H       = 10;   // 各スロット行の高さ mm（2行テキスト対応）
+  const ROW_H       = 10;   // 各スロット行の高さ mm
   const HEADER_H    = 7;    // テーブルヘッダー行高 mm
+  const SLOT_MIN    = 30;   // スロット単位（分）
 
   protected function getDefaultCoordinatesPath(): string
   {
@@ -57,13 +59,8 @@ class WeeklySchedulePdfService extends BasePdfService
 
     $outputDate = date('Y-m-d H:i:s');
 
-    // 週の7日分の日付を生成（日〜土）
     $weekDates = $this->buildWeekDates($weekStartDate);
-
-    // スケジュールデータを取得
-    $records = $this->fetchWeekRecords($weekDates, $therapistId);
-
-    // 時刻スロットを生成（30分刻み）
+    $records   = $this->fetchWeekRecords($weekDates, $therapistId);
     $timeSlots = $this->fetchTimeSlots();
 
     $pdf->AddPage();
@@ -74,9 +71,6 @@ class WeeklySchedulePdfService extends BasePdfService
 
   /**
    * 週の7日分の日付配列を生成（日〜土）
-   *
-   * @param string $weekStartDate  週の開始日 (YYYY-MM-DD, 日曜日)
-   * @return array  ['YYYY-MM-DD', ...]  0=日曜〜6=土曜
    */
   protected function buildWeekDates(string $weekStartDate): array
   {
@@ -93,7 +87,7 @@ class WeeklySchedulePdfService extends BasePdfService
   /**
    * 週の施術データを取得
    *
-   * @return array  [dateKey => [['start_time', 'end_time', 'therapy_type', 'user_name'], ...], ...]
+   * @return array  [dateKey => [['start_time', 'end_time', 'therapy_type', 'last_name', 'first_name'], ...], ...]
    */
   protected function fetchWeekRecords(array $weekDates, ?string $therapistId): array
   {
@@ -136,6 +130,8 @@ class WeeklySchedulePdfService extends BasePdfService
 
   /**
    * 営業時間からの時刻スロット取得（30分刻み）
+   *
+   * @return array  ['HH:MM', ...]
    */
   protected function fetchTimeSlots(): array
   {
@@ -149,41 +145,44 @@ class WeeklySchedulePdfService extends BasePdfService
 
     while ($current <= $end) {
       $slots[] = $current->format('H:i');
-      $current->modify('+30 minutes');
+      $current->modify('+' . self::SLOT_MIN . ' minutes');
     }
     return $slots;
   }
 
   /**
-   * 施術者名を取得
+   * 施術者情報を取得
+   *
+   * @return array  ['last_name' => '', 'first_name' => ''] または null（全員）
    */
-  protected function fetchTherapistName(?string $therapistId): string
+  protected function fetchTherapist(?string $therapistId): ?array
   {
     if (!$therapistId || $therapistId === 'all') {
-      return '全員';
+      return null;
     }
-    $therapist = DB::table('therapists')
+    $row = DB::table('therapists')
       ->where('id', (int)$therapistId)
       ->select('last_name', 'first_name')
       ->first();
-    return $therapist ? ($therapist->last_name . $therapist->first_name) : '不明';
+    return $row ? ['last_name' => $row->last_name, 'first_name' => $row->first_name] : null;
   }
 
   /**
    * ページ全体を描画
    */
   protected function renderPage(
-    Fpdi   $pdf,
-    array  $weekDates,
-    array  $records,
-    array  $timeSlots,
-    string $outputDate,
+    Fpdi    $pdf,
+    array   $weekDates,
+    array   $records,
+    array   $timeSlots,
+    string  $outputDate,
     ?string $therapistId
   ): void {
     $startX    = self::MARGIN_X;
     $availW    = self::AVAILABLE_W;
-    $pageTitle = '週間スケジュール';
     $titleY    = 14;
+    $legendY   = 21;
+    $subLineY  = 21;  // 施術者テキストのY（期間テキスト下）
 
     // ---- PDF出力日時（右上） ----
     $ts      = strtotime($outputDate);
@@ -196,7 +195,7 @@ class WeeklySchedulePdfService extends BasePdfService
     // ---- タイトル（左） ----
     $pdf->SetFont('kozgopromedium', '', 17);
     $pdf->SetTextColor(0, 0, 0);
-    $pdf->Text($startX, $titleY, $pageTitle);
+    $pdf->Text($startX, $titleY, '週間スケジュール');
 
     // ---- 期間テキスト（右端・タイトルと同Y） ----
     $startDateObj = new \DateTime($weekDates[0]);
@@ -207,46 +206,35 @@ class WeeklySchedulePdfService extends BasePdfService
     $periodW = $pdf->GetStringWidth($periodText);
     $pdf->Text($startX + $availW - $periodW, $titleY, $periodText);
 
-    // ---- 施術担当者（左・タイトル下） ----
-    $therapistName  = $this->fetchTherapistName($therapistId);
-    $therapistLabel = '施術担当者：' . $therapistName;
-    $pdf->SetFont('kozgopromedium', '', 10);
+    // ---- 凡例（タイトル下・左揃え・1行） ----
+    $pdf->SetFont('kozgopromedium', '', 9);
     $pdf->SetTextColor(0, 0, 0);
-    $pdf->Text($startX, 22, $therapistLabel);
+    $legendText = "\u{1F7E6}：はり・きゅう　　\u{1F7E7}：あんま・マッサージ";
+    $pdf->Text($startX, $legendY, $legendText);
 
-    // ---- 凡例（右・施術担当者と同Y） ----
-    $this->drawLegend($pdf, $startX + $availW - 50, 19.5);
+    // ---- 施術担当者（期間テキスト下・右揃え） ----
+    $therapist = $this->fetchTherapist($therapistId);
+    if ($therapist) {
+      $therapistLabel = '担当施術者：' . $therapist['last_name'] . "\u{2002}" . $therapist['first_name'];
+    } else {
+      $therapistLabel = '担当施術者：全員';
+    }
+    $pdf->SetFont('kozgopromedium', '', 9);
+    $pdf->SetTextColor(0, 0, 0);
+    $therapistW = $pdf->GetStringWidth($therapistLabel);
+    $pdf->Text($startX + $availW - $therapistW, $subLineY, $therapistLabel);
 
     // ---- テーブル ----
-    $tableStartY = 28;
+    $tableStartY = 27;
     $this->drawTable($pdf, $weekDates, $records, $timeSlots, $startX, $tableStartY, $availW);
   }
 
   /**
-   * 凡例を描画
-   */
-  protected function drawLegend(Fpdi $pdf, float $x, float $y): void
-  {
-    $dotR = 1.5;
-    $gap  = 1.2;
-
-    // ブルー（はり・きゅう）
-    $pdf->SetFillColor(45, 134, 194);
-    $pdf->Circle($x + $dotR, $y + $dotR, $dotR, 0, 360, 'F');
-    $pdf->SetFont('kozgopromedium', '', 8);
-    $pdf->SetTextColor(0, 0, 0);
-    $pdf->Text($x + $dotR * 2 + $gap, $y + 0.2, '：はり・きゅう');
-
-    // オレンジ（あんま・マッサージ）
-    $y2 = $y + 5;
-    $pdf->SetFillColor(220, 110, 30);
-    $pdf->Circle($x + $dotR, $y2 + $dotR, $dotR, 0, 360, 'F');
-    $pdf->SetTextColor(0, 0, 0);
-    $pdf->Text($x + $dotR * 2 + $gap, $y2 + 0.2, '：あんま・マッサージ');
-  }
-
-  /**
    * メインテーブルを描画
+   *
+   * 描画順序：
+   * 1. 全スロット行の枠線・時刻テキストを描画
+   * 2. 各列のイベントスクエアをまとめて描画（枠線の上に重ねる）
    */
   protected function drawTable(
     Fpdi   $pdf,
@@ -260,10 +248,9 @@ class WeeklySchedulePdfService extends BasePdfService
     $dayNames = ['日', '月', '火', '水', '木', '金', '土'];
 
     // カラム幅を計算
-    $timeColW = 13;  // 時刻列
+    $timeColW = 13;
     $restW    = $availW - $timeColW;
     $dayColW  = round($restW / 7, 4);
-    // 端数を土曜列に加算
     $satColW  = round($restW - $dayColW * 6, 4);
 
     $colWidths = [$timeColW];
@@ -275,18 +262,26 @@ class WeeklySchedulePdfService extends BasePdfService
     $rowH    = self::ROW_H;
     $headerH = self::HEADER_H;
 
-    $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
-
-    // ---- ヘッダー行描画 ----
+    // ---- ヘッダー行 ----
     $this->drawTableHeader($pdf, $weekDates, $dayNames, $colWidths, $startX, $startY, $headerH);
 
-    $currentY = $startY + $headerH;
+    $bodyStartY = $startY + $headerH;
 
-    // ---- データ行描画 ----
-    foreach ($timeSlots as $slotIdx => $timeSlot) {
-      $isLast = ($slotIdx === count($timeSlots) - 1);
-      $this->drawTimeSlotRow($pdf, $timeSlot, $weekDates, $records, $colWidths, $startX, $currentY, $rowH, $isLast);
-      $currentY += $rowH;
+    // ---- スロット行の枠線と時刻テキストを全行描画 ----
+    $this->drawSlotGridAndTimeLabels($pdf, $timeSlots, $colWidths, $startX, $bodyStartY, $rowH);
+
+    // ---- 各日列のイベントスクエアを描画（枠線の上に重ねる） ----
+    $x = $startX + $timeColW;
+    for ($dayIdx = 0; $dayIdx < 7; $dayIdx++) {
+      $dateKey = $weekDates[$dayIdx];
+      $colW    = $colWidths[$dayIdx + 1];
+      $dayRecords = $records[$dateKey] ?? [];
+
+      if (!empty($dayRecords)) {
+        $this->drawDayEvents($pdf, $dayRecords, $timeSlots, $x, $bodyStartY, $colW, $rowH);
+      }
+
+      $x += $colW;
     }
   }
 
@@ -312,17 +307,14 @@ class WeeklySchedulePdfService extends BasePdfService
     $this->drawCellBorder($pdf, $x, $startY, $colWidths[0], $headerH);
     $x += $colWidths[0];
 
-    // 各曜日ヘッダー（COL2=日, COL3-7=月-金, COL8=土）
     for ($i = 0; $i < 7; $i++) {
-      $dow     = $i; // 0=日, 6=土
+      $dow     = $i;
       $dateObj = new \DateTime($weekDates[$i]);
       $month   = (int)$dateObj->format('m');
       $day     = (int)$dateObj->format('j');
-      $dayName = $dayNames[$dow];
-      $label   = $month . '/' . $day . '（' . $dayName . '）';
+      $label   = $month . '/' . $day . '（' . $dayNames[$dow] . '）';
       $colW    = $colWidths[$i + 1];
 
-      // 曜日による背景色（ヘッダーのみ）
       if ($dow === 0) {
         $pdf->SetFillColor(255, 210, 210);
       } elseif ($dow === 6) {
@@ -345,131 +337,179 @@ class WeeklySchedulePdfService extends BasePdfService
   }
 
   /**
-   * 時刻スロット行を描画
+   * 全スロット行のグリッド枠線と時刻テキストを描画
    */
-  protected function drawTimeSlotRow(
-    Fpdi   $pdf,
-    string $timeSlot,
-    array  $weekDates,
-    array  $records,
-    array  $colWidths,
-    float  $startX,
-    float  $rowY,
-    float  $rowH,
-    bool   $isLast
-  ): void {
-    $fontMm  = 8 * 0.352 * 1.25;
-    $offsetY = ($rowH - $fontMm) / 2;
-
-    // 時刻列（背景グレー・黒テキスト）
-    $x = $startX;
-    $pdf->SetFillColor(240, 240, 240);
-    $pdf->Rect($x, $rowY, $colWidths[0], $rowH, 'F');
-    $pdf->SetFont('kozgopromedium', '', 8);
-    $pdf->SetTextColor(0, 0, 0);
-    $pdf->setCellPaddings(0, 0, 0, 0);
-    $pdf->SetXY($x, $rowY + $offsetY);
-    $pdf->Cell($colWidths[0], 0, $timeSlot, 0, 0, 'C', false);
-    $this->drawCellBorder($pdf, $x, $rowY, $colWidths[0], $rowH);
-    $x += $colWidths[0];
-
-    // 各曜日の施術データセル（背景色なし・土日も白）
-    for ($i = 0; $i < 7; $i++) {
-      $dateKey = $weekDates[$i];
-      $colW    = $colWidths[$i + 1];
-
-      // 時刻スロットに合致する施術データを収集
-      $slotRecords = $this->getSlotRecords($records[$dateKey] ?? [], $timeSlot);
-
-      if (!empty($slotRecords)) {
-        $this->drawSlotEvents($pdf, $slotRecords, $x, $rowY, $colW, $rowH);
-      }
-
-      $this->drawCellBorder($pdf, $x, $rowY, $colW, $rowH);
-      $x += $colW;
-    }
-  }
-
-  /**
-   * 指定スロット時刻（HH:MM）に開始する施術データを取得
-   */
-  protected function getSlotRecords(array $dayRecords, string $timeSlot): array
-  {
-    // スロット時刻を分に変換
-    [$slotH, $slotM] = explode(':', $timeSlot);
-    $slotMinutes = (int)$slotH * 60 + (int)$slotM;
-
-    $result = [];
-    foreach ($dayRecords as $rec) {
-      $parts       = explode(':', $rec['start_time']);
-      $startMinutes = (int)$parts[0] * 60 + (int)($parts[1] ?? 0);
-      if ($startMinutes === $slotMinutes) {
-        $result[] = $rec;
-      }
-    }
-    return $result;
-  }
-
-  /**
-   * セル内の施術イベントを描画
-   * テキスト形式：「HH:MM ~ HH:MM」＋改行＋「姓 名」
-   */
-  protected function drawSlotEvents(
+  protected function drawSlotGridAndTimeLabels(
     Fpdi  $pdf,
-    array $slotRecords,
-    float $cellX,
-    float $cellY,
-    float $cellW,
-    float $cellH
+    array $timeSlots,
+    array $colWidths,
+    float $startX,
+    float $bodyStartY,
+    float $rowH
   ): void {
-    $count   = count($slotRecords);
-    $eventW  = $count > 0 ? $cellW / $count : $cellW;
-    $padding = 0.8;
+    $totalDayW = array_sum($colWidths) - $colWidths[0];
+    $fontMm    = 8 * 0.352 * 1.25;
+
+    foreach ($timeSlots as $slotIdx => $timeSlot) {
+      $rowY    = $bodyStartY + $slotIdx * $rowH;
+      $offsetY = ($rowH - $fontMm) / 2;
+
+      // 時刻列（グレー背景）
+      $pdf->SetFillColor(240, 240, 240);
+      $pdf->Rect($startX, $rowY, $colWidths[0], $rowH, 'F');
+      $pdf->SetFont('kozgopromedium', '', 8);
+      $pdf->SetTextColor(0, 0, 0);
+      $pdf->setCellPaddings(0, 0, 0, 0);
+      $pdf->SetXY($startX, $rowY + $offsetY);
+      $pdf->Cell($colWidths[0], 0, $timeSlot, 0, 0, 'C', false);
+      $this->drawCellBorder($pdf, $startX, $rowY, $colWidths[0], $rowH);
+
+      // 日付列セルの枠線（背景なし）
+      $x = $startX + $colWidths[0];
+      for ($i = 0; $i < 7; $i++) {
+        $colW = $colWidths[$i + 1];
+        $this->drawCellBorder($pdf, $x, $rowY, $colW, $rowH);
+        $x += $colW;
+      }
+    }
+  }
+
+  /**
+   * 1日分のイベントスクエアを描画（施術時間に応じてスロットをまたぐ）
+   *
+   * 同一スロット開始のイベントが複数ある場合は列内で横分割して表示。
+   */
+  protected function drawDayEvents(
+    Fpdi  $pdf,
+    array $dayRecords,
+    array $timeSlots,
+    float $colX,
+    float $bodyStartY,
+    float $colW,
+    float $rowH
+  ): void {
+    // スロット開始分のインデックスマップを構築（分 => スロットインデックス）
+    $slotIndexMap = [];
+    foreach ($timeSlots as $idx => $slot) {
+      [$h, $m]               = explode(':', $slot);
+      $slotIndexMap[(int)$h * 60 + (int)$m] = $idx;
+    }
+
+    $slotCount  = count($timeSlots);
+    $tableEndY  = $bodyStartY + $slotCount * $rowH;
+
+    // 各レコードのスロット開始インデックスを取得
+    $events = [];
+    foreach ($dayRecords as $rec) {
+      $parts        = explode(':', $rec['start_time']);
+      $startMinutes = (int)$parts[0] * 60 + (int)($parts[1] ?? 0);
+
+      // スロット表に存在しない開始時刻は最近接スロットにスナップ
+      if (isset($slotIndexMap[$startMinutes])) {
+        $slotIdx = $slotIndexMap[$startMinutes];
+      } else {
+        // 最も近い（以下の）スロットを探す
+        $slotIdx = 0;
+        foreach ($slotIndexMap as $slotMin => $idx) {
+          if ($slotMin <= $startMinutes) {
+            $slotIdx = $idx;
+          }
+        }
+      }
+
+      $endParts   = explode(':', $rec['end_time']);
+      $endMinutes = (int)$endParts[0] * 60 + (int)($endParts[1] ?? 0);
+
+      // 施術時間（分）からスロット数を計算（切り上げ、最低1スロット）
+      $durationMin   = max(self::SLOT_MIN, $endMinutes - $startMinutes);
+      $spanSlots     = (int)ceil($durationMin / self::SLOT_MIN);
+
+      $events[] = [
+        'rec'      => $rec,
+        'slotIdx'  => $slotIdx,
+        'spanSlots' => $spanSlots,
+      ];
+    }
+
+    // スロットごとにそのスロットを開始するイベントをグループ化
+    $slotGroups = [];
+    foreach ($events as $ev) {
+      $slotGroups[$ev['slotIdx']][] = $ev;
+    }
+
+    foreach ($slotGroups as $slotIdx => $group) {
+      $count   = count($group);
+      $eventW  = $colW / $count;
+
+      foreach ($group as $subIdx => $ev) {
+        $rec       = $ev['rec'];
+        $spanSlots = $ev['spanSlots'];
+        $eventX    = $colX + $subIdx * $eventW;
+        $eventY    = $bodyStartY + $slotIdx * $rowH;
+        $eventH    = $spanSlots * $rowH;
+
+        // テーブル下端を超えないようにクリップ
+        if ($eventY + $eventH > $tableEndY) {
+          $eventH = $tableEndY - $eventY;
+        }
+        if ($eventH <= 0) {
+          continue;
+        }
+
+        $this->drawEventRect($pdf, $rec, $eventX, $eventY, $eventW, $eventH);
+      }
+    }
+  }
+
+  /**
+   * イベントスクエア（矩形＋テキスト）を描画
+   */
+  protected function drawEventRect(
+    Fpdi   $pdf,
+    array  $rec,
+    float  $eventX,
+    float  $eventY,
+    float  $eventW,
+    float  $eventH
+  ): void {
+    $padding  = 0.8;
     $fontSize = 6.5;
-    $lineH    = $fontSize * 0.352 * 1.25 + 0.6; // 行ピッチ
+    $lineH    = $fontSize * 0.352 * 1.25 + 0.6;
     $innerW   = $eventW - $padding * 2 - 0.5;
 
-    foreach ($slotRecords as $idx => $rec) {
-      $ex = $cellX + $idx * $eventW;
-
-      // 施術種別による背景色
-      if ((int)$rec['therapy_type'] === 1) {
-        $pdf->SetFillColor(45, 134, 194);
-      } else {
-        $pdf->SetFillColor(220, 110, 30);
-      }
-
-      $pdf->Rect($ex + $padding, $cellY + $padding, $eventW - $padding * 2, $cellH - $padding * 2, 'F');
-
-      $pdf->SetFont('kozgopromedium', '', $fontSize);
-      $pdf->SetTextColor(255, 255, 255);
-      $pdf->setCellPaddings(0, 0, 0, 0);
-
-      // 時刻テキスト（HH:MM ~ HH:MM）
-      $startStr = $this->formatHHMM($rec['start_time']);
-      $endStr   = $this->formatHHMM($rec['end_time']);
-      $timeText = $startStr . ' ~ ' . $endStr;
-
-      // 氏名テキスト（姓 名）
-      $nameText = ($rec['last_name'] ?? '') . "\u{3000}" . ($rec['first_name'] ?? '');
-
-      // テキストが幅を超える場合はトリム
-      $timeText = $this->trimTextToWidth($pdf, $timeText, $innerW);
-      $nameText = $this->trimTextToWidth($pdf, $nameText, $innerW);
-
-      // 2行をセル内に縦中央配置
-      $totalH   = $lineH * 2;
-      $startY   = $cellY + $padding + ($cellH - $padding * 2 - $totalH) / 2;
-      if ($startY < $cellY + $padding) {
-        $startY = $cellY + $padding + 0.3;
-      }
-
-      $pdf->SetXY($ex + $padding + 0.5, $startY);
-      $pdf->Cell($innerW, 0, $timeText, 0, 0, 'L', false);
-
-      $pdf->SetXY($ex + $padding + 0.5, $startY + $lineH);
-      $pdf->Cell($innerW, 0, $nameText, 0, 0, 'L', false);
+    // 施術種別による背景色
+    if ((int)$rec['therapy_type'] === 1) {
+      $pdf->SetFillColor(45, 134, 194);
+    } else {
+      $pdf->SetFillColor(220, 110, 30);
     }
+
+    $pdf->Rect($eventX + $padding, $eventY + $padding, $eventW - $padding * 2, $eventH - $padding * 2, 'F');
+
+    $pdf->SetFont('kozgopromedium', '', $fontSize);
+    $pdf->SetTextColor(255, 255, 255);
+    $pdf->setCellPaddings(0, 0, 0, 0);
+
+    // 時刻テキスト（HH:MM ~ HH:MM）
+    $timeText = $this->formatHHMM($rec['start_time']) . ' ~ ' . $this->formatHHMM($rec['end_time']);
+    // 氏名テキスト（姓\u{2002}名）
+    $nameText = ($rec['last_name'] ?? '') . "\u{2002}" . ($rec['first_name'] ?? '');
+
+    $timeText = $this->trimTextToWidth($pdf, $timeText, $innerW);
+    $nameText = $this->trimTextToWidth($pdf, $nameText, $innerW);
+
+    // 2行をセル内縦中央配置
+    $totalTextH = $lineH * 2;
+    $textStartY = $eventY + $padding + ($eventH - $padding * 2 - $totalTextH) / 2;
+    if ($textStartY < $eventY + $padding) {
+      $textStartY = $eventY + $padding + 0.3;
+    }
+
+    $pdf->SetXY($eventX + $padding + 0.5, $textStartY);
+    $pdf->Cell($innerW, 0, $timeText, 0, 0, 'L', false);
+
+    $pdf->SetXY($eventX + $padding + 0.5, $textStartY + $lineH);
+    $pdf->Cell($innerW, 0, $nameText, 0, 0, 'L', false);
 
     $pdf->SetTextColor(0, 0, 0);
   }
