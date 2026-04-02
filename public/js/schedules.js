@@ -87,6 +87,9 @@ function getLeftmostVisibleDayColumnIndex(container, dayColumns) {
   return currentIndex;
 }
 
+// 現在表示中の週の開始日（日曜、YYYY-MM-DD）。updateVisibleWeekDisplay()が更新する
+let visibleWeekStartDate = null;
+
 let weekViewConfig = {
   weeksToShow: 0, // 初期化時に計算
   currentWeekOffset: 0, // 現在の週のオフセット
@@ -917,6 +920,9 @@ function updateVisibleWeekDisplay() {
 
   document.getElementById('current-year').textContent = `${year}年`;
   document.getElementById('current-month-day').textContent = `${startMonth}月 ${startDay}日 ~ ${endMonth}月 ${endDay}日`;
+
+  // 表示中の週の日曜日を保持（印刷ボタン用）
+  visibleWeekStartDate = formatDate(getWeekStart(visibleStart));
 }
 
 // 指定日時のイベントを取得（開始時刻が一致するもののみ）
@@ -1274,9 +1280,9 @@ function loadWeeksNearViewport() {
 
 // 週間スケジュールPDF印刷
 function printWeeklySchedule() {
-  // 現在表示中の週の日曜日を取得
-  const weekStart = getWeekStart(currentDate);
-  const weekStartStr = formatDate(weekStart);
+  // スクロール位置から最も多く表示されている週（updateVisibleWeekDisplay が設定）、
+  // 未設定の場合は currentDate の週にフォールバック
+  const weekStartStr = visibleWeekStartDate ?? formatDate(getWeekStart(currentDate));
   const therapistId = window.scheduleConfig?.therapistId ?? '';
 
   const baseUrl = window.scheduleConfig?.weeklySchedulePdfUrlBase;
