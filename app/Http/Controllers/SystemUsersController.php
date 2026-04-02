@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 class SystemUsersController extends Controller
 {
   /**
-   * システムユーザー一覧を表示
+   * ユーザーアカウント一覧を表示
    */
   public function index()
   {
@@ -19,7 +19,7 @@ class SystemUsersController extends Controller
 
     return view('admin-panel.system-users.system-users_index', [
       'systemUsers' => $systemUsers,
-      'page_header_title' => 'システムユーザー',
+      'page_header_title' => 'ユーザーアカウント',
     ]);
   }
 
@@ -30,7 +30,7 @@ class SystemUsersController extends Controller
   {
     return view('admin-panel.system-users.system-users_form', [
       'mode' => 'create',
-      'page_header_title' => 'システムユーザー‐登録 (新規)',
+      'page_header_title' => 'ユーザーアカウント‐登録 (新規)',
       'systemUser' => null,
     ]);
   }
@@ -42,7 +42,7 @@ class SystemUsersController extends Controller
   {
     $validated = $request->validate([
       'name'           => 'required|string|max:255',
-      'login_id'       => 'required|string|max:255|unique:system_users,login_id',
+      'login_id'       => 'required|string|max:255|unique:user_accounts,login_id',
       'plain_password' => 'required|string|min:4|max:255',
       'is_admin'       => ['required', 'in:0,1', function ($attr, $value, $fail) {
         if ($value == 1 && !Auth::user()->is_admin) {
@@ -60,7 +60,7 @@ class SystemUsersController extends Controller
     ]);
 
     return redirect()->route('system-users.index')
-      ->with('success', 'システムユーザーを登録しました。');
+      ->with('success', 'ユーザーアカウントを登録しました。');
   }
 
   /**
@@ -97,7 +97,7 @@ class SystemUsersController extends Controller
 
     return view('admin-panel.system-users.system-users_form', [
       'mode' => 'edit',
-      'page_header_title' => 'システムユーザー‐登録 (編集)',
+      'page_header_title' => 'ユーザーアカウント‐登録 (編集)',
       'systemUser' => $systemUser,
     ]);
   }
@@ -111,7 +111,7 @@ class SystemUsersController extends Controller
 
     $validated = $request->validate([
       'name'           => 'required|string|max:255',
-      'login_id'       => 'required|string|max:255|unique:system_users,login_id,' . $id,
+      'login_id'       => 'required|string|max:255|unique:user_accounts,login_id,' . $id,
       'plain_password' => 'required|string|min:4|max:255',
       'is_admin'       => ['required', 'in:0,1', function ($attr, $value, $fail) {
         if ($value == 1 && !Auth::user()->is_admin) {
@@ -129,6 +129,6 @@ class SystemUsersController extends Controller
     ]);
 
     return redirect()->route('system-users.index')
-      ->with('success', 'システムユーザーを更新しました。');
+      ->with('success', 'ユーザーアカウントを更新しました。');
   }
 }

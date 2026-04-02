@@ -13,8 +13,8 @@ class User extends Authenticatable
   /** @use HasFactory<\Database\Factories\UserFactory> */
   use HasFactory, Notifiable;
 
-  // ログイン機能でsystem_usersテーブルを使用
-  protected $table = 'system_users';
+  // ログイン機能でuser_accountsテーブルを使用
+  protected $table = 'user_accounts';
 
   /**
    * The attributes that are mass assignable.

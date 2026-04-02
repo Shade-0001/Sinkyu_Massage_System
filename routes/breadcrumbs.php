@@ -156,11 +156,11 @@ Breadcrumbs::define('admin-panel.index', function() {
   return getAdminPanelBreadcrumbs();
 });
 
-// システムユーザー
+// ユーザーアカウント
 function getSystemUsersBreadcrumbs() {
   return [
     ...getAdminPanelBreadcrumbs(),
-    ['url' => route('system-users.index'), 'label' => 'システムユーザー'],
+    ['url' => route('system-users.index'), 'label' => 'ユーザーアカウント'],
   ];
 }
 
@@ -168,7 +168,7 @@ Breadcrumbs::define('system-users.index', function() {
   return getSystemUsersBreadcrumbs();
 });
 
-// システムユーザー ｰ 新規登録
+// ユーザーアカウント ｰ 新規登録
 Breadcrumbs::define('system-users.create', function() {
   return [
     ...getSystemUsersBreadcrumbs(),
@@ -176,7 +176,7 @@ Breadcrumbs::define('system-users.create', function() {
   ];
 });
 
-// システムユーザー ｰ 編集
+// ユーザーアカウント ｰ 編集
 Breadcrumbs::define('system-users.edit', function() {
   return [
     ...getSystemUsersBreadcrumbs(),

@@ -10,7 +10,7 @@
   />
 
 
-  <a href="{{ route('system-users.index') }}">システムユーザー</a><br>
+  <a href="{{ route('system-users.index') }}">ユーザーアカウント</a><br>
   <a href="{{ route('notices.index') }}">お知らせ</a><br>
   <a href="{{ route('prints.coordinate-adjuster') }}">PDFレイアウト調整ツール</a><br>
 </x-app-layout>
