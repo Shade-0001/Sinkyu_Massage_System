@@ -494,8 +494,7 @@ class WeeklySchedulePdfService extends BasePdfService
     float  $eventW,
     float  $eventH
   ): void {
-    // 2px ≒ 0.71mm のパディング（上下左右均等）
-    $padding  = 0.71;
+    $padding  = 0.7;
     $fontSize = self::FONT_MIN;
     $lineH    = $fontSize * 0.352 * 1.25 + 0.6;
     $innerW   = $eventW - $padding * 2;
@@ -507,7 +506,7 @@ class WeeklySchedulePdfService extends BasePdfService
       $pdf->SetFillColor(...self::EVENT_COLOR_MASSAGE);
     }
 
-    $pdf->RoundedRect($eventX + $padding, $eventY + $padding, $eventW - $padding * 2, $eventH - $padding * 2, 1.2, '1111', 'F');
+    $pdf->RoundedRect($eventX + $padding, $eventY + $padding, $eventW - $padding * 2, $eventH - $padding * 2, 0.4, '1111', 'F');
 
     $pdf->SetFont('kozgopromedium', 'B', $fontSize);
     $pdf->SetTextColor(255, 255, 255);
