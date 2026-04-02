@@ -248,7 +248,7 @@ class TreatmentFeeListPdfService extends BasePdfService
       $dateStr = '〈 PDF出力日時 │ ' . date('Y/m/d', $ts) . "\u{2002}" . date('H:i', $ts) . ' 〉';
       $pdf->SetFont('kozgopromedium', '', 8);
       $pdf->SetXY($startX, 6);
-      $pdf->Cell($availableWidth, 0, $dateStr, 0, 0, 'R');
+      $pdf->Cell($availableWidth + 4, 0, $dateStr, 0, 0, 'R');
     }
 
     // テーブル描画開始
