@@ -215,23 +215,32 @@ class MonthlySchedulePdfService extends BasePdfService
     // ---- 凡例（タイトル下・左揃え・1行） ----
     $pdf->SetFont('kozgopromedium', '', self::FONT_MIN);
     $legendFontMm = self::FONT_MIN * 0.352;
-    $squareSize   = $legendFontMm * 0.72;
-    $squareY      = $legendY;
+    $squareSize   = $legendFontMm;                      // フォントサイズと同じ辺長
+    $squareY      = $legendY + $squareSize * 0.13;      // 視覚的中央合わせ
 
     // ブルー正方形（はり・きゅう）
     $pdf->SetFillColor(...self::EVENT_COLOR_ACUPUNCTURE);
-    $pdf->Rect($startX, $squareY, $squareSize, $squareSize, 'F');
+    $pdf->RoundedRect($startX, $squareY, $squareSize, $squareSize, 0.4, '1111', 'F');
     $pdf->SetTextColor(0, 0, 0);
-    $labelAcuW = $pdf->GetStringWidth('：はり・きゅう');
-    $pdf->Text($startX + $squareSize, $legendY, '：はり・きゅう');
+    $textAcuX = $startX + $squareSize * 0.5;
+    $pdf->SetFont('kozgopromedium', '', self::FONT_MIN * 1.5);
+    $colonW = $pdf->GetStringWidth('：');
+    $pdf->Text($textAcuX, $legendY - 1.6, '：');
+    $pdf->SetFont('kozgopromedium', '', self::FONT_MIN);
+    $pdf->Text($textAcuX + $colonW * 0.8, $legendY, 'はり・きゅう');
+    $labelAcuW = $colonW + $pdf->GetStringWidth('はり・きゅう');
 
-    $gapX = $startX + $squareSize + $labelAcuW + 2;
+    $gapX = $startX + $squareSize + $labelAcuW + 5;
 
     // オレンジ正方形（あんま・マッサージ）
     $pdf->SetFillColor(...self::EVENT_COLOR_MASSAGE);
-    $pdf->Rect($gapX, $squareY, $squareSize, $squareSize, 'F');
+    $pdf->RoundedRect($gapX, $squareY, $squareSize, $squareSize, 0.4, '1111', 'F');
     $pdf->SetTextColor(0, 0, 0);
-    $pdf->Text($gapX + $squareSize, $legendY, '：あんま・マッサージ');
+    $textMasX = $gapX + $squareSize * 0.5;
+    $pdf->SetFont('kozgopromedium', '', self::FONT_MIN * 1.5);
+    $pdf->Text($textMasX, $legendY - 1.6, '：');
+    $pdf->SetFont('kozgopromedium', '', self::FONT_MIN);
+    $pdf->Text($textMasX + $colonW * 0.8, $legendY, 'あんま・マッサージ');
 
     // ---- 施術担当者（期間テキスト下・右揃え） ----
     $therapist = $this->fetchTherapist($therapistId);
@@ -326,11 +335,13 @@ class MonthlySchedulePdfService extends BasePdfService
     $fontMm   = $fontPt * 0.352 * 1.25;
     $offsetY  = ($headerH - $fontMm) / 2;
 
-    // 時刻列ヘッダー（空・グレー）
+    // 時刻列ヘッダー（斜線）
     $x = $startX;
     $pdf->SetFillColor(220, 220, 220);
     $pdf->Rect($x, $startY, $colWidths[0], $headerH, 'F');
     $this->drawCellBorder($pdf, $x, $startY, $colWidths[0], $headerH);
+    $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
+    $pdf->Line($x, $startY, $x + $colWidths[0], $startY + $headerH);
     $x += $colWidths[0];
 
     foreach ($monthDates as $idx => $dateStr) {
