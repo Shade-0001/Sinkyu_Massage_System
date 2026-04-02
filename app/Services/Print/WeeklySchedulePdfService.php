@@ -200,7 +200,7 @@ class WeeklySchedulePdfService extends BasePdfService
     // ---- タイトル（左） ----
     $pdf->SetFont('kozgopromedium', '', 17);
     $pdf->SetTextColor(0, 0, 0);
-    $pdf->Text($startX, $titleY, '週間スケジュール');
+    $pdf->Text($startX, 8, '週間スケジュール');
 
     // ---- 期間テキスト（右端・タイトルと同Y） ----
     $startDateObj = new \DateTime($weekDates[0]);
@@ -216,23 +216,32 @@ class WeeklySchedulePdfService extends BasePdfService
     $pdf->SetFont('kozgopromedium', '', self::FONT_MIN);
     $legendFontMm = self::FONT_MIN * 0.352;           // フォント実寸 mm（line-height係数なし）
     $squareSize   = $legendFontMm;                   // フォントサイズと同じ辺長
-    $squareY      = $legendY + $squareSize * 0.5;     // 視覚的中央合わせ（Text上端より少し下）
+    $squareY      = $legendY + $squareSize * 0.15;     // 視覚的中央合わせ（Text上端より少し下）
 
     // ブルー正方形（はり・きゅう）
     $pdf->SetFillColor(...self::EVENT_COLOR_ACUPUNCTURE);
     $pdf->Rect($startX, $squareY, $squareSize, $squareSize, 'F');
     $pdf->SetTextColor(0, 0, 0);
-    $labelAcuW = $pdf->GetStringWidth('：はり・きゅう');
-    $pdf->Text($startX + $squareSize, $legendY, '：はり・きゅう');
+    $textAcuX = $startX + $squareSize * 0.8;
+    $pdf->SetFont('kozgopromedium', 'B', self::FONT_MIN);
+    $colonW = $pdf->GetStringWidth('：');
+    $pdf->Text($textAcuX, $legendY, '：');
+    $pdf->SetFont('kozgopromedium', '', self::FONT_MIN);
+    $pdf->Text($textAcuX + $colonW, $legendY, 'はり・きゅう');
+    $labelAcuW = $colonW + $pdf->GetStringWidth('はり・きゅう');
 
     // 区切りスペース
-    $gapX = $startX + $squareSize + $labelAcuW + 2;
+    $gapX = $startX + $squareSize + $labelAcuW + 5;
 
     // オレンジ正方形（あんま・マッサージ）
     $pdf->SetFillColor(...self::EVENT_COLOR_MASSAGE);
     $pdf->Rect($gapX, $squareY, $squareSize, $squareSize, 'F');
     $pdf->SetTextColor(0, 0, 0);
-    $pdf->Text($gapX + $squareSize, $legendY, '：あんま・マッサージ');
+    $textMasX = $gapX + $squareSize * 0.8;
+    $pdf->SetFont('kozgopromedium', 'B', self::FONT_MIN);
+    $pdf->Text($textMasX, $legendY, '：');
+    $pdf->SetFont('kozgopromedium', '', self::FONT_MIN);
+    $pdf->Text($textMasX + $colonW, $legendY, 'あんま・マッサージ');
 
     // ---- 施術担当者（期間テキスト下・右揃え） ----
     $therapist = $this->fetchTherapist($therapistId);
