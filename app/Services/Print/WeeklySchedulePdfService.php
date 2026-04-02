@@ -12,12 +12,13 @@ use Illuminate\Support\Facades\DB;
  * - A4縦 (210mm × 297mm)、左右マージン 8mm → 利用可能幅 194mm
  * - ヘッダー：PDF出力日・タイトル・期間・施術担当者凡例
  * - テーブル：COL1=時刻, COL2=日(日), COL3-7=月-金, COL8=土
+ * - 時刻スロット：30分刻み
  */
 class WeeklySchedulePdfService extends BasePdfService
 {
   const MARGIN_X    = 8;    // 左右マージン mm
   const AVAILABLE_W = 194;  // 利用可能幅 mm
-  const ROW_H       = 8;    // 各スロット行の高さ mm
+  const ROW_H       = 10;   // 各スロット行の高さ mm（2行テキスト対応）
   const HEADER_H    = 7;    // テーブルヘッダー行高 mm
 
   protected function getDefaultCoordinatesPath(): string
@@ -31,11 +32,7 @@ class WeeklySchedulePdfService extends BasePdfService
   }
 
   /**
-   * PDF生成
-   *
-   * @param string $weekStartDate  週の開始日 (YYYY-MM-DD, 日曜日)
-   * @param string|null $therapistId  施術者ID（nullまたは'all'で全表示）
-   * @return string PDFバイナリ
+   * BasePdfService の抽象メソッド実装（このサービスでは generateWeekly を使用）
    */
   public function generate(
     array $clinicUserIds = [],
@@ -66,7 +63,7 @@ class WeeklySchedulePdfService extends BasePdfService
     // スケジュールデータを取得
     $records = $this->fetchWeekRecords($weekDates, $therapistId);
 
-    // 時刻スロットを生成
+    // 時刻スロットを生成（30分刻み）
     $timeSlots = $this->fetchTimeSlots();
 
     $pdf->AddPage();
@@ -111,7 +108,8 @@ class WeeklySchedulePdfService extends BasePdfService
         'records.start_time',
         'records.end_time',
         'records.therapy_type',
-        DB::raw("CONCAT(clinic_users.last_name, clinic_users.first_name) as user_name")
+        'clinic_users.last_name',
+        'clinic_users.first_name'
       )
       ->orderBy('records.date')
       ->orderBy('records.start_time');
@@ -129,14 +127,15 @@ class WeeklySchedulePdfService extends BasePdfService
         'start_time'   => $row->start_time,
         'end_time'     => $row->end_time,
         'therapy_type' => $row->therapy_type,
-        'user_name'    => $row->user_name,
+        'last_name'    => $row->last_name,
+        'first_name'   => $row->first_name,
       ];
     }
     return $map;
   }
 
   /**
-   * 営業時間からの時刻スロット取得
+   * 営業時間からの時刻スロット取得（30分刻み）
    */
   protected function fetchTimeSlots(): array
   {
@@ -150,7 +149,7 @@ class WeeklySchedulePdfService extends BasePdfService
 
     while ($current <= $end) {
       $slots[] = $current->format('H:i');
-      $current->modify('+1 hour');
+      $current->modify('+30 minutes');
     }
     return $slots;
   }
@@ -184,6 +183,7 @@ class WeeklySchedulePdfService extends BasePdfService
     $startX    = self::MARGIN_X;
     $availW    = self::AVAILABLE_W;
     $pageTitle = '週間スケジュール';
+    $titleY    = 14;
 
     // ---- PDF出力日時（右上） ----
     $ts      = strtotime($outputDate);
@@ -193,30 +193,28 @@ class WeeklySchedulePdfService extends BasePdfService
     $pdf->SetXY($startX, 6);
     $pdf->Cell($availW, 0, $dateStr, 0, 0, 'R');
 
-    // ---- タイトル ----
+    // ---- タイトル（左） ----
     $pdf->SetFont('kozgopromedium', '', 17);
     $pdf->SetTextColor(0, 0, 0);
-    $pdf->Text($startX, 14, $pageTitle);
+    $pdf->Text($startX, $titleY, $pageTitle);
 
-    // ---- 期間テキスト ----
+    // ---- 期間テキスト（右端・タイトルと同Y） ----
     $startDateObj = new \DateTime($weekDates[0]);
     $endDateObj   = new \DateTime($weekDates[6]);
-    $periodText   = $this->formatJpDate($startDateObj) . ' ~ ' . $this->formatJpDate($endDateObj);
+    $periodText   = $this->formatJpDate($startDateObj) . '　～　' . $this->formatJpDate($endDateObj);
     $pdf->SetFont('kozgopromedium', '', 11);
-    $pdf->SetTextColor(60, 60, 60);
-    $pdf->Text($startX, 22, $periodText);
+    $pdf->SetTextColor(0, 0, 0);
+    $periodW = $pdf->GetStringWidth($periodText);
+    $pdf->Text($startX + $availW - $periodW, $titleY, $periodText);
 
-    // ---- 施術担当者 ----
-    $therapistName = $this->fetchTherapistName($therapistId);
+    // ---- 施術担当者（左・タイトル下） ----
+    $therapistName  = $this->fetchTherapistName($therapistId);
     $therapistLabel = '施術担当者：' . $therapistName;
-    $labelW = $pdf->GetStringWidth($therapistLabel);
-    $legendX = $startX + $availW - $labelW - 52; // 凡例の右端から
-
     $pdf->SetFont('kozgopromedium', '', 10);
     $pdf->SetTextColor(0, 0, 0);
-    $pdf->Text($legendX, 22, $therapistLabel);
+    $pdf->Text($startX, 22, $therapistLabel);
 
-    // 凡例（ブルー：はり・きゅう　オレンジ：あんま・マッサージ）
+    // ---- 凡例（右・施術担当者と同Y） ----
     $this->drawLegend($pdf, $startX + $availW - 50, 19.5);
 
     // ---- テーブル ----
@@ -243,6 +241,7 @@ class WeeklySchedulePdfService extends BasePdfService
     $y2 = $y + 5;
     $pdf->SetFillColor(220, 110, 30);
     $pdf->Circle($x + $dotR, $y2 + $dotR, $dotR, 0, 360, 'F');
+    $pdf->SetTextColor(0, 0, 0);
     $pdf->Text($x + $dotR * 2 + $gap, $y2 + 0.2, '：あんま・マッサージ');
   }
 
@@ -303,8 +302,8 @@ class WeeklySchedulePdfService extends BasePdfService
     float $startY,
     float $headerH
   ): void {
-    $fontMm    = 9 * 0.352 * 1.25;
-    $offsetY   = ($headerH - $fontMm) / 2;
+    $fontMm  = 9 * 0.352 * 1.25;
+    $offsetY = ($headerH - $fontMm) / 2;
 
     // 時刻列ヘッダー（空）
     $x = $startX;
@@ -315,29 +314,24 @@ class WeeklySchedulePdfService extends BasePdfService
 
     // 各曜日ヘッダー（COL2=日, COL3-7=月-金, COL8=土）
     for ($i = 0; $i < 7; $i++) {
-      $dow      = $i; // 0=日, 6=土
-      $dateObj  = new \DateTime($weekDates[$i]);
-      $month    = (int)$dateObj->format('m');
-      $day      = (int)$dateObj->format('j');
-      $dayName  = $dayNames[$dow];
-      $label    = $month . '/' . $day . '（' . $dayName . '）';
-      $colW     = $colWidths[$i + 1];
+      $dow     = $i; // 0=日, 6=土
+      $dateObj = new \DateTime($weekDates[$i]);
+      $month   = (int)$dateObj->format('m');
+      $day     = (int)$dateObj->format('j');
+      $dayName = $dayNames[$dow];
+      $label   = $month . '/' . $day . '（' . $dayName . '）';
+      $colW    = $colWidths[$i + 1];
 
-      // 曜日による背景色
+      // 曜日による背景色（ヘッダーのみ）
       if ($dow === 0) {
-        // 日曜：薄赤
         $pdf->SetFillColor(255, 210, 210);
-        $fillStyle = 'F';
       } elseif ($dow === 6) {
-        // 土曜：薄青
         $pdf->SetFillColor(210, 230, 255);
-        $fillStyle = 'F';
       } else {
         $pdf->SetFillColor(220, 220, 220);
-        $fillStyle = 'F';
       }
 
-      $pdf->Rect($x, $startY, $colW, $headerH, $fillStyle);
+      $pdf->Rect($x, $startY, $colW, $headerH, 'F');
 
       $pdf->SetFont('kozgopromedium', '', 9);
       $pdf->SetTextColor(0, 0, 0);
@@ -364,35 +358,25 @@ class WeeklySchedulePdfService extends BasePdfService
     float  $rowH,
     bool   $isLast
   ): void {
-    $fontMm  = 9 * 0.352 * 1.25;
+    $fontMm  = 8 * 0.352 * 1.25;
     $offsetY = ($rowH - $fontMm) / 2;
 
-    // 時刻列
+    // 時刻列（背景グレー・黒テキスト）
     $x = $startX;
     $pdf->SetFillColor(240, 240, 240);
     $pdf->Rect($x, $rowY, $colWidths[0], $rowH, 'F');
     $pdf->SetFont('kozgopromedium', '', 8);
-    $pdf->SetTextColor(80, 80, 80);
+    $pdf->SetTextColor(0, 0, 0);
     $pdf->setCellPaddings(0, 0, 0, 0);
     $pdf->SetXY($x, $rowY + $offsetY);
     $pdf->Cell($colWidths[0], 0, $timeSlot, 0, 0, 'C', false);
     $this->drawCellBorder($pdf, $x, $rowY, $colWidths[0], $rowH);
     $x += $colWidths[0];
 
-    // 各曜日の施術データセル
+    // 各曜日の施術データセル（背景色なし・土日も白）
     for ($i = 0; $i < 7; $i++) {
       $dateKey = $weekDates[$i];
-      $dow     = $i; // 0=日, 6=土
       $colW    = $colWidths[$i + 1];
-
-      // 基本背景色（曜日）
-      if ($dow === 0) {
-        $pdf->SetFillColor(255, 235, 235);
-        $pdf->Rect($x, $rowY, $colW, $rowH, 'F');
-      } elseif ($dow === 6) {
-        $pdf->SetFillColor(235, 245, 255);
-        $pdf->Rect($x, $rowY, $colW, $rowH, 'F');
-      }
 
       // 時刻スロットに合致する施術データを収集
       $slotRecords = $this->getSlotRecords($records[$dateKey] ?? [], $timeSlot);
@@ -407,16 +391,19 @@ class WeeklySchedulePdfService extends BasePdfService
   }
 
   /**
-   * 指定スロット時刻に開始する（または跨る）施術データを取得
+   * 指定スロット時刻（HH:MM）に開始する施術データを取得
    */
   protected function getSlotRecords(array $dayRecords, string $timeSlot): array
   {
-    $slotHour = (int)explode(':', $timeSlot)[0];
-    $result   = [];
+    // スロット時刻を分に変換
+    [$slotH, $slotM] = explode(':', $timeSlot);
+    $slotMinutes = (int)$slotH * 60 + (int)$slotM;
 
+    $result = [];
     foreach ($dayRecords as $rec) {
-      $startHour = (int)explode(':', $rec['start_time'])[0];
-      if ($startHour === $slotHour) {
+      $parts       = explode(':', $rec['start_time']);
+      $startMinutes = (int)$parts[0] * 60 + (int)($parts[1] ?? 0);
+      if ($startMinutes === $slotMinutes) {
         $result[] = $rec;
       }
     }
@@ -425,6 +412,7 @@ class WeeklySchedulePdfService extends BasePdfService
 
   /**
    * セル内の施術イベントを描画
+   * テキスト形式：「HH:MM ~ HH:MM」＋改行＋「姓 名」
    */
   protected function drawSlotEvents(
     Fpdi  $pdf,
@@ -437,45 +425,78 @@ class WeeklySchedulePdfService extends BasePdfService
     $count   = count($slotRecords);
     $eventW  = $count > 0 ? $cellW / $count : $cellW;
     $padding = 0.8;
-    $fontMm  = 7.5 * 0.352 * 1.25;
-    $offsetY = ($cellH - $fontMm) / 2;
+    $fontSize = 6.5;
+    $lineH    = $fontSize * 0.352 * 1.25 + 0.6; // 行ピッチ
+    $innerW   = $eventW - $padding * 2 - 0.5;
 
     foreach ($slotRecords as $idx => $rec) {
       $ex = $cellX + $idx * $eventW;
 
       // 施術種別による背景色
       if ((int)$rec['therapy_type'] === 1) {
-        // はり・きゅう：ブルー系
         $pdf->SetFillColor(45, 134, 194);
       } else {
-        // あんま・マッサージ：オレンジ系
         $pdf->SetFillColor(220, 110, 30);
       }
 
       $pdf->Rect($ex + $padding, $cellY + $padding, $eventW - $padding * 2, $cellH - $padding * 2, 'F');
 
-      // ユーザー名テキスト
-      $pdf->SetFont('kozgopromedium', '', 7.5);
+      $pdf->SetFont('kozgopromedium', '', $fontSize);
       $pdf->SetTextColor(255, 255, 255);
       $pdf->setCellPaddings(0, 0, 0, 0);
 
-      $name      = $rec['user_name'] ?? '';
-      $textW     = $pdf->GetStringWidth($name);
-      $innerW    = $eventW - $padding * 2 - 1;
+      // 時刻テキスト（HH:MM ~ HH:MM）
+      $startStr = $this->formatHHMM($rec['start_time']);
+      $endStr   = $this->formatHHMM($rec['end_time']);
+      $timeText = $startStr . ' ~ ' . $endStr;
 
-      // テキストがセル幅に収まらない場合はトリム
-      if ($textW > $innerW && mb_strlen($name) > 1) {
-        while ($pdf->GetStringWidth($name . '…') > $innerW && mb_strlen($name) > 0) {
-          $name = mb_substr($name, 0, -1);
-        }
-        $name .= '…';
+      // 氏名テキスト（姓 名）
+      $nameText = ($rec['last_name'] ?? '') . "\u{3000}" . ($rec['first_name'] ?? '');
+
+      // テキストが幅を超える場合はトリム
+      $timeText = $this->trimTextToWidth($pdf, $timeText, $innerW);
+      $nameText = $this->trimTextToWidth($pdf, $nameText, $innerW);
+
+      // 2行をセル内に縦中央配置
+      $totalH   = $lineH * 2;
+      $startY   = $cellY + $padding + ($cellH - $padding * 2 - $totalH) / 2;
+      if ($startY < $cellY + $padding) {
+        $startY = $cellY + $padding + 0.3;
       }
 
-      $pdf->SetXY($ex + $padding + 0.5, $cellY + $offsetY);
-      $pdf->Cell($innerW, 0, $name, 0, 0, 'L', false);
+      $pdf->SetXY($ex + $padding + 0.5, $startY);
+      $pdf->Cell($innerW, 0, $timeText, 0, 0, 'L', false);
+
+      $pdf->SetXY($ex + $padding + 0.5, $startY + $lineH);
+      $pdf->Cell($innerW, 0, $nameText, 0, 0, 'L', false);
     }
 
     $pdf->SetTextColor(0, 0, 0);
+  }
+
+  /**
+   * 時刻文字列を HH:MM 形式にフォーマット
+   */
+  protected function formatHHMM(string $time): string
+  {
+    $parts = explode(':', $time);
+    $h     = str_pad((string)(int)($parts[0] ?? 0), 2, '0', STR_PAD_LEFT);
+    $m     = str_pad((string)(int)($parts[1] ?? 0), 2, '0', STR_PAD_LEFT);
+    return $h . ':' . $m;
+  }
+
+  /**
+   * テキストを指定幅に収まるようにトリム（末尾に…を付加）
+   */
+  protected function trimTextToWidth(Fpdi $pdf, string $text, float $maxW): string
+  {
+    if ($pdf->GetStringWidth($text) <= $maxW) {
+      return $text;
+    }
+    while (mb_strlen($text) > 0 && $pdf->GetStringWidth($text . '…') > $maxW) {
+      $text = mb_substr($text, 0, -1);
+    }
+    return $text . '…';
   }
 
   /**
@@ -484,21 +505,20 @@ class WeeklySchedulePdfService extends BasePdfService
   protected function drawCellBorder(Fpdi $pdf, float $x, float $y, float $w, float $h): void
   {
     $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
-    $pdf->Line($x,     $y,     $x + $w, $y);
-    $pdf->Line($x,     $y + $h, $x + $w, $y + $h);
-    $pdf->Line($x,     $y,     $x,      $y + $h);
-    $pdf->Line($x + $w, $y,   $x + $w, $y + $h);
+    $pdf->Line($x,      $y,      $x + $w, $y);
+    $pdf->Line($x,      $y + $h, $x + $w, $y + $h);
+    $pdf->Line($x,      $y,      $x,      $y + $h);
+    $pdf->Line($x + $w, $y,      $x + $w, $y + $h);
   }
 
   /**
-   * 和暦日付フォーマット（例：令和7年 4月 6日（日））
+   * 和暦日付フォーマット（例：令和7年 4月 6日）
    */
   protected function formatJpDate(\DateTime $date): string
   {
     $year  = (int)$date->format('Y');
     $month = (int)$date->format('m');
     $day   = (int)$date->format('j');
-    $dow   = (int)$date->format('w');
 
     $dateStr = sprintf('%04d%02d%02d', $year, $month, $day);
     if ($dateStr >= '20190501') {
@@ -511,7 +531,6 @@ class WeeklySchedulePdfService extends BasePdfService
       $era = '平成'; $eraYear = $year - 1988;
     }
 
-    $dayNames = ['日', '月', '火', '水', '木', '金', '土'];
-    return $era . $eraYear . '年 ' . $month . '月 ' . $day . '日（' . $dayNames[$dow] . '）';
+    return $era . $eraYear . '年 ' . $month . '月 ' . $day . '日';
   }
 }
