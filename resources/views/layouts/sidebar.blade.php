@@ -21,6 +21,7 @@
   $onPrints        = request()->is('prints', 'prints/*');
   $onTherapyPeriod = request()->is('therapy-periods', 'therapy-periods/*');
   $onDeposits      = request()->is('deposits', 'deposits/*');
+  $onAdminPanel    = request()->is('admin-panel', 'admin-panel/*');
 @endphp
 
 <div class="border-bottom border-secondary border-3 px-3 py-2 text-nowrap">
@@ -87,6 +88,11 @@
       <li class="border-bottom border-2 border-secondary">
         <a href="{{ route('deposits.index') }}" class="sidebar-link text-gray-85 {{ $onDeposits ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none"><i class="nf nf-fa-yen me-2"></i>入金管理</a>
       </li>
+      @if(Auth::user()->is_admin)
+      <li class="border-bottom border-2 border-secondary">
+        <a href="{{ route('admin-panel.index') }}" class="sidebar-link text-gray-85 {{ $onAdminPanel ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none"><i class="nf nf-md-shield_crown me-2"></i>システム管理</a>
+      </li>
+      @endif
     </ul>
   </nav>
 
