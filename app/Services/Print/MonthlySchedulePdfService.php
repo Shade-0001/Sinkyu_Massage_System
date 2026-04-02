@@ -202,7 +202,7 @@ class MonthlySchedulePdfService extends BasePdfService
     // ---- タイトル（左） ----
     $pdf->SetFont('kozgopromedium', '', 15);
     $pdf->SetTextColor(0, 0, 0);
-    $pdf->Text($startX, $titleY, '月間スケジュール');
+    $pdf->Text($startX, 8, '月間スケジュール');
 
     // ---- 期間テキスト（右端・タイトルと同Y） ----
     [$year, $month] = explode('-', $yearMonth);
@@ -212,7 +212,7 @@ class MonthlySchedulePdfService extends BasePdfService
     $periodW = $pdf->GetStringWidth($periodText);
     $pdf->Text($startX + $availW - $periodW, $titleY, $periodText);
 
-    // ---- 凡例（担当施術者と同フォント・同Y） ----
+    // ---- 凡例（担当施術者と同Y・テキスト9pt・コロン13.5pt） ----
     $pdf->SetFont('kozgopromedium', '', 9);
     $legendFontMm = 9 * 0.352;
     $squareSize   = $legendFontMm;
@@ -222,8 +222,13 @@ class MonthlySchedulePdfService extends BasePdfService
     $pdf->SetFillColor(...self::EVENT_COLOR_ACUPUNCTURE);
     $pdf->RoundedRect($startX, $squareY, $squareSize, $squareSize, 0.4, '1111', 'F');
     $pdf->SetTextColor(0, 0, 0);
-    $pdf->Text($startX + $squareSize, $legendY, '：はり・きゅう');
-    $labelAcuW = $pdf->GetStringWidth('：はり・きゅう');
+    $textAcuX = $startX + $squareSize * 0.5;
+    $pdf->SetFont('kozgopromedium', '', 9 * 1.5);
+    $colonW = $pdf->GetStringWidth('：');
+    $pdf->Text($textAcuX, $legendY - 1.6, '：');
+    $pdf->SetFont('kozgopromedium', '', 9);
+    $pdf->Text($textAcuX + $colonW * 0.8, $legendY, 'はり・きゅう');
+    $labelAcuW = $colonW + $pdf->GetStringWidth('はり・きゅう');
 
     $gapX = $startX + $squareSize + $labelAcuW + 5;
 
@@ -231,7 +236,11 @@ class MonthlySchedulePdfService extends BasePdfService
     $pdf->SetFillColor(...self::EVENT_COLOR_MASSAGE);
     $pdf->RoundedRect($gapX, $squareY, $squareSize, $squareSize, 0.4, '1111', 'F');
     $pdf->SetTextColor(0, 0, 0);
-    $pdf->Text($gapX + $squareSize, $legendY, '：あんま・マッサージ');
+    $textMasX = $gapX + $squareSize * 0.5;
+    $pdf->SetFont('kozgopromedium', '', 9 * 1.5);
+    $pdf->Text($textMasX, $legendY - 1.6, '：');
+    $pdf->SetFont('kozgopromedium', '', 9);
+    $pdf->Text($textMasX + $colonW * 0.8, $legendY, 'あんま・マッサージ');
 
     // ---- 施術担当者（期間テキスト下・右揃え） ----
     $therapist = $this->fetchTherapist($therapistId);
