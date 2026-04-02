@@ -216,18 +216,19 @@ class WeeklySchedulePdfService extends BasePdfService
     $pdf->SetFont('kozgopromedium', '', self::FONT_MIN);
     $legendFontMm = self::FONT_MIN * 0.352;           // フォント実寸 mm（line-height係数なし）
     $squareSize   = $legendFontMm;                   // フォントサイズと同じ辺長
-    $squareY      = $legendY + $squareSize * 0.15;     // 視覚的中央合わせ（Text上端より少し下）
+    $squareY      = $legendY + $squareSize * 0.13;     // 視覚的中央合わせ（Text上端より少し下）
 
     // ブルー正方形（はり・きゅう）
     $pdf->SetFillColor(...self::EVENT_COLOR_ACUPUNCTURE);
     $pdf->Rect($startX, $squareY, $squareSize, $squareSize, 'F');
+    // テキスト
     $pdf->SetTextColor(0, 0, 0);
-    $textAcuX = $startX + $squareSize * 0.8;
-    $pdf->SetFont('kozgopromedium', 'B', self::FONT_MIN);
+    $textAcuX = $startX + $squareSize * 0.5;
+    $pdf->SetFont('kozgopromedium', '', self::FONT_MIN * 1.5);
     $colonW = $pdf->GetStringWidth('：');
-    $pdf->Text($textAcuX, $legendY, '：');
+    $pdf->Text($textAcuX, $legendY - 1.6, '：');
     $pdf->SetFont('kozgopromedium', '', self::FONT_MIN);
-    $pdf->Text($textAcuX + $colonW, $legendY, 'はり・きゅう');
+    $pdf->Text($textAcuX + $colonW * 0.8, $legendY, 'はり・きゅう');
     $labelAcuW = $colonW + $pdf->GetStringWidth('はり・きゅう');
 
     // 区切りスペース
@@ -236,12 +237,13 @@ class WeeklySchedulePdfService extends BasePdfService
     // オレンジ正方形（あんま・マッサージ）
     $pdf->SetFillColor(...self::EVENT_COLOR_MASSAGE);
     $pdf->Rect($gapX, $squareY, $squareSize, $squareSize, 'F');
+    // テキスト
     $pdf->SetTextColor(0, 0, 0);
-    $textMasX = $gapX + $squareSize * 0.8;
-    $pdf->SetFont('kozgopromedium', 'B', self::FONT_MIN);
-    $pdf->Text($textMasX, $legendY, '：');
+    $textMasX = $gapX + $squareSize * 0.5;
+    $pdf->SetFont('kozgopromedium', '', self::FONT_MIN * 1.5);
+    $pdf->Text($textMasX, $legendY - 1.6, '：');
     $pdf->SetFont('kozgopromedium', '', self::FONT_MIN);
-    $pdf->Text($textMasX + $colonW, $legendY, 'あんま・マッサージ');
+    $pdf->Text($textMasX + $colonW * 0.8, $legendY, 'あんま・マッサージ');
 
     // ---- 施術担当者（期間テキスト下・右揃え） ----
     $therapist = $this->fetchTherapist($therapistId);
@@ -337,11 +339,16 @@ class WeeklySchedulePdfService extends BasePdfService
     $fontMm  = 9 * 0.352 * 1.25;
     $offsetY = ($headerH - $fontMm) / 2;
 
-    // 時刻列ヘッダー（空）
+    // 時刻列ヘッダー（斜線）
     $x = $startX;
     $pdf->SetFillColor(220, 220, 220);
     $pdf->Rect($x, $startY, $colWidths[0], $headerH, 'F');
     $this->drawCellBorder($pdf, $x, $startY, $colWidths[0], $headerH);
+    $pdf->SetDrawColor(160, 160, 160);
+    $pdf->SetLineWidth(0.3);
+    $pdf->Line($x, $startY, $x + $colWidths[0], $startY + $headerH);
+    $pdf->SetDrawColor(0, 0, 0);
+    $pdf->SetLineWidth(0.2);
     $x += $colWidths[0];
 
     for ($i = 0; $i < 7; $i++) {
