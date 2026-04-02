@@ -4,10 +4,9 @@
 
   <div class="container-fluid">
     <!-- 施術者セレクトボックス -->
-    <div class="mb-3">
-      <div>
-        <label for="therapist-select" class="form-label fw-bold">施術者</label>
-        <div class="vr ms-2 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
+    <div class="mb-4">
+      <div class="d-flex align-items-center">
+        <label for="therapist-select" class="fs-5-5 fw-semibold">施術者：</label>
         <select id="therapist-select">
           @foreach ($therapists as $therapist)
             <option value="{{ $therapist->id }}" {{ $selectedTherapistId == $therapist->id ? 'selected' : '' }}>
@@ -16,18 +15,11 @@
           @endforeach
           <option value="all" {{ $selectedTherapistId === 'all' ? 'selected' : '' }}>［ 全表示 ］</option>
         </select>
+        <div class="vr mx-3"></div>
+        <button type="button" class="btn-ex-main btn-ex-blue me-1">印刷｜週間スケジュール</button>
+        <button type="button" class="btn-ex-main btn-ex-blue">印刷｜月間スケジュール</button>
       </div>
     </div>
-
-    <div class="btn-ex-main btn-ex-sm">ボタン</div>
-    <div class="btn-ex-sub btn-ex-sm">ボタン</div>
-    <br><br>
-    <div class="btn-ex-main">ボタン</div>
-    <div class="btn-ex-sub">ボタン</div>
-    <br><br>
-    <div class="btn-ex-main btn-ex-lg">ボタン</div>
-    <div class="btn-ex-sub btn-ex-lg btn-ex-sub-toggle-invert" data-bs-toggle="btn-ex">ボタン</div>
-    <br><br>
 
     <!-- スケジュール表コントロール -->
     <div class="row mb-2">
@@ -253,7 +245,8 @@
         recordsEditUrlBase: '{{ url('records') }}',
         recordsStartYear: {{ $recordsStartYear }},
         recordsStartMonth: {{ $recordsStartMonth }},
-        futureMonths: {{ $futureMonths }}
+        futureMonths: {{ $futureMonths }},
+        weeklySchedulePdfUrlBase: '{{ url('prints/weekly-schedule') }}'
       };
     </script>
     <script src="{{ asset('js/schedules.js') }}"></script>

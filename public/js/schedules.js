@@ -249,6 +249,14 @@ function initializeEventListeners() {
     hideCursorWarning();
   });
 
+  // 週間スケジュールPDF印刷ボタン
+  const weeklyPrintBtn = document.querySelector('.btn-ex-blue.me-1');
+  if (weeklyPrintBtn) {
+    weeklyPrintBtn.addEventListener('click', function() {
+      printWeeklySchedule();
+    });
+  }
+
   // モーダルを閉じる処理
   document.querySelectorAll('[data-bs-dismiss="modal"]').forEach(button => {
     button.addEventListener('click', closeModal);
@@ -1262,4 +1270,23 @@ function createMonthEventElement(event) {
 function loadWeeksNearViewport() {
   // 仮想化後は常に描画済みの範囲のみを表示するため、追加ロードは不要
   return;
+}
+
+// 週間スケジュールPDF印刷
+function printWeeklySchedule() {
+  // 現在表示中の週の日曜日を取得
+  const weekStart = getWeekStart(currentDate);
+  const weekStartStr = formatDate(weekStart);
+  const therapistId = window.scheduleConfig?.therapistId ?? '';
+
+  const baseUrl = window.scheduleConfig?.weeklySchedulePdfUrlBase;
+  if (!baseUrl) return;
+
+  // ファイル名（週の開始日を含む）
+  const filename = 'weekly_schedule_' + weekStartStr + '.pdf';
+  const url = baseUrl + '/' + filename
+    + '?week_start_date=' + encodeURIComponent(weekStartStr)
+    + '&therapist_id=' + encodeURIComponent(therapistId);
+
+  window.open(url, '_blank');
 }
