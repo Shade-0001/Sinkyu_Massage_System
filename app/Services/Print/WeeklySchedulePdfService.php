@@ -220,7 +220,7 @@ class WeeklySchedulePdfService extends BasePdfService
 
     // ブルー正方形（はり・きゅう）
     $pdf->SetFillColor(...self::EVENT_COLOR_ACUPUNCTURE);
-    $pdf->Rect($startX, $squareY, $squareSize, $squareSize, 'F');
+    $pdf->RoundedRect($startX, $squareY, $squareSize, $squareSize, 0.4, '1111', 'F');
     // テキスト
     $pdf->SetTextColor(0, 0, 0);
     $textAcuX = $startX + $squareSize * 0.5;
@@ -236,7 +236,7 @@ class WeeklySchedulePdfService extends BasePdfService
 
     // オレンジ正方形（あんま・マッサージ）
     $pdf->SetFillColor(...self::EVENT_COLOR_MASSAGE);
-    $pdf->Rect($gapX, $squareY, $squareSize, $squareSize, 'F');
+    $pdf->RoundedRect($gapX, $squareY, $squareSize, $squareSize, 0.4, '1111', 'F');
     // テキスト
     $pdf->SetTextColor(0, 0, 0);
     $textMasX = $gapX + $squareSize * 0.5;
