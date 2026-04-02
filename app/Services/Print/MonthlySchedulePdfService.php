@@ -224,8 +224,9 @@ class MonthlySchedulePdfService extends BasePdfService
     $pdf->SetTextColor(0, 0, 0);
     $textAcuX = $startX + $squareSize * 0.5;
     $pdf->SetFont('kozgopromedium', '', self::FONT_MIN * 1.5);
-    $colonW = $pdf->GetStringWidth('：');
-    $pdf->Text($textAcuX, $legendY - 1.6, '：');
+    $colonW       = $pdf->GetStringWidth('：');
+    $colonOffsetY = -(self::FONT_MIN / 9 * 1.6); // 週間(9pt/-1.6)と同比率でスケール
+    $pdf->Text($textAcuX, $legendY + $colonOffsetY, '：');
     $pdf->SetFont('kozgopromedium', '', self::FONT_MIN);
     $pdf->Text($textAcuX + $colonW * 0.8, $legendY, 'はり・きゅう');
     $labelAcuW = $colonW + $pdf->GetStringWidth('はり・きゅう');
@@ -238,7 +239,7 @@ class MonthlySchedulePdfService extends BasePdfService
     $pdf->SetTextColor(0, 0, 0);
     $textMasX = $gapX + $squareSize * 0.5;
     $pdf->SetFont('kozgopromedium', '', self::FONT_MIN * 1.5);
-    $pdf->Text($textMasX, $legendY - 1.6, '：');
+    $pdf->Text($textMasX, $legendY + $colonOffsetY, '：');
     $pdf->SetFont('kozgopromedium', '', self::FONT_MIN);
     $pdf->Text($textMasX + $colonW * 0.8, $legendY, 'あんま・マッサージ');
 
