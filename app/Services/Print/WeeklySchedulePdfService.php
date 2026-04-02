@@ -502,7 +502,7 @@ class WeeklySchedulePdfService extends BasePdfService
   ): void {
     $padding  = 0.7;
     $fontSize = self::FONT_MIN;
-    $lineH    = $fontSize * 0.352 * 1.25 + 0.6;
+    $lineH    = $fontSize * 0.352 + 0.3;
     $innerW   = $eventW - $padding * 2;
 
     // 施術種別による背景色
