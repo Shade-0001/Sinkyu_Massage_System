@@ -507,7 +507,7 @@ class WeeklySchedulePdfService extends BasePdfService
       $pdf->SetFillColor(...self::EVENT_COLOR_MASSAGE);
     }
 
-    $pdf->Rect($eventX + $padding, $eventY + $padding, $eventW - $padding * 2, $eventH - $padding * 2, 'F');
+    $pdf->RoundedRect($eventX + $padding, $eventY + $padding, $eventW - $padding * 2, $eventH - $padding * 2, 1.2, '1111', 'F');
 
     $pdf->SetFont('kozgopromedium', 'B', $fontSize);
     $pdf->SetTextColor(255, 255, 255);
