@@ -144,11 +144,11 @@ Breadcrumbs::define('index', function() {
   return getIndexBreadcrumbs();
 });
 
-// アドミンパネル
+// システム管理
 function getAdminPanelBreadcrumbs() {
   return [
     ...getIndexBreadcrumbs(),
-    ['url' => route('admin-panel.index'), 'label' => 'アドミンパネル', 'icon' => 'nf nf-md-wrench'],
+    ['url' => route('admin-panel.index'), 'label' => 'システム管理', 'icon' => 'nf nf-md-wrench'],
   ];
 }
 
