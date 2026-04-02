@@ -195,8 +195,8 @@ class WeeklySchedulePdfService extends BasePdfService
     $pdf->SetFont('kozgopromedium', '', 8);
     $pdf->SetTextColor(0, 0, 0);
     // 5px ≒ 1.76mm 左にオフセット
-    $pdf->SetXY($startX - 1.76, 6);
-    $pdf->Cell($availW + 1.76, 0, $dateStr, 0, 0, 'R');
+    $pdf->SetXY($startX, 6);
+    $pdf->Cell($availW, 0, $dateStr, 0, 0, 'R');
 
     // ---- タイトル（左） ----
     $pdf->SetFont('kozgopromedium', '', 17);
