@@ -215,7 +215,7 @@ class WeeklySchedulePdfService extends BasePdfService
     // 全角サイズの正方形 + テキストで1行描画
     $pdf->SetFont('kozgopromedium', '', self::FONT_MIN);
     $legendFontMm = self::FONT_MIN * 0.352;           // フォント実寸 mm（line-height係数なし）
-    $squareSize   = $legendFontMm * 0.72;            // キャップハイト相当サイズ
+    $squareSize   = $legendFontMm;                   // フォントサイズと同じ辺長
     $squareY      = $legendY + $squareSize * 0.5;     // 視覚的中央合わせ（Text上端より少し下）
 
     // ブルー正方形（はり・きゅう）
