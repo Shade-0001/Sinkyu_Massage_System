@@ -194,8 +194,9 @@ class WeeklySchedulePdfService extends BasePdfService
     $dateStr = '〈 PDF出力日時 │ ' . date('Y/m/d', $ts) . "\u{2002}" . date('H:i', $ts) . ' 〉';
     $pdf->SetFont('kozgopromedium', '', 8);
     $pdf->SetTextColor(0, 0, 0);
-    $pdf->SetXY($startX + 2, 6);
-    $pdf->Cell($availW - 2, 0, $dateStr, 0, 0, 'R');
+    // 5px ≒ 1.76mm 左にオフセット
+    $pdf->SetXY($startX - 1.76, 6);
+    $pdf->Cell($availW + 1.76, 0, $dateStr, 0, 0, 'R');
 
     // ---- タイトル（左） ----
     $pdf->SetFont('kozgopromedium', '', 17);
@@ -493,11 +494,11 @@ class WeeklySchedulePdfService extends BasePdfService
     float  $eventW,
     float  $eventH
   ): void {
-    // 1px ≒ 0.35mm のパディング（全周）
+    // 1px ≒ 0.35mm のパディング（上下左右均等）
     $padding  = 0.35;
     $fontSize = self::FONT_MIN;
     $lineH    = $fontSize * 0.352 * 1.25 + 0.6;
-    $innerW   = $eventW - $padding * 2 - 0.5;
+    $innerW   = $eventW - $padding * 2;
 
     // 施術種別による背景色
     if ((int)$rec['therapy_type'] === 1) {
@@ -527,10 +528,10 @@ class WeeklySchedulePdfService extends BasePdfService
       $textStartY = $eventY + $padding + 0.3;
     }
 
-    $pdf->SetXY($eventX + $padding + 0.5, $textStartY);
+    $pdf->SetXY($eventX + $padding, $textStartY);
     $pdf->Cell($innerW, 0, $timeText, 0, 0, 'L', false);
 
-    $pdf->SetXY($eventX + $padding + 0.5, $textStartY + $lineH);
+    $pdf->SetXY($eventX + $padding, $textStartY + $lineH);
     $pdf->Cell($innerW, 0, $nameText, 0, 0, 'L', false);
 
     $pdf->SetTextColor(0, 0, 0);
