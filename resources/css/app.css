@@ -16,6 +16,10 @@
   box-shadow: none;
 }
 
+:root {
+  --bs-body-color: #3a3a3a;
+}
+
 /* リンク下線の削除 */
 [href] {
   text-decoration-line: none;
@@ -247,7 +251,12 @@ textarea:not(:disabled) {
 .bg-opacity-90 { --bs-bg-opacity: 0.9; }
 
 /*──────────────────────────────────────────────*/
-/*  テキストカラー（グレースケール）               */
+/*  フォントサイズ                               */
+/*──────────────────────────────────────────────*/
+.fs-5-5 { font-size: 1.125rem !important; }
+
+/*──────────────────────────────────────────────*/
+/*  フォントカラー（グレースケール）               */
 /*──────────────────────────────────────────────*/
 .text-gray-95 { color: hsl(0, 0%, 95%) !important; }
 .text-gray-90 { color: hsl(0, 0%, 90%) !important; }
@@ -297,6 +306,69 @@ textarea:not(:disabled) {
 .bg-gray-4 { background-color: hsl(200, 3%, 4%) !important; }
 .bg-gray-2 { background-color: hsl(200, 3%, 2%) !important; }
 .bg-gray-0 { background-color: hsl(200, 3%, 0%) !important; }
+
+/*──────────────────────────────────────────────*/
+/*  スペーシング                                 */
+/*──────────────────────────────────────────────*/
+/* p-0.25 */
+.p-025 { padding: 0.0625rem !important; }
+.pt-025 { padding-top: 0.0625rem !important; }
+.pb-025 { padding-bottom: 0.0625rem !important; }
+.pl-025 { padding-left: 0.0625rem !important; }
+.pr-025 { padding-right: 0.0625rem !important; }
+
+/* p-0.5 */
+.p-05 { padding: 0.125rem !important; }
+.pt-05 { padding-top: 0.125rem !important; }
+.pb-05 { padding-bottom: 0.125rem !important; }
+.pl-05 { padding-left: 0.125rem !important; }
+.pr-05 { padding-right: 0.125rem !important; }
+
+/* m-0.25 */
+.m-025 { margin: 0.0625rem !important; }
+.mt-025 { margin-top: 0.0625rem !important; }
+.mb-025 { margin-bottom: 0.0625rem !important; }
+.ml-025 { margin-left: 0.0625rem !important; }
+.mr-025 { margin-right: 0.0625rem !important; }
+
+/* m-0.5 */
+.m-05 { margin: 0.125rem !important; }
+.mt-05 { margin-top: 0.125rem !important; }
+.mb-05 { margin-bottom: 0.125rem !important; }
+.ml-05 { margin-left: 0.125rem !important; }
+.mr-05 { margin-right: 0.125rem !important; }
+
+/* ネガティブマージン */
+.my-n1 {
+  margin-top: -0.25rem !important;
+  margin-bottom: -0.25rem !important; }
+.my-n2 {
+  margin-top: -0.5rem !important;
+  margin-bottom: -0.5rem !important; }
+.my-n3 {
+  margin-top: -1rem !important;
+  margin-bottom: -1rem !important; }
+.my-n4 {
+  margin-top: -1.5rem !important;
+  margin-bottom: -1.5rem !important; }
+.my-n5 {
+  margin-top: -3rem !important;
+  margin-bottom: -3rem !important; }
+.mx-n1 {
+  margin-left: -0.25rem !important;
+  margin-right: -0.25rem !important; }
+.mx-n2 {
+  margin-left: -0.5rem !important;
+  margin-right: -0.5rem !important; }
+.mx-n3 {
+  margin-left: -1rem !important;
+  margin-right: -1rem !important; }
+.mx-n4 {
+  margin-left: -1.5rem !important;
+  margin-right: -1.5rem !important; }
+.mx-n5 {
+  margin-left: -3rem !important;
+  margin-right: -3rem !important; }
 
 /*──────────────────────────────────────────────*/
 /*  EXボタン（独自ボタンクラス）                  */
@@ -719,67 +791,6 @@ textarea:not(:disabled) {
 .btn-ex-sub-toggle-expand.btn-ex-active.btn-ex-xl {
   --btn-border-size: calc(var(--btn-shadow-size) * 2.8);
 }
-
-/*──────────────────────────────────────────────*/
-/*  スペーシング                                 */
-/*──────────────────────────────────────────────*/
-/* p-0.25 */
-.p-025 { padding: 0.0625rem !important; }
-.pt-025 { padding-top: 0.0625rem !important; }
-.pb-025 { padding-bottom: 0.0625rem !important; }
-.pl-025 { padding-left: 0.0625rem !important; }
-.pr-025 { padding-right: 0.0625rem !important; }
-/* p-0.5 */
-.p-05 { padding: 0.125rem !important; }
-.pt-05 { padding-top: 0.125rem !important; }
-.pb-05 { padding-bottom: 0.125rem !important; }
-.pl-05 { padding-left: 0.125rem !important; }
-.pr-05 { padding-right: 0.125rem !important; }
-
-/* m-0.25 */
-.m-025 { margin: 0.0625rem !important; }
-.mt-025 { margin-top: 0.0625rem !important; }
-.mb-025 { margin-bottom: 0.0625rem !important; }
-.ml-025 { margin-left: 0.0625rem !important; }
-.mr-025 { margin-right: 0.0625rem !important; }
-/* m-0.5 */
-.m-05 { margin: 0.125rem !important; }
-.mt-05 { margin-top: 0.125rem !important; }
-.mb-05 { margin-bottom: 0.125rem !important; }
-.ml-05 { margin-left: 0.125rem !important; }
-.mr-05 { margin-right: 0.125rem !important; }
-
-/* ネガティブマージン */
-.my-n1 {
-  margin-top: -0.25rem !important;
-  margin-bottom: -0.25rem !important; }
-.my-n2 {
-  margin-top: -0.5rem !important;
-  margin-bottom: -0.5rem !important; }
-.my-n3 {
-  margin-top: -1rem !important;
-  margin-bottom: -1rem !important; }
-.my-n4 {
-  margin-top: -1.5rem !important;
-  margin-bottom: -1.5rem !important; }
-.my-n5 {
-  margin-top: -3rem !important;
-  margin-bottom: -3rem !important; }
-.mx-n1 {
-  margin-left: -0.25rem !important;
-  margin-right: -0.25rem !important; }
-.mx-n2 {
-  margin-left: -0.5rem !important;
-  margin-right: -0.5rem !important; }
-.mx-n3 {
-  margin-left: -1rem !important;
-  margin-right: -1rem !important; }
-.mx-n4 {
-  margin-left: -1.5rem !important;
-  margin-right: -1.5rem !important; }
-.mx-n5 {
-  margin-left: -3rem !important;
-  margin-right: -3rem !important; }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
 

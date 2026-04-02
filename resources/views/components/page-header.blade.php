@@ -1,7 +1,7 @@
 @props(['title', 'breadcrumbs' => []])
 
 <div class="page-header mb-4">
-  <h4 class="mb-2 fs-4 fw-semibold text-dark">
+  <h4 class="mb-2 fs-4 fw-semibold">
     {{ $title }}
   </h4>
 

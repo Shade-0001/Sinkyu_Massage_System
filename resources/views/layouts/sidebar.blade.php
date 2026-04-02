@@ -85,11 +85,11 @@
       <li class="border-bottom border-2 border-secondary">
         <a href="{{ route('therapy-periods.index') }}" class="sidebar-link text-gray-85 {{ $onTherapyPeriod ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none"><i class="nf nf-fa-list me-2"></i>要加療期間リスト</a>
       </li>
-      <li class="border-bottom border-2 border-secondary">
+      <li class="border-bottom border-3 border-secondary">
         <a href="{{ route('deposits.index') }}" class="sidebar-link text-gray-85 {{ $onDeposits ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none"><i class="nf nf-fa-yen me-2"></i>入金管理</a>
       </li>
       @if(Auth::user()->is_admin)
-      <li class="border-bottom border-2 border-secondary">
+      <li class="border-bottom border-3 border-secondary">
         <a href="{{ route('admin-panel.index') }}" class="sidebar-link text-gray-85 {{ $onAdminPanel ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none"><i class="nf nf-md-wrench me-2"></i>システム管理</a>
       </li>
       @endif

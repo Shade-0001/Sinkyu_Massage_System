@@ -5,7 +5,7 @@
   <!-- 利用者選択フォーム -->
   <form method="GET" action="{{ route('records.index') }}" id="filterForm">
     <div class="mb-3">
-      <label for="clinic_user_id">利用者：</label>
+      <label for="clinic_user_id" class="fs-5 fw-medium">利用者：</label>
       <select name="clinic_user_id" id="clinic_user_id" onchange="document.getElementById('filterForm').submit();">
         <option value="">╌╌╌</option>
         @foreach ($clinicUsers as $user)
@@ -384,12 +384,12 @@
 
         @if ($records->count() > 0)
           <div class="mb-3">
-            <button type="button" class="btn-ex-main btn-ex-blue" onclick="openRecordAcupunctureBenefitModal()">はり･きゅう支給申請書印刷</button>
-            <button type="button" class="btn-ex-main btn-ex-blue" onclick="openRecordMassageBenefitModal()">あんま･マッサージ支給申請書印刷</button>
+            <button type="button" class="btn-ex-main btn-ex-blue" onclick="openRecordAcupunctureBenefitModal()">印刷｜はり･きゅう支給申請書</button>
+            <button type="button" class="btn-ex-main btn-ex-blue" onclick="openRecordMassageBenefitModal()">印刷｜あんま･マッサージ支給申請書</button>
           </div>
 
           <div class="table-responsive">
-            <table class="table table-bordered fw-medium" style="font-size: 0.7rem;">
+            <table class="table table-bordered fw-medium small">
               <thead>
                 <tr>
                   <th class="align-middle text-center" style="min-width: 90px;">編集</th>
