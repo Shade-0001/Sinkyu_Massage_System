@@ -407,7 +407,7 @@ class WeeklySchedulePdfService extends BasePdfService
       $pdf->setCellPaddings(0, 0, 0, 0);
       $pdf->SetXY($startX, $rowY + $offsetY);
       $pdf->Cell($colWidths[0], 0, $timeSlot, 0, 0, 'C', false);
-      $this->drawCellBorderWithBottomStyle($pdf, $startX, $rowY, $colWidths[0], $rowH, $isOnHour);
+      $this->drawCellBorderNoBottom($pdf, $startX, $rowY, $colWidths[0], $rowH);
 
       // 日付列セルの枠線（下辺は省略して行全幅線で統一）
       $x = $startX + $colWidths[0];
