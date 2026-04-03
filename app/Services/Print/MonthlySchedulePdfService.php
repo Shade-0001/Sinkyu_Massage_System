@@ -559,10 +559,10 @@ class MonthlySchedulePdfService extends BasePdfService
 
     $nameLineCount = $splitName ? 2 : 1;
 
-    // 4行モード：高さに余裕があれば1スロットでも使用（氏名は1行分で判定）
-    $lineH4test     = $fontSize * 0.352 + 0.3;
-    $nameLineH4test = $nameFontSize * 0.352 + 0.3;
-    $neededH4       = min(1.0, $innerH * 0.1) + $lineH4test * 3 + $nameLineH4test;
+    // 4行モード：minFontSizeで4行が収まるなら使用（氏名は1行分で判定）
+    $lineH4test     = $minFontSize * 0.352 + 0.3;
+    $nameLineH4test = $minFontSize * 0.352 + 0.3;
+    $neededH4       = $lineH4test * 3 + $nameLineH4test;
     $use3Lines      = $neededH4 <= $innerH;
 
     if ($use3Lines) {
