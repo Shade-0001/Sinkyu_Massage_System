@@ -556,12 +556,8 @@ class MonthlySchedulePdfService extends BasePdfService
         $nameLineH    = $nameFontSize * 0.352 + 0.3;
         $textPaddingT = min(1.0, $innerH * 0.1);
         $neededH      = $textPaddingT + $lineH * 3 + $nameLineH;
-        $pdf->SetFont('kozgopromedium', 'B', $fontSize * 0.8);
-        $barNeededW = $pdf->GetStringWidth('┃');
-        $pdf->SetFont('kozgopromedium', 'B', $fontSize);
-        $neededW    = max(
+        $neededW = max(
           $pdf->GetStringWidth($startText),
-          $barNeededW,
           $pdf->GetStringWidth($endText)
         );
         if ($neededH <= $innerH && $neededW <= $innerW) {
@@ -609,11 +605,11 @@ class MonthlySchedulePdfService extends BasePdfService
       $pdf->SetXY($baseX, $textStartY);
       $pdf->Cell($innerW, 0, $startText, 0, 0, 'C', false);
 
-      // '┃'（フォントサイズ0.8倍）
-      $pdf->SetFont('kozgopromedium', 'B', $fontSize * 0.8);
-      $pdf->SetXY($baseX, $textStartY + $lineH - 0.3);
-      $pdf->Cell($innerW, 0, '┃', 0, 0, 'C', false);
-      $pdf->SetFont('kozgopromedium', 'B', $fontSize);
+      // 縦線（Line）
+      $lineX = $baseX + $innerW / 2;
+      $pdf->SetLineStyle(['width' => 0.5, 'dash' => 0, 'color' => [255, 255, 255]]);
+      $pdf->Line($lineX, $textStartY + $lineH * 0.15, $lineX, $textStartY + $lineH * 1.85);
+      $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
 
       $pdf->SetXY($baseX, $textStartY + $lineH * 2 - 0.7);
       $pdf->Cell($innerW, 0, $endText, 0, 0, 'C', false);
