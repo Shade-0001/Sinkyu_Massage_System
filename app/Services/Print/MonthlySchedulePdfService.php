@@ -523,11 +523,7 @@ class MonthlySchedulePdfService extends BasePdfService
     $timeText = $this->trimTextToWidth($pdf, $timeText, $innerW);
     $nameText = $this->trimTextToWidth($pdf, $nameText, $innerW);
 
-    $totalTextH = $lineH * 2;
-    $textStartY = $eventY + $padding + ($eventH - $padding * 2 - $totalTextH) / 2;
-    if ($textStartY < $eventY + $padding) {
-      $textStartY = $eventY + $padding + 0.2;
-    }
+    $textStartY = $eventY + $padding + 0.2;
 
     $pdf->SetXY($eventX + $textPaddingL, $textStartY);
     $pdf->Cell($innerW, 0, $timeText, 0, 0, 'L', false);

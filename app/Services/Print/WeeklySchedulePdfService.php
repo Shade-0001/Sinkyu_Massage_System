@@ -513,7 +513,7 @@ class WeeklySchedulePdfService extends BasePdfService
     float  $eventH
   ): void {
     $padding      = 0.7;
-    $textPaddingL = 1;
+    $textPaddingL = 2;
     $fontSize = self::FONT_MIN;
     $lineH    = $fontSize * 0.352 + 0.3;
     $innerW   = $eventW - $padding - $textPaddingL;
@@ -539,12 +539,7 @@ class WeeklySchedulePdfService extends BasePdfService
     $timeText = $this->trimTextToWidth($pdf, $timeText, $innerW);
     $nameText = $this->trimTextToWidth($pdf, $nameText, $innerW);
 
-    // 2行をセル内縦中央配置
-    $totalTextH = $lineH * 2;
-    $textStartY = $eventY + $padding + ($eventH - $padding * 2 - $totalTextH) / 2;
-    if ($textStartY < $eventY + $padding) {
-      $textStartY = $eventY + $padding + 0.3;
-    }
+    $textStartY = $eventY + $padding + 0.3;
 
     $pdf->SetXY($eventX + $textPaddingL, $textStartY);
     $pdf->Cell($innerW, 0, $timeText, 0, 0, 'L', false);
