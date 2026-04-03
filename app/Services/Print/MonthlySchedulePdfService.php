@@ -388,19 +388,23 @@ class MonthlySchedulePdfService extends BasePdfService
     $totalW   = array_sum($colWidths);
 
     $slotCount = count($timeSlots);
+    $tableH    = $slotCount * $rowH;
 
-    // ---- 垂直線（列境界）を先に全行まとめて描画 ----
-    $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
-    $tableH = $slotCount * $rowH;
-    $x = $startX;
-    foreach ($colWidths as $colW) {
-      $pdf->Line($x, $bodyStartY, $x, $bodyStartY + $tableH);
-      $x += $colW;
+    // ---- 時刻列の背景塗り＆テキスト描画（先に行う）----
+    foreach ($timeSlots as $slotIdx => $timeSlot) {
+      $rowY    = $bodyStartY + $slotIdx * $rowH;
+      $offsetY = ($rowH - $fontMm) / 2;
+
+      $pdf->SetFillColor(240, 240, 240);
+      $pdf->Rect($startX, $rowY, $colWidths[0], $rowH, 'F');
+      $pdf->SetFont('kozgopromedium', '', self::FONT_MIN);
+      $pdf->SetTextColor(0, 0, 0);
+      $pdf->setCellPaddings(0, 0, 0, 0);
+      $pdf->SetXY($startX, $rowY + $offsetY);
+      $pdf->Cell($colWidths[0], 0, $timeSlot, 0, 0, 'C', false);
     }
-    // 右端
-    $pdf->Line($startX + $totalW, $bodyStartY, $startX + $totalW, $bodyStartY + $tableH);
 
-    // ---- 水平線（行境界）を1本ずつスタイル指定して描画 ----
+    // ---- 水平線（行境界）----
     // 先頭行の上辺（実線）
     $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
     $pdf->Line($startX, $bodyStartY, $startX + $totalW, $bodyStartY);
@@ -409,16 +413,6 @@ class MonthlySchedulePdfService extends BasePdfService
       $rowY     = $bodyStartY + $slotIdx * $rowH;
       $minutes  = (int)explode(':', $timeSlot)[1];
       $isOnHour = ($minutes === 0);
-      $offsetY  = ($rowH - $fontMm) / 2;
-
-      // 時刻列テキスト（背景塗り）
-      $pdf->SetFillColor(240, 240, 240);
-      $pdf->Rect($startX, $rowY, $colWidths[0], $rowH, 'F');
-      $pdf->SetFont('kozgopromedium', '', self::FONT_MIN);
-      $pdf->SetTextColor(0, 0, 0);
-      $pdf->setCellPaddings(0, 0, 0, 0);
-      $pdf->SetXY($startX, $rowY + $offsetY);
-      $pdf->Cell($colWidths[0], 0, $timeSlot, 0, 0, 'C', false);
 
       // 下辺（:00=破線、:30=実線）
       $pdf->SetLineStyle($isOnHour
@@ -427,6 +421,15 @@ class MonthlySchedulePdfService extends BasePdfService
       );
       $pdf->Line($startX, $rowY + $rowH, $startX + $totalW, $rowY + $rowH);
     }
+
+    // ---- 垂直線（列境界）を最後に描画（背景塗りで消えないよう） ----
+    $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
+    $x = $startX;
+    foreach ($colWidths as $colW) {
+      $pdf->Line($x, $bodyStartY, $x, $bodyStartY + $tableH);
+      $x += $colW;
+    }
+    $pdf->Line($startX + $totalW, $bodyStartY, $startX + $totalW, $bodyStartY + $tableH);
   }
 
   /**
