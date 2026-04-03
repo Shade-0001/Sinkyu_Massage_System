@@ -518,7 +518,7 @@ class WeeklySchedulePdfService extends BasePdfService
           continue;
         }
 
-        $this->drawEventRect($pdf, $rec, $eventX, $eventY, $eventW, $eventH);
+        $this->drawEventRect($pdf, $rec, $eventX, $eventY, $eventW, $eventH, $count);
       }
     }
   }
@@ -532,16 +532,88 @@ class WeeklySchedulePdfService extends BasePdfService
     float  $eventX,
     float  $eventY,
     float  $eventW,
-    float  $eventH
+    float  $eventH,
+    int    $colCount = 1
   ): void {
     $padding      = 0.7;
-    $textPaddingL = 2;
-    $textPaddingT = 2;
-    $fontSize = self::FONT_MIN;
-    $lineH    = $fontSize * 0.352 + 0.3;
-    $innerW   = $eventW - $padding - $textPaddingL;
+    $textPaddingX = $colCount >= 2 ? 0.3 : 2;
+    $innerH       = $eventH - $padding * 2;
+    $innerW       = $eventW - $textPaddingX * 2;
+    $fontSize     = self::FONT_MIN;
+    $minFontSize  = 2.0;
 
-    // 施術種別による背景色
+    $startText = $this->formatHHMM($rec['start_time']);
+    $endText   = $this->formatHHMM($rec['end_time']);
+    $nameText  = ($rec['last_name'] ?? '') . " " . ($rec['first_name'] ?? '');
+
+    // 氏名フォントサイズ（4文字分の幅を基準に決定）
+    $nameFontSize  = self::FONT_MIN;
+    $nameCharCount = mb_strlen($rec['last_name'] ?? '') + mb_strlen($rec['first_name'] ?? '');
+    $splitName     = $colCount >= 2;
+    if ($splitName) {
+      $nameRefText = mb_strlen($rec['last_name'] ?? '') >= mb_strlen($rec['first_name'] ?? '')
+        ? ($rec['last_name'] ?? '')
+        : ($rec['first_name'] ?? '');
+      if (mb_strlen($nameRefText) < 2) {
+        $nameRefText = 'ああ';
+      }
+    } else {
+      $nameRefText = $nameCharCount >= 4 ? $nameText : 'ああ ああ';
+    }
+    while ($nameFontSize > $minFontSize) {
+      $pdf->SetFont('kozgopromedium', 'B', $nameFontSize);
+      if ($pdf->GetStringWidth($nameRefText) <= $innerW) {
+        break;
+      }
+      $nameFontSize -= 0.5;
+    }
+
+    $nameLineCount = $splitName ? 2 : 1;
+    if ($splitName) {
+      $nameFontSize *= 0.8;
+    }
+
+    // 4行モード：minFontSizeで4行が収まるなら使用（氏名は1行分で判定）
+    $lineH4test     = $minFontSize * 0.352 + 0.3;
+    $nameLineH4test = $minFontSize * 0.352 + 0.3;
+    $neededH4       = $lineH4test * 3 + $nameLineH4test;
+    $use3Lines      = $neededH4 <= $innerH;
+
+    if ($use3Lines) {
+      while ($fontSize > $minFontSize) {
+        $pdf->SetFont('kozgopromedium', 'B', $fontSize);
+        $lineH        = $fontSize * 0.352 + 0.3;
+        $nameLineH    = $nameFontSize * 0.352 + 0.3;
+        $textPaddingT = min(1.0, $innerH * 0.1);
+        $neededH      = $textPaddingT + $lineH * 3 + $nameLineH;
+        $neededW = max(
+          $pdf->GetStringWidth($startText),
+          $pdf->GetStringWidth($endText)
+        );
+        if ($neededH <= $innerH && $neededW <= $innerW) {
+          break;
+        }
+        $fontSize -= 0.5;
+      }
+      $lineH        = $fontSize * 0.352 + 0.3;
+      $nameLineH    = $nameFontSize * 0.352 + 0.3;
+      $textPaddingT = min(1.0, max(0, ($innerH - $lineH * 3 - $nameLineH * $nameLineCount) / 2));
+    } else {
+      $timeText     = $startText . ' - ' . $endText;
+      $timeFontSize = 20.0;
+      while ($timeFontSize > $minFontSize) {
+        $pdf->SetFont('kozgopromedium', 'B', $timeFontSize);
+        if ($pdf->GetStringWidth($timeText) <= $innerW) {
+          break;
+        }
+        $timeFontSize -= 0.5;
+      }
+      $fontSize     = $timeFontSize;
+      $lineH        = $fontSize * 0.352 + 0.3;
+      $nameLineH    = $nameFontSize * 0.352 + 0.3;
+      $textPaddingT = min(1.0, max(0, ($innerH - $lineH - $nameLineH * $nameLineCount) / 2));
+    }
+
     if ((int)$rec['therapy_type'] === 1) {
       $pdf->SetFillColor(...self::EVENT_COLOR_ACUPUNCTURE);
     } else {
@@ -554,24 +626,55 @@ class WeeklySchedulePdfService extends BasePdfService
     $pdf->SetTextColor(255, 255, 255);
     $pdf->setCellPaddings(0, 0, 0, 0);
 
-    // 時刻テキスト（HH:MM - HH:MM）
-    $timeText = $this->formatHHMM($rec['start_time']) . ' - ' . $this->formatHHMM($rec['end_time']);
-    // 氏名テキスト（姓\u{2002}名）
-    $nameText = ($rec['last_name'] ?? '') . "\u{2002}" . ($rec['first_name'] ?? '');
+    $textStartY = $eventY + $padding + $textPaddingT;
+    $baseX      = $eventX + $textPaddingX;
 
-    $timeText = $this->trimTextToWidth($pdf, $timeText, $innerW);
-    $nameText = $this->trimTextToWidth($pdf, $nameText, $innerW);
+    if ($use3Lines) {
+      $pdf->SetXY($baseX, $textStartY);
+      $pdf->Cell($innerW, 0, $startText, 0, 0, 'C', false);
 
-    $totalTextH = $lineH * 2;
-    $textStartY = ($textPaddingT + $totalTextH <= $eventH - $padding)
-      ? $eventY + $textPaddingT
-      : $eventY + $padding;
+      // 縦線（Line）：開始時刻下端〜終了時刻上端の中間に配置
+      $startTextBottomY = $textStartY + $lineH;
+      $endTextTopY      = $textStartY + $lineH * 2 - 1.0;
+      $lineMidY         = ($startTextBottomY + $endTextTopY) / 2;
+      $lineX     = $baseX + $innerW / 2;
+      $lineWidth = $colCount >= 2 ? 0.15 : 0.3;
+      $lineY1    = $lineMidY - $lineH * 0.25;
+      $lineY2    = $lineMidY + $lineH * 0.25;
+      $pdf->SetLineStyle(['width' => $lineWidth, 'dash' => 0, 'color' => [255, 255, 255]]);
+      $pdf->Line($lineX, $lineY1, $lineX, $lineY2);
+      $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
 
-    $pdf->SetXY($eventX + $textPaddingL, $textStartY);
-    $pdf->Cell($innerW, 0, $timeText, 0, 0, 'L', false);
+      $pdf->SetXY($baseX, $textStartY + $lineH * 2 - 1.0);
+      $pdf->Cell($innerW, 0, $endText, 0, 0, 'C', false);
 
-    $pdf->SetXY($eventX + $textPaddingL, $textStartY + $lineH);
-    $pdf->Cell($innerW, 0, $nameText, 0, 0, 'L', false);
+      $pdf->SetFont('kozgopromedium', 'B', $nameFontSize);
+      if ($splitName) {
+        $pdf->SetXY($baseX, $textStartY + $lineH * 3 - 0.5);
+        $pdf->Cell($innerW, 0, $rec['last_name'] ?? '', 0, 0, 'C', false);
+        $pdf->SetXY($baseX, $textStartY + $lineH * 3 - 0.5 + $nameLineH);
+        $pdf->Cell($innerW, 0, $rec['first_name'] ?? '', 0, 0, 'C', false);
+      } else {
+        $pdf->SetXY($baseX, $textStartY + $lineH * 3 - 0.5);
+        $pdf->Cell($innerW, 0, $nameText, 0, 0, 'C', false);
+      }
+      $pdf->SetFont('kozgopromedium', 'B', $fontSize);
+    } else {
+      $pdf->SetXY($baseX, $textStartY);
+      $pdf->Cell($innerW, 0, $timeText, 0, 0, 'C', false);
+
+      $pdf->SetFont('kozgopromedium', 'B', $nameFontSize);
+      if ($splitName) {
+        $pdf->SetXY($baseX, $textStartY + $lineH);
+        $pdf->Cell($innerW, 0, $rec['last_name'] ?? '', 0, 0, 'C', false);
+        $pdf->SetXY($baseX, $textStartY + $lineH + $nameLineH);
+        $pdf->Cell($innerW, 0, $rec['first_name'] ?? '', 0, 0, 'C', false);
+      } else {
+        $pdf->SetXY($baseX, $textStartY + $lineH);
+        $pdf->Cell($innerW, 0, $nameText, 0, 0, 'C', false);
+      }
+      $pdf->SetFont('kozgopromedium', 'B', $fontSize);
+    }
 
     $pdf->SetTextColor(0, 0, 0);
   }
