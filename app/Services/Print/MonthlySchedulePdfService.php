@@ -523,7 +523,7 @@ class MonthlySchedulePdfService extends BasePdfService
     int    $colCount = 1
   ): void {
     $padding      = 0.3;
-    $textPaddingX = $colCount >= 2 ? 0.5 : 1;
+    $textPaddingX = $colCount >= 2 ? 0.3 : 1;
     $innerH       = $eventH - $padding * 2;
     $innerW       = $eventW - $textPaddingX * 2;
     $fontSize     = self::FONT_MIN;
@@ -545,20 +545,23 @@ class MonthlySchedulePdfService extends BasePdfService
       $nameFontSize -= 0.5;
     }
 
+    $splitName     = $colCount >= 2; // 姓・名を2行に分けるか
+    $nameLineCount = $splitName ? 2 : 1;
+
     // 4行モード：高さに余裕があれば1スロットでも使用
-    $lineH4test    = $fontSize * 0.352 + 0.3;
+    $lineH4test     = $fontSize * 0.352 + 0.3;
     $nameLineH4test = $nameFontSize * 0.352 + 0.3;
-    $neededH4      = min(1.0, $innerH * 0.1) + $lineH4test * 3 + $nameLineH4test;
-    $use3Lines     = $neededH4 <= $innerH;
+    $neededH4       = min(1.0, $innerH * 0.1) + $lineH4test * 3 + $nameLineH4test * $nameLineCount;
+    $use3Lines      = $neededH4 <= $innerH;
 
     if ($use3Lines) {
-      // 4行モード：開始時刻 / ～ / 終了時刻 / 氏名　時刻3行が縦・横に収まるフォントサイズを探す
+      // 4行モード（$splitName時は5行）
       while ($fontSize > $minFontSize) {
         $pdf->SetFont('kozgopromedium', 'B', $fontSize);
         $lineH        = $fontSize * 0.352 + 0.3;
         $nameLineH    = $nameFontSize * 0.352 + 0.3;
         $textPaddingT = min(1.0, $innerH * 0.1);
-        $neededH      = $textPaddingT + $lineH * 3 + $nameLineH;
+        $neededH      = $textPaddingT + $lineH * 3 + $nameLineH * $nameLineCount;
         $neededW = max(
           $pdf->GetStringWidth($startText),
           $pdf->GetStringWidth($endText)
@@ -570,9 +573,9 @@ class MonthlySchedulePdfService extends BasePdfService
       }
       $lineH        = $fontSize * 0.352 + 0.3;
       $nameLineH    = $nameFontSize * 0.352 + 0.3;
-      $textPaddingT = min(1.0, max(0, ($innerH - $lineH * 3 - $nameLineH) / 2));
+      $textPaddingT = min(1.0, max(0, ($innerH - $lineH * 3 - $nameLineH * $nameLineCount) / 2));
     } else {
-      // 2行モード：時刻テキストが $innerW に収まる最大フォントサイズを上から探す
+      // 2行モード（$splitName時は3行）
       $timeText  = $startText . ' - ' . $endText;
       $timeFontSize = 20.0;
       while ($timeFontSize > $minFontSize) {
@@ -585,7 +588,7 @@ class MonthlySchedulePdfService extends BasePdfService
       $fontSize     = $timeFontSize;
       $lineH        = $fontSize * 0.352 + 0.3;
       $nameLineH    = $nameFontSize * 0.352 + 0.3;
-      $textPaddingT = min(1.0, max(0, ($innerH - $lineH - $nameLineH) / 2));
+      $textPaddingT = min(1.0, max(0, ($innerH - $lineH - $nameLineH * $nameLineCount) / 2));
     }
 
     if ((int)$rec['therapy_type'] === 1) {
@@ -621,16 +624,30 @@ class MonthlySchedulePdfService extends BasePdfService
       $pdf->Cell($innerW, 0, $endText, 0, 0, 'C', false);
 
       $pdf->SetFont('kozgopromedium', 'B', $nameFontSize);
-      $pdf->SetXY($baseX, $textStartY + $lineH * 3 - 0.5);
-      $pdf->Cell($innerW, 0, $nameText, 0, 0, 'C', false);
+      if ($splitName) {
+        $pdf->SetXY($baseX, $textStartY + $lineH * 3 - 0.5);
+        $pdf->Cell($innerW, 0, $rec['last_name'] ?? '', 0, 0, 'C', false);
+        $pdf->SetXY($baseX, $textStartY + $lineH * 3 - 0.5 + $nameLineH);
+        $pdf->Cell($innerW, 0, $rec['first_name'] ?? '', 0, 0, 'C', false);
+      } else {
+        $pdf->SetXY($baseX, $textStartY + $lineH * 3 - 0.5);
+        $pdf->Cell($innerW, 0, $nameText, 0, 0, 'C', false);
+      }
       $pdf->SetFont('kozgopromedium', 'B', $fontSize);
     } else {
       $pdf->SetXY($baseX, $textStartY);
       $pdf->Cell($innerW, 0, $timeText, 0, 0, 'C', false);
 
       $pdf->SetFont('kozgopromedium', 'B', $nameFontSize);
-      $pdf->SetXY($baseX, $textStartY + $lineH);
-      $pdf->Cell($innerW, 0, $nameText, 0, 0, 'C', false);
+      if ($splitName) {
+        $pdf->SetXY($baseX, $textStartY + $lineH);
+        $pdf->Cell($innerW, 0, $rec['last_name'] ?? '', 0, 0, 'C', false);
+        $pdf->SetXY($baseX, $textStartY + $lineH + $nameLineH);
+        $pdf->Cell($innerW, 0, $rec['first_name'] ?? '', 0, 0, 'C', false);
+      } else {
+        $pdf->SetXY($baseX, $textStartY + $lineH);
+        $pdf->Cell($innerW, 0, $nameText, 0, 0, 'C', false);
+      }
       $pdf->SetFont('kozgopromedium', 'B', $fontSize);
     }
 
