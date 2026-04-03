@@ -556,9 +556,12 @@ class MonthlySchedulePdfService extends BasePdfService
         $nameLineH    = $nameFontSize * 0.352 + 0.3;
         $textPaddingT = min(1.0, $innerH * 0.1);
         $neededH      = $textPaddingT + $lineH * 3 + $nameLineH;
+        $pdf->SetFont('kozgopromedium', 'B', $fontSize * 0.8);
+        $tildeNeededW = $pdf->GetStringWidth('～');
+        $pdf->SetFont('kozgopromedium', 'B', $fontSize);
         $neededW      = max(
           $pdf->GetStringWidth($startText),
-          $pdf->GetStringWidth('～'),
+          $tildeNeededW,
           $pdf->GetStringWidth($endText)
         );
         if ($neededH <= $innerH && $neededW <= $innerW) {
@@ -606,9 +609,11 @@ class MonthlySchedulePdfService extends BasePdfService
       $pdf->SetXY($baseX, $textStartY);
       $pdf->Cell($innerW, 0, $startText, 0, 0, 'C', false);
 
-      // '～' を90度回転してスクエア幅中央に配置
+      // '～' を90度回転してスクエア幅中央に配置（フォントサイズ0.8倍）
+      $tildeFontSize = $fontSize * 0.8;
+      $pdf->SetFont('kozgopromedium', 'B', $tildeFontSize);
       $tildeW   = $pdf->GetStringWidth('～');
-      $tildeH   = $fontSize * 0.352;
+      $tildeH   = $tildeFontSize * 0.352;
       // 他テキストの中央X（Cell 'C' と同じ基準）
       $rotateCX = $baseX + $innerW / 2 - 0.3;
       $rotateCY = $textStartY + $lineH + $lineH / 2 - 0.3;
@@ -617,6 +622,7 @@ class MonthlySchedulePdfService extends BasePdfService
       $pdf->SetXY($rotateCX - $tildeW / 2, $rotateCY - $tildeH / 2);
       $pdf->Cell($tildeW, 0, '～', 0, 0, 'L', false);
       $pdf->StopTransform();
+      $pdf->SetFont('kozgopromedium', 'B', $fontSize);
 
       $pdf->SetXY($baseX, $textStartY + $lineH * 2 - 0.7);
       $pdf->Cell($innerW, 0, $endText, 0, 0, 'C', false);
