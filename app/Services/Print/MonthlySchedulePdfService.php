@@ -499,10 +499,11 @@ class MonthlySchedulePdfService extends BasePdfService
     float  $eventW,
     float  $eventH
   ): void {
-    $padding  = 0.5;
+    $padding      = 0.5;
+    $textPaddingL = 2;
     $fontSize = self::FONT_MIN;
     $lineH    = $fontSize * 0.352 + 0.3;
-    $innerW   = $eventW - $padding * 2;
+    $innerW   = $eventW - $padding - $textPaddingL;
 
     if ((int)$rec['therapy_type'] === 1) {
       $pdf->SetFillColor(...self::EVENT_COLOR_ACUPUNCTURE);
@@ -528,10 +529,10 @@ class MonthlySchedulePdfService extends BasePdfService
       $textStartY = $eventY + $padding + 0.2;
     }
 
-    $pdf->SetXY($eventX + $padding, $textStartY);
+    $pdf->SetXY($eventX + $textPaddingL, $textStartY);
     $pdf->Cell($innerW, 0, $timeText, 0, 0, 'L', false);
 
-    $pdf->SetXY($eventX + $padding, $textStartY + $lineH);
+    $pdf->SetXY($eventX + $textPaddingL, $textStartY + $lineH);
     $pdf->Cell($innerW, 0, $nameText, 0, 0, 'L', false);
 
     $pdf->SetTextColor(0, 0, 0);
