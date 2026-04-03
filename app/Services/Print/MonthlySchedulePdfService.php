@@ -578,11 +578,11 @@ class MonthlySchedulePdfService extends BasePdfService
     $textStartY = $eventY + $padding + $textPaddingT;
 
     if ($use3Lines) {
+      $startTextW = $pdf->GetStringWidth($startText);
       $pdf->SetXY($eventX + $textPaddingX, $textStartY);
-      $pdf->Cell($innerW, 0, $startText, 0, 0, 'L', false);
+      $pdf->Cell($startTextW, 0, $startText, 0, 0, 'L', false);
 
       // '～' を90度回転して開始時刻テキスト幅の中心に配置
-      $startTextW = $pdf->GetStringWidth($startText);
       $tildeW     = $pdf->GetStringWidth('～');
       $tildeH     = $fontSize * 0.352;
       // 回転の基点：開始時刻幅中心 × 2行目の垂直中心
@@ -594,8 +594,9 @@ class MonthlySchedulePdfService extends BasePdfService
       $pdf->Cell($tildeW, 0, '～', 0, 0, 'L', false);
       $pdf->StopTransform();
 
+      $endTextW = $pdf->GetStringWidth($endText);
       $pdf->SetXY($eventX + $textPaddingX, $textStartY + $lineH * 2);
-      $pdf->Cell($innerW, 0, $endText, 0, 0, 'L', false);
+      $pdf->Cell($endTextW, 0, $endText, 0, 0, 'L', false);
 
       $pdf->SetFont('kozgopromedium', 'B', $nameFontSize);
       $nameW = $pdf->GetStringWidth($nameText);
@@ -603,8 +604,9 @@ class MonthlySchedulePdfService extends BasePdfService
       $pdf->Cell($nameW, 0, $nameText, 0, 0, 'L', false);
       $pdf->SetFont('kozgopromedium', 'B', $fontSize);
     } else {
+      $timeW = $pdf->GetStringWidth($timeText);
       $pdf->SetXY($eventX + $textPaddingX, $textStartY);
-      $pdf->Cell($innerW, 0, $timeText, 0, 0, 'L', false);
+      $pdf->Cell($timeW, 0, $timeText, 0, 0, 'L', false);
 
       $pdf->SetFont('kozgopromedium', 'B', $nameFontSize);
       $nameW = $pdf->GetStringWidth($nameText);
