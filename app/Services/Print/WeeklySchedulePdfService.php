@@ -580,7 +580,7 @@ class WeeklySchedulePdfService extends BasePdfService
     $lineH4test     = $minFontSize * 0.352 + 0.3;
     $nameLineH4test = $minFontSize * 0.352 + 0.3;
     $neededH4       = $lineH4test * 3 + $nameLineH4test;
-    $use3Lines      = $neededH4 <= $innerH && !($slotCount <= 18 && $spanSlots === 1);
+    $use3Lines      = $neededH4 <= $innerH && !($slotCount <= 18 && $spanSlots === 1 && $colCount <= 1);
 
     if ($use3Lines) {
       while ($fontSize > $minFontSize) {
