@@ -302,7 +302,7 @@ class MonthlySchedulePdfService extends BasePdfService
     $bodyStartY = $startY + $headerH;
 
     // ---- スロット行の枠線と時刻テキストを全行描画 ----
-    $this->drawSlotGridAndTimeLabels($pdf, $timeSlots, $colWidths, $startX, $bodyStartY, $rowH, $dayCount);
+    $this->drawSlotGridAndTimeLabels($pdf, $timeSlots, $colWidths, $startX, $bodyStartY, $rowH);
 
     // ---- 各日列のイベントスクエアを描画（枠線の上に重ねる） ----
     $x = $startX + $timeColW;
@@ -382,21 +382,36 @@ class MonthlySchedulePdfService extends BasePdfService
     array $colWidths,
     float $startX,
     float $bodyStartY,
-    float $rowH,
-    int   $dayCount
+    float $rowH
   ): void {
     $fontMm   = self::FONT_MIN * 0.352 * 1.25;
     $totalW   = array_sum($colWidths);
 
+    $slotCount = count($timeSlots);
+
+    // ---- 垂直線（列境界）を先に全行まとめて描画 ----
+    $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
+    $tableH = $slotCount * $rowH;
+    $x = $startX;
+    foreach ($colWidths as $colW) {
+      $pdf->Line($x, $bodyStartY, $x, $bodyStartY + $tableH);
+      $x += $colW;
+    }
+    // 右端
+    $pdf->Line($startX + $totalW, $bodyStartY, $startX + $totalW, $bodyStartY + $tableH);
+
+    // ---- 水平線（行境界）を1本ずつスタイル指定して描画 ----
+    // 先頭行の上辺（実線）
+    $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
+    $pdf->Line($startX, $bodyStartY, $startX + $totalW, $bodyStartY);
+
     foreach ($timeSlots as $slotIdx => $timeSlot) {
-      $rowY    = $bodyStartY + $slotIdx * $rowH;
-      $offsetY = ($rowH - $fontMm) / 2;
+      $rowY     = $bodyStartY + $slotIdx * $rowH;
+      $minutes  = (int)explode(':', $timeSlot)[1];
+      $isOnHour = ($minutes === 0);
+      $offsetY  = ($rowH - $fontMm) / 2;
 
-      // :00 行か :30 行かを判定
-      $minutes = (int)explode(':', $timeSlot)[1];
-      $isOnHour = ($minutes === 0); // :00 スロット → 下辺を破線
-
-      // 時刻列（グレー背景）
+      // 時刻列テキスト（背景塗り）
       $pdf->SetFillColor(240, 240, 240);
       $pdf->Rect($startX, $rowY, $colWidths[0], $rowH, 'F');
       $pdf->SetFont('kozgopromedium', '', self::FONT_MIN);
@@ -404,17 +419,8 @@ class MonthlySchedulePdfService extends BasePdfService
       $pdf->setCellPaddings(0, 0, 0, 0);
       $pdf->SetXY($startX, $rowY + $offsetY);
       $pdf->Cell($colWidths[0], 0, $timeSlot, 0, 0, 'C', false);
-      $this->drawCellBorderNoBottom($pdf, $startX, $rowY, $colWidths[0], $rowH);
 
-      // 日付列セルの枠線（左・右・上は実線、下辺は省略して行全幅線で統一）
-      $x = $startX + $colWidths[0];
-      for ($i = 0; $i < $dayCount; $i++) {
-        $colW = $colWidths[$i + 1];
-        $this->drawCellBorderNoBottom($pdf, $x, $rowY, $colW, $rowH);
-        $x += $colW;
-      }
-
-      // 下辺を行全幅で一本線（:00=破線、:30=実線）
+      // 下辺（:00=破線、:30=実線）
       $pdf->SetLineStyle($isOnHour
         ? ['width' => 0.2, 'dash' => '1,1', 'color' => [0, 0, 0]]
         : ['width' => 0.2, 'dash' => 0,     'color' => [0, 0, 0]]
