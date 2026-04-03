@@ -409,19 +409,20 @@ class WeeklySchedulePdfService extends BasePdfService
       $pdf->Cell($colWidths[0], 0, $timeSlot, 0, 0, 'C', false);
       $this->drawCellBorderWithBottomStyle($pdf, $startX, $rowY, $colWidths[0], $rowH, $isOnHour);
 
-      // 日付列セルの枠線（背景なし）
+      // 日付列セルの枠線（下辺は省略して行全幅線で統一）
       $x = $startX + $colWidths[0];
       for ($i = 0; $i < 7; $i++) {
         $colW = $colWidths[$i + 1];
-        $this->drawCellBorderWithBottomStyle($pdf, $x, $rowY, $colW, $rowH, $isOnHour);
+        $this->drawCellBorderNoBottom($pdf, $x, $rowY, $colW, $rowH);
         $x += $colW;
       }
 
-      // :00 行の下辺を行全幅で一本の破線に統一（セル境界の継ぎ目を消す）
-      if ($isOnHour) {
-        $pdf->SetLineStyle(['width' => 0.2, 'dash' => '1,1', 'color' => [0, 0, 0]]);
-        $pdf->Line($startX, $rowY + $rowH, $startX + $totalW, $rowY + $rowH);
-      }
+      // 下辺を行全幅で一本線（:00=破線、:30=実線）
+      $pdf->SetLineStyle($isOnHour
+        ? ['width' => 0.2, 'dash' => '1,1', 'color' => [0, 0, 0]]
+        : ['width' => 0.2, 'dash' => 0,     'color' => [0, 0, 0]]
+      );
+      $pdf->Line($startX, $rowY + $rowH, $startX + $totalW, $rowY + $rowH);
     }
   }
 
@@ -600,6 +601,17 @@ class WeeklySchedulePdfService extends BasePdfService
     $pdf->Line($x,      $y + $h, $x + $w, $y + $h);
     $pdf->Line($x,      $y,      $x,      $y + $h);
     $pdf->Line($x + $w, $y,      $x + $w, $y + $h);
+  }
+
+  /**
+   * セル枠線を描画（下辺なし）
+   */
+  protected function drawCellBorderNoBottom(Fpdi $pdf, float $x, float $y, float $w, float $h): void
+  {
+    $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
+    $pdf->Line($x,      $y, $x + $w, $y);       // 上辺
+    $pdf->Line($x,      $y, $x,      $y + $h);  // 左辺
+    $pdf->Line($x + $w, $y, $x + $w, $y + $h);  // 右辺
   }
 
   /**
