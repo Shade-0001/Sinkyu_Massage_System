@@ -571,7 +571,7 @@ class MonthlySchedulePdfService extends BasePdfService
 
       // '~' を90度回転して開始時刻テキスト幅の中心に配置
       $startTextW = $pdf->GetStringWidth($startText);
-      $tildeW     = $pdf->GetStringWidth('~');
+      $tildeW     = $pdf->GetStringWidth('～');
       $tildeH     = $fontSize * 0.352;
       // 回転の基点：開始時刻幅中心 × 2行目の垂直中心
       $rotateCX   = $eventX + $textPaddingL + $startTextW / 2;
@@ -579,7 +579,7 @@ class MonthlySchedulePdfService extends BasePdfService
       $pdf->StartTransform();
       $pdf->Rotate(90, $rotateCX, $rotateCY);
       $pdf->SetXY($rotateCX - $tildeW / 2, $rotateCY - $tildeH);
-      $pdf->Cell($tildeW, 0, '~', 0, 0, 'L', false);
+      $pdf->Cell($tildeW, 0, '～', 0, 0, 'L', false);
       $pdf->StopTransform();
 
       $pdf->SetXY($eventX + $textPaddingL, $textStartY + $lineH * 2);
