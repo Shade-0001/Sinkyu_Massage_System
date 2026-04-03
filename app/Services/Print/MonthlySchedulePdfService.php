@@ -607,15 +607,15 @@ class MonthlySchedulePdfService extends BasePdfService
 
       // 縦線（Line）
       $lineX = $baseX + $innerW / 2;
-      $pdf->SetLineStyle(['width' => 0.5, 'dash' => 0, 'color' => [255, 255, 255]]);
-      $pdf->Line($lineX, $textStartY + $lineH * 0.15, $lineX, $textStartY + $lineH * 1.85);
+      $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [255, 255, 255]]);
+      $pdf->Line($lineX, $textStartY + $lineH * 1.05, $lineX, $textStartY + $lineH * 1.55);
       $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
 
-      $pdf->SetXY($baseX, $textStartY + $lineH * 2 - 0.7);
+      $pdf->SetXY($baseX, $textStartY + $lineH * 2 - 1.0);
       $pdf->Cell($innerW, 0, $endText, 0, 0, 'C', false);
 
       $pdf->SetFont('kozgopromedium', 'B', $nameFontSize);
-      $pdf->SetXY($baseX, $textStartY + $lineH * 3);
+      $pdf->SetXY($baseX, $textStartY + $lineH * 3 - 0.5);
       $pdf->Cell($innerW, 0, $nameText, 0, 0, 'C', false);
       $pdf->SetFont('kozgopromedium', 'B', $fontSize);
     } else {
