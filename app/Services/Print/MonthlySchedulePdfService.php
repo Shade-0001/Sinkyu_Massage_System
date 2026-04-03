@@ -505,7 +505,7 @@ class MonthlySchedulePdfService extends BasePdfService
           continue;
         }
 
-        $this->drawEventRect($pdf, $rec, $eventX, $eventY, $eventW, $eventH);
+        $this->drawEventRect($pdf, $rec, $eventX, $eventY, $eventW, $eventH, $count);
       }
     }
   }
@@ -519,10 +519,11 @@ class MonthlySchedulePdfService extends BasePdfService
     float  $eventX,
     float  $eventY,
     float  $eventW,
-    float  $eventH
+    float  $eventH,
+    int    $colCount = 1
   ): void {
     $padding      = 0.3;
-    $textPaddingX = 1;
+    $textPaddingX = $colCount >= 2 ? 0 : 1;
     $innerH       = $eventH - $padding * 2;
     $innerW       = $eventW - $textPaddingX * 2;
     $fontSize     = self::FONT_MIN;
@@ -608,9 +609,12 @@ class MonthlySchedulePdfService extends BasePdfService
       $pdf->Cell($innerW, 0, $startText, 0, 0, 'C', false);
 
       // 縦線（Line）
-      $lineX = $baseX + $innerW / 2;
-      $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [255, 255, 255]]);
-      $pdf->Line($lineX, $textStartY + $lineH * 1.05, $lineX, $textStartY + $lineH * 1.55);
+      $lineX     = $baseX + $innerW / 2;
+      $lineWidth = $colCount >= 2 ? 0.15 : 0.2;
+      $lineY1    = $colCount >= 2 ? $textStartY + $lineH * 1.1  : $textStartY + $lineH * 1.05;
+      $lineY2    = $colCount >= 2 ? $textStartY + $lineH * 1.6  : $textStartY + $lineH * 1.55;
+      $pdf->SetLineStyle(['width' => $lineWidth, 'dash' => 0, 'color' => [255, 255, 255]]);
+      $pdf->Line($lineX, $lineY1, $lineX, $lineY2);
       $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
 
       $pdf->SetXY($baseX, $textStartY + $lineH * 2 - 1.0);
