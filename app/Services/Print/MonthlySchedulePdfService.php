@@ -502,9 +502,9 @@ class MonthlySchedulePdfService extends BasePdfService
     int    $spanSlots = 1
   ): void {
     $padding      = 0.5;
-    $textPaddingL = 1;
+    $textPaddingX = 1;
     $innerH       = $eventH - $padding * 2;
-    $innerW       = $eventW - $textPaddingL * 2;
+    $innerW       = $eventW - $textPaddingX * 2;
     $fontSize     = self::FONT_MIN;
     $minFontSize  = 2.0;
     $use3Lines    = $spanSlots >= 2;
@@ -566,7 +566,7 @@ class MonthlySchedulePdfService extends BasePdfService
     $textStartY = $eventY + $padding + $textPaddingT;
 
     if ($use3Lines) {
-      $pdf->SetXY($eventX + $textPaddingL, $textStartY);
+      $pdf->SetXY($eventX + $textPaddingX, $textStartY);
       $pdf->Cell($innerW, 0, $startText, 0, 0, 'L', false);
 
       // '～' を90度回転して開始時刻テキスト幅の中心に配置
@@ -574,7 +574,7 @@ class MonthlySchedulePdfService extends BasePdfService
       $tildeW     = $pdf->GetStringWidth('～');
       $tildeH     = $fontSize * 0.352;
       // 回転の基点：開始時刻幅中心 × 2行目の垂直中心
-      $rotateCX   = $eventX + $textPaddingL + $startTextW / 2 + 0.5;
+      $rotateCX   = $eventX + $textPaddingX + $startTextW / 2 + 0.5;
       $rotateCY   = $textStartY + $lineH + $tildeW / 2;
       $pdf->StartTransform();
       $pdf->Rotate(90, $rotateCX, $rotateCY);
@@ -582,17 +582,17 @@ class MonthlySchedulePdfService extends BasePdfService
       $pdf->Cell($tildeW, 0, '～', 0, 0, 'L', false);
       $pdf->StopTransform();
 
-      $pdf->SetXY($eventX + $textPaddingL, $textStartY + $lineH * 2);
+      $pdf->SetXY($eventX + $textPaddingX, $textStartY + $lineH * 2);
       $pdf->Cell($innerW, 0, $endText, 0, 0, 'L', false);
 
-      $pdf->SetXY($eventX + $textPaddingL, $textStartY + $lineH * 3);
+      $pdf->SetXY($eventX + $textPaddingX, $textStartY + $lineH * 3);
       $pdf->Cell($innerW, 0, $nameText, 0, 0, 'L', false);
     } else {
       $timeText = $startText . '-' . $endText;
-      $pdf->SetXY($eventX + $textPaddingL, $textStartY);
+      $pdf->SetXY($eventX + $textPaddingX, $textStartY);
       $pdf->Cell($innerW, 0, $timeText, 0, 0, 'L', false);
 
-      $pdf->SetXY($eventX + $textPaddingL, $textStartY + $lineH);
+      $pdf->SetXY($eventX + $textPaddingX, $textStartY + $lineH);
       $pdf->Cell($innerW, 0, $nameText, 0, 0, 'L', false);
     }
 
