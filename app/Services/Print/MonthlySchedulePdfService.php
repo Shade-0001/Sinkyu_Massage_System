@@ -505,7 +505,7 @@ class MonthlySchedulePdfService extends BasePdfService
           continue;
         }
 
-        $this->drawEventRect($pdf, $rec, $eventX, $eventY, $eventW, $eventH, $spanSlots);
+        $this->drawEventRect($pdf, $rec, $eventX, $eventY, $eventW, $eventH);
       }
     }
   }
@@ -519,8 +519,7 @@ class MonthlySchedulePdfService extends BasePdfService
     float  $eventX,
     float  $eventY,
     float  $eventW,
-    float  $eventH,
-    int    $spanSlots = 1
+    float  $eventH
   ): void {
     $padding      = 0.5;
     $textPaddingX = 1;
@@ -528,7 +527,6 @@ class MonthlySchedulePdfService extends BasePdfService
     $innerW       = $eventW - $textPaddingX * 2;
     $fontSize     = self::FONT_MIN;
     $minFontSize  = 2.0;
-    $use3Lines    = $spanSlots >= 2;
 
     $startText = $this->formatHHMM($rec['start_time']);
     $endText   = $this->formatHHMM($rec['end_time']);
@@ -543,6 +541,12 @@ class MonthlySchedulePdfService extends BasePdfService
       }
       $nameFontSize -= 0.5;
     }
+
+    // 4行モード：高さに余裕があれば1スロットでも使用
+    $lineH4test    = $fontSize * 0.352 + 0.3;
+    $nameLineH4test = $nameFontSize * 0.352 + 0.3;
+    $neededH4      = min(1.0, $innerH * 0.1) + $lineH4test * 3 + $nameLineH4test;
+    $use3Lines     = $neededH4 <= $innerH;
 
     if ($use3Lines) {
       // 4行モード：開始時刻 / ～ / 終了時刻 / 氏名　時刻3行が縦・横に収まるフォントサイズを探す
