@@ -151,7 +151,7 @@ class MonthlySchedulePdfService extends BasePdfService
     $current = new \DateTime($startTime);
     $end     = new \DateTime($endTime);
 
-    while ($current <= $end) {
+    while ($current < $end) {
       $slots[] = $current->format('H:i');
       $current->modify('+' . self::SLOT_MIN . ' minutes');
     }
@@ -416,7 +416,7 @@ class MonthlySchedulePdfService extends BasePdfService
 
       // 下辺（:00=破線、:30=実線）
       $pdf->SetLineStyle($isOnHour
-        ? ['width' => 0.2, 'dash' => '1,1', 'color' => [0, 0, 0]]
+        ? ['width' => 0.2, 'dash' => '2,2', 'color' => [0, 0, 0]]
         : ['width' => 0.2, 'dash' => 0,     'color' => [0, 0, 0]]
       );
       $pdf->Line($startX, $rowY + $rowH, $startX + $totalW, $rowY + $rowH);

@@ -148,7 +148,7 @@ class WeeklySchedulePdfService extends BasePdfService
     $current = new \DateTime($startTime);
     $end     = new \DateTime($endTime);
 
-    while ($current <= $end) {
+    while ($current < $end) {
       $slots[] = $current->format('H:i');
       $current->modify('+' . self::SLOT_MIN . ' minutes');
     }
