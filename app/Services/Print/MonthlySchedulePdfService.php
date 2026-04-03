@@ -504,7 +504,7 @@ class MonthlySchedulePdfService extends BasePdfService
     $padding      = 0.5;
     $textPaddingL = 1;
     $innerH       = $eventH - $padding * 2;
-    $innerW       = $eventW - $padding - $textPaddingL;
+    $innerW       = $eventW - $padding - $textPaddingL * 2;
     $fontSize     = self::FONT_MIN;
     $minFontSize  = 2.0;
     $use3Lines    = $spanSlots >= 2;
