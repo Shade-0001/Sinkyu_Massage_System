@@ -545,19 +545,17 @@ class MonthlySchedulePdfService extends BasePdfService
       $nameLineH    = $nameFontSize * 0.352 + 0.3;
       $textPaddingT = min(1.0, max(0, ($innerH - $lineH * 3 - $nameLineH) / 2));
     } else {
-      // 2行モード：縦・横両方収まる最大フォントサイズを探す
-      $timeText = $startText . ' - ' . $endText;
-      while ($fontSize > $minFontSize) {
-        $pdf->SetFont('kozgopromedium', 'B', $fontSize);
-        $lineH        = $fontSize * 0.352 + 0.3;
-        $nameLineH    = $nameFontSize * 0.352 + 0.3;
-        $textPaddingT = min(1.0, $innerH * 0.15);
-        $neededH      = $textPaddingT + $lineH + $nameLineH;
-        if ($neededH <= $innerH && $pdf->GetStringWidth($timeText) <= $innerW) {
+      // 2行モード：時刻テキストが $innerW に収まる最大フォントサイズを上から探す
+      $timeText  = $startText . ' - ' . $endText;
+      $timeFontSize = 20.0;
+      while ($timeFontSize > $minFontSize) {
+        $pdf->SetFont('kozgopromedium', 'B', $timeFontSize);
+        if ($pdf->GetStringWidth($timeText) <= $innerW) {
           break;
         }
-        $fontSize -= 0.5;
+        $timeFontSize -= 0.5;
       }
+      $fontSize     = $timeFontSize;
       $lineH        = $fontSize * 0.352 + 0.3;
       $nameLineH    = $nameFontSize * 0.352 + 0.3;
       $textPaddingT = min(1.0, max(0, ($innerH - $lineH - $nameLineH) / 2));
@@ -603,9 +601,8 @@ class MonthlySchedulePdfService extends BasePdfService
       $pdf->Cell($nameW, 0, $nameText, 0, 0, 'L', false);
       $pdf->SetFont('kozgopromedium', 'B', $fontSize);
     } else {
-      $timeW = $pdf->GetStringWidth($timeText);
       $pdf->SetXY($eventX + $textPaddingX, $textStartY);
-      $pdf->Cell($timeW, 0, $timeText, 0, 0, 'L', false);
+      $pdf->Cell($innerW, 0, $timeText, 0, 0, 'L', false);
 
       $pdf->SetFont('kozgopromedium', 'B', $nameFontSize);
       $nameW = $pdf->GetStringWidth($nameText);
