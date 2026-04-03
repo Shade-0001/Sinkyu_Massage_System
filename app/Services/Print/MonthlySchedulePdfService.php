@@ -484,7 +484,7 @@ class MonthlySchedulePdfService extends BasePdfService
           continue;
         }
 
-        $this->drawEventRect($pdf, $rec, $eventX, $eventY, $eventW, $eventH);
+        $this->drawEventRect($pdf, $rec, $eventX, $eventY, $eventW, $eventH, $spanSlots);
       }
     }
   }
@@ -498,38 +498,57 @@ class MonthlySchedulePdfService extends BasePdfService
     float  $eventX,
     float  $eventY,
     float  $eventW,
-    float  $eventH
+    float  $eventH,
+    int    $spanSlots = 1
   ): void {
     $padding      = 0.5;
     $textPaddingL = 1;
-    $innerH       = $eventH - $padding * 2; // パディング込みの内側高さ
+    $innerH       = $eventH - $padding * 2;
+    $innerW       = $eventW - $padding - $textPaddingL;
+    $fontSize     = self::FONT_MIN;
+    $minFontSize  = 2.0;
+    $use3Lines    = $spanSlots >= 2;
 
-    // 2行分が収まる最大フォントサイズを探す（FONT_MIN から下げていく）
-    // lineH = fontSize(pt) * 0.352(pt→mm) + 行間0.3mm
-    // 2行必要な縦スペース = textPaddingT + lineH * 2
-    // textPaddingT も縮小対象：min(1, innerH * 0.15)
-    $fontSize    = self::FONT_MIN;
-    $minFontSize = 2.0;
-    $innerW      = $eventW - $padding - $textPaddingL;
+    $startText = $this->formatHHMM($rec['start_time']);
+    $endText   = $this->formatHHMM($rec['end_time']);
+    $nameText  = ($rec['last_name'] ?? '') . "\u{2002}" . ($rec['first_name'] ?? '');
 
-    $timeText = $this->formatHHMM($rec['start_time']) . '-' . $this->formatHHMM($rec['end_time']);
-    $nameText = ($rec['last_name'] ?? '') . "\u{2002}" . ($rec['first_name'] ?? '');
-
-    // 縦・横両方に収まる最大フォントサイズを探す
-    while ($fontSize > $minFontSize) {
-      $pdf->SetFont('kozgopromedium', 'B', $fontSize);
-      $lineH        = $fontSize * 0.352 + 0.3;
-      $textPaddingT = min(1.0, $innerH * 0.15);
-      $neededH      = $textPaddingT + $lineH * 2;
-      $neededW      = max($pdf->GetStringWidth($timeText), $pdf->GetStringWidth($nameText));
-      if ($neededH <= $innerH && $neededW <= $innerW) {
-        break;
+    if ($use3Lines) {
+      // 3行モード：開始時刻 / l / 終了時刻　縦・横両方に収まるフォントサイズを探す
+      while ($fontSize > $minFontSize) {
+        $pdf->SetFont('kozgopromedium', 'B', $fontSize);
+        $lineH        = $fontSize * 0.352 + 0.3;
+        $textPaddingT = min(1.0, $innerH * 0.1);
+        $neededH      = $textPaddingT + $lineH * 3;
+        $neededW      = max(
+          $pdf->GetStringWidth($startText),
+          $pdf->GetStringWidth('l'),
+          $pdf->GetStringWidth($endText)
+        );
+        if ($neededH <= $innerH && $neededW <= $innerW) {
+          break;
+        }
+        $fontSize -= 0.5;
       }
-      $fontSize -= 0.5;
+      $lineH        = $fontSize * 0.352 + 0.3;
+      $textPaddingT = min(1.0, max(0, ($innerH - $lineH * 3) / 2));
+    } else {
+      // 2行モード：時刻 / 氏名
+      $timeText = $startText . '-' . $endText;
+      while ($fontSize > $minFontSize) {
+        $pdf->SetFont('kozgopromedium', 'B', $fontSize);
+        $lineH        = $fontSize * 0.352 + 0.3;
+        $textPaddingT = min(1.0, $innerH * 0.15);
+        $neededH      = $textPaddingT + $lineH * 2;
+        $neededW      = max($pdf->GetStringWidth($timeText), $pdf->GetStringWidth($nameText));
+        if ($neededH <= $innerH && $neededW <= $innerW) {
+          break;
+        }
+        $fontSize -= 0.5;
+      }
+      $lineH        = $fontSize * 0.352 + 0.3;
+      $textPaddingT = min(1.0, max(0, ($innerH - $lineH * 2) / 2));
     }
-
-    $lineH        = $fontSize * 0.352 + 0.3;
-    $textPaddingT = min(1.0, max(0, ($innerH - $lineH * 2) / 2));
 
     if ((int)$rec['therapy_type'] === 1) {
       $pdf->SetFillColor(...self::EVENT_COLOR_ACUPUNCTURE);
@@ -545,11 +564,23 @@ class MonthlySchedulePdfService extends BasePdfService
 
     $textStartY = $eventY + $padding + $textPaddingT;
 
-    $pdf->SetXY($eventX + $textPaddingL, $textStartY);
-    $pdf->Cell($innerW, 0, $timeText, 0, 0, 'L', false);
+    if ($use3Lines) {
+      $pdf->SetXY($eventX + $textPaddingL, $textStartY);
+      $pdf->Cell($innerW, 0, $startText, 0, 0, 'L', false);
 
-    $pdf->SetXY($eventX + $textPaddingL, $textStartY + $lineH);
-    $pdf->Cell($innerW, 0, $nameText, 0, 0, 'L', false);
+      $pdf->SetXY($eventX + $textPaddingL, $textStartY + $lineH);
+      $pdf->Cell($innerW, 0, 'l', 0, 0, 'C', false);
+
+      $pdf->SetXY($eventX + $textPaddingL, $textStartY + $lineH * 2);
+      $pdf->Cell($innerW, 0, $endText, 0, 0, 'L', false);
+    } else {
+      $timeText = $startText . '-' . $endText;
+      $pdf->SetXY($eventX + $textPaddingL, $textStartY);
+      $pdf->Cell($innerW, 0, $timeText, 0, 0, 'L', false);
+
+      $pdf->SetXY($eventX + $textPaddingL, $textStartY + $lineH);
+      $pdf->Cell($innerW, 0, $nameText, 0, 0, 'L', false);
+    }
 
     $pdf->SetTextColor(0, 0, 0);
   }
