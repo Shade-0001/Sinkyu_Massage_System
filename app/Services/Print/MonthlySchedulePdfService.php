@@ -385,11 +385,16 @@ class MonthlySchedulePdfService extends BasePdfService
     float $rowH,
     int   $dayCount
   ): void {
-    $fontMm = self::FONT_MIN * 0.352 * 1.25;
+    $fontMm   = self::FONT_MIN * 0.352 * 1.25;
+    $totalW   = array_sum($colWidths);
 
     foreach ($timeSlots as $slotIdx => $timeSlot) {
       $rowY    = $bodyStartY + $slotIdx * $rowH;
       $offsetY = ($rowH - $fontMm) / 2;
+
+      // :00 行か :30 行かを判定
+      $minutes = (int)explode(':', $timeSlot)[1];
+      $isOnHour = ($minutes === 0); // :00 スロット → 下辺を破線
 
       // 時刻列（グレー背景）
       $pdf->SetFillColor(240, 240, 240);
@@ -399,14 +404,20 @@ class MonthlySchedulePdfService extends BasePdfService
       $pdf->setCellPaddings(0, 0, 0, 0);
       $pdf->SetXY($startX, $rowY + $offsetY);
       $pdf->Cell($colWidths[0], 0, $timeSlot, 0, 0, 'C', false);
-      $this->drawCellBorder($pdf, $startX, $rowY, $colWidths[0], $rowH);
+      $this->drawCellBorderWithBottomStyle($pdf, $startX, $rowY, $colWidths[0], $rowH, $isOnHour);
 
-      // 日付列セルの枠線
+      // 日付列セルの枠線（左・右・上は実線、下辺は :00 行のみ破線）
       $x = $startX + $colWidths[0];
       for ($i = 0; $i < $dayCount; $i++) {
         $colW = $colWidths[$i + 1];
-        $this->drawCellBorder($pdf, $x, $rowY, $colW, $rowH);
+        $this->drawCellBorderWithBottomStyle($pdf, $x, $rowY, $colW, $rowH, $isOnHour);
         $x += $colW;
+      }
+
+      // :00 行の下辺を行全幅で一本の破線に統一（セル境界の継ぎ目を消す）
+      if ($isOnHour) {
+        $pdf->SetLineStyle(['width' => 0.2, 'dash' => '1,1', 'color' => [0, 0, 0]]);
+        $pdf->Line($startX, $rowY + $rowH, $startX + $totalW, $rowY + $rowH);
       }
     }
   }
@@ -648,5 +659,23 @@ class MonthlySchedulePdfService extends BasePdfService
     $pdf->Line($x,      $y + $h, $x + $w, $y + $h);
     $pdf->Line($x,      $y,      $x,      $y + $h);
     $pdf->Line($x + $w, $y,      $x + $w, $y + $h);
+  }
+
+  /**
+   * セル枠線を描画（下辺スタイル切替対応）
+   * $dashedBottom = true の場合、下辺を破線で描画
+   */
+  protected function drawCellBorderWithBottomStyle(Fpdi $pdf, float $x, float $y, float $w, float $h, bool $dashedBottom = false): void
+  {
+    $solid = ['width' => 0.2, 'dash' => 0,     'color' => [0, 0, 0]];
+    $dash  = ['width' => 0.2, 'dash' => '1,1', 'color' => [0, 0, 0]];
+
+    $pdf->SetLineStyle($solid);
+    $pdf->Line($x,      $y, $x + $w, $y);      // 上辺
+    $pdf->Line($x,      $y, $x,      $y + $h); // 左辺
+    $pdf->Line($x + $w, $y, $x + $w, $y + $h); // 右辺
+
+    $pdf->SetLineStyle($dashedBottom ? $dash : $solid);
+    $pdf->Line($x, $y + $h, $x + $w, $y + $h); // 下辺
   }
 }
