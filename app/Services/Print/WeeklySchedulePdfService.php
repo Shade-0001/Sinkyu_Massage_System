@@ -730,23 +730,6 @@ class WeeklySchedulePdfService extends BasePdfService
     $pdf->Line($x + $w, $y, $x + $w, $y + $h);  // 右辺
   }
 
-  /**
-   * セル枠線を描画（下辺スタイル切替対応）
-   * $dashedBottom = true の場合、下辺を破線で描画
-   */
-  protected function drawCellBorderWithBottomStyle(Fpdi $pdf, float $x, float $y, float $w, float $h, bool $dashedBottom = false): void
-  {
-    $solid = ['width' => 0.2, 'dash' => 0,     'color' => [0, 0, 0]];
-    $dash  = ['width' => 0.2, 'dash' => '1,1', 'color' => [0, 0, 0]];
-
-    $pdf->SetLineStyle($solid);
-    $pdf->Line($x,      $y, $x + $w, $y);       // 上辺
-    $pdf->Line($x,      $y, $x,      $y + $h);  // 左辺
-    $pdf->Line($x + $w, $y, $x + $w, $y + $h);  // 右辺
-
-    $pdf->SetLineStyle($dashedBottom ? $dash : $solid);
-    $pdf->Line($x, $y + $h, $x + $w, $y + $h);  // 下辺
-  }
 
   /**
    * 和暦日付フォーマット（例：令和7年 4月 6日）
