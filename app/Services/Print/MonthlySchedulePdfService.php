@@ -575,41 +575,37 @@ class MonthlySchedulePdfService extends BasePdfService
 
     $textStartY = $eventY + $padding + $textPaddingT;
 
-    if ($use3Lines) {
-      $pdf->SetXY($eventX + $textPaddingX, $textStartY);
-      $pdf->Cell($innerW, 0, $startText, 0, 0, 'L', false);
+    $baseX = $eventX + $textPaddingX;
 
-      // '～' を90度回転して開始時刻テキスト幅の中心に配置
-      $startTextW = $pdf->GetStringWidth($startText);
-      $tildeW     = $pdf->GetStringWidth('～');
-      $tildeH     = $fontSize * 0.352;
-      // 回転の基点：開始時刻幅中心 × 2行目の垂直中心
-      $rotateCX   = $eventX + $textPaddingX + $startTextW / 2 + 0.5;
-      $rotateCY   = $textStartY + $lineH + $tildeW / 2;
+    if ($use3Lines) {
+      $pdf->SetXY($baseX, $textStartY);
+      $pdf->Cell($innerW, 0, $startText, 0, 0, 'C', false);
+
+      // '～' を90度回転してスクエア幅中央に配置
+      $tildeW   = $pdf->GetStringWidth('～');
+      $tildeH   = $fontSize * 0.352;
+      $rotateCX = $eventX + $eventW / 2;
+      $rotateCY = $textStartY + $lineH + $tildeW / 2;
       $pdf->StartTransform();
       $pdf->Rotate(90, $rotateCX, $rotateCY);
       $pdf->SetXY($rotateCX - $tildeW / 2, $rotateCY - $tildeH);
       $pdf->Cell($tildeW, 0, '～', 0, 0, 'L', false);
       $pdf->StopTransform();
 
-      $pdf->SetXY($eventX + $textPaddingX, $textStartY + $lineH * 2);
-      $pdf->Cell($innerW, 0, $endText, 0, 0, 'L', false);
+      $pdf->SetXY($baseX, $textStartY + $lineH * 2);
+      $pdf->Cell($innerW, 0, $endText, 0, 0, 'C', false);
 
       $pdf->SetFont('kozgopromedium', 'B', $nameFontSize);
-      $nameW = $pdf->GetStringWidth($nameText);
-      $pdf->SetXY($eventX + $textPaddingX, $textStartY + $lineH * 3);
-      $pdf->Cell($nameW, 0, $nameText, 0, 0, 'L', false);
+      $pdf->SetXY($baseX, $textStartY + $lineH * 3);
+      $pdf->Cell($innerW, 0, $nameText, 0, 0, 'C', false);
       $pdf->SetFont('kozgopromedium', 'B', $fontSize);
     } else {
-      $timeW = $pdf->GetStringWidth($timeText);
-      $timeX = $eventX + ($eventW - $timeW) / 2;
-      $pdf->SetXY($timeX, $textStartY);
-      $pdf->Cell($timeW, 0, $timeText, 0, 0, 'L', false);
+      $pdf->SetXY($baseX, $textStartY);
+      $pdf->Cell($innerW, 0, $timeText, 0, 0, 'C', false);
 
       $pdf->SetFont('kozgopromedium', 'B', $nameFontSize);
-      $nameW = $pdf->GetStringWidth($nameText);
-      $pdf->SetXY($eventX + $textPaddingX, $textStartY + $lineH);
-      $pdf->Cell($nameW, 0, $nameText, 0, 0, 'L', false);
+      $pdf->SetXY($baseX, $textStartY + $lineH);
+      $pdf->Cell($innerW, 0, $nameText, 0, 0, 'C', false);
       $pdf->SetFont('kozgopromedium', 'B', $fontSize);
     }
 
