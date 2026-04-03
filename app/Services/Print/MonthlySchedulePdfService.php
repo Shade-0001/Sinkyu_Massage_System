@@ -275,7 +275,7 @@ class MonthlySchedulePdfService extends BasePdfService
     $dayCount = count($monthDates);
 
     // カラム幅を計算（時刻列 + 日付列×dayCount）
-    $timeColW = 11;
+    $timeColW = 7;
     $restW    = $availW - $timeColW;
     $dayColW  = round($restW / $dayCount, 4);
     // 端数調整：最後の列で吸収
