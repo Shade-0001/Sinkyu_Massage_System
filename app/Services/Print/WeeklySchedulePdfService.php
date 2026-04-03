@@ -296,9 +296,9 @@ class WeeklySchedulePdfService extends BasePdfService
     $pageBottomY = 297 - self::MARGIN_X;  // A4縦297mm、下マージン=左右マージンと同値
     $bodyAvailH  = $pageBottomY - $startY - $headerH;
     $slotCount   = \count($timeSlots);
-    // スロット数に応じて行高を動的計算（最大ROW_H、最小6mm）
+    // 下端いっぱいまで広げるよう行高を動的計算（最小6mm）
     $rowH = $slotCount > 0
-      ? max(6.0, min(self::ROW_H, floor($bodyAvailH / $slotCount * 10) / 10))
+      ? max(6.0, floor($bodyAvailH / $slotCount * 10) / 10)
       : self::ROW_H;
 
     // ---- ヘッダー行 ----
