@@ -514,16 +514,17 @@ class MonthlySchedulePdfService extends BasePdfService
     $nameText  = ($rec['last_name'] ?? '') . "\u{2002}" . ($rec['first_name'] ?? '');
 
     if ($use3Lines) {
-      // 3行モード：開始時刻 / l / 終了時刻　縦・横両方に収まるフォントサイズを探す
+      // 4行モード：開始時刻 / l / 終了時刻 / 氏名　縦・横両方に収まるフォントサイズを探す
       while ($fontSize > $minFontSize) {
         $pdf->SetFont('kozgopromedium', 'B', $fontSize);
         $lineH        = $fontSize * 0.352 + 0.3;
         $textPaddingT = min(1.0, $innerH * 0.1);
-        $neededH      = $textPaddingT + $lineH * 3;
+        $neededH      = $textPaddingT + $lineH * 4;
         $neededW      = max(
           $pdf->GetStringWidth($startText),
           $pdf->GetStringWidth('l'),
-          $pdf->GetStringWidth($endText)
+          $pdf->GetStringWidth($endText),
+          $pdf->GetStringWidth($nameText)
         );
         if ($neededH <= $innerH && $neededW <= $innerW) {
           break;
@@ -531,7 +532,7 @@ class MonthlySchedulePdfService extends BasePdfService
         $fontSize -= 0.5;
       }
       $lineH        = $fontSize * 0.352 + 0.3;
-      $textPaddingT = min(1.0, max(0, ($innerH - $lineH * 3) / 2));
+      $textPaddingT = min(1.0, max(0, ($innerH - $lineH * 4) / 2));
     } else {
       // 2行モード：時刻 / 氏名
       $timeText = $startText . '-' . $endText;
@@ -577,6 +578,9 @@ class MonthlySchedulePdfService extends BasePdfService
 
       $pdf->SetXY($eventX + $textPaddingL, $textStartY + $lineH * 2);
       $pdf->Cell($innerW, 0, $endText, 0, 0, 'L', false);
+
+      $pdf->SetXY($eventX + $textPaddingL, $textStartY + $lineH * 3);
+      $pdf->Cell($innerW, 0, $nameText, 0, 0, 'L', false);
     } else {
       $timeText = $startText . '-' . $endText;
       $pdf->SetXY($eventX + $textPaddingL, $textStartY);
