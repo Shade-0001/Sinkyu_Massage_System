@@ -585,7 +585,7 @@ class MonthlySchedulePdfService extends BasePdfService
       $tildeW   = $pdf->GetStringWidth('～');
       $tildeH   = $fontSize * 0.352;
       // 他テキストの中央X（Cell 'C' と同じ基準）
-      $rotateCX = $baseX + $innerW / 2;
+      $rotateCX = $baseX + $innerW / 2 - 0.1;
       $rotateCY = $textStartY + $lineH + $lineH / 2;
       $pdf->StartTransform();
       $pdf->Rotate(90, $rotateCX, $rotateCY);
