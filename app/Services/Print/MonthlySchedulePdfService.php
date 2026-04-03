@@ -502,10 +502,28 @@ class MonthlySchedulePdfService extends BasePdfService
   ): void {
     $padding      = 0.5;
     $textPaddingL = 1;
-    $textPaddingT = 1;
+    $innerH       = $eventH - $padding * 2; // パディング込みの内側高さ
+
+    // 2行分が収まる最大フォントサイズを探す（FONT_MIN から下げていく）
+    // lineH = fontSize(pt) * 0.352(pt→mm) + 行間0.3mm
+    // 2行必要な縦スペース = textPaddingT + lineH * 2
+    // textPaddingT も縮小対象：min(1, innerH * 0.15)
     $fontSize = self::FONT_MIN;
-    $lineH    = $fontSize * 0.352 + 0.3;
-    $innerW   = $eventW - $padding - $textPaddingL;
+    $minFontSize = 2.5;
+    $innerW = $eventW - $padding - $textPaddingL;
+
+    while ($fontSize > $minFontSize) {
+      $lineH       = $fontSize * 0.352 + 0.3;
+      $textPaddingT = min(1.0, $innerH * 0.15);
+      $needed      = $textPaddingT + $lineH * 2;
+      if ($needed <= $innerH) {
+        break;
+      }
+      $fontSize -= 0.5;
+    }
+
+    $lineH        = $fontSize * 0.352 + 0.3;
+    $textPaddingT = min(1.0, max(0, ($innerH - $lineH * 2) / 2));
 
     if ((int)$rec['therapy_type'] === 1) {
       $pdf->SetFillColor(...self::EVENT_COLOR_ACUPUNCTURE);
@@ -525,7 +543,7 @@ class MonthlySchedulePdfService extends BasePdfService
     $timeText = $this->trimTextToWidth($pdf, $timeText, $innerW);
     $nameText = $this->trimTextToWidth($pdf, $nameText, $innerW);
 
-    $textStartY = $eventY + $textPaddingT;
+    $textStartY = $eventY + $padding + $textPaddingT;
 
     $pdf->SetXY($eventX + $textPaddingL, $textStartY);
     $pdf->Cell($innerW, 0, $timeText, 0, 0, 'L', false);
