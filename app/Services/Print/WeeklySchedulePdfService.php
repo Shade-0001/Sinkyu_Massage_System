@@ -548,8 +548,7 @@ class WeeklySchedulePdfService extends BasePdfService
     $endText   = $this->formatHHMM($rec['end_time']);
     $nameText  = ($rec['last_name'] ?? '') . " " . ($rec['first_name'] ?? '');
 
-    // 氏名フォントサイズ（4文字分の幅を基準に決定）
-    $nameFontSize  = self::FONT_MIN;
+    // 氏名フォントサイズ（4文字分の幅を基準に決定、20ptから下げる）
     $nameCharCount = mb_strlen($rec['last_name'] ?? '') + mb_strlen($rec['first_name'] ?? '');
     $splitName     = $colCount >= 3;
     if ($splitName) {
@@ -562,6 +561,7 @@ class WeeklySchedulePdfService extends BasePdfService
     } else {
       $nameRefText = $nameCharCount >= 4 ? $nameText : 'ああ ああ';
     }
+    $nameFontSize = 20.0;
     while ($nameFontSize > $minFontSize) {
       $pdf->SetFont('kozgopromedium', 'B', $nameFontSize);
       if ($pdf->GetStringWidth($nameRefText) <= $innerW) {
