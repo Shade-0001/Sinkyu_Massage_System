@@ -500,7 +500,7 @@ class MonthlySchedulePdfService extends BasePdfService
     float  $eventH
   ): void {
     $padding      = 0.5;
-    $textPaddingL = 2;
+    $textPaddingL = 5;
     $fontSize = self::FONT_MIN;
     $lineH    = $fontSize * 0.352 + 0.3;
     $innerW   = $eventW - $padding - $textPaddingL;
