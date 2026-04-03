@@ -521,7 +521,7 @@ class MonthlySchedulePdfService extends BasePdfService
     float  $eventW,
     float  $eventH
   ): void {
-    $padding      = 0.5;
+    $padding      = 0.3;
     $textPaddingX = 1;
     $innerH       = $eventH - $padding * 2;
     $innerW       = $eventW - $textPaddingX * 2;
@@ -557,11 +557,11 @@ class MonthlySchedulePdfService extends BasePdfService
         $textPaddingT = min(1.0, $innerH * 0.1);
         $neededH      = $textPaddingT + $lineH * 3 + $nameLineH;
         $pdf->SetFont('kozgopromedium', 'B', $fontSize * 0.8);
-        $tildeNeededW = $pdf->GetStringWidth('～');
+        $barNeededW = $pdf->GetStringWidth('┃');
         $pdf->SetFont('kozgopromedium', 'B', $fontSize);
-        $neededW      = max(
+        $neededW    = max(
           $pdf->GetStringWidth($startText),
-          $tildeNeededW,
+          $barNeededW,
           $pdf->GetStringWidth($endText)
         );
         if ($neededH <= $innerH && $neededW <= $innerW) {
@@ -609,19 +609,10 @@ class MonthlySchedulePdfService extends BasePdfService
       $pdf->SetXY($baseX, $textStartY);
       $pdf->Cell($innerW, 0, $startText, 0, 0, 'C', false);
 
-      // '～' を90度回転してスクエア幅中央に配置（フォントサイズ0.8倍）
-      $tildeFontSize = $fontSize * 0.8;
-      $pdf->SetFont('kozgopromedium', 'B', $tildeFontSize);
-      $tildeW   = $pdf->GetStringWidth('～');
-      $tildeH   = $tildeFontSize * 0.352;
-      // 他テキストの中央X（Cell 'C' と同じ基準）
-      $rotateCX = $baseX + $innerW / 2 - 0.3;
-      $rotateCY = $textStartY + $lineH + $lineH / 2 - 0.3;
-      $pdf->StartTransform();
-      $pdf->Rotate(90, $rotateCX, $rotateCY);
-      $pdf->SetXY($rotateCX - $tildeW / 2, $rotateCY - $tildeH / 2);
-      $pdf->Cell($tildeW, 0, '～', 0, 0, 'L', false);
-      $pdf->StopTransform();
+      // '┃'（フォントサイズ0.8倍）
+      $pdf->SetFont('kozgopromedium', 'B', $fontSize * 0.8);
+      $pdf->SetXY($baseX, $textStartY + $lineH - 0.3);
+      $pdf->Cell($innerW, 0, '┃', 0, 0, 'C', false);
       $pdf->SetFont('kozgopromedium', 'B', $fontSize);
 
       $pdf->SetXY($baseX, $textStartY + $lineH * 2 - 0.7);
