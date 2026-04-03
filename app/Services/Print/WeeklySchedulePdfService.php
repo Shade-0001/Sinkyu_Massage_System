@@ -540,7 +540,10 @@ class WeeklySchedulePdfService extends BasePdfService
     $timeText = $this->trimTextToWidth($pdf, $timeText, $innerW);
     $nameText = $this->trimTextToWidth($pdf, $nameText, $innerW);
 
-    $textStartY = $eventY + $textPaddingT;
+    $totalTextH = $lineH * 2;
+    $textStartY = ($textPaddingT + $totalTextH <= $eventH - $padding)
+      ? $eventY + $textPaddingT
+      : $eventY + $padding;
 
     $pdf->SetXY($eventX + $textPaddingL, $textStartY);
     $pdf->Cell($innerW, 0, $timeText, 0, 0, 'L', false);
