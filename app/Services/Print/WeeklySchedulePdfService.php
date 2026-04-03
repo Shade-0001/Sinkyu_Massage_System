@@ -561,7 +561,7 @@ class WeeklySchedulePdfService extends BasePdfService
     } else {
       $nameRefText = $nameCharCount >= 4 ? $nameText : 'ああ ああ';
     }
-    $nameFontSize = 20.0;
+    $nameFontSize = 15.0;
     while ($nameFontSize > $minFontSize) {
       $pdf->SetFont('kozgopromedium', 'B', $nameFontSize);
       if ($pdf->GetStringWidth($nameRefText) <= $innerW) {
