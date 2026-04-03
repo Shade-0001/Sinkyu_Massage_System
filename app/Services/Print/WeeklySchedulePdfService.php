@@ -512,10 +512,11 @@ class WeeklySchedulePdfService extends BasePdfService
     float  $eventW,
     float  $eventH
   ): void {
-    $padding  = 0.7;
+    $padding      = 0.7;
+    $textPaddingL = 1;
     $fontSize = self::FONT_MIN;
     $lineH    = $fontSize * 0.352 + 0.3;
-    $innerW   = $eventW - $padding * 2;
+    $innerW   = $eventW - $padding - $textPaddingL;
 
     // 施術種別による背景色
     if ((int)$rec['therapy_type'] === 1) {
@@ -545,10 +546,10 @@ class WeeklySchedulePdfService extends BasePdfService
       $textStartY = $eventY + $padding + 0.3;
     }
 
-    $pdf->SetXY($eventX + $padding, $textStartY);
+    $pdf->SetXY($eventX + $textPaddingL, $textStartY);
     $pdf->Cell($innerW, 0, $timeText, 0, 0, 'L', false);
 
-    $pdf->SetXY($eventX + $padding, $textStartY + $lineH);
+    $pdf->SetXY($eventX + $textPaddingL, $textStartY + $lineH);
     $pdf->Cell($innerW, 0, $nameText, 0, 0, 'L', false);
 
     $pdf->SetTextColor(0, 0, 0);
