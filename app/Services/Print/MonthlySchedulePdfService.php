@@ -523,7 +523,7 @@ class MonthlySchedulePdfService extends BasePdfService
     int    $colCount = 1
   ): void {
     $padding      = 0.3;
-    $textPaddingX = $colCount >= 2 ? 0.3 : 1;
+    $textPaddingX = $colCount >= 2 ? 0.3 : 0.0;
     $innerH       = $eventH - $padding * 2;
     $innerW       = $eventW - $textPaddingX * 2;
     $fontSize     = self::FONT_MIN;
@@ -572,7 +572,7 @@ class MonthlySchedulePdfService extends BasePdfService
         $lineH        = $fontSize * 0.352 + 0.3;
         $nameLineH    = $nameFontSize * 0.352 + 0.3;
         $textPaddingT = min(1.0, $innerH * 0.1);
-        $neededH      = $textPaddingT + $lineH * 3 + $nameLineH * $nameLineCount;
+        $neededH      = $textPaddingT + $lineH * 3 + $nameLineH;
         $neededW = max(
           $pdf->GetStringWidth($startText),
           $pdf->GetStringWidth($endText)
