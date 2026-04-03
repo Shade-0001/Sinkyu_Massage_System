@@ -501,6 +501,7 @@ class MonthlySchedulePdfService extends BasePdfService
   ): void {
     $padding      = 0.5;
     $textPaddingL = 1;
+    $textPaddingT = 1;
     $fontSize = self::FONT_MIN;
     $lineH    = $fontSize * 0.352 + 0.3;
     $innerW   = $eventW - $padding - $textPaddingL;
@@ -523,7 +524,7 @@ class MonthlySchedulePdfService extends BasePdfService
     $timeText = $this->trimTextToWidth($pdf, $timeText, $innerW);
     $nameText = $this->trimTextToWidth($pdf, $nameText, $innerW);
 
-    $textStartY = $eventY + $padding + 0.2;
+    $textStartY = $eventY + $textPaddingT;
 
     $pdf->SetXY($eventX + $textPaddingL, $textStartY);
     $pdf->Cell($innerW, 0, $timeText, 0, 0, 'L', false);
