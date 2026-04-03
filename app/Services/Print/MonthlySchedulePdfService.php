@@ -584,7 +584,8 @@ class MonthlySchedulePdfService extends BasePdfService
       // '～' を90度回転してスクエア幅中央に配置
       $tildeW   = $pdf->GetStringWidth('～');
       $tildeH   = $fontSize * 0.352;
-      $rotateCX = $eventX + $eventW / 2;
+      // 他テキストの中央X（Cell 'C' と同じ基準）
+      $rotateCX = $baseX + $innerW / 2;
       $rotateCY = $textStartY + $lineH + $lineH / 2;
       $pdf->StartTransform();
       $pdf->Rotate(90, $rotateCX, $rotateCY);
