@@ -518,7 +518,7 @@ class WeeklySchedulePdfService extends BasePdfService
           continue;
         }
 
-        $this->drawEventRect($pdf, $rec, $eventX, $eventY, $eventW, $eventH, $count);
+        $this->drawEventRect($pdf, $rec, $eventX, $eventY, $eventW, $eventH, $count, $spanSlots, $slotCount);
       }
     }
   }
@@ -533,10 +533,12 @@ class WeeklySchedulePdfService extends BasePdfService
     float  $eventY,
     float  $eventW,
     float  $eventH,
-    int    $colCount = 1
+    int    $colCount = 1,
+    int    $spanSlots = 1,
+    int    $slotCount = 999
   ): void {
-    $padding      = 0.7;
-    $textPaddingX = $colCount >= 2 ? 0.3 : 2;
+    $padding      = 0.5;
+    $textPaddingX = $colCount >= 3 ? 0.5 : 1;
     $innerH       = $eventH - $padding * 2;
     $innerW       = $eventW - $textPaddingX * 2;
     $fontSize     = self::FONT_MIN;
@@ -570,14 +572,15 @@ class WeeklySchedulePdfService extends BasePdfService
 
     $nameLineCount = $splitName ? 2 : 1;
     if ($splitName) {
-      $nameFontSize *= 0.8;
+      $nameFontSize *= 1.0;
     }
 
     // 4行モード：minFontSizeで4行が収まるなら使用（氏名は1行分で判定）
+    // ただしスロット数<=18かつ1スロットイベントは2行モード固定
     $lineH4test     = $minFontSize * 0.352 + 0.3;
     $nameLineH4test = $minFontSize * 0.352 + 0.3;
     $neededH4       = $lineH4test * 3 + $nameLineH4test;
-    $use3Lines      = $neededH4 <= $innerH;
+    $use3Lines      = $neededH4 <= $innerH && !($slotCount <= 18 && $spanSlots === 1);
 
     if ($use3Lines) {
       while ($fontSize > $minFontSize) {
