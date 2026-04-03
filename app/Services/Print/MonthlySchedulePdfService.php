@@ -288,7 +288,7 @@ class MonthlySchedulePdfService extends BasePdfService
     $colWidths[] = $lastDayColW;
 
     $headerH    = self::HEADER_H;
-    $pageBottomY = self::AVAILABLE_H + self::MARGIN_X; // A4横 210mm、下マージン
+    $pageBottomY = 210 - self::MARGIN_X;  // A4横210mm、下マージン=左右マージンと同値
     $bodyAvailH  = $pageBottomY - $startY - $headerH;
     $slotCount   = count($timeSlots);
     // スロット数に応じて行高を動的計算（最大ROW_H、最小4mm）
