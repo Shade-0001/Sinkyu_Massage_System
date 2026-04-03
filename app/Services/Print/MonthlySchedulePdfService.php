@@ -511,7 +511,7 @@ class MonthlySchedulePdfService extends BasePdfService
 
     $startText = $this->formatHHMM($rec['start_time']);
     $endText   = $this->formatHHMM($rec['end_time']);
-    $nameText  = ($rec['last_name'] ?? '') . "\u{2002}" . ($rec['first_name'] ?? '');
+    $nameText  = ($rec['last_name'] ?? '') . " " . ($rec['first_name'] ?? '');
 
     if ($use3Lines) {
       // 4行モード：開始時刻 / l / 終了時刻 / 氏名　縦・横両方に収まるフォントサイズを探す
@@ -569,12 +569,12 @@ class MonthlySchedulePdfService extends BasePdfService
       $pdf->SetXY($eventX + $textPaddingL, $textStartY);
       $pdf->Cell($innerW, 0, $startText, 0, 0, 'L', false);
 
-      // '~' を90度回転して開始時刻テキスト幅の中心に配置
+      // '～' を90度回転して開始時刻テキスト幅の中心に配置
       $startTextW = $pdf->GetStringWidth($startText);
       $tildeW     = $pdf->GetStringWidth('～');
       $tildeH     = $fontSize * 0.352;
       // 回転の基点：開始時刻幅中心 × 2行目の垂直中心
-      $rotateCX   = $eventX + $textPaddingL + $startTextW / 2;
+      $rotateCX   = $eventX + $textPaddingL + $startTextW / 2 + 0.5;
       $rotateCY   = $textStartY + $lineH + $tildeW / 2;
       $pdf->StartTransform();
       $pdf->Rotate(90, $rotateCX, $rotateCY);
