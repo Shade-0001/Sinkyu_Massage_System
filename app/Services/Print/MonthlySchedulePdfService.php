@@ -588,7 +588,7 @@ class MonthlySchedulePdfService extends BasePdfService
       $rotateCY = $textStartY + $lineH + $tildeW / 2;
       $pdf->StartTransform();
       $pdf->Rotate(90, $rotateCX, $rotateCY);
-      $pdf->SetXY($rotateCX - $tildeW / 2, $rotateCY - $tildeH);
+      $pdf->SetXY($rotateCX - $tildeH / 2, $rotateCY - $tildeH);
       $pdf->Cell($tildeW, 0, '～', 0, 0, 'L', false);
       $pdf->StopTransform();
 
