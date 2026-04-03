@@ -549,7 +549,7 @@ class WeeklySchedulePdfService extends BasePdfService
     // 氏名フォントサイズ（4文字分の幅を基準に決定）
     $nameFontSize  = self::FONT_MIN;
     $nameCharCount = mb_strlen($rec['last_name'] ?? '') + mb_strlen($rec['first_name'] ?? '');
-    $splitName     = $colCount >= 2;
+    $splitName     = $colCount >= 3;
     if ($splitName) {
       $nameRefText = mb_strlen($rec['last_name'] ?? '') >= mb_strlen($rec['first_name'] ?? '')
         ? ($rec['last_name'] ?? '')
