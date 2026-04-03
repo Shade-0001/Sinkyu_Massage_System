@@ -601,8 +601,10 @@ class MonthlySchedulePdfService extends BasePdfService
       $pdf->Cell($nameW, 0, $nameText, 0, 0, 'L', false);
       $pdf->SetFont('kozgopromedium', 'B', $fontSize);
     } else {
-      $pdf->SetXY($eventX + $textPaddingX, $textStartY);
-      $pdf->Cell($innerW, 0, $timeText, 0, 0, 'L', false);
+      $timeW = $pdf->GetStringWidth($timeText);
+      $timeX = $eventX + ($eventW - $timeW) / 2;
+      $pdf->SetXY($timeX, $textStartY);
+      $pdf->Cell($timeW, 0, $timeText, 0, 0, 'L', false);
 
       $pdf->SetFont('kozgopromedium', 'B', $nameFontSize);
       $nameW = $pdf->GetStringWidth($nameText);
