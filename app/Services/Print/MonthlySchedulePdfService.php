@@ -532,11 +532,12 @@ class MonthlySchedulePdfService extends BasePdfService
     $endText   = $this->formatHHMM($rec['end_time']);
     $nameText  = ($rec['last_name'] ?? '') . " " . ($rec['first_name'] ?? '');
 
-    // 氏名フォントサイズ（時刻と独立して決定）
-    $nameFontSize = self::FONT_MIN;
+    // 氏名フォントサイズ（4文字分の幅を基準に決定）
+    $nameFontSize  = self::FONT_MIN;
+    $nameRefText   = mb_strlen($nameText) >= 4 ? $nameText : 'ああ　ああ'; // 4文字基準
     while ($nameFontSize > $minFontSize) {
       $pdf->SetFont('kozgopromedium', 'B', $nameFontSize);
-      if ($pdf->GetStringWidth($nameText) <= $innerW) {
+      if ($pdf->GetStringWidth($nameRefText) <= $innerW) {
         break;
       }
       $nameFontSize -= 0.5;
