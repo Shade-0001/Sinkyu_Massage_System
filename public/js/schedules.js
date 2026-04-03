@@ -1286,6 +1286,52 @@ function loadWeeksNearViewport() {
   return;
 }
 
+// 西暦年月日を元号表記に変換
+// day指定あり → "令和7年4月3日"、dayなし → "令和7年4月"
+function toJapaneseEra(year, month, day) {
+  const eras = [
+    { name: '令和', start: new Date(2019, 4, 1) },
+    { name: '平成', start: new Date(1989, 0, 8) },
+    { name: '昭和', start: new Date(1926, 11, 25) },
+    { name: '大正', start: new Date(1912, 6, 30) },
+    { name: '明治', start: new Date(1868, 0, 25) },
+  ];
+  const checkDay = day ?? 1;
+  const date = new Date(year, month - 1, checkDay);
+  for (const era of eras) {
+    if (date >= era.start) {
+      const eraYear = year - era.start.getFullYear() + 1;
+      const suffix = day !== undefined ? `${eraYear}年${month}月${day}日` : `${eraYear}年${month}月`;
+      return era.name + suffix;
+    }
+  }
+  return `${year}年${month}月` + (day !== undefined ? `${day}日` : '');
+}
+
+// 施術者の姓名をファイル名用文字列で取得（例: "山田-太郎"）
+function getTherapistNameForFilename(therapistId) {
+  const map = window.scheduleConfig?.therapistMap ?? {};
+  const t = map[therapistId];
+  if (!t) return '';
+  return `${t.lastName}-${t.firstName}`;
+}
+
+// 現在日時をYYYY-MM-DD_hh-mm-ss形式で取得
+function getNowTimestamp() {
+  const now = new Date();
+  const date = [
+    now.getFullYear(),
+    String(now.getMonth() + 1).padStart(2, '0'),
+    String(now.getDate()).padStart(2, '0'),
+  ].join('-');
+  const time = [
+    String(now.getHours()).padStart(2, '0'),
+    String(now.getMinutes()).padStart(2, '0'),
+    String(now.getSeconds()).padStart(2, '0'),
+  ].join('-');
+  return date + '_' + time;
+}
+
 // 週間スケジュールPDF印刷
 function printWeeklySchedule() {
   // スクロール位置から最も多く表示されている週（updateVisibleWeekDisplay が設定）、
@@ -1296,9 +1342,22 @@ function printWeeklySchedule() {
   const baseUrl = window.scheduleConfig?.weeklySchedulePdfUrlBase;
   if (!baseUrl) return;
 
-  // ファイル名（週の開始日を含む）
-  const filename = 'weekly_schedule_' + weekStartStr + '.pdf';
-  const url = baseUrl + '/' + filename
+  // 週の開始日・終了日を元号表記に変換
+  const [sy, sm, sd] = weekStartStr.split('-').map(Number);
+  const weekEndDate = new Date(sy, sm - 1, sd + 6);
+  const ey = weekEndDate.getFullYear();
+  const em = weekEndDate.getMonth() + 1;
+  const ed = weekEndDate.getDate();
+  const startEra = toJapaneseEra(sy, sm, sd);
+  const endEra   = toJapaneseEra(ey, em, ed);
+
+  // 施術者名
+  const therapistName = getTherapistNameForFilename(therapistId);
+  const therapistPart = therapistName ? `_${therapistName}` : '';
+
+  // ファイル名：週間スケジュール_施術者姓-施術者名_開始元号日～終了元号日_YYYY-MM-DD_hh-mm-ss.pdf
+  const filename = `週間スケジュール${therapistPart}_${startEra}～${endEra}_${getNowTimestamp()}.pdf`;
+  const url = baseUrl + '/' + encodeURIComponent(filename)
     + '?week_start_date=' + encodeURIComponent(weekStartStr)
     + '&therapist_id=' + encodeURIComponent(therapistId);
 
@@ -1314,11 +1373,19 @@ function printMonthlySchedule() {
 
   // currentDate から年月を取得
   const year  = currentDate.getFullYear();
-  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-  const yearMonth = year + '-' + month;
+  const month = currentDate.getMonth() + 1;
+  const yearMonth = year + '-' + String(month).padStart(2, '0');
 
-  const filename = 'monthly_schedule_' + yearMonth + '.pdf';
-  const url = baseUrl + '/' + filename
+  // 元号表記（日なし）
+  const eraMonth = toJapaneseEra(year, month);
+
+  // 施術者名
+  const therapistName = getTherapistNameForFilename(therapistId);
+  const therapistPart = therapistName ? `_${therapistName}` : '';
+
+  // ファイル名：月間スケジュール_施術者姓-施術者名_元号**年**月_YYYY-MM-DD_hh-mm-ss.pdf
+  const filename = `月間スケジュール${therapistPart}_${eraMonth}_${getNowTimestamp()}.pdf`;
+  const url = baseUrl + '/' + encodeURIComponent(filename)
     + '?year_month=' + encodeURIComponent(yearMonth)
     + '&therapist_id=' + encodeURIComponent(therapistId);
 

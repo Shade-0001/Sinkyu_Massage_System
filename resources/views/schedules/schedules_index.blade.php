@@ -247,7 +247,8 @@
         recordsStartMonth: {{ $recordsStartMonth }},
         futureMonths: {{ $futureMonths }},
         weeklySchedulePdfUrlBase: '{{ url('prints/weekly-schedule') }}',
-        monthlySchedulePdfUrlBase: '{{ url('prints/monthly-schedule') }}'
+        monthlySchedulePdfUrlBase: '{{ url('prints/monthly-schedule') }}',
+        therapistMap: @json($therapists->keyBy('id')->map(fn($t) => ['lastName' => $t->last_name, 'firstName' => $t->first_name]))
       };
     </script>
     <script src="{{ asset('js/schedules.js') }}"></script>
