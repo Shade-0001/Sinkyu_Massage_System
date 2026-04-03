@@ -568,8 +568,12 @@ class MonthlySchedulePdfService extends BasePdfService
       $pdf->SetXY($eventX + $textPaddingL, $textStartY);
       $pdf->Cell($innerW, 0, $startText, 0, 0, 'L', false);
 
-      $pdf->SetXY($eventX + $textPaddingL, $textStartY + $lineH);
-      $pdf->Cell($innerW, 0, 'l', 0, 0, 'C', false);
+      // 開始時刻テキスト幅の中心に 'l' を配置
+      $startTextW = $pdf->GetStringWidth($startText);
+      $lW         = $pdf->GetStringWidth('l');
+      $lX         = $eventX + $textPaddingL + ($startTextW - $lW) / 2;
+      $pdf->SetXY($lX, $textStartY + $lineH);
+      $pdf->Cell($lW, 0, 'l', 0, 0, 'L', false);
 
       $pdf->SetXY($eventX + $textPaddingL, $textStartY + $lineH * 2);
       $pdf->Cell($innerW, 0, $endText, 0, 0, 'L', false);
