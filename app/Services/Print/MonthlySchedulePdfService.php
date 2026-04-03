@@ -206,7 +206,8 @@ class MonthlySchedulePdfService extends BasePdfService
 
     // ---- 期間テキスト（右端・タイトルと同Y） ----
     [$year, $month] = explode('-', $yearMonth);
-    $periodText = (int)$year . '年 ' . (int)$month . '月';
+    $eraInfo    = $this->convertToJapaneseYear((int)$year, (int)$month);
+    $periodText = $eraInfo['era'] . $eraInfo['year'] . '年 ' . (int)$month . '月';
     $pdf->SetFont('kozgopromedium', '', 11);
     $pdf->SetTextColor(0, 0, 0);
     $periodW = $pdf->GetStringWidth($periodText);
