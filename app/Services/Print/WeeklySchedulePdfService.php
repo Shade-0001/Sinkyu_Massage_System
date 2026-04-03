@@ -518,7 +518,7 @@ class WeeklySchedulePdfService extends BasePdfService
           continue;
         }
 
-        $this->drawEventRect($pdf, $rec, $eventX, $eventY, $eventW, $eventH, $count, $spanSlots, $slotCount);
+        $this->drawEventRect($pdf, $rec, $eventX, $eventY, $eventW, $eventH, $count, $slotCount, $rowH);
       }
     }
   }
@@ -534,8 +534,8 @@ class WeeklySchedulePdfService extends BasePdfService
     float  $eventW,
     float  $eventH,
     int    $colCount = 1,
-    int    $spanSlots = 1,
-    int    $slotCount = 999
+    int    $slotCount = 999,
+    float  $rowH = 0
   ): void {
     $padding      = 0.5;
     $textPaddingX = $colCount >= 3 ? 0.5 : 1;
@@ -580,7 +580,7 @@ class WeeklySchedulePdfService extends BasePdfService
     $lineH4test     = $minFontSize * 0.352 + 0.3;
     $nameLineH4test = $minFontSize * 0.352 + 0.3;
     $neededH4       = $lineH4test * 3 + $nameLineH4test;
-    $force2Lines    = $slotCount <= 18 && $spanSlots === 1 && $colCount <= 1;
+    $force2Lines    = $slotCount <= 18 && $rowH > 0 && $eventH <= $rowH * 1.5 && $colCount <= 1;
     $use3Lines      = !$force2Lines && $neededH4 <= $innerH;
 
     if ($use3Lines) {
