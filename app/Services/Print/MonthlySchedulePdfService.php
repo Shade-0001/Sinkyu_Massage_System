@@ -536,7 +536,19 @@ class MonthlySchedulePdfService extends BasePdfService
     // 氏名フォントサイズ（4文字分の幅を基準に決定）
     $nameFontSize  = self::FONT_MIN;
     $nameCharCount = mb_strlen($rec['last_name'] ?? '') + mb_strlen($rec['first_name'] ?? '');
-    $nameRefText   = $nameCharCount >= 4 ? $nameText : 'ああ ああ'; // 4文字基準
+    $splitName     = $colCount >= 2;
+    if ($splitName) {
+      // 2行化時：姓・名それぞれが innerW に収まるか（長い方を基準）
+      $nameRefText = mb_strlen($rec['last_name'] ?? '') >= mb_strlen($rec['first_name'] ?? '')
+        ? ($rec['last_name'] ?? '')
+        : ($rec['first_name'] ?? '');
+      // 2文字以下なら2文字基準
+      if (mb_strlen($nameRefText) < 2) {
+        $nameRefText = 'ああ';
+      }
+    } else {
+      $nameRefText = $nameCharCount >= 4 ? $nameText : 'ああ ああ'; // 4文字基準
+    }
     while ($nameFontSize > $minFontSize) {
       $pdf->SetFont('kozgopromedium', 'B', $nameFontSize);
       if ($pdf->GetStringWidth($nameRefText) <= $innerW) {
@@ -545,7 +557,6 @@ class MonthlySchedulePdfService extends BasePdfService
       $nameFontSize -= 0.5;
     }
 
-    $splitName     = $colCount >= 2; // 姓・名を2行に分けるか
     $nameLineCount = $splitName ? 2 : 1;
 
     // 4行モード：高さに余裕があれば1スロットでも使用
