@@ -585,15 +585,15 @@ class MonthlySchedulePdfService extends BasePdfService
       $tildeW   = $pdf->GetStringWidth('～');
       $tildeH   = $fontSize * 0.352;
       // 他テキストの中央X（Cell 'C' と同じ基準）
-      $rotateCX = $baseX + $innerW / 2 - 0.1;
-      $rotateCY = $textStartY + $lineH + $lineH / 2;
+      $rotateCX = $baseX + $innerW / 2 - 0.3;
+      $rotateCY = $textStartY + $lineH + $lineH / 2 - 0.3;
       $pdf->StartTransform();
       $pdf->Rotate(90, $rotateCX, $rotateCY);
       $pdf->SetXY($rotateCX - $tildeW / 2, $rotateCY - $tildeH / 2);
       $pdf->Cell($tildeW, 0, '～', 0, 0, 'L', false);
       $pdf->StopTransform();
 
-      $pdf->SetXY($baseX, $textStartY + $lineH * 2);
+      $pdf->SetXY($baseX, $textStartY + $lineH * 2 - 0.7);
       $pdf->Cell($innerW, 0, $endText, 0, 0, 'C', false);
 
       $pdf->SetFont('kozgopromedium', 'B', $nameFontSize);
