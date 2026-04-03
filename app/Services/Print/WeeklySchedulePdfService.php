@@ -420,7 +420,7 @@ class WeeklySchedulePdfService extends BasePdfService
 
       // 下辺（:00=破線、:30=実線）
       $pdf->SetLineStyle($isOnHour
-        ? ['width' => 0.2, 'dash' => '1,1', 'color' => [0, 0, 0]]
+        ? ['width' => 0.2, 'dash' => '2,2', 'color' => [0, 0, 0]]
         : ['width' => 0.2, 'dash' => 0,     'color' => [0, 0, 0]]
       );
       $pdf->Line($startX, $rowY + $rowH, $startX + $totalW, $rowY + $rowH);
@@ -580,7 +580,8 @@ class WeeklySchedulePdfService extends BasePdfService
     $lineH4test     = $minFontSize * 0.352 + 0.3;
     $nameLineH4test = $minFontSize * 0.352 + 0.3;
     $neededH4       = $lineH4test * 3 + $nameLineH4test;
-    $use3Lines      = $neededH4 <= $innerH && !($slotCount <= 18 && $spanSlots === 1 && $colCount <= 1);
+    $force2Lines    = $slotCount <= 18 && $spanSlots === 1 && $colCount <= 1;
+    $use3Lines      = !$force2Lines && $neededH4 <= $innerH;
 
     if ($use3Lines) {
       while ($fontSize > $minFontSize) {
