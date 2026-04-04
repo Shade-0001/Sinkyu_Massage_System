@@ -571,7 +571,7 @@ class MonthlySchedulePdfService extends BasePdfService
 
     // 氏名フォントサイズ（フルネーム1行基準で幅から決定）
     $nameCharCount = mb_strlen($rec['last_name'] ?? '') + mb_strlen($rec['first_name'] ?? '');
-    $nameRefText1  = $nameCharCount >= 4 ? $nameText : 'ああ ああ';
+    $nameRefText1  = $nameCharCount >= 4 ? $nameText : ($nameText ?: 'ああ ああ');
     $nameFontSize  = 8.0;
     while ($nameFontSize > self::FONT_MIN) {
       $pdf->SetFont('kozgopromedium', 'B', $nameFontSize);
