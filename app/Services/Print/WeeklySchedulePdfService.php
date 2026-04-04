@@ -590,41 +590,26 @@ class WeeklySchedulePdfService extends BasePdfService
     $textPaddingX = $colCount >= 3 ? 0.5 : 1;
     $innerH       = $eventH - $padding * 2;
     $innerW       = $eventW - $textPaddingX * 2;
-    $fontSize     = 20.0;
+    $fontSize     = 11.0;
 
     $startText = $this->formatHHMM($rec['start_time']);
     $endText   = $this->formatHHMM($rec['end_time']);
     $nameText  = ($rec['last_name'] ?? '') . " " . ($rec['first_name'] ?? '');
 
-    // 氏名フォントサイズ（4文字分の幅を基準に決定、20ptから下げる）
+    // 氏名フォントサイズ（フルネーム1行基準で幅から決定、20ptから下げる）
     $nameCharCount = mb_strlen($rec['last_name'] ?? '') + mb_strlen($rec['first_name'] ?? '');
-    $splitName     = $colCount >= 3;
-    if ($splitName) {
-      $nameRefText = mb_strlen($rec['last_name'] ?? '') >= mb_strlen($rec['first_name'] ?? '')
-        ? ($rec['last_name'] ?? '')
-        : ($rec['first_name'] ?? '');
-      if (mb_strlen($nameRefText) < 2) {
-        $nameRefText = 'アア';
-      }
-    } else {
-      $nameRefText = $nameCharCount >= 4 ? $nameText : 'アア アア';
-    }
-    $nameFontSize = 10.0;
+    $nameRefText1  = $nameCharCount >= 4 ? $nameText : 'アア アア';
+    $nameFontSize  = 10.0;
     while ($nameFontSize > self::FONT_MIN) {
       $pdf->SetFont('kozgopromedium', 'B', $nameFontSize);
-      if ($pdf->GetStringWidth($nameRefText) <= $innerW) {
+      if ($pdf->GetStringWidth($nameRefText1) <= $innerW) {
         break;
       }
       $nameFontSize -= 0.5;
     }
 
-    $nameLineCount = $splitName ? 2 : 1;
-    if ($splitName) {
-      $nameFontSize *= 1.0;
-    }
-
     // 4行モード：FONT_MINで4行が収まるなら使用（氏名は1行分で判定）
-    // ただしスロット数<=18かつ1スロットイベントは2行モード固定
+    // ただしcolCount<=1かつスロット数<=18かつ1スロットイベントは2行モード固定
     $lineH4test     = self::FONT_MIN * 0.352 + 0.3;
     $nameLineH4test = self::FONT_MIN * 0.352 + 0.3;
     $neededH4       = $lineH4test * 3 + $nameLineH4test;
@@ -651,16 +636,12 @@ class WeeklySchedulePdfService extends BasePdfService
       if ($fontSize < self::FONT_MIN) {
         $use3Lines = false;
         $fontSize  = self::FONT_MIN;
-      } else {
-        $lineH        = $fontSize * 0.352 + 0.3;
-        $nameLineH    = $nameFontSize * 0.352 + 0.3;
-        $textPaddingT = min(1.0, max(0, ($innerH - $lineH * 3 - $nameLineH * $nameLineCount) / 2));
       }
     }
     if (!$use3Lines) {
-      $timeText          = $startText . ' - ' . $endText;
-      $timePaddingX      = 3.0;
-      $timeInnerW        = $eventW - $padding * 2 - $timePaddingX * 2;
+      $timeText     = $startText . ' - ' . $endText;
+      $timePaddingX = 3.0;
+      $timeInnerW   = $eventW - $padding * 2 - $timePaddingX * 2;
       $timeFontSize = 20.0;
       while ($timeFontSize > self::FONT_MIN) {
         $pdf->SetFont('kozgopromedium', 'B', $timeFontSize);
@@ -669,11 +650,18 @@ class WeeklySchedulePdfService extends BasePdfService
         }
         $timeFontSize -= 0.5;
       }
-      $fontSize     = $timeFontSize;
-      $lineH        = $fontSize * 0.352 + 0.3;
-      $nameLineH    = $nameFontSize * 0.352 + 0.3;
-      $textPaddingT = min(1.0, max(0, ($innerH - $lineH - $nameLineH * $nameLineCount) / 2));
+      $fontSize = $timeFontSize;
     }
+
+    // 時刻テキスト描画後の残り高さで氏名2行化を判定
+    $lineH     = $fontSize * 0.352 + 0.3;
+    $nameLineH = $nameFontSize * 0.352 + 0.3;
+    $timeUsedH = $use3Lines ? $lineH * 3 : $lineH;
+    $remainH   = $innerH - $timeUsedH;
+    $splitName = $colCount >= 2 && $remainH >= $nameLineH * 2;
+
+    $nameLineCount = $splitName ? 2 : 1;
+    $textPaddingT  = min(1.0, max(0, ($innerH - $timeUsedH - $nameLineH * $nameLineCount) / 2));
 
     if ((int)$rec['therapy_type'] === 1) {
       $pdf->SetFillColor(...self::EVENT_COLOR_ACUPUNCTURE);
