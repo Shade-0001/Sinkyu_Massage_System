@@ -312,14 +312,44 @@ class WeeklySchedulePdfService extends BasePdfService
     // カラム幅を計算
     $timeColW = 13;
     $restW    = $availW - $timeColW;
-    $dayColW  = round($restW / 7, 4);
-    $satColW  = round($restW - $dayColW * 6, 4);
+
+    // ヘッダーテキスト最大幅からヘッダー圧迫しない最小列幅を算出
+    $pdf->SetFont('kozgopromedium', '', 9);
+    $maxHeaderTextW = 0;
+    foreach ($weekDates as $i => $dateKey) {
+      $dateObj = new \DateTime($dateKey);
+      $label   = $dateObj->format('n') . '/' . $dateObj->format('j') . '（' . $dayNames[(int)$dateObj->format('w')] . '）';
+      $maxHeaderTextW = max($maxHeaderTextW, $pdf->GetStringWidth($label));
+    }
+    $closedColMinW = ceil(($maxHeaderTextW + 1.0) * 10) / 10; // 左右0.5mmずつ余白
+
+    // 定休日列の縮小分を非定休日列に再配分
+    $closedCount = 0;
+    foreach ($weekDates as $dateKey) {
+      $dow = (int)(new \DateTime($dateKey))->format('w');
+      if ($closedDays[$dow] ?? false) $closedCount++;
+    }
+    $openCount  = 7 - $closedCount;
+    $savedW     = $closedCount > 0 ? ($restW / 7 - $closedColMinW) * $closedCount : 0;
+    $dayColW    = $openCount > 0 ? round(($restW - $closedColMinW * $closedCount) / $openCount, 4) : round($restW / 7, 4);
 
     $colWidths = [$timeColW];
-    for ($i = 0; $i < 6; $i++) {
-      $colWidths[] = $dayColW;
+    $openUsed  = 0;
+    for ($i = 0; $i < 7; $i++) {
+      $dow = (int)(new \DateTime($weekDates[$i]))->format('w');
+      if ($closedDays[$dow] ?? false) {
+        $colWidths[] = $closedColMinW;
+      } else {
+        $openUsed++;
+        if ($openUsed === $openCount) {
+          // 最後の非定休日列で端数吸収
+          $usedW = $timeColW + $closedColMinW * $closedCount + $dayColW * ($openCount - 1);
+          $colWidths[] = round($availW - $usedW, 4);
+        } else {
+          $colWidths[] = $dayColW;
+        }
+      }
     }
-    $colWidths[] = $satColW;
 
     $headerH     = self::HEADER_H;
     $pageBottomY = 297 - self::MARGIN_X;  // A4縦297mm、下マージン=左右マージンと同値

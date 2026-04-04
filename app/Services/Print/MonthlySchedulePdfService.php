@@ -302,19 +302,51 @@ class MonthlySchedulePdfService extends BasePdfService
     array  $closedDays = []
   ): void {
     $dayCount = count($monthDates);
+    $dayNames = ['日', '月', '火', '水', '木', '金', '土'];
 
     // カラム幅を計算（時刻列 + 日付列×dayCount）
     $timeColW = 7;
     $restW    = $availW - $timeColW;
-    $dayColW  = round($restW / $dayCount, 4);
-    // 端数調整：最後の列で吸収
-    $lastDayColW = round($restW - $dayColW * ($dayCount - 1), 4);
+    $fontPt   = self::FONT_MIN + 1;
+
+    // ヘッダーテキスト最大幅からヘッダー圧迫しない最小列幅を算出
+    $pdf->SetFont('kozgopromedium', '', $fontPt);
+    $maxHeaderTextW = 0;
+    foreach ($monthDates as $dateStr) {
+      $dateObj = new \DateTime($dateStr);
+      $label   = $dateObj->format('j') . ' (' . $dayNames[(int)$dateObj->format('w')] . ')';
+      $maxHeaderTextW = max($maxHeaderTextW, $pdf->GetStringWidth($label));
+    }
+    $closedColMinW = ceil(($maxHeaderTextW + 1.0) * 10) / 10; // 左右0.5mmずつ余白
+
+    // 定休日列の縮小分を非定休日列に再配分
+    $closedCount = 0;
+    foreach ($monthDates as $dateStr) {
+      $dow = (int)(new \DateTime($dateStr))->format('w');
+      if ($closedDays[$dow] ?? false) $closedCount++;
+    }
+    $openCount = $dayCount - $closedCount;
+    $dayColW   = $openCount > 0
+      ? round(($restW - $closedColMinW * $closedCount) / $openCount, 4)
+      : round($restW / $dayCount, 4);
 
     $colWidths = [$timeColW];
-    for ($i = 0; $i < $dayCount - 1; $i++) {
-      $colWidths[] = $dayColW;
+    $openUsed  = 0;
+    foreach ($monthDates as $dateStr) {
+      $dow = (int)(new \DateTime($dateStr))->format('w');
+      if ($closedDays[$dow] ?? false) {
+        $colWidths[] = $closedColMinW;
+      } else {
+        $openUsed++;
+        if ($openUsed === $openCount) {
+          // 最後の非定休日列で端数吸収
+          $usedW = $timeColW + $closedColMinW * $closedCount + $dayColW * ($openCount - 1);
+          $colWidths[] = round($availW - $usedW, 4);
+        } else {
+          $colWidths[] = $dayColW;
+        }
+      }
     }
-    $colWidths[] = $lastDayColW;
 
     $headerH    = self::HEADER_H;
     $pageBottomY = 210 - self::MARGIN_X;  // A4横210mm、下マージン=左右マージンと同値
