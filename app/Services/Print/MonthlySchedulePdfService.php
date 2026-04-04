@@ -620,10 +620,17 @@ class MonthlySchedulePdfService extends BasePdfService
         }
         $fontSize -= 0.5;
       }
-      $lineH        = $fontSize * 0.352 + 0.3;
-      $nameLineH    = $nameFontSize * 0.352 + 0.3;
-      $textPaddingT = min(1.0, max(0, ($innerH - $lineH * 3 - $nameLineH * $nameLineCount) / 2));
-    } else {
+      // 4行モードでもFONT_MIN未満になるなら2行モードへフォールバック
+      if ($fontSize < self::FONT_MIN) {
+        $use3Lines = false;
+        $fontSize  = self::FONT_MIN;
+      } else {
+        $lineH        = $fontSize * 0.352 + 0.3;
+        $nameLineH    = $nameFontSize * 0.352 + 0.3;
+        $textPaddingT = min(1.0, max(0, ($innerH - $lineH * 3 - $nameLineH * $nameLineCount) / 2));
+      }
+    }
+    if (!$use3Lines) {
       // 2行モード（$splitName時は3行）
       $timeText  = $startText . ' - ' . $endText;
       $timeFontSize = 20.0;
