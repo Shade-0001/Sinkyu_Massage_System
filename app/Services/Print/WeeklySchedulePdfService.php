@@ -660,6 +660,25 @@ class WeeklySchedulePdfService extends BasePdfService
     $remainH   = $innerH - $timeUsedH;
     $splitName = $colCount >= 2 && $remainH >= $nameLineH * 2;
 
+    // 2行化時は姓・名それぞれの最長文字列基準でフォントサイズを再計算
+    if ($splitName) {
+      $nameRefText2 = mb_strlen($rec['last_name'] ?? '') >= mb_strlen($rec['first_name'] ?? '')
+        ? ($rec['last_name'] ?? '')
+        : ($rec['first_name'] ?? '');
+      if (mb_strlen($nameRefText2) < 2) {
+        $nameRefText2 = 'アア';
+      }
+      $nameFontSize = 20.0;
+      while ($nameFontSize > self::FONT_MIN) {
+        $pdf->SetFont('kozgopromedium', 'B', $nameFontSize);
+        if ($pdf->GetStringWidth($nameRefText2) <= $innerW) {
+          break;
+        }
+        $nameFontSize -= 0.5;
+      }
+      $nameLineH = $nameFontSize * 0.352 + 0.3;
+    }
+
     $nameLineCount = $splitName ? 2 : 1;
     $textPaddingT  = min(1.0, max(0, ($innerH - $timeUsedH - $nameLineH * $nameLineCount) / 2));
 
