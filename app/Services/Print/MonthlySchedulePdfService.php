@@ -630,7 +630,9 @@ class MonthlySchedulePdfService extends BasePdfService
     $splitName = $remainH >= $nameLineH * 2;
 
     // 2行化時は姓・名それぞれの最長文字列基準でフォントサイズを再計算
+    // フォントサイズが1行時と変わらない場合は2行化しない
     if ($splitName) {
+      $nameFontSize1Line = $nameFontSize;
       $nameRefText2 = mb_strlen($rec['last_name'] ?? '') >= mb_strlen($rec['first_name'] ?? '')
         ? ($rec['last_name'] ?? '')
         : ($rec['first_name'] ?? '');
@@ -645,7 +647,12 @@ class MonthlySchedulePdfService extends BasePdfService
         }
         $nameFontSize -= 0.5;
       }
-      $nameLineH = $nameFontSize * 0.352 + 0.3;
+      if ($nameFontSize <= $nameFontSize1Line) {
+        $splitName    = false;
+        $nameFontSize = $nameFontSize1Line;
+      } else {
+        $nameLineH = $nameFontSize * 0.352 + 0.3;
+      }
     }
 
     $nameLineCount = $splitName ? 2 : 1;
