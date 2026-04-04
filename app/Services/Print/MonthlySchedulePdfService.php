@@ -720,7 +720,7 @@ class MonthlySchedulePdfService extends BasePdfService
     $padding = 0.3;
 
     // グレー矩形（列全体）
-    $pdf->setAlpha(0.4);
+    $pdf->setAlpha(0.5);
     $pdf->SetFillColor(...self::CLOSED_DAY_COLOR);
     $pdf->RoundedRect(
       $colX + $padding,
@@ -737,27 +737,28 @@ class MonthlySchedulePdfService extends BasePdfService
     $innerW   = $colW - $padding * 2;
     $innerH   = $tableH - $padding * 2;
     $chars    = ['定', '休', '日'];
-    $fontSize = min(self::FONT_MIN * 1.5, 6.0);
+    // フォントサイズ：列幅の半分を上限に、3行（行間1文字）が収まるサイズに動的調整
+    $fontSize = min($colW / 2, 6.0);
     $minFont  = 2.0;
 
-    // 3行が収まるフォントサイズを決定
     while ($fontSize > $minFont) {
       $pdf->SetFont('kozgopromedium', 'B', $fontSize);
-      $lineH   = $fontSize * 0.352 + 0.3;
-      $totalTH = $lineH * 3;
       $charW   = $pdf->GetStringWidth('定');
+      $lineH   = $charW * 2; // 文字高さ＋1文字分の行間
+      $totalTH = $charW + $lineH * 2; // 先頭文字分 + 残り2行（lineH間隔）
       if ($totalTH <= $innerH && $charW <= $innerW) {
         break;
       }
       $fontSize -= 0.5;
     }
 
-    $lineH   = $fontSize * 0.352 + 0.3;
-    $totalTH = $lineH * 3;
+    $pdf->SetFont('kozgopromedium', 'B', $fontSize);
+    $charW   = $pdf->GetStringWidth('定');
+    $lineH   = $charW * 2;
+    $totalTH = $charW + $lineH * 2;
     $startY  = $bodyStartY + $padding + ($innerH - $totalTH) / 2;
     $baseX   = $colX + $padding;
 
-    $pdf->SetFont('kozgopromedium', 'B', $fontSize);
     $pdf->SetTextColor(255, 255, 255);
     $pdf->setCellPaddings(0, 0, 0, 0);
 
