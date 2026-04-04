@@ -318,7 +318,7 @@ class WeeklySchedulePdfService extends BasePdfService
     $maxHeaderTextW = 0;
     foreach ($weekDates as $i => $dateKey) {
       $dateObj = new \DateTime($dateKey);
-      $label   = $dateObj->format('n') . '/' . $dateObj->format('j') . '(' . $dayNames[(int)$dateObj->format('w')] . ')';
+      $label   = $dateObj->format('n') . '/' . $dateObj->format('j') . ' (' . $dayNames[(int)$dateObj->format('w')] . ')';
       $maxHeaderTextW = max($maxHeaderTextW, $pdf->GetStringWidth($label));
     }
     $closedColMinW = ceil(($maxHeaderTextW + 1.0) * 10) / 10; // 左右0.5mmずつ余白
@@ -420,7 +420,7 @@ class WeeklySchedulePdfService extends BasePdfService
       $dateObj = new \DateTime($weekDates[$i]);
       $month   = (int)$dateObj->format('m');
       $day     = (int)$dateObj->format('j');
-      $label   = $month . '/' . $day . '(' . $dayNames[$dow] . ')';
+      $label   = $month . '/' . $day . ' (' . $dayNames[$dow] . ')';
       $colW    = $colWidths[$i + 1];
 
       if ($dow === 0) {
