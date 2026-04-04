@@ -87,7 +87,7 @@ class ClinicInfoService
   }
 
   /**
-   * 営業時間情報を取得
+   * 営業時間情報を取得（最新レコード基準）
    */
   public function getBusinessHours(): array
   {
@@ -96,6 +96,22 @@ class ClinicInfoService
     return [
       'open_time' => $clinicInfo->open_time ?? null,
       'close_time' => $clinicInfo->close_time ?? null,
+    ];
+  }
+
+  /**
+   * 指定日付時点で有効な clinic_info を基準に営業時間を取得
+   *
+   * @param string $date  Y-m-d形式
+   * @return array  ['business_hours_start' => string, 'business_hours_end' => string]
+   */
+  public function getBusinessHoursForDate(string $date): array
+  {
+    $clinicInfo = $this->getClinicInfoForDate($date);
+
+    return [
+      'business_hours_start' => $clinicInfo->business_hours_start ?? '09:00:00',
+      'business_hours_end'   => $clinicInfo->business_hours_end   ?? '18:00:00',
     ];
   }
 

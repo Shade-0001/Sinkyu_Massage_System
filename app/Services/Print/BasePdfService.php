@@ -3,6 +3,7 @@
 namespace App\Services\Print;
 
 use setasign\Fpdi\Tcpdf\Fpdi;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -654,6 +655,28 @@ abstract class BasePdfService
     }
 
     return $pdf->Output('', 'S');
+  }
+
+  /**
+   * 指定日付時点で有効な clinic_info を取得
+   *
+   * 日付以前で最新のレコードを返す。該当なければ最古のレコードにフォールバック。
+   *
+   * @param string $referenceDate  Y-m-d形式
+   * @return object|null
+   */
+  protected function getClinicInfoForDate(string $referenceDate): ?object
+  {
+    $info = DB::table('clinic_info')
+      ->where('created_at', '<=', $referenceDate . ' 23:59:59')
+      ->orderByDesc('created_at')
+      ->first();
+
+    if (!$info) {
+      $info = DB::table('clinic_info')->orderBy('created_at')->first();
+    }
+
+    return $info;
   }
 
   /**

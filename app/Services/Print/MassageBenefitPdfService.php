@@ -148,7 +148,7 @@ class MassageBenefitPdfService extends BasePdfService
 
 
     // 施術所情報取得
-    $clinicInfo = DB::table('clinic_info')->orderByDesc('id')->first();
+    $clinicInfo = $this->getClinicInfoForDate($serviceYearMonth . '-01');
 
 
     // 施術料金データ取得（最新のデータ）
@@ -245,7 +245,7 @@ class MassageBenefitPdfService extends BasePdfService
     $this->fillClinicInfoSection($pdf, $clinicInfo, $submissionDate);
     $this->fillApplicantInfoSection($pdf, $clinicUser);
     $this->fillAgentInfoSection($pdf, $clinicInfo);
-    $this->fillPaymentInstitutionSection($pdf);
+    $this->fillPaymentInstitutionSection($pdf, null, $serviceYearMonth);
 
     // 被保険者情報（空白フラグが立っている場合はスキップ）
     if (!$this->blankInsuredName) {

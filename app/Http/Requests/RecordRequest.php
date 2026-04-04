@@ -50,8 +50,15 @@ class RecordRequest extends FormRequest
    */
   public function rules(): array
   {
-    // 営業時間を取得
-    $clinicInfo = DB::table('clinic_info')->orderByDesc('id')->first();
+    // 登録対象日時点で有効な clinic_info から営業時間を取得
+    $recordDate  = $this->input('date') ?? date('Y-m-d');
+    $clinicInfo  = DB::table('clinic_info')
+      ->where('created_at', '<=', $recordDate . ' 23:59:59')
+      ->orderByDesc('created_at')
+      ->first();
+    if (!$clinicInfo) {
+      $clinicInfo = DB::table('clinic_info')->orderBy('created_at')->first();
+    }
     $businessHoursStart = $clinicInfo->business_hours_start ? substr($clinicInfo->business_hours_start, 0, 5) : null;
     $businessHoursEnd = $clinicInfo->business_hours_end ? substr($clinicInfo->business_hours_end, 0, 5) : null;
 

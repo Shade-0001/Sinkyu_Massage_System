@@ -176,7 +176,7 @@ class MedicalAssistanceAcupuncturePdfService extends BasePdfService
     }
 
     // 施術所情報取得
-    $clinicInfo = DB::table('clinic_info')->orderByDesc('id')->first();
+    $clinicInfo = $this->getClinicInfoForDate($serviceYearMonth . '-01');
 
     if (!$clinicInfo) {
       \Log::error('施術所情報が見つかりません');

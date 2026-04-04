@@ -125,7 +125,7 @@ class TreatmentRecordAcupuncturePdfService extends BasePdfService
       ->get();
 
     // 施術所情報取得
-    $clinicInfo = DB::table('clinic_info')->orderByDesc('id')->first();
+    $clinicInfo = $this->getClinicInfoForDate($serviceYearMonth . '-01');
 
     return [
       'clinic_user' => $clinicUser,

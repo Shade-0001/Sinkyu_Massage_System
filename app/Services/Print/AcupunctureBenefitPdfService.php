@@ -154,7 +154,7 @@ class AcupunctureBenefitPdfService extends BasePdfService
     }
 
     // 施術所情報取得
-    $clinicInfo = DB::table('clinic_info')->orderByDesc('id')->first();
+    $clinicInfo = $this->getClinicInfoForDate($serviceYearMonth . '-01');
 
     if (!$clinicInfo) {
       \Log::error('施術所情報が見つかりません');
@@ -287,7 +287,7 @@ class AcupunctureBenefitPdfService extends BasePdfService
     $this->fillAgentInfo($pdf);
 
     // 支払機関情報
-    $this->fillPaymentInstitutionSection($pdf, $clinicInfo);
+    $this->fillPaymentInstitutionSection($pdf, $clinicInfo, $data['service_year_month'] ?? '');
 
     // 被保険者情報（空白フラグが立っている場合はスキップ）
     if (!$this->blankInsuredName) {

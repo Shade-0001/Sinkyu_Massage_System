@@ -41,7 +41,7 @@ class PowerOfAttorneyApplicationPdfService extends BasePdfService
     $pdf->SetFont('kozgopromedium', '', 10);
 
     // 事業所情報取得
-    $clinicInfo = DB::table('clinic_info')->orderByDesc('id')->first();
+    $clinicInfo = $this->getClinicInfoForDate($serviceYearMonth . '-01');
 
     // 1. 事業所住所
     if ($this->hasCoord('clinic_address')) {

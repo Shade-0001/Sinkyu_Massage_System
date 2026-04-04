@@ -205,7 +205,7 @@ class TreatmentReceiptPdfService
       ->first();
 
     // 施術所情報
-    $clinicInfo = DB::table('clinic_info')->orderByDesc('id')->first();
+    $clinicInfo = $this->getClinicInfoForDate($serviceYearMonth . '-01');
 
     return [
       'clinicUser' => $clinicUser,

@@ -1170,12 +1170,13 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
   // ============================================================
   // fillPaymentInstitutionSection (行 1268-1404)
   // ============================================================
-  protected function fillPaymentInstitutionSection($pdf, $clinicInfo): void
+  protected function fillPaymentInstitutionSection($pdf, $clinicInfo, string $serviceYearMonth = ''): void
   {
     // clinic_infoテーブルから銀行口座情報を取得（ノーマルモード用）
     $clinicInfoData = null;
     if (!$this->sampleDataMode) {
-      $clinicInfoData = DB::table('clinic_info')->orderByDesc('id')->first();
+      $referenceDate  = $serviceYearMonth ? $serviceYearMonth . '-01' : date('Y-m-d');
+      $clinicInfoData = $this->getClinicInfoForDate($referenceDate);
     }
 
     // === 支払機関情報 ===
