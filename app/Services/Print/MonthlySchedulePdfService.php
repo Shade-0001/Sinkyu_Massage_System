@@ -71,7 +71,7 @@ class MonthlySchedulePdfService extends BasePdfService
     $monthDates = $this->buildMonthDates($yearMonth);
     $records    = $this->fetchMonthRecords($yearMonth, $therapistId);
     $timeSlots  = $this->fetchTimeSlots($yearMonth . '-01');
-    $closedDays = $this->fetchClosedDays($yearMonth);
+    $closedDays = $this->fetchClosedDays($yearMonth, $monthDates);
 
     $pdf->AddPage();
     $this->renderPage($pdf, $yearMonth, $monthDates, $records, $timeSlots, $outputDate, $therapistId, $closedDays);
@@ -313,7 +313,7 @@ class MonthlySchedulePdfService extends BasePdfService
     $isSmallCol = [];
     foreach ($monthDates as $dateStr) {
       $dow = (int)(new \DateTime($dateStr))->format('w');
-      $isSmallCol[$dateStr] = ($closedDays[$dow] ?? false) || empty($records[$dateStr]);
+      $isSmallCol[$dateStr] = ($closedDays[$dateStr] ?? false) || empty($records[$dateStr]);
     }
 
     // ヘッダーテキスト最大幅からヘッダー圧迫しない最小列幅を算出
@@ -373,9 +373,7 @@ class MonthlySchedulePdfService extends BasePdfService
     for ($dayIdx = 0; $dayIdx < $dayCount; $dayIdx++) {
       $dateKey  = $monthDates[$dayIdx];
       $colW     = $colWidths[$dayIdx + 1];
-      $dateObj  = new \DateTime($dateKey);
-      $dow      = (int)$dateObj->format('w'); // 0=日〜6=土
-      if ($closedDays[$dow] ?? false) {
+      if ($closedDays[$dateKey] ?? false) {
         $this->drawClosedDayColumn($pdf, $x, $bodyStartY, $colW, $tableH, $rowH);
       } elseif (!empty($records[$dateKey])) {
         $this->drawDayEvents($pdf, $records[$dateKey], $timeSlots, $x, $bodyStartY, $colW, $rowH);
@@ -861,23 +859,16 @@ class MonthlySchedulePdfService extends BasePdfService
   /**
    * 定休日情報を取得
    *
-   * 月初日（$yearMonth-01）以前で最も新しい clinic_info を参照する。
+   * 各日付時点で有効な clinic_info を参照し、日付ごとに正確な定休判定を行う。
    *
    * @param string $yearMonth  Y-m形式
-   * @return array  曜日番号(0=日〜6=土) => bool(true=定休)
+   * @param array  $monthDates  Y-m-d形式の日付配列
+   * @return array  日付(Y-m-d) => bool(true=定休)
    */
-  protected function fetchClosedDays(string $yearMonth): array
+  protected function fetchClosedDays(string $yearMonth, array $monthDates): array
   {
-    $firstDayOfMonth = $yearMonth . '-01';
-
-    $info = DB::table('clinic_info')
-      ->where('created_at', '<=', $firstDayOfMonth . ' 23:59:59')
-      ->orderByDesc('created_at')
-      ->first();
-
-    if (!$info) {
-      $info = DB::table('clinic_info')->orderBy('created_at')->first();
-    }
+    $allClinicInfos = DB::table('clinic_info')->orderBy('created_at')->get();
+    $oldest         = $allClinicInfos->first();
 
     $map = [
       0 => 'closed_day_sunday',
@@ -890,8 +881,18 @@ class MonthlySchedulePdfService extends BasePdfService
     ];
 
     $result = [];
-    foreach ($map as $dow => $col) {
-      $result[$dow] = $info ? (bool)($info->$col ?? false) : false;
+    foreach ($monthDates as $dateStr) {
+      $dateTs  = strtotime($dateStr . ' 23:59:59');
+      $matched = null;
+      foreach ($allClinicInfos as $info) {
+        if (strtotime($info->created_at) <= $dateTs) {
+          $matched = $info;
+        }
+      }
+      $info = $matched ?? $oldest;
+      $dow  = (int)(new \DateTime($dateStr))->format('w');
+      $col  = $map[$dow];
+      $result[$dateStr] = $info ? (bool)($info->$col ?? false) : false;
     }
     return $result;
   }

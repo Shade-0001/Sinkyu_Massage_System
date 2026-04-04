@@ -69,7 +69,7 @@ class WeeklySchedulePdfService extends BasePdfService
     $weekDates  = $this->buildWeekDates($weekStartDate);
     $records    = $this->fetchWeekRecords($weekDates, $therapistId);
     $timeSlots  = $this->fetchTimeSlots($weekStartDate);
-    $closedDays = $this->fetchClosedDays($weekStartDate);
+    $closedDays = $this->fetchClosedDays($weekStartDate, $weekDates);
 
     $pdf->AddPage();
     $this->renderPage($pdf, $weekDates, $records, $timeSlots, $outputDate, $therapistId, $closedDays);
@@ -326,8 +326,7 @@ class WeeklySchedulePdfService extends BasePdfService
     // 定休日列の縮小分を非定休日列に再配分
     $closedCount = 0;
     foreach ($weekDates as $dateKey) {
-      $dow = (int)(new \DateTime($dateKey))->format('w');
-      if ($closedDays[$dow] ?? false) $closedCount++;
+      if ($closedDays[$dateKey] ?? false) $closedCount++;
     }
     $openCount  = 7 - $closedCount;
     $savedW     = $closedCount > 0 ? ($restW / 7 - $closedColMinW) * $closedCount : 0;
@@ -336,8 +335,7 @@ class WeeklySchedulePdfService extends BasePdfService
     $colWidths = [$timeColW];
     $openUsed  = 0;
     for ($i = 0; $i < 7; $i++) {
-      $dow = (int)(new \DateTime($weekDates[$i]))->format('w');
-      if ($closedDays[$dow] ?? false) {
+      if ($closedDays[$weekDates[$i]] ?? false) {
         $colWidths[] = $closedColMinW;
       } else {
         $openUsed++;
@@ -373,9 +371,7 @@ class WeeklySchedulePdfService extends BasePdfService
     for ($dayIdx = 0; $dayIdx < 7; $dayIdx++) {
       $dateKey    = $weekDates[$dayIdx];
       $colW       = $colWidths[$dayIdx + 1];
-      $dateObj    = new \DateTime($dateKey);
-      $dow        = (int)$dateObj->format('w'); // 0=日〜6=土
-      $isClosed   = $closedDays[$dow] ?? false;
+      $isClosed   = $closedDays[$dateKey] ?? false;
 
       if ($isClosed) {
         $tableH = count($timeSlots) * $rowH;
@@ -877,21 +873,16 @@ class WeeklySchedulePdfService extends BasePdfService
   /**
    * 定休日情報を取得
    *
-   * 週開始日（$weekStartDate）以前で最も新しい clinic_info を参照する。
+   * 各日付時点で有効な clinic_info を参照し、日付ごとに正確な定休判定を行う。
    *
    * @param string $weekStartDate  Y-m-d形式
-   * @return array  曜日番号(0=日〜6=土) => bool(true=定休)
+   * @param array  $weekDates  Y-m-d形式の日付配列
+   * @return array  日付(Y-m-d) => bool(true=定休)
    */
-  protected function fetchClosedDays(string $weekStartDate): array
+  protected function fetchClosedDays(string $_weekStartDate, array $weekDates): array
   {
-    $info = DB::table('clinic_info')
-      ->where('created_at', '<=', $weekStartDate . ' 23:59:59')
-      ->orderByDesc('created_at')
-      ->first();
-
-    if (!$info) {
-      $info = DB::table('clinic_info')->orderBy('created_at')->first();
-    }
+    $allClinicInfos = DB::table('clinic_info')->orderBy('created_at')->get();
+    $oldest         = $allClinicInfos->first();
 
     $map = [
       0 => 'closed_day_sunday',
@@ -904,8 +895,18 @@ class WeeklySchedulePdfService extends BasePdfService
     ];
 
     $result = [];
-    foreach ($map as $dow => $col) {
-      $result[$dow] = $info ? (bool)($info->$col ?? false) : false;
+    foreach ($weekDates as $dateStr) {
+      $dateTs  = strtotime($dateStr . ' 23:59:59');
+      $matched = null;
+      foreach ($allClinicInfos as $info) {
+        if (strtotime($info->created_at) <= $dateTs) {
+          $matched = $info;
+        }
+      }
+      $info = $matched ?? $oldest;
+      $dow  = (int)(new \DateTime($dateStr))->format('w');
+      $col  = $map[$dow];
+      $result[$dateStr] = $info ? (bool)($info->$col ?? false) : false;
     }
     return $result;
   }
