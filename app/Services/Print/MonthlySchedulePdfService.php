@@ -260,8 +260,10 @@ class MonthlySchedulePdfService extends BasePdfService
     $gapX2 = $gapX + $squareSize + $labelMasW + 5;
 
     // グレー正方形（定休日）
+    $pdf->setAlpha(0.6);
     $pdf->SetFillColor(...self::CLOSED_DAY_COLOR);
     $pdf->RoundedRect($gapX2, $squareY, $squareSize, $squareSize, 0.4, '1111', 'F');
+    $pdf->setAlpha(1);
     $pdf->SetTextColor(0, 0, 0);
     $textClosedX = $gapX2 + $squareSize * 0.5;
     $pdf->SetFont('kozgopromedium', '', 9 * 1.5);

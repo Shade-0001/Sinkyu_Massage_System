@@ -28,7 +28,7 @@ class WeeklySchedulePdfService extends BasePdfService
   // イベント矩形の色（あんま・マッサージ）
   const EVENT_COLOR_MASSAGE     = [230, 126, 34];   // #e67e22
   // 定休日列の色
-  const CLOSED_DAY_COLOR        = [160, 160, 160];  // #a0a0a0
+  const CLOSED_DAY_COLOR        = [60, 60, 60];  // #3c3c3c
 
   protected function getDefaultCoordinatesPath(): string
   {
@@ -261,8 +261,10 @@ class WeeklySchedulePdfService extends BasePdfService
     $gapX2 = $gapX + $squareSize + $labelMasW + 5;
 
     // グレー正方形（定休日）
+    $pdf->setAlpha(0.6);
     $pdf->SetFillColor(...self::CLOSED_DAY_COLOR);
     $pdf->RoundedRect($gapX2, $squareY, $squareSize, $squareSize, 0.4, '1111', 'F');
+    $pdf->setAlpha(1);
     // テキスト
     $pdf->SetTextColor(0, 0, 0);
     $textClosedX = $gapX2 + $squareSize * 0.5;
