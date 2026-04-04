@@ -70,7 +70,7 @@ class MonthlySchedulePdfService extends BasePdfService
 
     $monthDates = $this->buildMonthDates($yearMonth);
     $records    = $this->fetchMonthRecords($yearMonth, $therapistId);
-    $timeSlots  = $this->fetchTimeSlots();
+    $timeSlots  = $this->fetchTimeSlots($yearMonth . '-01');
     $closedDays = $this->fetchClosedDays($yearMonth);
 
     $pdf->AddPage();
@@ -143,10 +143,18 @@ class MonthlySchedulePdfService extends BasePdfService
 
   /**
    * 営業時間からの時刻スロット取得（30分刻み）
+   *
+   * @param string $referenceDate  Y-m-d形式（その時点で有効な clinic_info を参照）
    */
-  protected function fetchTimeSlots(): array
+  protected function fetchTimeSlots(string $referenceDate): array
   {
-    $clinicInfo = DB::table('clinic_info')->orderByDesc('id')->first();
+    $clinicInfo = DB::table('clinic_info')
+      ->where('created_at', '<=', $referenceDate . ' 23:59:59')
+      ->orderByDesc('created_at')
+      ->first();
+    if (!$clinicInfo) {
+      $clinicInfo = DB::table('clinic_info')->orderBy('created_at')->first();
+    }
     $startTime  = $clinicInfo->business_hours_start ?? '09:00:00';
     $endTime    = $clinicInfo->business_hours_end   ?? '18:00:00';
 

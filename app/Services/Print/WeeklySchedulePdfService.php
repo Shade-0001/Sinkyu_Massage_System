@@ -68,7 +68,7 @@ class WeeklySchedulePdfService extends BasePdfService
 
     $weekDates  = $this->buildWeekDates($weekStartDate);
     $records    = $this->fetchWeekRecords($weekDates, $therapistId);
-    $timeSlots  = $this->fetchTimeSlots();
+    $timeSlots  = $this->fetchTimeSlots($weekStartDate);
     $closedDays = $this->fetchClosedDays($weekStartDate);
 
     $pdf->AddPage();
@@ -139,11 +139,18 @@ class WeeklySchedulePdfService extends BasePdfService
   /**
    * 営業時間からの時刻スロット取得（30分刻み）
    *
+   * @param string $referenceDate  Y-m-d形式（その時点で有効な clinic_info を参照）
    * @return array  ['HH:MM', ...]
    */
-  protected function fetchTimeSlots(): array
+  protected function fetchTimeSlots(string $referenceDate): array
   {
-    $clinicInfo = DB::table('clinic_info')->orderByDesc('id')->first();
+    $clinicInfo = DB::table('clinic_info')
+      ->where('created_at', '<=', $referenceDate . ' 23:59:59')
+      ->orderByDesc('created_at')
+      ->first();
+    if (!$clinicInfo) {
+      $clinicInfo = DB::table('clinic_info')->orderBy('created_at')->first();
+    }
     $startTime  = $clinicInfo->business_hours_start ?? '09:00:00';
     $endTime    = $clinicInfo->business_hours_end   ?? '18:00:00';
 
