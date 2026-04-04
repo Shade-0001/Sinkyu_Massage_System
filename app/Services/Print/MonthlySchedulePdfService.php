@@ -519,31 +519,58 @@ class MonthlySchedulePdfService extends BasePdfService
       ];
     }
 
-    $slotGroups = [];
-    foreach ($events as $ev) {
-      $slotGroups[$ev['slotIdx']][] = $ev;
+    // 開始スロット順にソート
+    usort($events, fn($a, $b) => $a['slotIdx'] <=> $b['slotIdx']);
+
+    // 各イベントに列インデックスを割り当て（重複するイベントを列分割）
+    $assigned = [];
+    $colEnds  = [];
+
+    foreach ($events as $i => $ev) {
+      $start = $ev['slotIdx'];
+      $end   = $ev['slotIdx'] + $ev['spanSlots'];
+      $colIdx = 0;
+      while (isset($colEnds[$colIdx]) && $colEnds[$colIdx] > $start) {
+        $colIdx++;
+      }
+      $colEnds[$colIdx] = $end;
+      $assigned[$i]     = ['colIdx' => $colIdx, 'colTotal' => 0];
     }
 
-    foreach ($slotGroups as $slotIdx => $group) {
-      $count  = count($group);
-      $eventW = $colW / $count;
-
-      foreach ($group as $subIdx => $ev) {
-        $rec       = $ev['rec'];
-        $spanSlots = $ev['spanSlots'];
-        $eventX    = $colX + $subIdx * $eventW;
-        $eventY    = $bodyStartY + $slotIdx * $rowH;
-        $eventH    = $spanSlots * $rowH;
-
-        if ($eventY + $eventH > $tableEndY) {
-          $eventH = $tableEndY - $eventY;
+    // 各イベントの colTotal を「重複する全イベントの最大列数」で確定
+    foreach ($events as $i => $ev) {
+      $start  = $ev['slotIdx'];
+      $end    = $ev['slotIdx'] + $ev['spanSlots'];
+      $maxCol = $assigned[$i]['colIdx'] + 1;
+      foreach ($events as $j => $other) {
+        if ($i === $j) continue;
+        $oStart = $other['slotIdx'];
+        $oEnd   = $other['slotIdx'] + $other['spanSlots'];
+        if ($oStart < $end && $oEnd > $start) {
+          $maxCol = max($maxCol, $assigned[$j]['colIdx'] + 1);
         }
-        if ($eventH <= 0) {
-          continue;
-        }
-
-        $this->drawEventRect($pdf, $rec, $eventX, $eventY, $eventW, $eventH, $count);
       }
+      $assigned[$i]['colTotal'] = $maxCol;
+    }
+
+    foreach ($events as $i => $ev) {
+      $rec       = $ev['rec'];
+      $spanSlots = $ev['spanSlots'];
+      $colIdx    = $assigned[$i]['colIdx'];
+      $colTotal  = $assigned[$i]['colTotal'];
+      $eventW    = $colW / $colTotal;
+      $eventX    = $colX + $colIdx * $eventW;
+      $eventY    = $bodyStartY + $ev['slotIdx'] * $rowH;
+      $eventH    = $spanSlots * $rowH;
+
+      if ($eventY + $eventH > $tableEndY) {
+        $eventH = $tableEndY - $eventY;
+      }
+      if ($eventH <= 0) {
+        continue;
+      }
+
+      $this->drawEventRect($pdf, $rec, $eventX, $eventY, $eventW, $eventH, $colTotal);
     }
   }
 
