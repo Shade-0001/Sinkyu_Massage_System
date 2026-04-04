@@ -321,7 +321,7 @@ class WeeklySchedulePdfService extends BasePdfService
       $label   = $dateObj->format('n') . '/' . $dateObj->format('j') . ' (' . $dayNames[(int)$dateObj->format('w')] . ')';
       $maxHeaderTextW = max($maxHeaderTextW, $pdf->GetStringWidth($label));
     }
-    $closedColMinW = ceil(($maxHeaderTextW + 1.0) * 10) / 10; // 左右0.5mmずつ余白
+    $closedColMinW = ceil(($maxHeaderTextW + 2.0) * 10) / 10; // 左右1.0mmずつ余白
 
     // 定休日列の縮小分を非定休日列に再配分
     $closedCount = 0;
