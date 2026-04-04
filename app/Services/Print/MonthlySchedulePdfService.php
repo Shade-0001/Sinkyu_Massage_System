@@ -581,7 +581,7 @@ class MonthlySchedulePdfService extends BasePdfService
       $nameFontSize -= 0.5;
     }
 
-    // 4行モード：FONT_MINで4行が収まるなら使用（氏名は1行分で判定）
+    // 時刻3行モード（開始・区切り・終了）：FONT_MINで3行＋氏名1行が収まるなら使用
     $lineH4test     = self::FONT_MIN * 0.352 + 0.3;
     $nameLineH4test = self::FONT_MIN * 0.352 + 0.3;
     $neededH4       = $lineH4test * 3 + $nameLineH4test;
@@ -603,7 +603,7 @@ class MonthlySchedulePdfService extends BasePdfService
         }
         $fontSize -= 0.5;
       }
-      // 4行モードでもFONT_MIN未満になるなら2行モードへフォールバック
+      // 時刻3行モードでもFONT_MIN未満になるなら時刻1行モードへフォールバック
       if ($fontSize < self::FONT_MIN) {
         $use3Lines = false;
         $fontSize  = self::FONT_MIN;

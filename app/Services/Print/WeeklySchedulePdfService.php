@@ -596,7 +596,7 @@ class WeeklySchedulePdfService extends BasePdfService
     $endText   = $this->formatHHMM($rec['end_time']);
     $nameText  = ($rec['last_name'] ?? '') . " " . ($rec['first_name'] ?? '');
 
-    // 氏名フォントサイズ（フルネーム1行基準で幅から決定、20ptから下げる）
+    // 氏名フォントサイズ（フルネーム1行基準で幅から決定）
     $nameCharCount = mb_strlen($rec['last_name'] ?? '') + mb_strlen($rec['first_name'] ?? '');
     $nameRefText1  = $nameCharCount >= 4 ? $nameText : 'アア アア';
     $nameFontSize  = 11.0;
@@ -608,8 +608,8 @@ class WeeklySchedulePdfService extends BasePdfService
       $nameFontSize -= 0.5;
     }
 
-    // 4行モード：FONT_MINで4行が収まるなら使用（氏名は1行分で判定）
-    // ただしcolCount<=1かつスロット数<=18かつ1スロットイベントは2行モード固定
+    // 時刻3行モード（開始・区切り・終了）：FONT_MINで3行＋氏名1行が収まるなら使用
+    // ただしcolCount<=1かつスロット数<=18かつ1スロットイベントは時刻1行モード固定
     $lineH4test     = self::FONT_MIN * 0.352 + 0.3;
     $nameLineH4test = self::FONT_MIN * 0.352 + 0.3;
     $neededH4       = $lineH4test * 3 + $nameLineH4test;
@@ -632,7 +632,7 @@ class WeeklySchedulePdfService extends BasePdfService
         }
         $fontSize -= 0.5;
       }
-      // 4行モードでもFONT_MIN未満になるなら2行モードへフォールバック
+      // 時刻3行モードでもFONT_MIN未満になるなら時刻1行モードへフォールバック
       if ($fontSize < self::FONT_MIN) {
         $use3Lines = false;
         $fontSize  = self::FONT_MIN;
