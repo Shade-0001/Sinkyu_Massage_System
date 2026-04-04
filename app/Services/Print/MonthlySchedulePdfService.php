@@ -712,6 +712,12 @@ class MonthlySchedulePdfService extends BasePdfService
         $nameFontSize = $nameFontSize1Line;
       } else {
         $nameLineH = $nameFontSize * 0.352 + 0.3;
+        // 再計算後のnameLineHで実際に2行が収まるか再チェック
+        if ($remainH < $nameLineH * 2) {
+          $splitName    = false;
+          $nameFontSize = $nameFontSize1Line;
+          $nameLineH    = $nameFontSize * 0.352 + 0.3;
+        }
       }
     }
 
