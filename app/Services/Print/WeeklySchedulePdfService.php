@@ -749,16 +749,26 @@ class WeeklySchedulePdfService extends BasePdfService
     $innerW   = $colW - $padding * 2;
     $innerH   = $tableH - $padding * 2;
     $chars    = ['定', '休', '日'];
-    // フォントサイズ：列幅の半分を上限に、3行（行間1文字）が収まるサイズに動的調整
-    $fontSize = min($colW / 2, 8.0);
+    $targetW  = $innerW / 2; // 文字幅の目標：列幅の半分
     $minFont  = 2.0;
 
+    // 文字幅がtargetWになるフォントサイズを二分探索で求める
+    $lo = $minFont;
+    $hi = 40.0;
+    for ($iter = 0; $iter < 20; $iter++) {
+      $mid = ($lo + $hi) / 2;
+      $pdf->SetFont('kozgopromedium', 'B', $mid);
+      $pdf->GetStringWidth('定') < $targetW ? $lo = $mid : $hi = $mid;
+    }
+    $fontSize = $lo;
+
+    // 3行（行間1文字）が縦に収まるか確認し、収まらなければ縮小
     while ($fontSize > $minFont) {
       $pdf->SetFont('kozgopromedium', 'B', $fontSize);
       $charW   = $pdf->GetStringWidth('定');
       $lineH   = $charW * 2; // 文字高さ＋1文字分の行間
       $totalTH = $charW + $lineH * 2; // 先頭文字分 + 残り2行（lineH間隔）
-      if ($totalTH <= $innerH && $charW <= $innerW) {
+      if ($totalTH <= $innerH) {
         break;
       }
       $fontSize -= 0.5;
