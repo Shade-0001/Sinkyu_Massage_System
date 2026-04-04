@@ -599,7 +599,7 @@ class WeeklySchedulePdfService extends BasePdfService
     // 氏名フォントサイズ（フルネーム1行基準で幅から決定、20ptから下げる）
     $nameCharCount = mb_strlen($rec['last_name'] ?? '') + mb_strlen($rec['first_name'] ?? '');
     $nameRefText1  = $nameCharCount >= 4 ? $nameText : 'アア アア';
-    $nameFontSize  = 10.0;
+    $nameFontSize  = 11.0;
     while ($nameFontSize > self::FONT_MIN) {
       $pdf->SetFont('kozgopromedium', 'B', $nameFontSize);
       if ($pdf->GetStringWidth($nameRefText1) <= $innerW) {
@@ -668,7 +668,7 @@ class WeeklySchedulePdfService extends BasePdfService
       if (mb_strlen($nameRefText2) < 2) {
         $nameRefText2 = 'アア';
       }
-      $nameFontSize = 20.0;
+      $nameFontSize = 11.0;
       while ($nameFontSize > self::FONT_MIN) {
         $pdf->SetFont('kozgopromedium', 'B', $nameFontSize);
         if ($pdf->GetStringWidth($nameRefText2) <= $innerW) {
