@@ -314,7 +314,7 @@ class MonthlySchedulePdfService extends BasePdfService
     $maxHeaderTextW = 0;
     foreach ($monthDates as $dateStr) {
       $dateObj = new \DateTime($dateStr);
-      $label   = $dateObj->format('j') . ' (' . $dayNames[(int)$dateObj->format('w')] . ')';
+      $label   = $dateObj->format('j') . '(' . $dayNames[(int)$dateObj->format('w')] . ')';
       $maxHeaderTextW = max($maxHeaderTextW, $pdf->GetStringWidth($label));
     }
     $closedColMinW = ceil(($maxHeaderTextW + 1.0) * 10) / 10; // 左右0.5mmずつ余白
@@ -358,7 +358,7 @@ class MonthlySchedulePdfService extends BasePdfService
       : self::ROW_H;
 
     // ---- ヘッダー行 ----
-    $this->drawTableHeader($pdf, $monthDates, $colWidths, $startX, $startY, $headerH);
+    $this->drawTableHeader($pdf, $monthDates, $colWidths, $startX, $startY, $headerH, $closedDays);
 
     $bodyStartY = $startY + $headerH;
 
@@ -398,7 +398,8 @@ class MonthlySchedulePdfService extends BasePdfService
     array $colWidths,
     float $startX,
     float $startY,
-    float $headerH
+    float $headerH,
+    array $closedDays = []
   ): void {
     $dayNames = ['日', '月', '火', '水', '木', '金', '土'];
     $fontPt   = self::FONT_MIN + 1; // 6pt
@@ -418,7 +419,10 @@ class MonthlySchedulePdfService extends BasePdfService
       $dateObj = new \DateTime($dateStr);
       $dow     = (int)$dateObj->format('w'); // 0=日, 6=土
       $day     = (int)$dateObj->format('j');
-      $label   = $day . ' (' . $dayNames[$dow] . ')';
+      $isClosed = $closedDays[$dow] ?? false;
+      $label    = $isClosed
+        ? $day . '(' . $dayNames[$dow] . ')'
+        : $day . ' (' . $dayNames[$dow] . ')';
       $colW    = $colWidths[$idx + 1];
 
       if ($dow === 0) {
