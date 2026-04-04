@@ -563,7 +563,7 @@ class MonthlySchedulePdfService extends BasePdfService
     $textPaddingX = $colCount >= 2 ? 0.3 : 0.0;
     $innerH       = $eventH - $padding * 2;
     $innerW       = $eventW - $textPaddingX * 2;
-    $fontSize     = self::FONT_MIN;
+    $fontSize     = 20.0;
 
     $startText = $this->formatHHMM($rec['start_time']);
     $endText   = $this->formatHHMM($rec['end_time']);

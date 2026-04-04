@@ -22,7 +22,7 @@ class WeeklySchedulePdfService extends BasePdfService
   const ROW_H       = 12;   // 各スロット行の高さ mm（9ptフォント2行対応）
   const HEADER_H    = 7;    // テーブルヘッダー行高 mm
   const SLOT_MIN    = 30;   // スロット単位（分）
-  const FONT_MIN    = 9;    // 最低フォントサイズ pt（PDF出力日時を除く）
+  const FONT_MIN    = 6;    // 最低フォントサイズ pt（PDF出力日時を除く）
   // イベント矩形の色（はり・きゅう）
   const EVENT_COLOR_ACUPUNCTURE = [31, 145, 206];   // #1f91ce
   // イベント矩形の色（あんま・マッサージ）
@@ -590,7 +590,7 @@ class WeeklySchedulePdfService extends BasePdfService
     $textPaddingX = $colCount >= 3 ? 0.5 : 1;
     $innerH       = $eventH - $padding * 2;
     $innerW       = $eventW - $textPaddingX * 2;
-    $fontSize     = self::FONT_MIN;
+    $fontSize     = 20.0;
 
     $startText = $this->formatHHMM($rec['start_time']);
     $endText   = $this->formatHHMM($rec['end_time']);
