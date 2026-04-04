@@ -27,6 +27,8 @@ class WeeklySchedulePdfService extends BasePdfService
   const EVENT_COLOR_ACUPUNCTURE = [31, 145, 206];   // #1f91ce
   // イベント矩形の色（あんま・マッサージ）
   const EVENT_COLOR_MASSAGE     = [230, 126, 34];   // #e67e22
+  // 定休日列の色
+  const CLOSED_DAY_COLOR        = [160, 160, 160];  // #a0a0a0
 
   protected function getDefaultCoordinatesPath(): string
   {
@@ -64,12 +66,13 @@ class WeeklySchedulePdfService extends BasePdfService
 
     $outputDate = date('Y-m-d H:i:s');
 
-    $weekDates = $this->buildWeekDates($weekStartDate);
-    $records   = $this->fetchWeekRecords($weekDates, $therapistId);
-    $timeSlots = $this->fetchTimeSlots();
+    $weekDates  = $this->buildWeekDates($weekStartDate);
+    $records    = $this->fetchWeekRecords($weekDates, $therapistId);
+    $timeSlots  = $this->fetchTimeSlots();
+    $closedDays = $this->fetchClosedDays($weekStartDate);
 
     $pdf->AddPage();
-    $this->renderPage($pdf, $weekDates, $records, $timeSlots, $outputDate, $therapistId);
+    $this->renderPage($pdf, $weekDates, $records, $timeSlots, $outputDate, $therapistId, $closedDays);
 
     return $pdf->Output('', 'S');
   }
@@ -181,7 +184,8 @@ class WeeklySchedulePdfService extends BasePdfService
     array   $records,
     array   $timeSlots,
     string  $outputDate,
-    ?string $therapistId
+    ?string $therapistId,
+    array   $closedDays = []
   ): void {
     $startX    = self::MARGIN_X;
     $availW    = self::AVAILABLE_W;
@@ -244,6 +248,21 @@ class WeeklySchedulePdfService extends BasePdfService
     $pdf->Text($textMasX, $legendY - 1.6, '：');
     $pdf->SetFont('kozgopromedium', '', self::FONT_MIN);
     $pdf->Text($textMasX + $colonW * 0.8, $legendY, 'あんま・マッサージ');
+    $labelMasW = $colonW + $pdf->GetStringWidth('あんま・マッサージ');
+
+    // 区切りスペース（定休日）
+    $gapX2 = $gapX + $squareSize + $labelMasW + 5;
+
+    // グレー正方形（定休日）
+    $pdf->SetFillColor(...self::CLOSED_DAY_COLOR);
+    $pdf->RoundedRect($gapX2, $squareY, $squareSize, $squareSize, 0.4, '1111', 'F');
+    // テキスト
+    $pdf->SetTextColor(0, 0, 0);
+    $textClosedX = $gapX2 + $squareSize * 0.5;
+    $pdf->SetFont('kozgopromedium', '', self::FONT_MIN * 1.5);
+    $pdf->Text($textClosedX, $legendY - 1.6, '：');
+    $pdf->SetFont('kozgopromedium', '', self::FONT_MIN);
+    $pdf->Text($textClosedX + $colonW * 0.8, $legendY, '定休日');
 
     // ---- 施術担当者（期間テキスト下・右揃え） ----
     $therapist = $this->fetchTherapist($therapistId);
@@ -259,7 +278,7 @@ class WeeklySchedulePdfService extends BasePdfService
 
     // ---- テーブル ----
     $tableStartY = 27;
-    $this->drawTable($pdf, $weekDates, $records, $timeSlots, $startX, $tableStartY, $availW);
+    $this->drawTable($pdf, $weekDates, $records, $timeSlots, $startX, $tableStartY, $availW, $closedDays);
   }
 
   /**
@@ -276,7 +295,8 @@ class WeeklySchedulePdfService extends BasePdfService
     array  $timeSlots,
     float  $startX,
     float  $startY,
-    float  $availW
+    float  $availW,
+    array  $closedDays = []
   ): void {
     $dayNames = ['日', '月', '火', '水', '木', '金', '土'];
 
@@ -312,12 +332,20 @@ class WeeklySchedulePdfService extends BasePdfService
     // ---- 各日列のイベントスクエアを描画（枠線の上に重ねる） ----
     $x = $startX + $timeColW;
     for ($dayIdx = 0; $dayIdx < 7; $dayIdx++) {
-      $dateKey = $weekDates[$dayIdx];
-      $colW    = $colWidths[$dayIdx + 1];
-      $dayRecords = $records[$dateKey] ?? [];
+      $dateKey    = $weekDates[$dayIdx];
+      $colW       = $colWidths[$dayIdx + 1];
+      $dateObj    = new \DateTime($dateKey);
+      $dow        = (int)$dateObj->format('w'); // 0=日〜6=土
+      $isClosed   = $closedDays[$dow] ?? false;
 
-      if (!empty($dayRecords)) {
-        $this->drawDayEvents($pdf, $dayRecords, $timeSlots, $x, $bodyStartY, $colW, $rowH);
+      if ($isClosed) {
+        $tableH = count($timeSlots) * $rowH;
+        $this->drawClosedDayColumn($pdf, $x, $bodyStartY, $colW, $tableH, $rowH);
+      } else {
+        $dayRecords = $records[$dateKey] ?? [];
+        if (!empty($dayRecords)) {
+          $this->drawDayEvents($pdf, $dayRecords, $timeSlots, $x, $bodyStartY, $colW, $rowH);
+        }
       }
 
       $x += $colW;
@@ -681,6 +709,104 @@ class WeeklySchedulePdfService extends BasePdfService
     }
 
     $pdf->SetTextColor(0, 0, 0);
+  }
+
+  /**
+   * 定休日列を描画（グレー矩形＋「定」「休」「日」3行テキスト）
+   */
+  protected function drawClosedDayColumn(
+    Fpdi  $pdf,
+    float $colX,
+    float $bodyStartY,
+    float $colW,
+    float $tableH,
+    float $rowH
+  ): void {
+    $padding = 0.5;
+
+    // グレー矩形（列全体）
+    $pdf->SetFillColor(...self::CLOSED_DAY_COLOR);
+    $pdf->RoundedRect(
+      $colX + $padding,
+      $bodyStartY + $padding,
+      $colW - $padding * 2,
+      $tableH - $padding * 2,
+      0.4,
+      '1111',
+      'F'
+    );
+
+    // 「定」「休」「日」を中央に3行描画
+    $innerW   = $colW - $padding * 2;
+    $innerH   = $tableH - $padding * 2;
+    $chars    = ['定', '休', '日'];
+    $fontSize = min(self::FONT_MIN * 1.5, 8.0);
+    $minFont  = 2.0;
+
+    // 3行が収まるフォントサイズを決定
+    while ($fontSize > $minFont) {
+      $pdf->SetFont('kozgopromedium', 'B', $fontSize);
+      $lineH    = $fontSize * 0.352 + 0.5;
+      $totalTH  = $lineH * 3;
+      $charW    = $pdf->GetStringWidth('定');
+      if ($totalTH <= $innerH && $charW <= $innerW) {
+        break;
+      }
+      $fontSize -= 0.5;
+    }
+
+    $lineH    = $fontSize * 0.352 + 0.5;
+    $totalTH  = $lineH * 3;
+    $startY   = $bodyStartY + $padding + ($innerH - $totalTH) / 2;
+    $baseX    = $colX + $padding;
+
+    $pdf->SetFont('kozgopromedium', 'B', $fontSize);
+    $pdf->SetTextColor(255, 255, 255);
+    $pdf->setCellPaddings(0, 0, 0, 0);
+
+    foreach ($chars as $i => $char) {
+      $pdf->SetXY($baseX, $startY + $i * $lineH);
+      $pdf->Cell($innerW, 0, $char, 0, 0, 'C', false);
+    }
+
+    $pdf->SetTextColor(0, 0, 0);
+    $pdf->SetLineStyle(['width' => 0.2, 'dash' => 0, 'color' => [0, 0, 0]]);
+  }
+
+  /**
+   * 定休日情報を取得
+   *
+   * 週開始日（$weekStartDate）以前で最も新しい clinic_info を参照する。
+   *
+   * @param string $weekStartDate  Y-m-d形式
+   * @return array  曜日番号(0=日〜6=土) => bool(true=定休)
+   */
+  protected function fetchClosedDays(string $weekStartDate): array
+  {
+    $info = DB::table('clinic_info')
+      ->where('created_at', '<=', $weekStartDate . ' 23:59:59')
+      ->orderByDesc('created_at')
+      ->first();
+
+    if (!$info) {
+      $info = DB::table('clinic_info')->orderBy('created_at')->first();
+    }
+
+    $map = [
+      0 => 'closed_day_sunday',
+      1 => 'closed_day_monday',
+      2 => 'closed_day_tuesday',
+      3 => 'closed_day_wednesday',
+      4 => 'closed_day_thursday',
+      5 => 'closed_day_friday',
+      6 => 'closed_day_saturday',
+    ];
+
+    $result = [];
+    foreach ($map as $dow => $col) {
+      $result[$dow] = $info ? (bool)($info->$col ?? false) : false;
+    }
+    return $result;
   }
 
   /**
