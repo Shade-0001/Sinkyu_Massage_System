@@ -720,6 +720,7 @@ class MonthlySchedulePdfService extends BasePdfService
     $padding = 0.3;
 
     // グレー矩形（列全体）
+    $pdf->setAlpha(0.4);
     $pdf->SetFillColor(...self::CLOSED_DAY_COLOR);
     $pdf->RoundedRect(
       $colX + $padding,
@@ -730,6 +731,7 @@ class MonthlySchedulePdfService extends BasePdfService
       '1111',
       'F'
     );
+    $pdf->setAlpha(1);
 
     // 「定」「休」「日」を中央に3行描画
     $innerW   = $colW - $padding * 2;
