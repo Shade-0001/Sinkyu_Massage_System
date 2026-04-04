@@ -24,7 +24,7 @@ class MonthlySchedulePdfService extends BasePdfService
   const ROW_H       = 10;   // 各スロット行の高さ mm（基準値）
   const HEADER_H    = 6;    // テーブルヘッダー行高 mm
   const SLOT_MIN    = 30;   // スロット単位（分）
-  const FONT_MIN    = 5;    // 最低フォントサイズ pt
+  const FONT_MIN    = 4;    // 最低フォントサイズ pt
   // イベント矩形の色（はり・きゅう）
   const EVENT_COLOR_ACUPUNCTURE = [31, 145, 206];   // #1f91ce
   // イベント矩形の色（あんま・マッサージ）
