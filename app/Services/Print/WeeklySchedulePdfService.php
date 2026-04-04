@@ -698,16 +698,15 @@ class WeeklySchedulePdfService extends BasePdfService
       $fontSize = $timeFontSize;
     }
 
-    // 時刻テキスト描画後の残り高さで氏名2行化を判定
+    // 時刻テキスト描画後の残り高さを算出
     $lineH     = $fontSize * 0.352 + 0.3;
     $nameLineH = $nameFontSize * 0.352 + 0.3;
     $timeUsedH = $use3Lines ? $lineH * 3 : $lineH;
     $remainH   = $innerH - $timeUsedH;
-    $splitName = $colCount >= 2 && $remainH >= $nameLineH * 2;
 
-    // 2行化時は姓・名それぞれの最長文字列基準でフォントサイズを再計算
-    // フォントサイズが1行時と変わらない場合は2行化しない
-    if ($splitName) {
+    // 氏名2行化判定 → フォントサイズ調整（幅・高さ両方考慮） → 最終確定
+    $splitName = false;
+    if ($colCount >= 2) {
       $nameFontSize1Line = $nameFontSize;
       $nameRefText2 = mb_strlen($rec['last_name'] ?? '') >= mb_strlen($rec['first_name'] ?? '')
         ? ($rec['last_name'] ?? '')
@@ -715,25 +714,19 @@ class WeeklySchedulePdfService extends BasePdfService
       if (mb_strlen($nameRefText2) < 2) {
         $nameRefText2 = 'アア';
       }
-      $nameFontSize = 11.0;
-      while ($nameFontSize > self::FONT_MIN) {
-        $pdf->SetFont('kozgopromedium', 'B', $nameFontSize);
-        if ($pdf->GetStringWidth($nameRefText2) <= $innerW) {
+      $nameFontSize2 = 11.0;
+      while ($nameFontSize2 > self::FONT_MIN) {
+        $pdf->SetFont('kozgopromedium', 'B', $nameFontSize2);
+        $nameLineH2 = $nameFontSize2 * 0.352 + 0.3;
+        if ($pdf->GetStringWidth($nameRefText2) <= $innerW && $nameLineH2 * 2 <= $remainH) {
           break;
         }
-        $nameFontSize -= 0.5;
+        $nameFontSize2 -= 0.5;
       }
-      if ($nameFontSize <= $nameFontSize1Line) {
-        $splitName    = false;
-        $nameFontSize = $nameFontSize1Line;
-      } else {
-        $nameLineH = $nameFontSize * 0.352 + 0.3;
-        // 再計算後のnameLineHで実際に2行が収まるか再チェック
-        if ($remainH < $nameLineH * 2) {
-          $splitName    = false;
-          $nameFontSize = $nameFontSize1Line;
-          $nameLineH    = $nameFontSize * 0.352 + 0.3;
-        }
+      if ($nameFontSize2 > $nameFontSize1Line) {
+        $splitName    = true;
+        $nameFontSize = $nameFontSize2;
+        $nameLineH    = $nameFontSize2 * 0.352 + 0.3;
       }
     }
 
