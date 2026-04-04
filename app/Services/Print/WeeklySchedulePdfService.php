@@ -577,7 +577,6 @@ class WeeklySchedulePdfService extends BasePdfService
     $innerH       = $eventH - $padding * 2;
     $innerW       = $eventW - $textPaddingX * 2;
     $fontSize     = self::FONT_MIN;
-    $minFontSize  = 2.0;
 
     $startText = $this->formatHHMM($rec['start_time']);
     $endText   = $this->formatHHMM($rec['end_time']);
@@ -597,7 +596,7 @@ class WeeklySchedulePdfService extends BasePdfService
       $nameRefText = $nameCharCount >= 4 ? $nameText : 'ああ ああ';
     }
     $nameFontSize = 10.0;
-    while ($nameFontSize > $minFontSize) {
+    while ($nameFontSize > self::FONT_MIN) {
       $pdf->SetFont('kozgopromedium', 'B', $nameFontSize);
       if ($pdf->GetStringWidth($nameRefText) <= $innerW) {
         break;
@@ -610,16 +609,16 @@ class WeeklySchedulePdfService extends BasePdfService
       $nameFontSize *= 1.0;
     }
 
-    // 4行モード：minFontSizeで4行が収まるなら使用（氏名は1行分で判定）
+    // 4行モード：FONT_MINで4行が収まるなら使用（氏名は1行分で判定）
     // ただしスロット数<=18かつ1スロットイベントは2行モード固定
-    $lineH4test     = $minFontSize * 0.352 + 0.3;
-    $nameLineH4test = $minFontSize * 0.352 + 0.3;
+    $lineH4test     = self::FONT_MIN * 0.352 + 0.3;
+    $nameLineH4test = self::FONT_MIN * 0.352 + 0.3;
     $neededH4       = $lineH4test * 3 + $nameLineH4test;
     $force2Lines    = $slotCount <= 18 && $rowH > 0 && $eventH <= $rowH * 1.5 && $colCount <= 1;
     $use3Lines      = !$force2Lines && $neededH4 <= $innerH;
 
     if ($use3Lines) {
-      while ($fontSize > $minFontSize) {
+      while ($fontSize > self::FONT_MIN) {
         $pdf->SetFont('kozgopromedium', 'B', $fontSize);
         $lineH        = $fontSize * 0.352 + 0.3;
         $nameLineH    = $nameFontSize * 0.352 + 0.3;
@@ -647,7 +646,7 @@ class WeeklySchedulePdfService extends BasePdfService
     if (!$use3Lines) {
       $timeText     = $startText . ' - ' . $endText;
       $timeFontSize = 20.0;
-      while ($timeFontSize > $minFontSize) {
+      while ($timeFontSize > self::FONT_MIN) {
         $pdf->SetFont('kozgopromedium', 'B', $timeFontSize);
         if ($pdf->GetStringWidth($timeText) <= $innerW) {
           break;

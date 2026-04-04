@@ -562,7 +562,6 @@ class MonthlySchedulePdfService extends BasePdfService
     $innerH       = $eventH - $padding * 2;
     $innerW       = $eventW - $textPaddingX * 2;
     $fontSize     = self::FONT_MIN;
-    $minFontSize  = 2.0;
 
     $startText = $this->formatHHMM($rec['start_time']);
     $endText   = $this->formatHHMM($rec['end_time']);
@@ -584,7 +583,7 @@ class MonthlySchedulePdfService extends BasePdfService
     } else {
       $nameRefText = $nameCharCount >= 4 ? $nameText : 'ああ ああ'; // 4文字基準
     }
-    while ($nameFontSize > $minFontSize) {
+    while ($nameFontSize > self::FONT_MIN) {
       $pdf->SetFont('kozgopromedium', 'B', $nameFontSize);
       if ($pdf->GetStringWidth($nameRefText) <= $innerW) {
         break;
@@ -597,15 +596,15 @@ class MonthlySchedulePdfService extends BasePdfService
       $nameFontSize *= 0.8;
     }
 
-    // 4行モード：minFontSizeで4行が収まるなら使用（氏名は1行分で判定）
-    $lineH4test     = $minFontSize * 0.352 + 0.3;
-    $nameLineH4test = $minFontSize * 0.352 + 0.3;
+    // 4行モード：FONT_MINで4行が収まるなら使用（氏名は1行分で判定）
+    $lineH4test     = self::FONT_MIN * 0.352 + 0.3;
+    $nameLineH4test = self::FONT_MIN * 0.352 + 0.3;
     $neededH4       = $lineH4test * 3 + $nameLineH4test;
     $use3Lines      = $neededH4 <= $innerH;
 
     if ($use3Lines) {
       // 4行モード（$splitName時は5行）
-      while ($fontSize > $minFontSize) {
+      while ($fontSize > self::FONT_MIN) {
         $pdf->SetFont('kozgopromedium', 'B', $fontSize);
         $lineH        = $fontSize * 0.352 + 0.3;
         $nameLineH    = $nameFontSize * 0.352 + 0.3;
@@ -634,7 +633,7 @@ class MonthlySchedulePdfService extends BasePdfService
       // 2行モード（$splitName時は3行）
       $timeText  = $startText . ' - ' . $endText;
       $timeFontSize = 20.0;
-      while ($timeFontSize > $minFontSize) {
+      while ($timeFontSize > self::FONT_MIN) {
         $pdf->SetFont('kozgopromedium', 'B', $timeFontSize);
         if ($pdf->GetStringWidth($timeText) <= $innerW) {
           break;
