@@ -30,7 +30,7 @@ class MonthlySchedulePdfService extends BasePdfService
   // イベント矩形の色（あんま・マッサージ）
   const EVENT_COLOR_MASSAGE     = [230, 126, 34];   // #e67e22
   // 定休日列の色
-  const CLOSED_DAY_COLOR        = [160, 160, 160];  // #a0a0a0
+  const CLOSED_DAY_COLOR        = [60, 60, 60];  // #3c3c3c
 
   protected function getDefaultCoordinatesPath(): string
   {
