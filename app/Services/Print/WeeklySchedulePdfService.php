@@ -616,7 +616,7 @@ class WeeklySchedulePdfService extends BasePdfService
     $lineH4test     = self::FONT_MIN * 0.352 + 0.3;
     $nameLineH4test = self::FONT_MIN * 0.352 + 0.3;
     $neededH4       = $lineH4test * 3 + $nameLineH4test;
-    $force2Lines    = $slotCount <= 18 && $rowH > 0 && $eventH <= $rowH * 1.5 && $colCount <= 1;
+    $force2Lines    = $colCount <= 1 && $slotCount <= 18 && $rowH > 0 && $eventH <= $rowH * 1.5;
     $use3Lines      = !$force2Lines && $neededH4 <= $innerH;
 
     if ($use3Lines) {
