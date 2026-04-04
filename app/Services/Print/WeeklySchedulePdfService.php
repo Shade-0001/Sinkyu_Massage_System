@@ -732,7 +732,7 @@ class WeeklySchedulePdfService extends BasePdfService
     $padding = 0.5;
 
     // グレー矩形（列全体）
-    $pdf->setAlpha(0.5);
+    $pdf->setAlpha(0.6);
     $pdf->SetFillColor(...self::CLOSED_DAY_COLOR);
     $pdf->RoundedRect(
       $colX + $padding,
@@ -749,7 +749,7 @@ class WeeklySchedulePdfService extends BasePdfService
     $innerW   = $colW - $padding * 2;
     $innerH   = $tableH - $padding * 2;
     $chars    = ['定', '休', '日'];
-    $targetW  = $innerW / 2; // 文字幅の目標：列幅の半分
+    $targetW  = $innerW / 3; // 文字幅の目標：列幅の1/3
     $minFont  = 2.0;
 
     // 文字幅がtargetWになるフォントサイズを二分探索で求める

@@ -720,7 +720,7 @@ class MonthlySchedulePdfService extends BasePdfService
     $padding = 0.3;
 
     // グレー矩形（列全体）
-    $pdf->setAlpha(0.5);
+    $pdf->setAlpha(0.6);
     $pdf->SetFillColor(...self::CLOSED_DAY_COLOR);
     $pdf->RoundedRect(
       $colX + $padding,
