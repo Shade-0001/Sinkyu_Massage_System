@@ -80,11 +80,18 @@ class RecordSeeder extends Seeder
       $userHousecallDistance[$uid] = round(rand(10, 150) / 10, 1);
     }
 
-    // 日付範囲定義（Unixタイムスタンプ）
-    $phase1Start = mktime(0, 0, 0, 1,  1, 2025);
-    $phase1End   = mktime(0, 0, 0, 12, 31, 2025);
-    $phase2Start = mktime(0, 0, 0, 1,  1, 2026);
-    $phase2End   = mktime(0, 0, 0, 3,  31, 2026);
+    // 日付範囲定義（実行時の現在年月を基準に動的計算）
+    $now = new \DateTime('first day of this month');
+
+    $p1Start = (clone $now)->modify('-14 months');
+    $p1End   = (clone $now)->modify('-2 months')->modify('last day of this month');
+    $p2Start = (clone $now)->modify('-1 month');
+    $p2End   = (clone $now)->modify('+1 month')->modify('last day of this month');
+
+    $phase1Start = $p1Start->getTimestamp();
+    $phase1End   = $p1End->setTime(0, 0, 0)->getTimestamp();
+    $phase2Start = $p2Start->getTimestamp();
+    $phase2End   = $p2End->setTime(0, 0, 0)->getTimestamp();
 
     // 範囲内の定休日でないランダム日付を生成（失敗時null）
     $generateDate = function (int $rangeStart, int $rangeEnd) use ($isClosedDay): ?string {
@@ -253,8 +260,8 @@ class RecordSeeder extends Seeder
     foreach ($clinicUserIds as $userId) {
       $isLastTen = in_array($userId, $lastTenUserIds, true);
 
-      // Phase 1: 2025-01-01 ~ 2025-12-31 → 70%で0~150件、30%で0~300件
-      $target1      = (rand(1, 10) <= 7) ? rand(0, 150) : rand(0, 300);
+      // Phase 1: 現在年月-14月 〜 現在年月-2月 → 70%で0~100件、30%で0~300件
+      $target1      = (rand(1, 10) <= 7) ? rand(0, 100) : rand(0, 300);
       $placed1      = 0;
       $attempts1    = 0;
       $maxAttempts1 = max($target1 * 15, 50);
@@ -268,7 +275,7 @@ class RecordSeeder extends Seeder
         }
       }
 
-      // Phase 2: 2026-01-01 ~ 2026-03-31
+      // Phase 2: 現在年月-1月 〜 現在年月+1月
       // 末尾10人: 20~40件
       // その他:   70%で0~10件、30%で10~20件
       if ($isLastTen) {
