@@ -590,10 +590,10 @@ class WeeklySchedulePdfService extends BasePdfService
         ? ($rec['last_name'] ?? '')
         : ($rec['first_name'] ?? '');
       if (mb_strlen($nameRefText) < 2) {
-        $nameRefText = 'ああ';
+        $nameRefText = 'アア';
       }
     } else {
-      $nameRefText = $nameCharCount >= 4 ? $nameText : 'ああ ああ';
+      $nameRefText = $nameCharCount >= 4 ? $nameText : 'アア アア';
     }
     $nameFontSize = 10.0;
     while ($nameFontSize > self::FONT_MIN) {
@@ -644,11 +644,13 @@ class WeeklySchedulePdfService extends BasePdfService
       }
     }
     if (!$use3Lines) {
-      $timeText     = $startText . ' - ' . $endText;
+      $timeText          = $startText . ' - ' . $endText;
+      $timePaddingX      = 3.0;
+      $timeInnerW        = $eventW - $padding * 2 - $timePaddingX * 2;
       $timeFontSize = 20.0;
       while ($timeFontSize > self::FONT_MIN) {
         $pdf->SetFont('kozgopromedium', 'B', $timeFontSize);
-        if ($pdf->GetStringWidth($timeText) <= $innerW) {
+        if ($pdf->GetStringWidth($timeText) <= $timeInnerW) {
           break;
         }
         $timeFontSize -= 0.5;
@@ -705,8 +707,9 @@ class WeeklySchedulePdfService extends BasePdfService
       }
       $pdf->SetFont('kozgopromedium', 'B', $fontSize);
     } else {
-      $pdf->SetXY($baseX, $textStartY);
-      $pdf->Cell($innerW, 0, $timeText, 0, 0, 'C', false);
+      $timeBaseX = $eventX + $padding + $timePaddingX;
+      $pdf->SetXY($timeBaseX, $textStartY);
+      $pdf->Cell($timeInnerW, 0, $timeText, 0, 0, 'C', false);
 
       $pdf->SetFont('kozgopromedium', 'B', $nameFontSize);
       if ($splitName) {
