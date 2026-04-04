@@ -555,7 +555,19 @@ class WeeklySchedulePdfService extends BasePdfService
           continue;
         }
 
-        $this->drawEventRect($pdf, $rec, $eventX, $eventY, $eventW, $eventH, $count, $slotCount, $rowH);
+        // スロット範囲が重複する他グループのイベント数も考慮した最大colCountを計算
+        $evStart = $slotIdx;
+        $evEnd   = $slotIdx + $spanSlots;
+        $maxOverlapCount = $count;
+        foreach ($slotGroups as $otherSlotIdx => $otherGroup) {
+          if ($otherSlotIdx === $slotIdx) continue;
+          $otherEnd = $otherSlotIdx + max(array_column($otherGroup, 'spanSlots'));
+          if ($otherSlotIdx < $evEnd && $otherEnd > $evStart) {
+            $maxOverlapCount = max($maxOverlapCount, count($otherGroup));
+          }
+        }
+
+        $this->drawEventRect($pdf, $rec, $eventX, $eventY, $eventW, $eventH, $maxOverlapCount, $slotCount, $rowH);
       }
     }
   }
