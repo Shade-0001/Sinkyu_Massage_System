@@ -309,6 +309,13 @@ class MonthlySchedulePdfService extends BasePdfService
     $restW    = $availW - $timeColW;
     $fontPt   = self::FONT_MIN + 1;
 
+    // 定休日 or イベントなしの日を「縮小列」として扱う
+    $isSmallCol = [];
+    foreach ($monthDates as $dateStr) {
+      $dow = (int)(new \DateTime($dateStr))->format('w');
+      $isSmallCol[$dateStr] = ($closedDays[$dow] ?? false) || empty($records[$dateStr]);
+    }
+
     // ヘッダーテキスト最大幅からヘッダー圧迫しない最小列幅を算出
     $pdf->SetFont('kozgopromedium', '', $fontPt);
     $maxHeaderTextW = 0;
@@ -319,28 +326,23 @@ class MonthlySchedulePdfService extends BasePdfService
     }
     $closedColMinW = ceil(($maxHeaderTextW + 1.0) * 10) / 10; // 左右0.5mmずつ余白
 
-    // 定休日列の縮小分を非定休日列に再配分
-    $closedCount = 0;
-    foreach ($monthDates as $dateStr) {
-      $dow = (int)(new \DateTime($dateStr))->format('w');
-      if ($closedDays[$dow] ?? false) $closedCount++;
-    }
-    $openCount = $dayCount - $closedCount;
-    $dayColW   = $openCount > 0
-      ? round(($restW - $closedColMinW * $closedCount) / $openCount, 4)
+    // 縮小列の縮小分を通常列に再配分
+    $smallCount = count(array_filter($isSmallCol));
+    $openCount  = $dayCount - $smallCount;
+    $dayColW    = $openCount > 0
+      ? round(($restW - $closedColMinW * $smallCount) / $openCount, 4)
       : round($restW / $dayCount, 4);
 
     $colWidths = [$timeColW];
     $openUsed  = 0;
     foreach ($monthDates as $dateStr) {
-      $dow = (int)(new \DateTime($dateStr))->format('w');
-      if ($closedDays[$dow] ?? false) {
+      if ($isSmallCol[$dateStr]) {
         $colWidths[] = $closedColMinW;
       } else {
         $openUsed++;
         if ($openUsed === $openCount) {
-          // 最後の非定休日列で端数吸収
-          $usedW = $timeColW + $closedColMinW * $closedCount + $dayColW * ($openCount - 1);
+          // 最後の通常列で端数吸収
+          $usedW = $timeColW + $closedColMinW * $smallCount + $dayColW * ($openCount - 1);
           $colWidths[] = round($availW - $usedW, 4);
         } else {
           $colWidths[] = $dayColW;
@@ -358,7 +360,7 @@ class MonthlySchedulePdfService extends BasePdfService
       : self::ROW_H;
 
     // ---- ヘッダー行 ----
-    $this->drawTableHeader($pdf, $monthDates, $colWidths, $startX, $startY, $headerH, $closedDays);
+    $this->drawTableHeader($pdf, $monthDates, $colWidths, $startX, $startY, $headerH, $isSmallCol);
 
     $bodyStartY = $startY + $headerH;
 
@@ -373,15 +375,10 @@ class MonthlySchedulePdfService extends BasePdfService
       $colW     = $colWidths[$dayIdx + 1];
       $dateObj  = new \DateTime($dateKey);
       $dow      = (int)$dateObj->format('w'); // 0=日〜6=土
-      $isClosed = $closedDays[$dow] ?? false;
-
-      if ($isClosed) {
+      if ($closedDays[$dow] ?? false) {
         $this->drawClosedDayColumn($pdf, $x, $bodyStartY, $colW, $tableH, $rowH);
-      } else {
-        $dayRecords = $records[$dateKey] ?? [];
-        if (!empty($dayRecords)) {
-          $this->drawDayEvents($pdf, $dayRecords, $timeSlots, $x, $bodyStartY, $colW, $rowH);
-        }
+      } elseif (!empty($records[$dateKey])) {
+        $this->drawDayEvents($pdf, $records[$dateKey], $timeSlots, $x, $bodyStartY, $colW, $rowH);
       }
 
       $x += $colW;
@@ -399,7 +396,7 @@ class MonthlySchedulePdfService extends BasePdfService
     float $startX,
     float $startY,
     float $headerH,
-    array $closedDays = []
+    array $isSmallCol = []
   ): void {
     $dayNames = ['日', '月', '火', '水', '木', '金', '土'];
     $fontPt   = self::FONT_MIN + 1; // 6pt
@@ -419,8 +416,8 @@ class MonthlySchedulePdfService extends BasePdfService
       $dateObj = new \DateTime($dateStr);
       $dow     = (int)$dateObj->format('w'); // 0=日, 6=土
       $day     = (int)$dateObj->format('j');
-      $isClosed = $closedDays[$dow] ?? false;
-      $label    = $isClosed
+      $isSmall = $isSmallCol[$dateStr] ?? false;
+      $label   = $isSmall
         ? $day . '(' . $dayNames[$dow] . ')'
         : $day . ' (' . $dayNames[$dow] . ')';
       $colW    = $colWidths[$idx + 1];
