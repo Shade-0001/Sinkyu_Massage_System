@@ -301,3 +301,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }, 250);
 });
+
+
+
+/*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
+/*┃  DataTables ページネーション                  ┃*/
+/*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
+// .page-link に btn-ex-sub 相当のホバー色変化を適用（イベント委譲）
+document.addEventListener('mouseenter', e => {
+  const el = e.target.closest('.dataTables_paginate .page-link');
+  if (!el || el.closest('.page-item.disabled')) return;
+  if (!el._dtPgInitialized) {
+    const style = getComputedStyle(el);
+    const primaryColor = style.getPropertyValue('--dt-pg-color').trim();
+    el._dtPgOriginalBg = getStaticBgColor(el);
+    el._dtPgHoverBg = primaryColor;
+    el._dtPgBlendedColor = blendBgWithPage(el._dtPgOriginalBg, el);
+    el._dtPgInitialized = true;
+  }
+  el._dtPgHovering = true;
+  el.style.backgroundColor = el._dtPgHoverBg;
+  el.style.color = el._dtPgBlendedColor;
+}, true);
+
+document.addEventListener('mouseleave', e => {
+  const el = e.target.closest('.dataTables_paginate .page-link');
+  if (!el) return;
+  el._dtPgHovering = false;
+  el.style.backgroundColor = '';
+  el.style.color = '';
+}, true);

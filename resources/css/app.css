@@ -1671,7 +1671,6 @@ html[data-sidebar="closed"] #sidebar-content {
 }
 
 .dataTables_paginate .page-link:hover {
-  background-color: color-mix(in srgb, var(--dt-pg-color) 25%, transparent) !important;
   -webkit-text-stroke: 0px rgba(255, 255, 255, 0);
 }
 
@@ -1685,24 +1684,13 @@ html[data-sidebar="closed"] #sidebar-content {
   border-radius: 0 12px 12px 0 !important;
 }
 
-/* アクティブページ - btn-ex-main + btn-ex-blue 相当（塗りつぶし） */
+/* アクティブページ - btn-ex-sub-toggle-blue 相当 */
 .dataTables_paginate .page-item.active .page-link {
+  --dt-pg-color: #1f91ce;
   --dt-pg-bc: #1f93d0;
-  background-color: #1f91ce !important;
-  color: hsl(0, 0%, 95%) !important;
   -webkit-text-stroke: 0px rgba(255, 255, 255, 0) !important;
-}
-
-.dataTables_paginate .page-item.active .page-link::before {
-  box-shadow:
-    inset var(--dt-pg-ss)     var(--dt-pg-ss)     1px var(--dt-pg-light),
-    inset 0                   var(--dt-pg-ss)     1px var(--dt-pg-light),
-    inset var(--dt-pg-ss)     0                   1px var(--dt-pg-light),
-    inset var(--dt-pg-ss)     var(--dt-pg-ss-neg) 1px var(--dt-pg-mid),
-    inset var(--dt-pg-ss-neg) var(--dt-pg-ss)     1px var(--dt-pg-mid),
-    inset var(--dt-pg-ss-neg) 0                   1px var(--dt-pg-dark),
-    inset 0                   var(--dt-pg-ss-neg) 1px var(--dt-pg-dark),
-    inset var(--dt-pg-ss-neg) var(--dt-pg-ss-neg) 1px var(--dt-pg-dark);
+  background-color: color-mix(in srgb, #1f91ce 15%, transparent) !important;
+  color: #1f91ce !important;
 }
 
 /* 無効ボタン */
