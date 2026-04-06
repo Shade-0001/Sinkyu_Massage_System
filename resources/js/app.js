@@ -308,11 +308,21 @@ document.addEventListener('DOMContentLoaded', () => {
 /*┃  DataTables ページネーション                  ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 // .page-link に btn-ex-sub 相当のホバー色変化を適用（イベント委譲）
+function resolveColor(colorStr) {
+  const div = document.createElement('div');
+  div.style.cssText = 'position:absolute;visibility:hidden;width:0;height:0;';
+  div.style.backgroundColor = colorStr;
+  document.body.appendChild(div);
+  const resolved = getComputedStyle(div).backgroundColor;
+  document.body.removeChild(div);
+  return resolved;
+}
+
 function setupDtPageLink(el) {
   if (el._dtPgInitialized) return;
   el._dtPgInitialized = true;
   const style = getComputedStyle(el);
-  const primaryColor = style.getPropertyValue('--dt-pg-color').trim();
+  const primaryColor = resolveColor(style.getPropertyValue('--dt-pg-color').trim());
   el._dtPgOriginalBg = getStaticBgColor(el);
   el._dtPgHoverBg = primaryColor;
   el._dtPgBlendedColor = blendBgWithPage(el._dtPgOriginalBg, el);
