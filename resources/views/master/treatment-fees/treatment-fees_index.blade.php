@@ -40,7 +40,7 @@
         {{-- 対象期間 3行 --}}
         <td class="text-center align-middle" style="white-space: nowrap;">
           {{ \Carbon\Carbon::parse($item->period_start)->format('Y/m/d') }}<br>
-          &emsp;&emsp;&emsp; ┃<br>
+          &#x2000;&#x2000;&#x2000; ┃<br>
           {{ \Carbon\Carbon::parse($item->period_end)->format('Y/m/d') }}
         </td>
 
