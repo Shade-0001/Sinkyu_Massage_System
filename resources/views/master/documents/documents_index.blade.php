@@ -93,7 +93,7 @@
         const url = '/master/documents/' + id + '/preview';
         const windowName = 'DocumentPreviewPDF_' + new Date().getTime();
         const w = Math.round(screen.width * 0.5);
-        const h = Math.round(screen.height * 0.85);
+        const h = Math.round(screen.height * 0.875);
         const left = Math.round((screen.width - w) / 2);
         const top = Math.round((screen.height - h) / 2);
         const windowFeatures = `popup=yes,width=${w},height=${h},left=${left},top=${top},menubar=yes,toolbar=yes,location=yes,status=yes,scrollbars=yes,resizable=yes`;
