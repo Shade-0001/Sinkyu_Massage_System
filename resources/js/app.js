@@ -328,12 +328,12 @@ function setupDtPageLink(el) {
   el._dtPgBlendedColor = blendBgWithPage(el._dtPgOriginalBg, el);
   el.addEventListener('mouseenter', () => {
     if (el.closest('.page-item.disabled')) return;
-    el.style.backgroundColor = el._dtPgHoverBg;
-    el.style.color = el._dtPgBlendedColor;
+    el.style.setProperty('background-color', el._dtPgHoverBg, 'important');
+    el.style.setProperty('color', el._dtPgBlendedColor, 'important');
   });
   el.addEventListener('mouseleave', () => {
-    el.style.backgroundColor = '';
-    el.style.color = '';
+    el.style.removeProperty('background-color');
+    el.style.removeProperty('color');
   });
 }
 
