@@ -111,7 +111,8 @@ class ConsentRequestLetterDesignatedAcupuncturePdfService extends BasePdfService
       ->first();
 
     // 施術所情報取得
-    $clinicInfo = $this->getClinicInfoForDate($serviceYearMonth . '-01');
+    $yearMonth  = $submissionDate ? substr($submissionDate, 0, 7) : date('Y-m');
+    $clinicInfo = $this->getClinicInfoForDate($yearMonth . '-01');
 
     if (!$clinicInfo) {
       \Log::error('施術所情報が見つかりません');
