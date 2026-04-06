@@ -6,24 +6,24 @@
   />
 
   @if(session('success'))
-    <div style="color: green;">{{ session('success') }}</div>
+    <div class="text-success">{{ session('success') }}</div>
   @endif
 
   <!-- 新規登録ボタン -->
-  <div style="margin-bottom: 10px;">
+  <div class="mb-2">
     <a href="{{ route('master.treatment-fees.create') }}">
       <button type="button">施術料金新規登録</button>
     </a>
   </div>
 
-  <table id="treatmentFeesTable" class="table table-bordered table-striped" style="font-size: 0.82rem;">
+  <table id="treatmentFeesTable" class="table table-bordered table-striped table-sm small">
     <thead>
       <tr>
-        <th rowspan="2" class="align-middle text-center" style="width: 8%;">対象期間</th>
-        <th colspan="3" class="text-center" style="width: 33%;">初回</th>
-        <th colspan="3" class="text-center" style="width: 33%;">通常</th>
-        <th rowspan="2" class="align-middle text-center" style="width: 10%;">データ登録日</th>
-        <th rowspan="2" class="align-middle text-center" style="width: 6%;">操作</th>
+        <th rowspan="2" class="align-middle text-center">対象期間</th>
+        <th colspan="3" class="text-center">初回</th>
+        <th colspan="3" class="text-center">通常</th>
+        <th rowspan="2" class="align-middle text-center">データ登録日</th>
+        <th rowspan="2" class="align-middle text-center">操作</th>
       </tr>
       <tr>
         <th class="text-center">はり・きゅう</th>
@@ -38,14 +38,14 @@
       @foreach($items as $item)
       <tr>
         {{-- 対象期間 3行 --}}
-        <td class="text-center align-middle" style="white-space: nowrap;">
+        <td class="text-center align-middle text-nowrap">
           {{ \Carbon\Carbon::parse($item->period_start)->format('Y/m/d') }}<br>
-          &#x2000;&#x2000;&#x2000; ┃<br>
+          ┃<br>
           {{ \Carbon\Carbon::parse($item->period_end)->format('Y/m/d') }}
         </td>
 
         {{-- 初回：はり・きゅう --}}
-        <td style="vertical-align: top;">
+        <td class="align-top">
           <div>はり：{{ number_format($item->hari_first) }}</div>
           <div>きゅう：{{ number_format($item->kyu_first) }}</div>
           <div>はりきゅう併用：{{ number_format($item->hari_and_kyu_first) }}</div>
@@ -55,7 +55,7 @@
         </td>
 
         {{-- 初回：あんま・マッサージ --}}
-        <td style="vertical-align: top;">
+        <td class="align-top">
           <div>マッサージ躯幹：{{ number_format($item->massage_trunk_first) }}</div>
           <div>マッサージ右上肢：{{ number_format($item->massage_upper_limb_r_first) }}</div>
           <div>マッサージ左上肢：{{ number_format($item->massage_upper_limb_l_first) }}</div>
@@ -67,13 +67,13 @@
         </td>
 
         {{-- 初回：往療料 --}}
-        <td style="vertical-align: top;">
+        <td class="align-top">
           <div>往診料（4km以内）：{{ number_format($item->housecall_max_2km_first) }}</div>
           <div>往診料（4km超過）：{{ number_format($item->housecall_additional_max_4km_first) }}</div>
         </td>
 
         {{-- 通常：はり・きゅう --}}
-        <td style="vertical-align: top;">
+        <td class="align-top">
           <div>はり：{{ number_format($item->hari_normal) }}</div>
           <div>きゅう：{{ number_format($item->kyu_normal) }}</div>
           <div>はりきゅう併用：{{ number_format($item->hari_and_kyu_normal) }}</div>
@@ -83,7 +83,7 @@
         </td>
 
         {{-- 通常：あんま・マッサージ --}}
-        <td style="vertical-align: top;">
+        <td class="align-top">
           <div>マッサージ躯幹：{{ number_format($item->massage_trunk_normal) }}</div>
           <div>マッサージ右上肢：{{ number_format($item->massage_upper_limb_r_normal) }}</div>
           <div>マッサージ左上肢：{{ number_format($item->massage_upper_limb_l_normal) }}</div>
@@ -95,12 +95,12 @@
         </td>
 
         {{-- 通常：往療料 --}}
-        <td style="vertical-align: top;">
+        <td class="align-top">
           <div>往診料（4km以内）：{{ number_format($item->housecall_max_2km_normal) }}</div>
           <div>往診料（4km超過）：{{ number_format($item->housecall_additional_max_4km_normal) }}</div>
         </td>
 
-        <td class="text-center align-middle" style="white-space: nowrap;">
+        <td class="text-center align-middle text-nowrap">
           {{ \Carbon\Carbon::parse($item->created_at)->format('Y/m/d') }}<br>
           {{ \Carbon\Carbon::parse($item->created_at)->format('H:i:s') }}
         </td>
