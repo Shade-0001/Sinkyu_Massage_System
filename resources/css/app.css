@@ -1677,17 +1677,21 @@ html[data-sidebar="closed"] #sidebar-content {
 
 /* 左端の角丸 */
 .dataTables_paginate .page-item:first-child .page-link {
-  border-radius: 4px 0 0 4px !important;
+  border-radius: 12px 0 0 12px !important;
 }
 
 /* 右端の角丸 */
 .dataTables_paginate .page-item:last-child .page-link {
-  border-radius: 0 4px 4px 0 !important;
+  border-radius: 0 12px 12px 0 !important;
 }
 
-/* アクティブページ - btn-ex-sub-toggle-invert 相当 */
+/* アクティブページ - btn-ex-sub-toggle-blue 相当 */
 .dataTables_paginate .page-item.active .page-link {
+  --dt-pg-color: #1f91ce;
+  --dt-pg-bc: #1f93d0;
   -webkit-text-stroke: 0px rgba(255, 255, 255, 0) !important;
+  background-color: color-mix(in srgb, #1f91ce 15%, transparent) !important;
+  color: #1f91ce !important;
 }
 
 /* 無効ボタン */
