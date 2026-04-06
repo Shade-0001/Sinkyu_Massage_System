@@ -236,18 +236,18 @@ class DocumentController extends Controller
   {
     return [
       // 依頼状
-      1 => ['service' => \App\Services\Print\ConsentRequestLetterSampleAcupuncturePdfService::class,    'type' => 'consent_request_sample_acupuncture'],
-      2 => ['service' => \App\Services\Print\ConsentRequestLetterSampleMassagePdfService::class,        'type' => 'consent_request_sample_massage'],
-      3 => ['service' => \App\Services\Print\ConsentRequestLetterDesignatedAcupuncturePdfService::class,'type' => 'consent_request_designated_acupuncture'],
-      4 => ['service' => \App\Services\Print\ConsentRequestLetterDesignatedMassagePdfService::class,    'type' => 'consent_request_designated_massage'],
+      1 => ['service' => \App\Services\Print\ConsentRequestLetterSampleAcupuncturePdfService::class,    'type' => 'consent_request_sample_acupuncture',    'default_title' => '同意書依頼（サンプル版）はり・きゅう'],
+      2 => ['service' => \App\Services\Print\ConsentRequestLetterSampleMassagePdfService::class,        'type' => 'consent_request_sample_massage',        'default_title' => '同意書依頼（サンプル版）あんま・マッサージ'],
+      3 => ['service' => \App\Services\Print\ConsentRequestLetterDesignatedAcupuncturePdfService::class,'type' => 'consent_request_designated_acupuncture', 'default_title' => '同意書依頼（医師指定）はり・きゅう'],
+      4 => ['service' => \App\Services\Print\ConsentRequestLetterDesignatedMassagePdfService::class,    'type' => 'consent_request_designated_massage',    'default_title' => '同意書依頼（医師指定）あんま・マッサージ'],
       // 御礼状
-      5 => ['service' => \App\Services\Print\ThankYouLetterDoctorPdfService::class,   'type' => 'thank_you_doctor',   'thank_you_option' => 'consent'],
-      6 => ['service' => \App\Services\Print\ThankYouLetterDoctorPdfService::class,   'type' => 'thank_you_doctor',   'thank_you_option' => 'general'],
-      7 => ['service' => \App\Services\Print\ThankYouLetterReferrerPdfService::class, 'type' => 'thank_you_referrer'],
+      5 => ['service' => \App\Services\Print\ThankYouLetterDoctorPdfService::class,   'type' => 'thank_you_doctor',   'thank_you_option' => 'consent', 'default_title' => '御礼状'],
+      6 => ['service' => \App\Services\Print\ThankYouLetterDoctorPdfService::class,   'type' => 'thank_you_doctor',   'thank_you_option' => 'general', 'default_title' => '御礼状'],
+      7 => ['service' => \App\Services\Print\ThankYouLetterReferrerPdfService::class, 'type' => 'thank_you_referrer',                                  'default_title' => '御礼状'],
       // 挨拶状
-      8  => ['service' => \App\Services\Print\ReportGreetingPdfService::class, 'type' => 'report_greeting', 'greeting_type' => 'doctor'],
-      9  => ['service' => \App\Services\Print\ReportGreetingPdfService::class, 'type' => 'report_greeting', 'greeting_type' => 'caremanager'],
-      10 => ['service' => \App\Services\Print\ReportGreetingPdfService::class, 'type' => 'report_greeting', 'greeting_type' => 'user'],
+      8  => ['service' => \App\Services\Print\ReportGreetingPdfService::class, 'type' => 'report_greeting', 'greeting_type' => 'doctor',      'default_title' => '挨拶状'],
+      9  => ['service' => \App\Services\Print\ReportGreetingPdfService::class, 'type' => 'report_greeting', 'greeting_type' => 'caremanager',  'default_title' => '挨拶状'],
+      10 => ['service' => \App\Services\Print\ReportGreetingPdfService::class, 'type' => 'report_greeting', 'greeting_type' => 'user',         'default_title' => '挨拶状'],
     ];
   }
 
@@ -290,6 +290,11 @@ class DocumentController extends Controller
     // プレビュー対象文書の本文を直接注入（document_association経由の取得を上書き）
     if (!empty($document->content)) {
       $service->setOverrideDocumentContent($document->content);
+    }
+
+    // タイトルをセット（default_titleをフォールバックとして使用）
+    if (method_exists($service, 'setCustomTitleText')) {
+      $service->setCustomTitleText($config['default_title'] ?? '');
     }
 
     // 各サービス固有の設定
