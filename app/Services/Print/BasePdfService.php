@@ -97,6 +97,16 @@ abstract class BasePdfService
   }
 
   /**
+   * プレビュー用：fetchData()のdocument_contentをこの値で上書き（nullの場合は上書きしない）
+   */
+  protected ?string $overrideDocumentContent = null;
+
+  public function setOverrideDocumentContent(string $content): void
+  {
+    $this->overrideDocumentContent = $content;
+  }
+
+  /**
    * 施術報告書交付料（単価）
    */
   protected $reportFeeUnit = 0;

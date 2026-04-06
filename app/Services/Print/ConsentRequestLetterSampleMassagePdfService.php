@@ -85,6 +85,10 @@ class ConsentRequestLetterSampleMassagePdfService extends BasePdfService
       }
     }
 
+    if ($this->overrideDocumentContent !== null) {
+      $documentContent = $this->overrideDocumentContent;
+    }
+
     return [
       'clinic_user' => $clinicUser,
       'consent' => $consent,

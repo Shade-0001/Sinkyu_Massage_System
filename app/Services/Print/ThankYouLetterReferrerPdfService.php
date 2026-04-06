@@ -149,6 +149,10 @@ class ThankYouLetterReferrerPdfService extends BasePdfService
       }
     }
 
+    if ($this->overrideDocumentContent !== null) {
+      $documentContent = $this->overrideDocumentContent;
+    }
+
     return [
       'clinic_user'           => $clinicUser,
       'illness_name'          => $illnessName,

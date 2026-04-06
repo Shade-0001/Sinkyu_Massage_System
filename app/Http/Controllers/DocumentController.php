@@ -287,9 +287,9 @@ class DocumentController extends Controller
     $serviceClass = $config['service'];
     $service = new $serviceClass();
 
-    // サンプルデータモード有効化
-    if (method_exists($service, 'setSampleDataMode')) {
-      $service->setSampleDataMode(true);
+    // プレビュー対象文書の本文を直接注入（document_association経由の取得を上書き）
+    if (!empty($document->content)) {
+      $service->setOverrideDocumentContent($document->content);
     }
 
     // 各サービス固有の設定
