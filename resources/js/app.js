@@ -327,17 +327,14 @@ function setupDtPageLink(el) {
   });
 }
 
-// MutationObserverでDataTablesが生成する.page-linkを監視・登録
-const dtPgObserver = new MutationObserver(mutations => {
-  for (const mutation of mutations) {
-    for (const node of mutation.addedNodes) {
-      if (node.nodeType !== 1) continue;
-      if (node.classList.contains('page-link')) {
-        setupDtPageLink(node);
-      } else {
-        node.querySelectorAll?.('.page-link').forEach(setupDtPageLink);
-      }
-    }
-  }
+function setupAllDtPageLinks() {
+  document.querySelectorAll('.dataTables_paginate .page-link').forEach(setupDtPageLink);
+}
+
+// DataTablesのdrawイベント（ページ切り替え含む）でpage-linkを登録
+$(document).on('draw.dt', setupAllDtPageLinks);
+
+// 初回描画はdraw.dtが発火しないケースがあるためDOMContentLoaded後にも実行
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(setupAllDtPageLinks, 500);
 });
-dtPgObserver.observe(document.body, { childList: true, subtree: true });
