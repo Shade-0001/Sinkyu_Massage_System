@@ -45,7 +45,7 @@ textarea:not(:disabled) {
 }
 
 /* フッター */
-.main-content>footer {
+.main-content > footer {
   margin-left: calc(-1 * var(--footer-padding-left, 16px));
   margin-right: calc(-1 * var(--footer-padding-right, 16px));
 }
@@ -57,11 +57,27 @@ textarea:not(:disabled) {
 
 /* BSテーブルクラス */
 .table {
+  outline: 2px solid #bbbbbb;
   border-radius: 2px;
+  border-color: #bbbbbb;
 }
-
-.table-bordered thead > tr > *:not(.exception) {
-  border-bottom-width: 5px !important;
+.table > thead > tr > * {
+  background-color: #e9e9e9;
+}
+.table > thead > * {
+  --bs-table-color: #2a2a2a;
+}
+.table-bordered thead > tr > * {
+  border-bottom-width: 3px !important;
+  border-color: #bbbbbb !important;
+}
+.table > thead > tr > *:not(.exempt-border-left),
+.table > tbody > tr > *:not(.exempt-border-left) {
+  border-left-width: 1px;
+}
+.table > thead > tr > *:not(.exempt-border-right),
+.table > tbody > tr > *:not(.exempt-border-right) {
+  border-right-width: 1px;
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
@@ -1574,5 +1590,87 @@ html[data-sidebar="closed"] #sidebar-content {
 
 .pdf-insurances .status-updated {
   color: #666666;
+}
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+
+
+
+
+/*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
+/*┃  DataTables - ページネーション               ┃*/
+/*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
+.dataTables_paginate .pagination {
+  --dt-pg-color: hsl(200, 8%, 50%);
+  --dt-pg-border-size: calc(3px * 1.5);
+  --dt-pg-border-blur: 0px;
+  --dt-pg-border-color: oklch(from var(--dt-pg-color) calc(l + 0) calc(c + 0.01) calc(h + 0));
+  --dt-pg-shadow-size: 3px;
+  --dt-pg-shadow-light: hsla(0, 0%, 100%, 0.15);
+  --dt-pg-shadow-mid: hsla(0, 0%, 50%, 0.15);
+  --dt-pg-shadow-dark: hsla(0, 0%, 0%, 0.15);
+  gap: 0;
+  margin-bottom: 0;
+}
+
+/* ページリンク共通 */
+.dataTables_paginate .page-link {
+  --bs-pagination-bg: color-mix(in srgb, var(--dt-pg-color) 15%, transparent);
+  --bs-pagination-color: oklch(from var(--dt-pg-color) l c h);
+  --bs-pagination-border-color: transparent;
+  --bs-pagination-hover-bg: color-mix(in srgb, var(--dt-pg-color) 25%, transparent);
+  --bs-pagination-hover-color: oklch(from var(--dt-pg-color) l c h);
+  --bs-pagination-hover-border-color: transparent;
+  --bs-pagination-focus-bg: color-mix(in srgb, var(--dt-pg-color) 25%, transparent);
+  --bs-pagination-focus-color: oklch(from var(--dt-pg-color) l c h);
+  --bs-pagination-focus-box-shadow: none;
+  --bs-pagination-disabled-bg: color-mix(in srgb, var(--dt-pg-color) 10%, transparent);
+  --bs-pagination-disabled-color: oklch(from var(--dt-pg-color) l c h);
+  --bs-pagination-disabled-border-color: transparent;
+  --bs-pagination-active-bg: transparent;
+  --bs-pagination-active-border-color: transparent;
+  border-radius: 0 !important;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1;
+  padding: 10px 16px;
+  -webkit-text-stroke: 3px rgba(255, 255, 255, 0.5);
+  paint-order: stroke fill;
+  box-shadow:
+    inset calc(var(--dt-pg-border-size) * 0.95) calc(var(--dt-pg-border-size) * -0.95) var(--dt-pg-border-blur) var(--dt-pg-border-color),
+    inset 0 calc(var(--dt-pg-border-size) * -1) var(--dt-pg-border-blur) var(--dt-pg-border-color),
+    inset var(--dt-pg-border-size) 0 var(--dt-pg-border-blur) var(--dt-pg-border-color),
+    inset calc(var(--dt-pg-border-size) * 0.95) calc(var(--dt-pg-border-size) * 0.95) var(--dt-pg-border-blur) var(--dt-pg-border-color),
+    inset calc(var(--dt-pg-border-size) * -0.95) calc(var(--dt-pg-border-size) * -0.95) var(--dt-pg-border-blur) var(--dt-pg-border-color),
+    inset calc(var(--dt-pg-border-size) * -1) 0 var(--dt-pg-border-blur) var(--dt-pg-border-color),
+    inset 0 var(--dt-pg-border-size) var(--dt-pg-border-blur) var(--dt-pg-border-color),
+    inset calc(var(--dt-pg-border-size) * -0.95) calc(var(--dt-pg-border-size) * 0.95) var(--dt-pg-border-blur) var(--dt-pg-border-color),
+    inset calc(var(--dt-pg-shadow-size) + 0.5px) calc(var(--dt-pg-shadow-size) + 0.5px) 1px var(--dt-pg-shadow-light),
+    inset 0 calc(var(--dt-pg-shadow-size) + 0.5px) 1px var(--dt-pg-shadow-light),
+    inset calc(var(--dt-pg-shadow-size) + 0.5px) 0 1px var(--dt-pg-shadow-light),
+    inset calc(var(--dt-pg-shadow-size) + 0.5px) calc(var(--dt-pg-shadow-size) * -1 - 0.5px) 1px var(--dt-pg-shadow-mid),
+    inset calc(var(--dt-pg-shadow-size) * -1 - 0.5px) calc(var(--dt-pg-shadow-size) + 0.5px) 1px var(--dt-pg-shadow-mid),
+    inset calc(var(--dt-pg-shadow-size) * -1 - 0.5px) 0 1px var(--dt-pg-shadow-dark),
+    inset 0 calc(var(--dt-pg-shadow-size) * -1 - 0.5px) 1px var(--dt-pg-shadow-dark),
+    inset calc(var(--dt-pg-shadow-size) * -1 - 0.5px) calc(var(--dt-pg-shadow-size) * -1 - 0.5px) 1px var(--dt-pg-shadow-dark);
+  transition: all 0.15s linear, color 0.05s linear;
+}
+
+.dataTables_paginate .page-link:hover {
+  -webkit-text-stroke: 0px rgba(255, 255, 255, 0);
+}
+
+/* 左端の角丸 */
+.dataTables_paginate .page-item:first-child .page-link {
+  border-radius: 4px 0 0 4px !important;
+}
+
+/* 右端の角丸 */
+.dataTables_paginate .page-item:last-child .page-link {
+  border-radius: 0 4px 4px 0 !important;
+}
+
+/* アクティブページ - btn-ex-sub-toggle-invert 相当 */
+.dataTables_paginate .page-item.active .page-link {
+  -webkit-text-stroke: 0px rgba(255, 255, 255, 0);
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
