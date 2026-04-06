@@ -16,8 +16,8 @@
     </a>
   </div>
 
-  <table id="treatmentFeesTable" class="table table-bordered table-striped table-sm small">
-    <thead>
+  <table id="treatmentFeesTable" class="table table-bordered table-sm small">
+    <thead class="table-secondary">
       <tr>
         <th rowspan="2" class="align-middle text-center">対象期間</th>
         <th colspan="3" class="text-center">初回</th>
