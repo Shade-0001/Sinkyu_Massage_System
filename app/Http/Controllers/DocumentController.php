@@ -229,7 +229,31 @@ class DocumentController extends Controller
   }
 
   /**
+   * 固定文書ID → PDFサービス設定マッピング
+   * DocumentAssociationController の fixedDocuments 定義と対応
+   */
+  private function getFixedDocumentPdfConfig(): array
+  {
+    return [
+      // 依頼状
+      1 => ['service' => \App\Services\Print\ConsentRequestLetterSampleAcupuncturePdfService::class,    'type' => 'consent_request_sample_acupuncture'],
+      2 => ['service' => \App\Services\Print\ConsentRequestLetterSampleMassagePdfService::class,        'type' => 'consent_request_sample_massage'],
+      3 => ['service' => \App\Services\Print\ConsentRequestLetterDesignatedAcupuncturePdfService::class,'type' => 'consent_request_designated_acupuncture'],
+      4 => ['service' => \App\Services\Print\ConsentRequestLetterDesignatedMassagePdfService::class,    'type' => 'consent_request_designated_massage'],
+      // 御礼状
+      5 => ['service' => \App\Services\Print\ThankYouLetterDoctorPdfService::class,   'type' => 'thank_you_doctor',   'thank_you_option' => 'consent'],
+      6 => ['service' => \App\Services\Print\ThankYouLetterDoctorPdfService::class,   'type' => 'thank_you_doctor',   'thank_you_option' => 'general'],
+      7 => ['service' => \App\Services\Print\ThankYouLetterReferrerPdfService::class, 'type' => 'thank_you_referrer'],
+      // 挨拶状
+      8  => ['service' => \App\Services\Print\ReportGreetingPdfService::class, 'type' => 'report_greeting', 'greeting_type' => 'doctor'],
+      9  => ['service' => \App\Services\Print\ReportGreetingPdfService::class, 'type' => 'report_greeting', 'greeting_type' => 'caremanager'],
+      10 => ['service' => \App\Services\Print\ReportGreetingPdfService::class, 'type' => 'report_greeting', 'greeting_type' => 'user'],
+    ];
+  }
+
+  /**
    * 文面のプレビューを表示
+   * document_association で関連付けられたPDFサービスをサンプルモードで呼び出す
    */
   public function preview($id)
   {
@@ -239,52 +263,110 @@ class DocumentController extends Controller
       abort(404, '文面が見つかりません');
     }
 
-    // clinic_infoテーブルから事業所情報を取得
-    $clinicInfo = DB::table('clinic_info')->orderByDesc('id')->first();
+    // document_association から、この文書（document_id_2）に対応する固定文書ID（document_id_1）を逆引き
+    $association = DB::table('document_association')
+      ->where('document_id_2', $id)
+      ->first();
 
-    // カテゴリに応じてテンプレートビューを決定
-    $viewName = 'master.documents.templates.request_doc'; // デフォルト
+    $fixedDocumentId = $association ? $association->document_id_1 : null;
+    $pdfConfig       = $fixedDocumentId ? ($this->getFixedDocumentPdfConfig()[$fixedDocumentId] ?? null) : null;
 
-    // カテゴリごとのテンプレートマッピング（今後拡張可能）
-    $categoryTemplateMap = [
-      '依頼状' => 'master.documents.templates.request_doc',
-      '報告書' => 'master.documents.templates.request_doc', // 今は同じテンプレート
-      '計画書' => 'master.documents.templates.request_doc', // 今は同じテンプレート
-    ];
-
-    if (isset($categoryTemplateMap[$document->document_category])) {
-      $viewName = $categoryTemplateMap[$document->document_category];
+    if ($pdfConfig) {
+      return $this->previewWithPdfService($document, $pdfConfig);
     }
 
-    // TCPDFを使用してPDFを生成
-    $pdf = new \TCPDF('P', 'mm', 'A4', true, 'UTF-8');
+    // 対応PDFサービスがない場合はフォールバック
+    return $this->previewFallback($document);
+  }
 
-    // PDFメタデータ設定
+  /**
+   * 対応PDFサービスのサンプルモードでプレビュー生成
+   */
+  private function previewWithPdfService($document, array $config): \Illuminate\Http\Response
+  {
+    $serviceClass = $config['service'];
+    $service = new $serviceClass();
+
+    // サンプルデータモード有効化
+    if (method_exists($service, 'setSampleDataMode')) {
+      $service->setSampleDataMode(true);
+    }
+
+    // 各サービス固有の設定
+    if (isset($config['greeting_type']) && method_exists($service, 'setGreetingType')) {
+      $service->setGreetingType($config['greeting_type']);
+    }
+    if (isset($config['thank_you_option']) && method_exists($service, 'setThankYouOption')) {
+      $service->setThankYouOption($config['thank_you_option']);
+    }
+
+    // テンプレートファイルを設定
+    $templatePath = storage_path('app/templates/汎用文書.pdf');
+    if (file_exists($templatePath) && method_exists($service, 'setTemplatePath')) {
+      $service->setTemplatePath($templatePath);
+    }
+
+    $today     = now()->format('Y-m-d');
+    $yearMonth = now()->format('Y-m');
+    $type      = $config['type'];
+
+    // 実データが必要なサービス向けに最初の1件を取得
+    $clinicUsers    = DB::table('clinic_users')->limit(1)->pluck('id')->toArray();
+    $doctorIds      = DB::table('doctors')->limit(1)->pluck('id')->toArray();
+    $caremanagerIds = DB::table('caremanagers')->limit(1)->pluck('id')->toArray();
+
+    if (empty($clinicUsers)) {
+      $clinicUsers = [0];
+    }
+
+    if (in_array($type, ['consent_request_sample_acupuncture', 'consent_request_sample_massage'])) {
+      $pdfBinary = $service->generate($clinicUsers, $yearMonth, $today);
+    } elseif (in_array($type, ['consent_request_designated_acupuncture', 'consent_request_designated_massage'])) {
+      $pdfBinary = $service->generate($clinicUsers, $yearMonth, $today, '', $doctorIds);
+    } elseif ($type === 'thank_you_doctor') {
+      $pdfBinary = $service->generate($clinicUsers, $yearMonth, $today, '', $doctorIds);
+    } elseif ($type === 'thank_you_referrer') {
+      $pdfBinary = $service->generate($clinicUsers, $yearMonth, $today, '', $caremanagerIds);
+    } elseif ($type === 'report_greeting') {
+      $greetingType = $config['greeting_type'];
+      if ($greetingType === 'doctor') {
+        $pdfBinary = $service->generate($clinicUsers, $yearMonth, $today, '', $doctorIds, []);
+      } elseif ($greetingType === 'caremanager') {
+        $pdfBinary = $service->generate($clinicUsers, $yearMonth, $today, '', [], $caremanagerIds);
+      } else {
+        $pdfBinary = $service->generate($clinicUsers, $yearMonth, $today, '', [], []);
+      }
+    } else {
+      $pdfBinary = $service->generate($clinicUsers, $yearMonth, $today);
+    }
+
+    return response($pdfBinary, 200, [
+      'Content-Type'        => 'application/pdf',
+      'Content-Disposition' => 'inline',
+    ]);
+  }
+
+  /**
+   * フォールバック：TCPDFによるシンプルなHTMLレンダリング
+   */
+  private function previewFallback($document): \Illuminate\Http\Response
+  {
+    $clinicInfo = DB::table('clinic_info')->orderByDesc('id')->first();
+
+    $pdf = new \TCPDF('P', 'mm', 'A4', true, 'UTF-8');
     $pdf->SetCreator('Sinkyu Massage System');
     $pdf->SetAuthor('System');
     $pdf->SetTitle($document->document_name ?? 'Document');
-
-    // ヘッダー・フッターを削除
     $pdf->setPrintHeader(false);
     $pdf->setPrintFooter(false);
-
-    // 日本語フォント設定
     $pdf->SetFont('kozgopromedium', '', 12);
-
-    // マージン設定（テンプレート内で margin を設定しているため、ここでは 0 に設定）
     $pdf->SetMargins(0, 0, 0);
     $pdf->SetAutoPageBreak(TRUE, 0);
-
-    // ページ追加
     $pdf->AddPage();
 
-    // HTMLコンテンツを生成
-    $html = view($viewName, compact('document', 'clinicInfo'))->render();
-
-    // HTMLをPDFに出力
+    $html = view('master.documents.templates.request_doc', compact('document', 'clinicInfo'))->render();
     $pdf->writeHTML($html, true, false, true, false, '');
 
-    // PDFを新規ウィンドウで表示
     $filename = ($document->document_name ?? 'document') . '.pdf';
     return response($pdf->Output($filename, 'I'))
       ->header('Content-Type', 'application/pdf');
