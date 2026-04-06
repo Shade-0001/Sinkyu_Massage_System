@@ -167,8 +167,9 @@ class ReportGreetingPdfService extends BasePdfService
       $illnessName = $consentMassage->illness_name ?? '';
     }
 
-    // 施術所情報取得
-    $clinicInfo = $this->getClinicInfoForDate($serviceYearMonth . '-01');
+    // 施術所情報取得（submissionDateから年月を算出）
+    $yearMonth  = $submissionDate ? substr($submissionDate, 0, 7) : date('Y-m');
+    $clinicInfo = $this->getClinicInfoForDate($yearMonth . '-01');
 
     if (!$clinicInfo) {
       \Log::error('施術所情報が見つかりません');
