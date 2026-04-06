@@ -20,8 +20,8 @@
     <thead class="table-light">
       <tr>
         <th rowspan="2" class="align-middle text-center">対象期間</th>
-        <th colspan="3" class="text-center exempt-override">初回</th>
-        <th colspan="3" class="text-center exempt-override">通常</th>
+        <th colspan="3" class="text-center exception">初回</th>
+        <th colspan="3" class="text-center exception">通常</th>
         <th rowspan="2" class="align-middle text-center">登録日時</th>
         <th rowspan="2" class="align-middle text-center">操作</th>
       </tr>
