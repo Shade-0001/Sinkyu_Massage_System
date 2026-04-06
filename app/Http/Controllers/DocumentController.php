@@ -292,9 +292,9 @@ class DocumentController extends Controller
       $service->setOverrideDocumentContent($document->content);
     }
 
-    // タイトルをセット（default_titleをフォールバックとして使用）
+    // タイトルをセット（文書カテゴリを使用）
     if (method_exists($service, 'setCustomTitleText')) {
-      $service->setCustomTitleText($config['default_title'] ?? '');
+      $service->setCustomTitleText($document->document_category ?? $config['default_title'] ?? '');
     }
 
     // 各サービス固有の設定
