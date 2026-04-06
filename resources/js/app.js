@@ -308,28 +308,36 @@ document.addEventListener('DOMContentLoaded', () => {
 /*┃  DataTables ページネーション                  ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 // .page-link に btn-ex-sub 相当のホバー色変化を適用（イベント委譲）
-document.addEventListener('mouseenter', e => {
-  if (e.target.nodeType !== 1) return;
-  const el = e.target.closest('.dataTables_paginate .page-link');
-  if (!el || el.closest('.page-item.disabled')) return;
-  if (!el._dtPgInitialized) {
-    const style = getComputedStyle(el);
-    const primaryColor = style.getPropertyValue('--dt-pg-color').trim();
-    el._dtPgOriginalBg = getStaticBgColor(el);
-    el._dtPgHoverBg = primaryColor;
-    el._dtPgBlendedColor = blendBgWithPage(el._dtPgOriginalBg, el);
-    el._dtPgInitialized = true;
-  }
-  el._dtPgHovering = true;
-  el.style.backgroundColor = el._dtPgHoverBg;
-  el.style.color = el._dtPgBlendedColor;
-}, true);
+function setupDtPageLink(el) {
+  if (el._dtPgInitialized) return;
+  el._dtPgInitialized = true;
+  const style = getComputedStyle(el);
+  const primaryColor = style.getPropertyValue('--dt-pg-color').trim();
+  el._dtPgOriginalBg = getStaticBgColor(el);
+  el._dtPgHoverBg = primaryColor;
+  el._dtPgBlendedColor = blendBgWithPage(el._dtPgOriginalBg, el);
+  el.addEventListener('mouseenter', () => {
+    if (el.closest('.page-item.disabled')) return;
+    el.style.backgroundColor = el._dtPgHoverBg;
+    el.style.color = el._dtPgBlendedColor;
+  });
+  el.addEventListener('mouseleave', () => {
+    el.style.backgroundColor = '';
+    el.style.color = '';
+  });
+}
 
-document.addEventListener('mouseleave', e => {
-  if (e.target.nodeType !== 1) return;
-  const el = e.target.closest('.dataTables_paginate .page-link');
-  if (!el) return;
-  el._dtPgHovering = false;
-  el.style.backgroundColor = '';
-  el.style.color = '';
-}, true);
+// MutationObserverでDataTablesが生成する.page-linkを監視・登録
+const dtPgObserver = new MutationObserver(mutations => {
+  for (const mutation of mutations) {
+    for (const node of mutation.addedNodes) {
+      if (node.nodeType !== 1) continue;
+      if (node.classList.contains('page-link')) {
+        setupDtPageLink(node);
+      } else {
+        node.querySelectorAll?.('.page-link').forEach(setupDtPageLink);
+      }
+    }
+  }
+});
+dtPgObserver.observe(document.body, { childList: true, subtree: true });
