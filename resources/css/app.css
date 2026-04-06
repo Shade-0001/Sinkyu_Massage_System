@@ -1685,13 +1685,24 @@ html[data-sidebar="closed"] #sidebar-content {
   border-radius: 0 12px 12px 0 !important;
 }
 
-/* アクティブページ - btn-ex-sub-toggle-blue 相当 */
+/* アクティブページ - btn-ex-main + btn-ex-blue 相当（塗りつぶし） */
 .dataTables_paginate .page-item.active .page-link {
-  --dt-pg-color: #1f91ce;
   --dt-pg-bc: #1f93d0;
+  background-color: #1f91ce !important;
+  color: hsl(0, 0%, 95%) !important;
   -webkit-text-stroke: 0px rgba(255, 255, 255, 0) !important;
-  background-color: color-mix(in srgb, #1f91ce 15%, transparent) !important;
-  color: #1f91ce !important;
+}
+
+.dataTables_paginate .page-item.active .page-link::before {
+  box-shadow:
+    inset var(--dt-pg-ss)     var(--dt-pg-ss)     1px var(--dt-pg-light),
+    inset 0                   var(--dt-pg-ss)     1px var(--dt-pg-light),
+    inset var(--dt-pg-ss)     0                   1px var(--dt-pg-light),
+    inset var(--dt-pg-ss)     var(--dt-pg-ss-neg) 1px var(--dt-pg-mid),
+    inset var(--dt-pg-ss-neg) var(--dt-pg-ss)     1px var(--dt-pg-mid),
+    inset var(--dt-pg-ss-neg) 0                   1px var(--dt-pg-dark),
+    inset 0                   var(--dt-pg-ss-neg) 1px var(--dt-pg-dark),
+    inset var(--dt-pg-ss-neg) var(--dt-pg-ss-neg) 1px var(--dt-pg-dark);
 }
 
 /* 無効ボタン */
