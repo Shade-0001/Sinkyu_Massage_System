@@ -1604,6 +1604,14 @@ html[data-sidebar="closed"] #sidebar-content {
   margin-bottom: 0;
 }
 
+.dataTables_paginate .page-item {
+  pointer-events: none;
+}
+
+.dataTables_paginate .page-item .page-link {
+  pointer-events: auto;
+}
+
 /* ページリンク共通 */
 .dataTables_paginate .page-link {
   --dt-pg-color: hsl(200, 8%, 50%);
