@@ -16,34 +16,101 @@
     </a>
   </div>
 
-  <table id="treatmentFeesTable" class="table table-bordered table-striped">
+  <table id="treatmentFeesTable" class="table table-bordered table-striped" style="font-size: 0.82rem;">
     <thead>
       <tr>
-        <th style="width: 10%;">編集</th>
-        <th style="width: 30%;">対象期間</th>
-        <th style="width: 15%;">初回</th>
-        <th style="width: 15%;">通常</th>
-        <th style="width: 20%;">データ登録日</th>
-        <th style="width: 10%;">削除</th>
+        <th rowspan="2" class="align-middle text-center" style="width: 8%;">対象期間</th>
+        <th colspan="3" class="text-center" style="width: 33%;">初回</th>
+        <th colspan="3" class="text-center" style="width: 33%;">通常</th>
+        <th rowspan="2" class="align-middle text-center" style="width: 10%;">データ登録日</th>
+        <th rowspan="2" class="align-middle text-center" style="width: 6%;">操作</th>
+      </tr>
+      <tr>
+        <th class="text-center">はり・きゅう</th>
+        <th class="text-center">あんま・マッサージ</th>
+        <th class="text-center">往療料</th>
+        <th class="text-center">はり・きゅう</th>
+        <th class="text-center">あんま・マッサージ</th>
+        <th class="text-center">往療料</th>
       </tr>
     </thead>
     <tbody>
       @foreach($items as $item)
       <tr>
-        <td style="text-align: center;">
-          <a href="{{ route('master.treatment-fees.edit', $item->id) }}">
-            <button type="button">編集</button>
-          </a>
+        {{-- 対象期間 3行 --}}
+        <td class="text-center align-middle" style="white-space: nowrap;">
+          {{ \Carbon\Carbon::parse($item->period_start)->format('Y/m/d') }}<br>
+          &emsp;&emsp;&emsp; ┃<br>
+          {{ \Carbon\Carbon::parse($item->period_end)->format('Y/m/d') }}
         </td>
-        <td>{{ $item->period_start }} ～ {{ $item->period_end }}</td>
-        <td style="text-align: right;">{{ number_format($item->hari_first) }} 円</td>
-        <td style="text-align: right;">{{ number_format($item->hari_normal) }} 円</td>
-        <td>{{ $item->created_at }}</td>
-        <td style="text-align: center;">
-          <form action="{{ route('master.treatment-fees.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('本当に削除する？');">
+
+        {{-- 初回：はり・きゅう --}}
+        <td style="vertical-align: top;">
+          <div>はり：{{ number_format($item->hari_first) }} 円</div>
+          <div>きゅう：{{ number_format($item->kyu_first) }} 円</div>
+          <div>はりきゅう併用：{{ number_format($item->hari_and_kyu_first) }} 円</div>
+          <div>電療料（電気針）：{{ number_format($item->hari_and_elec_needle_first) }} 円</div>
+          <div>電療料（電気温灸器）：{{ number_format($item->kyu_and_elec_moxa_heater_first) }} 円</div>
+          <div>電療料（電気光線器具）：{{ number_format($item->hari_and_kyu_elec_ray_first) }} 円</div>
+        </td>
+
+        {{-- 初回：あんま・マッサージ --}}
+        <td style="vertical-align: top;">
+          <div>マッサージ躯幹：{{ number_format($item->massage_trunk_first) }} 円</div>
+          <div>マッサージ右上肢：{{ number_format($item->massage_upper_limb_r_first) }} 円</div>
+          <div>マッサージ左上肢：{{ number_format($item->massage_upper_limb_l_first) }} 円</div>
+          <div>マッサージ右下肢：{{ number_format($item->massage_lower_limb_r_first) }} 円</div>
+          <div>マッサージ左下肢：{{ number_format($item->massage_lower_limb_l_first) }} 円</div>
+          <div>変形徒手矯正術：{{ number_format($item->manual_correction_first) }} 円</div>
+          <div>温罨法：{{ number_format($item->fomentation_first) }} 円</div>
+          <div>温罨法・電気光線器具：{{ number_format($item->fomentation_and_elec_ray_first) }} 円</div>
+        </td>
+
+        {{-- 初回：往療料 --}}
+        <td style="vertical-align: top;">
+          <div>往診料（4km以内）：{{ number_format($item->housecall_max_2km_first) }} 円</div>
+          <div>往診料（4km超過）：{{ number_format($item->housecall_additional_max_4km_first) }} 円</div>
+        </td>
+
+        {{-- 通常：はり・きゅう --}}
+        <td style="vertical-align: top;">
+          <div>はり：{{ number_format($item->hari_normal) }} 円</div>
+          <div>きゅう：{{ number_format($item->kyu_normal) }} 円</div>
+          <div>はりきゅう併用：{{ number_format($item->hari_and_kyu_normal) }} 円</div>
+          <div>電療料（電気針）：{{ number_format($item->hari_and_elec_needle_normal) }} 円</div>
+          <div>電療料（電気温灸器）：{{ number_format($item->kyu_and_elec_moxa_heater_normal) }} 円</div>
+          <div>電療料（電気光線器具）：{{ number_format($item->hari_and_kyu_elec_ray_normal) }} 円</div>
+        </td>
+
+        {{-- 通常：あんま・マッサージ --}}
+        <td style="vertical-align: top;">
+          <div>マッサージ躯幹：{{ number_format($item->massage_trunk_normal) }} 円</div>
+          <div>マッサージ右上肢：{{ number_format($item->massage_upper_limb_r_normal) }} 円</div>
+          <div>マッサージ左上肢：{{ number_format($item->massage_upper_limb_l_normal) }} 円</div>
+          <div>マッサージ右下肢：{{ number_format($item->massage_lower_limb_r_normal) }} 円</div>
+          <div>マッサージ左下肢：{{ number_format($item->massage_lower_limb_l_normal) }} 円</div>
+          <div>変形徒手矯正術：{{ number_format($item->manual_correction_normal) }} 円</div>
+          <div>温罨法：{{ number_format($item->fomentation_normal) }} 円</div>
+          <div>温罨法・電気光線器具：{{ number_format($item->fomentation_and_elec_ray_normal) }} 円</div>
+        </td>
+
+        {{-- 通常：往療料 --}}
+        <td style="vertical-align: top;">
+          <div>往診料（4km以内）：{{ number_format($item->housecall_max_2km_normal) }} 円</div>
+          <div>往診料（4km超過）：{{ number_format($item->housecall_additional_max_4km_normal) }} 円</div>
+        </td>
+
+        <td class="text-center align-middle">{{ $item->created_at }}</td>
+
+        {{-- 操作 --}}
+        <td class="text-center align-middle">
+          <a href="{{ route('master.treatment-fees.edit', $item->id) }}" class="d-block mb-1">
+            <button type="button" class="btn btn-sm btn-outline-primary w-100">編集</button>
+          </a>
+          <form action="{{ route('master.treatment-fees.destroy', $item->id) }}" method="POST" onsubmit="return confirm('本当に削除する？');">
             @csrf
             @method('DELETE')
-            <button type="submit">削除</button>
+            <button type="submit" class="btn btn-sm btn-outline-danger w-100">削除</button>
           </form>
         </td>
       </tr>
@@ -62,11 +129,11 @@
             next: '次へ ▸'
           }
         },
-        order: [[1, 'desc']],
+        order: [[0, 'desc']],
         pageLength: 10,
         lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
         columnDefs: [
-          { orderable: false, targets: [0, 5] }
+          { orderable: false, targets: [1, 2, 3, 4, 5, 6, 8] }
         ]
       });
     });
