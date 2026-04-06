@@ -17,12 +17,12 @@
   </div>
 
   <table id="treatmentFeesTable" class="table table-bordered table-sm small">
-    <thead class="table-secondary">
+    <thead class="table-light">
       <tr>
         <th rowspan="2" class="align-middle text-center">対象期間</th>
-        <th colspan="3" class="text-center">初回</th>
-        <th colspan="3" class="text-center">通常</th>
-        <th rowspan="2" class="align-middle text-center">データ登録日</th>
+        <th colspan="3" class="text-center no-thick-border">初回</th>
+        <th colspan="3" class="text-center no-thick-border">通常</th>
+        <th rowspan="2" class="align-middle text-center">登録日時</th>
         <th rowspan="2" class="align-middle text-center">操作</th>
       </tr>
       <tr>
@@ -34,7 +34,7 @@
         <th class="text-center" style="background-color: rgba(27,173,80,0.2);">往療料</th>
       </tr>
     </thead>
-    <tbody class="fw-medium">
+    <tbody class="fw-medium bg-white">
       @foreach($items as $item)
       <tr>
         {{-- 対象期間 3行 --}}

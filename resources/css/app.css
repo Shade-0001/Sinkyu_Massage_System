@@ -54,6 +54,15 @@ textarea:not(:disabled) {
 .vr {
   min-width: 1px;
 }
+
+/* BSテーブルクラス */
+.table {
+  border-radius: 2px;
+}
+
+.table-bordered thead > tr > *:not(.no-thick-border) {
+  border-bottom-width: 5px !important;
+}
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
 
