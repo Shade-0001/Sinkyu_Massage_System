@@ -60,7 +60,7 @@ textarea:not(:disabled) {
   border-radius: 2px;
 }
 
-.table-bordered thead > tr > *:not(.no-thick-border) {
+.table-bordered thead > tr > *:not(.exempt-override) {
   border-bottom-width: 5px !important;
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
