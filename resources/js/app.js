@@ -309,6 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 // .page-link に btn-ex-sub 相当のホバー色変化を適用（イベント委譲）
 document.addEventListener('mouseenter', e => {
+  if (e.target.nodeType !== 1) return;
   const el = e.target.closest('.dataTables_paginate .page-link');
   if (!el || el.closest('.page-item.disabled')) return;
   if (!el._dtPgInitialized) {
@@ -325,6 +326,7 @@ document.addEventListener('mouseenter', e => {
 }, true);
 
 document.addEventListener('mouseleave', e => {
+  if (e.target.nodeType !== 1) return;
   const el = e.target.closest('.dataTables_paginate .page-link');
   if (!el) return;
   el._dtPgHovering = false;
