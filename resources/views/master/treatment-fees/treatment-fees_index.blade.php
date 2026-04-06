@@ -26,12 +26,12 @@
         <th rowspan="2" class="align-middle text-center">操作</th>
       </tr>
       <tr>
-        <th class="text-center" style="background-color: rgba(31,145,206,0.8);">はり・きゅう</th>
-        <th class="text-center" style="background-color: rgba(230,126,34,0.8);">あんま・マッサージ</th>
-        <th class="text-center" style="background-color: rgba(27,173,80,0.8);">往療料</th>
-        <th class="text-center" style="background-color: rgba(31,145,206,0.8);">はり・きゅう</th>
-        <th class="text-center" style="background-color: rgba(230,126,34,0.8);">あんま・マッサージ</th>
-        <th class="text-center" style="background-color: rgba(27,173,80,0.8);">往療料</th>
+        <th class="text-center" style="background-color: rgba(31,145,206,0.2);">はり・きゅう</th>
+        <th class="text-center" style="background-color: rgba(230,126,34,0.2);">あんま・マッサージ</th>
+        <th class="text-center" style="background-color: rgba(27,173,80,0.2);">往療料</th>
+        <th class="text-center" style="background-color: rgba(31,145,206,0.2);">はり・きゅう</th>
+        <th class="text-center" style="background-color: rgba(230,126,34,0.2);">あんま・マッサージ</th>
+        <th class="text-center" style="background-color: rgba(27,173,80,0.2);">往療料</th>
       </tr>
     </thead>
     <tbody class="fw-medium">
@@ -45,7 +45,7 @@
         </td>
 
         {{-- 初回：はり・きゅう --}}
-        <td class="align-top" style="background-color: rgba(31,145,206,0.8);">
+        <td class="align-top" style="background-color: rgba(31,145,206,0.1);">
           <div>はり：{{ number_format($item->hari_first) }}</div>
           <div>きゅう：{{ number_format($item->kyu_first) }}</div>
           <div>はりきゅう併用：{{ number_format($item->hari_and_kyu_first) }}</div>
@@ -55,7 +55,7 @@
         </td>
 
         {{-- 初回：あんま・マッサージ --}}
-        <td class="align-top" style="background-color: rgba(230,126,34,0.8);">
+        <td class="align-top" style="background-color: rgba(230,126,34,0.1);">
           <div>マッサージ躯幹：{{ number_format($item->massage_trunk_first) }}</div>
           <div>マッサージ右上肢：{{ number_format($item->massage_upper_limb_r_first) }}</div>
           <div>マッサージ左上肢：{{ number_format($item->massage_upper_limb_l_first) }}</div>
@@ -67,13 +67,13 @@
         </td>
 
         {{-- 初回：往療料 --}}
-        <td class="align-top" style="background-color: rgba(27,173,80,0.8);">
+        <td class="align-top" style="background-color: rgba(27,173,80,0.1);">
           <div>往診料（4km以内）：{{ number_format($item->housecall_max_2km_first) }}</div>
           <div>往診料（4km超過）：{{ number_format($item->housecall_additional_max_4km_first) }}</div>
         </td>
 
         {{-- 通常：はり・きゅう --}}
-        <td class="align-top" style="background-color: rgba(31,145,206,0.8);">
+        <td class="align-top" style="background-color: rgba(31,145,206,0.1);">
           <div>はり：{{ number_format($item->hari_normal) }}</div>
           <div>きゅう：{{ number_format($item->kyu_normal) }}</div>
           <div>はりきゅう併用：{{ number_format($item->hari_and_kyu_normal) }}</div>
@@ -83,7 +83,7 @@
         </td>
 
         {{-- 通常：あんま・マッサージ --}}
-        <td class="align-top" style="background-color: rgba(230,126,34,0.8);">
+        <td class="align-top" style="background-color: rgba(230,126,34,0.1);">
           <div>マッサージ躯幹：{{ number_format($item->massage_trunk_normal) }}</div>
           <div>マッサージ右上肢：{{ number_format($item->massage_upper_limb_r_normal) }}</div>
           <div>マッサージ左上肢：{{ number_format($item->massage_upper_limb_l_normal) }}</div>
@@ -95,7 +95,7 @@
         </td>
 
         {{-- 通常：往療料 --}}
-        <td class="align-top" style="background-color: rgba(27,173,80,0.8);">
+        <td class="align-top" style="background-color: rgba(27,173,80,0.1);">
           <div>往診料（4km以内）：{{ number_format($item->housecall_max_2km_normal) }}</div>
           <div>往診料（4km超過）：{{ number_format($item->housecall_additional_max_4km_normal) }}</div>
         </td>
