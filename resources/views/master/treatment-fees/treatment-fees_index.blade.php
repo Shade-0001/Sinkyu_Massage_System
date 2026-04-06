@@ -12,26 +12,26 @@
   <!-- 新規登録ボタン -->
   <div class="mb-2">
     <a href="{{ route('master.treatment-fees.create') }}">
-      <button type="button">施術料金新規登録</button>
+      <button type="button" class="btn-ex-main btn-ex-blue mb-1">施術料金新規登録</button>
     </a>
   </div>
 
   <table id="treatmentFeesTable" class="table table-bordered table-sm small">
-    <thead class="table-light">
+    <thead>
       <tr>
         <th rowspan="2" class="align-middle text-center">対象期間</th>
-        <th colspan="3" class="text-center exception">初回</th>
-        <th colspan="3" class="text-center exception">通常</th>
+        <th colspan="3" class="text-center" style="border-bottom-width: 1px !important;">初回</th>
+        <th colspan="3" class="text-center" style="border-bottom-width: 1px !important;">通常</th>
         <th rowspan="2" class="align-middle text-center">登録日時</th>
         <th rowspan="2" class="align-middle text-center">操作</th>
       </tr>
       <tr>
+        <th class="text-center" style="background-color: rgba(31,145,206,0.2); border-left-color: transparent;">はり・きゅう</th>
+        <th class="text-center exempt-border-left" style="background-color: rgba(230,126,34,0.2);">あんま・マッサージ</th>
+        <th class="text-center exempt-border-left" style="background-color: rgba(27,173,80,0.2);">往療料</th>
         <th class="text-center" style="background-color: rgba(31,145,206,0.2);">はり・きゅう</th>
-        <th class="text-center" style="background-color: rgba(230,126,34,0.2);">あんま・マッサージ</th>
-        <th class="text-center" style="background-color: rgba(27,173,80,0.2);">往療料</th>
-        <th class="text-center" style="background-color: rgba(31,145,206,0.2);">はり・きゅう</th>
-        <th class="text-center" style="background-color: rgba(230,126,34,0.2);">あんま・マッサージ</th>
-        <th class="text-center" style="background-color: rgba(27,173,80,0.2);">往療料</th>
+        <th class="text-center exempt-border-left" style="background-color: rgba(230,126,34,0.2);">あんま・マッサージ</th>
+        <th class="text-center exempt-border-left" style="background-color: rgba(27,173,80,0.2);">往療料</th>
       </tr>
     </thead>
     <tbody class="fw-medium bg-white">
@@ -55,7 +55,7 @@
         </td>
 
         {{-- 初回：あんま・マッサージ --}}
-        <td class="align-top" style="background-color: rgba(230,126,34,0.1);">
+        <td class="align-top exempt-border-left" style="background-color: rgba(230,126,34,0.1);">
           <div>マッサージ躯幹：{{ number_format($item->massage_trunk_first) }}</div>
           <div>マッサージ右上肢：{{ number_format($item->massage_upper_limb_r_first) }}</div>
           <div>マッサージ左上肢：{{ number_format($item->massage_upper_limb_l_first) }}</div>
@@ -67,7 +67,7 @@
         </td>
 
         {{-- 初回：往療料 --}}
-        <td class="align-top" style="background-color: rgba(27,173,80,0.1);">
+        <td class="align-top exempt-border-left" style="background-color: rgba(27,173,80,0.1);">
           <div>往診料（4km以内）：{{ number_format($item->housecall_max_2km_first) }}</div>
           <div>往診料（4km超過）：{{ number_format($item->housecall_additional_max_4km_first) }}</div>
         </td>
@@ -83,7 +83,7 @@
         </td>
 
         {{-- 通常：あんま・マッサージ --}}
-        <td class="align-top" style="background-color: rgba(230,126,34,0.1);">
+        <td class="align-top exempt-border-left" style="background-color: rgba(230,126,34,0.1);">
           <div>マッサージ躯幹：{{ number_format($item->massage_trunk_normal) }}</div>
           <div>マッサージ右上肢：{{ number_format($item->massage_upper_limb_r_normal) }}</div>
           <div>マッサージ左上肢：{{ number_format($item->massage_upper_limb_l_normal) }}</div>
@@ -95,7 +95,7 @@
         </td>
 
         {{-- 通常：往療料 --}}
-        <td class="align-top" style="background-color: rgba(27,173,80,0.1);">
+        <td class="align-top exempt-border-left" style="background-color: rgba(27,173,80,0.1);">
           <div>往診料（4km以内）：{{ number_format($item->housecall_max_2km_normal) }}</div>
           <div>往診料（4km超過）：{{ number_format($item->housecall_additional_max_4km_normal) }}</div>
         </td>
@@ -108,12 +108,12 @@
         {{-- 操作 --}}
         <td class="text-center align-middle">
           <a href="{{ route('master.treatment-fees.edit', $item->id) }}" class="d-block mb-1">
-            <button type="button" class="btn btn-sm btn-outline-primary w-100">編集</button>
+            <button type="button" class="btn-ex-main btn-ex-blue btn-ex-sm">編集</button>
           </a>
           <form action="{{ route('master.treatment-fees.destroy', $item->id) }}" method="POST" onsubmit="return confirm('本当に削除する？');">
             @csrf
             @method('DELETE')
-            <button type="submit" class="btn btn-sm btn-outline-danger w-100">削除</button>
+            <button type="submit" class="btn-ex-main btn-ex-red btn-ex-sm">削除</button>
           </form>
         </td>
       </tr>

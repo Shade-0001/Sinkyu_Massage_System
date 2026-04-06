@@ -816,6 +816,13 @@ textarea:not(:disabled) {
 .btn-ex-sub-toggle-expand.btn-ex-active.btn-ex-xl {
   --btn-border-size: calc(var(--btn-shadow-size) * 2.8);
 }
+
+/*──────────────────────────────────────────────*/
+/*  テーブル - ストライプ（拡張）                 */
+/*──────────────────────────────────────────────*/
+.table-striped-ex > tbody > tr:nth-of-type(even) > * {
+  background-color: #F5F5F5;
+}
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
 

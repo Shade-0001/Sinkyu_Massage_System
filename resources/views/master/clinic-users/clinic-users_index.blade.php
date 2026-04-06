@@ -14,14 +14,14 @@
   <br><br>
 
   <!-- 利用者一覧テーブル -->
-  <table id="userTable" class="table table-bordered table-striped">
+  <table id="userTable" class="table table-bordered">
   <thead>
     <tr>
     <th class="text-center">ID</th>
     <th class="text-center">名前 / カナ</th>
     <th class="text-center">生年月日</th>
     <th class="text-center">住所 / TEL</th>
-    <th class="text-center text-nowrap">データ登録日</th>
+    <th class="text-center">登録日時</th>
     <th class="text-center">編集</th>
     <th class="text-center">削除</th>
     </tr>
