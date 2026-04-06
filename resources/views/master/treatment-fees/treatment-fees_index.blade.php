@@ -46,61 +46,64 @@
 
         {{-- 初回：はり・きゅう --}}
         <td style="vertical-align: top;">
-          <div>はり：{{ number_format($item->hari_first) }} 円</div>
-          <div>きゅう：{{ number_format($item->kyu_first) }} 円</div>
-          <div>はりきゅう併用：{{ number_format($item->hari_and_kyu_first) }} 円</div>
-          <div>電療料（電気針）：{{ number_format($item->hari_and_elec_needle_first) }} 円</div>
-          <div>電療料（電気温灸器）：{{ number_format($item->kyu_and_elec_moxa_heater_first) }} 円</div>
-          <div>電療料（電気光線器具）：{{ number_format($item->hari_and_kyu_elec_ray_first) }} 円</div>
+          <div>はり：{{ number_format($item->hari_first) }}</div>
+          <div>きゅう：{{ number_format($item->kyu_first) }}</div>
+          <div>はりきゅう併用：{{ number_format($item->hari_and_kyu_first) }}</div>
+          <div>電療料（電気針）：{{ number_format($item->hari_and_elec_needle_first) }}</div>
+          <div>電療料（電気温灸器）：{{ number_format($item->kyu_and_elec_moxa_heater_first) }}</div>
+          <div>電療料（電気光線器具）：{{ number_format($item->hari_and_kyu_elec_ray_first) }}</div>
         </td>
 
         {{-- 初回：あんま・マッサージ --}}
         <td style="vertical-align: top;">
-          <div>マッサージ躯幹：{{ number_format($item->massage_trunk_first) }} 円</div>
-          <div>マッサージ右上肢：{{ number_format($item->massage_upper_limb_r_first) }} 円</div>
-          <div>マッサージ左上肢：{{ number_format($item->massage_upper_limb_l_first) }} 円</div>
-          <div>マッサージ右下肢：{{ number_format($item->massage_lower_limb_r_first) }} 円</div>
-          <div>マッサージ左下肢：{{ number_format($item->massage_lower_limb_l_first) }} 円</div>
-          <div>変形徒手矯正術：{{ number_format($item->manual_correction_first) }} 円</div>
-          <div>温罨法：{{ number_format($item->fomentation_first) }} 円</div>
-          <div>温罨法・電気光線器具：{{ number_format($item->fomentation_and_elec_ray_first) }} 円</div>
+          <div>マッサージ躯幹：{{ number_format($item->massage_trunk_first) }}</div>
+          <div>マッサージ右上肢：{{ number_format($item->massage_upper_limb_r_first) }}</div>
+          <div>マッサージ左上肢：{{ number_format($item->massage_upper_limb_l_first) }}</div>
+          <div>マッサージ右下肢：{{ number_format($item->massage_lower_limb_r_first) }}</div>
+          <div>マッサージ左下肢：{{ number_format($item->massage_lower_limb_l_first) }}</div>
+          <div>変形徒手矯正術：{{ number_format($item->manual_correction_first) }}</div>
+          <div>温罨法：{{ number_format($item->fomentation_first) }}</div>
+          <div>温罨法・電気光線器具：{{ number_format($item->fomentation_and_elec_ray_first) }}</div>
         </td>
 
         {{-- 初回：往療料 --}}
         <td style="vertical-align: top;">
-          <div>往診料（4km以内）：{{ number_format($item->housecall_max_2km_first) }} 円</div>
-          <div>往診料（4km超過）：{{ number_format($item->housecall_additional_max_4km_first) }} 円</div>
+          <div>往診料（4km以内）：{{ number_format($item->housecall_max_2km_first) }}</div>
+          <div>往診料（4km超過）：{{ number_format($item->housecall_additional_max_4km_first) }}</div>
         </td>
 
         {{-- 通常：はり・きゅう --}}
         <td style="vertical-align: top;">
-          <div>はり：{{ number_format($item->hari_normal) }} 円</div>
-          <div>きゅう：{{ number_format($item->kyu_normal) }} 円</div>
-          <div>はりきゅう併用：{{ number_format($item->hari_and_kyu_normal) }} 円</div>
-          <div>電療料（電気針）：{{ number_format($item->hari_and_elec_needle_normal) }} 円</div>
-          <div>電療料（電気温灸器）：{{ number_format($item->kyu_and_elec_moxa_heater_normal) }} 円</div>
-          <div>電療料（電気光線器具）：{{ number_format($item->hari_and_kyu_elec_ray_normal) }} 円</div>
+          <div>はり：{{ number_format($item->hari_normal) }}</div>
+          <div>きゅう：{{ number_format($item->kyu_normal) }}</div>
+          <div>はりきゅう併用：{{ number_format($item->hari_and_kyu_normal) }}</div>
+          <div>電療料（電気針）：{{ number_format($item->hari_and_elec_needle_normal) }}</div>
+          <div>電療料（電気温灸器）：{{ number_format($item->kyu_and_elec_moxa_heater_normal) }}</div>
+          <div>電療料（電気光線器具）：{{ number_format($item->hari_and_kyu_elec_ray_normal) }}</div>
         </td>
 
         {{-- 通常：あんま・マッサージ --}}
         <td style="vertical-align: top;">
-          <div>マッサージ躯幹：{{ number_format($item->massage_trunk_normal) }} 円</div>
-          <div>マッサージ右上肢：{{ number_format($item->massage_upper_limb_r_normal) }} 円</div>
-          <div>マッサージ左上肢：{{ number_format($item->massage_upper_limb_l_normal) }} 円</div>
-          <div>マッサージ右下肢：{{ number_format($item->massage_lower_limb_r_normal) }} 円</div>
-          <div>マッサージ左下肢：{{ number_format($item->massage_lower_limb_l_normal) }} 円</div>
-          <div>変形徒手矯正術：{{ number_format($item->manual_correction_normal) }} 円</div>
-          <div>温罨法：{{ number_format($item->fomentation_normal) }} 円</div>
-          <div>温罨法・電気光線器具：{{ number_format($item->fomentation_and_elec_ray_normal) }} 円</div>
+          <div>マッサージ躯幹：{{ number_format($item->massage_trunk_normal) }}</div>
+          <div>マッサージ右上肢：{{ number_format($item->massage_upper_limb_r_normal) }}</div>
+          <div>マッサージ左上肢：{{ number_format($item->massage_upper_limb_l_normal) }}</div>
+          <div>マッサージ右下肢：{{ number_format($item->massage_lower_limb_r_normal) }}</div>
+          <div>マッサージ左下肢：{{ number_format($item->massage_lower_limb_l_normal) }}</div>
+          <div>変形徒手矯正術：{{ number_format($item->manual_correction_normal) }}</div>
+          <div>温罨法：{{ number_format($item->fomentation_normal) }}</div>
+          <div>温罨法・電気光線器具：{{ number_format($item->fomentation_and_elec_ray_normal) }}</div>
         </td>
 
         {{-- 通常：往療料 --}}
         <td style="vertical-align: top;">
-          <div>往診料（4km以内）：{{ number_format($item->housecall_max_2km_normal) }} 円</div>
-          <div>往診料（4km超過）：{{ number_format($item->housecall_additional_max_4km_normal) }} 円</div>
+          <div>往診料（4km以内）：{{ number_format($item->housecall_max_2km_normal) }}</div>
+          <div>往診料（4km超過）：{{ number_format($item->housecall_additional_max_4km_normal) }}</div>
         </td>
 
-        <td class="text-center align-middle">{{ $item->created_at }}</td>
+        <td class="text-center align-middle" style="white-space: nowrap;">
+          {{ \Carbon\Carbon::parse($item->created_at)->format('Y/m/d') }}<br>
+          {{ \Carbon\Carbon::parse($item->created_at)->format('H:i:s') }}
+        </td>
 
         {{-- 操作 --}}
         <td class="text-center align-middle">
