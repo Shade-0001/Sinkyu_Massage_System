@@ -56,6 +56,9 @@ textarea:not(:disabled) {
 }
 
 /* BSテーブルクラス */
+table.table-bordered.dataTable {
+  border-right-width: 2px !important;
+}
 .table {
   border-radius: 2px;
   border-color: #bbbbbb;
