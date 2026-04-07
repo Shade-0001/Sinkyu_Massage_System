@@ -396,7 +396,7 @@
                   <th class="align-middle text-center" style="min-width: 50px;">登録日時 / 更新日時</th>
                   <th colspan="{{ date('t', strtotime("$selectedYear-$selectedMonth-01")) }}" class="text-center">
                     施術日（通院：○｜往療：◎）</th>
-                  <th class="align-middle text-center" style="min-width: 90px;">操作</th>
+                  <th class="align-middle text-center" style="max-width: 170px;">操作</th>
                 </tr>
               </thead>
               <tbody>
@@ -459,7 +459,7 @@
                             $mark = $record->therapy_category == 1 ? '○' : '◎';
                         }
                       @endphp
-                      <td class="p-0 text-center">{{ $mark }}</td>
+                      <td class="p-0 text-center align-middle">{{ $mark }}</td>
                     @endfor
                   </tr>
                 @endforeach
