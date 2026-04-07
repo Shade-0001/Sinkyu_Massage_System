@@ -1377,7 +1377,7 @@ html[data-sidebar="closed"] #sidebar-content {
 /* 曜日ヘッダー */
 .calendar-day-header {
   background-color: rgba(0, 0, 0, 0.01);
-  border-left: var(--table-border-width) solid var(--table-border-color);
+  border-left: 1px solid var(--table-border-color);
   border-bottom: var(--table-border-width) solid var(--table-border-color);
 }
 
@@ -1400,7 +1400,7 @@ html[data-sidebar="closed"] #sidebar-content {
   font-weight: 500;
   padding: 8px 0px;
   text-align: center;
-  border-left: var(--table-border-width) solid var(--table-border-color);
+  border-left: 1px solid var(--table-border-color);
   border-top: 1px solid var(--table-border-color);
   cursor: pointer;
 }
