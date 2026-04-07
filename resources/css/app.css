@@ -79,6 +79,11 @@ textarea:not(:disabled) {
 .table > tbody > tr > *:not(.exempt-border-right) {
   border-right-width: 1px;
 }
+.table > thead > tr > *,
+.table > tbody > tr > * {
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+}
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
 
@@ -1184,7 +1189,6 @@ html[data-sidebar="closed"] #sidebar-content {
   font-size: 1rem;
   font-weight: 600;
   line-height: 1;
-  /* padding: 10px 14px; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1245,12 +1249,13 @@ html[data-sidebar="closed"] #sidebar-content {
 /* 左端ボタン */
 .dataTables_paginate .page-item:first-child .page-link {
   border-radius: 12px 0 0 12px !important;
-  padding: 0px 16px;
+  width: 42px;
 }
 
 /* 右端ボタン */
 .dataTables_paginate .page-item:last-child .page-link {
   border-radius: 0 12px 12px 0 !important;
+  width: 42px;
 }
 
 /* アクティブページ - btn-ex-sub-toggle-blue 相当 */
