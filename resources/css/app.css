@@ -1377,12 +1377,8 @@ html[data-sidebar="closed"] #sidebar-content {
 /* 曜日ヘッダー */
 .calendar-day-header {
   background-color: rgba(0, 0, 0, 0.01);
-  border-left: 1px solid var(--table-border-color);
+  border: 1px solid var(--table-border-color);
   border-bottom: var(--table-border-width) solid var(--table-border-color);
-}
-
-.calendar-day-header:nth-child(1) {
-  border-left: none;
 }
 
 /* 日曜日 - text-dangerで代替可能だが、特定色のため保持 */
@@ -1400,13 +1396,8 @@ html[data-sidebar="closed"] #sidebar-content {
   font-weight: 500;
   padding: 8px 0px;
   text-align: center;
-  border-left: 1px solid var(--table-border-color);
-  border-top: 1px solid var(--table-border-color);
+  border: 1px solid var(--table-border-color);
   cursor: pointer;
-}
-
-.calendar-day:nth-child(7n + 8) {
-  border-left: none;
 }
 
 /* 選択状態 - カスタム背景色 */
