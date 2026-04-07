@@ -61,14 +61,12 @@ textarea:not(:disabled) {
   border-color: #bbbbbb;
   border-collapse: separate;
   border-spacing: 0;
-  outline: 2px solid #bbbbbb;
+  border: 2px solid #bbbbbb;
 }
 .table-responsive:has(> .table) {
-  border: 2px solid #bbbbbb;
   border-radius: 2px;
 }
 .table-responsive:has(> .table) > .table {
-  outline: none;
   margin-bottom: 0;
 }
 .table > thead > tr > * {
@@ -89,14 +87,8 @@ textarea:not(:disabled) {
 .table > tbody > tr > *:not(.exempt-border-right) {
   border-right-width: 1px;
 }
-.table:not(.dataTable) > thead > tr > * {
-  border-top-width: 1px;
-}
 .table:not(.dataTable) > tbody > tr > * {
   border-top-width: 1px;
-}
-.table-responsive:has(> .table) > .table {
-  border-bottom: 1px solid #bbbbbb;
 }
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
