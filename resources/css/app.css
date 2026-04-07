@@ -89,7 +89,7 @@ textarea:not(:disabled) {
 .table > tbody > tr > *:not(.exempt-border-right) {
   border-right-width: 1px;
 }
-.table > tbody > tr > * {
+.table:not(.dataTable) > tbody > tr > * {
   border-top-width: 1px;
 }
 
