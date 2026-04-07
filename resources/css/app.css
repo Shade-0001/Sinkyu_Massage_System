@@ -77,8 +77,8 @@ textarea:not(:disabled) {
 }
 .table > thead > tr > *,
 .table > tbody > tr > * {
-  border-width: 1px;
-  border-color: #bbbbbb;
+  border-width: 1px !important;
+  border-color: #bbbbbb !important;
 }
 .table > thead > tr > *.exempt-border-left,
 .table > tbody > tr > *.exempt-border-left {
