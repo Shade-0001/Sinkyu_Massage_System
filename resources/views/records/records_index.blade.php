@@ -50,27 +50,27 @@
         <div class="text-center position-relative flex-shrink-0 user-select-none" style="width: 300px;">
           <!-- カレンダーヘッダー -->
           <div class="d-flex align-items-stretch justify-content-center mb-3">
-            <button type="button" id="prev-month-btn" class="btn-ex-sub btn-ex-blue" style="--btn-br-tl: 16px; --btn-br-tr: 0px; --btn-br-br: 0px; --btn-br-bl: 16px;">
-              <i class="nf nf-fa-angle_left" style="font-size: 24px;"></i>
+            <button type="button" id="prev-month-btn" class="btn-ex-sub btn-ex-blue" style="--btn-br-tl: 16px; --btn-br-tr: 0px; --btn-br-br: 0px; --btn-br-bl: 16px; padding-left: 12px; padding-right: 12px;">
+              <i class="nf nf-fa-caret_left fs-2"></i>
             </button>
             <div class="btn-ex-sub btn-ex-blue rounded-0" style="font-size: 28px; padding-top: 12px; padding-bottom: 12px;">
               <div id="calendar-title-display"></div>
               <select id="calendar-title" class="position-absolute top-0 start-50 translate-middle-x opacity-0" style="border: none; background: transparent; width: 100%; height: 100%;"></select>
             </div>
-            <button type="button" id="next-month-btn" class="btn-ex-sub btn-ex-blue" style="--btn-br-tl: 0px; --btn-br-tr: 16px; --btn-br-br: 16px; --btn-br-bl: 0px;">
-              <i class="nf nf-fa-angle_right" style="font-size: 24px;"></i>
+            <button type="button" id="next-month-btn" class="btn-ex-sub btn-ex-blue" style="--btn-br-tl: 0px; --btn-br-tr: 16px; --btn-br-br: 16px; --btn-br-bl: 0px; padding-left: 12px; padding-right: 12px;">
+              <i class="nf nf-fa-caret_right fs-2"></i>
             </button>
           </div>
           <!-- カレンダーボディ -->
           <div class="calendar" id="calendar">
             <!-- 曜日ヘッダー -->
-            <div class="calendar-day-header text-center p-1 fw-bold sunday">日</div>
-            <div class="calendar-day-header text-center p-1 fw-bold">月</div>
-            <div class="calendar-day-header text-center p-1 fw-bold">火</div>
-            <div class="calendar-day-header text-center p-1 fw-bold">水</div>
-            <div class="calendar-day-header text-center p-1 fw-bold">木</div>
-            <div class="calendar-day-header text-center p-1 fw-bold">金</div>
-            <div class="calendar-day-header text-center p-1 fw-bold saturday">土</div>
+            <div class="calendar-day-header text-center py-1 fw-bold sunday">日</div>
+            <div class="calendar-day-header text-center py-1 fw-bold">月</div>
+            <div class="calendar-day-header text-center py-1 fw-bold">火</div>
+            <div class="calendar-day-header text-center py-1 fw-bold">水</div>
+            <div class="calendar-day-header text-center py-1 fw-bold">木</div>
+            <div class="calendar-day-header text-center py-1 fw-bold">金</div>
+            <div class="calendar-day-header text-center py-1 fw-bold saturday">土</div>
           </div>
           <button type="button" id="clear-selection-btn" class="btn-ex-main btn-ex-sm mt-3">選択解除</button>
         </div>
@@ -392,11 +392,11 @@
             <table class="table table-bordered fw-medium small">
               <thead>
                 <tr>
-                  <th class="align-middle text-center" style="min-width: 90px;">編集</th>
                   <th class="align-middle text-center" style="min-width: 50px;">施術内容 / 施術者 / 時刻</th>
                   <th class="align-middle text-center" style="min-width: 50px;">登録日時 / 更新日時</th>
                   <th colspan="{{ date('t', strtotime("$selectedYear-$selectedMonth-01")) }}" class="text-center">
                     施術日（通院：○｜往療：◎）</th>
+                  <th class="align-middle text-center" style="min-width: 90px;">操作</th>
                 </tr>
               </thead>
               <tbody>
@@ -405,16 +405,6 @@
                 @endphp
                 @foreach ($records as $record)
                   <tr>
-                    <td rowspan="3" class="align-middle">
-                      <a href="{{ route('records.edit', $record->id) }}"><button type="button" class="btn-ex-main btn-ex-blue btn-ex-sm mb-05">編集</button></a><br>
-                      <a href="{{ route('records.duplicate.current', $record->id) }}"><button type="button" class="btn-ex-main btn-ex-blue btn-ex-sm mb-05">当月へ複製</button></a><br>
-                      <a href="{{ route('records.duplicate.next', $record->id) }}"><button type="button" class="btn-ex-main btn-ex-blue btn-ex-sm mb-05">翌月へ複製</button></a><br>
-                      <form method="POST" action="{{ route('records.destroy', $record->id) }}" style="display:inline;" onsubmit="return confirm('この実績データを削除してもよろしいですか？');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn-ex-main btn-ex-red btn-ex-sm">削除</button>
-                      </form>
-                    </td>
                     <td rowspan="3" class="align-middle">
                       {{ $record->therapy_content ?? ($record->self_fee_name ?? '未設定') }}<br>
                       {{ $record->therapist_name ?? '未設定' }}<br>
@@ -428,6 +418,18 @@
                     @for ($day = 1; $day <= $daysInMonth; $day++)
                       <td class="p-0 text-center" style="height: 1.2rem">{{ $day }}</td>
                     @endfor
+                    <td rowspan="3" class="align-middle">
+                      <div class="d-flex flex-wrap gap-1 justify-content-center">
+                        <a href="{{ route('records.edit', $record->id) }}"><button type="button" class="btn-ex-main btn-ex-blue btn-ex-sm">編集</button></a>
+                        <a href="{{ route('records.duplicate.current', $record->id) }}"><button type="button" class="btn-ex-main btn-ex-blue btn-ex-sm">当月へ複製</button></a>
+                        <a href="{{ route('records.duplicate.next', $record->id) }}"><button type="button" class="btn-ex-main btn-ex-blue btn-ex-sm">翌月へ複製</button></a>
+                        <form method="POST" action="{{ route('records.destroy', $record->id) }}" style="display:inline;" onsubmit="return confirm('この実績データを削除してもよろしいですか？');">
+                          @csrf
+                          @method('DELETE')
+                          <button type="submit" class="btn-ex-main btn-ex-red btn-ex-sm">削除</button>
+                        </form>
+                      </div>
+                    </td>
                   </tr>
                   <tr>
                     @for ($day = 1; $day <= $daysInMonth; $day++)
