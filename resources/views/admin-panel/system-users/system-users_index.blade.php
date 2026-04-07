@@ -76,6 +76,7 @@
   @push('scripts')
   <script>
     $(document).ready(function() {
+      // DataTables 初期化（定義ファイル：resources/js/app.js）
       initDataTable('#systemUsersTable', {
         order: [[0, 'asc']],
         pageLength: 100,

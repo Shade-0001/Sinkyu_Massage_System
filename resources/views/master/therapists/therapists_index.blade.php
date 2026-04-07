@@ -98,6 +98,7 @@
           $('#therapistTable').DataTable().destroy();
         }
         
+        // DataTables 初期化（定義ファイル：resources/js/app.js）
         initDataTable('#therapistTable', {
           order: [[3, 'desc']],
           columnDefs: [

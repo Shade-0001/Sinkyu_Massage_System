@@ -60,6 +60,7 @@
     $(document).ready(function() {
       var newEntryRow = $('.new-entry-row').detach();
       
+      // DataTables 初期化（定義ファイル：resources/js/app.js）
       var table = initDataTable('#illnessesMassageTable', {
         order: [[0, 'desc']],
         columnDefs: [

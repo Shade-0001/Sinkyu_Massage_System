@@ -78,6 +78,7 @@
   @push('scripts')
   <script>
     $(document).ready(function() {
+      // DataTables 初期化（定義ファイル：resources/js/app.js）
       initDataTable('#userTable', {
         order: [[0, 'desc']],
         columnDefs: [

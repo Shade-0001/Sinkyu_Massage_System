@@ -86,6 +86,7 @@
   $(document).ready(function() {
     // データがある場合のみDataTableを初期化
     @if($therapyPeriods->count() > 0)
+    // DataTables 初期化（定義ファイル：resources/js/app.js）
     initDataTable('#therapyPeriodsTable', {
       order: [[3, 'desc']], // 同意終了日が新しい順
       pageLength: 25

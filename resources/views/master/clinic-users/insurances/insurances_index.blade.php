@@ -93,6 +93,7 @@
                       !$('#insuranceTable tbody tr:first td[colspan]').length;
 
       if (hasData) {
+        // DataTables 初期化（定義ファイル：resources/js/app.js）
         initDataTable('#insuranceTable', {
           order: [[4, 'desc']], // データ登録日の降順
           columnDefs: [
