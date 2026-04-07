@@ -54,17 +54,8 @@
   @push('scripts')
   <script>
     $(document).ready(function() {
-      var table = $('#documentsTable').DataTable({
-        language: {
-          url: '{{ asset('js/dataTables-ja.json') }}',
-          paginate: {
-            previous: '◂ 前へ',
-            next: '次へ ▸'
-          }
-        },
+      var table = initDataTable('#documentsTable', {
         order: [[2, 'desc']],
-        pageLength: 10,
-        lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
         columnDefs: [
           { orderable: false, targets: [3, 4, 5, 6] }
         ]

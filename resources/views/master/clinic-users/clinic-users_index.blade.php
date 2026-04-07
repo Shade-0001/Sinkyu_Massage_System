@@ -78,17 +78,8 @@
   @push('scripts')
   <script>
     $(document).ready(function() {
-      $('#userTable').DataTable({
-        language: {
-          url: '{{ asset('js/dataTables-ja.json') }}',
-          paginate: {
-          previous: '◂ 前へ',
-          next: '次へ ▸'
-          }
-        },
+      initDataTable('#userTable', {
         order: [[0, 'desc']],
-        pageLength: 10,
-        lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
         columnDefs: [
           { orderable: false, targets: [5, 6] }
         ]

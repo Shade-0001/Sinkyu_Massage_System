@@ -86,11 +86,8 @@
   $(document).ready(function() {
     // データがある場合のみDataTableを初期化
     @if($therapyPeriods->count() > 0)
-    $('#therapyPeriodsTable').DataTable({
+    initDataTable('#therapyPeriodsTable', {
       order: [[3, 'desc']], // 同意終了日が新しい順
-      language: {
-        url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/ja.json'
-      },
       pageLength: 25
     });
     @endif

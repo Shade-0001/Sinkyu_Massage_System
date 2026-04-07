@@ -76,14 +76,7 @@
   @push('scripts')
   <script>
     $(document).ready(function() {
-      $('#systemUsersTable').DataTable({
-        language: {
-          url: '{{ asset('js/dataTables-ja.json') }}',
-          paginate: {
-          previous: '◂ 前へ',
-          next: '次へ ▸'
-          }
-        },
+      initDataTable('#systemUsersTable', {
         order: [[0, 'asc']],
         pageLength: 100,
         dom: 'tp',

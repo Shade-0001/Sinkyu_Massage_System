@@ -60,17 +60,8 @@
     $(document).ready(function() {
       var newEntryRow = $('.new-entry-row').detach();
       
-      var table = $('#serviceProvidersTable').DataTable({
-        language: {
-          url: '{{ asset('js/dataTables-ja.json') }}',
-          paginate: {
-            previous: '◂ 前へ',
-            next: '次へ ▸'
-          }
-        },
+      var table = initDataTable('#serviceProvidersTable', {
         order: [[0, 'desc']],
-        pageLength: 10,
-        lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
         columnDefs: [
           { orderable: false, targets: [2] }
         ],

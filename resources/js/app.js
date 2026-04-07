@@ -305,6 +305,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
+/*┃  DataTables 共通初期化                        ┃*/
+/*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
+window.initDataTable = function(tableId, options) {
+  const defaults = {
+    language: {
+      url: '/js/dataTables-ja.json',
+      paginate: {
+        previous: '◂ 前へ',
+        next: '次へ ▸'
+      }
+    },
+    pageLength: 10,
+    lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]]
+  };
+  return $(tableId).DataTable($.extend(true, {}, defaults, options));
+};
+
+
+/*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  DataTables ページネーション                  ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 // .page-link に btn-ex-sub 相当のホバー色変化を適用（イベント委譲）

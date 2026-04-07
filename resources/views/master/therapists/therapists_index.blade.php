@@ -98,17 +98,8 @@
           $('#therapistTable').DataTable().destroy();
         }
         
-        $('#therapistTable').DataTable({
-          language: {
-            url: '{{ asset('js/dataTables-ja.json') }}',
-            paginate: {
-              previous: '◂ 前へ',
-              next: '次へ ▸'
-            }
-          },
+        initDataTable('#therapistTable', {
           order: [[3, 'desc']],
-          pageLength: 10,
-          lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
           columnDefs: [
             { orderable: false, targets: [4] }
           ]

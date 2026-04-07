@@ -93,17 +93,8 @@
                       !$('#insuranceTable tbody tr:first td[colspan]').length;
 
       if (hasData) {
-        $('#insuranceTable').DataTable({
-          language: {
-            url: '{{ asset('js/dataTables-ja.json') }}',
-            paginate: {
-              previous: '◂ 前へ',
-              next: '次へ ▸'
-            }
-          },
+        initDataTable('#insuranceTable', {
           order: [[4, 'desc']], // データ登録日の降順
-          pageLength: 10,
-          lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
           columnDefs: [
             { orderable: false, targets: [5, 6] } // 複製・削除列はソート無効
           ]
