@@ -60,6 +60,7 @@ textarea:not(:disabled) {
   --table-border-width: 2px;
   --table-border-color: #bbbbbb;
   --table-border-radius: 3px;
+  --calendar-border-color: #999999;
 }
 table.table-bordered.dataTable {
   border-right-width: var(--table-border-width) !important;
@@ -1369,16 +1370,15 @@ html[data-sidebar="closed"] #sidebar-content {
   grid-template-columns: repeat(7, 1fr);
   gap: 0;
   border-radius: var(--table-border-radius);
-  border: var(--table-border-width) solid var(--table-border-color);
+  border: var(--table-border-width) solid var(--calendar-border-color);
   overflow: hidden;
   background-color: #fff;
 }
 
 /* 曜日ヘッダー */
 .calendar-day-header {
-  background-color: #e9e9e9;
-  border: 1px solid var(--table-border-color);
-  border-bottom: var(--table-border-width) solid var(--table-border-color);
+  border: 1px solid var(--calendar-border-color);
+  border-bottom: var(--table-border-width) solid var(--calendar-border-color);
 }
 
 /* 日曜日 - text-dangerで代替可能だが、特定色のため保持 */
@@ -1396,7 +1396,7 @@ html[data-sidebar="closed"] #sidebar-content {
   font-weight: 500;
   padding: 8px 0px;
   text-align: center;
-  border: 1px solid var(--table-border-color);
+  border: 1px solid var(--calendar-border-color);
   cursor: pointer;
 }
 
