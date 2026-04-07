@@ -69,18 +69,7 @@ table.table-bordered.dataTable {
 .table-responsive:has(> .table) {
   border-radius: 5px;
 }
-.table > thead > tr:first-child > *:first-child {
-  border-top-left-radius: 5px;
-}
-.table > thead > tr:first-child > *:last-child {
-  border-top-right-radius: 5px;
-}
-.table > tbody > tr:last-child > *:first-child {
-  border-bottom-left-radius: 5px;
-}
-.table > tbody > tr:last-child > *:last-child {
-  border-bottom-right-radius: 5px;
-}
+
 .table-responsive:has(> .table) > .table {
   margin-bottom: 0;
 }

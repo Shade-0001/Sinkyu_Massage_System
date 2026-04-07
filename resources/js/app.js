@@ -305,6 +305,68 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
+/*┃  テーブル四隅セル取得                         ┃*/
+/*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
+
+// thead/tbody の全セルをグリッドマップに展開し、視覚的な四隅のセルを返す
+// 戻り値: { topLeft, topRight, bottomLeft, bottomRight } （重複あり得る）
+window.getTableCornerCells = function(table) {
+  const sections = [table.tHead, table.tBodies[0]].filter(Boolean);
+  // グリッドマップ: map[row][col] = td/th 要素
+  const map = [];
+  let globalRow = 0;
+
+  for (const section of sections) {
+    for (const tr of section.rows) {
+      let col = 0;
+      for (const cell of tr.cells) {
+        // 既に埋まってるcolをスキップ
+        while (map[globalRow]?.[col]) col++;
+        const rowspan = cell.rowSpan || 1;
+        const colspan = cell.colSpan || 1;
+        for (let r = 0; r < rowspan; r++) {
+          for (let c = 0; c < colspan; c++) {
+            const rr = globalRow + r;
+            const cc = col + c;
+            if (!map[rr]) map[rr] = [];
+            map[rr][cc] = cell;
+          }
+        }
+        col += colspan;
+      }
+      globalRow++;
+    }
+  }
+
+  const maxRow = map.length - 1;
+  const maxCol = Math.max(...map.map(row => row.length - 1));
+
+  return {
+    topLeft:     map[0]?.[0],
+    topRight:    map[0]?.[maxCol],
+    bottomLeft:  map[maxRow]?.[0],
+    bottomRight: map[maxRow]?.[maxCol],
+  };
+};
+
+// テーブルの四隅セルに border-radius を適用する
+// radius: CSSの値文字列（例: '5px'）、省略時は .table の border-radius を使用
+window.applyTableCornerRadius = function(table, radius) {
+  const r = radius ?? getComputedStyle(table).borderRadius;
+  const { topLeft, topRight, bottomLeft, bottomRight } = getTableCornerCells(table);
+  if (topLeft)     topLeft.style.borderTopLeftRadius     = r;
+  if (topRight)    topRight.style.borderTopRightRadius    = r;
+  if (bottomLeft)  bottomLeft.style.borderBottomLeftRadius  = r;
+  if (bottomRight) bottomRight.style.borderBottomRightRadius = r;
+};
+
+// DOMContentLoaded時に .table クラスを持つ全テーブルに自動適用
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('table.table').forEach(t => applyTableCornerRadius(t));
+});
+
+
+/*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  DataTables 共通初期化                        ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 window.initDataTable = function(tableId, options) {
@@ -312,8 +374,8 @@ window.initDataTable = function(tableId, options) {
     language: {
       url: '/js/dataTables-ja.json',
       paginate: {
-        previous: '<span class="nf nf-fa-caret_left fs-4"></span>',
-        next: '<span class="nf nf-fa-caret_right fs-4"></span>'
+        previous: '<span class="nf nf-fa-caret_left fs-5"></span>',
+        next: '<span class="nf nf-fa-caret_right fs-5"></span>'
       }
     },
     pageLength: 10,
