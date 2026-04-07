@@ -61,14 +61,14 @@ textarea:not(:disabled) {
   border-color: #bbbbbb;
   border-collapse: separate;
   border-spacing: 0;
-  box-shadow: 0 0 0 2px #bbbbbb;
+  outline: 2px solid #bbbbbb;
 }
 .table-responsive:has(> .table) {
-  box-shadow: 0 0 0 2px #bbbbbb;
+  outline: 2px solid #bbbbbb;
   border-radius: 2px;
 }
 .table-responsive:has(> .table) > .table {
-  box-shadow: none;
+  outline: none;
 }
 .table > thead > tr > * {
   background-color: #e9e9e9;
