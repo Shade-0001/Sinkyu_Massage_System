@@ -60,6 +60,8 @@ textarea:not(:disabled) {
   outline: 2px solid #bbbbbb;
   border-radius: 2px;
   border-color: #bbbbbb;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 .table > thead > tr > * {
   background-color: #e9e9e9;
@@ -79,11 +81,7 @@ textarea:not(:disabled) {
 .table > tbody > tr > *:not(.exempt-border-right) {
   border-right-width: 1px;
 }
-.table > thead > tr > *,
-.table > tbody > tr > * {
-  border-top-width: 1px;
-  border-bottom-width: 1px;
-}
+
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
 
