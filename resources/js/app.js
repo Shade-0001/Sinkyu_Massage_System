@@ -327,7 +327,7 @@ function setupDtPageLink(el) {
   el._dtPgHoverBg = primaryColor;
   el._dtPgBlendedColor = blendBgWithPage(el._dtPgOriginalBg, el);
   el.addEventListener('mouseenter', () => {
-    if (el.closest('.page-item.disabled')) return;
+    if (el.closest('.page-item.disabled') || el.closest('.page-item.active')) return;
     el.style.setProperty('background-color', el._dtPgHoverBg, 'important');
     el.style.setProperty('color', el._dtPgBlendedColor, 'important');
   });
