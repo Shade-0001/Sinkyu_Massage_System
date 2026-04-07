@@ -70,19 +70,23 @@ table.table-bordered.dataTable {
   border-radius: 5px;
 }
 .table > thead > tr:first-child > *:first-child {
-  border-top-left-radius: 3px;
+  border-top-left-radius: 5px;
 }
 .table > thead > tr:first-child > *:last-child {
-  border-top-right-radius: 3px;
+  border-top-right-radius: 5px;
 }
 .table > tbody > tr:last-child > *:first-child {
-  border-bottom-left-radius: 3px;
+  border-bottom-left-radius: 5px;
 }
 .table > tbody > tr:last-child > *:last-child {
-  border-bottom-right-radius: 3px;
+  border-bottom-right-radius: 5px;
 }
 .table-responsive:has(> .table) > .table {
   margin-bottom: 0;
+}
+.table > thead > tr,
+.table > tbody > tr {
+  border: none;
 }
 .table > thead > tr > * {
   background-color: #e9e9e9;
