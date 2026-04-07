@@ -78,7 +78,7 @@ textarea:not(:disabled) {
   --bs-table-color: #2a2a2a;
 }
 .table-bordered thead > tr > * {
-  border-bottom-width: 3px !important;
+  border-bottom-width: 2px !important;
   border-color: #bbbbbb !important;
 }
 .table > thead > tr > *:not(.exempt-border-left),
@@ -89,8 +89,14 @@ textarea:not(:disabled) {
 .table > tbody > tr > *:not(.exempt-border-right) {
   border-right-width: 1px;
 }
+.table:not(.dataTable) > thead > tr > * {
+  border-top-width: 1px;
+}
 .table:not(.dataTable) > tbody > tr > * {
   border-top-width: 1px;
+}
+.table:not(.dataTable) > tbody > tr:last-child > * {
+  border-bottom-width: 1px;
 }
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
