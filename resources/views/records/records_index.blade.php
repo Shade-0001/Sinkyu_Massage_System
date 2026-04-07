@@ -392,11 +392,11 @@
             <table class="table table-bordered fw-medium small">
               <thead>
                 <tr>
-                  <th class="align-middle text-center" style="min-width: 50px;">施術内容 / 施術者 / 時刻</th>
+                  <th class="align-middle text-center" style="min-width: 110px;">施術内容 / 施術者 / 時刻</th>
                   <th class="align-middle text-center" style="min-width: 50px;">登録日時 / 更新日時</th>
                   <th colspan="{{ date('t', strtotime("$selectedYear-$selectedMonth-01")) }}" class="text-center">
                     施術日（通院：○｜往療：◎）</th>
-                  <th class="align-middle text-center" style="max-width: 170px;">操作</th>
+                  <th class="align-middle text-center" style="width: 170px;">操作</th>
                 </tr>
               </thead>
               <tbody>

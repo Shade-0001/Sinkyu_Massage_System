@@ -27,12 +27,12 @@
         <div class="d-flex justify-content-between align-items-center">
           <!-- 左｜スクロールボタン -->
           <div class="d-flex align-items-stretch">
-            <button type="button" id="prev-btn" class="btn-ex-sub btn-ex-blue btn-ex-lg px-3" style="--btn-br-tl: 14px; --btn-br-tr: 0px; --btn-br-br: 0px; --btn-br-bl: 14px;">
-              <i class="nf nf-fa-angle_left"></i>
+            <button type="button" id="prev-btn" class="btn-ex-sub btn-ex-blue btn-ex-lg" style="--btn-br-tl: 14px; --btn-br-tr: 0px; --btn-br-br: 0px; --btn-br-bl: 14px; padding: 4px 12px;">
+              <i class="nf nf-fa-caret_left fs-4"></i>
             </button>
             <button type="button" id="current-btn" class="btn-ex-sub btn-ex-blue rounded-0 btn-ex-lg">現在</button>
-            <button type="button" id="next-btn" class="btn-ex-sub btn-ex-blue btn-ex-lg px-3" style="--btn-br-tl: 0px; --btn-br-tr: 14px; --btn-br-br: 14px; --btn-br-bl: 0px;">
-              <i class="nf nf-fa-angle_right"></i>
+            <button type="button" id="next-btn" class="btn-ex-sub btn-ex-blue btn-ex-lg" style="--btn-br-tl: 0px; --btn-br-tr: 14px; --btn-br-br: 14px; --btn-br-bl: 0px; padding: 4px 12px;">
+              <i class="nf nf-fa-caret_right fs-4"></i>
             </button>
           </div>
 
