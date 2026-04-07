@@ -1368,8 +1368,8 @@ html[data-sidebar="closed"] #sidebar-content {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 0;
-  border-radius: 0.25rem;
-  border: 3px solid #888;
+  border-radius: var(--table-border-radius);
+  border: var(--table-border-width) solid var(--table-border-color);
   overflow: hidden;
   background-color: #fff;
 }
@@ -1377,8 +1377,8 @@ html[data-sidebar="closed"] #sidebar-content {
 /* 曜日ヘッダー */
 .calendar-day-header {
   background-color: rgba(0, 0, 0, 0.01);
-  border-left: 2px solid #888;
-  border-bottom: 2px solid #888;
+  border-left: var(--table-border-width) solid var(--table-border-color);
+  border-bottom: var(--table-border-width) solid var(--table-border-color);
 }
 
 .calendar-day-header:nth-child(1) {
@@ -1397,11 +1397,11 @@ html[data-sidebar="closed"] #sidebar-content {
 
 /* カレンダー日付セル - bg-white p-1 text-center border cursor-pointerで代替可能だが、カスタムのため保持 */
 .calendar-day {
-  font-weight: 450;
-  padding: 5px;
+  font-weight: 500;
+  padding: 8px 0px;
   text-align: center;
-  border-left: 2px solid #888;
-  border-top: 1px solid #888;
+  border-left: var(--table-border-width) solid var(--table-border-color);
+  border-top: 1px solid var(--table-border-color);
   cursor: pointer;
 }
 
