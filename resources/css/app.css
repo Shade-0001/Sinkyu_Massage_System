@@ -1152,6 +1152,7 @@ html[data-sidebar="closed"] #sidebar-content {
 .dataTables_paginate .pagination {
   gap: 0;
   margin-bottom: 0;
+  user-select: none;
 }
 
 .dataTables_paginate .page-item {
@@ -1183,7 +1184,12 @@ html[data-sidebar="closed"] #sidebar-content {
   font-size: 1rem;
   font-weight: 600;
   line-height: 1;
-  padding: 10px 16px;
+  /* padding: 10px 14px; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  width: 36px;
   background-color: color-mix(in srgb, var(--dt-pg-color) 15%, transparent) !important;
   color: hsl(200, 8%, 50%) !important;
   -webkit-text-stroke: 2px rgba(255, 255, 255, 0.5);
@@ -1236,12 +1242,13 @@ html[data-sidebar="closed"] #sidebar-content {
   -webkit-text-stroke: 0px rgba(255, 255, 255, 0);
 }
 
-/* 左端の角丸 */
+/* 左端ボタン */
 .dataTables_paginate .page-item:first-child .page-link {
   border-radius: 12px 0 0 12px !important;
+  padding: 0px 16px;
 }
 
-/* 右端の角丸 */
+/* 右端ボタン */
 .dataTables_paginate .page-item:last-child .page-link {
   border-radius: 0 12px 12px 0 !important;
 }
