@@ -57,11 +57,18 @@ textarea:not(:disabled) {
 
 /* BSテーブルクラス */
 .table {
-  box-shadow: 0 0 0 2px #bbbbbb;
   border-radius: 2px;
   border-color: #bbbbbb;
   border-collapse: separate;
   border-spacing: 0;
+  box-shadow: 0 0 0 2px #bbbbbb;
+}
+.table-responsive:has(> .table) {
+  box-shadow: 0 0 0 2px #bbbbbb;
+  border-radius: 2px;
+}
+.table-responsive:has(> .table) > .table {
+  box-shadow: none;
 }
 .table > thead > tr > * {
   background-color: #e9e9e9;
