@@ -1147,6 +1147,127 @@ html[data-sidebar="closed"] #sidebar-content {
 
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
+/*┃  ページネーション（DataTables）               ┃*/
+/*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
+.dataTables_paginate .pagination {
+  gap: 0;
+  margin-bottom: 0;
+}
+
+.dataTables_paginate .page-item {
+  pointer-events: none;
+}
+
+.dataTables_paginate .page-item .page-link {
+  pointer-events: auto;
+  margin-left: 0;
+}
+
+/* ページリンク共通 */
+.dataTables_paginate .page-link {
+  --dt-pg-color: hsl(200, 8%, 50%);
+  /* 枠線サイズ */
+  --dt-pg-bs: 3px;
+  --dt-pg-bc: hsl(200, 9%, 52%);
+  /* ベベルサイズ */
+  --dt-pg-ss: 2px;
+  --dt-pg-ss-neg: -2px;
+  --dt-pg-light: hsla(0, 0%, 100%, 0.15);
+  --dt-pg-mid:   hsla(0, 0%, 50%, 0.15);
+  --dt-pg-dark:  hsla(0, 0%, 0%, 0.15);
+  position: relative;
+  overflow: hidden;
+  border-radius: 0 !important;
+  border: none !important;
+  outline: none !important;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1;
+  padding: 10px 16px;
+  background-color: color-mix(in srgb, var(--dt-pg-color) 15%, transparent) !important;
+  color: hsl(200, 8%, 50%) !important;
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.5);
+  paint-order: stroke fill;
+  box-shadow:
+    inset calc(var(--dt-pg-bs) * 0.95)  calc(var(--dt-pg-bs) * -0.95) 0px var(--dt-pg-bc),
+    inset 0                             calc(var(--dt-pg-bs) * -1)     0px var(--dt-pg-bc),
+    inset var(--dt-pg-bs)               0                              0px var(--dt-pg-bc),
+    inset calc(var(--dt-pg-bs) * 0.95)  calc(var(--dt-pg-bs) * 0.95)  0px var(--dt-pg-bc),
+    inset calc(var(--dt-pg-bs) * -0.95) calc(var(--dt-pg-bs) * -0.95) 0px var(--dt-pg-bc),
+    inset calc(var(--dt-pg-bs) * -1)    0                              0px var(--dt-pg-bc),
+    inset 0                             var(--dt-pg-bs)                0px var(--dt-pg-bc),
+    inset calc(var(--dt-pg-bs) * -0.95) calc(var(--dt-pg-bs) * 0.95)  0px var(--dt-pg-bc) !important;
+  transition: background-color 0.15s linear, color 0.05s linear;
+}
+
+/* ベベルを ::before で描画（btn-ex-sub と同方式） */
+.dataTables_paginate .page-link::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 0;
+  box-shadow:
+    inset var(--dt-pg-ss)     var(--dt-pg-ss)     1px var(--dt-pg-light),
+    inset 0                   var(--dt-pg-ss)     1px var(--dt-pg-light),
+    inset var(--dt-pg-ss)     0                   1px var(--dt-pg-light),
+    inset var(--dt-pg-ss)     var(--dt-pg-ss-neg) 1px var(--dt-pg-mid),
+    inset var(--dt-pg-ss-neg) var(--dt-pg-ss)     1px var(--dt-pg-mid),
+    inset var(--dt-pg-ss-neg) 0                   1px var(--dt-pg-dark),
+    inset 0                   var(--dt-pg-ss-neg) 1px var(--dt-pg-dark),
+    inset var(--dt-pg-ss-neg) var(--dt-pg-ss-neg) 1px var(--dt-pg-dark);
+}
+
+.dataTables_paginate .page-link:focus {
+  box-shadow:
+    inset calc(var(--dt-pg-bs) * 0.95)  calc(var(--dt-pg-bs) * -0.95) 0px var(--dt-pg-bc),
+    inset 0                             calc(var(--dt-pg-bs) * -1)     0px var(--dt-pg-bc),
+    inset var(--dt-pg-bs)               0                              0px var(--dt-pg-bc),
+    inset calc(var(--dt-pg-bs) * 0.95)  calc(var(--dt-pg-bs) * 0.95)  0px var(--dt-pg-bc),
+    inset calc(var(--dt-pg-bs) * -0.95) calc(var(--dt-pg-bs) * -0.95) 0px var(--dt-pg-bc),
+    inset calc(var(--dt-pg-bs) * -1)    0                              0px var(--dt-pg-bc),
+    inset 0                             var(--dt-pg-bs)                0px var(--dt-pg-bc),
+    inset calc(var(--dt-pg-bs) * -0.95) calc(var(--dt-pg-bs) * 0.95)  0px var(--dt-pg-bc) !important;
+}
+
+.dataTables_paginate .page-link:hover {
+  z-index: 0;
+  -webkit-text-stroke: 0px rgba(255, 255, 255, 0);
+}
+
+/* 左端の角丸 */
+.dataTables_paginate .page-item:first-child .page-link {
+  border-radius: 12px 0 0 12px !important;
+}
+
+/* 右端の角丸 */
+.dataTables_paginate .page-item:last-child .page-link {
+  border-radius: 0 12px 12px 0 !important;
+}
+
+/* アクティブページ - btn-ex-sub-toggle-blue 相当 */
+.dataTables_paginate .page-item.active .page-link {
+  --dt-pg-color: #1f91ce;
+  --dt-pg-bc: #1f93d0;
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.5) !important;
+  background-color: color-mix(in srgb, #1f91ce 15%, transparent) !important;
+  color: #1f91ce !important;
+}
+
+/* 無効ボタン */
+.dataTables_paginate .page-item.disabled .page-link {
+  background-color: color-mix(in srgb, var(--dt-pg-color) 10%, transparent) !important;
+  opacity: 0.5;
+}
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+
+
+
+
+
+
+/*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  ホーム                                      ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 /* ホームメニュー - サイドバー格納時：lg以上で横並び */
@@ -1597,120 +1718,5 @@ html[data-sidebar="closed"] #sidebar-content {
 
 .pdf-insurances .status-updated {
   color: #666666;
-}
-/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-
-
-
-
-/*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  DataTables - ページネーション               ┃*/
-/*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
-.dataTables_paginate .pagination {
-  gap: 0;
-  margin-bottom: 0;
-}
-
-.dataTables_paginate .page-item {
-  pointer-events: none;
-}
-
-.dataTables_paginate .page-item .page-link {
-  pointer-events: auto;
-}
-
-/* ページリンク共通 */
-.dataTables_paginate .page-link {
-  --dt-pg-color: hsl(200, 8%, 50%);
-  --dt-pg-bs: 4.5px;
-  --dt-pg-bc: hsl(200, 9%, 52%);
-  --dt-pg-ss: 3.5px;
-  --dt-pg-ss-neg: -3.5px;
-  --dt-pg-light: hsla(0, 0%, 100%, 0.15);
-  --dt-pg-mid:   hsla(0, 0%, 50%, 0.15);
-  --dt-pg-dark:  hsla(0, 0%, 0%, 0.15);
-  position: relative;
-  overflow: hidden;
-  border-radius: 0 !important;
-  border: none !important;
-  outline: none !important;
-  font-size: 1rem;
-  font-weight: 600;
-  line-height: 1;
-  padding: 10px 16px;
-  background-color: color-mix(in srgb, var(--dt-pg-color) 15%, transparent) !important;
-  color: hsl(200, 8%, 50%) !important;
-  -webkit-text-stroke: 3px rgba(255, 255, 255, 0.5);
-  paint-order: stroke fill;
-  box-shadow:
-    inset calc(var(--dt-pg-bs) * 0.95)  calc(var(--dt-pg-bs) * -0.95) 0px var(--dt-pg-bc),
-    inset 0                             calc(var(--dt-pg-bs) * -1)     0px var(--dt-pg-bc),
-    inset var(--dt-pg-bs)               0                              0px var(--dt-pg-bc),
-    inset calc(var(--dt-pg-bs) * 0.95)  calc(var(--dt-pg-bs) * 0.95)  0px var(--dt-pg-bc),
-    inset calc(var(--dt-pg-bs) * -0.95) calc(var(--dt-pg-bs) * -0.95) 0px var(--dt-pg-bc),
-    inset calc(var(--dt-pg-bs) * -1)    0                              0px var(--dt-pg-bc),
-    inset 0                             var(--dt-pg-bs)                0px var(--dt-pg-bc),
-    inset calc(var(--dt-pg-bs) * -0.95) calc(var(--dt-pg-bs) * 0.95)  0px var(--dt-pg-bc) !important;
-  transition: background-color 0.15s linear, color 0.05s linear;
-}
-
-/* ベベルを ::before で描画（btn-ex-sub と同方式） */
-.dataTables_paginate .page-link::before {
-  content: "";
-  pointer-events: none;
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  z-index: 0;
-  box-shadow:
-    inset var(--dt-pg-ss)     var(--dt-pg-ss)     1px var(--dt-pg-light),
-    inset 0                   var(--dt-pg-ss)     1px var(--dt-pg-light),
-    inset var(--dt-pg-ss)     0                   1px var(--dt-pg-light),
-    inset var(--dt-pg-ss)     var(--dt-pg-ss-neg) 1px var(--dt-pg-mid),
-    inset var(--dt-pg-ss-neg) var(--dt-pg-ss)     1px var(--dt-pg-mid),
-    inset var(--dt-pg-ss-neg) 0                   1px var(--dt-pg-dark),
-    inset 0                   var(--dt-pg-ss-neg) 1px var(--dt-pg-dark),
-    inset var(--dt-pg-ss-neg) var(--dt-pg-ss-neg) 1px var(--dt-pg-dark);
-}
-
-.dataTables_paginate .page-link:focus {
-  box-shadow:
-    inset calc(var(--dt-pg-bs) * 0.95)  calc(var(--dt-pg-bs) * -0.95) 0px var(--dt-pg-bc),
-    inset 0                             calc(var(--dt-pg-bs) * -1)     0px var(--dt-pg-bc),
-    inset var(--dt-pg-bs)               0                              0px var(--dt-pg-bc),
-    inset calc(var(--dt-pg-bs) * 0.95)  calc(var(--dt-pg-bs) * 0.95)  0px var(--dt-pg-bc),
-    inset calc(var(--dt-pg-bs) * -0.95) calc(var(--dt-pg-bs) * -0.95) 0px var(--dt-pg-bc),
-    inset calc(var(--dt-pg-bs) * -1)    0                              0px var(--dt-pg-bc),
-    inset 0                             var(--dt-pg-bs)                0px var(--dt-pg-bc),
-    inset calc(var(--dt-pg-bs) * -0.95) calc(var(--dt-pg-bs) * 0.95)  0px var(--dt-pg-bc) !important;
-}
-
-.dataTables_paginate .page-link:hover {
-  -webkit-text-stroke: 0px rgba(255, 255, 255, 0);
-}
-
-/* 左端の角丸 */
-.dataTables_paginate .page-item:first-child .page-link {
-  border-radius: 12px 0 0 12px !important;
-}
-
-/* 右端の角丸 */
-.dataTables_paginate .page-item:last-child .page-link {
-  border-radius: 0 12px 12px 0 !important;
-}
-
-/* アクティブページ - btn-ex-sub-toggle-blue 相当 */
-.dataTables_paginate .page-item.active .page-link {
-  --dt-pg-color: #1f91ce;
-  --dt-pg-bc: #1f93d0;
-  -webkit-text-stroke: 0px rgba(255, 255, 255, 0) !important;
-  background-color: color-mix(in srgb, #1f91ce 15%, transparent) !important;
-  color: #1f91ce !important;
-}
-
-/* 無効ボタン */
-.dataTables_paginate .page-item.disabled .page-link {
-  background-color: color-mix(in srgb, var(--dt-pg-color) 10%, transparent) !important;
-  opacity: 0.5;
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
