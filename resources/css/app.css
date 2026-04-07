@@ -75,20 +75,22 @@ textarea:not(:disabled) {
 .table > thead > * {
   --bs-table-color: #2a2a2a;
 }
+.table > thead > tr > *,
+.table > tbody > tr > * {
+  border-width: 1px;
+  border-color: #bbbbbb;
+}
+.table > thead > tr > *.exempt-border-left,
+.table > tbody > tr > *.exempt-border-left {
+  border-left-width: 0;
+}
+.table > thead > tr > *.exempt-border-right,
+.table > tbody > tr > *.exempt-border-right {
+  border-right-width: 0;
+}
 .table-bordered thead > tr > * {
   border-bottom-width: 2px !important;
   border-color: #bbbbbb !important;
-}
-.table > thead > tr > *:not(.exempt-border-left),
-.table > tbody > tr > *:not(.exempt-border-left) {
-  border-left-width: 1px;
-}
-.table > thead > tr > *:not(.exempt-border-right),
-.table > tbody > tr > *:not(.exempt-border-right) {
-  border-right-width: 1px;
-}
-.table:not(.dataTable) > tbody > tr > * {
-  border-top-width: 1px;
 }
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
