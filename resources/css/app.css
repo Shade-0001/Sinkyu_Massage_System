@@ -57,17 +57,17 @@ textarea:not(:disabled) {
 
 /* BSテーブルクラス */
 table.table-bordered.dataTable {
-  border-right-width: 3px !important;
+  border-right-width: 2px !important;
 }
 .table {
-  border-radius: 5px;
+  border-radius: 3px;
   border-color: #bbbbbb;
   border-collapse: separate;
   border-spacing: 0;
-  border: 3px solid #bbbbbb;
+  border: 2px solid #bbbbbb;
 }
 .table-responsive:has(> .table) {
-  border-radius: 5px;
+  border-radius: 3px;
 }
 
 .table-responsive:has(> .table) > .table {
@@ -97,7 +97,7 @@ table.table-bordered.dataTable {
   border-right-width: 0;
 }
 .table-bordered thead > tr > * {
-  border-bottom-width: 3px !important;
+  border-bottom-width: 2px !important;
   border-color: #bbbbbb !important;
 }
 
