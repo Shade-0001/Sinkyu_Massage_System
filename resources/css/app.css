@@ -56,18 +56,22 @@ textarea:not(:disabled) {
 }
 
 /* BSテーブルクラス */
+:root {
+  --table-border-width: 2px;
+  --table-border-color: #bbbbbb;
+  --table-border-radius: 3px;
+}
 table.table-bordered.dataTable {
-  border-right-width: 2px !important;
+  border-right-width: var(--table-border-width) !important;
 }
 .table {
-  border-radius: 3px;
-  border-color: #bbbbbb;
+  border-radius: var(--table-border-radius);
   border-collapse: separate;
   border-spacing: 0;
-  border: 2px solid #bbbbbb;
+  border: var(--table-border-width) solid var(--table-border-color);
 }
 .table-responsive:has(> .table) {
-  border-radius: 3px;
+  border-radius: var(--table-border-radius);
 }
 
 .table-responsive:has(> .table) > .table {
@@ -86,7 +90,7 @@ table.table-bordered.dataTable {
 .table > thead > tr > *,
 .table > tbody > tr > * {
   border-width: 1px !important;
-  border-color: #bbbbbb !important;
+  border-color: var(--table-border-color) !important;
 }
 .table > thead > tr > *.exempt-border-left,
 .table > tbody > tr > *.exempt-border-left {
@@ -97,8 +101,8 @@ table.table-bordered.dataTable {
   border-right-width: 0;
 }
 .table-bordered thead > tr > * {
-  border-bottom-width: 2px !important;
-  border-color: #bbbbbb !important;
+  border-bottom-width: var(--table-border-width) !important;
+  border-color: var(--table-border-color) !important;
 }
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
