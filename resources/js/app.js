@@ -312,8 +312,8 @@ window.initDataTable = function(tableId, options) {
     language: {
       url: '/js/dataTables-ja.json',
       paginate: {
-        previous: '◂ 前へ',
-        next: '次へ ▸'
+        previous: '\uf0d9',
+        next: '\uf0da'
       }
     },
     pageLength: 10,
