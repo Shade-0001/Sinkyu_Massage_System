@@ -25,14 +25,14 @@
         <!-- カレンダーヘッダー -->
         <div class="d-flex align-items-stretch justify-content-center mb-3">
           <button type="button" id="prev-month-btn" class="btn-ex-sub btn-ex-blue" style="--btn-br-tl: 16px; --btn-br-tr: 0px; --btn-br-br: 0px; --btn-br-bl: 16px; padding-left: 12px; padding-right: 12px;">
-            <i class="nf nf-fa-angle_left" style="font-size: 24px;"></i>
+            <i class="nf nf-fa-caret_left fs-2"></i>
           </button>
           <div class="btn-ex-sub btn-ex-blue rounded-0" style="font-size: 28px; padding-top: 12px; padding-bottom: 12px;">
             <div id="calendar-title-display"></div>
             <select id="calendar-title" class="position-absolute top-0 start-50 translate-middle-x opacity-0" style="border: none; background: transparent; width: 100%; height: 100%;"></select>
           </div>
           <button type="button" id="next-month-btn" class="btn-ex-sub btn-ex-blue" style="--btn-br-tl: 0px; --btn-br-tr: 16px; --btn-br-br: 16px; --btn-br-bl: 0px; padding-left: 12px; padding-right: 12px;">
-            <i class="nf nf-fa-angle_right" style="font-size: 24px;"></i>
+            <i class="nf nf-fa-caret_right fs-2"></i>
           </button>
         </div>
         <!-- カレンダーボディ -->
