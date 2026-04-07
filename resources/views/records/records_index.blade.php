@@ -419,15 +419,15 @@
                       <td class="p-0 text-center" style="height: 1.2rem">{{ $day }}</td>
                     @endfor
                     <td rowspan="3" class="align-middle">
-                      <div class="d-flex flex-wrap gap-1 justify-content-center">
-                        <a href="{{ route('records.edit', $record->id) }}"><button type="button" class="btn-ex-main btn-ex-blue btn-ex-sm">編集</button></a>
-                        <a href="{{ route('records.duplicate.current', $record->id) }}"><button type="button" class="btn-ex-main btn-ex-blue btn-ex-sm">当月へ複製</button></a>
-                        <a href="{{ route('records.duplicate.next', $record->id) }}"><button type="button" class="btn-ex-main btn-ex-blue btn-ex-sm">翌月へ複製</button></a>
-                        <form method="POST" action="{{ route('records.destroy', $record->id) }}" style="display:inline;" onsubmit="return confirm('この実績データを削除してもよろしいですか？');">
+                      <div class="d-grid gap-1" style="grid-template-columns: 1fr 1fr;">
+                        <a href="{{ route('records.edit', $record->id) }}"><button type="button" class="btn-ex-main btn-ex-blue btn-ex-sm w-100">編集</button></a>
+                        <a href="{{ route('records.duplicate.current', $record->id) }}"><button type="button" class="btn-ex-main btn-ex-blue btn-ex-sm w-100">当月へ複製</button></a>
+                        <form method="POST" action="{{ route('records.destroy', $record->id) }}" onsubmit="return confirm('この実績データを削除してもよろしいですか？');">
                           @csrf
                           @method('DELETE')
-                          <button type="submit" class="btn-ex-main btn-ex-red btn-ex-sm">削除</button>
+                          <button type="submit" class="btn-ex-main btn-ex-red btn-ex-sm w-100">削除</button>
                         </form>
+                        <a href="{{ route('records.duplicate.next', $record->id) }}"><button type="button" class="btn-ex-main btn-ex-blue btn-ex-sm w-100">翌月へ複製</button></a>
                       </div>
                     </td>
                   </tr>
