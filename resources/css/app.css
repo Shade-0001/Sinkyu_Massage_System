@@ -95,8 +95,8 @@ textarea:not(:disabled) {
 .table:not(.dataTable) > tbody > tr > * {
   border-top-width: 1px;
 }
-.table:not(.dataTable) > tbody > tr:last-child > * {
-  border-bottom-width: 1px;
+.table-responsive:has(> .table) > .table {
+  border-bottom: 1px solid #bbbbbb;
 }
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
