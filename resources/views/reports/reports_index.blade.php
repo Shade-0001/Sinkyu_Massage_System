@@ -229,7 +229,7 @@
         bottomHr.style.width = m.width + 'px';
       }
 
-      // rAFループでcollapseアニメーション中のtopを追跡
+      // rAFループでcollapseアニメーション中のtopを追跡（left/widthは触らない）
       const hrTrackingLoops = new Map();
       function startHrTracking(block, collapseEl, onDone) {
         const id = collapseEl.id;
@@ -239,7 +239,8 @@
         let stableCount = 0;
         function loop() {
           const h = block.offsetHeight;
-          bottomHr.style.top = blockInnerBottom(block) + 'px';
+          // topのみ更新（left/widthのtransitionを妨げない）
+          bottomHr.style.setProperty('top', blockInnerBottom(block) + 'px');
           if (h === lastHeight) {
             stableCount++;
             if (stableCount >= 3) { hrTrackingLoops.delete(id); if (onDone) onDone(); return; }
@@ -281,10 +282,13 @@
               const block = collapseElement.closest('.year-block');
               const bottomHr = block && block.querySelector('.year-bottom-hr');
               if (bottomHr) {
-                // hr1と同位置・同幅で表示してrAF追従開始
+                // hr1と同位置・同幅で表示し、top移動と幅拡張を同時開始
                 setHr2ToHr1(block);
                 bottomHr.style.display = 'block';
-                startHrTracking(block, collapseElement);
+                requestAnimationFrame(() => {
+                  expandHr2(block);
+                  startHrTracking(block, collapseElement);
+                });
               }
             }
           });
@@ -294,11 +298,7 @@
             if (collapseElement.id.startsWith('year-')) {
               const block = collapseElement.closest('.year-block');
               const bottomHr = block && block.querySelector('.year-bottom-hr');
-              if (bottomHr) {
-                // top確定後に左端を広げるアニメーション
-                bottomHr.style.top = blockInnerBottom(block) + 'px';
-                requestAnimationFrame(() => expandHr2(block));
-              }
+              if (bottomHr) bottomHr.style.top = blockInnerBottom(block) + 'px';
             }
           });
 
@@ -312,8 +312,9 @@
             if (collapseElement.id.startsWith('year-')) {
               const block = collapseElement.closest('.year-block');
               if (block) {
-                // まず左端を縮めるアニメーション
+                // top移動と幅縮小を同時実行
                 shrinkHr2(block);
+                startHrTracking(block, collapseElement);
               }
             }
           });
@@ -324,14 +325,8 @@
               const block = collapseElement.closest('.year-block');
               const bottomHr = block && block.querySelector('.year-bottom-hr');
               if (bottomHr) {
-                // 縮み完了後にhr1位置へ戻してから非表示
-                const m = getHr1Metrics(block);
-                bottomHr.style.transition = 'top 0.35s ease';
-                bottomHr.style.top = m.top + 'px';
-                setTimeout(() => {
-                  bottomHr.style.transition = 'none';
-                  bottomHr.style.display = 'none';
-                }, 350);
+                bottomHr.style.transition = 'none';
+                bottomHr.style.display = 'none';
               }
             }
           });
