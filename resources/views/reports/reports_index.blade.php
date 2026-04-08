@@ -114,19 +114,19 @@
                     <tbody>
                       <tr>
                         <th class="align-middle text-center bg-light">主観症状</th>
-                        <td class="align-middle report-text-cell" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 0;">{{ $item['report']->subjective_symptom_and_wish ?? '' }}</td>
+                        <td class="align-middle report-text-cell" style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; max-width: 0;">{{ $item['report']->subjective_symptom_and_wish ?? '' }}</td>
                       </tr>
                       <tr>
                         <th class="align-middle text-center bg-light">客観症状</th>
-                        <td class="align-middle report-text-cell" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 0;">{{ $item['report']->objective_symptom ?? '' }}</td>
+                        <td class="align-middle report-text-cell" style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; max-width: 0;">{{ $item['report']->objective_symptom ?? '' }}</td>
                       </tr>
                       <tr>
                         <th class="align-middle text-center bg-light">施術内容</th>
-                        <td class="align-middle report-text-cell" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 0;">{{ $item['report']->therapy_content ?? '' }}</td>
+                        <td class="align-middle report-text-cell" style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; max-width: 0;">{{ $item['report']->therapy_content ?? '' }}</td>
                       </tr>
                       <tr>
                         <th class="align-middle text-center bg-light">治療計画</th>
-                        <td class="align-middle report-text-cell" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 0;">{{ $item['report']->therapy_plan ?? '' }}</td>
+                        <td class="align-middle report-text-cell" style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; max-width: 0;">{{ $item['report']->therapy_plan ?? '' }}</td>
                       </tr>
                       <tr>
                         <th class="align-middle text-center bg-light" style="width: 5rem;">操作</th>
@@ -196,54 +196,8 @@
         });
       });
 
-      // テキストが1行に収まるか判定し、収まらない場合は省略記号を表示
-      function adjustReportTextCells() {
-        const cells = document.querySelectorAll('.report-text-cell');
-
-        // requestAnimationFrameで最適化
-        requestAnimationFrame(() => {
-          cells.forEach(cell => {
-            // 元のテキストを保存（初回のみ）
-            if (!cell.hasAttribute('data-original-text')) {
-              cell.setAttribute('data-original-text', cell.textContent);
-            }
-
-            const originalText = cell.getAttribute('data-original-text');
-
-            // 空テキストの場合はスキップ
-            if (!originalText.trim()) return;
-
-            // 元のテキストを一旦復元
-            cell.textContent = originalText;
-
-            // セルの幅を測定
-            const cellWidth = cell.clientWidth;
-
-            // テキストが収まらない場合
-            if (cell.scrollWidth > cellWidth) {
-              // 二分探索で最適な文字数を高速に見つける
-              let left = 0;
-              let right = originalText.length;
-              let bestFit = 0;
-
-              while (left <= right) {
-                const mid = Math.floor((left + right) / 2);
-                cell.textContent = originalText.slice(0, mid).trim() + ' ⋯';
-
-                if (cell.scrollWidth <= cellWidth) {
-                  bestFit = mid;
-                  left = mid + 1;
-                } else {
-                  right = mid - 1;
-                }
-              }
-
-              // 最適な長さで設定
-              cell.textContent = originalText.slice(0, bestFit).trim() + ' ⋯';
-            }
-          });
-        });
-      }
+      // -webkit-line-clamp: 2 によるCSS省略のため、JS処理は不要
+      function adjustReportTextCells() {}
 
       // デバウンス関数（リサイズイベントの頻度を制限）
       function debounce(func, wait) {
