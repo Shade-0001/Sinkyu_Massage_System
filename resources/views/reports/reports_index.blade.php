@@ -109,19 +109,6 @@
                   <table class="table table-bordered" style="font-size: 0.9rem; table-layout: fixed; width: 100%;">
                     <tbody>
                       <tr>
-                        <th class="align-middle text-center bg-light" style="width: 7rem;">データ操作</th>
-                        <td class="align-middle" style="white-space: nowrap;">
-                          <a href="{{ route('reports.edit', $item['report']->id) }}"><button type="button" class="btn-ex-main btn-ex-blue btn-ex-sm">編集</button></a>
-                          <a href="{{ route('reports.duplicate', $item['report']->id) }}"><button type="button" class="btn-ex-main btn-ex-blue btn-ex-sm">複製</button></a>
-                          <button type="button" class="btn-ex-main btn-ex-blue btn-ex-sm" onclick="openReportPrintModal('{{ $selectedUserId }}', '{{ $yearMonth }}')">印刷</button>
-                          <form method="POST" action="{{ route('reports.destroy', $item['report']->id) }}" style="display:inline;" onsubmit="return confirm('この報告書データを削除してもよろしいですか？');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn-ex-main btn-ex-red btn-ex-sm">削除</button>
-                          </form>
-                        </td>
-                      </tr>
-                      <tr>
                         <th class="align-middle text-center bg-light">主観症状</th>
                         <td class="align-middle report-text-cell" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 0;">{{ $item['report']->subjective_symptom_and_wish ?? '' }}</td>
                       </tr>
@@ -136,6 +123,19 @@
                       <tr>
                         <th class="align-middle text-center bg-light">治療計画</th>
                         <td class="align-middle report-text-cell" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 0;">{{ $item['report']->therapy_plan ?? '' }}</td>
+                      </tr>
+                      <tr>
+                        <th class="align-middle text-center bg-light" style="width: 5rem;">操作</th>
+                        <td class="align-middle" style="white-space: nowrap;">
+                          <a href="{{ route('reports.edit', $item['report']->id) }}"><button type="button" class="btn-ex-main btn-ex-blue btn-ex-sm">編集</button></a>
+                          <a href="{{ route('reports.duplicate', $item['report']->id) }}"><button type="button" class="btn-ex-main btn-ex-blue btn-ex-sm">複製</button></a>
+                          <button type="button" class="btn-ex-main btn-ex-blue btn-ex-sm" onclick="openReportPrintModal('{{ $selectedUserId }}', '{{ $yearMonth }}')">印刷</button>
+                          <form method="POST" action="{{ route('reports.destroy', $item['report']->id) }}" style="display:inline;" onsubmit="return confirm('この報告書データを削除してもよろしいですか？');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn-ex-main btn-ex-red btn-ex-sm">削除</button>
+                          </form>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
