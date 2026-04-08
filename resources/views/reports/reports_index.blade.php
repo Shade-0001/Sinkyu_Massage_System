@@ -179,12 +179,9 @@
 
       // 折り畳みアイコン切り替え（年ヘッダー・月ヘッダー共通）
       // hr2のtopをblock下端に合わせる（hr1の中央Y基準）
-      // hr1の位置・幅情報を取得（position:absoluteのtopはpadding edgeから）
+      // hr1と同じ位置・幅を返す
       function getHr1Metrics(block) {
         const topHr = block.querySelector('.year-top-hr');
-        const style = getComputedStyle(block);
-        const pt = parseFloat(style.paddingTop) || 0;
-        const pl = parseFloat(style.paddingLeft) || 0;
         return {
           top: topHr.offsetTop,
           left: topHr.offsetLeft,
@@ -192,12 +189,13 @@
         };
       }
 
-      // position:absoluteの原点はpadding edge。内側下端 = offsetHeight - paddingBottom
-      function blockInnerBottom(block) {
+      // 展開時のtop = padding-bottom の上端
+      // clientHeight = padding込み内側高さ（border除く）
+      // position:absoluteの原点はpadding edge（top:0 = paddingTopの位置）
+      // padding-bottom上端 = clientHeight - paddingBottom
+      function blockExpandedTop(block) {
         const pb = parseFloat(getComputedStyle(block).paddingBottom) || 0;
-        const bottomHr = block.querySelector('.year-bottom-hr');
-        const hrH = bottomHr ? bottomHr.offsetHeight : 0;
-        return block.offsetHeight - pb + hrH;
+        return block.clientHeight - pb;
       }
 
       // hr2をhr1と同位置・同幅にセット（transition無し）
@@ -210,17 +208,13 @@
         bottomHr.style.width = m.width + 'px';
       }
 
-      // hr2をblock全幅（border内側）に広げる（transitionあり）
-      // position:absoluteの原点はpadding edge。border内側左端 = left: -paddingLeft
-      // width = offsetWidth（border-box全幅。borderなしなのでpadding+content）
+      // hr2をblock全幅に広げる（transitionあり）
+      // left=0（padding内側左端）、width=clientWidth（padding込み内側全幅）
       function expandHr2(block) {
         const bottomHr = block.querySelector('.year-bottom-hr');
-        const cs = getComputedStyle(block);
-        const pl = parseFloat(cs.paddingLeft) || 0;
-        const pr = parseFloat(cs.paddingRight) || 0;
         bottomHr.style.transition = 'left 0.3s ease, width 0.3s ease';
         bottomHr.style.left = '0px';
-        bottomHr.style.width = (block.offsetWidth - pl - pr) + 'px';
+        bottomHr.style.width = block.clientWidth + 'px';
       }
 
       // hr2をhr1幅に戻す（transitionあり）
@@ -243,7 +237,7 @@
         function loop() {
           const h = block.offsetHeight;
           // topのみ更新（left/widthのtransitionを妨げない）
-          bottomHr.style.setProperty('top', blockInnerBottom(block) + 'px');
+          bottomHr.style.setProperty('top', blockExpandedTop(block) + 'px');
           if (h === lastHeight) {
             stableCount++;
             if (stableCount >= 3) { hrTrackingLoops.delete(id); if (onDone) onDone(); return; }
@@ -265,7 +259,7 @@
           if (!bottomHr) return;
           if (collapse.classList.contains('show')) {
             setHr2ToHr1(block);
-            bottomHr.style.top = blockInnerBottom(block) + 'px';
+            bottomHr.style.top = blockExpandedTop(block) + 'px';
             bottomHr.style.display = 'block';
             requestAnimationFrame(() => expandHr2(block));
           } else {
@@ -304,7 +298,7 @@
               // topをrAFループ終了後の最終値に確定
               if (bottomHr) {
                 bottomHr.style.transition = 'none';
-                bottomHr.style.top = blockInnerBottom(block) + 'px';
+                bottomHr.style.top = blockExpandedTop(block) + 'px';
               }
             }
           });
