@@ -203,15 +203,21 @@
         bottomHr.style.width = m.width + 'px';
       }
 
-      function expandHr2(block) {
+      function expandHr2(block, expandedHeight) {
         const bottomHr = block.querySelector('.year-bottom-hr');
         const cs = getComputedStyle(block);
         const pl = parseFloat(cs.paddingLeft) || 0;
         const pr = parseFloat(cs.paddingRight) || 0;
         const hrWidth = block.clientWidth - pl - pr;
         const hrLeft = (block.clientWidth - hrWidth) / 2;
+        // expandedHeight が渡された場合はそれを使って top を計算（アニメーション中用）
+        const pb = parseFloat(cs.paddingBottom) || 0;
+        const hrH = bottomHr.offsetHeight || 0;
+        const targetTop = expandedHeight != null
+          ? (expandedHeight - pb - hrH)
+          : blockExpandedTop(block);
         bottomHr.style.transition = 'top 0.3s ease, left 0.3s ease, width 0.3s ease';
-        bottomHr.style.top = blockExpandedTop(block) + 'px';
+        bottomHr.style.top = targetTop + 'px';
         bottomHr.style.left = hrLeft + 'px';
         bottomHr.style.width = hrWidth + 'px';
       }
@@ -273,15 +279,24 @@
           content.classList.add('expanded');
           btn.setAttribute('aria-expanded', 'true');
           if (arrow) arrow.classList.add('rotated');
+          const expandedH = content.scrollHeight;
           setHr2ToHr1(block);
           bottomHr.style.display = 'block';
           expandContent(content);
-          requestAnimationFrame(() => expandHr2(block));
-          content.addEventListener('transitionend', function onEnd(e) {
-            if (e.target !== content || e.propertyName !== 'height') return;
-            content.removeEventListener('transitionend', onEnd);
-            bottomHr.style.transition = 'none';
-            bottomHr.style.top = blockExpandedTop(block) + 'px';
+          // scrollHeightから終点topを計算してheightと同時にアニメーション
+          requestAnimationFrame(() => {
+            const blockHeaderH = block.querySelector('.year-header').offsetHeight;
+            const cs = getComputedStyle(block);
+            const pt = parseFloat(cs.paddingTop) || 0;
+            const totalH = pt + blockHeaderH + expandedH;
+            const pb = parseFloat(cs.paddingBottom) || 0;
+            const hrH = bottomHr.offsetHeight || 0;
+            bottomHr.style.transition = 'top 0.3s ease, left 0.3s ease, width 0.3s ease';
+            const hrWidth = block.clientWidth - (parseFloat(cs.paddingLeft) || 0) - (parseFloat(cs.paddingRight) || 0);
+            const hrLeft = (block.clientWidth - hrWidth) / 2;
+            bottomHr.style.top = (totalH - pb - hrH) + 'px';
+            bottomHr.style.left = hrLeft + 'px';
+            bottomHr.style.width = hrWidth + 'px';
           });
         }
       }
@@ -299,22 +314,39 @@
           btn.setAttribute('aria-expanded', 'false');
           if (arrow) arrow.classList.remove('rotated');
           collapseContent(content);
-          content.addEventListener('transitionend', function onEnd(e) {
-            if (e.target !== content || e.propertyName !== 'height') return;
-            content.removeEventListener('transitionend', onEnd);
+          // 月格納時：年ブロックの高さが縮むのに合わせてhr2のtopも追従
+          requestAnimationFrame(() => {
             const bottomHr = block.querySelector('.year-bottom-hr');
-            if (bottomHr) { bottomHr.style.transition = 'none'; bottomHr.style.top = blockExpandedTop(block) + 'px'; }
+            if (bottomHr) {
+              const yearContent = block.querySelector('.year-content');
+              const cs = getComputedStyle(block);
+              const pt = parseFloat(cs.paddingTop) || 0;
+              const pb = parseFloat(cs.paddingBottom) || 0;
+              const hrH = bottomHr.offsetHeight || 0;
+              const blockHeaderH = block.querySelector('.year-header').offsetHeight;
+              const targetH = pt + blockHeaderH + (parseFloat(yearContent.style.height) || yearContent.scrollHeight) - content.scrollHeight - pb - hrH;
+              bottomHr.style.transition = 'top 0.3s ease';
+              bottomHr.style.top = targetH + 'px';
+            }
           });
         } else {
           content.classList.add('expanded');
           btn.setAttribute('aria-expanded', 'true');
           if (arrow) arrow.classList.add('rotated');
           expandContent(content);
-          content.addEventListener('transitionend', function onEnd(e) {
-            if (e.target !== content || e.propertyName !== 'height') return;
-            content.removeEventListener('transitionend', onEnd);
+          requestAnimationFrame(() => {
             const bottomHr = block.querySelector('.year-bottom-hr');
-            if (bottomHr) { bottomHr.style.transition = 'none'; bottomHr.style.top = blockExpandedTop(block) + 'px'; }
+            if (bottomHr) {
+              const yearContent = block.querySelector('.year-content');
+              const cs = getComputedStyle(block);
+              const pt = parseFloat(cs.paddingTop) || 0;
+              const pb = parseFloat(cs.paddingBottom) || 0;
+              const hrH = bottomHr.offsetHeight || 0;
+              const blockHeaderH = block.querySelector('.year-header').offsetHeight;
+              const targetH = pt + blockHeaderH + (parseFloat(yearContent.style.height) || yearContent.scrollHeight) + content.scrollHeight - pb - hrH;
+              bottomHr.style.transition = 'top 0.3s ease';
+              bottomHr.style.top = targetH + 'px';
+            }
           });
         }
       }
