@@ -1761,3 +1761,18 @@ html[data-sidebar="closed"] #sidebar-content {
   color: #666666;
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+
+/* reports/index scaleY collapse */
+.year-content,
+.month-content {
+  transform-origin: top center;
+  transform: scaleY(0);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  overflow: hidden;
+}
+.year-content.expanded,
+.month-content.expanded {
+  transform: scaleY(1);
+  opacity: 1;
+}
