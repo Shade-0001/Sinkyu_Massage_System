@@ -1,0 +1,757 @@
+/*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
+/*┃  ユーティリティクラス                         ┃*/
+/*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
+/*──────────────────────────────────────────────*/
+/*  ホバー時ハイライト（透過オーバーレイ）         */
+/*──────────────────────────────────────────────*/
+[class*="hover-highlight-"] {
+  position: relative;
+}
+
+[class*="hover-highlight-"]::after {
+  transition: opacity 0.1s;
+  background: #ffffff;
+  mix-blend-mode: overlay;
+  opacity: 0;
+  pointer-events: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 2;
+}
+
+.hover-highlight-5:hover::after { opacity: 0.05; }
+.hover-highlight-10:hover::after { opacity: 0.1; }
+.hover-highlight-15:hover::after { opacity: 0.15; }
+.hover-highlight-20:hover::after { opacity: 0.2; }
+.hover-highlight-25:hover::after { opacity: 0.25; }
+.hover-highlight-30:hover::after { opacity: 0.3; }
+.hover-highlight-35:hover::after { opacity: 0.35; }
+.hover-highlight-40:hover::after { opacity: 0.4; }
+.hover-highlight-45:hover::after { opacity: 0.45; }
+.hover-highlight-50:hover::after { opacity: 0.5; }
+
+/* テキストハイライト（.hover-highlight-*併用） */
+.highlight-target-text-white,
+.highlight-target-text-white *,
+.highlight-target-text-black,
+.highlight-target-text-black * {
+  transition: color 0.1s;
+}
+
+[class*="hover-highlight-"]:hover:is(.highlight-target-text-white),
+[class*="hover-highlight-"]:hover .highlight-target-text-white,
+[class*="hover-highlight-"]:hover .highlight-target-text-white * {
+  color: #ffffff !important;
+}
+
+[class*="hover-highlight-"]:hover:is(.highlight-target-text-black),
+[class*="hover-highlight-"]:hover .highlight-target-text-black,
+[class*="hover-highlight-"]:hover .highlight-target-text-black * {
+  color: #333333 !important;
+}
+
+/* サイドバーアクティブ状態 */
+.sidebar-active {
+  position: relative;
+}
+
+.sidebar-active::after {
+  background: #ffffff;
+  mix-blend-mode: overlay;
+  opacity: 0.3;
+  pointer-events: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 2;
+}
+
+.sidebar-active:hover::after {
+  opacity: 0.3;
+}
+
+.sidebar-active,
+.sidebar-active * {
+  color: #ffffff !important;
+  transition: none;
+}
+
+/* アクティブ要素はホバー効果無効化 */
+.sidebar-active.highlight-target-text-white,
+.sidebar-active.highlight-target-text-white *,
+.sidebar-active .highlight-target-text-white,
+.sidebar-active .highlight-target-text-white * {
+  color: #ffffff !important;
+}
+
+/*──────────────────────────────────────────────*/
+/*  ホバー時輝度上昇                             */
+/*──────────────────────────────────────────────*/
+[class*="bright-target-"] {
+  transition: filter 0.1s ease;
+}
+
+.hover-bright-trigger:hover .bright-target-105,
+.bright-target-105:hover {
+  filter: brightness(1.05); }
+.hover-bright-trigger:hover .bright-target-110,
+.bright-target-110:hover {
+  filter: brightness(1.1); }
+.hover-bright-trigger:hover .bright-target-120,
+.bright-target-120:hover {
+  filter: brightness(1.2); }
+.hover-bright-trigger:hover .bright-target-130,
+.bright-target-130:hover {
+  filter: brightness(1.3); }
+
+/*──────────────────────────────────────────────*/
+/*  ホバー時白背景                               */
+/*──────────────────────────────────────────────*/
+.hover-bg-white {
+  position: relative;
+}
+
+.hover-bg-white::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  transition: background-color 0.1s ease;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow:
+    inset 4px 4px 1px hsla(0, 0%, 100%, 1),
+    inset -4px -4px 1px hsla(0, 0%, 0%, 0.1);
+}
+
+.hover-bg-white>* {
+  position: relative;
+  z-index: 1;
+}
+
+.hover-bg-white:hover::before {
+  background-color: hsl(200, 100%, 99%) !important;
+  box-shadow:
+    inset 4px 4px 1px hsla(0, 0%, 100%, 1),
+    inset -4px -4px 1px hsla(0, 0%, 0%, 0.15);
+}
+
+/*──────────────────────────────────────────────*/
+/*  立体ボーダー                                 */
+/*──────────────────────────────────────────────*/
+.border-bevel-1 {
+  box-shadow:
+    inset 1px 1px 1px hsla(0, 0%, 100%, 0.25),
+    inset -1px -1px 1px hsla(0, 0%, 0%, 0.15); }
+.border-bevel-2 {
+  box-shadow:
+    inset 2px 2px 1px hsla(0, 0%, 100%, 0.25),
+    inset -2px -2px 1px hsla(0, 0%, 0%, 0.15); }
+.border-bevel-3 {
+  box-shadow:
+    inset 3px 3px 1px hsla(0, 0%, 100%, 0.25),
+    inset -3px -3px 1px hsla(0, 0%, 0%, 0.15); }
+.border-bevel-4 {
+  box-shadow:
+    inset 4px 4px 1px hsla(0, 0%, 100%, 0.25),
+    inset -4px -4px 1px hsla(0, 0%, 0%, 0.15); }
+.border-bevel-5 {
+  box-shadow:
+    inset 5px 5px 1px hsla(0, 0%, 100%, 0.25),
+    inset -5px -5px 1px hsla(0, 0%, 0%, 0.15); }
+
+/* ボタン用パディング補正プロパティ */
+.btn[class*="border-bevel"] {
+  padding-top: calc(var(--bs-btn-padding-y) + 2px);
+  padding-bottom: calc(var(--bs-btn-padding-y) + 2px);
+}
+
+/* 立体ボーダー（明） */
+.border-bevel-light {
+  box-shadow:
+    inset 4px 4px 1px hsla(0, 0%, 100%, 0.5),
+    inset -4px -4px 1px hsla(0, 0%, 0%, 0.1);
+}
+
+/*──────────────────────────────────────────────*/
+/*  不透明度90%                                  */
+/*──────────────────────────────────────────────*/
+.opacity-90 { opacity: 0.9 !important; }
+
+/*──────────────────────────────────────────────*/
+/*  背景不透明度90%                              */
+/*──────────────────────────────────────────────*/
+.bg-opacity-90 { --bs-bg-opacity: 0.9; }
+
+/*──────────────────────────────────────────────*/
+/*  フォントサイズ                               */
+/*──────────────────────────────────────────────*/
+.fs-5-5 { font-size: 1.125rem !important; }
+
+/*──────────────────────────────────────────────*/
+/*  フォントカラー（グレースケール）               */
+/*──────────────────────────────────────────────*/
+.text-gray-95 { color: hsl(0, 0%, 95%) !important; }
+.text-gray-90 { color: hsl(0, 0%, 90%) !important; }
+.text-gray-85 { color: hsl(0, 0%, 85%) !important; }
+.text-gray-80 { color: hsl(0, 0%, 80%) !important; }
+.text-gray-70 { color: hsl(0, 0%, 70%) !important; }
+.text-gray-60 { color: hsl(0, 0%, 60%) !important; }
+.text-gray-50 { color: hsl(0, 0%, 50%) !important; }
+.text-gray-40 { color: hsl(0, 0%, 40%) !important; }
+.text-gray-30 { color: hsl(0, 0%, 30%) !important; }
+.text-gray-20 { color: hsl(0, 0%, 20%) !important; }
+.text-gray-15 { color: hsl(0, 0%, 15%) !important; }
+.text-gray-10 { color: hsl(0, 0%, 10%) !important; }
+.text-gray-5 { color: hsl(0, 0%, 5%) !important; }
+
+/*──────────────────────────────────────────────*/
+/*  背景カラー（グレースケール）                 */
+/*──────────────────────────────────────────────*/
+.bg-gray-100 { background-color: hsl(200, 100%, 99.5%) !important; }
+.bg-gray-98 { background-color: hsl(200, 80%, 98%) !important; }
+.bg-gray-96 { background-color: hsl(200, 40%, 96%) !important; }
+.bg-gray-94 { background-color: hsl(200, 20%, 94%) !important; }
+.bg-gray-92 { background-color: hsl(200, 20%, 92%) !important; }
+.bg-gray-90 { background-color: hsl(200, 20%, 90%) !important; }
+.bg-gray-88 { background-color: hsl(200, 15%, 88%) !important; }
+.bg-gray-86 { background-color: hsl(200, 15%, 86%) !important; }
+.bg-gray-84 { background-color: hsl(200, 15%, 84%) !important; }
+.bg-gray-82 { background-color: hsl(200, 15%, 82%) !important; }
+.bg-gray-80 { background-color: hsl(200, 15%, 80%) !important; }
+.bg-gray-70 { background-color: hsl(200, 10%, 70%) !important; }
+.bg-gray-60 { background-color: hsl(200, 9%, 60%) !important; }
+.bg-gray-50 { background-color: hsl(200, 8%, 50%) !important; }
+.bg-gray-40 { background-color: hsl(200, 7%, 40%) !important; }
+.bg-gray-30 { background-color: hsl(200, 6%, 30%) !important; }
+.bg-gray-28 { background-color: hsl(200, 5%, 28%) !important; }
+.bg-gray-26 { background-color: hsl(200, 5%, 26%) !important; }
+.bg-gray-24 { background-color: hsl(200, 5%, 24%) !important; }
+.bg-gray-22 { background-color: hsl(200, 5%, 22%) !important; }
+.bg-gray-20 { background-color: hsl(200, 5%, 20%) !important; }
+.bg-gray-18 { background-color: hsl(200, 4%, 18%) !important; }
+.bg-gray-16 { background-color: hsl(200, 4%, 16%) !important; }
+.bg-gray-14 { background-color: hsl(200, 4%, 14%) !important; }
+.bg-gray-12 { background-color: hsl(200, 4%, 12%) !important; }
+.bg-gray-10 { background-color: hsl(200, 4%, 10%) !important; }
+.bg-gray-8 { background-color: hsl(200, 3%, 8%) !important; }
+.bg-gray-6 { background-color: hsl(200, 3%, 6%) !important; }
+.bg-gray-4 { background-color: hsl(200, 3%, 4%) !important; }
+.bg-gray-2 { background-color: hsl(200, 3%, 2%) !important; }
+.bg-gray-0 { background-color: hsl(200, 3%, 0%) !important; }
+
+/*──────────────────────────────────────────────*/
+/*  スペーシング                                 */
+/*──────────────────────────────────────────────*/
+/* p-0.25 */
+.p-025 { padding: 0.0625rem !important; }
+.pt-025 { padding-top: 0.0625rem !important; }
+.pb-025 { padding-bottom: 0.0625rem !important; }
+.pl-025 { padding-left: 0.0625rem !important; }
+.pr-025 { padding-right: 0.0625rem !important; }
+
+/* p-0.5 */
+.p-05 { padding: 0.125rem !important; }
+.pt-05 { padding-top: 0.125rem !important; }
+.pb-05 { padding-bottom: 0.125rem !important; }
+.pl-05 { padding-left: 0.125rem !important; }
+.pr-05 { padding-right: 0.125rem !important; }
+
+/* m-0.25 */
+.m-025 { margin: 0.0625rem !important; }
+.mt-025 { margin-top: 0.0625rem !important; }
+.mb-025 { margin-bottom: 0.0625rem !important; }
+.ml-025 { margin-left: 0.0625rem !important; }
+.mr-025 { margin-right: 0.0625rem !important; }
+
+/* m-0.5 */
+.m-05 { margin: 0.125rem !important; }
+.mt-05 { margin-top: 0.125rem !important; }
+.mb-05 { margin-bottom: 0.125rem !important; }
+.ml-05 { margin-left: 0.125rem !important; }
+.mr-05 { margin-right: 0.125rem !important; }
+
+/* ネガティブマージン */
+.my-n1 {
+  margin-top: -0.25rem !important;
+  margin-bottom: -0.25rem !important; }
+.my-n2 {
+  margin-top: -0.5rem !important;
+  margin-bottom: -0.5rem !important; }
+.my-n3 {
+  margin-top: -1rem !important;
+  margin-bottom: -1rem !important; }
+.my-n4 {
+  margin-top: -1.5rem !important;
+  margin-bottom: -1.5rem !important; }
+.my-n5 {
+  margin-top: -3rem !important;
+  margin-bottom: -3rem !important; }
+.mt-n1 { margin-top: -0.25rem !important; }
+.mt-n2 { margin-top: -0.5rem !important; }
+.mt-n3 { margin-top: -1rem !important; }
+.mt-n4 { margin-top: -1.5rem !important; }
+.mt-n5 { margin-top: -3rem !important; }
+.mb-n1 { margin-bottom: -0.25rem !important; }
+.mb-n2 { margin-bottom: -0.5rem !important; }
+.mb-n3 { margin-bottom: -1rem !important; }
+.mb-n4 { margin-bottom: -1.5rem !important; }
+.mb-n5 { margin-bottom: -3rem !important; }
+.mx-n1 {
+  margin-left: -0.25rem !important;
+  margin-right: -0.25rem !important; }
+.mx-n2 {
+  margin-left: -0.5rem !important;
+  margin-right: -0.5rem !important; }
+.mx-n3 {
+  margin-left: -1rem !important;
+  margin-right: -1rem !important; }
+.mx-n4 {
+  margin-left: -1.5rem !important;
+  margin-right: -1.5rem !important; }
+.mx-n5 {
+  margin-left: -3rem !important;
+  margin-right: -3rem !important; }
+.ml-n1 { margin-left: -0.25rem !important; }
+.ml-n2 { margin-left: -0.5rem !important; }
+.ml-n3 { margin-left: -1rem !important; }
+.ml-n4 { margin-left: -1.5rem !important; }
+.ml-n5 { margin-left: -3rem !important; }
+.mr-n1 { margin-right: -0.25rem !important; }
+.mr-n2 { margin-right: -0.5rem !important; }
+.mr-n3 { margin-right: -1rem !important; }
+.mr-n4 { margin-right: -1.5rem !important; }
+.mr-n5 { margin-right: -3rem !important; }
+
+/*──────────────────────────────────────────────*/
+/*  EXボタン（独自ボタンクラス）                  */
+/*──────────────────────────────────────────────*/
+/*----------------------------------------------*/
+/*  EXボタン - メインEXボタン                     */
+/*----------------------------------------------*/
+.btn-ex-main {
+  /* デフォルト値 */
+  --btn-bg-color-base: hsl(200, 8%, 50%);
+  --btn-text-color-base: hsl(0, 0%, 95%);
+  --btn-font-size-base: 1rem;
+  --btn-font-weight-base: 600;
+  --btn-padding-y-base: 10px;
+  --btn-padding-x-base: 16px;
+  --btn-padding-base: var(--btn-padding-y-base) var(--btn-padding-x-base);
+  --btn-br-tl-base: 3px;
+  --btn-br-tr-base: 3px;
+  --btn-br-bl-base: 3px;
+  --btn-br-br-base: 3px;
+  --btn-shadow-color-light-base: hsla(0, 0%, 100%, 0.15);
+  --btn-shadow-color-mid-base: hsla(0, 0%, 50%, 0.15);
+  --btn-shadow-color-dark-base: hsla(0, 0%, 0%, 0.15);
+  --btn-shadow-size-base: 4px;
+
+  --btn-shadow-size: var(--btn-shadow-size-base);
+  --btn-shadow-size-neg: calc(var(--btn-shadow-size) * -1);
+  --btn-shadow-size-half: calc(var(--btn-shadow-size) / 1.5);
+  --btn-shadow-size-half-neg: calc(var(--btn-shadow-size) / 1.5 * -1);
+
+  transition:
+    all 0.15s linear 0s,
+    color 0.05s linear 0s;
+  background-color: var(--btn-bg-color-base);
+  color: var(--btn-text-color-base);
+  font-size: var(--btn-font-size, var(--btn-font-size-base));
+  font-weight: var(--btn-font-weight, var(--btn-font-weight-base));
+  padding: var(--btn-padding-y, var(--btn-padding-y-base)) var(--btn-padding-x, var(--btn-padding-x-base));
+  border-radius: var(--btn-br-tl, var(--btn-br-tl-base)) var(--btn-br-tr, var(--btn-br-tr-base)) var(--btn-br-br, var(--btn-br-br-base)) var(--btn-br-bl, var(--btn-br-bl-base));
+  border: none;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-wrap: nowrap;
+  line-height: 1;
+  vertical-align: middle;
+  box-shadow:
+    /*左上*/
+    inset var(--btn-shadow-size) var(--btn-shadow-size) 1px var(--btn-shadow-color-light-base),
+    /*上*/
+    inset 0 var(--btn-shadow-size) 1px var(--btn-shadow-color-light-base),
+    /*左*/
+    inset var(--btn-shadow-size) 0 1px var(--btn-shadow-color-light-base),
+    /*左下*/
+    inset var(--btn-shadow-size) var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-mid-base),
+    /*右上*/
+    inset var(--btn-shadow-size-neg) var(--btn-shadow-size) 1px var(--btn-shadow-color-mid-base),
+    /*右*/
+    inset var(--btn-shadow-size-neg) 0 1px var(--btn-shadow-color-dark-base),
+    /*下*/
+    inset 0 var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-dark-base),
+    /*右下*/
+    inset var(--btn-shadow-size-neg) var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-dark-base);
+}
+
+.btn-ex-main::before,
+.btn-ex-main::after {
+  transition: all 0.1s linear;
+  opacity: 0;
+  pointer-events: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 2;
+}
+.btn-ex-main::before {
+  background: #fff;
+}
+.btn-ex-main::after {
+  background: #000;
+}
+.btn-ex-main:hover {
+  --btn-text-color-base: hsl(0, 0%, 100%);
+}
+.btn-ex-main:hover::before {
+  transition: opacity 0.05s linear;
+  opacity: 0.15;
+}
+.btn-ex-main:active {
+  transition: all 0.05s;
+  transform: scale(0.95, 0.95);
+  --btn-text-color-base: hsl(0, 0%, 100%);
+  border-radius: calc(var(--btn-br-tl, var(--btn-br-tl-base)) * 0.75) calc(var(--btn-br-tr, var(--btn-br-tr-base)) * 0.75) calc(var(--btn-br-br, var(--btn-br-br-base)) * 0.75) calc(var(--btn-br-bl, var(--btn-br-bl-base)) * 0.75);
+  box-shadow:
+    /*左上*/
+    inset var(--btn-shadow-size-half) var(--btn-shadow-size-half) 1px var(--btn-shadow-color-dark-base),
+    /*上*/
+    inset 0 var(--btn-shadow-size-half) 1px var(--btn-shadow-color-dark-base),
+    /*左*/
+    inset var(--btn-shadow-size-half) 0 1px var(--btn-shadow-color-dark-base),
+    /*左下*/
+    inset var(--btn-shadow-size-half) var(--btn-shadow-size-half-neg) 1px var(--btn-shadow-color-mid-base),
+    /*右上*/
+    inset var(--btn-shadow-size-half-neg) var(--btn-shadow-size-half) 1px var(--btn-shadow-color-mid-base),
+    /*右*/
+    inset var(--btn-shadow-size-half-neg) 0 1px var(--btn-shadow-color-light-base),
+    /*下*/
+    inset 0 var(--btn-shadow-size-half-neg) 1px var(--btn-shadow-color-light-base),
+    /*右下*/
+    inset var(--btn-shadow-size-half-neg) var(--btn-shadow-size-half-neg) 1px var(--btn-shadow-color-light-base);
+}
+.btn-ex-main:active::after {
+  transition: opacity 0.05s linear;
+  opacity: 0.07;
+}
+.btn-ex-main.btn-hover-highlight-off:hover::before {
+  transition: opacity 0.05s linear;
+  opacity: 0;
+}
+.btn-ex-main.btn-hover-highlight-fadein:hover::before {
+  transition: opacity 0.5s linear;
+  opacity: 0.15;
+}
+.btn-ex-main:disabled {
+  opacity: 0.5;
+  pointer-events: all;
+  cursor: not-allowed;
+}
+
+/*----------------------------------------------*/
+/*  EXボタン - サブEXボタン                      */
+/*----------------------------------------------*/
+.btn-ex-sub {
+  /* デフォルト値 */
+  --btn-bg-color-base: hsl(200, 8%, 50%);
+  --btn-font-size-base: 1rem;
+  --btn-font-weight-base: 600;
+  --btn-padding-y-base: 10px;
+  --btn-padding-x-base: 16px;
+  --btn-padding-base: var(--btn-padding-y-base) var(--btn-padding-x-base);
+  --btn-br-tl-base: 4px;
+  --btn-br-tr-base: 4px;
+  --btn-br-bl-base: 4px;
+  --btn-br-br-base: 4px;
+  --btn-shadow-color-light-base: hsla(0, 0%, 100%, 0.15);
+  --btn-shadow-color-mid-base: hsla(0, 0%, 50%, 0.15);
+  --btn-shadow-color-dark-base: hsla(0, 0%, 0%, 0.15);
+  --btn-shadow-size-base: 3px;
+
+  --btn-primary-color: var(--btn-bg-color-base);
+  --btn-shadow-size: var(--btn-shadow-size-base);
+  --btn-shadow-size-neg: calc(var(--btn-shadow-size) * -1);
+  --btn-shadow-size-half: calc(var(--btn-shadow-size) / 1.5);
+  --btn-shadow-size-half-neg: calc(var(--btn-shadow-size) / 1.5 * -1);
+  --btn-border-color: oklch(from var(--btn-primary-color) calc(l + 0) calc(c + 0.01) calc(h + 0));
+  --btn-border-size: calc(var(--btn-shadow-size) * 1.5);
+  --btn-border-blur: calc(var(--btn-shadow-size) * 0);
+  /* モード切り替え（JS用） */
+  --btn-color-mode: oklch;
+  /* ホバー時のcolor補正値 - oklchモード（JS用） */
+  --btn-lighten-l: 0.2;
+  /* 加算値 */
+  --btn-lighten-c: 1;
+  /* 乗算値 */
+  /* ホバー時のcolor補正値 - hslモード（JS用） */
+  --btn-lighten-factor: 1.15;
+
+  font-size: var(--btn-font-size, var(--btn-font-size-base));
+  font-weight: var(--btn-font-weight, var(--btn-font-weight-base));
+  padding: var(--btn-padding-y, var(--btn-padding-y-base)) var(--btn-padding-x, var(--btn-padding-x-base));
+  border-radius: var(--btn-br-tl, var(--btn-br-tl-base)) var(--btn-br-tr, var(--btn-br-tr-base)) var(--btn-br-br, var(--btn-br-br-base)) var(--btn-br-bl, var(--btn-br-bl-base));
+  border: none;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  overflow: visible;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-wrap: nowrap;
+  line-height: 1;
+  vertical-align: middle;
+  transition:
+    all 0.15s linear 0s,
+    color 0.05s linear 0s;
+  background-color: color-mix(in srgb, var(--btn-primary-color) 15%, transparent);
+  color: oklch(from var(--btn-primary-color) calc(l + 0) calc(c + 0) calc(h + 0));
+  -webkit-text-stroke: 3px rgba(255, 255, 255, 0.5);
+  paint-order: stroke fill;
+  box-shadow:
+    /*── 枠線 ──────────*/
+    /*左上*/
+    inset calc(var(--btn-border-size) * 0.95) calc(var(--btn-border-size) * -0.95) var(--btn-border-blur) var(--btn-border-color),
+    /*上*/
+    inset 0 calc(var(--btn-border-size) * -1) var(--btn-border-blur) var(--btn-border-color),
+    /*左*/
+    inset var(--btn-border-size) 0 var(--btn-border-blur) var(--btn-border-color),
+    /*左下*/
+    inset calc(var(--btn-border-size) * 0.95) calc(var(--btn-border-size) * 0.95) var(--btn-border-blur) var(--btn-border-color),
+    /*右上*/
+    inset calc(var(--btn-border-size) * -0.95) calc(var(--btn-border-size) * -0.95) var(--btn-border-blur) var(--btn-border-color),
+    /*右*/
+    inset calc(var(--btn-border-size) * -1) 0 var(--btn-border-blur) var(--btn-border-color),
+    /*下*/
+    inset 0 var(--btn-border-size) var(--btn-border-blur) var(--btn-border-color),
+    /*右下*/
+    inset calc(var(--btn-border-size) * -0.95) calc(var(--btn-border-size) * 0.95) var(--btn-border-blur) var(--btn-border-color);
+}
+
+.btn-ex-sub::before,
+.btn-ex-sub::after {
+  transition: all 0.1s linear;
+  pointer-events: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+.btn-ex-sub::before {
+  background: none;
+  opacity: 1;
+  z-index: 0;
+  inset: -0.5px;
+  box-shadow:
+    /*── ベベル ──────────*/
+    /*左上*/
+    inset calc(var(--btn-shadow-size) + 0.5px) calc(var(--btn-shadow-size) + 0.5px) 1px var(--btn-shadow-color-light-base),
+    /*上*/
+    inset 0 calc(var(--btn-shadow-size) + 0.5px) 1px var(--btn-shadow-color-light-base),
+    /*左*/
+    inset calc(var(--btn-shadow-size) + 0.5px) 0 1px var(--btn-shadow-color-light-base),
+    /*左下*/
+    inset calc(var(--btn-shadow-size) + 0.5px) calc(var(--btn-shadow-size-neg) - 0.5px) 1px var(--btn-shadow-color-mid-base),
+    /*右上*/
+    inset calc(var(--btn-shadow-size-neg) - 0.5px) calc(var(--btn-shadow-size) + 0.5px) 1px var(--btn-shadow-color-mid-base),
+    /*右*/
+    inset calc(var(--btn-shadow-size-neg) - 0.5px) 0 1px var(--btn-shadow-color-dark-base),
+    /*下*/
+    inset 0 calc(var(--btn-shadow-size-neg) - 0.5px) 1px var(--btn-shadow-color-dark-base),
+    /*右下*/
+    inset calc(var(--btn-shadow-size-neg) - 0.5px) calc(var(--btn-shadow-size-neg) - 0.5px) 1px var(--btn-shadow-color-dark-base);
+}
+.btn-ex-sub::after {
+  background: #000;
+  opacity: 0;
+  z-index: 2;
+}
+.btn-ex-sub:hover {
+  -webkit-text-stroke: 0px rgba(255, 255, 255, 0);
+}
+.btn-ex-sub:hover::before {
+  opacity: 1;
+}
+.btn-ex-sub:active {
+  transition: all 0.05s;
+  transform: scale(0.95, 0.95);
+  box-shadow:
+    /*── ベベル ──────────*/
+    /*左上*/
+    inset var(--btn-shadow-size-half) var(--btn-shadow-size-half) 1px var(--btn-shadow-color-dark-base),
+    /*上*/
+    inset 0 var(--btn-shadow-size-half) 1px var(--btn-shadow-color-dark-base),
+    /*左*/
+    inset var(--btn-shadow-size-half) 0 1px var(--btn-shadow-color-dark-base),
+    /*左下*/
+    inset var(--btn-shadow-size-half) var(--btn-shadow-size-half-neg) 1px var(--btn-shadow-color-mid-base),
+    /*右上*/
+    inset var(--btn-shadow-size-half-neg) var(--btn-shadow-size-half) 1px var(--btn-shadow-color-mid-base),
+    /*右*/
+    inset var(--btn-shadow-size-half-neg) 0 1px var(--btn-shadow-color-light-base),
+    /*下*/
+    inset 0 var(--btn-shadow-size-half-neg) 1px var(--btn-shadow-color-light-base),
+    /*右下*/
+    inset var(--btn-shadow-size-half-neg) var(--btn-shadow-size-half-neg) 1px var(--btn-shadow-color-light-base),
+    /*── 枠線 ──────────*/
+    /*左上*/
+    inset calc(var(--btn-border-size) * 0.75) calc(var(--btn-border-size) * -0.75) var(--btn-border-blur) var(--btn-primary-color),
+    /*上*/
+    inset 0 calc(var(--btn-border-size) * -0.75) var(--btn-border-blur) var(--btn-primary-color),
+    /*左*/
+    inset calc(var(--btn-border-size) * 0.75) 0 var(--btn-border-blur) var(--btn-primary-color),
+    /*左下*/
+    inset calc(var(--btn-border-size) * 0.75) calc(var(--btn-border-size) * 0.75) var(--btn-border-blur) var(--btn-primary-color),
+    /*右上*/
+    inset calc(var(--btn-border-size) * -0.75) calc(var(--btn-border-size) * -0.75) var(--btn-border-blur) var(--btn-primary-color),
+    /*右*/
+    inset calc(var(--btn-border-size) * -0.75) 0 var(--btn-border-blur) var(--btn-primary-color),
+    /*下*/
+    inset 0 calc(var(--btn-border-size) * 0.75) var(--btn-border-blur) var(--btn-primary-color),
+    /*右下*/
+    inset calc(var(--btn-border-size) * -0.75) calc(var(--btn-border-size) * 0.75) var(--btn-border-blur) var(--btn-primary-color);
+}
+.btn-ex-sub:active::before {
+  box-shadow: none;
+}
+.btn-ex-sub:active::after {
+  transition: opacity 0.05s linear;
+  opacity: 0.07;
+}
+.btn-ex-sub:disabled {
+  opacity: 0.5;
+  pointer-events: all;
+  cursor: not-allowed;
+}
+
+/*----------------------------------------------*/
+/*  EXボタン - モデファイアクラス                 */
+/*----------------------------------------------*/
+/* カラー */
+.btn-ex-red { --btn-bg-color-base: #e74c3c; }
+.btn-ex-orange { --btn-bg-color-base: #e67e22; }
+.btn-ex-yellow { --btn-bg-color-base: #edbe00; }
+.btn-ex-lime { --btn-bg-color-base: #8fdc00; }
+.btn-ex-green { --btn-bg-color-base: #1bad50; }
+.btn-ex-cyan { --btn-bg-color-base: #00bcb3; }
+.btn-ex-blue { --btn-bg-color-base: #1f91ce; }
+.btn-ex-purple { --btn-bg-color-base: #b164e4; }
+.btn-ex-gray { --btn-bg-color-base: hsl(200, 8%, 50%); }
+.btn-ex-gray-light { --btn-bg-color-base: hsl(200, 8%, 60%); }
+
+/* サイズ */
+.btn-ex-xs {
+  --btn-font-size: calc(var(--btn-font-size-base) * 0.7);
+  --btn-font-weight: calc(var(--btn-font-weight-base) - 100);
+  --btn-padding-y: calc(var(--btn-padding-y-base) * 0.5);
+  --btn-padding-x: calc(var(--btn-padding-x-base) * 0.5);
+  --btn-br-tl: calc(var(--btn-br-tl-base) * 0.7);
+  --btn-br-tr: calc(var(--btn-br-tr-base) * 0.7);
+  --btn-br-bl: calc(var(--btn-br-bl-base) * 0.7);
+  --btn-br-br: calc(var(--btn-br-br-base) * 0.7);
+  --btn-shadow-size: calc(var(--btn-shadow-size-base) * 0.7);
+}
+
+.btn-ex-sm {
+  --btn-font-size: calc(var(--btn-font-size-base) * 0.85);
+  --btn-font-weight: calc(var(--btn-font-weight-base) - 100);
+  --btn-padding-y: calc(var(--btn-padding-y-base) * 0.75);
+  --btn-padding-x: calc(var(--btn-padding-x-base) * 0.75);
+  --btn-br-tl: calc(var(--btn-br-tl-base) * 0.85);
+  --btn-br-tr: calc(var(--btn-br-tr-base) * 0.85);
+  --btn-br-bl: calc(var(--btn-br-bl-base) * 0.85);
+  --btn-br-br: calc(var(--btn-br-br-base) * 0.85);
+  --btn-shadow-size: calc(var(--btn-shadow-size-base) * 0.85);
+}
+
+.btn-ex-lg {
+  --btn-font-size: calc(var(--btn-font-size-base) * 1.15);
+  --btn-font-weight: calc(var(--btn-font-weight-base) + 100);
+  --btn-padding-y: calc(var(--btn-padding-y-base) * 1.25);
+  --btn-padding-x: calc(var(--btn-padding-x-base) * 1.25);
+  --btn-br-tl: calc(var(--btn-br-tl-base) * 1.15);
+  --btn-br-tr: calc(var(--btn-br-tr-base) * 1.15);
+  --btn-br-bl: calc(var(--btn-br-bl-base) * 1.15);
+  --btn-br-br: calc(var(--btn-br-br-base) * 1.15);
+  --btn-shadow-size: calc(var(--btn-shadow-size-base) * 1.15);
+}
+
+.btn-ex-xl {
+  --btn-font-size: calc(var(--btn-font-size-base) * 1.3);
+  --btn-font-weight: calc(var(--btn-font-weight-base) + 100);
+  --btn-padding-y: calc(var(--btn-padding-y-base) * 1.5);
+  --btn-padding-x: calc(var(--btn-padding-x-base) * 1.5);
+  --btn-br-tl: calc(var(--btn-br-tl-base) * 1.3);
+  --btn-br-tr: calc(var(--btn-br-tr-base) * 1.3);
+  --btn-br-bl: calc(var(--btn-br-bl-base) * 1.3);
+  --btn-br-br: calc(var(--btn-br-br-base) * 1.3);
+  --btn-shadow-size: calc(var(--btn-shadow-size-base) * 1.3);
+}
+
+/* メインEXボタン - トグル効果 - カラー変更 */
+/* トグル効果使用方法：
+   ・単体要素(非排他)の場合：data-bs-toggle="btn-ex" と class="btn-ex-toggle-＊" を付与
+   ・複数要素(排他)の場合：data-bs-toggle="btn-ex-group" と class="btn-ex-toggle-＊" を付与 */
+.btn-ex-toggle-red.btn-ex-active { --btn-bg-color-base: #e74c3c; }
+.btn-ex-toggle-orange.btn-ex-active { --btn-bg-color-base: #e67e22; }
+.btn-ex-toggle-yellow.btn-ex-active { --btn-bg-color-base: #edbe00; }
+.btn-ex-toggle-lime.btn-ex-active { --btn-bg-color-base: #8fdc00; }
+.btn-ex-toggle-green.btn-ex-active { --btn-bg-color-base: #1bad50; }
+.btn-ex-toggle-cyan.btn-ex-active { --btn-bg-color-base: #00bcb3; }
+.btn-ex-toggle-blue.btn-ex-active { --btn-bg-color-base: #1f91ce; }
+.btn-ex-toggle-purple.btn-ex-active { --btn-bg-color-base: #b164e4; }
+.btn-ex-toggle-gray.btn-ex-active { --btn-bg-color-base: #75838a; }
+
+/* サブEXボタン - トグル効果 - カラー変更 */
+/* トグル効果使用方法：
+   ・単体要素(非排他)の場合：data-bs-toggle="btn-ex" と class="btn-ex-sub-toggle-＊" を付与
+   ・複数要素(排他)の場合：data-bs-toggle="btn-ex-group" と class="btn-ex-sub-toggle-＊" を付与 */
+.btn-ex-sub-toggle-red.btn-ex-active { --btn-primary-color: #e74c3c; }
+.btn-ex-sub-toggle-orange.btn-ex-active { --btn-primary-color: #e67e22; }
+.btn-ex-sub-toggle-yellow.btn-ex-active { --btn-primary-color: #edbe00; }
+.btn-ex-sub-toggle-lime.btn-ex-active { --btn-primary-color: #8fdc00; }
+.btn-ex-sub-toggle-green.btn-ex-active { --btn-primary-color: #1bad50; }
+.btn-ex-sub-toggle-cyan.btn-ex-active { --btn-primary-color: #00bcb3; }
+.btn-ex-sub-toggle-blue.btn-ex-active { --btn-primary-color: #1f91ce; }
+.btn-ex-sub-toggle-purple.btn-ex-active { --btn-primary-color: #b164e4; }
+.btn-ex-sub-toggle-gray.btn-ex-active { --btn-primary-color: #75838a; }
+
+/* サブEXボタン - トグル効果 - カラー反転 */
+.btn-ex-sub-toggle-invert.btn-ex-active {
+  -webkit-text-stroke: 0px rgba(255, 255, 255, 0);
+}
+.btn-ex-sub-toggle-invert.btn-ex-active::before {
+  opacity: 1;
+}
+
+/* サブEXボタン - トグル効果 - ボーダー拡大 */
+.btn-ex-sub-toggle-expand.btn-ex-active:not(.btn-ex-xs):not(.btn-ex-sm):not(.btn-ex-lg):not(.btn-ex-xl),
+.btn-ex-sub-toggle-expand.btn-ex-active.btn-ex-sm {
+  --btn-border-size: calc(var(--btn-shadow-size) * 2.5);
+}
+.btn-ex-sub-toggle-expand.btn-ex-active.btn-ex-xs {
+  --btn-border-size: calc(var(--btn-shadow-size) * 2);
+}
+.btn-ex-sub-toggle-expand.btn-ex-active.btn-ex-lg,
+.btn-ex-sub-toggle-expand.btn-ex-active.btn-ex-xl {
+  --btn-border-size: calc(var(--btn-shadow-size) * 2.8);
+}
+
+/*──────────────────────────────────────────────*/
+/*  テーブル - ストライプ（拡張）                 */
+/*──────────────────────────────────────────────*/
+.table-striped-ex > tbody > tr:nth-of-type(even) > * {
+  background-color: #F5F5F5;
+}
+/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
