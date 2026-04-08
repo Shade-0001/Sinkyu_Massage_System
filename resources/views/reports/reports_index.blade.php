@@ -280,8 +280,15 @@
           content.addEventListener('transitionend', function onEnd(e) {
             if (e.target !== content || e.propertyName !== 'height') return;
             content.removeEventListener('transitionend', onEnd);
-            bottomHr.style.transition = 'none';
-            bottomHr.style.display = 'none';
+            // rAFループ停止後、hr1位置までtransitionで移動してから非表示
+            bottomHr.style.transition = 'top 0.3s ease';
+            bottomHr.style.top = m.top + 'px';
+            bottomHr.addEventListener('transitionend', function onHrEnd(e) {
+              if (e.propertyName !== 'top') return;
+              bottomHr.removeEventListener('transitionend', onHrEnd);
+              bottomHr.style.transition = 'none';
+              bottomHr.style.display = 'none';
+            });
           });
         } else {
           content.classList.add('expanded');
