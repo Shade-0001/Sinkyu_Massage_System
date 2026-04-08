@@ -195,7 +195,9 @@
       // padding-bottom上端 = clientHeight - paddingBottom
       function blockExpandedTop(block) {
         const pb = parseFloat(getComputedStyle(block).paddingBottom) || 0;
-        return block.clientHeight - pb;
+        const bottomHr = block.querySelector('.year-bottom-hr');
+        const hrH = bottomHr ? bottomHr.offsetHeight : 0;
+        return block.clientHeight - pb - hrH;
       }
 
       // hr2をhr1と同位置・同幅にセット（transition無し）
