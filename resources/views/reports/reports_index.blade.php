@@ -77,7 +77,7 @@
           <div style="margin: 5rem 0 0 0;"></div>
         @endif
 
-        <div class="bg-gray-96 rounded-1 p-3 me-2">
+        <div class="bg-gray-96 rounded-1 p-2 me-2">
           <!-- 年ヘッダー（折り畳み・展開ボタン） -->
           <div class="year-header mb-2 d-flex align-items-center">
             <button class="btn-ex-sub btn-ex-blue btn-ex-xl btn-ex-sub-toggle-invert fs-2 gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $collapseId }}" aria-expanded="{{ $isYearExpanded ? 'true' : 'false' }}" aria-controls="{{ $collapseId }}">
@@ -88,6 +88,9 @@
             </button>
             <hr style="flex-grow: 1; border: none; border-top: 4px solid #000; margin: 0rem;">
           </div>
+
+          <!-- 展開時のみ表示される下部hr -->
+          <hr class="year-bottom-hr" style="flex-grow: 1; border: none; border-top: 4px solid #000; margin: 0rem; display: {{ $isYearExpanded ? 'block' : 'none' }};">
 
           <!-- 月別データ（折り畳み可能） -->
           <div class="collapse {{ $isYearExpanded ? 'show' : '' }}" id="{{ $collapseId }}" data-year="{{ $year }}">
@@ -185,6 +188,10 @@
               const arrow = trigger.querySelector('.year-toggle-arrow');
               if (arrow) arrow.classList.add('rotated');
             }
+            if (collapseElement.id.startsWith('year-')) {
+              const bottomHr = collapseElement.previousElementSibling;
+              if (bottomHr && bottomHr.classList.contains('year-bottom-hr')) bottomHr.style.display = 'block';
+            }
           });
 
           collapseElement.addEventListener('hide.bs.collapse', function(e) {
@@ -193,6 +200,10 @@
             if (trigger) {
               const arrow = trigger.querySelector('.year-toggle-arrow');
               if (arrow) arrow.classList.remove('rotated');
+            }
+            if (collapseElement.id.startsWith('year-')) {
+              const bottomHr = collapseElement.previousElementSibling;
+              if (bottomHr && bottomHr.classList.contains('year-bottom-hr')) bottomHr.style.display = 'none';
             }
           });
         });
