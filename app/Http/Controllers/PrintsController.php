@@ -810,15 +810,7 @@ class PrintsController extends Controller
    */
   private function getConsentRequestDefaultTitle(string $consentRequestType, bool $designated): string
   {
-    if ($designated) {
-      return $consentRequestType === 'acupuncture'
-        ? '同意書依頼（医師指定）はり・きゅう'
-        : '同意書依頼（医師指定）あんま・マッサージ';
-    }
-
-    return $consentRequestType === 'acupuncture'
-      ? '同意書依頼（サンプル版）はり・きゅう'
-      : '同意書依頼（サンプル版）あんま・マッサージ';
+    return '御依頼書';
   }
 
   /**

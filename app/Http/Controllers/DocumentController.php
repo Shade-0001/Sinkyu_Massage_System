@@ -236,10 +236,10 @@ class DocumentController extends Controller
   {
     return [
       // 依頼状
-      1 => ['service' => \App\Services\Print\ConsentRequestLetterSampleAcupuncturePdfService::class,    'type' => 'consent_request_sample_acupuncture',    'default_title' => '同意書依頼（サンプル版）はり・きゅう'],
-      2 => ['service' => \App\Services\Print\ConsentRequestLetterSampleMassagePdfService::class,        'type' => 'consent_request_sample_massage',        'default_title' => '同意書依頼（サンプル版）あんま・マッサージ'],
-      3 => ['service' => \App\Services\Print\ConsentRequestLetterDesignatedAcupuncturePdfService::class,'type' => 'consent_request_designated_acupuncture', 'default_title' => '同意書依頼（医師指定）はり・きゅう'],
-      4 => ['service' => \App\Services\Print\ConsentRequestLetterDesignatedMassagePdfService::class,    'type' => 'consent_request_designated_massage',    'default_title' => '同意書依頼（医師指定）あんま・マッサージ'],
+      1 => ['service' => \App\Services\Print\ConsentRequestLetterSampleAcupuncturePdfService::class,    'type' => 'consent_request_sample_acupuncture',    'default_title' => '御依頼書'],
+      2 => ['service' => \App\Services\Print\ConsentRequestLetterSampleMassagePdfService::class,        'type' => 'consent_request_sample_massage',        'default_title' => '御依頼書'],
+      3 => ['service' => \App\Services\Print\ConsentRequestLetterDesignatedAcupuncturePdfService::class,'type' => 'consent_request_designated_acupuncture', 'default_title' => '御依頼書'],
+      4 => ['service' => \App\Services\Print\ConsentRequestLetterDesignatedMassagePdfService::class,    'type' => 'consent_request_designated_massage',    'default_title' => '御依頼書'],
       // 御礼状
       5 => ['service' => \App\Services\Print\ThankYouLetterDoctorPdfService::class,   'type' => 'thank_you_doctor',   'thank_you_option' => 'consent', 'default_title' => '御礼状'],
       6 => ['service' => \App\Services\Print\ThankYouLetterDoctorPdfService::class,   'type' => 'thank_you_doctor',   'thank_you_option' => 'general', 'default_title' => '御礼状'],
