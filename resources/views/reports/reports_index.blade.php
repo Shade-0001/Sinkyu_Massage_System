@@ -161,7 +161,7 @@
           @endforeach
           </div>
           <!-- hr2：格納時はhr1と同位置・同幅、展開時に下部へ移動後に左端を広げる -->
-          <hr class="year-bottom-hr" style="position: absolute; border: none; border-top: 4px solid #000; margin: 0;">
+          <hr class="year-bottom-hr" style="position: absolute; border: none; border-top: 4px solid #000; margin: 0; display: none;">
         </div>
       @endforeach
     </div>
@@ -267,6 +267,7 @@
           if (collapse.classList.contains('show')) {
             setHr2ToHr1(block);
             bottomHr.style.top = blockExpandedTop(block) + 'px';
+            bottomHr.style.display = 'block';
             requestAnimationFrame(() => expandHr2(block));
           } else {
             setHr2ToHr1(block);
@@ -285,8 +286,9 @@
               const block = collapseElement.closest('.year-block');
               const bottomHr = block && block.querySelector('.year-bottom-hr');
               if (bottomHr) {
-                // hr1と同位置・同幅にセットし、top移動と幅拡張を同時開始
+                // hr1と同位置・同幅で表示し、top移動と幅拡張を同時開始
                 setHr2ToHr1(block);
+                bottomHr.style.display = 'block';
                 requestAnimationFrame(() => {
                   expandHr2(block);
                   startHrTracking(block, collapseElement);
@@ -336,8 +338,10 @@
               const bottomHr = block && block.querySelector('.year-bottom-hr');
               if (bottomHr) {
                 bottomHr.style.transition = 'none';
+                // topをhr1位置に確定してから非表示
                 const m = getHr1Metrics(block);
                 bottomHr.style.top = m.top + 'px';
+                bottomHr.style.display = 'none';
               }
             }
           });
