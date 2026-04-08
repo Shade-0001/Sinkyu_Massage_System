@@ -694,9 +694,7 @@ class PrintsController extends Controller
       // タイトルを設定（リクエストから優先、なければデフォルト）
       $customTitleText = $request->input('custom_title_text');
       if (!$customTitleText) {
-        $customTitleText = $consentRequestType === 'acupuncture'
-          ? '同意書依頼（サンプル版）はり・きゅう'
-          : '同意書依頼（サンプル版）あんま・マッサージ';
+        $customTitleText = $this->getConsentRequestDefaultTitle($consentRequestType, false);
       }
       $service->setCustomTitleText($customTitleText);
 
@@ -767,9 +765,7 @@ class PrintsController extends Controller
       // タイトルを設定（リクエストから優先、なければデフォルト）
       $customTitleText = $request->input('custom_title_text');
       if (!$customTitleText) {
-        $customTitleText = $consentRequestType === 'acupuncture'
-          ? '同意書依頼（医師指定）はり・きゅう'
-          : '同意書依頼（医師指定）あんま・マッサージ';
+        $customTitleText = $this->getConsentRequestDefaultTitle($consentRequestType, true);
       }
       $service->setCustomTitleText($customTitleText);
 
@@ -802,6 +798,27 @@ class PrintsController extends Controller
         'line' => $e->getLine(),
       ], 500);
     }
+  }
+
+  /**
+   * 同意書依頼状PDFのデフォルトタイトルを返す
+   * DocumentController の default_title と同じ文字列を使用
+   *
+   * @param string $consentRequestType
+   * @param bool $designated
+   * @return string
+   */
+  private function getConsentRequestDefaultTitle(string $consentRequestType, bool $designated): string
+  {
+    if ($designated) {
+      return $consentRequestType === 'acupuncture'
+        ? '同意書依頼（医師指定）はり・きゅう'
+        : '同意書依頼（医師指定）あんま・マッサージ';
+    }
+
+    return $consentRequestType === 'acupuncture'
+      ? '同意書依頼（サンプル版）はり・きゅう'
+      : '同意書依頼（サンプル版）あんま・マッサージ';
   }
 
   /**
