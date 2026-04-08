@@ -208,16 +208,15 @@
         bottomHr.style.width = m.width + 'px';
       }
 
-      // hr2をblock左端まで広げる（transitionあり）
+      // hr2をblock全幅に広げる（transitionあり）
+      // position:absoluteの原点はpadding edgeなのでleftを-pl、widthをborder-box全幅にする
       function expandHr2(block) {
         const bottomHr = block.querySelector('.year-bottom-hr');
         const style = getComputedStyle(block);
         const pl = parseFloat(style.paddingLeft) || 0;
-        const pr = parseFloat(style.paddingRight) || 0;
-        const fullWidth = block.offsetWidth - pl - pr;
         bottomHr.style.transition = 'left 0.3s ease, width 0.3s ease';
-        bottomHr.style.left = '0px';
-        bottomHr.style.width = fullWidth + 'px';
+        bottomHr.style.left = -pl + 'px';
+        bottomHr.style.width = block.offsetWidth + 'px';
       }
 
       // hr2をhr1幅に戻す（transitionあり）
