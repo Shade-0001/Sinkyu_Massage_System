@@ -80,7 +80,7 @@
         <div class="bg-gray-96 rounded-1 p-2 me-2 year-block" style="position: relative;">
           <!-- 年ヘッダー（折り畳み・展開ボタン） -->
           <div class="year-header mb-2 d-flex align-items-center">
-            <button class="btn-ex-sub btn-ex-blue btn-ex-xl btn-ex-sub-toggle-invert fs-2 gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $collapseId }}" aria-expanded="{{ $isYearExpanded ? 'true' : 'false' }}" aria-controls="{{ $collapseId }}" style="position: relative; z-index: 1;">
+            <button class="btn-ex-sub btn-ex-blue btn-ex-xl btn-ex-sub-toggle-invert fs-2 gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $collapseId }}" aria-expanded="{{ $isYearExpanded ? 'true' : 'false' }}" aria-controls="{{ $collapseId }}">
               <span class="align-self-center lh-1 pt-05 pb-1">{{ $year }}</span>
               <span class="year-toggle-arrow {{ $isYearExpanded ? 'rotated' : '' }} d-inline-flex align-items-center align-self-center">
                 <i class="nf nf-md-chevron_down fs-5 ps-2"></i>
@@ -88,9 +88,6 @@
             </button>
             <hr class="year-top-hr" style="flex-grow: 1; border: none; border-top: 4px solid #000; margin: 0rem;">
           </div>
-
-          <!-- hr2：初期位置はhr1と同じY座標、展開時に年ブロック下部へアニメーション -->
-          <hr class="year-bottom-hr" style="position: absolute; left: 0; right: 0; border: none; border-top: 4px solid #000; margin: 0; transition: top 0.35s ease; display: none; z-index: 0;">
 
           <!-- 月別データ（折り畳み可能） -->
           <div class="collapse {{ $isYearExpanded ? 'show' : '' }}" id="{{ $collapseId }}" data-year="{{ $year }}">
@@ -163,6 +160,8 @@
             <hr class="border-secondary border-2 ms-4">
           @endforeach
           </div>
+          <!-- hr2：collapse の後ろに配置（ボタン重なり回避）、展開時に年ブロック下部へアニメーション -->
+          <hr class="year-bottom-hr" style="position: absolute; left: 0; right: 0; border: none; border-top: 4px solid #000; margin: 0; display: none;">
         </div>
       @endforeach
     </div>
@@ -179,30 +178,41 @@
       };
 
       // 折り畳みアイコン切り替え（年ヘッダー・月ヘッダー共通）
-      // hr1のY座標（親相対）を取得してhr2の初期topにセットする
-      function initYearBottomHr(block) {
+      // hr2のtopをblock下端に合わせる（hr1の中央Y基準）
+      function syncBottomHr(block) {
         const topHr = block.querySelector('.year-top-hr');
         const bottomHr = block.querySelector('.year-bottom-hr');
         if (!topHr || !bottomHr) return;
-        const hrTop = topHr.offsetTop + topHr.offsetHeight / 2;
-        bottomHr.style.top = hrTop + 'px';
+        // hr1の中央Y（親相対）
+        const hr1Mid = topHr.offsetTop + topHr.offsetHeight / 2;
+        // blockの現在の高さの下端
+        const blockBottom = block.offsetHeight;
+        // hr2はborder-topのみなのでoffsetHeight=0。block下端をそのままtopに
+        bottomHr.style.top = blockBottom + 'px';
+        return hr1Mid;
       }
 
-      // hr2をブロック下部へ移動（展開後）
-      function moveBottomHrToEnd(block) {
+      // rAFループでcollapseアニメーション中のblockの高さ変化を追跡
+      const hrTrackingLoops = new Map();
+      function startHrTracking(block, collapseEl, onDone) {
+        const id = collapseEl.id;
+        if (hrTrackingLoops.has(id)) cancelAnimationFrame(hrTrackingLoops.get(id));
         const bottomHr = block.querySelector('.year-bottom-hr');
-        if (!bottomHr) return;
-        const target = block.clientHeight - bottomHr.offsetHeight / 2;
-        bottomHr.style.top = target + 'px';
-      }
-
-      // hr2をhr1位置に戻す（格納開始時）
-      function moveBottomHrToTop(block) {
-        const topHr = block.querySelector('.year-top-hr');
-        const bottomHr = block.querySelector('.year-bottom-hr');
-        if (!topHr || !bottomHr) return;
-        const hrTop = topHr.offsetTop + topHr.offsetHeight / 2;
-        bottomHr.style.top = hrTop + 'px';
+        let lastHeight = -1;
+        let stableCount = 0;
+        function loop() {
+          const h = block.offsetHeight;
+          bottomHr.style.top = h + 'px';
+          if (h === lastHeight) {
+            stableCount++;
+            if (stableCount >= 3) { hrTrackingLoops.delete(id); if (onDone) onDone(); return; }
+          } else {
+            stableCount = 0;
+          }
+          lastHeight = h;
+          hrTrackingLoops.set(id, requestAnimationFrame(loop));
+        }
+        hrTrackingLoops.set(id, requestAnimationFrame(loop));
       }
 
       document.addEventListener('DOMContentLoaded', function() {
@@ -210,16 +220,15 @@
         document.querySelectorAll('.year-block').forEach(function(block) {
           const collapse = block.querySelector('.collapse[id^="year-"]');
           if (!collapse) return;
-          initYearBottomHr(block);
+          const topHr = block.querySelector('.year-top-hr');
+          const bottomHr = block.querySelector('.year-bottom-hr');
+          if (!topHr || !bottomHr) return;
+          const hr1Mid = topHr.offsetTop + topHr.offsetHeight / 2;
           if (collapse.classList.contains('show')) {
-            const bottomHr = block.querySelector('.year-bottom-hr');
-            if (bottomHr) bottomHr.style.display = 'block';
-            // 展開済みなのでDOMが確定してからtopをセット
-            requestAnimationFrame(function() {
-              requestAnimationFrame(function() {
-                moveBottomHrToEnd(block);
-              });
-            });
+            bottomHr.style.display = 'block';
+            bottomHr.style.top = block.offsetHeight + 'px';
+          } else {
+            bottomHr.style.top = hr1Mid + 'px';
           }
         });
 
@@ -236,18 +245,12 @@
               const bottomHr = block && block.querySelector('.year-bottom-hr');
               const topHr = block && block.querySelector('.year-top-hr');
               if (bottomHr && topHr) {
-                // hr1位置にtransitionなしで配置
-                const hrTop = topHr.offsetTop + topHr.offsetHeight / 2;
-                bottomHr.style.transition = 'none';
-                bottomHr.style.top = hrTop + 'px';
+                // hr1中央に配置してから表示
+                const hr1Mid = topHr.offsetTop + topHr.offsetHeight / 2;
+                bottomHr.style.top = hr1Mid + 'px';
                 bottomHr.style.display = 'block';
-                // collapseのscrollHeightで展開後の終点を計算してアニメーション開始
-                const expandedHeight = block.offsetHeight + collapseElement.scrollHeight;
-                const target = expandedHeight - bottomHr.offsetHeight / 2;
-                requestAnimationFrame(function() {
-                  bottomHr.style.transition = 'top 0.35s ease';
-                  bottomHr.style.top = target + 'px';
-                });
+                // collapseの展開アニメーションに追従
+                startHrTracking(block, collapseElement);
               }
             }
           });
@@ -255,13 +258,9 @@
           collapseElement.addEventListener('shown.bs.collapse', function(e) {
             if (e.target !== collapseElement) return;
             if (collapseElement.id.startsWith('year-')) {
-              // 展開完了後に実際の高さで位置を補正
               const block = collapseElement.closest('.year-block');
               const bottomHr = block && block.querySelector('.year-bottom-hr');
-              if (bottomHr) {
-                bottomHr.style.transition = 'none';
-                moveBottomHrToEnd(block);
-              }
+              if (bottomHr) bottomHr.style.top = block.offsetHeight + 'px';
             }
           });
 
@@ -275,9 +274,11 @@
             if (collapseElement.id.startsWith('year-')) {
               const block = collapseElement.closest('.year-block');
               const bottomHr = block && block.querySelector('.year-bottom-hr');
-              if (bottomHr) {
+              const topHr = block && block.querySelector('.year-top-hr');
+              if (bottomHr && topHr) {
+                const hr1Mid = topHr.offsetTop + topHr.offsetHeight / 2;
                 bottomHr.style.transition = 'top 0.35s ease';
-                moveBottomHrToTop(block);
+                bottomHr.style.top = hr1Mid + 'px';
               }
             }
           });
@@ -287,7 +288,10 @@
             if (collapseElement.id.startsWith('year-')) {
               const block = collapseElement.closest('.year-block');
               const bottomHr = block && block.querySelector('.year-bottom-hr');
-              if (bottomHr) bottomHr.style.display = 'none';
+              if (bottomHr) {
+                bottomHr.style.transition = '';
+                bottomHr.style.display = 'none';
+              }
             }
           });
         });
