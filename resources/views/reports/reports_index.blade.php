@@ -77,7 +77,7 @@
           <div style="margin: 5rem 0 0 0;"></div>
         @endif
 
-        <div class="bg-gray-96 rounded-1 p-2 me-2 year-block" style="position: relative;">
+        <div class="bg-gray-96 rounded-1 p-2 me-2 year-block" style="position: relative; z-index: 0; isolation: isolate;">
           <!-- 年ヘッダー（折り畳み・展開ボタン） -->
           <div class="year-header mb-2 d-flex align-items-center">
             <button class="btn-ex-sub btn-ex-blue btn-ex-xl btn-ex-sub-toggle-invert fs-2 gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $collapseId }}" aria-expanded="{{ $isYearExpanded ? 'true' : 'false' }}" aria-controls="{{ $collapseId }}" style="position: relative; z-index: 2;">
