@@ -194,8 +194,7 @@
 
       // position:absoluteの原点はpadding edge。内側下端 = offsetHeight - paddingBottom
       function blockInnerBottom(block) {
-        const pb = parseFloat(getComputedStyle(block).paddingBottom) || 0;
-        return block.offsetHeight - pb;
+        return block.offsetHeight;
       }
 
       // hr2をhr1と同位置・同幅にセット（transition無し）
@@ -213,10 +212,12 @@
       // width = offsetWidth（border-box全幅。borderなしなのでpadding+content）
       function expandHr2(block) {
         const bottomHr = block.querySelector('.year-bottom-hr');
-        const pl = parseFloat(getComputedStyle(block).paddingLeft) || 0;
+        const cs = getComputedStyle(block);
+        const pl = parseFloat(cs.paddingLeft) || 0;
+        const pr = parseFloat(cs.paddingRight) || 0;
         bottomHr.style.transition = 'left 0.3s ease, width 0.3s ease';
-        bottomHr.style.left = -pl + 'px';
-        bottomHr.style.width = block.offsetWidth + 'px';
+        bottomHr.style.left = '0px';
+        bottomHr.style.width = (block.offsetWidth - pl - pr) + 'px';
       }
 
       // hr2をhr1幅に戻す（transitionあり）
