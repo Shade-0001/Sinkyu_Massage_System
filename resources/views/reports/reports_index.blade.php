@@ -114,19 +114,19 @@
                     <tbody>
                       <tr>
                         <th class="align-middle text-center bg-light">主観症状</th>
-                        <td class="align-middle report-text-cell" style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; max-width: 0;">{{ $item['report']->subjective_symptom_and_wish ?? '' }}</td>
+                        <td class="align-middle report-text-cell" style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $item['report']->subjective_symptom_and_wish ?? '' }}</td>
                       </tr>
                       <tr>
                         <th class="align-middle text-center bg-light">客観症状</th>
-                        <td class="align-middle report-text-cell" style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; max-width: 0;">{{ $item['report']->objective_symptom ?? '' }}</td>
+                        <td class="align-middle report-text-cell" style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $item['report']->objective_symptom ?? '' }}</td>
                       </tr>
                       <tr>
                         <th class="align-middle text-center bg-light">施術内容</th>
-                        <td class="align-middle report-text-cell" style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; max-width: 0;">{{ $item['report']->therapy_content ?? '' }}</td>
+                        <td class="align-middle report-text-cell" style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $item['report']->therapy_content ?? '' }}</td>
                       </tr>
                       <tr>
                         <th class="align-middle text-center bg-light">治療計画</th>
-                        <td class="align-middle report-text-cell" style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; max-width: 0;">{{ $item['report']->therapy_plan ?? '' }}</td>
+                        <td class="align-middle report-text-cell" style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $item['report']->therapy_plan ?? '' }}</td>
                       </tr>
                       <tr>
                         <th class="align-middle text-center bg-light" style="width: 5rem;">操作</th>
