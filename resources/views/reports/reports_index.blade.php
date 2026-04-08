@@ -157,7 +157,9 @@
                 </div>
               @endif
             </div>
-            <hr class="border-secondary border-2 ms-4">
+            @if (!$loop->last)
+              <hr class="border-secondary border-2 ms-4">
+            @endif
           @endforeach
           </div>
           <!-- hr2：格納時はhr1と同位置・同幅、展開時に下部へ移動後に左端を広げる -->
