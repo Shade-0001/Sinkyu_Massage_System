@@ -334,6 +334,9 @@
               const bottomHr = block && block.querySelector('.year-bottom-hr');
               if (bottomHr) {
                 bottomHr.style.transition = 'none';
+                // topをhr1位置に確定してから非表示
+                const m = getHr1Metrics(block);
+                bottomHr.style.top = m.top + 'px';
                 bottomHr.style.display = 'none';
               }
             }
