@@ -161,7 +161,7 @@
           @endforeach
           </div>
           <!-- hr2：collapse の後ろに配置（ボタン重なり回避）、展開時に年ブロック下部へアニメーション -->
-          <hr class="year-bottom-hr" style="position: absolute; left: 0; right: 0; border: none; border-top: 4px solid #000; margin: 0; display: none;">
+          <hr class="year-bottom-hr" style="position: absolute; left: 0; right: 0; border: none; border-top: 4px solid #000; margin: 0; display: none; z-index: -1;">
         </div>
       @endforeach
     </div>
@@ -179,17 +179,12 @@
 
       // 折り畳みアイコン切り替え（年ヘッダー・月ヘッダー共通）
       // hr2のtopをblock下端に合わせる（hr1の中央Y基準）
-      function syncBottomHr(block) {
-        const topHr = block.querySelector('.year-top-hr');
-        const bottomHr = block.querySelector('.year-bottom-hr');
-        if (!topHr || !bottomHr) return;
-        // hr1の中央Y（親相対）
-        const hr1Mid = topHr.offsetTop + topHr.offsetHeight / 2;
-        // blockの現在の高さの下端
-        const blockBottom = block.offsetHeight;
-        // hr2はborder-topのみなのでoffsetHeight=0。block下端をそのままtopに
-        bottomHr.style.top = blockBottom + 'px';
-        return hr1Mid;
+      // position:absoluteのtop基準はpadding edge（top:0 = paddingTopの位置）
+      // なのでblock下端のtop値 = offsetHeight - paddingBottom
+      function blockInnerBottom(block) {
+        const style = getComputedStyle(block);
+        const pb = parseFloat(style.paddingBottom) || 0;
+        return block.offsetHeight - pb;
       }
 
       // rAFループでcollapseアニメーション中のblockの高さ変化を追跡
@@ -202,7 +197,7 @@
         let stableCount = 0;
         function loop() {
           const h = block.offsetHeight;
-          bottomHr.style.top = h + 'px';
+          bottomHr.style.top = blockInnerBottom(block) + 'px';
           if (h === lastHeight) {
             stableCount++;
             if (stableCount >= 3) { hrTrackingLoops.delete(id); if (onDone) onDone(); return; }
@@ -226,7 +221,7 @@
           const hr1Mid = topHr.offsetTop + topHr.offsetHeight / 2;
           if (collapse.classList.contains('show')) {
             bottomHr.style.display = 'block';
-            bottomHr.style.top = block.offsetHeight + 'px';
+            bottomHr.style.top = blockInnerBottom(block) + 'px';
           } else {
             bottomHr.style.top = hr1Mid + 'px';
           }
@@ -260,7 +255,7 @@
             if (collapseElement.id.startsWith('year-')) {
               const block = collapseElement.closest('.year-block');
               const bottomHr = block && block.querySelector('.year-bottom-hr');
-              if (bottomHr) bottomHr.style.top = block.offsetHeight + 'px';
+              if (bottomHr) bottomHr.style.top = blockInnerBottom(block) + 'px';
             }
           });
 
