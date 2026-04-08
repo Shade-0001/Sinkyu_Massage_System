@@ -192,8 +192,10 @@
         };
       }
 
+      // position:absoluteの原点はpadding edge。内側下端 = offsetHeight - paddingBottom
       function blockInnerBottom(block) {
-        return block.offsetHeight;
+        const pb = parseFloat(getComputedStyle(block).paddingBottom) || 0;
+        return block.offsetHeight - pb;
       }
 
       // hr2をhr1と同位置・同幅にセット（transition無し）
@@ -206,17 +208,15 @@
         bottomHr.style.width = m.width + 'px';
       }
 
-      // hr2をblock全幅に広げる（transitionあり）
-      // offsetLeftはpadding内側からの距離なので、block左端はoffsetLeft分左 = left: -offsetLeft
-      // widthはblock全体（offsetWidth）
+      // hr2をblock内側全幅に広げる（transitionあり）
+      // left=0（padding内側の左端）、width=hr1の右端まで（offsetLeft + offsetWidth）
       function expandHr2(block) {
         const bottomHr = block.querySelector('.year-bottom-hr');
         const topHr = block.querySelector('.year-top-hr');
-        // topHrのoffsetLeftがpadding-leftの値に等しい
-        const pl = topHr ? topHr.offsetLeft : 0;
+        const fullWidth = topHr.offsetLeft + topHr.offsetWidth;
         bottomHr.style.transition = 'left 0.3s ease, width 0.3s ease';
-        bottomHr.style.left = -pl + 'px';
-        bottomHr.style.width = block.offsetWidth + 'px';
+        bottomHr.style.left = '0px';
+        bottomHr.style.width = fullWidth + 'px';
       }
 
       // hr2をhr1幅に戻す（transitionあり）
