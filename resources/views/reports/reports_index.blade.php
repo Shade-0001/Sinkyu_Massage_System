@@ -203,38 +203,41 @@
         bottomHr.style.width = m.width + 'px';
       }
 
-      function expandHr2(block, expandedHeight) {
+      function setHr2Expanded(block) {
         const bottomHr = block.querySelector('.year-bottom-hr');
         const cs = getComputedStyle(block);
         const pl = parseFloat(cs.paddingLeft) || 0;
         const pr = parseFloat(cs.paddingRight) || 0;
         const hrWidth = block.clientWidth - pl - pr;
         const hrLeft = (block.clientWidth - hrWidth) / 2;
-        // expandedHeight が渡された場合はそれを使って top を計算（アニメーション中用）
-        const pb = parseFloat(cs.paddingBottom) || 0;
-        const hrH = bottomHr.offsetHeight || 0;
-        const targetTop = expandedHeight != null
-          ? (expandedHeight - pb - hrH)
-          : blockExpandedTop(block);
-        bottomHr.style.transition = 'top 0.3s ease, left 0.3s ease, width 0.3s ease';
-        bottomHr.style.top = targetTop + 'px';
+        bottomHr.style.transition = 'none';
+        bottomHr.style.top = blockExpandedTop(block) + 'px';
         bottomHr.style.left = hrLeft + 'px';
         bottomHr.style.width = hrWidth + 'px';
       }
 
-      function collapseHr2(block) {
+      // rAFループでblock.clientHeightの変化に追従してhr2のtopを更新
+      const hr2Loops = new Map();
+      function startHr2Tracking(block) {
+        const id = block.id || (block._hr2id = block._hr2id || Math.random());
+        if (hr2Loops.has(id)) cancelAnimationFrame(hr2Loops.get(id));
         const bottomHr = block.querySelector('.year-bottom-hr');
-        const m = getHr1Metrics(block);
-        bottomHr.style.transition = 'top 0.3s ease, left 0.3s ease, width 0.3s ease';
-        bottomHr.style.top = m.top + 'px';
-        bottomHr.style.left = m.left + 'px';
-        bottomHr.style.width = m.width + 'px';
+        let last = -1;
+        let stable = 0;
+        function loop() {
+          const h = block.clientHeight;
+          bottomHr.style.top = blockExpandedTop(block) + 'px';
+          if (h === last) { stable++; if (stable >= 3) { hr2Loops.delete(id); return; } }
+          else stable = 0;
+          last = h;
+          hr2Loops.set(id, requestAnimationFrame(loop));
+        }
+        hr2Loops.set(id, requestAnimationFrame(loop));
       }
 
       // contentを展開（height 0→scrollHeight + scaleY 0→1）
       function expandContent(content) {
-        const h = content.scrollHeight;
-        content.style.height = h + 'px';
+        content.style.height = content.scrollHeight + 'px';
         content.style.transform = 'scaleY(1)';
         content.style.opacity = '1';
         content.addEventListener('transitionend', function onEnd(e) {
@@ -244,7 +247,7 @@
         });
       }
 
-      // contentを格納（height auto→scrollHeight→0 + scaleY 1→0）
+      // contentを格納（height scrollHeight→0 + scaleY 1→0）
       function collapseContent(content) {
         content.style.height = content.scrollHeight + 'px';
         requestAnimationFrame(() => {
@@ -268,7 +271,12 @@
           btn.setAttribute('aria-expanded', 'false');
           if (arrow) arrow.classList.remove('rotated');
           collapseContent(content);
-          collapseHr2(block);
+          // hr2：幅をhr1に縮めながらtopも追従
+          const m = getHr1Metrics(block);
+          bottomHr.style.transition = 'left 0.3s ease, width 0.3s ease';
+          bottomHr.style.left = m.left + 'px';
+          bottomHr.style.width = m.width + 'px';
+          startHr2Tracking(block);
           content.addEventListener('transitionend', function onEnd(e) {
             if (e.target !== content || e.propertyName !== 'height') return;
             content.removeEventListener('transitionend', onEnd);
@@ -279,24 +287,20 @@
           content.classList.add('expanded');
           btn.setAttribute('aria-expanded', 'true');
           if (arrow) arrow.classList.add('rotated');
-          const expandedH = content.scrollHeight;
           setHr2ToHr1(block);
           bottomHr.style.display = 'block';
           expandContent(content);
-          // scrollHeightから終点topを計算してheightと同時にアニメーション
+          // hr2：幅を全幅に広げながらtopも追従
+          const cs = getComputedStyle(block);
+          const pl = parseFloat(cs.paddingLeft) || 0;
+          const pr = parseFloat(cs.paddingRight) || 0;
+          const hrWidth = block.clientWidth - pl - pr;
+          const hrLeft = (block.clientWidth - hrWidth) / 2;
           requestAnimationFrame(() => {
-            const blockHeaderH = block.querySelector('.year-header').offsetHeight;
-            const cs = getComputedStyle(block);
-            const pt = parseFloat(cs.paddingTop) || 0;
-            const totalH = pt + blockHeaderH + expandedH;
-            const pb = parseFloat(cs.paddingBottom) || 0;
-            const hrH = bottomHr.offsetHeight || 0;
-            bottomHr.style.transition = 'top 0.3s ease, left 0.3s ease, width 0.3s ease';
-            const hrWidth = block.clientWidth - (parseFloat(cs.paddingLeft) || 0) - (parseFloat(cs.paddingRight) || 0);
-            const hrLeft = (block.clientWidth - hrWidth) / 2;
-            bottomHr.style.top = (totalH - pb - hrH) + 'px';
+            bottomHr.style.transition = 'left 0.3s ease, width 0.3s ease';
             bottomHr.style.left = hrLeft + 'px';
             bottomHr.style.width = hrWidth + 'px';
+            startHr2Tracking(block);
           });
         }
       }
@@ -309,46 +313,13 @@
         const arrow = btn.querySelector('.year-toggle-arrow');
         const isExpanded = content.classList.contains('expanded');
 
-        if (isExpanded) {
-          content.classList.remove('expanded');
-          btn.setAttribute('aria-expanded', 'false');
-          if (arrow) arrow.classList.remove('rotated');
-          collapseContent(content);
-          // 月格納時：年ブロックの高さが縮むのに合わせてhr2のtopも追従
-          requestAnimationFrame(() => {
-            const bottomHr = block.querySelector('.year-bottom-hr');
-            if (bottomHr) {
-              const yearContent = block.querySelector('.year-content');
-              const cs = getComputedStyle(block);
-              const pt = parseFloat(cs.paddingTop) || 0;
-              const pb = parseFloat(cs.paddingBottom) || 0;
-              const hrH = bottomHr.offsetHeight || 0;
-              const blockHeaderH = block.querySelector('.year-header').offsetHeight;
-              const targetH = pt + blockHeaderH + (parseFloat(yearContent.style.height) || yearContent.scrollHeight) - content.scrollHeight - pb - hrH;
-              bottomHr.style.transition = 'top 0.3s ease';
-              bottomHr.style.top = targetH + 'px';
-            }
-          });
-        } else {
-          content.classList.add('expanded');
-          btn.setAttribute('aria-expanded', 'true');
-          if (arrow) arrow.classList.add('rotated');
-          expandContent(content);
-          requestAnimationFrame(() => {
-            const bottomHr = block.querySelector('.year-bottom-hr');
-            if (bottomHr) {
-              const yearContent = block.querySelector('.year-content');
-              const cs = getComputedStyle(block);
-              const pt = parseFloat(cs.paddingTop) || 0;
-              const pb = parseFloat(cs.paddingBottom) || 0;
-              const hrH = bottomHr.offsetHeight || 0;
-              const blockHeaderH = block.querySelector('.year-header').offsetHeight;
-              const targetH = pt + blockHeaderH + (parseFloat(yearContent.style.height) || yearContent.scrollHeight) + content.scrollHeight - pb - hrH;
-              bottomHr.style.transition = 'top 0.3s ease';
-              bottomHr.style.top = targetH + 'px';
-            }
-          });
-        }
+        content.classList.toggle('expanded', !isExpanded);
+        btn.setAttribute('aria-expanded', String(!isExpanded));
+        if (arrow) arrow.classList.toggle('rotated', !isExpanded);
+        if (isExpanded) collapseContent(content);
+        else expandContent(content);
+        // 月展開格納時はtopのみrAF追従
+        startHr2Tracking(block);
       }
 
       document.addEventListener('DOMContentLoaded', function() {
