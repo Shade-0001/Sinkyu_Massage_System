@@ -77,20 +77,21 @@
           <div style="margin: 5rem 0 0 0;"></div>
         @endif
 
-        <!-- 年ヘッダー（折り畳み・展開ボタン） -->
-        <div class="year-header mb-2 d-flex align-items-center">
-          <button class="btn-ex-sub btn-ex-blue btn-ex-xl btn-ex-sub-toggle-invert fs-2 gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $collapseId }}" aria-expanded="{{ $isYearExpanded ? 'true' : 'false' }}" aria-controls="{{ $collapseId }}">
-            <span class="align-self-center lh-1 pt-05 pb-1">{{ $year }}</span>
-            <span class="year-toggle-arrow {{ $isYearExpanded ? 'rotated' : '' }} d-inline-flex align-items-center align-self-center">
-              <i class="nf nf-md-chevron_down fs-5 ps-2"></i>
-            </span>
-          </button>
-          <hr style="flex-grow: 1; border: none; border-top: 4px solid #000; margin: 0rem;">
-        </div>
+        <div class="bg-gray-96 rounded-2 p-3">
+          <!-- 年ヘッダー（折り畳み・展開ボタン） -->
+          <div class="year-header mb-2 d-flex align-items-center">
+            <button class="btn-ex-sub btn-ex-blue btn-ex-xl btn-ex-sub-toggle-invert fs-2 gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $collapseId }}" aria-expanded="{{ $isYearExpanded ? 'true' : 'false' }}" aria-controls="{{ $collapseId }}">
+              <span class="align-self-center lh-1 pt-05 pb-1">{{ $year }}</span>
+              <span class="year-toggle-arrow {{ $isYearExpanded ? 'rotated' : '' }} d-inline-flex align-items-center align-self-center">
+                <i class="nf nf-md-chevron_down fs-5 ps-2"></i>
+              </span>
+            </button>
+            <hr style="flex-grow: 1; border: none; border-top: 4px solid #000; margin: 0rem;">
+          </div>
 
-        <!-- 月別データ（折り畳み可能） -->
-        <div class="collapse {{ $isYearExpanded ? 'show' : '' }}" id="{{ $collapseId }}" data-year="{{ $year }}">
-          @foreach ($months as $item)
+          <!-- 月別データ（折り畳み可能） -->
+          <div class="collapse {{ $isYearExpanded ? 'show' : '' }}" id="{{ $collapseId }}" data-year="{{ $year }}">
+            @foreach ($months as $item)
             @php
               $yearMonth = sprintf('%04d-%02d', $item['year'], $item['month']);
               $monthCollapseId = "month-{$year}-{$item['month']}";
@@ -158,6 +159,7 @@
             </div>
             <hr class="border-secondary border-2 ms-4">
           @endforeach
+          </div>
         </div>
       @endforeach
     </div>
