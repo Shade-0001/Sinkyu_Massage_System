@@ -214,9 +214,12 @@
       // left=0（padding内側左端）、width=clientWidth（padding込み内側全幅）
       function expandHr2(block) {
         const bottomHr = block.querySelector('.year-bottom-hr');
+        const cs = getComputedStyle(block);
+        const pl = parseFloat(cs.paddingLeft) || 0;
+        const pr = parseFloat(cs.paddingRight) || 0;
         bottomHr.style.transition = 'left 0.3s ease, width 0.3s ease';
-        bottomHr.style.left = '0px';
-        bottomHr.style.width = block.clientWidth + 'px';
+        bottomHr.style.left = -pl + 'px';
+        bottomHr.style.width = (block.clientWidth + pl + pr) + 'px';
       }
 
       // hr2をhr1幅に戻す（transitionあり）
