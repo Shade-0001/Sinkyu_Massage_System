@@ -334,7 +334,17 @@
             yearContent.style.opacity = '1';
             setHr2ToHr1(block);
             bottomHr.style.display = 'block';
-            requestAnimationFrame(() => expandHr2(block));
+            requestAnimationFrame(() => {
+              const cs = getComputedStyle(block);
+              const pl = parseFloat(cs.paddingLeft) || 0;
+              const pr = parseFloat(cs.paddingRight) || 0;
+              const hrWidth = block.clientWidth - pl - pr;
+              const hrLeft = (block.clientWidth - hrWidth) / 2;
+              bottomHr.style.transition = 'none';
+              bottomHr.style.top = blockExpandedTop(block) + 'px';
+              bottomHr.style.left = hrLeft + 'px';
+              bottomHr.style.width = hrWidth + 'px';
+            });
           } else {
             setHr2ToHr1(block);
           }
