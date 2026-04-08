@@ -77,10 +77,10 @@
           <div style="margin: 5rem 0 0 0;"></div>
         @endif
 
-        <div class="bg-gray-96 rounded-1 p-2 me-2 year-block" style="position: relative; z-index: 0; isolation: isolate;">
+        <div class="bg-gray-96 rounded-1 p-2 me-2 year-block" style="position: relative;">
           <!-- 年ヘッダー（折り畳み・展開ボタン） -->
           <div class="year-header mb-2 d-flex align-items-center">
-            <button class="btn-ex-sub btn-ex-blue btn-ex-xl btn-ex-sub-toggle-invert fs-2 gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $collapseId }}" aria-expanded="{{ $isYearExpanded ? 'true' : 'false' }}" aria-controls="{{ $collapseId }}" style="position: relative; z-index: 2;">
+            <button class="btn-ex-sub btn-ex-blue btn-ex-xl btn-ex-sub-toggle-invert fs-2 gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $collapseId }}" aria-expanded="{{ $isYearExpanded ? 'true' : 'false' }}" aria-controls="{{ $collapseId }}">
               <span class="align-self-center lh-1 pt-05 pb-1">{{ $year }}</span>
               <span class="year-toggle-arrow {{ $isYearExpanded ? 'rotated' : '' }} d-inline-flex align-items-center align-self-center">
                 <i class="nf nf-md-chevron_down fs-5 ps-2"></i>
@@ -160,8 +160,8 @@
             <hr class="border-secondary border-2 ms-4">
           @endforeach
           </div>
-          <!-- hr2：collapse の後ろに配置（ボタン重なり回避）、展開時に年ブロック下部へアニメーション -->
-          <hr class="year-bottom-hr" style="position: absolute; left: 0; right: 0; border: none; border-top: 4px solid #000; margin: 0; display: none; z-index: 1;">
+          <!-- hr2：格納時はhr1と同位置・同幅、展開時に下部へ移動後に左端を広げる -->
+          <hr class="year-bottom-hr" style="position: absolute; border: none; border-top: 4px solid #000; margin: 0; display: none;">
         </div>
       @endforeach
     </div>
@@ -179,15 +179,57 @@
 
       // 折り畳みアイコン切り替え（年ヘッダー・月ヘッダー共通）
       // hr2のtopをblock下端に合わせる（hr1の中央Y基準）
-      // position:absoluteのtop基準はpadding edge（top:0 = paddingTopの位置）
-      // なのでblock下端のtop値 = offsetHeight - paddingBottom
+      // hr1の位置・幅情報を取得（position:absoluteのtopはpadding edgeから）
+      function getHr1Metrics(block) {
+        const topHr = block.querySelector('.year-top-hr');
+        const style = getComputedStyle(block);
+        const pt = parseFloat(style.paddingTop) || 0;
+        const pl = parseFloat(style.paddingLeft) || 0;
+        return {
+          top: topHr.offsetTop,
+          left: topHr.offsetLeft,
+          width: topHr.offsetWidth,
+        };
+      }
+
       function blockInnerBottom(block) {
         const style = getComputedStyle(block);
         const pb = parseFloat(style.paddingBottom) || 0;
         return block.offsetHeight - pb;
       }
 
-      // rAFループでcollapseアニメーション中のblockの高さ変化を追跡
+      // hr2をhr1と同位置・同幅にセット（transition無し）
+      function setHr2ToHr1(block) {
+        const bottomHr = block.querySelector('.year-bottom-hr');
+        const m = getHr1Metrics(block);
+        bottomHr.style.transition = 'none';
+        bottomHr.style.top = m.top + 'px';
+        bottomHr.style.left = m.left + 'px';
+        bottomHr.style.width = m.width + 'px';
+      }
+
+      // hr2をblock左端まで広げる（transitionあり）
+      function expandHr2(block) {
+        const bottomHr = block.querySelector('.year-bottom-hr');
+        const style = getComputedStyle(block);
+        const pl = parseFloat(style.paddingLeft) || 0;
+        const pr = parseFloat(style.paddingRight) || 0;
+        const fullWidth = block.offsetWidth - pl - pr;
+        bottomHr.style.transition = 'left 0.3s ease, width 0.3s ease';
+        bottomHr.style.left = '0px';
+        bottomHr.style.width = fullWidth + 'px';
+      }
+
+      // hr2をhr1幅に戻す（transitionあり）
+      function shrinkHr2(block) {
+        const bottomHr = block.querySelector('.year-bottom-hr');
+        const m = getHr1Metrics(block);
+        bottomHr.style.transition = 'left 0.3s ease, width 0.3s ease';
+        bottomHr.style.left = m.left + 'px';
+        bottomHr.style.width = m.width + 'px';
+      }
+
+      // rAFループでcollapseアニメーション中のtopを追跡
       const hrTrackingLoops = new Map();
       function startHrTracking(block, collapseEl, onDone) {
         const id = collapseEl.id;
@@ -195,13 +237,9 @@
         const bottomHr = block.querySelector('.year-bottom-hr');
         let lastHeight = -1;
         let stableCount = 0;
-        const yearHeader = block.querySelector('.year-header');
         function loop() {
           const h = block.offsetHeight;
-          const newTop = blockInnerBottom(block);
-          bottomHr.style.top = newTop + 'px';
-          const headerBottom = yearHeader ? (yearHeader.offsetTop + yearHeader.offsetHeight) : 0;
-          bottomHr.style.visibility = newTop <= headerBottom ? 'hidden' : 'visible';
+          bottomHr.style.top = blockInnerBottom(block) + 'px';
           if (h === lastHeight) {
             stableCount++;
             if (stableCount >= 3) { hrTrackingLoops.delete(id); if (onDone) onDone(); return; }
@@ -215,19 +253,19 @@
       }
 
       document.addEventListener('DOMContentLoaded', function() {
-        // 初期状態で展開済みの年ブロックのhr2を初期化
+        // 初期状態の設定
         document.querySelectorAll('.year-block').forEach(function(block) {
           const collapse = block.querySelector('.collapse[id^="year-"]');
           if (!collapse) return;
-          const topHr = block.querySelector('.year-top-hr');
           const bottomHr = block.querySelector('.year-bottom-hr');
-          if (!topHr || !bottomHr) return;
-          const hr1Mid = topHr.offsetTop + topHr.offsetHeight / 2;
+          if (!bottomHr) return;
           if (collapse.classList.contains('show')) {
-            bottomHr.style.display = 'block';
+            setHr2ToHr1(block);
             bottomHr.style.top = blockInnerBottom(block) + 'px';
+            bottomHr.style.display = 'block';
+            requestAnimationFrame(() => expandHr2(block));
           } else {
-            bottomHr.style.top = hr1Mid + 'px';
+            setHr2ToHr1(block);
           }
         });
 
@@ -242,13 +280,10 @@
             if (collapseElement.id.startsWith('year-')) {
               const block = collapseElement.closest('.year-block');
               const bottomHr = block && block.querySelector('.year-bottom-hr');
-              const topHr = block && block.querySelector('.year-top-hr');
-              if (bottomHr && topHr) {
-                // hr1中央に配置してから表示
-                const hr1Mid = topHr.offsetTop + topHr.offsetHeight / 2;
-                bottomHr.style.top = hr1Mid + 'px';
+              if (bottomHr) {
+                // hr1と同位置・同幅で表示してrAF追従開始
+                setHr2ToHr1(block);
                 bottomHr.style.display = 'block';
-                // collapseの展開アニメーションに追従
                 startHrTracking(block, collapseElement);
               }
             }
@@ -259,7 +294,11 @@
             if (collapseElement.id.startsWith('year-')) {
               const block = collapseElement.closest('.year-block');
               const bottomHr = block && block.querySelector('.year-bottom-hr');
-              if (bottomHr) bottomHr.style.top = blockInnerBottom(block) + 'px';
+              if (bottomHr) {
+                // top確定後に左端を広げるアニメーション
+                bottomHr.style.top = blockInnerBottom(block) + 'px';
+                requestAnimationFrame(() => expandHr2(block));
+              }
             }
           });
 
@@ -272,12 +311,9 @@
             }
             if (collapseElement.id.startsWith('year-')) {
               const block = collapseElement.closest('.year-block');
-              const bottomHr = block && block.querySelector('.year-bottom-hr');
-              const topHr = block && block.querySelector('.year-top-hr');
-              if (bottomHr && topHr) {
-                const hr1Mid = topHr.offsetTop + topHr.offsetHeight / 2;
-                bottomHr.style.transition = 'top 0.35s ease';
-                bottomHr.style.top = hr1Mid + 'px';
+              if (block) {
+                // まず左端を縮めるアニメーション
+                shrinkHr2(block);
               }
             }
           });
@@ -288,8 +324,14 @@
               const block = collapseElement.closest('.year-block');
               const bottomHr = block && block.querySelector('.year-bottom-hr');
               if (bottomHr) {
-                bottomHr.style.transition = '';
-                bottomHr.style.display = 'none';
+                // 縮み完了後にhr1位置へ戻してから非表示
+                const m = getHr1Metrics(block);
+                bottomHr.style.transition = 'top 0.35s ease';
+                bottomHr.style.top = m.top + 'px';
+                setTimeout(() => {
+                  bottomHr.style.transition = 'none';
+                  bottomHr.style.display = 'none';
+                }, 350);
               }
             }
           });
