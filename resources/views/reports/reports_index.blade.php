@@ -41,7 +41,7 @@
     </div>
   @else
     <!-- 報告書データ一覧表示エリア -->
-    <div id="reports-list-area" style="max-height: 70vh; overflow-y: auto; overflow-x: hidden; border: 1px solid #dee2e6;">
+    <div id="reports-list-area" style="overflow-y: auto; overflow-x: hidden; border: 1px solid #dee2e6;">
       @php
         // 現在年月に最も近いデータがある年月を特定
         $currentYearMonthVal = $currentYear * 100 + $currentMonth;
@@ -97,17 +97,17 @@
               $monthCollapseId = "month-{$year}-{$item['month']}";
               $isMonthExpanded = $item['year'] == $closestYear && $item['month'] == $closestMonth;
             @endphp
-            <div class="report-month-section mb-4 ms-4" data-year-month="{{ $yearMonth }}">
+            <div class="report-month-section ms-4" data-year-month="{{ $yearMonth }}">
               @if ($item['report'])
                 <!-- 報告書データあり -->
-                <div class="btn-ex-sub btn-ex-blue btn-ex-lg btn-ex-sub-toggle-invert" role="button" data-bs-toggle="collapse" data-bs-target="#{{ $monthCollapseId }}" aria-expanded="{{ $isMonthExpanded ? 'true' : 'false' }}" aria-controls="{{ $monthCollapseId }}">
+                <div class="btn-ex-sub btn-ex-blue btn-ex-lg btn-ex-sub-toggle-invert mb-1" role="button" data-bs-toggle="collapse" data-bs-target="#{{ $monthCollapseId }}" aria-expanded="{{ $isMonthExpanded ? 'true' : 'false' }}" aria-controls="{{ $monthCollapseId }}">
                   {{ $item['year'] }}年{{ "\u{2000}" }}{{ $item['month'] }}月
                   <span class="year-toggle-arrow {{ $isMonthExpanded ? 'rotated' : '' }}" style="display: inline-flex; align-items: center; align-self: center;">
                     <i class="nf nf-md-chevron_down ps-2"></i>
                   </span>
                 </div>
                 <div class="collapse {{ $isMonthExpanded ? 'show' : '' }}" id="{{ $monthCollapseId }}" style="overflow-x: hidden;">
-                  <table class="table table-bordered" style="font-size: 0.9rem; table-layout: fixed; width: 100%;">
+                  <table class="table table-bordered mb-0" style="font-size: 0.9rem; table-layout: fixed; width: 100%;">
                     <colgroup>
                       <col style="width: 5rem;">
                       <col>
@@ -159,6 +159,8 @@
             </div>
             @if (!$loop->last)
               <hr class="border-secondary border-2 ms-4">
+            @else
+              <div class="mb-3"></div>
             @endif
           @endforeach
           </div>
@@ -288,7 +290,6 @@
               const block = collapseElement.closest('.year-block');
               const bottomHr = block && block.querySelector('.year-bottom-hr');
               if (bottomHr) {
-                // hr1と同位置・同幅で表示し、top移動と幅拡張を同時開始
                 setHr2ToHr1(block);
                 bottomHr.style.display = 'block';
                 requestAnimationFrame(() => {
@@ -296,19 +297,19 @@
                   startHrTracking(block, collapseElement);
                 });
               }
+            } else if (collapseElement.id.startsWith('month-')) {
+              const block = collapseElement.closest('.year-block');
+              if (block) startHrTracking(block, collapseElement);
             }
           });
 
           collapseElement.addEventListener('shown.bs.collapse', function(e) {
             if (e.target !== collapseElement) return;
-            if (collapseElement.id.startsWith('year-')) {
-              const block = collapseElement.closest('.year-block');
-              const bottomHr = block && block.querySelector('.year-bottom-hr');
-              // topをrAFループ終了後の最終値に確定
-              if (bottomHr) {
-                bottomHr.style.transition = 'none';
-                bottomHr.style.top = blockExpandedTop(block) + 'px';
-              }
+            const block = collapseElement.closest('.year-block');
+            const bottomHr = block && block.querySelector('.year-bottom-hr');
+            if (bottomHr) {
+              bottomHr.style.transition = 'none';
+              bottomHr.style.top = blockExpandedTop(block) + 'px';
             }
           });
 
@@ -324,12 +325,14 @@
               if (block) {
                 const bottomHr = block.querySelector('.year-bottom-hr');
                 const m = getHr1Metrics(block);
-                // top・left・widthを同時にtransitionでhr1位置まで戻す
                 bottomHr.style.transition = 'top 0.35s ease, left 0.3s ease, width 0.3s ease';
                 bottomHr.style.top = m.top + 'px';
                 bottomHr.style.left = m.left + 'px';
                 bottomHr.style.width = m.width + 'px';
               }
+            } else if (collapseElement.id.startsWith('month-')) {
+              const block = collapseElement.closest('.year-block');
+              if (block) startHrTracking(block, collapseElement);
             }
           });
 
@@ -340,10 +343,16 @@
               const bottomHr = block && block.querySelector('.year-bottom-hr');
               if (bottomHr) {
                 bottomHr.style.transition = 'none';
-                // topをhr1位置に確定してから非表示
                 const m = getHr1Metrics(block);
                 bottomHr.style.top = m.top + 'px';
                 bottomHr.style.display = 'none';
+              }
+            } else if (collapseElement.id.startsWith('month-')) {
+              const block = collapseElement.closest('.year-block');
+              const bottomHr = block && block.querySelector('.year-bottom-hr');
+              if (bottomHr) {
+                bottomHr.style.transition = 'none';
+                bottomHr.style.top = blockExpandedTop(block) + 'px';
               }
             }
           });
