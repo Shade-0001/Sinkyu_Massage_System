@@ -7,7 +7,7 @@
 
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  #region グローバルスタイル                           ┃*/
+/*┃  グローバルスタイル                           ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 /* 全体 */
 * {
@@ -109,7 +109,6 @@ table.table-bordered.dataTable {
 }
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-/* #endregion */
 
 
 
@@ -117,11 +116,11 @@ table.table-bordered.dataTable {
 
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  #region ヘッダー                                    ┃*/
+/*┃  ヘッダー                                    ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
-/*──────────────────────────────────────────────*/
-/*  サイドバートグルボタン                        */
-/*──────────────────────────────────────────────*/
+/*────────────────────────────────────────────*/
+/*  サイドバートグルボタン                      */
+/*────────────────────────────────────────────*/
 /* ・ボタンサイズ調整方法：hamburger-sizeを変更 */
 /* ・バーの太さ調整方法：bar-hを変更 */
 #sidebar-toggle {
@@ -224,9 +223,9 @@ html[data-sidebar="open"] #sidebar-toggle-icon span:nth-of-type(3)::after {
   transform: translate(calc(var(--tx) * -1), calc(var(--ty) * -1)) rotate(45deg);
 }
 
-/*──────────────────────────────────────────────*/
-/*  通知ウィジェット                             */
-/*──────────────────────────────────────────────*/
+/*────────────────────────────────────────────*/
+/*  通知ウィジェット                           */
+/*────────────────────────────────────────────*/
 /* ベルボタン */
 .notice-bell-btn {
   color: #ccc;
@@ -353,7 +352,6 @@ html[data-sidebar="open"] #sidebar-toggle-icon span:nth-of-type(3)::after {
   transform: scaleX(-1);
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-/* #endregion */
 
 
 
@@ -361,7 +359,7 @@ html[data-sidebar="open"] #sidebar-toggle-icon span:nth-of-type(3)::after {
 
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  #region サイドバー                                  ┃*/
+/*┃  サイドバー                                  ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 #sidebar {
   flex-shrink: 0;
@@ -427,7 +425,6 @@ html[data-sidebar="closed"] #sidebar-content {
   transition: max-height 0.3s ease;
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-/* #endregion */
 
 
 
@@ -435,7 +432,7 @@ html[data-sidebar="closed"] #sidebar-content {
 
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  #region ページネーション（DataTables）               ┃*/
+/*┃  ページネーション（DataTables）               ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 .dataTables_paginate .pagination {
   gap: 0;
@@ -556,7 +553,6 @@ html[data-sidebar="closed"] #sidebar-content {
   opacity: 0.5;
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-/* #endregion */
 
 
 
@@ -564,44 +560,6 @@ html[data-sidebar="closed"] #sidebar-content {
 
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  #region ホーム                                      ┃*/
-/*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
-/* ホームメニュー - サイドバー格納時：lg以上で横並び */
-@media (min-width: 992px) {
-  html[data-sidebar="closed"] #home-menu {
-    flex-direction: row !important;
-  }
-
-  html[data-sidebar="closed"] .home-menu-vr {
-    display: flex !important;
-  }
-}
-
-/* ホームメニュー - サイドバー展開時：xl以上で横並び */
-@media (min-width: 1200px) {
-  html[data-sidebar="open"] #home-menu {
-    flex-direction: row !important;
-  }
-
-  html[data-sidebar="open"] .home-menu-vr {
-    display: flex !important;
-  }
-}
-
-/*──────────────────────────────────────────────*/
-/*  項目ラベル                                   */
-/*──────────────────────────────────────────────*/
-.home-menu-label {
-  /* フォント */
-  font-family: "M PLUS Rounded 1c", sans-serif;
-  font-size: 2rem;
-  letter-spacing: 0.2rem;
-  /* テキストアウトライン */
-  -webkit-text-stroke: 7px #444;
-  paint-order: stroke fill;
-}
-/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-/* #endregion */
 
 
 
@@ -609,8 +567,11 @@ html[data-sidebar="closed"] #sidebar-content {
 
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  #region 実績データ - カレンダー                      ┃*/
+/*┃  実績データ                                  ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
+/*────────────────────────────────────────────*/
+/*  カレンダー                                 */
+/*────────────────────────────────────────────*/
 /* カレンダータイトルセレクト - カスタムスタイル */
 #calendar-title {
   font-size: 25px;
@@ -685,342 +646,34 @@ html[data-sidebar="closed"] #sidebar-content {
   cursor: default;
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-/* #endregion */
-
-
-
-
-
-
-/*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  #region PDF出力 - 依頼書                            ┃*/
-/*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
-@page {
-  margin: 40px;
-}
-
-.pdf-request-doc body {
-  line-height: 7mm;
-  font-size: 12pt;
-  margin: 0;
-  padding: 0;
-}
-
-.pdf-request-doc .title {
-  font-size: 26pt;
-  text-align: center;
-  margin-bottom: 30px;
-  letter-spacing: 0.5em;
-}
-
-.pdf-request-doc .date {
-  text-align: right;
-  margin-bottom: 20px;
-}
-
-.pdf-request-doc .recipient {
-  margin-bottom: 30px;
-}
-
-.pdf-request-doc .content-area {
-  margin: 40px 0;
-  min-height: 200px;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
-
-.pdf-request-doc .content-area p {
-  margin: 0;
-}
-
-.pdf-request-doc .patient-info {
-  margin: 20px 0;
-}
-
-.pdf-request-doc .handwrite-area {
-  position: absolute;
-  bottom: 80px;
-  left: 40px;
-}
-
-.pdf-request-doc .clinic-info {
-  position: absolute;
-  bottom: 40px;
-  right: 40px;
-  text-align: right;
-}
-/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-/* #endregion */
-
-
-
-
-
-
-/*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  #region PDF出力 - 計画情報                          ┃*/
-/*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
-.pdf-plans body {
-  font-family: "mplus1medium", sans-serif;
-  font-size: 9px;
-  margin: 0;
-  padding: 0;
-}
-
-.pdf-plans h1 {
-  text-align: center;
-  font-size: 16px;
-  margin-bottom: 15px;
-}
-
-.pdf-plans .user-info {
-  margin-bottom: 15px;
-  font-size: 10px;
-}
-
-.pdf-plans .plan-record {
-  margin-bottom: 20px;
-  page-break-inside: avoid;
-}
-
-.pdf-plans .plan-header {
-  background-color: #f0f0f0;
-  padding: 5px;
-  margin-bottom: 10px;
-  font-weight: bold;
-  font-size: 11px;
-  border: 1px solid #000;
-}
-
-.pdf-plans .status-latest {
-  color: #ff0000;
-}
-
-.pdf-plans .status-updated {
-  color: #666666;
-}
-
-.pdf-plans table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 8px;
-  margin-bottom: 10px;
-}
-
-.pdf-plans th,
-.pdf-plans td {
-  border: 1px solid #000;
-  padding: 3px;
-  text-align: left;
-  vertical-align: middle;
-}
-
-.pdf-plans th {
-  background-color: #e8e8e8;
-  text-align: center;
-  font-weight: bold;
-}
-
-.pdf-plans .section-title {
-  background-color: #d0d0d0;
-  font-weight: bold;
-  text-align: center;
-}
-
-.pdf-plans .label-cell {
-  width: 25%;
-  background-color: #f5f5f5;
-  font-weight: bold;
-}
-
-.pdf-plans .value-cell {
-  width: 75%;
-}
-
-.pdf-plans .adl-table th {
-  width: 15%;
-}
-
-.pdf-plans .adl-table td.level {
-  width: 20%;
-}
-
-.pdf-plans .adl-table td.note {
-  width: 65%;
-}
-
-.pdf-plans .textarea-cell {
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
-/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-/* #endregion */
-
-
-
-
-
-
-/*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  #region PDF出力 - 同意医師（ＨＫ）                   ┃*/
-/*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
-.pdf-consents-acupuncture body {
-  font-family: "mplus1medium", sans-serif;
-  font-size: 9px;
-  margin: 0;
-  padding: 0;
-}
-
-.pdf-consents-acupuncture h1 {
-  text-align: center;
-  font-size: 16px;
-  margin-bottom: 20px;
-}
-
-.pdf-consents-acupuncture table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 8px;
-}
-
-.pdf-consents-acupuncture th,
-.pdf-consents-acupuncture td {
-  border: 1px solid #000;
-  padding: 4px;
-  text-align: left;
-  vertical-align: middle;
-}
-
-.pdf-consents-acupuncture th {
-  background-color: #f0f0f0;
-  text-align: center;
-}
-
-.pdf-consents-acupuncture .status-latest {
-  font-weight: bold;
-  color: #ff0000;
-}
-
-.pdf-consents-acupuncture .status-updated {
-  color: #666666;
-}
-/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-/* #endregion */
-
-
-
-
-
-
-/*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  #region PDF出力 - 同意医師（ＡＭ）                   ┃*/
-/*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
-.pdf-consents-massage body {
-  font-family: "mplus1medium", sans-serif;
-  font-size: 9px;
-  margin: 0;
-  padding: 0;
-}
-
-.pdf-consents-massage h1 {
-  text-align: center;
-  font-size: 16px;
-  margin-bottom: 20px;
-}
-
-.pdf-consents-massage table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 8px;
-}
-
-.pdf-consents-massage th,
-.pdf-consents-massage td {
-  border: 1px solid #000;
-  padding: 4px;
-  text-align: left;
-  vertical-align: middle;
-}
-
-.pdf-consents-massage th {
-  background-color: #f0f0f0;
-  text-align: center;
-}
-
-.pdf-consents-massage .status-latest {
-  font-weight: bold;
-  color: #ff0000;
-}
-
-.pdf-consents-massage .status-updated {
-  color: #666666;
-}
-/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-/* #endregion */
-
-
-
-
-
-
-/*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  #region PDF出力 - 医療保険情報                       ┃*/
-/*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
-.pdf-insurances body {
-  font-family: "mplus1medium", sans-serif;
-  font-size: 9px;
-  margin: 0;
-  padding: 0;
-}
-
-.pdf-insurances h1 {
-  text-align: center;
-  font-size: 16px;
-  margin-bottom: 20px;
-}
-
-.pdf-insurances table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 8px;
-}
-
-.pdf-insurances th,
-.pdf-insurances td {
-  border: 1px solid #000;
-  padding: 4px;
-  text-align: left;
-  vertical-align: middle;
-}
-
-.pdf-insurances th {
-  background-color: #f0f0f0;
-  text-align: center;
-}
-
-.pdf-insurances .checkbox {
-  text-align: center;
-  font-size: 12px;
-}
-
-.pdf-insurances .status-latest {
-  font-weight: bold;
-  color: #ff0000;
-}
-
-.pdf-insurances .status-updated {
-  color: #666666;
-}
-/*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-/* #endregion */
-
-/* reports/index height+scaleY collapse */
-.year-content,
-.month-content {
-  transform-origin: top center;
-  transform: scaleY(0);
-  opacity: 0;
-  height: 0;
-  overflow: hidden;
-  transition: height 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
