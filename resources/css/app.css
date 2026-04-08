@@ -1762,17 +1762,13 @@ html[data-sidebar="closed"] #sidebar-content {
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
-/* reports/index scaleY collapse */
+/* reports/index height+scaleY collapse */
 .year-content,
 .month-content {
   transform-origin: top center;
   transform: scaleY(0);
   opacity: 0;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  height: 0;
   overflow: hidden;
-}
-.year-content.expanded,
-.month-content.expanded {
-  transform: scaleY(1);
-  opacity: 1;
+  transition: height 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
 }

@@ -225,43 +225,64 @@
         bottomHr.style.width = m.width + 'px';
       }
 
+      // contentを展開（height 0→scrollHeight + scaleY 0→1）
+      function expandContent(content) {
+        const h = content.scrollHeight;
+        content.style.height = h + 'px';
+        content.style.transform = 'scaleY(1)';
+        content.style.opacity = '1';
+        content.addEventListener('transitionend', function onEnd(e) {
+          if (e.target !== content || e.propertyName !== 'height') return;
+          content.removeEventListener('transitionend', onEnd);
+          content.style.height = 'auto';
+        });
+      }
+
+      // contentを格納（height auto→scrollHeight→0 + scaleY 1→0）
+      function collapseContent(content) {
+        content.style.height = content.scrollHeight + 'px';
+        requestAnimationFrame(() => {
+          content.style.height = '0';
+          content.style.transform = 'scaleY(0)';
+          content.style.opacity = '0';
+        });
+      }
+
       // ── 年展開格納 ────────────────────────────────
       function toggleYear(btn) {
         const targetId = btn.dataset.toggleYear;
         const content = document.getElementById(targetId);
         const block = btn.closest('.year-block');
         const arrow = btn.querySelector('.year-toggle-arrow');
+        const bottomHr = block.querySelector('.year-bottom-hr');
         const isExpanded = content.classList.contains('expanded');
 
         if (isExpanded) {
-          // 格納
           content.classList.remove('expanded');
           btn.setAttribute('aria-expanded', 'false');
           if (arrow) arrow.classList.remove('rotated');
-          const bottomHr = block.querySelector('.year-bottom-hr');
+          collapseContent(content);
           collapseHr2(block);
           content.addEventListener('transitionend', function onEnd(e) {
-            if (e.target !== content) return;
+            if (e.target !== content || e.propertyName !== 'height') return;
             content.removeEventListener('transitionend', onEnd);
             bottomHr.style.transition = 'none';
             bottomHr.style.display = 'none';
           });
         } else {
-          // 展開
           content.classList.add('expanded');
           btn.setAttribute('aria-expanded', 'true');
           if (arrow) arrow.classList.add('rotated');
-          const bottomHr = block.querySelector('.year-bottom-hr');
           setHr2ToHr1(block);
           bottomHr.style.display = 'block';
-          // scaleYが0→1の間はclientHeightが変化するのでtransitionend後に確定
-          content.addEventListener('transitionend', function onEnd(e) {
-            if (e.target !== content) return;
-            content.removeEventListener('transitionend', onEnd);
-            expandHr2(block);
-          });
-          // 展開開始と同時にhr2もtopをアニメーション
+          expandContent(content);
           requestAnimationFrame(() => expandHr2(block));
+          content.addEventListener('transitionend', function onEnd(e) {
+            if (e.target !== content || e.propertyName !== 'height') return;
+            content.removeEventListener('transitionend', onEnd);
+            bottomHr.style.transition = 'none';
+            bottomHr.style.top = blockExpandedTop(block) + 'px';
+          });
         }
       }
 
@@ -277,45 +298,50 @@
           content.classList.remove('expanded');
           btn.setAttribute('aria-expanded', 'false');
           if (arrow) arrow.classList.remove('rotated');
-          // 格納時：hr2のtopをtransitionendで確定
+          collapseContent(content);
           content.addEventListener('transitionend', function onEnd(e) {
-            if (e.target !== content) return;
+            if (e.target !== content || e.propertyName !== 'height') return;
             content.removeEventListener('transitionend', onEnd);
             const bottomHr = block.querySelector('.year-bottom-hr');
-            if (bottomHr) {
-              bottomHr.style.transition = 'none';
-              bottomHr.style.top = blockExpandedTop(block) + 'px';
-            }
+            if (bottomHr) { bottomHr.style.transition = 'none'; bottomHr.style.top = blockExpandedTop(block) + 'px'; }
           });
         } else {
           content.classList.add('expanded');
           btn.setAttribute('aria-expanded', 'true');
           if (arrow) arrow.classList.add('rotated');
+          expandContent(content);
           content.addEventListener('transitionend', function onEnd(e) {
-            if (e.target !== content) return;
+            if (e.target !== content || e.propertyName !== 'height') return;
             content.removeEventListener('transitionend', onEnd);
             const bottomHr = block.querySelector('.year-bottom-hr');
-            if (bottomHr) {
-              bottomHr.style.transition = 'none';
-              bottomHr.style.top = blockExpandedTop(block) + 'px';
-            }
+            if (bottomHr) { bottomHr.style.transition = 'none'; bottomHr.style.top = blockExpandedTop(block) + 'px'; }
           });
         }
       }
 
       document.addEventListener('DOMContentLoaded', function() {
-        // 初期状態のhr2セット
+        // 初期状態のheight・hr2セット
         document.querySelectorAll('.year-block').forEach(function(block) {
           const yearContent = block.querySelector('.year-content');
           const bottomHr = block.querySelector('.year-bottom-hr');
           if (!bottomHr) return;
           if (yearContent && yearContent.classList.contains('expanded')) {
+            yearContent.style.height = 'auto';
+            yearContent.style.transform = 'scaleY(1)';
+            yearContent.style.opacity = '1';
             setHr2ToHr1(block);
             bottomHr.style.display = 'block';
             requestAnimationFrame(() => expandHr2(block));
           } else {
             setHr2ToHr1(block);
           }
+        });
+
+        // 初期状態で展開済みの月コンテンツも height をセット
+        document.querySelectorAll('.month-content.expanded').forEach(function(content) {
+          content.style.height = 'auto';
+          content.style.transform = 'scaleY(1)';
+          content.style.opacity = '1';
         });
 
         // 年ボタンのクリックイベント
