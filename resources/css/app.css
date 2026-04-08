@@ -1,10 +1,13 @@
 /* ✅ CSS編集はこのファイルで行う（app.blade.phpの@viteで読み込まれる） */
 /* ⚠️ public/css/app.css への変更はブラウザに反映されない */
 
+
+/* ユーティリティクラスファイル読み込み */
 @import "./utility-classes.css";
 
+
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  グローバルスタイル                           ┃*/
+/*┃  #region グローバルスタイル                           ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 /* 全体 */
 * {
@@ -106,11 +109,15 @@ table.table-bordered.dataTable {
 }
 
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/* #endregion */
+
+
+
 
 
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  ヘッダー                                    ┃*/
+/*┃  #region ヘッダー                                    ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 /*──────────────────────────────────────────────*/
 /*  サイドバートグルボタン                        */
@@ -346,6 +353,7 @@ html[data-sidebar="open"] #sidebar-toggle-icon span:nth-of-type(3)::after {
   transform: scaleX(-1);
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/* #endregion */
 
 
 
@@ -353,7 +361,7 @@ html[data-sidebar="open"] #sidebar-toggle-icon span:nth-of-type(3)::after {
 
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  サイドバー                                  ┃*/
+/*┃  #region サイドバー                                  ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 #sidebar {
   flex-shrink: 0;
@@ -419,6 +427,7 @@ html[data-sidebar="closed"] #sidebar-content {
   transition: max-height 0.3s ease;
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/* #endregion */
 
 
 
@@ -426,7 +435,7 @@ html[data-sidebar="closed"] #sidebar-content {
 
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  ページネーション（DataTables）               ┃*/
+/*┃  #region ページネーション（DataTables）               ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 .dataTables_paginate .pagination {
   gap: 0;
@@ -547,6 +556,7 @@ html[data-sidebar="closed"] #sidebar-content {
   opacity: 0.5;
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/* #endregion */
 
 
 
@@ -554,7 +564,7 @@ html[data-sidebar="closed"] #sidebar-content {
 
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  ホーム                                      ┃*/
+/*┃  #region ホーム                                      ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 /* ホームメニュー - サイドバー格納時：lg以上で横並び */
 @media (min-width: 992px) {
@@ -591,6 +601,7 @@ html[data-sidebar="closed"] #sidebar-content {
   paint-order: stroke fill;
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/* #endregion */
 
 
 
@@ -598,7 +609,7 @@ html[data-sidebar="closed"] #sidebar-content {
 
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  実績データ - カレンダー                      ┃*/
+/*┃  #region 実績データ - カレンダー                      ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 /* カレンダータイトルセレクト - カスタムスタイル */
 #calendar-title {
@@ -674,6 +685,7 @@ html[data-sidebar="closed"] #sidebar-content {
   cursor: default;
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/* #endregion */
 
 
 
@@ -681,7 +693,7 @@ html[data-sidebar="closed"] #sidebar-content {
 
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  PDF出力 - 依頼書                            ┃*/
+/*┃  #region PDF出力 - 依頼書                            ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 @page {
   margin: 40px;
@@ -738,6 +750,7 @@ html[data-sidebar="closed"] #sidebar-content {
   text-align: right;
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/* #endregion */
 
 
 
@@ -745,7 +758,7 @@ html[data-sidebar="closed"] #sidebar-content {
 
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  PDF出力 - 計画情報                          ┃*/
+/*┃  #region PDF出力 - 計画情報                          ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 .pdf-plans body {
   font-family: "mplus1medium", sans-serif;
@@ -841,6 +854,7 @@ html[data-sidebar="closed"] #sidebar-content {
   word-wrap: break-word;
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/* #endregion */
 
 
 
@@ -848,7 +862,7 @@ html[data-sidebar="closed"] #sidebar-content {
 
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  PDF出力 - 同意医師（ＨＫ）                   ┃*/
+/*┃  #region PDF出力 - 同意医師（ＨＫ）                   ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 .pdf-consents-acupuncture body {
   font-family: "mplus1medium", sans-serif;
@@ -891,6 +905,7 @@ html[data-sidebar="closed"] #sidebar-content {
   color: #666666;
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/* #endregion */
 
 
 
@@ -898,7 +913,7 @@ html[data-sidebar="closed"] #sidebar-content {
 
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  PDF出力 - 同意医師（ＡＭ）                   ┃*/
+/*┃  #region PDF出力 - 同意医師（ＡＭ）                   ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 .pdf-consents-massage body {
   font-family: "mplus1medium", sans-serif;
@@ -941,6 +956,7 @@ html[data-sidebar="closed"] #sidebar-content {
   color: #666666;
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/* #endregion */
 
 
 
@@ -948,7 +964,7 @@ html[data-sidebar="closed"] #sidebar-content {
 
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
-/*┃  PDF出力 - 医療保険情報                       ┃*/
+/*┃  #region PDF出力 - 医療保険情報                       ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 .pdf-insurances body {
   font-family: "mplus1medium", sans-serif;
@@ -996,6 +1012,7 @@ html[data-sidebar="closed"] #sidebar-content {
   color: #666666;
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
+/* #endregion */
 
 /* reports/index height+scaleY collapse */
 .year-content,
