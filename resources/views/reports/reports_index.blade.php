@@ -195,9 +195,13 @@
         const bottomHr = block.querySelector('.year-bottom-hr');
         let lastHeight = -1;
         let stableCount = 0;
+        const yearHeader = block.querySelector('.year-header');
         function loop() {
           const h = block.offsetHeight;
-          bottomHr.style.top = blockInnerBottom(block) + 'px';
+          const newTop = blockInnerBottom(block);
+          bottomHr.style.top = newTop + 'px';
+          const headerBottom = yearHeader ? (yearHeader.offsetTop + yearHeader.offsetHeight) : 0;
+          bottomHr.style.visibility = newTop <= headerBottom ? 'hidden' : 'visible';
           if (h === lastHeight) {
             stableCount++;
             if (stableCount >= 3) { hrTrackingLoops.delete(id); if (onDone) onDone(); return; }
