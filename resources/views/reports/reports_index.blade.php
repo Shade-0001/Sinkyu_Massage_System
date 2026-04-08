@@ -218,8 +218,8 @@
         const pl = parseFloat(cs.paddingLeft) || 0;
         const pr = parseFloat(cs.paddingRight) || 0;
         bottomHr.style.transition = 'left 0.3s ease, width 0.3s ease';
-        bottomHr.style.left = -pl + 'px';
-        bottomHr.style.width = (block.clientWidth + pl + pr) + 'px';
+        bottomHr.style.left = '0px';
+        bottomHr.style.width = (block.clientWidth - pl - pr) + 'px';
       }
 
       // hr2をhr1幅に戻す（transitionあり）
