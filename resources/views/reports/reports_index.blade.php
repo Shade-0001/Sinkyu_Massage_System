@@ -271,24 +271,17 @@
           btn.setAttribute('aria-expanded', 'false');
           if (arrow) arrow.classList.remove('rotated');
           collapseContent(content);
-          // hr2：幅をhr1に縮めながらtopも追従
+          // hr2：top/left/widthを同時にhr1位置へtransition（rAFループ不要）
           const m = getHr1Metrics(block);
-          bottomHr.style.transition = 'left 0.3s ease, width 0.3s ease';
+          bottomHr.style.transition = 'top 0.3s ease, left 0.3s ease, width 0.3s ease';
+          bottomHr.style.top = m.top + 'px';
           bottomHr.style.left = m.left + 'px';
           bottomHr.style.width = m.width + 'px';
-          startHr2Tracking(block);
           content.addEventListener('transitionend', function onEnd(e) {
             if (e.target !== content || e.propertyName !== 'height') return;
             content.removeEventListener('transitionend', onEnd);
-            // rAFループ停止後、hr1位置までtransitionで移動してから非表示
-            bottomHr.style.transition = 'top 0.3s ease';
-            bottomHr.style.top = m.top + 'px';
-            bottomHr.addEventListener('transitionend', function onHrEnd(e) {
-              if (e.propertyName !== 'top') return;
-              bottomHr.removeEventListener('transitionend', onHrEnd);
-              bottomHr.style.transition = 'none';
-              bottomHr.style.display = 'none';
-            });
+            bottomHr.style.transition = 'none';
+            bottomHr.style.display = 'none';
           });
         } else {
           content.classList.add('expanded');
