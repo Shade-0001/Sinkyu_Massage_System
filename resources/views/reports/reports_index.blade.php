@@ -107,6 +107,10 @@
                 </div>
                 <div class="collapse {{ $isMonthExpanded ? 'show' : '' }}" id="{{ $monthCollapseId }}" style="overflow-x: hidden;">
                   <table class="table table-bordered" style="font-size: 0.9rem; table-layout: fixed; width: 100%;">
+                    <colgroup>
+                      <col style="width: 5rem;">
+                      <col>
+                    </colgroup>
                     <tbody>
                       <tr>
                         <th class="align-middle text-center bg-light">主観症状</th>
