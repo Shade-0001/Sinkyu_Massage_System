@@ -5,6 +5,48 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <title>同意医師履歴一覧表（はり・きゅう）</title>
   <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+  <style>
+    .pdf-consents-acupuncture body {
+      font-family: "mplus1medium", sans-serif;
+      font-size: 9px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .pdf-consents-acupuncture h1 {
+      text-align: center;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .pdf-consents-acupuncture table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 8px;
+    }
+
+    .pdf-consents-acupuncture th,
+    .pdf-consents-acupuncture td {
+      border: 1px solid #000;
+      padding: 4px;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    .pdf-consents-acupuncture th {
+      background-color: #f0f0f0;
+      text-align: center;
+    }
+
+    .pdf-consents-acupuncture .status-latest {
+      font-weight: bold;
+      color: #ff0000;
+    }
+
+    .pdf-consents-acupuncture .status-updated {
+      color: #666666;
+    }
+  </style>
 </head>
 <body class="pdf-consents-acupuncture">
   <h1>同意医師履歴一覧表（はり・きゅう）</h1>

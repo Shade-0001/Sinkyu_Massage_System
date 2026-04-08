@@ -5,6 +5,53 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <title>医療保険情報履歴一覧表</title>
   <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+  <style>
+    .pdf-insurances body {
+      font-family: "mplus1medium", sans-serif;
+      font-size: 9px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .pdf-insurances h1 {
+      text-align: center;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .pdf-insurances table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 8px;
+    }
+
+    .pdf-insurances th,
+    .pdf-insurances td {
+      border: 1px solid #000;
+      padding: 4px;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    .pdf-insurances th {
+      background-color: #f0f0f0;
+      text-align: center;
+    }
+
+    .pdf-insurances .checkbox {
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .pdf-insurances .status-latest {
+      font-weight: bold;
+      color: #ff0000;
+    }
+
+    .pdf-insurances .status-updated {
+      color: #666666;
+    }
+  </style>
 </head>
 <body class="pdf-insurances">
   <h1>医療保険情報履歴一覧表</h1>

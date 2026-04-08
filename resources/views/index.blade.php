@@ -4,6 +4,40 @@
   @endphp
   @section('title', $page_header_title)
 
+  @push('styles')
+  <style>
+    /* ホームメニュー - サイドバー格納時：lg以上で横並び */
+    @media (min-width: 992px) {
+      html[data-sidebar="closed"] #home-menu {
+        flex-direction: row !important;
+      }
+
+      html[data-sidebar="closed"] .home-menu-vr {
+        display: flex !important;
+      }
+    }
+
+    /* ホームメニュー - サイドバー展開時：xl以上で横並び */
+    @media (min-width: 1200px) {
+      html[data-sidebar="open"] #home-menu {
+        flex-direction: row !important;
+      }
+
+      html[data-sidebar="open"] .home-menu-vr {
+        display: flex !important;
+      }
+    }
+
+    .home-menu-label {
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 2rem;
+      letter-spacing: 0.2rem;
+      -webkit-text-stroke: 7px #444;
+      paint-order: stroke fill;
+    }
+  </style>
+  @endpush
+
   <x-page-header :title="$page_header_title"/>
 
   <div class="mt-2 mx-1 user-select-none" style="max-width: 1200px;">

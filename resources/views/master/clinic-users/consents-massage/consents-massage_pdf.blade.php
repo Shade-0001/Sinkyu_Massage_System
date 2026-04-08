@@ -5,6 +5,48 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <title>同意医師履歴一覧表（あんま・マッサージ）</title>
   <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+  <style>
+    .pdf-consents-massage body {
+      font-family: "mplus1medium", sans-serif;
+      font-size: 9px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .pdf-consents-massage h1 {
+      text-align: center;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .pdf-consents-massage table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 8px;
+    }
+
+    .pdf-consents-massage th,
+    .pdf-consents-massage td {
+      border: 1px solid #000;
+      padding: 4px;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    .pdf-consents-massage th {
+      background-color: #f0f0f0;
+      text-align: center;
+    }
+
+    .pdf-consents-massage .status-latest {
+      font-weight: bold;
+      color: #ff0000;
+    }
+
+    .pdf-consents-massage .status-updated {
+      color: #666666;
+    }
+  </style>
 </head>
 <body class="pdf-consents-massage">
   <h1>同意医師履歴一覧表（あんま・マッサージ）</h1>

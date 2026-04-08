@@ -1,4 +1,16 @@
 <x-app-layout>
+  <style>
+    /* reports/index height+scaleY collapse */
+    .year-content,
+    .month-content {
+      transform-origin: top center;
+      transform: scaleY(0);
+      opacity: 0;
+      height: 0;
+      overflow: hidden;
+      transition: height 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
+    }
+  </style>
   @section('title', $page_header_title)
   <x-page-header :title="$page_header_title" :breadcrumbs="App\Support\Breadcrumbs::generate('reports.index')" />
 
