@@ -208,15 +208,15 @@
         bottomHr.style.width = m.width + 'px';
       }
 
-      // hr2をblock内側全幅に広げる（transitionあり）
-      // left=0（padding内側の左端）、width=hr1の右端まで（offsetLeft + offsetWidth）
+      // hr2をblock全幅（border内側）に広げる（transitionあり）
+      // position:absoluteの原点はpadding edge。border内側左端 = left: -paddingLeft
+      // width = offsetWidth（border-box全幅。borderなしなのでpadding+content）
       function expandHr2(block) {
         const bottomHr = block.querySelector('.year-bottom-hr');
-        const topHr = block.querySelector('.year-top-hr');
-        const fullWidth = topHr.offsetLeft + topHr.offsetWidth;
+        const pl = parseFloat(getComputedStyle(block).paddingLeft) || 0;
         bottomHr.style.transition = 'left 0.3s ease, width 0.3s ease';
-        bottomHr.style.left = '0px';
-        bottomHr.style.width = fullWidth + 'px';
+        bottomHr.style.left = -pl + 'px';
+        bottomHr.style.width = block.offsetWidth + 'px';
       }
 
       // hr2をhr1幅に戻す（transitionあり）
@@ -297,7 +297,11 @@
             if (collapseElement.id.startsWith('year-')) {
               const block = collapseElement.closest('.year-block');
               const bottomHr = block && block.querySelector('.year-bottom-hr');
-              if (bottomHr) bottomHr.style.top = blockInnerBottom(block) + 'px';
+              // topをrAFループ終了後の最終値に確定
+              if (bottomHr) {
+                bottomHr.style.transition = 'none';
+                bottomHr.style.top = blockInnerBottom(block) + 'px';
+              }
             }
           });
 
