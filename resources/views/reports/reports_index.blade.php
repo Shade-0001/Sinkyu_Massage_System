@@ -193,9 +193,7 @@
       }
 
       function blockInnerBottom(block) {
-        const style = getComputedStyle(block);
-        const pb = parseFloat(style.paddingBottom) || 0;
-        return block.offsetHeight - pb;
+        return block.offsetHeight;
       }
 
       // hr2をhr1と同位置・同幅にセット（transition無し）
@@ -209,11 +207,13 @@
       }
 
       // hr2をblock全幅に広げる（transitionあり）
-      // position:absoluteの原点はpadding edgeなのでleftを-pl、widthをborder-box全幅にする
+      // offsetLeftはpadding内側からの距離なので、block左端はoffsetLeft分左 = left: -offsetLeft
+      // widthはblock全体（offsetWidth）
       function expandHr2(block) {
         const bottomHr = block.querySelector('.year-bottom-hr');
-        const style = getComputedStyle(block);
-        const pl = parseFloat(style.paddingLeft) || 0;
+        const topHr = block.querySelector('.year-top-hr');
+        // topHrのoffsetLeftがpadding-leftの値に等しい
+        const pl = topHr ? topHr.offsetLeft : 0;
         bottomHr.style.transition = 'left 0.3s ease, width 0.3s ease';
         bottomHr.style.left = -pl + 'px';
         bottomHr.style.width = block.offsetWidth + 'px';
