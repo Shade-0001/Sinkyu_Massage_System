@@ -77,7 +77,7 @@
           <div style="margin: 5rem 0 0 0;"></div>
         @endif
 
-        <div class="bg-gray-96 rounded-2 p-3">
+        <div class="bg-gray-96 rounded-1 p-3 me-2">
           <!-- 年ヘッダー（折り畳み・展開ボタン） -->
           <div class="year-header mb-2 d-flex align-items-center">
             <button class="btn-ex-sub btn-ex-blue btn-ex-xl btn-ex-sub-toggle-invert fs-2 gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $collapseId }}" aria-expanded="{{ $isYearExpanded ? 'true' : 'false' }}" aria-controls="{{ $collapseId }}">
@@ -115,19 +115,19 @@
                     <tbody>
                       <tr>
                         <th class="align-middle text-center bg-light">主観症状</th>
-                        <td class="align-middle report-text-cell" style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $item['report']->subjective_symptom_and_wish ?? '' }}</td>
+                        <td class="align-middle report-text-cell"><div style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $item['report']->subjective_symptom_and_wish ?? '' }}</div></td>
                       </tr>
                       <tr>
                         <th class="align-middle text-center bg-light">客観症状</th>
-                        <td class="align-middle report-text-cell" style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $item['report']->objective_symptom ?? '' }}</td>
+                        <td class="align-middle report-text-cell"><div style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $item['report']->objective_symptom ?? '' }}</div></td>
                       </tr>
                       <tr>
                         <th class="align-middle text-center bg-light">施術内容</th>
-                        <td class="align-middle report-text-cell" style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $item['report']->therapy_content ?? '' }}</td>
+                        <td class="align-middle report-text-cell"><div style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $item['report']->therapy_content ?? '' }}</div></td>
                       </tr>
                       <tr>
                         <th class="align-middle text-center bg-light">治療計画</th>
-                        <td class="align-middle report-text-cell" style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $item['report']->therapy_plan ?? '' }}</td>
+                        <td class="align-middle report-text-cell"><div style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ $item['report']->therapy_plan ?? '' }}</div></td>
                       </tr>
                       <tr>
                         <th class="align-middle text-center bg-light" style="width: 5rem;">操作</th>
