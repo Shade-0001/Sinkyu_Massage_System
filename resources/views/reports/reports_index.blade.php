@@ -320,9 +320,13 @@
             if (collapseElement.id.startsWith('year-')) {
               const block = collapseElement.closest('.year-block');
               if (block) {
-                // top移動と幅縮小を同時実行
-                shrinkHr2(block);
-                startHrTracking(block, collapseElement);
+                const bottomHr = block.querySelector('.year-bottom-hr');
+                const m = getHr1Metrics(block);
+                // top・left・widthを同時にtransitionでhr1位置まで戻す
+                bottomHr.style.transition = 'top 0.35s ease, left 0.3s ease, width 0.3s ease';
+                bottomHr.style.top = m.top + 'px';
+                bottomHr.style.left = m.left + 'px';
+                bottomHr.style.width = m.width + 'px';
               }
             }
           });
