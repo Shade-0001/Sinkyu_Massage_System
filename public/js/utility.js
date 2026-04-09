@@ -506,65 +506,34 @@ function initFlexMinCols(tableEl = document) {
   const cells = tableEl.querySelectorAll('[class*="flex-min-col-"]');
   if (!cells.length) return;
 
-  // tdから幅基準を測定し、th・td両方に適用
   const tdCells = [...cells].filter(cell => cell.tagName === 'TD');
 
-  function measureWidth(tdCell) {
+  function applyMinWidth(tdCell) {
     const match = [...tdCell.classList].find(c => /^flex-min-col-(\d)$/.test(c));
-    if (!match) return null;
+    if (!match) return;
     const count = parseInt(match.replace('flex-min-col-', ''), 10);
 
     const wrapper = tdCell.querySelector('.d-flex');
-    if (!wrapper) return null;
+    if (!wrapper) return;
 
     const buttons = [...wrapper.children];
-    if (!buttons.length) return null;
+    if (!buttons.length) return;
 
-    tdCell.style.width = '';
+    // min-width を一時解除してボタン自然幅を測定
+    wrapper.style.minWidth = '';
     const gap = parseFloat(getComputedStyle(wrapper).gap) || 4;
     const visibleButtons = buttons.slice(0, count);
     const totalWidth = visibleButtons.reduce((sum, btn) => sum + btn.offsetWidth, 0)
                        + gap * (visibleButtons.length - 1);
-    const cellPadding = parseFloat(getComputedStyle(tdCell).paddingLeft)
-                        + parseFloat(getComputedStyle(tdCell).paddingRight);
 
-    return totalWidth + cellPadding;
+    // セル幅ではなくラッパーの min-width で最小幅を保証
+    // DataTables はセル幅を管理するが、セル内要素の min-width は上書きしない
+    wrapper.style.minWidth = totalWidth + 'px';
   }
 
-  function applyWidths() {
-    tdCells.forEach(tdCell => {
-      const width = measureWidth(tdCell);
-      if (width === null) return;
+  tdCells.forEach(applyMinWidth);
 
-      // td に適用
-      tdCell.style.width = width + 'px';
-
-      // 対応する th に適用（同じ列インデックス）
-      const table = tdCell.closest('table');
-      if (!table) return;
-      const colIndex = tdCell.cellIndex;
-      const th = table.querySelector(`thead tr th:nth-child(${colIndex + 1})`);
-      if (th) th.style.width = width + 'px';
-    });
-  }
-
-  let rafId = null;
-  function scheduleCalc() {
-    if (rafId) return;
-    rafId = requestAnimationFrame(() => {
-      rafId = null;
-      applyWidths();
-    });
-  }
-
-  // 初回計算
-  scheduleCalc();
-
-  // ウィンドウリサイズのみ監視（セル幅変更によるループを回避）
-  window.addEventListener('resize', scheduleCalc);
-
-  // DataTables の再描画後にも再計算できるよう関数を公開
-  return scheduleCalc; // DataTables drawCallback等で呼び出し可能
+  return () => tdCells.forEach(applyMinWidth);
 }
 
 // 関数をグローバルスコープに公開
