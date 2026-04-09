@@ -527,6 +527,14 @@ function initFlexMinCols(tableEl = document) {
     const totalWidth = visibleButtons.reduce((sum, btn) => sum + btn.offsetWidth, 0)
                        + gap * (visibleButtons.length - 1);
 
+    console.group('[flex-min-col debug]');
+    console.log('count:', count);
+    console.log('gap:', gap);
+    visibleButtons.forEach((btn, i) => console.log(`btn[${i}] offsetWidth:`, btn.offsetWidth));
+    console.log('totalWidth:', totalWidth);
+    console.log('wrapper.offsetWidth (before set):', wrapper.offsetWidth);
+    console.groupEnd();
+
     // セル幅ではなくラッパーの min-width で最小幅を保証
     // DataTables はセル幅を管理するが、セル内要素の min-width は上書きしない
     wrapper.style.minWidth = totalWidth + 'px';
