@@ -493,23 +493,23 @@ function initializeAutoHideAlerts() {
  * テーブルの操作列ボタンを横並び最小幅で管理する汎用関数
  *
  * 使い方:
- *   <th class="flex-op-col flex-op-col-3">操作</th>
- *   <td class="flex-op-col flex-op-col-3"><div class="d-flex gap-1 flex-wrap">...</div></td>
+ *   <th class="flex-min-col flex-min-col-3">操作</th>
+ *   <td class="flex-min-col flex-min-col-3"><div class="d-flex gap-1 flex-wrap">...</div></td>
  *
- * flex-op-col-N: 通常時に横並びにするボタン数（1〜5）
+ * flex-min-col-N: 通常時に横並びにするボタン数（1〜5）
  * セル幅はN個分のボタン合計幅に設定される。
  * ウィンドウが縮小してセル幅が不足すると flex-wrap により自然に縦並びになる。
  *
  * @param {HTMLElement} tableEl - 対象のtable要素（省略時はdocument全体を対象）
  */
-function initFlexOpCols(tableEl = document) {
-  const cells = tableEl.querySelectorAll('[class*="flex-op-col-"]');
+function initFlexMinCols(tableEl = document) {
+  const cells = tableEl.querySelectorAll('[class*="flex-min-col-"]');
   if (!cells.length) return;
 
   function calcMinWidth(cell) {
-    const match = [...cell.classList].find(c => /^flex-op-col-(\d)$/.test(c));
+    const match = [...cell.classList].find(c => /^flex-min-col-(\d)$/.test(c));
     if (!match) return;
-    const count = parseInt(match.replace('flex-op-col-', ''), 10);
+    const count = parseInt(match.replace('flex-min-col-', ''), 10);
 
     const wrapper = cell.querySelector('.d-flex');
     if (!wrapper) return;
@@ -552,7 +552,7 @@ function initFlexOpCols(tableEl = document) {
 if (typeof window !== 'undefined') {
   window.initializeReadonlyTooltips = initializeReadonlyTooltips;
   window.initializeAutoHideAlerts = initializeAutoHideAlerts;
-  window.initFlexOpCols = initFlexOpCols;
+  window.initFlexMinCols = initFlexMinCols;
   // window.autoGridLayout = autoGridLayout;
 }
 

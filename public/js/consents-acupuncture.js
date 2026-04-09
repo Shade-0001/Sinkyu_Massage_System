@@ -21,7 +21,7 @@ $(document).ready(function() {
         { orderable: false, targets: [5] } // 操作列はソート無効
       ],
       initComplete: function() {
-        initFlexOpCols(document.getElementById('consentingTable'));
+        initFlexMinCols(document.getElementById('consentingTable'));
       }
     });
   }
