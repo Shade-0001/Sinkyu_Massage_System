@@ -19,7 +19,10 @@ $(document).ready(function() {
       lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
       columnDefs: [
         { orderable: false, targets: [5] } // 操作列はソート無効
-      ]
+      ],
+      initComplete: function() {
+        initFlexOpCols(document.getElementById('consentingTable'));
+      }
     });
   }
 

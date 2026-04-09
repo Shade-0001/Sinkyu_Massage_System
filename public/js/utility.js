@@ -489,10 +489,70 @@ function initializeAutoHideAlerts() {
 //   });
 // }
 
+/**
+ * テーブルの操作列ボタンを横並び最小幅で管理する汎用関数
+ *
+ * 使い方:
+ *   <th class="flex-op-col flex-op-col-3">操作</th>
+ *   <td class="flex-op-col flex-op-col-3"><div class="d-flex gap-1 flex-wrap">...</div></td>
+ *
+ * flex-op-col-N: 通常時に横並びにするボタン数（1〜5）
+ * セル幅はN個分のボタン合計幅に設定される。
+ * ウィンドウが縮小してセル幅が不足すると flex-wrap により自然に縦並びになる。
+ *
+ * @param {HTMLElement} tableEl - 対象のtable要素（省略時はdocument全体を対象）
+ */
+function initFlexOpCols(tableEl = document) {
+  const cells = tableEl.querySelectorAll('[class*="flex-op-col-"]');
+  if (!cells.length) return;
+
+  function calcMinWidth(cell) {
+    const match = [...cell.classList].find(c => /^flex-op-col-(\d)$/.test(c));
+    if (!match) return;
+    const count = parseInt(match.replace('flex-op-col-', ''), 10);
+
+    const wrapper = cell.querySelector('.d-flex');
+    if (!wrapper) return;
+
+    const buttons = [...wrapper.children];
+    if (!buttons.length) return;
+
+    // 全ボタンの幅合計 + gap合計を計算
+    const gap = parseFloat(getComputedStyle(wrapper).gap) || 4;
+    const visibleButtons = buttons.slice(0, count);
+    const totalWidth = visibleButtons.reduce((sum, btn) => {
+      return sum + btn.offsetWidth;
+    }, 0) + gap * (visibleButtons.length - 1);
+
+    // セルの水平padding分を加算
+    const cellPadding = parseFloat(getComputedStyle(cell).paddingLeft) +
+                        parseFloat(getComputedStyle(cell).paddingRight);
+
+    cell.style.width = (totalWidth + cellPadding) + 'px';
+  }
+
+  // 初回計算（レイアウト確定後）
+  requestAnimationFrame(() => {
+    cells.forEach(calcMinWidth);
+  });
+
+  // リサイズ時に再計算
+  const ro = new ResizeObserver(() => {
+    cells.forEach(cell => {
+      cell.style.width = '';
+    });
+    requestAnimationFrame(() => {
+      cells.forEach(calcMinWidth);
+    });
+  });
+  ro.observe(document.body);
+}
+
 // 関数をグローバルスコープに公開
 if (typeof window !== 'undefined') {
   window.initializeReadonlyTooltips = initializeReadonlyTooltips;
   window.initializeAutoHideAlerts = initializeAutoHideAlerts;
+  window.initFlexOpCols = initFlexOpCols;
   // window.autoGridLayout = autoGridLayout;
 }
 
