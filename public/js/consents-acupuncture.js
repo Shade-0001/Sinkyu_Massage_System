@@ -19,7 +19,7 @@ $(document).ready(function() {
       lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
       autoWidth: false,
       columnDefs: [
-        { orderable: false, width: '1%', targets: [5] } // 操作列はソート無効・最小幅
+        { orderable: false, targets: [5] } // 操作列はソート無効
       ]
     });
   }
