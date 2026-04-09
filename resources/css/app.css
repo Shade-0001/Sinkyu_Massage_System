@@ -18,7 +18,6 @@
 /* フォーカス効果の無効化 */
 *:focus {
   outline: none;
-  box-shadow: none;
 }
 
 :root {
