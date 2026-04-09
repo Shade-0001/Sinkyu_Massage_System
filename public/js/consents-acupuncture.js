@@ -25,7 +25,7 @@ $(document).ready(function() {
         setTimeout(() => {
           const redraw = initFlexMinCols(document.getElementById('consentingTable'));
           if (redraw) api.on('draw', redraw);
-        }, 0);
+        }, 100);
       }
     });
   }
