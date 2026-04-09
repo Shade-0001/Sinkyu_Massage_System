@@ -67,8 +67,11 @@ class ClinicUserController extends Controller
         // 確認画面のラベル設定
         $labels = $this->getLabels();
 
+        // 表示用データ（姓名をまとめる）
+        $displayData = $this->buildDisplayData($validated);
+
         return view('registration-review', [
-            'data' => $validated,
+            'data' => $displayData,
             'labels' => $labels,
             'back_route' => 'clinic-users.create',
             'store_route' => 'clinic-users.store',
@@ -143,8 +146,11 @@ class ClinicUserController extends Controller
         // 確認画面のラベル設定
         $labels = $this->getLabels();
 
+        // 表示用データ（姓名をまとめる）
+        $displayData = $this->buildDisplayData($validated);
+
         return view('registration-review', [
-            'data' => $validated,
+            'data' => $displayData,
             'labels' => $labels,
             'back_route' => 'clinic-users.edit',
             'back_id' => $validated['id'],
@@ -207,13 +213,19 @@ class ClinicUserController extends Controller
      *
      * @return array フィールド名 => ラベル名の配列
      */
+    private function buildDisplayData(array $validated): array
+    {
+        $data = $validated;
+        $data['full_name'] = trim(($validated['last_name'] ?? '') . '　' . ($validated['first_name'] ?? ''));
+        $data['full_kana'] = trim(($validated['last_kana'] ?? '') . '　' . ($validated['first_kana'] ?? ''));
+        return $data;
+    }
+
     private function getLabels()
     {
         return [
-            'last_name' => '姓',
-            'first_name' => '名',
-            'last_kana' => 'セイ',
-            'first_kana' => 'メイ',
+            'full_name' => '氏名',
+            'full_kana' => '氏名（カナ）',
             'birthday' => '生年月日',
             'age' => '年齢',
             'gender_id' => '性別',
