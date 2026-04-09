@@ -216,8 +216,8 @@ class ClinicUserController extends Controller
     private function buildDisplayData(array $validated): array
     {
         $data = $validated;
-        $data['full_name'] = trim(($validated['last_name'] ?? '') . '　' . ($validated['first_name'] ?? ''));
-        $data['full_kana'] = trim(($validated['last_kana'] ?? '') . '　' . ($validated['first_kana'] ?? ''));
+        $data['full_name'] = trim(($validated['last_name'] ?? '') . "\u{2000}" . ($validated['first_name'] ?? ''));
+        $data['full_kana'] = trim(($validated['last_kana'] ?? '') . "\u{2000}" . ($validated['first_kana'] ?? ''));
         return $data;
     }
 
