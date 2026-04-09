@@ -19,10 +19,10 @@
   <input type="hidden" name="id" value="{{ $clinicUser->id }}">
   @endif
 
-  <div class="row g-3 gx-3 align-content-start align-items-start" style="max-width: 900px;">
+  <div class="row g-3 gx-3 align-content-start align-items-start" style="max-width: 600px;">
 
     {{-- 氏名 --}}
-    <div class="col-12 col-xl-6">
+    <div class="col-12">
       <div class="rounded-1 d-flex align-items-start overflow-hidden">
         <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3">氏名
           @error('last_name')
@@ -49,7 +49,7 @@
     </div>
 
     {{-- フリガナ --}}
-    <div class="col-12 col-xl-6">
+    <div class="col-12">
       <div class="rounded-1 d-flex align-items-start overflow-hidden">
         <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3">フリガナ
           @error('last_kana')
@@ -76,7 +76,7 @@
     </div>
 
     {{-- 生年月日 --}}
-    <div class="col-12 col-xl-6">
+    <div class="col-12">
       <div class="rounded-1 d-flex align-items-start overflow-hidden">
         <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3" for="birthday">生年月日</label>
         <div class="vr align-self-stretch"></div>
@@ -87,7 +87,7 @@
     </div>
 
     {{-- 年齢 --}}
-    <div class="col-12 col-xl-6">
+    <div class="col-12">
       <div class="rounded-1 d-flex align-items-start overflow-hidden">
         <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3" for="age">年齢
           @error('age')
@@ -102,7 +102,7 @@
     </div>
 
     {{-- 性別 --}}
-    <div class="col-12 col-xl-6">
+    <div class="col-12">
       <div class="rounded-1 d-flex align-items-start overflow-hidden">
         <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3" for="gender_id">性別</label>
         <div class="vr align-self-stretch"></div>
@@ -118,7 +118,7 @@
     </div>
 
     {{-- 郵便番号 --}}
-    <div class="col-12 col-xl-6">
+    <div class="col-12">
       <div class="rounded-1 d-flex align-items-start overflow-hidden">
         <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3" for="postal_code">郵便番号
           @error('postal_code')
@@ -136,7 +136,7 @@
     </div>
 
     {{-- 都道府県 --}}
-    <div class="col-12 col-xl-6">
+    <div class="col-12">
       <div class="rounded-1 d-flex align-items-start overflow-hidden">
         <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3" for="address_1">都道府県
           @error('address_1')
@@ -151,7 +151,7 @@
     </div>
 
     {{-- 市区町村番地以下 --}}
-    <div class="col-12 col-xl-6">
+    <div class="col-12">
       <div class="rounded-1 d-flex align-items-start overflow-hidden">
         <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3" for="address_2">市区町村番地以下
           @error('address_2')
@@ -166,7 +166,7 @@
     </div>
 
     {{-- アパート・マンション名等 --}}
-    <div class="col-12 col-xl-6">
+    <div class="col-12">
       <div class="rounded-1 d-flex align-items-start overflow-hidden">
         <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3" for="address_3">アパート・マンション名等
           @error('address_3')
@@ -181,7 +181,7 @@
     </div>
 
     {{-- 電話番号 --}}
-    <div class="col-12 col-xl-6">
+    <div class="col-12">
       <div class="rounded-1 d-flex align-items-start overflow-hidden">
         <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3" for="phone">電話番号</label>
         <div class="vr align-self-stretch"></div>
@@ -192,7 +192,7 @@
     </div>
 
     {{-- 携帯番号 --}}
-    <div class="col-12 col-xl-6">
+    <div class="col-12">
       <div class="rounded-1 d-flex align-items-start overflow-hidden">
         <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3" for="cell_phone">携帯番号</label>
         <div class="vr align-self-stretch"></div>
@@ -203,7 +203,7 @@
     </div>
 
     {{-- FAX番号 --}}
-    <div class="col-12 col-xl-6">
+    <div class="col-12">
       <div class="rounded-1 d-flex align-items-start overflow-hidden">
         <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3" for="fax">FAX番号</label>
         <div class="vr align-self-stretch"></div>
@@ -214,7 +214,7 @@
     </div>
 
     {{-- メールアドレス --}}
-    <div class="col-12 col-xl-6">
+    <div class="col-12">
       <div class="rounded-1 d-flex align-items-start overflow-hidden">
         <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3" for="email">メールアドレス</label>
         <div class="vr align-self-stretch"></div>
@@ -225,7 +225,7 @@
     </div>
 
     {{-- 往診距離 --}}
-    <div class="col-12 col-xl-6">
+    <div class="col-12">
       <div class="rounded-1 d-flex align-items-start overflow-hidden">
         <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3" for="housecall_distance">往診距離（合計）</label>
         <div class="vr align-self-stretch"></div>
@@ -250,7 +250,7 @@
     </div>
 
     {{-- 償還対象 --}}
-    <div class="col-12 col-xl-6">
+    <div class="col-12">
       <div class="rounded-1 d-flex align-items-start overflow-hidden">
         <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3" for="is_redeemed">償還対象</label>
         <div class="vr align-self-stretch"></div>
@@ -262,7 +262,7 @@
     </div>
 
     {{-- 申請書提出開始回数 --}}
-    <div class="col-12 col-xl-6">
+    <div class="col-12">
       <div class="rounded-1 d-flex align-items-start overflow-hidden">
         <label class="fw-semibold text-nowrap bg-gray-100 align-self-stretch d-flex align-items-center p-2 px-3" for="application_count">申請書提出開始回数<span class="fw-normal small ms-1">［大阪市のみ］</span></label>
         <div class="vr align-self-stretch"></div>
