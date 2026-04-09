@@ -521,7 +521,8 @@ function initFlexMinCols(tableEl = document) {
 
     // min-width を一時解除してボタン自然幅を測定
     wrapper.style.minWidth = '';
-    const gap = parseFloat(getComputedStyle(wrapper).gap) || 4;
+    const style = getComputedStyle(wrapper);
+    const gap = parseFloat(style.columnGap) || parseFloat(style.gap) || 4;
     const visibleButtons = buttons.slice(0, count);
     const totalWidth = visibleButtons.reduce((sum, btn) => sum + btn.offsetWidth, 0)
                        + gap * (visibleButtons.length - 1);
