@@ -226,7 +226,7 @@
 
   </div>
 
-  <div class="mt-4">
-    <button type="submit">登録確認へ</button>
+  <div class="mt-4 text-end">
+    <button type="submit" class="btn-ex-main btn-ex-blue">登録確認へ</button>
   </div>
 </form>
