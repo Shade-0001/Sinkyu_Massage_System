@@ -22,8 +22,8 @@
   <div class="d-flex flex-column gap-2" style="max-width: 600px;">
 
     {{-- 氏名 --}}
-    <div class="border rounded-1">
-      <div class="px-3 py-2 small fw-semibold bg-gray-100">氏名
+    <div class="border rounded-2">
+      <div class="px-3 small fw-semibold bg-gray-100">氏名
         @error('last_name')<span class="text-danger ms-2">{{ $message }}</span>@enderror
         @error('first_name')<span class="text-danger ms-2">{{ $message }}</span>@enderror
       </div>
@@ -43,7 +43,7 @@
     </div>
 
     {{-- フリガナ --}}
-    <div class="border rounded-1">
+    <div class="border rounded-1 overflow-hidden">
       <div class="px-3 py-2 small fw-semibold bg-gray-100">フリガナ
         @error('last_kana')<span class="text-danger ms-2">{{ $message }}</span>@enderror
         @error('first_kana')<span class="text-danger ms-2">{{ $message }}</span>@enderror
@@ -64,7 +64,7 @@
     </div>
 
     {{-- 生年月日 --}}
-    <div class="border rounded-1">
+    <div class="border rounded-1 overflow-hidden">
       <label class="d-block px-3 py-2 small fw-semibold bg-gray-100" for="birthday">生年月日</label>
       <hr class="m-0">
       <div class="px-3 py-2 bg-gray-96">
@@ -73,7 +73,7 @@
     </div>
 
     {{-- 年齢 --}}
-    <div class="border rounded-1">
+    <div class="border rounded-1 overflow-hidden">
       <label class="d-block px-3 py-2 small fw-semibold bg-gray-100" for="age">年齢
         @error('age')<span class="text-danger ms-2">{{ $message }}</span>@enderror
       </label>
@@ -84,7 +84,7 @@
     </div>
 
     {{-- 性別 --}}
-    <div class="border rounded-1">
+    <div class="border rounded-1 overflow-hidden">
       <label class="d-block px-3 py-2 small fw-semibold bg-gray-100" for="gender_id">性別</label>
       <hr class="m-0">
       <div class="px-3 py-2 bg-gray-96">
@@ -98,7 +98,7 @@
     </div>
 
     {{-- 郵便番号 --}}
-    <div class="border rounded-1">
+    <div class="border rounded-1 overflow-hidden">
       <label class="d-block px-3 py-2 small fw-semibold bg-gray-100" for="postal_code">郵便番号
         @error('postal_code')<span class="text-danger ms-2">{{ $message }}</span>@enderror
       </label>
@@ -110,7 +110,7 @@
     </div>
 
     {{-- 都道府県 --}}
-    <div class="border rounded-1">
+    <div class="border rounded-1 overflow-hidden">
       <label class="d-block px-3 py-2 small fw-semibold bg-gray-100" for="address_1">都道府県
         @error('address_1')<span class="text-danger ms-2">{{ $message }}</span>@enderror
       </label>
@@ -121,7 +121,7 @@
     </div>
 
     {{-- 市区町村番地以下 --}}
-    <div class="border rounded-1">
+    <div class="border rounded-1 overflow-hidden">
       <label class="d-block px-3 py-2 small fw-semibold bg-gray-100" for="address_2">市区町村番地以下
         @error('address_2')<span class="text-danger ms-2">{{ $message }}</span>@enderror
       </label>
@@ -132,7 +132,7 @@
     </div>
 
     {{-- アパート・マンション名等 --}}
-    <div class="border rounded-1">
+    <div class="border rounded-1 overflow-hidden">
       <label class="d-block px-3 py-2 small fw-semibold bg-gray-100" for="address_3">アパート・マンション名等
         @error('address_3')<span class="text-danger ms-2">{{ $message }}</span>@enderror
       </label>
@@ -143,7 +143,7 @@
     </div>
 
     {{-- 電話番号 --}}
-    <div class="border rounded-1">
+    <div class="border rounded-1 overflow-hidden">
       <label class="d-block px-3 py-2 small fw-semibold bg-gray-100" for="phone">電話番号</label>
       <hr class="m-0">
       <div class="px-3 py-2 bg-gray-96">
@@ -152,7 +152,7 @@
     </div>
 
     {{-- 携帯番号 --}}
-    <div class="border rounded-1">
+    <div class="border rounded-1 overflow-hidden">
       <label class="d-block px-3 py-2 small fw-semibold bg-gray-100" for="cell_phone">携帯番号</label>
       <hr class="m-0">
       <div class="px-3 py-2 bg-gray-96">
@@ -161,7 +161,7 @@
     </div>
 
     {{-- FAX番号 --}}
-    <div class="border rounded-1">
+    <div class="border rounded-1 overflow-hidden">
       <label class="d-block px-3 py-2 small fw-semibold bg-gray-100" for="fax">FAX番号</label>
       <hr class="m-0">
       <div class="px-3 py-2 bg-gray-96">
@@ -170,7 +170,7 @@
     </div>
 
     {{-- メールアドレス --}}
-    <div class="border rounded-1">
+    <div class="border rounded-1 overflow-hidden">
       <label class="d-block px-3 py-2 small fw-semibold bg-gray-100" for="email">メールアドレス</label>
       <hr class="m-0">
       <div class="px-3 py-2 bg-gray-96">
@@ -179,7 +179,7 @@
     </div>
 
     {{-- 往診距離 --}}
-    <div class="border rounded-1">
+    <div class="border rounded-1 overflow-hidden">
       <label class="d-block px-3 py-2 small fw-semibold bg-gray-100" for="housecall_distance">往診距離（合計）</label>
       <hr class="m-0">
       <div class="px-3 py-2 bg-gray-96">
@@ -188,7 +188,7 @@
     </div>
 
     {{-- 往診加算距離 --}}
-    <div class="border rounded-1">
+    <div class="border rounded-1 overflow-hidden">
       <label class="d-block px-3 py-2 small fw-semibold bg-gray-100" for="housecall_additional_distance">往診加算距離</label>
       <hr class="m-0">
       <div class="px-3 py-2 bg-gray-96">
@@ -198,7 +198,7 @@
     </div>
 
     {{-- 償還対象 --}}
-    <div class="border rounded-1">
+    <div class="border rounded-1 overflow-hidden">
       <label class="d-block px-3 py-2 small fw-semibold bg-gray-100" for="is_redeemed">償還対象</label>
       <hr class="m-0">
       <div class="px-3 py-2 bg-gray-96">
@@ -208,7 +208,7 @@
     </div>
 
     {{-- 申請書提出開始回数 --}}
-    <div class="border rounded-1">
+    <div class="border rounded-1 overflow-hidden">
       <label class="d-block px-3 py-2 small fw-semibold bg-gray-100" for="application_count">申請書提出開始回数<span class="fw-normal ms-1">［大阪市のみ］</span></label>
       <hr class="m-0">
       <div class="px-3 py-2 bg-gray-96">
@@ -217,7 +217,7 @@
     </div>
 
     {{-- メモ --}}
-    <div class="border rounded-1">
+    <div class="border rounded-1 overflow-hidden">
       <label class="d-block px-3 py-2 small fw-semibold bg-gray-100" for="note">メモ</label>
       <hr class="m-0">
       <div class="px-3 py-2 bg-gray-96">
