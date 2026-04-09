@@ -454,25 +454,6 @@
   transition: opacity 0.5s linear;
   opacity: 0.15;
 }
-.btn-ex-main:focus {
-  box-shadow:
-    /*左上*/
-    inset var(--btn-shadow-size) var(--btn-shadow-size) 1px var(--btn-shadow-color-light-base),
-    /*上*/
-    inset 0 var(--btn-shadow-size) 1px var(--btn-shadow-color-light-base),
-    /*左*/
-    inset var(--btn-shadow-size) 0 1px var(--btn-shadow-color-light-base),
-    /*左下*/
-    inset var(--btn-shadow-size) var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-mid-base),
-    /*右上*/
-    inset var(--btn-shadow-size-neg) var(--btn-shadow-size) 1px var(--btn-shadow-color-mid-base),
-    /*右*/
-    inset var(--btn-shadow-size-neg) 0 1px var(--btn-shadow-color-dark-base),
-    /*下*/
-    inset 0 var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-dark-base),
-    /*右下*/
-    inset var(--btn-shadow-size-neg) var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-dark-base);
-}
 .btn-ex-main:disabled {
   opacity: 0.5;
   pointer-events: all;
@@ -649,25 +630,6 @@
   transition: opacity 0.05s linear;
   opacity: 0.07;
 }
-.btn-ex-sub:focus {
-  box-shadow:
-    /*左上*/
-    inset calc(var(--btn-border-size) * 0.95) calc(var(--btn-border-size) * -0.95) var(--btn-border-blur) var(--btn-border-color),
-    /*上*/
-    inset 0 calc(var(--btn-border-size) * -1) var(--btn-border-blur) var(--btn-border-color),
-    /*左*/
-    inset var(--btn-border-size) 0 var(--btn-border-blur) var(--btn-border-color),
-    /*左下*/
-    inset calc(var(--btn-border-size) * 0.95) calc(var(--btn-border-size) * 0.95) var(--btn-border-blur) var(--btn-border-color),
-    /*右上*/
-    inset calc(var(--btn-border-size) * -0.95) calc(var(--btn-border-size) * -0.95) var(--btn-border-blur) var(--btn-border-color),
-    /*右*/
-    inset calc(var(--btn-border-size) * -1) 0 var(--btn-border-blur) var(--btn-border-color),
-    /*下*/
-    inset 0 var(--btn-border-size) var(--btn-border-blur) var(--btn-border-color),
-    /*右下*/
-    inset calc(var(--btn-border-size) * -0.95) calc(var(--btn-border-size) * 0.95) var(--btn-border-blur) var(--btn-border-color);
-}
 .btn-ex-sub:disabled {
   opacity: 0.5;
   pointer-events: all;
@@ -792,4 +754,21 @@
 /*──────────────────────────────────────────────*/
 .table-striped-ex > tbody > tr:nth-of-type(even) > * {
   background-color: #F5F5F5;
+}
+
+/*──────────────────────────────────────────────*/
+/*  フォームフィールド - タブ型ラベル             */
+/*──────────────────────────────────────────────*/
+.field-label-tab {
+  display: inline-block;
+  padding: 4px 14px;
+  background-color: #f0f0f0;
+  border-radius: 6px 6px 0 0;
+  border: 1px solid #dee2e6;
+  border-bottom: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: -1px;
+  position: relative;
+  z-index: 1;
 }
