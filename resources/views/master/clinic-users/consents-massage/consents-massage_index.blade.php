@@ -25,11 +25,11 @@
 
   <!-- 同意医師履歴新規登録ボタン -->
   <a href="{{ route('clinic-users.consents-massage.create', $id) }}">
-  <button>同意医師履歴新規登録</button>
+    <button class="btn-ex-main btn-ex-blue">同意医師履歴新規登録</button>
   </a>
 
   <!-- 同意医師履歴印刷ボタン -->
-  <button type="button" id="printConsentingHistory" data-print-url="{{ route('clinic-users.consents-massage.print-history', $id) }}" style="margin-left: 10px;">同意医師履歴印刷</button>
+  <button type="button" id="printConsentingHistory" class="btn-ex-main btn-ex-blue ms-2" data-print-url="{{ route('clinic-users.consents-massage.print-history', $id) }}">同意医師履歴印刷</button>
   <br><br>
 
   <!-- 同意医師履歴一覧テーブル -->
@@ -83,7 +83,7 @@
       <form action="{{ route('clinic-users.consents-massage.delete', ['id' => $id, 'history_id' => $history->id]) }}" method="POST" class="delete-form d-inline">
         @csrf
         @method('DELETE')
-        <button type="submit" class="delete-btn btn btn-link p-0">[削除]</button>
+        <button type="submit" class="delete-btn btn-ex-main btn-ex-red btn-ex-sm">削除</button>
       </form>
       </td>
     </tr>

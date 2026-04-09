@@ -10,8 +10,8 @@ $(document).ready(function() {
       language: {
         url: '/js/dataTables-ja.json',
         paginate: {
-          previous: '◂ 前へ',
-          next: '次へ ▸'
+          previous: '<span class="nf nf-fa-caret_left fs-5"></span>',
+          next: '<span class="nf nf-fa-caret_right fs-5"></span>'
         }
       },
       order: [[3, 'desc']], // データ登録日の降順

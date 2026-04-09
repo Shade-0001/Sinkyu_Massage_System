@@ -25,11 +25,11 @@
 
   <!-- 保険情報新規登録ボタン -->
   <a href="{{ route('clinic-users.insurances.create', $id) }}">
-  <button>保険情報新規登録</button>
+    <button class="btn-ex-main btn-ex-blue">保険情報新規登録</button>
   </a>
 
   <!-- 医療保険履歴印刷ボタン -->
-  <button type="button" id="printInsuranceHistory" style="margin-left: 10px;">医療保険履歴印刷</button>
+  <button type="button" id="printInsuranceHistory" class="btn-ex-main btn-ex-blue ms-2">医療保険履歴印刷</button>
   <br><br>
 
   <!-- 保険情報一覧テーブル -->
@@ -72,7 +72,7 @@
       <form action="{{ route('clinic-users.insurances.delete', ['id' => $id, 'insurance_id' => $insurance->id]) }}" method="POST" class="delete-form d-inline">
         @csrf
         @method('DELETE')
-        <button type="submit" class="delete-btn btn btn-link p-0">[削除]</button>
+        <button type="submit" class="delete-btn btn-ex-main btn-ex-red btn-ex-sm">削除</button>
       </form>
       </td>
     </tr>

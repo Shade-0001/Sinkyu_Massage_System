@@ -8,7 +8,7 @@
   <br>
 
   <a href="{{ route('caremanagers.create') }}">
-  <button>ケアマネ新規登録</button>
+    <button class="btn-ex-main btn-ex-blue">ケアマネ新規登録</button>
   </a>
 
   <br><br>
@@ -51,7 +51,7 @@
           <form action="{{ route('caremanagers.delete', ['id' => $careManager->id]) }}" method="POST" class="delete-form d-inline">
             @csrf
             @method('DELETE')
-            <button type="submit" class="delete-btn btn btn-link p-0">削除</button>
+            <button type="submit" class="delete-btn btn-ex-main btn-ex-red btn-ex-sm">削除</button>
           </form>
         </td>
       </tr>

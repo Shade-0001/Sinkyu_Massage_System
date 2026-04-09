@@ -8,7 +8,7 @@
   <br>
 
   <a href="{{ route('therapists.create') }}">
-  <button>施術者新規登録</button>
+    <button class="btn-ex-main btn-ex-blue">施術者新規登録</button>
   </a>
 
   <br><br>
@@ -76,7 +76,7 @@
           <form action="{{ route('therapists.delete', ['id' => $therapist->id]) }}" method="POST" class="delete-form d-inline">
             @csrf
             @method('DELETE')
-            <button type="submit" class="delete-btn btn btn-link p-0">削除</button>
+            <button type="submit" class="delete-btn btn-ex-main btn-ex-red btn-ex-sm">削除</button>
           </form>
         </td>
       </tr>

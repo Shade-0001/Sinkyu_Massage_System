@@ -25,7 +25,7 @@
 
   <!-- 計画情報新規登録ボタン -->
   <a href="{{ route('clinic-users.plans.create', $id) }}">
-  <button>計画情報新規登録</button>
+    <button class="btn-ex-main btn-ex-blue">計画情報新規登録</button>
   </a>
 
   <br><br>
@@ -67,7 +67,7 @@
       <form action="{{ route('clinic-users.plans.delete', ['id' => $id, 'plan_id' => $planInfo->id]) }}" method="POST" class="delete-form d-inline">
         @csrf
         @method('DELETE')
-        <button type="submit" class="delete-btn btn btn-link p-0">[削除]</button>
+        <button type="submit" class="delete-btn btn-ex-main btn-ex-red btn-ex-sm">削除</button>
       </form>
       </td>
     </tr>
