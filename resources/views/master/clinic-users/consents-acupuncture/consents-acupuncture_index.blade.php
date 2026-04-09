@@ -41,7 +41,7 @@
     <th class="text-center">同意開始日</th>
     <th class="text-center">同意終了日</th>
     <th class="text-center">データ登録日</th>
-    <th class="text-center flex-min-col flex-min-col-3">操作</th>
+    <th class="text-center">操作</th>
     </tr>
   </thead>
   <tbody>
@@ -72,16 +72,14 @@
       <td data-order="{{ strtotime($history->created_at) }}">
       {{ \Carbon\Carbon::parse($history->created_at)->format('Y/n/j') }}
       </td>
-      <td class="flex-min-col flex-min-col-3">
-      <div class="d-flex justify-content-center gap-1 flex-wrap">
-        <a href="{{ route('clinic-users.consents-acupuncture.edit', ['id' => $id, 'history_id' => $history->id]) }}" class="btn-ex-main btn-ex-blue btn-ex-sm">編集</a>
-        <a href="{{ route('clinic-users.consents-acupuncture.duplicate', ['id' => $id, 'history_id' => $history->id]) }}" class="btn-ex-main btn-ex-blue btn-ex-sm">複製</a>
-        <form action="{{ route('clinic-users.consents-acupuncture.delete', ['id' => $id, 'history_id' => $history->id]) }}" method="POST" class="delete-form">
-          @csrf
-          @method('DELETE')
-          <button type="submit" class="delete-btn btn-ex-main btn-ex-red btn-ex-sm">削除</button>
-        </form>
-      </div>
+      <td class="text-center">
+      <a href="{{ route('clinic-users.consents-acupuncture.edit', ['id' => $id, 'history_id' => $history->id]) }}" class="btn-ex-main btn-ex-blue btn-ex-sm">編集</a>
+      <a href="{{ route('clinic-users.consents-acupuncture.duplicate', ['id' => $id, 'history_id' => $history->id]) }}" class="btn-ex-main btn-ex-blue btn-ex-sm">複製</a>
+      <form action="{{ route('clinic-users.consents-acupuncture.delete', ['id' => $id, 'history_id' => $history->id]) }}" method="POST" class="delete-form d-inline">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="delete-btn btn-ex-main btn-ex-red btn-ex-sm">削除</button>
+      </form>
       </td>
     </tr>
     @empty

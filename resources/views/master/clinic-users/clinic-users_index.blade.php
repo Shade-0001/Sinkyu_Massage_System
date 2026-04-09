@@ -22,7 +22,7 @@
     <th class="text-center">生年月日</th>
     <th class="text-center">住所 / TEL</th>
     <th class="text-center">登録日時</th>
-    <th class="text-center">編集</th>
+    <th class="text-center" style="max-width: 350px;">編集</th>
     <th class="text-center">削除</th>
     </tr>
   </thead>
@@ -54,8 +54,8 @@
       <td data-order="{{ $user->created_at ? $user->created_at->timestamp : 0 }}">
       {{ optional($user->created_at)->format('Y/n/j') }}{{ "\u{2000}" }}{{ optional($user->created_at)->format('H:i') }}
       </td>
-      <td>
-        <div class="d-flex flex-wrap gap-0" style="max-width: 350px;">
+      <td style="max-width: 350px;">
+        <div class="d-flex flex-wrap gap-0">
           <a class="btn-ex-main btn-ex-blue btn-ex-sm m-025" href="{{ route('clinic-users.edit', ['id' => $user->id]) }}">利用者情報</a>
           <a class="btn-ex-main btn-ex-blue btn-ex-sm m-025" href="{{ route('clinic-users.insurances.index', ['id' => $user->id]) }}">保険情報</a>
           <a class="btn-ex-main btn-ex-blue btn-ex-sm m-025" href="{{ route('clinic-users.plans.index', ['id' => $user->id]) }}">計画情報</a>
@@ -63,7 +63,7 @@
           <a class="btn-ex-main btn-ex-blue btn-ex-sm m-025" href="{{ route('clinic-users.consents-massage.index', ['id' => $user->id]) }}">同意医師履歴（ＡＭ）</a>
         </div>
       </td>
-      <td>
+      <td  class="text-center">
       <form action="{{ route('clinic-users.delete', ['id' => $user->id]) }}" method="POST" class="delete-form d-inline">
         @csrf
         @method('DELETE')

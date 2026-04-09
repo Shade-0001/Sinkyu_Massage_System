@@ -199,6 +199,10 @@
 /*  フォントサイズ                               */
 /*──────────────────────────────────────────────*/
 .fs-5-5 { font-size: 1.125rem !important; }
+.fs-6-5 { font-size: 0.9375rem !important; }
+/* .fs-7 { font-size: 0.875rem !important; } = .small */
+.fs-7-5 { font-size: 0.8125rem !important; }
+.fs-8 { font-size: 0.75rem !important; }
 
 /*──────────────────────────────────────────────*/
 /*  フォントカラー（グレースケール）               */
@@ -794,19 +798,21 @@
 }
 
 /*----------------------------------------------*/
-/*  フィールドボーダートップ（タブ型フォーム用）    */
+/*  フィールド                                   */
 /*----------------------------------------------*/
-.form-field {
-  border-radius: var(--bs-border-radius) !important;
-  border-top-left-radius: 0 !important;
-  overflow: hidden !important;
-  background-color: hsl(200, 40%, 96%) !important;
-}
+/* フィールドトップ（タブ型ラベルとフィールドの接合要素） */
 .form-field-top {
   background-color: hsl(200, 100%, 99.5%) !important;
   margin-top: -0.5rem !important;
   margin-right: -1rem !important;
   margin-left: -1rem !important;
-  padding-bottom: 0.25rem !important;
+  padding-bottom: 0.35rem !important;
   margin-bottom: 0.5rem !important;
+}
+/* フィールド */
+.form-field {
+  border-radius: var(--bs-border-radius) !important;
+  border-top-left-radius: 0 !important;
+  overflow: hidden !important;
+  background-color: hsl(200, 40%, 96%) !important;
 }

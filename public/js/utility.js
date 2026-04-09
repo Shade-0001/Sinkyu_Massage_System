@@ -489,85 +489,10 @@ function initializeAutoHideAlerts() {
 //   });
 // }
 
-/**
- * テーブルの操作列ボタンを横並び最小幅で管理する汎用関数
- *
- * 使い方:
- *   <th class="flex-min-col flex-min-col-3">操作</th>
- *   <td class="flex-min-col flex-min-col-3"><div class="d-flex gap-1 flex-wrap">...</div></td>
- *
- * flex-min-col-N: 通常時に横並びにするボタン数（1〜5）
- * セル幅はN個分のボタン合計幅に設定される。
- * ウィンドウが縮小してセル幅が不足すると flex-wrap により自然に縦並びになる。
- *
- * @param {HTMLElement} tableEl - 対象のtable要素（省略時はdocument全体を対象）
- */
-function initFlexMinCols(tableEl = document) {
-  const cells = tableEl.querySelectorAll('[class*="flex-min-col-"]');
-  if (!cells.length) return;
-
-  const tdCells = [...cells].filter(cell => cell.tagName === 'TD');
-
-  // ボタン幅をオフスクリーンで測定してthに設定する
-  function measureButtonsWidth(tdCell) {
-    const match = [...tdCell.classList].find(c => /^flex-min-col-(\d)$/.test(c));
-    if (!match) return null;
-    const count = parseInt(match.replace('flex-min-col-', ''), 10);
-
-    const wrapper = tdCell.querySelector('.d-flex');
-    if (!wrapper) return null;
-
-    // オフスクリーンのクローンで自然幅を測定（セル幅の影響を受けない）
-    const clone = wrapper.cloneNode(true);
-    clone.style.cssText = 'position:fixed;top:-9999px;left:-9999px;visibility:hidden;width:max-content;min-width:0;max-width:none;flex-wrap:nowrap;';
-    document.body.appendChild(clone);
-
-    const cloneButtons = [...clone.children].slice(0, count);
-    const style = getComputedStyle(clone);
-    const gap = parseFloat(style.columnGap) || parseFloat(style.gap) || 4;
-    const totalWidth = cloneButtons.reduce((sum, btn) => sum + btn.offsetWidth, 0)
-                       + gap * (cloneButtons.length - 1);
-
-    console.log('[flex-min-col] clone totalWidth:', totalWidth, '| gap:', gap, '| btnCount:', cloneButtons.length);
-    cloneButtons.forEach((btn, i) => console.log(`  clone btn[${i}] offsetWidth:`, btn.offsetWidth));
-    document.body.removeChild(clone);
-    return totalWidth;
-  }
-
-  function applyWidths() {
-    const firstTd = tdCells[0];
-    if (!firstTd) return;
-
-    const totalWidth = measureButtonsWidth(firstTd);
-    if (totalWidth === null) return;
-
-    const table = firstTd.closest('table');
-    if (!table) return;
-    const colIndex = firstTd.cellIndex;
-    const th = table.querySelector(`thead tr th:nth-child(${colIndex + 1})`);
-
-    console.log('[flex-min-col] applyWidths | totalWidth:', totalWidth, '| colIndex:', colIndex);
-    console.log('  th before:', th ? th.style.width : 'not found', '| th.offsetWidth:', th ? th.offsetWidth : '-');
-    console.log('  firstTd.offsetWidth:', firstTd.offsetWidth);
-    console.log('  firstTd wrapper.offsetWidth:', firstTd.querySelector('.d-flex')?.offsetWidth);
-
-    if (th) th.style.width = totalWidth + 'px';
-
-    console.log('  th after style.width:', th ? th.style.width : '-');
-    console.log('  firstTd.offsetWidth after:', firstTd.offsetWidth);
-    console.log('  firstTd wrapper.offsetWidth after:', firstTd.querySelector('.d-flex')?.offsetWidth);
-  }
-
-  applyWidths();
-
-  return applyWidths;
-}
-
 // 関数をグローバルスコープに公開
 if (typeof window !== 'undefined') {
   window.initializeReadonlyTooltips = initializeReadonlyTooltips;
   window.initializeAutoHideAlerts = initializeAutoHideAlerts;
-  window.initFlexMinCols = initFlexMinCols;
   // window.autoGridLayout = autoGridLayout;
 }
 

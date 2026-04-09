@@ -6,9 +6,6 @@ $(document).ready(function() {
                   !$('#consentingTable tbody tr:first td[colspan]').length;
 
   if (hasData) {
-    // DataTables初期化前にth幅を設定（initFlexMinColsがthをヒントとして使う）
-    initFlexMinCols(document.getElementById('consentingTable'));
-
     $('#consentingTable').DataTable({
       language: {
         url: '/js/dataTables-ja.json',
@@ -22,12 +19,7 @@ $(document).ready(function() {
       lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
       columnDefs: [
         { orderable: false, targets: [5] } // 操作列はソート無効
-      ],
-      initComplete: function() {
-        const api = this.api();
-        const redraw = initFlexMinCols(document.getElementById('consentingTable'));
-        if (redraw) api.on('draw', redraw);
-      }
+      ]
     });
   }
 
