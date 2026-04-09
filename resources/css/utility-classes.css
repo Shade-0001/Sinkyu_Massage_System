@@ -761,14 +761,29 @@
 /*──────────────────────────────────────────────*/
 .field-label-tab {
   display: inline-block;
-  padding: 4px 14px;
+  padding: 4px 14px 4px 12px;
+  padding-right: 24px;
   background-color: #f0f0f0;
-  border-radius: 6px 6px 0 0;
+  border-radius: 6px 0 0 0;
   border: 1px solid #dee2e6;
   border-bottom: none;
+  border-right: none;
   font-size: 0.875rem;
   font-weight: 600;
   margin-bottom: -1px;
   position: relative;
   z-index: 1;
+}
+.field-label-tab::after {
+  content: '';
+  position: absolute;
+  right: -10px;
+  top: -1px;
+  bottom: 0;
+  width: 20px;
+  background-color: #f0f0f0;
+  border-top: 1px solid #dee2e6;
+  border-right: 1px solid #dee2e6;
+  transform: skewX(12deg);
+  transform-origin: bottom left;
 }
