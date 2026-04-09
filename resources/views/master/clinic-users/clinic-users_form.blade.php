@@ -224,9 +224,6 @@
       </div>
     </div>
 
-  </div>
-
-  <div class="mt-4 text-end">
-    <button type="submit" class="btn-ex-main btn-ex-blue">登録確認へ</button>
+    <button type="submit" class="btn-ex-main btn-ex-blue mt-4 d-block ms-auto">登録確認へ</button>
   </div>
 </form>
