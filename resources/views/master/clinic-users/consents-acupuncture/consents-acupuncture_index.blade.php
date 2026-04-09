@@ -41,7 +41,7 @@
     <th>同意開始日</th>
     <th>同意終了日</th>
     <th>データ登録日</th>
-    <th>操作</th>
+    <th class="text-nowrap">操作</th>
     </tr>
   </thead>
   <tbody>
@@ -72,7 +72,7 @@
       <td data-order="{{ strtotime($history->created_at) }}">
       {{ \Carbon\Carbon::parse($history->created_at)->format('Y/n/j') }}
       </td>
-      <td>
+      <td class="text-nowrap">
       <a href="{{ route('clinic-users.consents-acupuncture.edit', ['id' => $id, 'history_id' => $history->id]) }}" class="btn-ex-main btn-ex-blue btn-ex-sm">編集</a>
       <a href="{{ route('clinic-users.consents-acupuncture.duplicate', ['id' => $id, 'history_id' => $history->id]) }}" class="btn-ex-main btn-ex-blue btn-ex-sm">複製</a>
       <form action="{{ route('clinic-users.consents-acupuncture.delete', ['id' => $id, 'history_id' => $history->id]) }}" method="POST" class="delete-form d-inline">
