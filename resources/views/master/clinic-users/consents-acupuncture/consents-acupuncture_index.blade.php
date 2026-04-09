@@ -41,22 +41,18 @@
     <th>同意開始日</th>
     <th>同意終了日</th>
     <th>データ登録日</th>
-    <th>複製</th>
-    <th>削除</th>
+    <th>操作</th>
     </tr>
   </thead>
   <tbody>
     @forelse($consentingHistories as $history)
     <tr>
       <td>
-      <a href="{{ route('clinic-users.consents-acupuncture.edit', ['id' => $id, 'history_id' => $history->id]) }}">
-        @if($history->consentingDoctor)
-          {{ $history->consentingDoctor->doctor_name }}
-        @else
-          同意医師未設定
-        @endif
-        [編集]
-      </a>
+      @if($history->consentingDoctor)
+        {{ $history->consentingDoctor->doctor_name }}
+      @else
+        同意医師未設定
+      @endif
       </td>
       <td data-order="{{ $history->consenting_date ? strtotime($history->consenting_date) : 0 }}">
       @if($history->consenting_date)
@@ -77,9 +73,8 @@
       {{ \Carbon\Carbon::parse($history->created_at)->format('Y/n/j') }}
       </td>
       <td>
-      <a href="{{ route('clinic-users.consents-acupuncture.duplicate', ['id' => $id, 'history_id' => $history->id]) }}">[複製]</a>
-      </td>
-      <td>
+      <a href="{{ route('clinic-users.consents-acupuncture.edit', ['id' => $id, 'history_id' => $history->id]) }}" class="btn-ex-main btn-ex-blue btn-ex-sm">編集</a>
+      <a href="{{ route('clinic-users.consents-acupuncture.duplicate', ['id' => $id, 'history_id' => $history->id]) }}" class="btn-ex-main btn-ex-blue btn-ex-sm">複製</a>
       <form action="{{ route('clinic-users.consents-acupuncture.delete', ['id' => $id, 'history_id' => $history->id]) }}" method="POST" class="delete-form d-inline">
         @csrf
         @method('DELETE')
@@ -89,7 +84,7 @@
     </tr>
     @empty
     <tr>
-      <td colspan="7" class="text-center">データがありません</td>
+      <td colspan="6" class="text-center">データがありません</td>
     </tr>
     @endforelse
   </tbody>
