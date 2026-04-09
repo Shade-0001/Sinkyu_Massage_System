@@ -41,7 +41,7 @@
     <th class="text-center">同意開始日</th>
     <th class="text-center">同意終了日</th>
     <th class="text-center">データ登録日</th>
-    <th class="text-center">操作</th>
+    <th class="text-center" style="width: fit-content; white-space: nowrap">操作</th>
     </tr>
   </thead>
   <tbody>
