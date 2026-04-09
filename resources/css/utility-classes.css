@@ -772,11 +772,11 @@
 /*----------------------------------------------*/
 .form-label-tab {
   display: inline-block;
-  padding: 2px 14px 2px 18px;
+  padding: 2px 14px 0px 18px;
   background-color: hsl(200, 100%, 99.5%);
   border-radius: 4px 0 0 0;
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: -1px;
   position: relative;
   z-index: 1;
@@ -801,4 +801,12 @@
   border-top-left-radius: 0 !important;
   overflow: hidden !important;
   background-color: hsl(200, 40%, 96%) !important;
+}
+.form-field-top {
+  background-color: hsl(200, 100%, 99.5%) !important;
+  margin-top: -0.5rem !important;
+  margin-right: -1rem !important;
+  margin-left: -1rem !important;
+  padding-bottom: 0.25rem !important;
+  margin-bottom: 0.5rem !important;
 }
