@@ -7,7 +7,7 @@
     />
   @endif
 
-  <h5 class="mb-4">以下の内容で登録を行います。</h5>
+  <h5 class="mb-4">以下の内容で登録します。</h5>
 
   <div class="d-flex flex-column gap-3 container ms-0">
     @foreach($labels as $key => $label)
@@ -79,7 +79,7 @@
       <form action="{{ route($store_route) }}" method="POST" class="d-inline-block">
       @endif
       @csrf
-      <button type="submit" class="btn-ex-main btn-ex-blue">登録</button>
+      <button type="submit" class="btn-ex-main btn-ex-green">登録</button>
       </form>
     </div>
   </div>
