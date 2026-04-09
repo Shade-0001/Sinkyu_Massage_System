@@ -519,23 +519,48 @@ function initFlexMinCols(tableEl = document) {
     const buttons = [...wrapper.children];
     if (!buttons.length) return;
 
-    // min-width を一時解除してボタン自然幅を測定
+    // 測定前の状態
+    console.group('[flex-min-col] applyMinWidth');
+    console.log('count:', count);
+    console.log('tdCell.offsetWidth (before):', tdCell.offsetWidth);
+    console.log('wrapper.offsetWidth (before):', wrapper.offsetWidth);
+    console.log('wrapper.style.minWidth (before):', wrapper.style.minWidth);
+    console.log('wrapper.style.maxWidth (before):', wrapper.style.maxWidth);
+
+    // min/max-width を一時解除してボタン自然幅を測定
     wrapper.style.minWidth = '';
+    wrapper.style.maxWidth = '';
+    console.log('wrapper.offsetWidth (after reset):', wrapper.offsetWidth);
+
     const style = getComputedStyle(wrapper);
     const gap = parseFloat(style.columnGap) || parseFloat(style.gap) || 4;
+    console.log('gap:', gap);
+
     const visibleButtons = buttons.slice(0, count);
+    visibleButtons.forEach((btn, i) => {
+      const btnStyle = getComputedStyle(btn);
+      console.log(`btn[${i}] offsetWidth:${btn.offsetWidth} marginL:${btnStyle.marginLeft} marginR:${btnStyle.marginRight}`);
+    });
+
     const totalWidth = visibleButtons.reduce((sum, btn) => sum + btn.offsetWidth, 0)
                        + gap * (visibleButtons.length - 1);
+    console.log('totalWidth:', totalWidth);
 
-    // max-width をボタン合計幅に設定してセル幅に引き伸ばされるのを防ぐ
-    // min-width も同値で設定してセルが縮んだとき flex-wrap が機能するようにする
     wrapper.style.maxWidth = totalWidth + 'px';
     wrapper.style.minWidth = totalWidth + 'px';
+
+    console.log('wrapper.offsetWidth (after set):', wrapper.offsetWidth);
+    console.log('tdCell.offsetWidth (after set):', tdCell.offsetWidth);
+    console.groupEnd();
   }
 
+  console.log('[flex-min-col] tdCells found:', tdCells.length);
   tdCells.forEach(applyMinWidth);
 
-  return () => tdCells.forEach(applyMinWidth);
+  return () => {
+    console.log('[flex-min-col] redraw triggered');
+    tdCells.forEach(applyMinWidth);
+  };
 }
 
 // 関数をグローバルスコープに公開
