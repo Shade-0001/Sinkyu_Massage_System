@@ -774,10 +774,7 @@
   display: inline-block;
   padding: 2px 14px 2px 18px;
   background-color: hsl(200, 100%, 99.5%);
-  border-radius: 6px 0 0 0;
-  border: 1px solid #dee2e6;
-  border-bottom: none;
-  border-right: none;
+  border-radius: 4px 0 0 0;
   font-size: 0.875rem;
   font-weight: 600;
   margin-bottom: -1px;
@@ -788,12 +785,10 @@
   content: '';
   position: absolute;
   right: -20px;
-  top: -1px;
+  top: 0px;
   bottom: 0;
   width: 20px;
   background-color: hsl(200, 100%, 99.5%);
-  border-top: 1px solid #dee2e6;
-  border-right: 1px solid #dee2e6;
   transform: skewX(30deg);
   transform-origin: bottom left;
 }
@@ -801,7 +796,9 @@
 /*----------------------------------------------*/
 /*  フィールドボーダートップ（タブ型フォーム用）    */
 /*----------------------------------------------*/
-.form-field-border-top {
-  border-top: 4px solid hsl(200, 100%, 99.5%) !important;
+.form-field {
+  border-radius: var(--bs-border-radius) !important;
   border-top-left-radius: 0 !important;
+  overflow: hidden !important;
+  background-color: hsl(200, 40%, 96%) !important;
 }
