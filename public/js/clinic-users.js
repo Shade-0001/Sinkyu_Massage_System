@@ -26,4 +26,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
+  // 往診距離入力時に往診加算距離を自動計算
+  const housecallDistanceInput = document.getElementById('housecall_distance');
+  const housecallAdditionalDistanceInput = document.getElementById('housecall_additional_distance');
+  if (housecallDistanceInput && housecallAdditionalDistanceInput) {
+    const calcAdditional = () => {
+      const dist = parseFloat(housecallDistanceInput.value);
+      housecallAdditionalDistanceInput.value = isNaN(dist) ? '' : Math.max(0, dist - 4);
+    };
+    housecallDistanceInput.addEventListener('input', calcAdditional);
+
+    // 既に往診距離が入力されていれば計算
+    if (housecallDistanceInput.value !== '') {
+      calcAdditional();
+    }
+  }
+
 });
