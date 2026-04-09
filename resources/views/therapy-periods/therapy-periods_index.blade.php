@@ -23,7 +23,7 @@
   @endif
 
   <!-- 要加療期間リストテーブル -->
-  <table id="therapyPeriodsTable" class="table table-bordered table-striped">
+  <table id="therapyPeriodsTable" class="table table-bordered">
   <thead>
     <tr>
     <th>利用者名</th>

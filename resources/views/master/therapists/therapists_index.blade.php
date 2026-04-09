@@ -14,7 +14,7 @@
   <br><br>
 
   <!-- 施術者一覧テーブル -->
-  <table id="therapistTable" class="table table-bordered table-striped">
+  <table id="therapistTable" class="table table-bordered">
     <thead>
       <tr>
         <th>施術者名 [編集] / カナ</th>

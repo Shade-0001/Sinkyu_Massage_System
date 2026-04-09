@@ -31,7 +31,7 @@
   <br><br>
 
   <!-- 計画情報一覧テーブル -->
-  <table id="planInfoTable" class="table table-bordered table-striped">
+  <table id="planInfoTable" class="table table-bordered">
   <thead>
     <tr>
     <th>評価日</th>

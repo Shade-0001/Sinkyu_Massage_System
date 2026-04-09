@@ -14,7 +14,7 @@
   <br><br>
 
   <!-- ケアマネ一覧テーブル -->
-  <table id="careManagerTable" class="table table-bordered table-striped">
+  <table id="careManagerTable" class="table table-bordered">
     <thead>
       <tr>
         <th>名前 [編集] / カナ</th>

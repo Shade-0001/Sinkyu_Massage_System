@@ -33,7 +33,7 @@
   <br><br>
 
   <!-- 保険情報一覧テーブル -->
-  <table id="insuranceTable" class="table table-bordered table-striped">
+  <table id="insuranceTable" class="table table-bordered">
   <thead>
     <tr>
     <th>保険区分</th>

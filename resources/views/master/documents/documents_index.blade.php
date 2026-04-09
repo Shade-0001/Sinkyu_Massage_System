@@ -16,7 +16,7 @@
     </button>
   </div>
 
-  <table id="documentsTable" class="table table-bordered table-striped">
+  <table id="documentsTable" class="table table-bordered">
     <thead>
       <tr>
         <th style="width: 12%;">文書カテゴリ</th>

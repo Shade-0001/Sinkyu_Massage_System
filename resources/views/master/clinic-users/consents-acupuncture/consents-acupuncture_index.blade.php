@@ -33,7 +33,7 @@
   <br><br>
 
   <!-- 同意医師履歴一覧テーブル -->
-  <table id="consentingTable" class="table table-bordered table-striped">
+  <table id="consentingTable" class="table table-bordered">
   <thead>
     <tr>
     <th>同意医師名</th>

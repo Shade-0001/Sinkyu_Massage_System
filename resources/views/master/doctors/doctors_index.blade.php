@@ -12,7 +12,7 @@
   <br><br>
 
   <!-- 医師一覧テーブル -->
-  <table id="doctorTable" class="table table-bordered table-striped">
+  <table id="doctorTable" class="table table-bordered">
   <thead>
     <tr>
     <th>名前 [編集] / カナ</th>

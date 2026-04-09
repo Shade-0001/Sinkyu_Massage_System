@@ -18,7 +18,7 @@
   @endif
 
   <!-- ユーザーアカウント一覧テーブル -->
-  <table id="systemUsersTable" class="table table-bordered table-striped">
+  <table id="systemUsersTable" class="table table-bordered">
   <thead>
     <tr>
     <th class="text-center">ID</th>
