@@ -60,7 +60,7 @@ class ConsentAcupunctureController extends Controller
             'id' => $id,
             'name' => $user->full_name,
             'consentingHistories' => $consentingHistories,
-            'page_header_title' => '同意医師履歴（鍼灸）'
+            'page_header_title' => '同意医師履歴（はり・きゅう）'
         ]);
     }
 
