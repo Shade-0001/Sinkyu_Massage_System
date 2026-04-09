@@ -23,7 +23,7 @@
 
     {{-- 氏名 --}}
     <div>
-      <div class="field-label-tab">氏名
+      <div class="form-label-tab">氏名
         @error('last_name')<span class="text-danger ms-2">{{ $message }}</span>@enderror
         @error('first_name')<span class="text-danger ms-2">{{ $message }}</span>@enderror
       </div>
@@ -43,7 +43,7 @@
 
     {{-- フリガナ --}}
     <div>
-      <div class="field-label-tab">フリガナ
+      <div class="form-label-tab">フリガナ
         @error('last_kana')<span class="text-danger ms-2">{{ $message }}</span>@enderror
         @error('first_kana')<span class="text-danger ms-2">{{ $message }}</span>@enderror
       </div>
@@ -63,7 +63,7 @@
 
     {{-- 生年月日 --}}
     <div>
-      <label class="field-label-tab" for="birthday">生年月日</label>
+      <label class="form-label-tab" for="birthday">生年月日</label>
       <div class="border rounded-1 overflow-hidden bg-gray-96 px-3 py-2">
         <input type="date" id="birthday" name="birthday" value="{{ old('birthday', session($sessionKey . '.birthday', isset($clinicUser) && !empty($clinicUser->birthday) ? ($clinicUser->birthday instanceof \Carbon\Carbon ? $clinicUser->birthday->format('Y-m-d') : $clinicUser->birthday) : '')) }}">
       </div>
@@ -71,7 +71,7 @@
 
     {{-- 年齢 --}}
     <div>
-      <label class="field-label-tab" for="age">年齢
+      <label class="form-label-tab" for="age">年齢
         @error('age')<span class="text-danger ms-2">{{ $message }}</span>@enderror
       </label>
       <div class="border rounded-1 overflow-hidden bg-gray-96 px-3 py-2">
@@ -81,7 +81,7 @@
 
     {{-- 性別 --}}
     <div>
-      <label class="field-label-tab" for="gender_id">性別</label>
+      <label class="form-label-tab" for="gender_id">性別</label>
       <div class="border rounded-1 overflow-hidden bg-gray-96 px-3 py-2">
         @php $genderVal = old('gender_id', session($sessionKey . '.gender_id', isset($clinicUser) ? $clinicUser->gender_id ?? '' : '')); @endphp
         <select id="gender_id" name="gender_id">
@@ -94,7 +94,7 @@
 
     {{-- 郵便番号 --}}
     <div>
-      <label class="field-label-tab" for="postal_code">郵便番号
+      <label class="form-label-tab" for="postal_code">郵便番号
         @error('postal_code')<span class="text-danger ms-2">{{ $message }}</span>@enderror
       </label>
       <div class="border rounded-1 overflow-hidden bg-gray-96 px-3 py-2">
@@ -105,7 +105,7 @@
 
     {{-- 都道府県 --}}
     <div>
-      <label class="field-label-tab" for="address_1">都道府県
+      <label class="form-label-tab" for="address_1">都道府県
         @error('address_1')<span class="text-danger ms-2">{{ $message }}</span>@enderror
       </label>
       <div class="border rounded-1 overflow-hidden bg-gray-96 px-3 py-2">
@@ -115,7 +115,7 @@
 
     {{-- 市区町村番地以下 --}}
     <div>
-      <label class="field-label-tab" for="address_2">市区町村番地以下
+      <label class="form-label-tab" for="address_2">市区町村番地以下
         @error('address_2')<span class="text-danger ms-2">{{ $message }}</span>@enderror
       </label>
       <div class="border rounded-1 overflow-hidden bg-gray-96 px-3 py-2">
@@ -125,7 +125,7 @@
 
     {{-- アパート・マンション名等 --}}
     <div>
-      <label class="field-label-tab" for="address_3">アパート・マンション名等
+      <label class="form-label-tab" for="address_3">アパート・マンション名等
         @error('address_3')<span class="text-danger ms-2">{{ $message }}</span>@enderror
       </label>
       <div class="border rounded-1 overflow-hidden bg-gray-96 px-3 py-2">
@@ -135,7 +135,7 @@
 
     {{-- 電話番号 --}}
     <div>
-      <label class="field-label-tab" for="phone">電話番号</label>
+      <label class="form-label-tab" for="phone">電話番号</label>
       <div class="border rounded-1 overflow-hidden bg-gray-96 px-3 py-2">
         <input type="text" id="phone" name="phone" value="{{ $get('phone') }}">
       </div>
@@ -143,7 +143,7 @@
 
     {{-- 携帯番号 --}}
     <div>
-      <label class="field-label-tab" for="cell_phone">携帯番号</label>
+      <label class="form-label-tab" for="cell_phone">携帯番号</label>
       <div class="border rounded-1 overflow-hidden bg-gray-96 px-3 py-2">
         <input type="text" id="cell_phone" name="cell_phone" value="{{ $get('cell_phone') }}">
       </div>
@@ -151,7 +151,7 @@
 
     {{-- FAX番号 --}}
     <div>
-      <label class="field-label-tab" for="fax">FAX番号</label>
+      <label class="form-label-tab" for="fax">FAX番号</label>
       <div class="border rounded-1 overflow-hidden bg-gray-96 px-3 py-2">
         <input type="text" id="fax" name="fax" value="{{ $get('fax') }}">
       </div>
@@ -159,7 +159,7 @@
 
     {{-- メールアドレス --}}
     <div>
-      <label class="field-label-tab" for="email">メールアドレス</label>
+      <label class="form-label-tab" for="email">メールアドレス</label>
       <div class="border rounded-1 overflow-hidden bg-gray-96 px-3 py-2">
         <input type="email" id="email" name="email" value="{{ $get('email') }}">
       </div>
@@ -167,7 +167,7 @@
 
     {{-- 往診距離 --}}
     <div>
-      <label class="field-label-tab" for="housecall_distance">往診距離（合計）</label>
+      <label class="form-label-tab" for="housecall_distance">往診距離（合計）</label>
       <div class="border rounded-1 overflow-hidden bg-gray-96 px-3 py-2">
         <input type="number" id="housecall_distance" name="housecall_distance" value="{{ $get('housecall_distance') }}" min="0">
       </div>
@@ -175,7 +175,7 @@
 
     {{-- 往診加算距離 --}}
     <div>
-      <label class="field-label-tab" for="housecall_additional_distance">往診加算距離</label>
+      <label class="form-label-tab" for="housecall_additional_distance">往診加算距離</label>
       <div class="border rounded-1 overflow-hidden bg-gray-96 px-3 py-2">
         <div class="text-secondary small mb-1">2㎞を超える場合の加算距離です。上記往診距離が2㎞以上の場合自動で入力されます</div>
         <input type="number" id="housecall_additional_distance" name="housecall_additional_distance" value="{{ $get('housecall_additional_distance') }}" min="0">
@@ -184,7 +184,7 @@
 
     {{-- 償還対象 --}}
     <div>
-      <label class="field-label-tab" for="is_redeemed">償還対象</label>
+      <label class="form-label-tab" for="is_redeemed">償還対象</label>
       <div class="border rounded-1 overflow-hidden bg-gray-96 px-3 py-2">
         @php $redeemed = old('is_redeemed', session($sessionKey . '.is_redeemed', isset($clinicUser) ? $clinicUser->is_redeemed ?? '' : '')); @endphp
         <input type="checkbox" id="is_redeemed" name="is_redeemed" value="1" {{ $redeemed ? 'checked' : '' }}>
@@ -193,7 +193,7 @@
 
     {{-- 申請書提出開始回数 --}}
     <div>
-      <label class="field-label-tab" for="application_count">申請書提出開始回数<span class="fw-normal ms-1">［大阪市のみ］</span></label>
+      <label class="form-label-tab" for="application_count">申請書提出開始回数<span class="fw-normal ms-1">［大阪市のみ］</span></label>
       <div class="border rounded-1 overflow-hidden bg-gray-96 px-3 py-2">
         <input type="number" id="application_count" name="application_count" value="{{ $get('application_count') }}" min="0">
       </div>
@@ -201,7 +201,7 @@
 
     {{-- メモ --}}
     <div>
-      <label class="field-label-tab" for="note">メモ</label>
+      <label class="form-label-tab" for="note">メモ</label>
       <div class="border rounded-1 overflow-hidden bg-gray-96 px-3 py-2">
         <textarea id="note" name="note" rows="4" style="width: 100%;">{{ $get('note') }}</textarea>
       </div>

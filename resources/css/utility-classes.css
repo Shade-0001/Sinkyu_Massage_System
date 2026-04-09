@@ -759,10 +759,10 @@
 /*──────────────────────────────────────────────*/
 /*  フォームフィールド - タブ型ラベル             */
 /*──────────────────────────────────────────────*/
-.field-label-tab {
+.form-label-tab {
   display: inline-block;
-  padding: 2px 18px 2px 12px;
-  background-color: #f0f0f0;
+  padding: 2px 14px 2px 18px;
+  background-color: hsl(200, 100%, 99.5%);
   border-radius: 6px 0 0 0;
   border: 1px solid #dee2e6;
   border-bottom: none;
@@ -773,14 +773,14 @@
   position: relative;
   z-index: 1;
 }
-.field-label-tab::after {
+.form-label-tab::after {
   content: '';
   position: absolute;
   right: -20px;
   top: -1px;
   bottom: 0;
   width: 20px;
-  background-color: #f0f0f0;
+  background-color: hsl(200, 100%, 99.5%);
   border-top: 1px solid #dee2e6;
   border-right: 1px solid #dee2e6;
   transform: skewX(30deg);
