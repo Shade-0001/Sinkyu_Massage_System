@@ -506,6 +506,9 @@ function initFlexMinCols(tableEl = document) {
   const cells = tableEl.querySelectorAll('[class*="flex-min-col-"]');
   if (!cells.length) return;
 
+  // tdセルのみ幅計算対象（thはDataTablesが管理）
+  const tdCells = [...cells].filter(cell => cell.tagName === 'TD');
+
   function calcMinWidth(cell) {
     const match = [...cell.classList].find(c => /^flex-min-col-(\d)$/.test(c));
     if (!match) return;
@@ -517,35 +520,32 @@ function initFlexMinCols(tableEl = document) {
     const buttons = [...wrapper.children];
     if (!buttons.length) return;
 
-    // 全ボタンの幅合計 + gap合計を計算
+    // 幅リセットして自然なボタン幅を測定
+    cell.style.width = '';
     const gap = parseFloat(getComputedStyle(wrapper).gap) || 4;
     const visibleButtons = buttons.slice(0, count);
-    const totalWidth = visibleButtons.reduce((sum, btn) => {
-      return sum + btn.offsetWidth;
-    }, 0) + gap * (visibleButtons.length - 1);
-
-    // セルの水平padding分を加算
-    const cellPadding = parseFloat(getComputedStyle(cell).paddingLeft) +
-                        parseFloat(getComputedStyle(cell).paddingRight);
+    const totalWidth = visibleButtons.reduce((sum, btn) => sum + btn.offsetWidth, 0)
+                       + gap * (visibleButtons.length - 1);
+    const cellPadding = parseFloat(getComputedStyle(cell).paddingLeft)
+                        + parseFloat(getComputedStyle(cell).paddingRight);
 
     cell.style.width = (totalWidth + cellPadding) + 'px';
   }
 
-  // 初回計算（レイアウト確定後）
-  requestAnimationFrame(() => {
-    cells.forEach(calcMinWidth);
-  });
+  let rafId = null;
+  function scheduleCalc() {
+    if (rafId) return;
+    rafId = requestAnimationFrame(() => {
+      rafId = null;
+      tdCells.forEach(calcMinWidth);
+    });
+  }
 
-  // リサイズ時に再計算
-  const ro = new ResizeObserver(() => {
-    cells.forEach(cell => {
-      cell.style.width = '';
-    });
-    requestAnimationFrame(() => {
-      cells.forEach(calcMinWidth);
-    });
-  });
-  ro.observe(document.body);
+  // 初回計算
+  scheduleCalc();
+
+  // ウィンドウリサイズのみ監視（セル幅変更によるループを回避）
+  window.addEventListener('resize', scheduleCalc);
 }
 
 // 関数をグローバルスコープに公開
