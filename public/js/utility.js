@@ -528,24 +528,34 @@ function initFlexMinCols(tableEl = document) {
     const totalWidth = cloneButtons.reduce((sum, btn) => sum + btn.offsetWidth, 0)
                        + gap * (cloneButtons.length - 1);
 
+    console.log('[flex-min-col] clone totalWidth:', totalWidth, '| gap:', gap, '| btnCount:', cloneButtons.length);
+    cloneButtons.forEach((btn, i) => console.log(`  clone btn[${i}] offsetWidth:`, btn.offsetWidth));
     document.body.removeChild(clone);
     return totalWidth;
   }
 
   function applyWidths() {
-    // 全tdから幅を測定（全行同じ幅のはずなので最初の1つで代表）
     const firstTd = tdCells[0];
     if (!firstTd) return;
 
     const totalWidth = measureButtonsWidth(firstTd);
     if (totalWidth === null) return;
 
-    // th に幅を設定（DataTables が th の width を列幅のヒントとして使う）
     const table = firstTd.closest('table');
     if (!table) return;
     const colIndex = firstTd.cellIndex;
     const th = table.querySelector(`thead tr th:nth-child(${colIndex + 1})`);
+
+    console.log('[flex-min-col] applyWidths | totalWidth:', totalWidth, '| colIndex:', colIndex);
+    console.log('  th before:', th ? th.style.width : 'not found', '| th.offsetWidth:', th ? th.offsetWidth : '-');
+    console.log('  firstTd.offsetWidth:', firstTd.offsetWidth);
+    console.log('  firstTd wrapper.offsetWidth:', firstTd.querySelector('.d-flex')?.offsetWidth);
+
     if (th) th.style.width = totalWidth + 'px';
+
+    console.log('  th after style.width:', th ? th.style.width : '-');
+    console.log('  firstTd.offsetWidth after:', firstTd.offsetWidth);
+    console.log('  firstTd wrapper.offsetWidth after:', firstTd.querySelector('.d-flex')?.offsetWidth);
   }
 
   applyWidths();
