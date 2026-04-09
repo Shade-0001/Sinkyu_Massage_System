@@ -29,11 +29,12 @@
   text-decoration-line: none;
 }
 
-/* 通常状態select＆textareaのスタイル */
+/* 通常状態select&input&textareaのスタイル */
 select:not(:disabled),
+input:not(:disabled),
 textarea:not(:disabled) {
+  border: 1px solid hsl(0, 0%, 50%);
   background-color: hsl(0, 0%, 100%);
-  border-color: hsl(0, 0%, 50%);
   border-radius: 3px;
   transition: all 0.1s linear;
 }
