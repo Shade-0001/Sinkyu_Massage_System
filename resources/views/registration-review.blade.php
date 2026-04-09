@@ -52,26 +52,18 @@
       @endif
     @endforeach
 
-    <div class="mt-4 d-flex gap-2">
+    <div class="mt-4 d-flex gap-2 justify-content-end">
       @if(isset($back_insurance_id))
-      <form action="{{ route($back_route, ['id' => $back_id, 'insurance_id' => $back_insurance_id]) }}" method="GET" class="d-inline-block">
-        <button type="submit" class="btn-ex-main btn-ex-gray"><i class="nf nf-fa-caret_left me-1"></i>戻る</button>
-      </form>
+      <a href="{{ route($back_route, ['id' => $back_id, 'insurance_id' => $back_insurance_id]) }}" class="btn-ex-main btn-ex-gray"><i class="nf nf-fa-caret_left me-1" style="transform: scale(1.2)"></i>戻る</a>
       @elseif(isset($back_plan_id))
-      <form action="{{ route($back_route, ['id' => $back_id, 'plan_id' => $back_plan_id]) }}" method="GET" class="d-inline-block">
-        <button type="submit" class="btn-ex-main btn-ex-gray"><i class="nf nf-fa-caret_left me-1"></i>戻る</button>
-      </form>
+      <a href="{{ route($back_route, ['id' => $back_id, 'plan_id' => $back_plan_id]) }}" class="btn-ex-main btn-ex-gray"><i class="nf nf-fa-caret_left me-1" style="transform: scale(1.2)"></i>戻る</a>
       @elseif(isset($back_history_id))
-      <form action="{{ route($back_route, ['id' => $back_id, 'history_id' => $back_history_id]) }}" method="GET" class="d-inline-block">
-        <button type="submit" class="btn-ex-main btn-ex-gray"><i class="nf nf-fa-caret_left me-1"></i>戻る</button>
-      </form>
+      <a href="{{ route($back_route, ['id' => $back_id, 'history_id' => $back_history_id]) }}" class="btn-ex-main btn-ex-gray"><i class="nf nf-fa-caret_left me-1" style="transform: scale(1.2)"></i>戻る</a>
       @elseif(isset($back_id))
-      <form action="{{ route($back_route, ['id' => $back_id]) }}" method="GET" class="d-inline-block">
-        <button type="submit" class="btn-ex-main btn-ex-gray"><i class="nf nf-fa-caret_left me-1"></i>戻る</button>
-      </form>
+      <a href="{{ route($back_route, ['id' => $back_id]) }}" class="btn-ex-main btn-ex-gray"><i class="nf nf-fa-caret_left me-1" style="transform: scale(1.2)"></i>戻る</a>
       @else
       <form action="{{ route($back_route) }}" method="GET" class="d-inline-block">
-        <button type="submit" class="btn-ex-main btn-ex-gray"><i class="nf nf-fa-caret_left me-1"></i>戻る</button>
+        <button type="submit" class="btn-ex-main btn-ex-gray"><i class="nf nf-fa-caret_left me-1" style="transform: scale(1.2)"></i>戻る</button>
       </form>
       @endif
 
