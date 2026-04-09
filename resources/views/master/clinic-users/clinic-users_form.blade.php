@@ -19,7 +19,7 @@
   <input type="hidden" name="id" value="{{ $clinicUser->id }}">
   @endif
 
-  <div class="d-flex flex-column gap-3" style="max-width: 600px;">
+  <div class="d-flex flex-column gap-3 container ms-0">
 
     {{-- 氏名 --}}
     <div>
@@ -29,13 +29,13 @@
       </div>
       <div class="form-field px-3 py-2">
         <div class="form-field-top"></div>
-        <div class="d-flex gap-2 align-items-center">
+        <div class="d-flex gap-2 align-items-end">
           <div>
-            <label for="last_name" class="form-label small mb-1">姓</label>
+            <label for="last_name" class="form-label small mb-1">姓：</label>
             <input type="text" id="last_name" name="last_name" value="{{ $get('last_name') }}" @if(!empty($isEdit)) required @endif>
           </div>
           <div>
-            <label for="first_name" class="form-label small mb-1">名</label>
+            <label for="first_name" class="form-label small mb-1">名：</label>
             <input type="text" id="first_name" name="first_name" value="{{ $get('first_name') }}" @if(!empty($isEdit)) required @endif>
           </div>
         </div>
@@ -224,6 +224,8 @@
       </div>
     </div>
 
-    <button type="submit" class="btn-ex-main btn-ex-blue mt-4 d-block ms-auto">登録確認へ</button>
+    <div class="mt-4 text-end">
+      <button type="submit" class="btn-ex-main btn-ex-blue">登録確認へ</button>
+    </div>
   </div>
 </form>
