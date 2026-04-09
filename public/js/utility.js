@@ -506,30 +506,46 @@ function initFlexMinCols(tableEl = document) {
   const cells = tableEl.querySelectorAll('[class*="flex-min-col-"]');
   if (!cells.length) return;
 
-  // tdセルのみ幅計算対象（thはDataTablesが管理）
+  // tdから幅基準を測定し、th・td両方に適用
   const tdCells = [...cells].filter(cell => cell.tagName === 'TD');
 
-  function calcMinWidth(cell) {
-    const match = [...cell.classList].find(c => /^flex-min-col-(\d)$/.test(c));
-    if (!match) return;
+  function measureWidth(tdCell) {
+    const match = [...tdCell.classList].find(c => /^flex-min-col-(\d)$/.test(c));
+    if (!match) return null;
     const count = parseInt(match.replace('flex-min-col-', ''), 10);
 
-    const wrapper = cell.querySelector('.d-flex');
-    if (!wrapper) return;
+    const wrapper = tdCell.querySelector('.d-flex');
+    if (!wrapper) return null;
 
     const buttons = [...wrapper.children];
-    if (!buttons.length) return;
+    if (!buttons.length) return null;
 
-    // 幅リセットして自然なボタン幅を測定
-    cell.style.width = '';
+    tdCell.style.width = '';
     const gap = parseFloat(getComputedStyle(wrapper).gap) || 4;
     const visibleButtons = buttons.slice(0, count);
     const totalWidth = visibleButtons.reduce((sum, btn) => sum + btn.offsetWidth, 0)
                        + gap * (visibleButtons.length - 1);
-    const cellPadding = parseFloat(getComputedStyle(cell).paddingLeft)
-                        + parseFloat(getComputedStyle(cell).paddingRight);
+    const cellPadding = parseFloat(getComputedStyle(tdCell).paddingLeft)
+                        + parseFloat(getComputedStyle(tdCell).paddingRight);
 
-    cell.style.width = (totalWidth + cellPadding) + 'px';
+    return totalWidth + cellPadding;
+  }
+
+  function applyWidths() {
+    tdCells.forEach(tdCell => {
+      const width = measureWidth(tdCell);
+      if (width === null) return;
+
+      // td に適用
+      tdCell.style.width = width + 'px';
+
+      // 対応する th に適用（同じ列インデックス）
+      const table = tdCell.closest('table');
+      if (!table) return;
+      const colIndex = tdCell.cellIndex;
+      const th = table.querySelector(`thead tr th:nth-child(${colIndex + 1})`);
+      if (th) th.style.width = width + 'px';
+    });
   }
 
   let rafId = null;
@@ -537,7 +553,7 @@ function initFlexMinCols(tableEl = document) {
     if (rafId) return;
     rafId = requestAnimationFrame(() => {
       rafId = null;
-      tdCells.forEach(calcMinWidth);
+      applyWidths();
     });
   }
 
@@ -546,6 +562,9 @@ function initFlexMinCols(tableEl = document) {
 
   // ウィンドウリサイズのみ監視（セル幅変更によるループを回避）
   window.addEventListener('resize', scheduleCalc);
+
+  // DataTables の再描画後にも再計算できるよう関数を公開
+  return scheduleCalc; // DataTables drawCallback等で呼び出し可能
 }
 
 // 関数をグローバルスコープに公開

@@ -21,7 +21,8 @@ $(document).ready(function() {
         { orderable: false, targets: [5] } // 操作列はソート無効
       ],
       initComplete: function() {
-        initFlexMinCols(document.getElementById('consentingTable'));
+        const redraw = initFlexMinCols(document.getElementById('consentingTable'));
+        if (redraw) this.api().on('draw', redraw);
       }
     });
   }
