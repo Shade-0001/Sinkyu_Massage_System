@@ -17,8 +17,9 @@ $(document).ready(function() {
       order: [[4, 'desc']], // データ登録日の降順
       pageLength: 10,
       lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
+      autoWidth: false,
       columnDefs: [
-        { orderable: false, targets: [5] } // 操作列はソート無効
+        { orderable: false, width: '1%', targets: [5] } // 操作列はソート無効・最小幅
       ]
     });
   }
