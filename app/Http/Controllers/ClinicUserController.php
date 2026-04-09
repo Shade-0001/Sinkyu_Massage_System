@@ -225,7 +225,7 @@ class ClinicUserController extends Controller
     {
         return [
             'full_name' => '氏名',
-            'full_kana' => '氏名（カナ）',
+            'full_kana' => 'フリガナ',
             'birthday' => '生年月日',
             'age' => '年齢',
             'gender_id' => '性別',
