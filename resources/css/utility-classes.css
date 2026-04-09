@@ -178,6 +178,14 @@
 }
 
 /*──────────────────────────────────────────────*/
+/*  ボーダーラディウス                            */
+/*──────────────────────────────────────────────*/
+.rounded-tl-0 { border-top-left-radius: 0 !important; }
+.rounded-tr-0 { border-top-right-radius: 0 !important; }
+.rounded-bl-0 { border-bottom-left-radius: 0 !important; }
+.rounded-br-0 { border-bottom-right-radius: 0 !important; }
+
+/*──────────────────────────────────────────────*/
 /*  不透明度90%                                  */
 /*──────────────────────────────────────────────*/
 .opacity-90 { opacity: 0.9 !important; }
@@ -757,8 +765,11 @@
 }
 
 /*──────────────────────────────────────────────*/
-/*  フォームフィールド - タブ型ラベル             */
+/*  フォーム                                     */
 /*──────────────────────────────────────────────*/
+/*----------------------------------------------*/
+/*  タブ型ラベル                                 */
+/*----------------------------------------------*/
 .form-label-tab {
   display: inline-block;
   padding: 2px 14px 2px 18px;
@@ -785,4 +796,12 @@
   border-right: 1px solid #dee2e6;
   transform: skewX(30deg);
   transform-origin: bottom left;
+}
+
+/*----------------------------------------------*/
+/*  フィールドボーダートップ（タブ型フォーム用）    */
+/*----------------------------------------------*/
+.form-field-border-top {
+  border-top: 4px solid hsl(200, 100%, 99.5%) !important;
+  border-top-left-radius: 0 !important;
 }
