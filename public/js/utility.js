@@ -508,59 +508,49 @@ function initFlexMinCols(tableEl = document) {
 
   const tdCells = [...cells].filter(cell => cell.tagName === 'TD');
 
-  function applyMinWidth(tdCell) {
+  // ボタン幅をオフスクリーンで測定してthに設定する
+  function measureButtonsWidth(tdCell) {
     const match = [...tdCell.classList].find(c => /^flex-min-col-(\d)$/.test(c));
-    if (!match) return;
+    if (!match) return null;
     const count = parseInt(match.replace('flex-min-col-', ''), 10);
 
     const wrapper = tdCell.querySelector('.d-flex');
-    if (!wrapper) return;
+    if (!wrapper) return null;
 
-    const buttons = [...wrapper.children];
-    if (!buttons.length) return;
+    // オフスクリーンのクローンで自然幅を測定（セル幅の影響を受けない）
+    const clone = wrapper.cloneNode(true);
+    clone.style.cssText = 'position:fixed;top:-9999px;left:-9999px;visibility:hidden;width:max-content;min-width:0;max-width:none;flex-wrap:nowrap;';
+    document.body.appendChild(clone);
 
-    // 測定前の状態
-    console.group('[flex-min-col] applyMinWidth');
-    console.log('count:', count);
-    console.log('tdCell.offsetWidth (before):', tdCell.offsetWidth);
-    console.log('wrapper.offsetWidth (before):', wrapper.offsetWidth);
-    console.log('wrapper.style.minWidth (before):', wrapper.style.minWidth);
-    console.log('wrapper.style.maxWidth (before):', wrapper.style.maxWidth);
-
-    // min/max-width を一時解除してボタン自然幅を測定
-    wrapper.style.minWidth = '';
-    wrapper.style.maxWidth = '';
-    console.log('wrapper.offsetWidth (after reset):', wrapper.offsetWidth);
-
-    const style = getComputedStyle(wrapper);
+    const cloneButtons = [...clone.children].slice(0, count);
+    const style = getComputedStyle(clone);
     const gap = parseFloat(style.columnGap) || parseFloat(style.gap) || 4;
-    console.log('gap:', gap);
+    const totalWidth = cloneButtons.reduce((sum, btn) => sum + btn.offsetWidth, 0)
+                       + gap * (cloneButtons.length - 1);
 
-    const visibleButtons = buttons.slice(0, count);
-    visibleButtons.forEach((btn, i) => {
-      const btnStyle = getComputedStyle(btn);
-      console.log(`btn[${i}] offsetWidth:${btn.offsetWidth} marginL:${btnStyle.marginLeft} marginR:${btnStyle.marginRight}`);
-    });
-
-    const totalWidth = visibleButtons.reduce((sum, btn) => sum + btn.offsetWidth, 0)
-                       + gap * (visibleButtons.length - 1);
-    console.log('totalWidth:', totalWidth);
-
-    wrapper.style.maxWidth = totalWidth + 'px';
-    wrapper.style.minWidth = totalWidth + 'px';
-
-    console.log('wrapper.offsetWidth (after set):', wrapper.offsetWidth);
-    console.log('tdCell.offsetWidth (after set):', tdCell.offsetWidth);
-    console.groupEnd();
+    document.body.removeChild(clone);
+    return totalWidth;
   }
 
-  console.log('[flex-min-col] tdCells found:', tdCells.length);
-  tdCells.forEach(applyMinWidth);
+  function applyWidths() {
+    // 全tdから幅を測定（全行同じ幅のはずなので最初の1つで代表）
+    const firstTd = tdCells[0];
+    if (!firstTd) return;
 
-  return () => {
-    console.log('[flex-min-col] redraw triggered');
-    tdCells.forEach(applyMinWidth);
-  };
+    const totalWidth = measureButtonsWidth(firstTd);
+    if (totalWidth === null) return;
+
+    // th に幅を設定（DataTables が th の width を列幅のヒントとして使う）
+    const table = firstTd.closest('table');
+    if (!table) return;
+    const colIndex = firstTd.cellIndex;
+    const th = table.querySelector(`thead tr th:nth-child(${colIndex + 1})`);
+    if (th) th.style.width = totalWidth + 'px';
+  }
+
+  applyWidths();
+
+  return applyWidths;
 }
 
 // 関数をグローバルスコープに公開
