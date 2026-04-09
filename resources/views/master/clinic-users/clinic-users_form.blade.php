@@ -29,13 +29,13 @@
       </div>
       <div class="form-field px-3 py-2">
         <div class="form-field-top"></div>
-        <div class="d-flex gap-2 align-items-end">
+        <div class="d-flex gap-2 align-items-center">
           <div>
-            <label for="last_name" class="form-label small mb-1">姓：</label>
+            <label for="last_name" class="form-label small mb-1 d-block">姓：</label>
             <input type="text" id="last_name" name="last_name" value="{{ $get('last_name') }}" @if(!empty($isEdit)) required @endif>
           </div>
           <div>
-            <label for="first_name" class="form-label small mb-1">名：</label>
+            <label for="first_name" class="form-label small mb-1 d-block">名：</label>
             <input type="text" id="first_name" name="first_name" value="{{ $get('first_name') }}" @if(!empty($isEdit)) required @endif>
           </div>
         </div>
