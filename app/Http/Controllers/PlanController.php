@@ -289,20 +289,32 @@ class PlanController extends Controller
      */
     public function printHistory($id)
     {
-        $clinicUser = ClinicUser::findOrFail($id);
+        try {
+            \Log::info('計画情報履歴一覧表PDF生成開始', ['clinic_user_id' => $id]);
 
-        $pdfService = new \App\Services\Print\PlanPrintHistoryPdfService();
-        $pdfBinary  = $pdfService->generateHistory($id);
+            $service   = new \App\Services\Print\PlanPrintHistoryPdfService();
+            $pdfBinary = $service->generateHistory((int) $id);
 
-        $fileName = '計画情報一覧表_' . $clinicUser->last_name . $clinicUser->first_name . '_' . date('YmdHis') . '.pdf';
+            \Log::info('計画情報履歴一覧表PDF生成完了', ['size' => strlen($pdfBinary)]);
 
-        return response($pdfBinary, 200, [
-            'Content-Type'              => 'application/pdf',
-            'Content-Disposition'       => 'attachment; filename="' . $fileName . '"',
-            'Cache-Control'             => 'no-cache, no-store, must-revalidate',
-            'Pragma'                    => 'no-cache',
-            'Expires'                   => '0',
-        ]);
+            return response($pdfBinary, 200, [
+                'Content-Type'        => 'application/pdf',
+                'Content-Disposition' => 'inline',
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('計画情報履歴一覧表PDF生成エラー', [
+                'message' => $e->getMessage(),
+                'file'    => $e->getFile(),
+                'line'    => $e->getLine(),
+                'trace'   => $e->getTraceAsString(),
+            ]);
+
+            return response()->json([
+                'error'   => 'PDF生成に失敗しました',
+                'message' => $e->getMessage(),
+                'file'    => $e->getFile(),
+            ], 500);
+        }
     }
 
     /**

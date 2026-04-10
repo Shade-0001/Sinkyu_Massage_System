@@ -21,9 +21,7 @@
   </a>
 
   <!-- 計画情報一覧表印刷ボタン -->
-  <a href="{{ route('clinic-users.plans.print-history', $id) }}">
-    <button class="btn-ex-main btn-ex-blue">計画情報一覧表印刷</button>
-  </a>
+  <button type="button" id="printPlanHistory" class="btn-ex-main btn-ex-blue ms-2">計画情報一覧表印刷</button>
 
   <br><br>
 
@@ -76,5 +74,34 @@
   @push('scripts')
   <script src="{{ asset('js/utility.js') }}"></script>
   <script src="{{ asset('js/plans.js') }}"></script>
+  <script>
+    $(document).ready(function() {
+      const hasData = $('table tbody tr').not(':has(td[colspan])').length > 0;
+
+      if (hasData) {
+        // DataTables 初期化
+        initDataTable('#planInfoTable', {
+          order: [[4, 'desc']], // データ登録日の降順
+          columnDefs: [
+            { orderable: false, targets: [5] } // 操作列はソート無効
+          ]
+        });
+      }
+
+      // 削除確認
+      $(document).on('submit', '.delete-form', function(e) {
+        e.preventDefault();
+        if (confirm('一度削除したデータは元に戻せません。\n削除してもよろしいですか？')) {
+          this.submit();
+        }
+      });
+
+      // 計画情報一覧表印刷
+      $('#printPlanHistory').on('click', function() {
+        const url = '{{ route('clinic-users.plans.print-history', $id) }}';
+        window.open(url, '_blank');
+      });
+    });
+  </script>
   @endpush
 </x-app-layout>
