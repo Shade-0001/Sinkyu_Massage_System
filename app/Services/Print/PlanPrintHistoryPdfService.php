@@ -94,10 +94,10 @@ class PlanPrintHistoryPdfService extends BasePdfService
       ->orderBy('p.assessment_date', 'desc')
       ->select(
         'p.*',
-        'al_eating.name as eating_level',
-        'al_moving.name as moving_level',
-        'al_clothes.name as clothes_level',
-        'al_urination.name as urination_level'
+        'al_eating.assistance_level as eating_level',
+        'al_moving.assistance_level as moving_level',
+        'al_clothes.assistance_level as clothes_level',
+        'al_urination.assistance_level as urination_level'
       )
       ->get()
       ->toArray();
