@@ -104,7 +104,7 @@
         const hours = String(now.getHours()).padStart(2, '0');
         const minutes = String(now.getMinutes()).padStart(2, '0');
 
-        const filename = `計画情報一覧表_${year}${month}${day}${hours}${minutes}.pdf`;
+        const filename = `計画情報一覧表_{{ $name }}_${year}${month}${day}${hours}${minutes}.pdf`;
         window.open(`/master/clinic-users/{{ $id }}/plans/print/history/${encodeURIComponent(filename)}`, '_blank');
       });
     });
