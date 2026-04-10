@@ -161,6 +161,7 @@ class ConsentMassagePrintHistoryPdfService extends BasePdfService
     $pdf->SetFillColor(230, 230, 230);
     $pdf->SetDrawColor(80, 80, 80);
     $pdf->SetLineWidth(0.2);
+    $pdf->setCellPaddings(1, 0, 1, 0);  // 左右1mmパディング
     $curX = $x;
     foreach ($headers as $key => $label) {
       $pdf->SetXY($curX, $startY);
@@ -179,6 +180,7 @@ class ConsentMassagePrintHistoryPdfService extends BasePdfService
         $pdf->AddPage();
         $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
         $pdf->SetFillColor(230, 230, 230);
+        $pdf->setCellPaddings(1, 0, 1, 0);
         $curX = $x;
         foreach ($headers as $key => $label) {
           $pdf->SetXY($curX, self::MARGIN_X);
@@ -201,6 +203,7 @@ class ConsentMassagePrintHistoryPdfService extends BasePdfService
       if ($docName === "\u{2002}") $docName = '未設定';
 
       $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
+      $pdf->setCellPaddings(1, 0, 1, 0);  // 左右1mmパディング
       $curX = $x;
       $cells = [
         'status'              => $isLatest ? '最新' : '履歴',

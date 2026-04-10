@@ -169,6 +169,7 @@ class InsurancePrintHistoryPdfService extends BasePdfService
     $pdf->SetFillColor(230, 230, 230);
     $pdf->SetDrawColor(80, 80, 80);
     $pdf->SetLineWidth(0.2);
+    $pdf->setCellPaddings(1, 0, 1, 0);  // 左右1mmパディング
     $curX = $x;
     foreach ($headers as $key => $label) {
       $pdf->SetXY($curX, $startY);
@@ -221,6 +222,7 @@ class InsurancePrintHistoryPdfService extends BasePdfService
         $pdf->AddPage();
         $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
         $pdf->SetFillColor(230, 230, 230);
+        $pdf->setCellPaddings(1, 0, 1, 0);
         $curX = $x;
         foreach ($headers as $key => $label) {
           $pdf->SetXY($curX, self::MARGIN_X);
@@ -256,6 +258,7 @@ class InsurancePrintHistoryPdfService extends BasePdfService
       ];
 
       $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
+      $pdf->setCellPaddings(1, 0, 1, 0);  // 左右1mmパディング
       $curX = $x;
       foreach ($cells as $key => $val) {
         $pdf->SetXY($curX, $currentY);
@@ -265,6 +268,7 @@ class InsurancePrintHistoryPdfService extends BasePdfService
 
       // insurer_name: 枠を rowH で描いてからテキストを wrapText で折り返し配置
       $nameColW  = $colW['insurer_name'];
+      $pdf->setCellPaddings(0, 0, 0, 0);  // 枠のみ描画はパディング0
       $pdf->SetXY($curX, $currentY);
       $pdf->Cell($nameColW, $rowH, '', 1, 0, 'C');  // 枠のみ
       $fh        = self::FONT_SIZE * 0.352 * 1.25;   // 1行のテキスト高さ（mm）
