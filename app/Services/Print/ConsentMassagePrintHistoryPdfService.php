@@ -131,7 +131,7 @@ class ConsentMassagePrintHistoryPdfService extends BasePdfService
     $userLabelW = $pdf->GetStringWidth($userLabel);
     $pdf->Text(self::MARGIN_X + self::AVAILABLE_W - $userLabelW, $titleY, $userLabel);
 
-    return 20;
+    return 30;
   }
 
   /**
