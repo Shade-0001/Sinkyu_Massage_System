@@ -32,13 +32,13 @@ class InsurancePrintHistoryPdfService extends BasePdfService
     'issue_date'        => 18,
     'copayment'         => 13,
     'expiry_date'       => 18,
-    'household_name'    => 20,
-    'insured_name'      => 20,
-    'subsidized'        => 12,
+    'household_name'    => 16,  // -4
+    'insured_name'      => 16,  // -4
+    'subsidized'        => 10,  // -2
     'public_payer'      => 22,
     'public_recipient'  => 22,
     'insurer_number'    => 24,
-    'insurer_name'      => 22,
+    'insurer_name'      => 32,  // +10（はみ出し対策）
   ];
 
   protected function getDefaultCoordinatesPath(): string
@@ -122,15 +122,18 @@ class InsurancePrintHistoryPdfService extends BasePdfService
     $pdf->Cell(self::AVAILABLE_W + 4, 0, $dateStr, 0, 0, 'R');
 
     // タイトル
+    $titleY = 13;
     $pdf->SetFont('kozgopromedium', '', self::TITLE_SIZE);
-    $pdf->Text($x, 11, '医療保険情報履歴一覧表');
+    $pdf->Text($x, $titleY, '医療保険情報履歴一覧表');
 
-    // 利用者名
-    $userName = ($user->last_name ?? '') . "\u{2002}" . ($user->first_name ?? '');
+    // 利用者名（タイトル右端・同一基線Y）
+    $userName  = ($user->last_name ?? '') . "\u{2002}" . ($user->first_name ?? '');
+    $userLabel = '利用者：' . $userName;
     $pdf->SetFont('kozgopromedium', '', 10);
-    $pdf->Text($x, 19, '利用者：' . $userName);
+    $userLabelW = $pdf->GetStringWidth($userLabel);
+    $pdf->Text(self::MARGIN_X + self::AVAILABLE_W - $userLabelW, $titleY, $userLabel);
 
-    return 26;
+    return 20;
   }
 
   /**

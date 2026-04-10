@@ -9,31 +9,31 @@ use Illuminate\Support\Facades\DB;
  * 同意医師履歴一覧表（はり・きゅう）PDF生成サービス
  *
  * レイアウト概要：
- * - A4縦 (210mm × 297mm)、左右マージン 8mm → 利用可能幅 194mm
- * - ヘッダー：タイトル・利用者名・PDF出力日時
+ * - A4横 (297mm × 210mm)、左右マージン 8mm → 利用可能幅 281mm
+ * - ヘッダー：タイトル（左）・利用者名（右、タイトル同一基線）・PDF出力日時（右上）
  * - テーブル：状態 / 同意医師 / 同意日 / 同意開始日 / 同意終了日 / 給付期間開始 / 給付期間終了 / 初療日 / 再同意期限 / 登録日
  */
 class ConsentAcupuncturePrintHistoryPdfService extends BasePdfService
 {
   const MARGIN_X    = 8;
-  const AVAILABLE_W = 194;
+  const AVAILABLE_W = 281;  // A4横 297mm - 左右各8mm
   const ROW_H       = 6;
   const HEADER_H    = 7;
   const FONT_SIZE   = 8;
   const TITLE_SIZE  = 14;
 
-  // カラム幅（合計 194mm）
+  // カラム幅（合計 281mm）
   const COL_WIDTHS = [
-    'status'              => 10,
-    'doctor'              => 32,
-    'consenting_date'     => 20,
-    'start_date'          => 20,
-    'end_date'            => 20,
-    'benefit_start'       => 20,
-    'benefit_end'         => 20,
-    'first_care'          => 20,
-    'reconsenting_expiry' => 20,
-    'registered_at'       => 12,
+    'status'              => 12,
+    'doctor'              => 46,
+    'consenting_date'     => 26,
+    'start_date'          => 26,
+    'end_date'            => 26,
+    'benefit_start'       => 26,
+    'benefit_end'         => 26,
+    'first_care'          => 26,
+    'reconsenting_expiry' => 26,
+    'registered_at'       => 15,
   ];
 
   protected function getDefaultCoordinatesPath(): string
@@ -54,7 +54,7 @@ class ConsentAcupuncturePrintHistoryPdfService extends BasePdfService
     $user      = DB::table('clinic_users')->where('id', $clinicUserId)->first();
     $histories = $this->fetchHistories($clinicUserId);
 
-    $pdf = new Fpdi('P', 'mm', 'A4', true, 'UTF-8', false);
+    $pdf = new Fpdi('L', 'mm', 'A4', true, 'UTF-8', false);
     $pdf->SetAutoPageBreak(false);
     $pdf->SetMargins(0, 0, 0);
     $pdf->setPrintHeader(false);
@@ -119,16 +119,19 @@ class ConsentAcupuncturePrintHistoryPdfService extends BasePdfService
     $pdf->SetXY($x, 5);
     $pdf->Cell(self::AVAILABLE_W + 4, 0, $dateStr, 0, 0, 'R');
 
-    // タイトル
+    // タイトル（左）
+    $titleY = 13;
     $pdf->SetFont('kozgopromedium', '', self::TITLE_SIZE);
-    $pdf->Text($x, 12, '同意医師履歴一覧表（はり・きゅう）');
+    $pdf->Text($x, $titleY, '同意医師履歴一覧表（はり・きゅう）');
 
-    // 利用者名
-    $userName = ($user->last_name ?? '') . "\u{2002}" . ($user->first_name ?? '');
+    // 利用者名（右端・タイトル同一基線Y）
+    $userName  = ($user->last_name ?? '') . "\u{2002}" . ($user->first_name ?? '');
+    $userLabel = '利用者：' . $userName;
     $pdf->SetFont('kozgopromedium', '', 10);
-    $pdf->Text($x, 20, '利用者：' . $userName);
+    $userLabelW = $pdf->GetStringWidth($userLabel);
+    $pdf->Text(self::MARGIN_X + self::AVAILABLE_W - $userLabelW, $titleY, $userLabel);
 
-    return 27;
+    return 20;
   }
 
   /**
@@ -165,7 +168,7 @@ class ConsentAcupuncturePrintHistoryPdfService extends BasePdfService
 
     // データ行
     $pdf->SetFillColor(255, 255, 255);
-    $bottomLimit = 289;  // A4縦297mm - 下マージン8mm
+    $bottomLimit = 202;  // A4横 210mm - 下マージン8mm
     $currentY    = $startY + self::HEADER_H;
 
     foreach ($histories as $idx => $h) {
