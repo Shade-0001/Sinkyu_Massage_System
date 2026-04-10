@@ -307,9 +307,8 @@ class InsurancePrintHistoryPdfService extends BasePdfService
 
   /**
    * 列幅を動的に計算
-   * 各列の最小幅（ヘッダーラベル幅 + 左右パディング2mm）を確保した後、
-   * 余り分を insurer_name に優先的に割り当てる
-   * 合計が AVAILABLE_W をちょうど埋めるよう調整
+   * 各列の必要最小幅を確保した上で、合計が AVAILABLE_W になるよう調整
+   * オーバーする場合は insurer_name の余白から削減
    */
   protected function calculateColumnWidths(Fpdi $pdf, array $headers): array
   {
@@ -321,10 +320,11 @@ class InsurancePrintHistoryPdfService extends BasePdfService
     foreach ($headers as $key => $label) {
       $labelW = $pdf->GetStringWidth($label);
 
-      // insurer_name は折り返し前提のためラベル幅のみ、他はサンプルデータとの比較
       if ($key === 'insurer_name') {
+        // insurer_name は折り返し前提 → ラベル幅 + 最小パディングのみ
         $minW = ceil($labelW + $pad);
       } else {
+        // その他の列 → ラベル幅またはサンプルデータの最大幅 + パディング
         $sampleData = self::COL_SAMPLE_DATA[$key] ?? [];
         if (is_array($sampleData) && !empty($sampleData)) {
           $dataW = max(array_map(fn($s) => $pdf->GetStringWidth($s), $sampleData));
@@ -338,20 +338,27 @@ class InsurancePrintHistoryPdfService extends BasePdfService
       $totalMinW       += $minW;
     }
 
-    // 合計が AVAILABLE_W を超えていないか確認し、オーバー分を insurer_name から減らす
-    $overW = $totalMinW - self::AVAILABLE_W;
-    if ($overW > 0) {
-      $minWidths['insurer_name'] = max(10, $minWidths['insurer_name'] - $overW);
-    } else {
-      // 余り分を insurer_name に全振り
-      $remainder = self::AVAILABLE_W - $totalMinW;
-      if ($remainder > 0) {
-        $minWidths['insurer_name'] += $remainder;
-      }
+    // 合計を AVAILABLE_W にぴったり合わせる
+    $diff = self::AVAILABLE_W - $totalMinW;
+
+    if ($diff < 0) {
+      // オーバー分は insurer_name から削減（最小 10mm は維持）
+      $reduction      = min(-$diff, $minWidths['insurer_name'] - 10);
+      $minWidths['insurer_name'] -= $reduction;
+    } elseif ($diff > 0) {
+      // 余り分は insurer_name に全配分
+      $minWidths['insurer_name'] += $diff;
+    }
+
+    // 最終確認：合計チェック
+    $finalSum = array_sum($minWidths);
+    if (abs($finalSum - self::AVAILABLE_W) > 0.1) {
+      error_log("WARNING: Column width sum ({$finalSum}mm) != AVAILABLE_W (" . self::AVAILABLE_W . "mm)");
     }
 
     return $minWidths;
   }
+
 
 
   /**
