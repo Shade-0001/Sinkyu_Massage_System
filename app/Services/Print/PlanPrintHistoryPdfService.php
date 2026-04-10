@@ -266,7 +266,7 @@ class PlanPrintHistoryPdfService extends BasePdfService
     $pdf->SetLineWidth(0.1);
 
     // セクションヘッダー（Insurance 風）
-    $pdf->SetFont('kozgopromedium', 'B', 11);
+    $pdf->SetFont('kozgopromedium', '', 11);
     $pdf->SetFillColor(230, 230, 230);
     $pdf->SetDrawColor(80, 80, 80);
     $pdf->SetLineWidth(0.2);
