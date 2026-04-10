@@ -25,20 +25,20 @@ class InsurancePrintHistoryPdfService extends BasePdfService
   // カラム幅（合計 281mm）
   const COL_WIDTHS = [
     'status'            => 10,
-    'insurance_type'    => 18,
-    'insured_number'    => 22,
-    'license_date'      => 17,
-    'certification_date'=> 17,
-    'issue_date'        => 17,
-    'copayment'         => 12,
-    'expiry_date'       => 17,
-    'household_name'    => 15,
-    'insured_name'      => 15,
-    'subsidized'        => 10,
-    'public_payer'      => 20,
-    'public_recipient'  => 20,
-    'insurer_number'    => 22,
-    'insurer_name'      => 49,
+    'insurance_type'    => 21,
+    'insured_number'    => 21,
+    'license_date'      => 18,
+    'certification_date'=> 13,
+    'issue_date'        => 13,
+    'copayment'         => 16,
+    'expiry_date'       => 16,
+    'household_name'    => 18,
+    'insured_name'      => 21,
+    'subsidized'        => 16,
+    'public_payer'      => 21,
+    'public_recipient'  => 21,
+    'insurer_number'    => 18,
+    'insurer_name'      => 38,
   ];
 
   protected function getDefaultCoordinatesPath(): string
@@ -176,34 +176,11 @@ class InsurancePrintHistoryPdfService extends BasePdfService
     // データ行
     $pdf->SetFillColor(255, 255, 255);
     $bottomLimit = 202;  // A4横210mm - 下マージン8mm
-    $currentY    = $startY + self::HEADER_H;
-    $pageAdded   = false;
+
+    $currentY = $startY + self::HEADER_H;
 
     foreach ($insurances as $idx => $ins) {
-      // ページ溢れチェック
-      if ($currentY + self::ROW_H > $bottomLimit) {
-        $pdf->AddPage();
-        $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
-        $pdf->SetFillColor(230, 230, 230);
-        $curX = $x;
-        foreach ($headers as $key => $label) {
-          $pdf->SetXY($curX, self::MARGIN_X);
-          $pdf->Cell($colW[$key], self::HEADER_H, $label, 1, 0, 'C', true);
-          $curX += $colW[$key];
-        }
-        $pdf->SetFillColor(255, 255, 255);
-        $currentY  = self::MARGIN_X + self::HEADER_H;
-        $pageAdded = true;
-      }
-
       $isLatest = ($idx === 0);
-
-      // 状態列の色
-      if ($isLatest) {
-        $pdf->SetTextColor(180, 0, 0);
-      } else {
-        $pdf->SetTextColor(100, 100, 100);
-      }
 
       // 保険区分（insurer_number の先頭2桁で判定）
       $insurerNumber = $ins->insurer_number ?? '';
@@ -222,13 +199,42 @@ class InsurancePrintHistoryPdfService extends BasePdfService
       $copay    = $copayMap[$ins->expenses_borne_ratio_id] ?? '';
 
       // 続柄
-      $relMap   = [1 => '本人', 2 => '家族'];
-      $rel      = $relMap[$ins->relationship_with_clinic_user_id] ?? '';
-
+      $relMap        = [1 => '本人', 2 => '家族'];
+      $rel           = $relMap[$ins->relationship_with_clinic_user_id] ?? '';
       $householdName = ($rel !== '本人') ? ($ins->insured_name ?? '') : '';
       $insuredName   = ($rel === '本人')  ? ($ins->insured_name ?? '') : '';
 
-      $curX = $x;
+      $insurerName = $ins->insurer_name ?? '';
+
+      // insurer_name が1行に収まるか判定して行高を決定
+      $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
+      $nameW    = $pdf->GetStringWidth($insurerName);
+      $innerW   = $colW['insurer_name'] - 1.6 * 2;
+      $nameRows = ($nameW > $innerW) ? 2 : 1;
+      $rowH     = self::ROW_H * $nameRows;
+
+      // ページ溢れチェック
+      if ($currentY + $rowH > $bottomLimit) {
+        $pdf->AddPage();
+        $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
+        $pdf->SetFillColor(230, 230, 230);
+        $curX = $x;
+        foreach ($headers as $key => $label) {
+          $pdf->SetXY($curX, self::MARGIN_X);
+          $pdf->Cell($colW[$key], self::HEADER_H, $label, 1, 0, 'C', true);
+          $curX += $colW[$key];
+        }
+        $pdf->SetFillColor(255, 255, 255);
+        $currentY = self::MARGIN_X + self::HEADER_H;
+      }
+
+      // 状態列の色
+      if ($isLatest) {
+        $pdf->SetTextColor(180, 0, 0);
+      } else {
+        $pdf->SetTextColor(100, 100, 100);
+      }
+
       $cells = [
         'status'             => $isLatest ? '最新' : '履歴',
         'insurance_type'     => $typeLabel,
@@ -244,19 +250,23 @@ class InsurancePrintHistoryPdfService extends BasePdfService
         'public_payer'       => $ins->locality_code ?? ($ins->public_funds_payer_code ?? ''),
         'public_recipient'   => $ins->recipient_code ?? ($ins->public_funds_recipient_code ?? ''),
         'insurer_number'     => $insurerNumber,
-        'insurer_name'       => $ins->insurer_name ?? '',
       ];
 
       $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
+      $curX = $x;
       foreach ($cells as $key => $val) {
-        $align = in_array($key, ['status', 'copayment', 'subsidized']) ? 'C' : 'L';
+        $align = \in_array($key, ['status', 'copayment', 'subsidized']) ? 'C' : 'L';
         $pdf->SetXY($curX, $currentY);
-        $pdf->Cell($colW[$key], self::ROW_H, $val, 1, 0, $align);
+        $pdf->Cell($colW[$key], $rowH, $val, 1, 0, $align, false, '', 0, false, 'T', 'M');
         $curX += $colW[$key];
       }
 
+      // insurer_name: 折り返しあり（MultiCell）
+      $pdf->SetXY($curX, $currentY);
+      $pdf->MultiCell($colW['insurer_name'], self::ROW_H, $insurerName, 1, 'L', false, 0, '', '', true, 0, false, true, $rowH, 'M');
+
       $pdf->SetTextColor(0, 0, 0);
-      $currentY += self::ROW_H;
+      $currentY += $rowH;
     }
 
     // データなし
