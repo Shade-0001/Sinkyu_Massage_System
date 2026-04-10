@@ -37,8 +37,6 @@ $(document).ready(function() {
     if (!url) {
       return;
     }
-    const windowName = 'ConsentingHistoryPDF_' + new Date().getTime();
-    const windowFeatures = 'popup=yes,width=1200,height=800,left=100,top=100,menubar=yes,toolbar=yes,location=yes,status=yes,scrollbars=yes,resizable=yes';
-    window.open(url, windowName, windowFeatures);
+    window.open(url, '_blank');
   });
 });
