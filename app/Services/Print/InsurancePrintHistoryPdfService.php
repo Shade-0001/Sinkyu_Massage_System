@@ -122,16 +122,19 @@ class InsurancePrintHistoryPdfService extends BasePdfService
     $pdf->Cell(self::AVAILABLE_W + 4, 0, $dateStr, 0, 0, 'R');
 
     // タイトル
-    $titleY = 13;
+    $titleY    = 13;
+    $userSize  = 10;
     $pdf->SetFont('kozgopromedium', '', self::TITLE_SIZE);
     $pdf->Text($x, $titleY, '医療保険情報履歴一覧表');
 
-    // 利用者名（タイトル右端・同一基線Y）
-    $userName  = ($user->last_name ?? '') . "\u{2002}" . ($user->first_name ?? '');
-    $userLabel = '利用者：' . $userName;
-    $pdf->SetFont('kozgopromedium', '', 10);
+    // 利用者名（右端・タイトル下端に揃える）
+    // Text() の Y は基線。フォントサイズ差分だけ下げることで下端を一致させる
+    $userLabelY = $titleY + (self::TITLE_SIZE - $userSize) * 0.352777;
+    $userName   = ($user->last_name ?? '') . "\u{2002}" . ($user->first_name ?? '');
+    $userLabel  = '利用者：' . $userName;
+    $pdf->SetFont('kozgopromedium', '', $userSize);
     $userLabelW = $pdf->GetStringWidth($userLabel);
-    $pdf->Text(self::MARGIN_X + self::AVAILABLE_W - $userLabelW, $titleY, $userLabel);
+    $pdf->Text(self::MARGIN_X + self::AVAILABLE_W - $userLabelW, $userLabelY, $userLabel);
 
     return 30;
   }
@@ -265,23 +268,25 @@ class InsurancePrintHistoryPdfService extends BasePdfService
       $innerW = $nameW - 1.6 * 2;
       $pdf->SetXY($curX, $currentY);
       $pdf->Cell($nameW, $rowH, '', 1, 0, 'C');  // 枠のみ
+      $fh = self::FONT_SIZE * 0.352777;  // 1行のテキスト高さ（mm）
       if ($nameRows === 1) {
-        // 1行：垂直中央
-        $textY = $currentY + ($rowH - self::FONT_SIZE * 0.352777) / 2;
-        $pdf->SetXY($curX + 1.6, $textY);
-        $pdf->Cell($innerW, self::FONT_SIZE * 0.352777, $insurerName, 0, 0, 'C');
+        // 1行：セル全体の垂直中央
+        $textY = $currentY + ($rowH - $fh) / 2;
+        $pdf->SetXY($curX, $textY);
+        $pdf->Cell($nameW, $fh, $insurerName, 0, 0, 'C');
       } else {
-        // 2行：上半分・下半分それぞれ垂直中央
-        $lineH = $rowH / 2;
-        $fh    = self::FONT_SIZE * 0.352777;
+        // 2行：2行まとめてセル垂直中央に配置（行間 = 1pt相当）
+        $lineGap   = 1 * 0.352777;  // 1pt行間
+        $blockH    = $fh * 2 + $lineGap;
+        $blockTopY = $currentY + ($rowH - $blockH) / 2;
+        $line1     = $this->truncateToFit($pdf, $insurerName, $innerW);
+        $rest      = mb_substr($insurerName, mb_strlen($line1));
         // 1行目
-        $line1 = $this->truncateToFit($pdf, $insurerName, $innerW);
-        $rest  = mb_substr($insurerName, mb_strlen($line1));
-        $pdf->SetXY($curX + 1.6, $currentY + ($lineH - $fh) / 2);
-        $pdf->Cell($innerW, $fh, $line1, 0, 0, 'C');
-        // 2行目
-        $pdf->SetXY($curX + 1.6, $currentY + $lineH + ($lineH - $fh) / 2);
-        $pdf->Cell($innerW, $fh, $rest, 0, 0, 'C');
+        $pdf->SetXY($curX, $blockTopY);
+        $pdf->Cell($nameW, $fh, $line1, 0, 0, 'C');
+        // 2行目（同じ左端X、行間分だけ下）
+        $pdf->SetXY($curX, $blockTopY + $fh + $lineGap);
+        $pdf->Cell($nameW, $fh, $rest, 0, 0, 'C');
       }
 
       $pdf->SetTextColor(0, 0, 0);

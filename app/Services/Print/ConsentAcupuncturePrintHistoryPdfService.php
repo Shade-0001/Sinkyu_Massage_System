@@ -120,16 +120,18 @@ class ConsentAcupuncturePrintHistoryPdfService extends BasePdfService
     $pdf->Cell(self::AVAILABLE_W + 4, 0, $dateStr, 0, 0, 'R');
 
     // タイトル（左）
-    $titleY = 13;
+    $titleY   = 13;
+    $userSize = 10;
     $pdf->SetFont('kozgopromedium', '', self::TITLE_SIZE);
     $pdf->Text($x, $titleY, '同意医師履歴一覧表（はり・きゅう）');
 
-    // 利用者名（右端・タイトル同一基線Y）
-    $userName  = ($user->last_name ?? '') . "\u{2002}" . ($user->first_name ?? '');
-    $userLabel = '利用者：' . $userName;
-    $pdf->SetFont('kozgopromedium', '', 10);
+    // 利用者名（右端・タイトル下端に揃える）
+    $userLabelY = $titleY + (self::TITLE_SIZE - $userSize) * 0.352777;
+    $userName   = ($user->last_name ?? '') . "\u{2002}" . ($user->first_name ?? '');
+    $userLabel  = '利用者：' . $userName;
+    $pdf->SetFont('kozgopromedium', '', $userSize);
     $userLabelW = $pdf->GetStringWidth($userLabel);
-    $pdf->Text(self::MARGIN_X + self::AVAILABLE_W - $userLabelW, $titleY, $userLabel);
+    $pdf->Text(self::MARGIN_X + self::AVAILABLE_W - $userLabelW, $userLabelY, $userLabel);
 
     return 30;
   }
