@@ -73,17 +73,16 @@
 
   @push('scripts')
   <script src="{{ asset('js/utility.js') }}"></script>
-  <script src="{{ asset('js/plans.js') }}"></script>
   <script>
     $(document).ready(function() {
-      const hasData = $('table tbody tr').not(':has(td[colspan])').length > 0;
+      const hasData = $('tbody tr').not(':has(td[colspan])').length > 0;
 
       if (hasData) {
         // DataTables 初期化
         initDataTable('#planInfoTable', {
-          order: [[4, 'desc']], // データ登録日の降順
+          order: [[4, 'desc']],
           columnDefs: [
-            { orderable: false, targets: [5] } // 操作列はソート無効
+            { orderable: false, targets: [5] }
           ]
         });
       }
