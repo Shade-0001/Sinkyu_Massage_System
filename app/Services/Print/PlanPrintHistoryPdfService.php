@@ -198,13 +198,16 @@ class PlanPrintHistoryPdfService extends BasePdfService
     $pdf->SetDrawColor(180, 180, 180);
     $pdf->SetLineWidth(0.1);
 
+    $sectionNum = 1;
+
     // ▼ 評価基本情報セクション
     $basicItems = [
       '評価日' => $this->formatDate($plan->assessment_date),
       '評価者' => $plan->assessor ?? '',
       '聴衆者' => $plan->audience ?? '',
     ];
-    $y = $this->renderSectionTable($pdf, $y, '評価基本情報', $basicItems, $labelW, $valueW);
+    $y = $this->renderSectionTable($pdf, $y, $sectionNum . '. 評価基本情報', $basicItems, $labelW, $valueW);
+    $sectionNum++;
 
     // ▼ ADL評価セクション
     $adlItems = [
@@ -229,7 +232,8 @@ class PlanPrintHistoryPdfService extends BasePdfService
       '排尿' => $plan->urination_level ?? '',
       '排尿備考' => $plan->urination_assistance_note ?? '',
     ];
-    $y = $this->renderSectionTable($pdf, $y, 'ADL評価', $adlItems, $labelW, $valueW);
+    $y = $this->renderSectionTable($pdf, $y, $sectionNum . '. ADL評価', $adlItems, $labelW, $valueW);
+    $sectionNum++;
 
     // ▼ その他の情報セクション
     $otherItems = [
@@ -242,7 +246,7 @@ class PlanPrintHistoryPdfService extends BasePdfService
       '障害・注意事項' => $plan->note ?? '',
       '本人・家族同意日' => $this->formatDate($plan->user_and_family_consent_date),
     ];
-    $y = $this->renderSectionTable($pdf, $y, 'その他の情報', $otherItems, $labelW, $valueW);
+    $y = $this->renderSectionTable($pdf, $y, $sectionNum . '. その他の情報', $otherItems, $labelW, $valueW);
 
     // ブロック下部に区切り線
     $pdf->SetDrawColor(200, 200, 200);
@@ -260,6 +264,7 @@ class PlanPrintHistoryPdfService extends BasePdfService
     $x = self::MARGIN_X;
     $y = $startY;
     $colW = self::AVAILABLE_W;
+    $itemCount = count($items);
 
     $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
     $pdf->SetDrawColor(180, 180, 180);
@@ -272,8 +277,9 @@ class PlanPrintHistoryPdfService extends BasePdfService
     $pdf->SetLineWidth(0.1);
     $pdf->setCellPaddings(1, 0, 1, 0);
 
+    $headerText = $sectionTitle . ' (' . $itemCount . '行)';
     $pdf->SetXY($x, $y);
-    $pdf->Cell($colW, 4, $sectionTitle, 1, 0, 'L', true);
+    $pdf->Cell($colW, 4, $headerText, 1, 0, 'L', true);
 
     $pdf->setCellPaddings(0, 0, 0, 0);
     $y += 5;
