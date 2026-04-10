@@ -314,48 +314,33 @@ class InsuranceController extends Controller
      */
     public function print($id)
     {
-        $user = ClinicUser::findOrFail($id);
+        try {
+            \Log::info('医療保険情報履歴一覧表PDF生成開始', ['clinic_user_id' => $id]);
 
-        // 保険情報を新しい順に取得
-        $insurances = Insurance::where('clinic_user_id', $id)
-            ->with('insurer')
-            ->orderBy('created_at', 'desc')
-            ->get();
+            $service   = new \App\Services\Print\InsurancePrintHistoryPdfService();
+            $pdfBinary = $service->generateHistory((int) $id);
 
-        // TCPDFを使用してPDFを生成
-        $pdf = new \TCPDF('L', 'mm', 'A4', true, 'UTF-8');
+            \Log::info('医療保険情報履歴一覧表PDF生成完了', ['size' => strlen($pdfBinary)]);
 
-        // PDFメタデータ設定
-        $pdf->SetCreator('Sinkyu Massage System');
-        $pdf->SetAuthor('System');
-        $pdf->SetTitle('医療保険情報履歴一覧表');
+            return response($pdfBinary, 200, [
+                'Content-Type'        => 'application/pdf',
+                'Content-Disposition' => 'inline',
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('医療保険情報履歴一覧表PDF生成エラー', [
+                'message' => $e->getMessage(),
+                'file'    => $e->getFile(),
+                'line'    => $e->getLine(),
+                'trace'   => $e->getTraceAsString(),
+            ]);
 
-        // ヘッダー・フッターを削除
-        $pdf->setPrintHeader(false);
-        $pdf->setPrintFooter(false);
-
-        // マージン設定
-        $pdf->SetMargins(10, 10, 10);
-        $pdf->SetAutoPageBreak(TRUE, 10);
-
-        // 日本語フォント設定
-        $pdf->SetFont('kozgopromedium', '', 9);
-
-        // ページ追加
-        $pdf->AddPage();
-
-        // HTMLコンテンツを生成
-        $html = view('master.clinic-users.insurances.insurances_pdf', [
-            'user' => $user,
-            'insurances' => $insurances
-        ])->render();
-
-        // HTMLをPDFに出力
-        $pdf->writeHTML($html, true, false, true, false, '');
-
-        // PDFを新規ウィンドウで表示
-        return response($pdf->Output('医療保険情報履歴一覧表_' . $user->full_name . '.pdf', 'I'))
-            ->header('Content-Type', 'application/pdf');
+            return response()->json([
+                'error'   => 'PDF生成に失敗しました',
+                'message' => $e->getMessage(),
+                'file'    => $e->getFile(),
+                'line'    => $e->getLine(),
+            ], 500);
+        }
     }
 
     /**

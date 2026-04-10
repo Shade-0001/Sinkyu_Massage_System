@@ -317,15 +317,33 @@ class ConsentAcupunctureController extends Controller
      */
     public function print($id)
     {
-        $user = ClinicUser::findOrFail($id);
-        $histories = ConsentAcupuncture::where('clinic_user_id', $id)
-            ->orderBy('created_at', 'desc')
-            ->get();
+        try {
+            \Log::info('同意医師履歴一覧表（はり・きゅう）PDF生成開始', ['clinic_user_id' => $id]);
 
-        return view('master.clinic-users.consents-acupuncture.consents-acupuncture_pdf', [
-            'user' => $user,
-            'histories' => $histories
-        ]);
+            $service   = new \App\Services\Print\ConsentAcupuncturePrintHistoryPdfService();
+            $pdfBinary = $service->generateHistory((int) $id);
+
+            \Log::info('同意医師履歴一覧表（はり・きゅう）PDF生成完了', ['size' => \strlen($pdfBinary)]);
+
+            return response($pdfBinary, 200, [
+                'Content-Type'        => 'application/pdf',
+                'Content-Disposition' => 'inline',
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('同意医師履歴一覧表（はり・きゅう）PDF生成エラー', [
+                'message' => $e->getMessage(),
+                'file'    => $e->getFile(),
+                'line'    => $e->getLine(),
+                'trace'   => $e->getTraceAsString(),
+            ]);
+
+            return response()->json([
+                'error'   => 'PDF生成に失敗しました',
+                'message' => $e->getMessage(),
+                'file'    => $e->getFile(),
+                'line'    => $e->getLine(),
+            ], 500);
+        }
     }
 
     /**
