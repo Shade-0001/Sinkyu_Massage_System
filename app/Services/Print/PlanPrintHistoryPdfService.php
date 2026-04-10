@@ -120,7 +120,7 @@ class PlanPrintHistoryPdfService extends BasePdfService
     $titleY = $y + 8;
     $userSize = 10;
     $pdf->SetFont('kozgopromedium', '', self::TITLE_SIZE);
-    $pdf->Text($x, $titleY, '計画情報詳細一覧表');
+    $pdf->Text($x, $titleY, '計画情報一覧表');
 
     // 利用者名（右端・タイトル下端に揃える）
     $userLabelY = $titleY + (self::TITLE_SIZE - $userSize) * 0.352777;

@@ -290,21 +290,26 @@ class PlanController extends Controller
     public function printHistory($id)
     {
         try {
-            \Log::info('計画情報履歴一覧表PDF生成開始', ['clinic_user_id' => $id]);
+            \Log::info('計画情報一覧表PDF生成開始', ['clinic_user_id' => $id]);
+
+            // ユーザー情報取得
+            $user = \App\Models\ClinicUser::findOrFail($id);
 
             $service   = new \App\Services\Print\PlanPrintHistoryPdfService();
             $pdfBinary = $service->generateHistory((int) $id);
 
-            \Log::info('計画情報履歴一覧表PDF生成完了', ['size' => strlen($pdfBinary)]);
+            \Log::info('計画情報一覧表PDF生成完了', ['size' => strlen($pdfBinary)]);
 
-            $fileName = '計画情報詳細一覧表_' . date('YmdHi') . '.pdf';
+            // ファイル名：計画情報一覧表_[氏名]_[タイムスタンプ].pdf
+            $userName = $user->last_name . $user->first_name;
+            $fileName = '計画情報一覧表_' . $userName . '_' . date('YmdHi') . '.pdf';
 
             return response($pdfBinary, 200, [
                 'Content-Type'        => 'application/pdf',
                 'Content-Disposition' => 'inline; filename="' . $fileName . '"',
             ]);
         } catch (\Exception $e) {
-            \Log::error('計画情報履歴一覧表PDF生成エラー', [
+            \Log::error('計画情報一覧表PDF生成エラー', [
                 'message' => $e->getMessage(),
                 'file'    => $e->getFile(),
                 'line'    => $e->getLine(),
