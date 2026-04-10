@@ -268,10 +268,10 @@ class PlanPrintHistoryPdfService extends BasePdfService
     $pdf->setCellPaddings(1, 0, 1, 0);
 
     $pdf->SetXY($x, $y);
-    $pdf->Cell($colW, 4, $sectionTitle, 1, 0, 'L', true);
+    $pdf->Cell($colW, 7, $sectionTitle, 1, 0, 'L', true);
 
     $pdf->setCellPaddings(0, 0, 0, 0);
-    $y += 5;
+    $y += 7;
 
     // データ行ループ（Insurance 風）
     $pdf->SetFont('kozgopromedium', '', 10);
