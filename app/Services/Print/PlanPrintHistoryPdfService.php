@@ -18,8 +18,8 @@ class PlanPrintHistoryPdfService extends BasePdfService
   const MARGIN_X    = 10;
   const MARGIN_Y    = 10;
   const AVAILABLE_W = 190;  // A4縦 210mm - 左右各10mm
-  const FONT_SIZE   = 9;
-  const TITLE_SIZE  = 14;
+  const FONT_SIZE   = 11;
+  const TITLE_SIZE  = 16;
   const SECTION_H   = 5;   // セクション高さ
   const ITEM_H      = 5;   // 項目行高さ
   const BLOCK_MARGIN = 3;  // ブロック間マージン
@@ -112,7 +112,7 @@ class PlanPrintHistoryPdfService extends BasePdfService
     // PDF出力日時
     $ts      = strtotime($outputDate);
     $dateStr = '〈 PDF出力日時 │ ' . date('Y/m/d', $ts) . "\u{2002}" . date('H:i', $ts) . ' 〉';
-    $pdf->SetFont('kozgopromedium', '', 7);
+    $pdf->SetFont('kozgopromedium', '', 11);
     $pdf->SetXY($x, $y);
     $pdf->Cell(self::AVAILABLE_W, 0, $dateStr, 0, 0, 'R');
 
@@ -273,7 +273,7 @@ class PlanPrintHistoryPdfService extends BasePdfService
     $x = self::MARGIN_X;
     $colW = self::AVAILABLE_W;
 
-    $pdf->SetFont('kozgopromedium', 'B', 9);
+    $pdf->SetFont('kozgopromedium', 'B', 11);
     $pdf->SetFillColor(240, 240, 240);
     $pdf->SetDrawColor(150, 150, 150);
     $pdf->SetLineWidth(0.1);
@@ -289,7 +289,7 @@ class PlanPrintHistoryPdfService extends BasePdfService
    */
   protected function renderItem(Fpdi $pdf, float $x, float $y, string $label, string $value, float $labelW, float $valueW): float
   {
-    $pdf->SetFont('kozgopromedium', '', 8);
+    $pdf->SetFont('kozgopromedium', '', 10);
     $pdf->SetDrawColor(220, 220, 220);
     $pdf->SetLineWidth(0.05);
 
