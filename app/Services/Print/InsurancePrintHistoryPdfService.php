@@ -163,6 +163,9 @@ class InsurancePrintHistoryPdfService extends BasePdfService
       'insurer_name'       => '保険者名',
     ];
 
+    // フォントを指定してから列幅計算（GetStringWidth が正確に測定されるため）
+    $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
+
     // 列幅を動的に計算（ヘッダーラベルとサンプルデータから最小幅を算出）
     $colW = $this->calculateColumnWidths($pdf, $headers);
 
