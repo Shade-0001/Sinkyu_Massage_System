@@ -13,10 +13,6 @@
 
   <br><br>
 
-  @if(session('success'))
-  <div class="alert alert-success">{{ session('success') }}</div>
-  @endif
-
   <!-- ユーザーアカウント一覧テーブル -->
   <table id="systemUsersTable" class="table table-bordered">
   <thead>

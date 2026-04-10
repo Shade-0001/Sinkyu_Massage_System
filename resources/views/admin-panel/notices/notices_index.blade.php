@@ -13,10 +13,6 @@
 
   <br><br>
 
-  @if(session('success'))
-  <div class="alert alert-success">{{ session('success') }}</div>
-  @endif
-
   <!-- お知らせ一覧テーブル -->
   <table id="noticesTable" class="table table-bordered">
   <thead>

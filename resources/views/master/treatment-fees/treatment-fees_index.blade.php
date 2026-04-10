@@ -5,10 +5,6 @@
     :breadcrumbs="App\Support\Breadcrumbs::generate('master.treatment-fees.index')"
   />
 
-  @if(session('success'))
-    <div class="text-success">{{ session('success') }}</div>
-  @endif
-
   <!-- 新規登録ボタン -->
   <div class="mb-2">
     <a href="{{ route('master.treatment-fees.create') }}">

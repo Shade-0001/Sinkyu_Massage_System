@@ -5,10 +5,6 @@
     :breadcrumbs="App\Support\Breadcrumbs::generate('master.documents.index')"
   />
 
-  @if(session('success'))
-    <div style="color: green;">{{ session('success') }}</div>
-  @endif
-
   <!-- 新規登録ボタン -->
   <div style="margin-bottom: 15px;">
     <button type="button" id="newDocumentBtn">

@@ -33,3 +33,19 @@
 
   <hr class="border border-1 border-secondary opacity-50">
 </div>
+
+@if(session('success'))
+<div id="flash-success" class="alert alert-success mb-3" role="alert">
+  {{ session('success') }}
+</div>
+<script>
+  setTimeout(function() {
+    var el = document.getElementById('flash-success');
+    if (el) {
+      el.style.transition = 'opacity 0.6s ease';
+      el.style.opacity = '0';
+      setTimeout(function() { el.remove(); }, 600);
+    }
+  }, 3000);
+</script>
+@endif

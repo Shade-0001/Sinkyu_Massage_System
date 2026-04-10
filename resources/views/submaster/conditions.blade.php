@@ -5,10 +5,6 @@
     :breadcrumbs="App\Support\Breadcrumbs::generate('submaster.conditions')"
   />
 
-  @if(session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
-  @endif
-
   <table id="conditionsTable" class="table table-bordered">
     <thead>
       <tr>

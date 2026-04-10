@@ -105,21 +105,6 @@
 
 			<!-- メインコンテンツ -->
 			<div class="main-content flex-grow-1 pt-3 px-3 pb-0 overflow-y-auto d-flex flex-column bg-gray-90">
-				@if(session('success'))
-				<div id="flash-success" class="alert alert-success alert-dismissible mb-3" role="alert">
-					{{ session('success') }}
-				</div>
-				<script>
-					setTimeout(function() {
-						var el = document.getElementById('flash-success');
-						if (el) {
-							el.style.transition = 'opacity 0.6s ease';
-							el.style.opacity = '0';
-							setTimeout(function() { el.remove(); }, 600);
-						}
-					}, 3000);
-				</script>
-				@endif
 				<main class="flex-fill">
 					{{ $slot }}
 				</main>

@@ -5,9 +5,6 @@
     :breadcrumbs="App\Support\Breadcrumbs::generate('master.self-fees.index')"
   />
 
-  @if(session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
-  @endif
 
   <table id="selfPayFeesTable" class="table table-bordered">
     <thead>

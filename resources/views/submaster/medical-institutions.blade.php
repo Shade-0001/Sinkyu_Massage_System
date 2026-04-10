@@ -5,10 +5,6 @@
     :breadcrumbs="App\Support\Breadcrumbs::generate('submaster.medical-institutions')"
   />
 
-  @if(session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
-  @endif
-
   <table id="medicalInstitutionsTable" class="table table-bordered">
     <thead>
       <tr>
