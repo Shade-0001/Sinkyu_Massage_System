@@ -6,34 +6,23 @@ use setasign\Fpdi\Tcpdf\Fpdi;
 use Illuminate\Support\Facades\DB;
 
 /**
- * 計画情報履歴一覧表 PDF生成サービス
+ * 計画情報詳細一覧表 PDF生成サービス
  *
  * レイアウト概要：
- * - A4横 (297mm × 210mm)、左右マージン 8mm → 利用可能幅 281mm
- * - ヘッダー：タイトル・利用者名・PDF出力日時
- * - テーブル：評価日 / 評価者 / 聴衆者 / ADL合計 / 摂食 / 移動 / 更衣 / 排尿 / データ登録日
+ * - A4縦 (210mm × 297mm)、左右マージン 10mm → 利用可能幅 190mm
+ * - 各計画情報を詳細ブロックで表示（ADL各項目+各種コメント項目）
+ * - ページ区切りで複数計画に対応
  */
 class PlanPrintHistoryPdfService extends BasePdfService
 {
-  const MARGIN_X    = 8;
-  const AVAILABLE_W = 281;  // A4横 297mm - 左右各8mm
-  const ROW_H       = 6;
-  const HEADER_H    = 7;
-  const FONT_SIZE   = 8;
+  const MARGIN_X    = 10;
+  const MARGIN_Y    = 10;
+  const AVAILABLE_W = 190;  // A4縦 210mm - 左右各10mm
+  const FONT_SIZE   = 9;
   const TITLE_SIZE  = 14;
-
-  // 代表データ（列幅計算用）
-  const COL_SAMPLE_DATA = [
-    'assessment_date'     => ['2025/12/31'],
-    'assessor'            => ['山田　太郎'],
-    'audience'            => ['山田　太郎'],
-    'adl_total'           => ['99'],
-    'eating'              => ['自立'],
-    'moving'              => ['要介護'],
-    'changing_clothes'    => ['自立'],
-    'urination'           => ['自立'],
-    'created_at'          => ['2025/12/31'],
-  ];
+  const SECTION_H   = 5;   // セクション高さ
+  const ITEM_H      = 5;   // 項目行高さ
+  const BLOCK_MARGIN = 3;  // ブロック間マージン
 
   protected function getDefaultCoordinatesPath(): string
   {
@@ -47,16 +36,13 @@ class PlanPrintHistoryPdfService extends BasePdfService
 
   /**
    * PDF生成
-   *
-   * @param int    $clinicUserId  利用者ID
-   * @return string PDFバイナリ
    */
   public function generateHistory(int $clinicUserId): string
   {
     $user  = DB::table('clinic_users')->where('id', $clinicUserId)->first();
     $plans = $this->fetchPlans($clinicUserId);
 
-    $pdf = new Fpdi('L', 'mm', 'A4', true, 'UTF-8', false);
+    $pdf = new Fpdi('P', 'mm', 'A4', true, 'UTF-8', false);
     $pdf->SetAutoPageBreak(false);
     $pdf->SetMargins(0, 0, 0);
     $pdf->setPrintHeader(false);
@@ -64,10 +50,10 @@ class PlanPrintHistoryPdfService extends BasePdfService
     $pdf->SetTextColor(0, 0, 0);
 
     $outputDate = date('Y-m-d H:i:s');
-
     $pdf->AddPage();
+
     $currentY = $this->renderHeader($pdf, $user, $outputDate);
-    $this->renderTable($pdf, $plans, $currentY);
+    $this->renderDetailBlocks($pdf, $plans, $currentY);
 
     return $pdf->Output('', 'S');
   }
@@ -81,23 +67,35 @@ class PlanPrintHistoryPdfService extends BasePdfService
   }
 
   /**
-   * 計画情報を取得
+   * 計画情報を全カラム取得
    */
   protected function fetchPlans(int $clinicUserId): array
   {
     return DB::table('plans as p')
       ->leftJoin('assistance_levels as al_eating', 'al_eating.id', '=', 'p.eating_assistance_level_id')
-      ->leftJoin('assistance_levels as al_moving', 'al_moving.id', '=', 'p.moving_assistance_level_id')
+      ->leftJoin('assistance_levels as al_personal', 'al_personal.id', '=', 'p.personal_grooming_assistance_level_id')
+      ->leftJoin('assistance_levels as al_toilet', 'al_toilet.id', '=', 'p.using_toilet_assistance_level_id')
+      ->leftJoin('assistance_levels as al_bathing', 'al_bathing.id', '=', 'p.bathing_assistance_level_id')
+      ->leftJoin('assistance_levels as al_walking', 'al_walking.id', '=', 'p.walking_assistance_level_id')
+      ->leftJoin('assistance_levels as al_stairs', 'al_stairs.id', '=', 'p.using_stairs_assistance_level_id')
       ->leftJoin('assistance_levels as al_clothes', 'al_clothes.id', '=', 'p.changing_clothes_assistance_level_id')
+      ->leftJoin('assistance_levels as al_defecation', 'al_defecation.id', '=', 'p.defecation_assistance_level_id')
       ->leftJoin('assistance_levels as al_urination', 'al_urination.id', '=', 'p.urination_assistance_level_id')
+      ->leftJoin('assistance_levels as al_moving', 'al_moving.id', '=', 'p.moving_assistance_level_id')
       ->where('p.clinic_user_id', $clinicUserId)
       ->orderBy('p.assessment_date', 'desc')
       ->select(
         'p.*',
         'al_eating.assistance_level as eating_level',
-        'al_moving.assistance_level as moving_level',
+        'al_personal.assistance_level as personal_grooming_level',
+        'al_toilet.assistance_level as toilet_level',
+        'al_bathing.assistance_level as bathing_level',
+        'al_walking.assistance_level as walking_level',
+        'al_stairs.assistance_level as stairs_level',
         'al_clothes.assistance_level as clothes_level',
-        'al_urination.assistance_level as urination_level'
+        'al_defecation.assistance_level as defecation_level',
+        'al_urination.assistance_level as urination_level',
+        'al_moving.assistance_level as moving_level'
       )
       ->get()
       ->toArray();
@@ -105,179 +103,209 @@ class PlanPrintHistoryPdfService extends BasePdfService
 
   /**
    * ヘッダー描画
-   * @return float テーブル開始Y座標
    */
   protected function renderHeader(Fpdi $pdf, $user, string $outputDate): float
   {
     $x = self::MARGIN_X;
+    $y = self::MARGIN_Y;
 
-    // PDF出力日時（右上）
+    // PDF出力日時
     $ts      = strtotime($outputDate);
     $dateStr = '〈 PDF出力日時 │ ' . date('Y/m/d', $ts) . "\u{2002}" . date('H:i', $ts) . ' 〉';
     $pdf->SetFont('kozgopromedium', '', 7);
-    $pdf->SetXY($x, 5);
-    $pdf->Cell(self::AVAILABLE_W + 4, 0, $dateStr, 0, 0, 'R');
+    $pdf->SetXY($x, $y);
+    $pdf->Cell(self::AVAILABLE_W, 0, $dateStr, 0, 0, 'R');
 
     // タイトル
-    $titleY    = 13;
-    $userSize  = 10;
+    $titleY = $y + 8;
     $pdf->SetFont('kozgopromedium', '', self::TITLE_SIZE);
-    $pdf->Text($x, $titleY, '計画情報履歴一覧表');
+    $pdf->SetXY($x, $titleY);
+    $pdf->Cell(self::AVAILABLE_W, 0, '計画情報詳細一覧表');
 
-    // 利用者名（右端・タイトル下端に揃える）
-    $userLabelY = $titleY + (self::TITLE_SIZE - $userSize) * 0.352777;
+    // 利用者名
+    $userY = $titleY + 7;
     $userName   = ($user->last_name ?? '') . "\u{2002}" . ($user->first_name ?? '');
     $userLabel  = '利用者：' . $userName;
-    $pdf->SetFont('kozgopromedium', '', $userSize);
-    $userLabelW = $pdf->GetStringWidth($userLabel);
-    $pdf->Text(self::MARGIN_X + self::AVAILABLE_W - $userLabelW, $userLabelY, $userLabel);
+    $pdf->SetFont('kozgopromedium', '', 10);
+    $pdf->SetXY($x, $userY);
+    $pdf->Cell(self::AVAILABLE_W, 0, $userLabel);
 
-    return 30;
+    return $userY + 8;
   }
 
   /**
-   * テーブル描画
+   * 詳細ブロック群を描画
    */
-  protected function renderTable(Fpdi $pdf, array $plans, float $startY): void
+  protected function renderDetailBlocks(Fpdi $pdf, array $plans, float $startY): void
   {
-    $x       = self::MARGIN_X;
-    $headers = [
-      'assessment_date'     => '評価日',
-      'assessor'            => '評価者',
-      'audience'            => '聴衆者',
-      'adl_total'           => 'ADL合計',
-      'eating'              => '摂食',
-      'moving'              => '移動',
-      'changing_clothes'    => '更衣',
-      'urination'           => '排尿',
-      'created_at'          => 'データ登録日',
-    ];
-
-    // フォントを指定してから列幅計算
-    $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
-
-    // 列幅を動的に計算
-    $colW = $this->calculateColumnWidths($pdf, $headers);
-
-    // デバッグ: 列幅の合計確認
-    $totalW = array_sum($colW);
-    error_log("DEBUG: col widths sum = {$totalW}mm (urination = {$colW['urination']}mm)");
-
-    // ヘッダー行
-    $pdf->SetFillColor(230, 230, 230);
-    $pdf->SetDrawColor(80, 80, 80);
-    $pdf->SetLineWidth(0.2);
-    $pdf->setCellPaddings(1, 0, 1, 0);
-    $curX = $x;
-    foreach ($headers as $key => $label) {
-      $pdf->SetXY($curX, $startY);
-      $pdf->Cell($colW[$key], self::HEADER_H, $label, 1, 0, 'C', true);
-      $curX += $colW[$key];
+    if (empty($plans)) {
+      $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
+      $pdf->SetXY(self::MARGIN_X, $startY + 5);
+      $pdf->SetTextColor(100, 100, 100);
+      $pdf->Cell(self::AVAILABLE_W, self::ITEM_H, 'データがありません');
+      $pdf->SetTextColor(0, 0, 0);
+      return;
     }
 
-    // データ行
-    $pdf->SetFillColor(255, 255, 255);
-    $bottomLimit = 202;
+    $currentY = $startY;
+    $bottomLimit = 280;  // A4縦297mm - 下マージン17mm
 
-    $currentY = $startY + self::HEADER_H;
-
-    foreach ($plans as $plan) {
-      $cells = [
-        'assessment_date'     => $this->formatDate($plan->assessment_date),
-        'assessor'            => $plan->assessor ?? '',
-        'audience'            => $plan->audience ?? '',
-        'adl_total'           => $plan->adl_total ?? '',
-        'eating'              => $plan->eating_level ?? '',
-        'moving'              => $plan->moving_level ?? '',
-        'changing_clothes'    => $plan->clothes_level ?? '',
-        'urination'           => $plan->urination_level ?? '',
-        'created_at'          => $this->formatDate($plan->created_at),
-      ];
+    foreach ($plans as $idx => $plan) {
+      $blockH = $this->calculateBlockHeight($pdf, $plan);
 
       // ページ溢れチェック
-      if ($currentY + self::ROW_H > $bottomLimit) {
+      if ($currentY + $blockH > $bottomLimit) {
         $pdf->AddPage();
-        $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
-        $pdf->SetFillColor(230, 230, 230);
-        $pdf->SetDrawColor(80, 80, 80);
-        $pdf->SetLineWidth(0.2);
-        $pdf->setCellPaddings(1, 0, 1, 0);
-        $newPageHeaderY = 8;
-        $curX = $x;
-        foreach ($headers as $key => $label) {
-          $pdf->SetXY($curX, $newPageHeaderY);
-          $pdf->Cell($colW[$key], self::HEADER_H, $label, 1, 0, 'C', true);
-          $curX += $colW[$key];
-        }
-        $pdf->SetFillColor(255, 255, 255);
-        $currentY = $newPageHeaderY + self::HEADER_H;
+        $currentY = self::MARGIN_Y;
       }
 
-      $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
-      $pdf->setCellPaddings(1, 0, 1, 0);
-      $curX = $x;
-      foreach ($cells as $key => $val) {
-        $pdf->SetXY($curX, $currentY);
-        $pdf->Cell($colW[$key], self::ROW_H, $val, 1, 0, 'C', false, '', 0, false, 'T', 'M');
-        $curX += $colW[$key];
-      }
-
-      $currentY += self::ROW_H;
-    }
-
-    // データなし
-    if (empty($plans)) {
-      $totalW = array_sum($colW);
-      $pdf->SetXY($x, $startY + self::HEADER_H);
-      $pdf->SetTextColor(100, 100, 100);
-      $pdf->Cell($totalW, self::ROW_H, 'データがありません', 1, 0, 'C');
-      $pdf->SetTextColor(0, 0, 0);
+      $currentY = $this->renderDetailBlock($pdf, $plan, $currentY);
+      $currentY += self::BLOCK_MARGIN;  // ブロック間のマージン
     }
   }
 
   /**
-   * 列幅を動的に計算
+   * 1つの計画情報ブロックのおおよその高さを計算
    */
-  protected function calculateColumnWidths(Fpdi $pdf, array $headers): array
+  protected function calculateBlockHeight(Fpdi $pdf, $plan): float
   {
-    $pad         = 2.0;
-    $minWidths   = [];
-    $totalMinW   = 0;
+    // ざっくりした計算：セクションヘッダー + ADL10項目 + その他項目
+    $h = 3;  // セクションヘッダー前の空白
+    $h += 4;  // セクションヘッダー「評価基本情報」
+    $h += self::ITEM_H * 3;  // 評価日、評価者、聴衆者
+    $h += 4;  // セクションヘッダー「ADL評価」
+    $h += self::ITEM_H * 10;  // ADL 10項目
+    $h += 4;  // セクションヘッダー「その他の情報」
+    $h += self::ITEM_H * 7;  // コミュニケーション、希望、治療目的、リハビリ、自宅リハビリ、改善、障害・注意、同意日
 
-    foreach ($headers as $key => $label) {
-      $labelW = $pdf->GetStringWidth($label);
-
-      $sampleData = self::COL_SAMPLE_DATA[$key] ?? [];
-      if (is_array($sampleData) && !empty($sampleData)) {
-        $dataW = max(array_map(fn($s) => $pdf->GetStringWidth($s), $sampleData));
-        $minW  = ceil(max($labelW, $dataW) + $pad);
-      } else {
-        $minW = ceil($labelW + $pad);
-      }
-
-      $minWidths[$key] = $minW;
-      $totalMinW       += $minW;
-    }
-
-    $diff = self::AVAILABLE_W - $totalMinW;
-
-    if ($diff < 0) {
-      $reduction           = min(-$diff, $minWidths['urination'] - 10);
-      $minWidths['urination'] -= $reduction;
-    } elseif ($diff > 0) {
-      $minWidths['urination'] += $diff;
-    }
-
-    $finalSum = array_sum($minWidths);
-    if (abs($finalSum - self::AVAILABLE_W) > 0.1) {
-      error_log("WARNING: Column width sum ({$finalSum}mm) != AVAILABLE_W (" . self::AVAILABLE_W . "mm)");
-    }
-
-    return $minWidths;
+    return $h;
   }
 
   /**
-   * 日付フォーマット（Y/n/j）
+   * 1つの計画情報ブロックを描画
+   */
+  protected function renderDetailBlock(Fpdi $pdf, $plan, float $startY): float
+  {
+    $x = self::MARGIN_X;
+    $y = $startY + self::BLOCK_MARGIN;
+    $colW = self::AVAILABLE_W;
+    $labelW = 60;  // ラベル幅
+    $valueW = $colW - $labelW;
+
+    $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
+    $pdf->SetDrawColor(180, 180, 180);
+    $pdf->SetLineWidth(0.1);
+
+    // ▼ 評価基本情報セクション
+    $y = $this->renderSection($pdf, $y, '評価基本情報');
+
+    $items = [
+      '評価日' => $this->formatDate($plan->assessment_date),
+      '評価者' => $plan->assessor ?? '',
+      '聴衆者' => $plan->audience ?? '',
+    ];
+
+    foreach ($items as $label => $value) {
+      $y = $this->renderItem($pdf, $x, $y, $label, $value, $labelW, $valueW);
+    }
+
+    // ▼ ADL評価セクション
+    $y = $this->renderSection($pdf, $y, 'ADL評価');
+
+    $adlItems = [
+      '摂食' => $plan->eating_level ?? '',
+      '摂食備考' => $plan->eating_assistance_note ?? '',
+      '起居移動' => $plan->moving_level ?? '',
+      '起居移動備考' => $plan->moving_assistance_note ?? '',
+      '整容' => $plan->personal_grooming_level ?? '',
+      '整容備考' => $plan->personal_grooming_assistance_note ?? '',
+      'トイレ' => $plan->toilet_level ?? '',
+      'トイレ備考' => $plan->using_toilet_assistance_note ?? '',
+      '入浴' => $plan->bathing_level ?? '',
+      '入浴備考' => $plan->bathing_assistance_note ?? '',
+      '平地歩行' => $plan->walking_level ?? '',
+      '平地歩行備考' => $plan->walking_assistance_note ?? '',
+      '階段昇降' => $plan->stairs_level ?? '',
+      '階段昇降備考' => $plan->using_stairs_assistance_note ?? '',
+      '更衣' => $plan->clothes_level ?? '',
+      '更衣備考' => $plan->changing_clothes_assistance_note ?? '',
+      '排便' => $plan->defecation_level ?? '',
+      '排便備考' => $plan->defecation_assistance_note ?? '',
+      '排尿' => $plan->urination_level ?? '',
+      '排尿備考' => $plan->urination_assistance_note ?? '',
+    ];
+
+    foreach ($adlItems as $label => $value) {
+      $y = $this->renderItem($pdf, $x, $y, $label, $value, $labelW, $valueW);
+    }
+
+    // ▼ その他の情報セクション
+    $y = $this->renderSection($pdf, $y, 'その他の情報');
+
+    $otherItems = [
+      'コミュニケーション' => $plan->communication_note ?? '',
+      'ご本人・ご家族の希望' => $plan->wish_of_user_and_familiy ?? '',
+      '治療目的' => $plan->care_purpose ?? '',
+      'リハビリテーションプログラム' => $plan->rehabilitation_program ?? '',
+      '自宅でのリハビリテーション' => $plan->home_rehabilitation ?? '',
+      '前回計画書作成時からの改善・変化' => $plan->change_since_previous_planning ?? '',
+      '障害・注意事項' => $plan->note ?? '',
+      '本人・家族同意日' => $this->formatDate($plan->user_and_family_consent_date),
+    ];
+
+    foreach ($otherItems as $label => $value) {
+      $y = $this->renderItem($pdf, $x, $y, $label, $value, $labelW, $valueW);
+    }
+
+    // ブロック下部に区切り線
+    $pdf->SetDrawColor(200, 200, 200);
+    $pdf->SetLineWidth(0.2);
+    $pdf->Line($x, $y + 2, $x + $colW, $y + 2);
+
+    return $y;
+  }
+
+  /**
+   * セクションヘッダーを描画
+   */
+  protected function renderSection(Fpdi $pdf, float $y, string $title): float
+  {
+    $x = self::MARGIN_X;
+    $colW = self::AVAILABLE_W;
+
+    $pdf->SetFont('kozgopromedium', 'B', 9);
+    $pdf->SetFillColor(240, 240, 240);
+    $pdf->SetDrawColor(150, 150, 150);
+    $pdf->SetLineWidth(0.1);
+
+    $pdf->SetXY($x, $y);
+    $pdf->Cell($colW, 4, $title, 1, 0, 'L', true);
+
+    return $y + 5;
+  }
+
+  /**
+   * ラベル値ペアを描画
+   */
+  protected function renderItem(Fpdi $pdf, float $x, float $y, string $label, string $value, float $labelW, float $valueW): float
+  {
+    $pdf->SetFont('kozgopromedium', '', 8);
+    $pdf->SetDrawColor(220, 220, 220);
+    $pdf->SetLineWidth(0.05);
+
+    // ラベルセル
+    $pdf->SetXY($x, $y);
+    $pdf->Cell($labelW, self::ITEM_H, $label, 1, 0, 'L');
+
+    // 値セル
+    $pdf->SetXY($x + $labelW, $y);
+    $pdf->Cell($valueW, self::ITEM_H, $value, 1, 0, 'L');
+
+    return $y + self::ITEM_H;
+  }
+
+  /**
+   * 日付フォーマット
    */
   protected function formatDate(?string $date): string
   {
