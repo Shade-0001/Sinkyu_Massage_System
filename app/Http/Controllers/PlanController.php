@@ -297,9 +297,11 @@ class PlanController extends Controller
 
             \Log::info('計画情報履歴一覧表PDF生成完了', ['size' => strlen($pdfBinary)]);
 
+            $fileName = '計画情報詳細一覧表_' . date('YmdHi') . '.pdf';
+
             return response($pdfBinary, 200, [
                 'Content-Type'        => 'application/pdf',
-                'Content-Disposition' => 'inline',
+                'Content-Disposition' => 'inline; filename="' . $fileName . '"',
             ]);
         } catch (\Exception $e) {
             \Log::error('計画情報履歴一覧表PDF生成エラー', [
