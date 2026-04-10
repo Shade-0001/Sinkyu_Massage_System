@@ -118,19 +118,19 @@ class PlanPrintHistoryPdfService extends BasePdfService
 
     // タイトル
     $titleY = $y + 8;
+    $userSize = 10;
     $pdf->SetFont('kozgopromedium', '', self::TITLE_SIZE);
-    $pdf->SetXY($x, $titleY);
-    $pdf->Cell(self::AVAILABLE_W, 0, '計画情報詳細一覧表');
+    $pdf->Text($x, $titleY, '計画情報詳細一覧表');
 
-    // 利用者名
-    $userY = $titleY + 7;
+    // 利用者名（右端・タイトル下端に揃える）
+    $userLabelY = $titleY + (self::TITLE_SIZE - $userSize) * 0.352777;
     $userName   = ($user->last_name ?? '') . "\u{2002}" . ($user->first_name ?? '');
     $userLabel  = '利用者：' . $userName;
-    $pdf->SetFont('kozgopromedium', '', 10);
-    $pdf->SetXY($x, $userY);
-    $pdf->Cell(self::AVAILABLE_W, 0, $userLabel);
+    $pdf->SetFont('kozgopromedium', '', $userSize);
+    $userLabelW = $pdf->GetStringWidth($userLabel);
+    $pdf->Text(self::MARGIN_X + self::AVAILABLE_W - $userLabelW, $userLabelY, $userLabel);
 
-    return $userY + 8;
+    return $userLabelY + 8;
   }
 
   /**
