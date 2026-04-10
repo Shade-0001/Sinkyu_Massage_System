@@ -31,12 +31,10 @@
         <div class="form-field-top"></div>
         <div class="d-flex gap-2 align-items-center">
           <div>
-            <label for="last_name" class="form-label fs-8 mb-0 d-block fw-semibold">姓</label>
-            <input type="text" id="last_name" name="last_name" value="{{ $get('last_name') }}" @if(!empty($isEdit)) required @endif>
+            <input type="text" id="last_name" name="last_name" value="{{ $get('last_name') }}" placeholder="姓" @if(!empty($isEdit)) required @endif>
           </div>
           <div>
-            <label for="first_name" class="form-label fs-8 mb-0 d-block fw-semibold">名</label>
-            <input type="text" id="first_name" name="first_name" value="{{ $get('first_name') }}" @if(!empty($isEdit)) required @endif>
+            <input type="text" id="first_name" name="first_name" value="{{ $get('first_name') }}" placeholder="名" @if(!empty($isEdit)) required @endif>
           </div>
         </div>
       </div>
@@ -52,12 +50,10 @@
         <div class="form-field-top"></div>
         <div class="d-flex gap-2 align-items-center">
           <div>
-            <label for="last_kana" class="form-label fs-8 mb-0 d-block fw-semibold">セイ</label>
-            <input type="text" id="last_kana" name="last_kana" value="{{ $get('last_kana') }}">
+            <input type="text" id="last_kana" name="last_kana" value="{{ $get('last_kana') }}" placeholder="セイ">
           </div>
           <div>
-            <label for="first_kana" class="form-label fs-8 mb-0 d-block fw-semibold">メイ</label>
-            <input type="text" id="first_kana" name="first_kana" value="{{ $get('first_kana') }}">
+            <input type="text" id="first_kana" name="first_kana" value="{{ $get('first_kana') }}" placeholder="メイ">
           </div>
         </div>
       </div>
