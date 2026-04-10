@@ -49,11 +49,6 @@ class PlanPrintHistoryPdfService extends BasePdfService
     $pdf->setPrintFooter(false);
     $pdf->SetTextColor(0, 0, 0);
 
-    // PDF メタデータ （ブラウザ表示名）
-    $userName = $user->last_name . $user->first_name;
-    $pdfTitle = '計画情報一覧表_' . $userName;
-    $pdf->SetTitle($pdfTitle);
-
     $outputDate = date('Y-m-d H:i:s');
     $pdf->AddPage();
 
