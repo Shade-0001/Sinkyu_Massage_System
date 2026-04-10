@@ -1,6 +1,6 @@
 @props(['title', 'breadcrumbs' => []])
 
-<div class="page-header mb-4">
+<div class="page-header mb-5">
   <h4 class="mb-2 fs-4 fw-semibold">
     {{ $title }}
   </h4>
@@ -35,16 +35,17 @@
 </div>
 
 @if(session('success'))
-<div id="flash-success" class="alert alert-success mb-3" role="alert">
+<div id="flash-success" class="alert alert-success fs-5-5" role="alert"
+  style="position:fixed;top:70px;left:50%;transform:translateX(-50%);z-index:9999;min-width:320px;max-width:600px;box-shadow:0 4px 12px rgba(0,0,0,.15);">
   {{ session('success') }}
 </div>
 <script>
   setTimeout(function() {
     var el = document.getElementById('flash-success');
     if (el) {
-      el.style.transition = 'opacity 0.6s ease';
+      el.style.transition = 'opacity 0.5s ease';
       el.style.opacity = '0';
-      setTimeout(function() { el.remove(); }, 600);
+      setTimeout(function() { el.remove(); }, 500);
     }
   }, 3000);
 </script>
