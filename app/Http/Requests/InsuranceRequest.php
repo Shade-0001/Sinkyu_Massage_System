@@ -103,7 +103,7 @@ class InsuranceRequest extends FormRequest
   public function messages(): array
   {
     return [
-      'new_insurer_number.required' => '保険者番号を入力してください。',
+      'new_insurer_number.required' => '保険者番号は必須項目です。',
       'new_insurer_number.regex' => '保険者番号は6桁または8桁の数字を入力してください。',
     ];
   }

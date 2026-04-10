@@ -75,7 +75,7 @@ class ConsentMassageRequest extends FormRequest
   public function messages(): array
   {
     return [
-      'consenting_doctor_id.required' => '同意医師は必須です。',
+      'consenting_doctor_id.required' => '同意医師は必須項目です。',
       'consenting_doctor_id.exists' => '選択された同意医師が無効です。',
       'consenting_date.date' => '同意日は正しい日付形式で入力してください。',
       'consenting_start_date.date' => '同意開始日は正しい日付形式で入力してください。',
