@@ -13,18 +13,18 @@
   <table id="therapistTable" class="table table-bordered">
     <thead>
       <tr>
-        <th>施術者名 [編集] / カナ</th>
-        <th>資格・免許番号・交付日</th>
-        <th>住所 / TEL</th>
-        <th>データ登録日</th>
-        <th>削除</th>
+        <th class="text-center">施術者名 / カナ</th>
+        <th class="text-center">資格・免許番号・交付日</th>
+        <th class="text-center">住所 / TEL</th>
+        <th class="text-center">データ登録日</th>
+        <th class="text-center">操作</th>
       </tr>
     </thead>
     <tbody>
       @foreach($therapists as $therapist)
       <tr>
         <td>
-          <a href="{{ route('therapists.edit', $therapist->id) }}">{{ $therapist->last_name }}{{ "\u{2000}" }}{{ $therapist->first_name }}［編集］</a><br>
+          {{ $therapist->last_name }}{{ "\u{2000}" }}{{ $therapist->first_name }}<br>
           {{ $therapist->last_name_kana }}{{ "\u{2000}" }}{{ $therapist->first_name_kana }}
         </td>
         <td>
@@ -68,12 +68,15 @@
           {{ $therapist->created_at ? \Carbon\Carbon::parse($therapist->created_at)->format('Y/n/j') : '' }}<br>
           {{ $therapist->created_at ? \Carbon\Carbon::parse($therapist->created_at)->format('H:i') : '' }}
         </td>
-        <td>
+        <td class="text-center">
+        <div class="d-flex flex-wrap justify-content-center gap-1">
+          <a class="btn-ex-main btn-ex-blue btn-ex-sm" href="{{ route('therapists.edit', $therapist->id) }}">編集</a>
           <form action="{{ route('therapists.delete', ['id' => $therapist->id]) }}" method="POST" class="delete-form d-inline">
             @csrf
             @method('DELETE')
             <button type="submit" class="delete-btn btn-ex-main btn-ex-red btn-ex-sm">削除</button>
           </form>
+        </div>
         </td>
       </tr>
       @endforeach

@@ -13,18 +13,18 @@
   <table id="careManagerTable" class="table table-bordered">
     <thead>
       <tr>
-        <th>名前 [編集] / カナ</th>
-        <th>サービス事業者名</th>
-        <th>住所 / TEL</th>
-        <th>データ登録日</th>
-        <th>削除</th>
+        <th class="text-center">名前 / カナ</th>
+        <th class="text-center">サービス事業者名</th>
+        <th class="text-center">住所 / TEL</th>
+        <th class="text-center">データ登録日</th>
+        <th class="text-center">操作</th>
       </tr>
     </thead>
     <tbody>
       @foreach($careManagers as $careManager)
       <tr>
         <td>
-          <a href="{{ route('caremanagers.edit', $careManager->id) }}">{{ $careManager->last_name }}{{ "\u{2000}" }}{{ $careManager->first_name }}［編集］</a><br>
+          {{ $careManager->last_name }}{{ "\u{2000}" }}{{ $careManager->first_name }}<br>
           {{ $careManager->last_name_kana }}{{ "\u{2000}" }}{{ $careManager->first_name_kana }}
         </td>
         <td>
@@ -43,12 +43,15 @@
           {{ $careManager->created_at ? \Carbon\Carbon::parse($careManager->created_at)->format('Y/n/j') : '' }}<br>
           {{ $careManager->created_at ? \Carbon\Carbon::parse($careManager->created_at)->format('H:i') : '' }}
         </td>
-        <td>
+        <td class="text-center">
+        <div class="d-flex flex-wrap justify-content-center gap-1">
+          <a class="btn-ex-main btn-ex-blue btn-ex-sm" href="{{ route('caremanagers.edit', $careManager->id) }}">編集</a>
           <form action="{{ route('caremanagers.delete', ['id' => $careManager->id]) }}" method="POST" class="delete-form d-inline">
             @csrf
             @method('DELETE')
             <button type="submit" class="delete-btn btn-ex-main btn-ex-red btn-ex-sm">削除</button>
           </form>
+        </div>
         </td>
       </tr>
       @endforeach
