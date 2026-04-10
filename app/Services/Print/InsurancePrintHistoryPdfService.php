@@ -211,7 +211,7 @@ class InsurancePrintHistoryPdfService extends BasePdfService
 
       // insurer_name の行数を wrapText で判定して行高を決定
       $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
-      $innerW   = $colW['insurer_name'] - 1.6 * 2;
+      $innerW    = $colW['insurer_name'] - 2.4;  // 左1.6 + 右0.8 パディング相当
       $nameLines = $this->wrapText($pdf, $insurerName, $innerW);
       $nameRows  = count($nameLines);
       $rowH      = self::ROW_H * $nameRows;
@@ -274,7 +274,7 @@ class InsurancePrintHistoryPdfService extends BasePdfService
       foreach ($nameLines as $li => $line) {
         $lineY = $currentY + $offsetY + $li * $linePitch;
         $pdf->SetXY($curX + 1.6, $lineY);
-        $pdf->Cell($innerW, 0, $line, 0, 0, 'L');
+        $pdf->Cell($nameColW - 1.6, 0, $line, 0, 0, 'L');
       }
 
       $pdf->SetTextColor(0, 0, 0);
