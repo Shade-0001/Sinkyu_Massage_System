@@ -35,8 +35,8 @@
 </div>
 
 @if(session('success'))
-<div id="flash-success" class="alert alert-success fs-5-5 position-fixed shadow text-center" role="alert"
-  style="top:100px; left:50%; transform:translateX(-50%); z-index:9999; min-width:320px; max-width:800px;">
+<div id="flash-success" class="alert alert-success fs-5-5 position-fixed start-0 end-0 mx-auto shadow text-center" role="alert"
+  style="top:140px; z-index:9999; width:60%;">
   {{ session('success') }}
 </div>
 <script>
