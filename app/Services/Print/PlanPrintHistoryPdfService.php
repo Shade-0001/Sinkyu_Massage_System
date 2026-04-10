@@ -244,11 +244,6 @@ class PlanPrintHistoryPdfService extends BasePdfService
     ];
     $y = $this->renderSectionTable($pdf, $y, 'その他の情報', $otherItems, $labelW, $valueW);
 
-    // ブロック下部に区切り線
-    $pdf->SetDrawColor(200, 200, 200);
-    $pdf->SetLineWidth(0.2);
-    $pdf->Line($x, $y + 2, $x + $colW, $y + 2);
-
     return $y;
   }
 
