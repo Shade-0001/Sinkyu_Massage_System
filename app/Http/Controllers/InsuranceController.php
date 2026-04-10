@@ -338,8 +338,8 @@ class InsuranceController extends Controller
         $pdf->SetMargins(10, 10, 10);
         $pdf->SetAutoPageBreak(TRUE, 10);
 
-        // 日本語フォント設定（M+ 1 Medium）
-        $pdf->SetFont('mplus1medium', '', 9);
+        // 日本語フォント設定
+        $pdf->SetFont('kozgopromedium', '', 9);
 
         // ページ追加
         $pdf->AddPage();
