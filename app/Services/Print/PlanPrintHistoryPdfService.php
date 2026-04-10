@@ -21,7 +21,7 @@ class PlanPrintHistoryPdfService extends BasePdfService
   const FONT_SIZE   = 11;
   const TITLE_SIZE  = 16;
   const SECTION_H   = 5;   // セクション高さ
-  const ITEM_H      = 5;   // 項目行高さ
+  const ITEM_H      = 7;   // 項目行高さ（フォント・パディング増加に対応）
   const BLOCK_MARGIN = 3;  // ブロック間マージン
 
   protected function getDefaultCoordinatesPath(): string
@@ -142,7 +142,9 @@ class PlanPrintHistoryPdfService extends BasePdfService
       $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
       $pdf->SetXY(self::MARGIN_X, $startY + 5);
       $pdf->SetTextColor(100, 100, 100);
+      $pdf->setCellPaddings(1, 0, 1, 0);
       $pdf->Cell(self::AVAILABLE_W, self::ITEM_H, 'データがありません');
+      $pdf->setCellPaddings(0, 0, 0, 0);
       $pdf->SetTextColor(0, 0, 0);
       return;
     }
@@ -189,7 +191,7 @@ class PlanPrintHistoryPdfService extends BasePdfService
     $x = self::MARGIN_X;
     $y = $startY + self::BLOCK_MARGIN;
     $colW = self::AVAILABLE_W;
-    $labelW = 60;  // ラベル幅
+    $labelW = 60;
     $valueW = $colW - $labelW;
 
     $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
@@ -197,21 +199,14 @@ class PlanPrintHistoryPdfService extends BasePdfService
     $pdf->SetLineWidth(0.1);
 
     // ▼ 評価基本情報セクション
-    $y = $this->renderSection($pdf, $y, '評価基本情報');
-
-    $items = [
+    $basicItems = [
       '評価日' => $this->formatDate($plan->assessment_date),
       '評価者' => $plan->assessor ?? '',
       '聴衆者' => $plan->audience ?? '',
     ];
-
-    foreach ($items as $label => $value) {
-      $y = $this->renderItem($pdf, $x, $y, $label, $value, $labelW, $valueW);
-    }
+    $y = $this->renderSectionTable($pdf, $y, '評価基本情報', $basicItems, $labelW, $valueW);
 
     // ▼ ADL評価セクション
-    $y = $this->renderSection($pdf, $y, 'ADL評価');
-
     $adlItems = [
       '摂食' => $plan->eating_level ?? '',
       '摂食備考' => $plan->eating_assistance_note ?? '',
@@ -234,14 +229,9 @@ class PlanPrintHistoryPdfService extends BasePdfService
       '排尿' => $plan->urination_level ?? '',
       '排尿備考' => $plan->urination_assistance_note ?? '',
     ];
-
-    foreach ($adlItems as $label => $value) {
-      $y = $this->renderItem($pdf, $x, $y, $label, $value, $labelW, $valueW);
-    }
+    $y = $this->renderSectionTable($pdf, $y, 'ADL評価', $adlItems, $labelW, $valueW);
 
     // ▼ その他の情報セクション
-    $y = $this->renderSection($pdf, $y, 'その他の情報');
-
     $otherItems = [
       'コミュニケーション' => $plan->communication_note ?? '',
       'ご本人・ご家族の希望' => $plan->wish_of_user_and_familiy ?? '',
@@ -252,10 +242,7 @@ class PlanPrintHistoryPdfService extends BasePdfService
       '障害・注意事項' => $plan->note ?? '',
       '本人・家族同意日' => $this->formatDate($plan->user_and_family_consent_date),
     ];
-
-    foreach ($otherItems as $label => $value) {
-      $y = $this->renderItem($pdf, $x, $y, $label, $value, $labelW, $valueW);
-    }
+    $y = $this->renderSectionTable($pdf, $y, 'その他の情報', $otherItems, $labelW, $valueW);
 
     // ブロック下部に区切り線
     $pdf->SetDrawColor(200, 200, 200);
@@ -266,42 +253,53 @@ class PlanPrintHistoryPdfService extends BasePdfService
   }
 
   /**
-   * セクションヘッダーを描画
+   * セクションテーブル描画（renderTable方式）
    */
-  protected function renderSection(Fpdi $pdf, float $y, string $title): float
+  protected function renderSectionTable(Fpdi $pdf, float $startY, string $sectionTitle, array $items, float $labelW, float $valueW): float
   {
     $x = self::MARGIN_X;
+    $y = $startY;
     $colW = self::AVAILABLE_W;
 
+    $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
+    $pdf->SetDrawColor(180, 180, 180);
+    $pdf->SetLineWidth(0.1);
+
+    // セクションヘッダー
     $pdf->SetFont('kozgopromedium', 'B', 11);
     $pdf->SetFillColor(240, 240, 240);
     $pdf->SetDrawColor(150, 150, 150);
     $pdf->SetLineWidth(0.1);
+    $pdf->setCellPaddings(1, 0, 1, 0);
 
     $pdf->SetXY($x, $y);
-    $pdf->Cell($colW, 4, $title, 1, 0, 'L', true);
+    $pdf->Cell($colW, 4, $sectionTitle, 1, 0, 'L', true);
 
-    return $y + 5;
-  }
+    $pdf->setCellPaddings(0, 0, 0, 0);
+    $y += 5;
 
-  /**
-   * ラベル値ペアを描画
-   */
-  protected function renderItem(Fpdi $pdf, float $x, float $y, string $label, string $value, float $labelW, float $valueW): float
-  {
+    // データ行ループ
     $pdf->SetFont('kozgopromedium', '', 10);
     $pdf->SetDrawColor(220, 220, 220);
     $pdf->SetLineWidth(0.05);
+    $pdf->SetFillColor(255, 255, 255);
 
-    // ラベルセル
-    $pdf->SetXY($x, $y);
-    $pdf->Cell($labelW, self::ITEM_H, $label, 1, 0, 'L');
+    foreach ($items as $label => $value) {
+      $pdf->setCellPaddings(1, 0, 1, 0);
 
-    // 値セル
-    $pdf->SetXY($x + $labelW, $y);
-    $pdf->Cell($valueW, self::ITEM_H, $value, 1, 0, 'L');
+      // ラベルセル
+      $pdf->SetXY($x, $y);
+      $pdf->Cell($labelW, self::ITEM_H, $label, 1, 0, 'L');
 
-    return $y + self::ITEM_H;
+      // 値セル
+      $pdf->SetXY($x + $labelW, $y);
+      $pdf->Cell($valueW, self::ITEM_H, $value, 1, 0, 'L');
+
+      $pdf->setCellPaddings(0, 0, 0, 0);
+      $y += self::ITEM_H;
+    }
+
+    return $y;
   }
 
   /**
