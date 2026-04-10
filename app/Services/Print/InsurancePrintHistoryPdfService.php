@@ -301,6 +301,7 @@ class InsurancePrintHistoryPdfService extends BasePdfService
    * 列幅を動的に計算
    * 各列の最小幅（ヘッダーラベル幅 + 左右パディング2mm）を確保した後、
    * 余り分を insurer_name に優先的に割り当てる
+   * 合計が AVAILABLE_W をちょうど埋めるよう調整
    */
   protected function calculateColumnWidths(Fpdi $pdf, array $headers): array
   {
@@ -329,16 +330,21 @@ class InsurancePrintHistoryPdfService extends BasePdfService
       $totalMinW       += $minW;
     }
 
-    // 余り分を計算
-    $remainder = self::AVAILABLE_W - $totalMinW;
-
-    // 余り分を insurer_name に全振り
-    if ($remainder > 0) {
-      $minWidths['insurer_name'] += $remainder;
+    // 合計が AVAILABLE_W を超えていないか確認し、オーバー分を insurer_name から減らす
+    $overW = $totalMinW - self::AVAILABLE_W;
+    if ($overW > 0) {
+      $minWidths['insurer_name'] = max(10, $minWidths['insurer_name'] - $overW);
+    } else {
+      // 余り分を insurer_name に全振り
+      $remainder = self::AVAILABLE_W - $totalMinW;
+      if ($remainder > 0) {
+        $minWidths['insurer_name'] += $remainder;
+      }
     }
 
     return $minWidths;
   }
+
 
   /**
    * セル幅に応じてテキストを折り返した行配列を返す（UserInfoBasicList準拠）
