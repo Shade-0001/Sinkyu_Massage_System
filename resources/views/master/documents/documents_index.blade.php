@@ -72,13 +72,7 @@
       $('.preview-btn').on('click', function() {
         var id = $(this).data('id');
         const url = '/master/documents/' + id + '/preview';
-        const windowName = 'DocumentPreviewPDF_' + new Date().getTime();
-        const w = Math.round(screen.width * 0.5);
-        const h = Math.round(screen.height * 0.90);
-        const left = Math.round((screen.width - w) / 2);
-        const top = Math.round((screen.height - h) / 2);
-        const windowFeatures = `popup=yes,width=${w},height=${h},left=${left},top=${top},menubar=yes,toolbar=yes,location=yes,status=yes,scrollbars=yes,resizable=yes`;
-        window.open(url, windowName, windowFeatures);
+        window.open(url, '_blank');
       });
 
       // 削除ボタン
