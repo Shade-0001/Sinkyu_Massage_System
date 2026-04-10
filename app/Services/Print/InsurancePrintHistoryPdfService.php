@@ -280,13 +280,14 @@ class InsurancePrintHistoryPdfService extends BasePdfService
         $blockH    = $fh * 2 + $lineGap;
         $blockTopY = $currentY + ($rowH - $blockH) / 2;
         $line1     = $this->truncateToFit($pdf, $insurerName, $innerW);
-        $rest      = mb_substr($insurerName, mb_strlen($line1));
+        $rest      = ltrim(mb_substr($insurerName, mb_strlen($line1)));
+        $textX     = $curX + ($nameW - $pdf->GetStringWidth($line1)) / 2;  // 1行目の左端X（中央配置基準）
         // 1行目
-        $pdf->SetXY($curX, $blockTopY);
-        $pdf->Cell($nameW, $fh, $line1, 0, 0, 'C');
-        // 2行目（同じ左端X、行間分だけ下）
-        $pdf->SetXY($curX, $blockTopY + $fh + $lineGap);
-        $pdf->Cell($nameW, $fh, $rest, 0, 0, 'C');
+        $pdf->SetXY($textX, $blockTopY);
+        $pdf->Cell($pdf->GetStringWidth($line1), $fh, $line1, 0, 0, 'L');
+        // 2行目（同じ左端X）
+        $pdf->SetXY($textX, $blockTopY + $fh + $lineGap);
+        $pdf->Cell($pdf->GetStringWidth($rest), $fh, $rest, 0, 0, 'L');
       }
 
       $pdf->SetTextColor(0, 0, 0);
