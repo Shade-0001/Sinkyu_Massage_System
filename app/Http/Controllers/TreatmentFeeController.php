@@ -76,7 +76,7 @@ class TreatmentFeeController extends Controller
 
     DB::table('treatment_fees')->insert($validated);
 
-    return redirect()->route('master.treatment-fees.index')->with('success', '登録完了');
+    return redirect()->route('master.treatment-fees.index')->with('success', 'データを登録しました。');
   }
 
   /**
@@ -143,7 +143,7 @@ class TreatmentFeeController extends Controller
       ->where('id', $id)
       ->update($validated);
 
-    return redirect()->route('master.treatment-fees.index')->with('success', '更新完了');
+    return redirect()->route('master.treatment-fees.index')->with('success', 'データを更新しました。');
   }
 
   /**
@@ -152,6 +152,6 @@ class TreatmentFeeController extends Controller
   public function destroy($id)
   {
     DB::table('treatment_fees')->where('id', $id)->delete();
-    return redirect()->route('master.treatment-fees.index')->with('success', '削除完了');
+    return redirect()->route('master.treatment-fees.index')->with('success', 'データを削除しました。');
   }
 }

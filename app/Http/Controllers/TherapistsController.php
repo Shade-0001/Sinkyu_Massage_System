@@ -103,7 +103,7 @@ class TherapistsController extends Controller
     // セッションから登録データを削除
     $request->session()->forget('therapists_registration_data');
 
-    return redirect()->route('therapists.index')->with('success', '施術者を登録しました。');
+    return redirect()->route('therapists.index')->with('success', 'データを登録しました。');
   }
 
   // 施術者編集画面表示
@@ -195,7 +195,7 @@ class TherapistsController extends Controller
     $request->session()->forget('therapists_edit_data');
     $request->session()->forget('therapists_edit_id');
 
-    return redirect()->route('therapists.index')->with('success', '施術者を更新しました。');
+    return redirect()->route('therapists.index')->with('success', 'データを更新しました。');
   }
 
   // 施術者のラベル取得
@@ -229,6 +229,6 @@ class TherapistsController extends Controller
   public function destroy($id)
   {
     DB::table('therapists')->where('id', $id)->delete();
-    return redirect()->route('therapists.index')->with('success', '施術者を削除しました。');
+    return redirect()->route('therapists.index')->with('success', 'データを削除しました。');
   }
 }

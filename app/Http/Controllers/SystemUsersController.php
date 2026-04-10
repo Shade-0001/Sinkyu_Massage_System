@@ -60,7 +60,7 @@ class SystemUsersController extends Controller
     ]);
 
     return redirect()->route('system-users.index')
-      ->with('success', 'ユーザーアカウントを登録しました。');
+      ->with('success', 'データを登録しました。');
   }
 
   /**
@@ -129,6 +129,6 @@ class SystemUsersController extends Controller
     ]);
 
     return redirect()->route('system-users.index')
-      ->with('success', 'ユーザーアカウントを更新しました。');
+      ->with('success', 'データを更新しました。');
   }
 }

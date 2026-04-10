@@ -105,7 +105,7 @@ class ClinicUserController extends Controller
         $request->session()->forget('registration_data');
 
         return redirect()->route('clinic-users.index')
-            ->with('success', '入力された内容を登録しました。');
+            ->with('success', 'データを登録しました。');
     }
 
     /**
@@ -180,7 +180,7 @@ class ClinicUserController extends Controller
         $request->session()->forget('edit_data');
 
         return redirect()->route('clinic-users.index')
-            ->with('success', '入力された内容を更新しました。');
+            ->with('success', 'データを更新しました。');
     }
 
     /**
@@ -195,7 +195,7 @@ class ClinicUserController extends Controller
         $clinicUser->delete();
 
         return redirect()->route('clinic-users.index')
-            ->with('success', '利用者を削除しました。');
+            ->with('success', 'データを削除しました。');
     }
 
     /**

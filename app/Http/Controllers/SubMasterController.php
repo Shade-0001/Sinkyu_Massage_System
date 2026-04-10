@@ -52,7 +52,7 @@ class SubMasterController extends Controller
       ->where('id', $id)
       ->update(['medical_institution_name' => $request->medical_institution_name]);
 
-    return redirect()->route('submaster.medical-institutions')->with('success', '更新完了');
+    return redirect()->route('submaster.medical-institutions')->with('success', 'データを更新しました。');
   }
 
   /**
@@ -66,7 +66,7 @@ class SubMasterController extends Controller
 
     DB::table('medical_institutions')->insert(['medical_institution_name' => $request->medical_institution_name]);
 
-    return redirect()->route('submaster.medical-institutions')->with('success', '登録完了');
+    return redirect()->route('submaster.medical-institutions')->with('success', 'データを登録しました。');
   }
 
   /**
@@ -75,7 +75,7 @@ class SubMasterController extends Controller
   public function destroyMedicalInstitution($id)
   {
     DB::table('medical_institutions')->where('id', $id)->delete();
-    return redirect()->route('submaster.medical-institutions')->with('success', '削除完了');
+    return redirect()->route('submaster.medical-institutions')->with('success', 'データを削除しました。');
   }
 
   /**
@@ -103,7 +103,7 @@ class SubMasterController extends Controller
       ->where('id', $id)
       ->update(['service_provider_name' => $request->service_provider_name]);
 
-    return redirect()->route('submaster.service-providers')->with('success', '更新完了');
+    return redirect()->route('submaster.service-providers')->with('success', 'データを更新しました。');
   }
 
   /**
@@ -117,7 +117,7 @@ class SubMasterController extends Controller
 
     DB::table('service_providers')->insert(['service_provider_name' => $request->service_provider_name]);
 
-    return redirect()->route('submaster.service-providers')->with('success', '登録完了');
+    return redirect()->route('submaster.service-providers')->with('success', 'データを登録しました。');
   }
 
   /**
@@ -126,7 +126,7 @@ class SubMasterController extends Controller
   public function destroyServiceProvider($id)
   {
     DB::table('service_providers')->where('id', $id)->delete();
-    return redirect()->route('submaster.service-providers')->with('success', '削除完了');
+    return redirect()->route('submaster.service-providers')->with('success', 'データを削除しました。');
   }
 
   /**
@@ -154,7 +154,7 @@ class SubMasterController extends Controller
       ->where('id', $id)
       ->update(['condition_name' => $request->condition_name]);
 
-    return redirect()->route('submaster.conditions')->with('success', '更新完了');
+    return redirect()->route('submaster.conditions')->with('success', 'データを更新しました。');
   }
 
   /**
@@ -168,7 +168,7 @@ class SubMasterController extends Controller
 
     DB::table('conditions')->insert(['condition_name' => $request->condition_name]);
 
-    return redirect()->route('submaster.conditions')->with('success', '登録完了');
+    return redirect()->route('submaster.conditions')->with('success', 'データを登録しました。');
   }
 
   /**
@@ -177,7 +177,7 @@ class SubMasterController extends Controller
   public function destroyCondition($id)
   {
     DB::table('conditions')->where('id', $id)->delete();
-    return redirect()->route('submaster.conditions')->with('success', '削除完了');
+    return redirect()->route('submaster.conditions')->with('success', 'データを削除しました。');
   }
 
   /**
@@ -205,7 +205,7 @@ class SubMasterController extends Controller
       ->where('id', $id)
       ->update(['illness_name' => $request->illness_name]);
 
-    return redirect()->route('submaster.illnesses-massage')->with('success', '更新完了');
+    return redirect()->route('submaster.illnesses-massage')->with('success', 'データを更新しました。');
   }
 
   /**
@@ -219,7 +219,7 @@ class SubMasterController extends Controller
 
     DB::table('illnesses_massage')->insert(['illness_name' => $request->illness_name]);
 
-    return redirect()->route('submaster.illnesses-massage')->with('success', '登録完了');
+    return redirect()->route('submaster.illnesses-massage')->with('success', 'データを登録しました。');
   }
 
   /**
@@ -228,6 +228,6 @@ class SubMasterController extends Controller
   public function destroyIllnessMassage($id)
   {
     DB::table('illnesses_massage')->where('id', $id)->delete();
-    return redirect()->route('submaster.illnesses-massage')->with('success', '削除完了');
+    return redirect()->route('submaster.illnesses-massage')->with('success', 'データを削除しました。');
   }
 }

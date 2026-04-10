@@ -37,7 +37,7 @@ class SelfFeeController extends Controller
         'amount' => $request->amount,
       ]);
 
-    return redirect()->route('master.self-fees.index')->with('success', '更新完了');
+    return redirect()->route('master.self-fees.index')->with('success', 'データを更新しました。');
   }
 
   /**
@@ -55,7 +55,7 @@ class SelfFeeController extends Controller
       'amount' => $request->amount,
     ]);
 
-    return redirect()->route('master.self-fees.index')->with('success', '登録完了');
+    return redirect()->route('master.self-fees.index')->with('success', 'データを登録しました。');
   }
 
   /**
@@ -64,6 +64,6 @@ class SelfFeeController extends Controller
   public function destroy($id)
   {
     DB::table('self_fees')->where('id', $id)->delete();
-    return redirect()->route('master.self-fees.index')->with('success', '削除完了');
+    return redirect()->route('master.self-fees.index')->with('success', 'データを削除しました。');
   }
 }

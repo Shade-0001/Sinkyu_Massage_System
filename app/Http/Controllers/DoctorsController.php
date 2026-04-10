@@ -117,7 +117,7 @@ class DoctorsController extends Controller
     // セッションから登録データを削除
     $request->session()->forget('doctors_registration_data');
 
-    return redirect()->route('doctors.index')->with('success', '医師を登録しました。');
+    return redirect()->route('doctors.index')->with('success', 'データを登録しました。');
   }
 
   // 医師編集画面表示
@@ -220,7 +220,7 @@ class DoctorsController extends Controller
     $request->session()->forget('doctors_edit_data');
     $request->session()->forget('doctors_edit_id');
 
-    return redirect()->route('doctors.index')->with('success', '医師を更新しました。');
+    return redirect()->route('doctors.index')->with('success', 'データを更新しました。');
   }
 
   // 医師複製画面表示
@@ -320,7 +320,7 @@ class DoctorsController extends Controller
     // セッションから複製データを削除
     $request->session()->forget('doctors_duplicate_data');
 
-    return redirect()->route('doctors.index')->with('success', '医師を複製登録しました。');
+    return redirect()->route('doctors.index')->with('success', 'データを複製しました。');
   }
 
   // 医師のラベル取得
@@ -348,6 +348,6 @@ class DoctorsController extends Controller
   public function destroy($id)
   {
     DB::table('doctors')->where('id', $id)->delete();
-    return redirect()->route('doctors.index')->with('success', '医師を削除しました。');
+    return redirect()->route('doctors.index')->with('success', 'データを削除しました。');
   }
 }

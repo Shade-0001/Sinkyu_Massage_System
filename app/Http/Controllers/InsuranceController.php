@@ -137,7 +137,7 @@ class InsuranceController extends Controller
         $request->session()->forget('insurances_registration_data');
 
         return redirect()->route('clinic-users.insurances.index', $id)
-            ->with('success', '保険情報を登録しました。');
+            ->with('success', 'データを登録しました。');
     }
 
     /**
@@ -214,7 +214,7 @@ class InsuranceController extends Controller
         $request->session()->forget('insurances_edit_data');
 
         return redirect()->route('clinic-users.insurances.index', $id)
-            ->with('success', '保険情報を更新しました。');
+            ->with('success', 'データを更新しました。');
     }
 
     /**
@@ -294,7 +294,7 @@ class InsuranceController extends Controller
         $request->session()->forget('insurances_duplicate_data');
 
         return redirect()->route('clinic-users.insurances.index', $id)
-            ->with('success', '保険情報を複製しました。');
+            ->with('success', 'データを複製しました。');
     }
 
     /**
@@ -306,7 +306,7 @@ class InsuranceController extends Controller
         $insurance->delete();
 
         return redirect()->route('clinic-users.insurances.index', $id)
-            ->with('success', '保険情報を削除しました。');
+            ->with('success', 'データを削除しました。');
     }
 
     /**

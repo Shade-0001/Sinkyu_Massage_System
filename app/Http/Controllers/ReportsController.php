@@ -220,7 +220,7 @@ class ReportsController extends Controller
           'scroll_year' => $validated['year'],
           'scroll_month' => $validated['month']
         ])
-        ->with('success', '報告書データを登録しました。');
+        ->with('success', 'データを登録しました。');
 
     } catch (\Exception $e) {
       DB::rollBack();
@@ -311,7 +311,7 @@ class ReportsController extends Controller
           'scroll_year' => $validated['year'],
           'scroll_month' => $validated['month']
         ])
-        ->with('success', '報告書データを更新しました。');
+        ->with('success', 'データを更新しました。');
 
     } catch (\Exception $e) {
       DB::rollBack();
@@ -408,7 +408,7 @@ class ReportsController extends Controller
           'scroll_year' => $validated['year'],
           'scroll_month' => $validated['month']
         ])
-        ->with('success', '報告書データを複製しました。');
+        ->with('success', 'データを複製しました。');
 
     } catch (\Exception $e) {
       DB::rollBack();
@@ -452,7 +452,7 @@ class ReportsController extends Controller
           'scroll_year' => $year,
           'scroll_month' => $month
         ])
-        ->with('success', '報告書データを削除しました。');
+        ->with('success', 'データを削除しました。');
 
     } catch (\Exception $e) {
       DB::rollBack();

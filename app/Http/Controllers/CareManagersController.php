@@ -124,7 +124,7 @@ class CareManagersController extends Controller
     // セッションから登録データを削除
     $request->session()->forget('caremanagers_registration_data');
 
-    return redirect()->route('caremanagers.index')->with('success', 'ケアマネを登録しました。');
+    return redirect()->route('caremanagers.index')->with('success', 'データを登録しました。');
   }
 
   // ケアマネ編集画面表示
@@ -231,7 +231,7 @@ class CareManagersController extends Controller
     $request->session()->forget('caremanagers_edit_data');
     $request->session()->forget('caremanagers_edit_id');
 
-    return redirect()->route('caremanagers.index')->with('success', 'ケアマネを更新しました。');
+    return redirect()->route('caremanagers.index')->with('success', 'データを更新しました。');
   }
 
   // ケアマネのラベル取得
@@ -260,6 +260,6 @@ class CareManagersController extends Controller
   public function destroy($id)
   {
     DB::table('caremanagers')->where('id', $id)->delete();
-    return redirect()->route('caremanagers.index')->with('success', 'ケアマネを削除しました。');
+    return redirect()->route('caremanagers.index')->with('success', 'データを削除しました。');
   }
 }

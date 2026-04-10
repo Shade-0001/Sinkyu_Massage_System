@@ -136,7 +136,7 @@ class ConsentAcupunctureController extends Controller
         $request->session()->forget('consents_acupuncture_registration_data');
 
         return redirect()->route('clinic-users.consents-acupuncture.index', $id)
-            ->with('success', '同意医師履歴が登録されました。');
+            ->with('success', 'データを登録しました。');
     }
 
     /**
@@ -216,7 +216,7 @@ class ConsentAcupunctureController extends Controller
         $request->session()->forget('consents_acupuncture_edit_data');
 
         return redirect()->route('clinic-users.consents-acupuncture.index', $id)
-            ->with('success', '同意医師履歴が更新されました。');
+            ->with('success', 'データを更新しました。');
     }
 
     /**
@@ -297,7 +297,7 @@ class ConsentAcupunctureController extends Controller
         $request->session()->forget('consents_acupuncture_duplicate_data');
 
         return redirect()->route('clinic-users.consents-acupuncture.index', $id)
-            ->with('success', '同意医師履歴が複製されました。');
+            ->with('success', 'データを複製しました。');
     }
 
     /**
@@ -309,7 +309,7 @@ class ConsentAcupunctureController extends Controller
         $history->delete();
 
         return redirect()->route('clinic-users.consents-acupuncture.index', $id)
-            ->with('success', '同意医師履歴が削除されました。');
+            ->with('success', 'データを削除しました。');
     }
 
     /**

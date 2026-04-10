@@ -48,7 +48,7 @@ class NoticesController extends Controller
     Notice::create($validated);
 
     return redirect()->route('notices.index')
-      ->with('success', 'お知らせを登録しました。');
+      ->with('success', 'データを登録しました。');
   }
 
   /**
@@ -80,7 +80,7 @@ class NoticesController extends Controller
     $notice->save();
 
     return redirect()->route('notices.index')
-      ->with('success', 'お知らせを更新しました。');
+      ->with('success', 'データを更新しました。');
   }
 
   /**
@@ -110,7 +110,7 @@ class NoticesController extends Controller
     Notice::create($validated);
 
     return redirect()->route('notices.index')
-      ->with('success', 'お知らせを複製しました。');
+      ->with('success', 'データを複製しました。');
   }
 
   /**
@@ -122,7 +122,7 @@ class NoticesController extends Controller
     $notice->delete();
 
     return redirect()->route('notices.index')
-      ->with('success', 'お知らせを削除しました。');
+      ->with('success', 'データを削除しました。');
   }
 
   // ─── ヘッダー通知API ─────────────────────────────────

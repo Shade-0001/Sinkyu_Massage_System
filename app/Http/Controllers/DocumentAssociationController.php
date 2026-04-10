@@ -111,6 +111,6 @@ class DocumentAssociationController extends Controller
       ]);
     }
 
-    return redirect()->route('master.document-association.index')->with('success', '関連付け完了');
+    return redirect()->route('master.document-association.index')->with('success', 'データを登録しました。');
   }
 }

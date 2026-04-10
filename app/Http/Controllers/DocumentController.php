@@ -113,7 +113,7 @@ class DocumentController extends Controller
         'updated_at' => now(),
       ]);
 
-    return redirect()->route('master.documents.index')->with('success', '文面情報を更新完了。');
+    return redirect()->route('master.documents.index')->with('success', 'データを更新しました。');
   }
 
   /**
@@ -151,7 +151,7 @@ class DocumentController extends Controller
       'updated_at' => now(),
     ]);
 
-    return redirect()->route('master.documents.index')->with('success', '登録完了');
+    return redirect()->route('master.documents.index')->with('success', 'データを登録しました。');
   }
 
   /**
@@ -160,7 +160,7 @@ class DocumentController extends Controller
   public function destroy($id)
   {
     DB::table('documents')->where('id', $id)->delete();
-    return redirect()->route('master.documents.index')->with('success', '削除完了');
+    return redirect()->route('master.documents.index')->with('success', 'データを削除しました。');
   }
 
   /**
@@ -225,7 +225,7 @@ class DocumentController extends Controller
       'updated_at' => now(),
     ]);
 
-    return redirect()->route('master.documents.index')->with('success', '文面を複製登録完了。');
+    return redirect()->route('master.documents.index')->with('success', 'データを複製しました。');
   }
 
   /**

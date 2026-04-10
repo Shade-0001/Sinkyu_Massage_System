@@ -111,7 +111,7 @@ class PlanController extends Controller
         $request->session()->forget('plan_infos_registration_data');
 
         return redirect()->route('clinic-users.plans.index', $id)
-            ->with('success', '計画情報を登録しました。');
+            ->with('success', 'データを登録しました。');
     }
 
     /**
@@ -190,7 +190,7 @@ class PlanController extends Controller
         $request->session()->forget('plan_infos_edit_data');
 
         return redirect()->route('clinic-users.plans.index', $id)
-            ->with('success', '計画情報を更新しました。');
+            ->with('success', 'データを更新しました。');
     }
 
     /**
@@ -269,7 +269,7 @@ class PlanController extends Controller
         $request->session()->forget('plan_infos_duplicate_data');
 
         return redirect()->route('clinic-users.plans.index', $id)
-            ->with('success', '計画情報を複製登録しました。');
+            ->with('success', 'データを複製しました。');
     }
 
     /**
@@ -281,7 +281,7 @@ class PlanController extends Controller
         $planInfo->delete();
 
         return redirect()->route('clinic-users.plans.index', $id)
-            ->with('success', '計画情報を削除しました。');
+            ->with('success', 'データを削除しました。');
     }
 
     /**

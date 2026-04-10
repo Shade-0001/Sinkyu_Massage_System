@@ -126,7 +126,7 @@ class CompanyInfoController extends Controller
       'updated_at' => now(),
     ]);
 
-    $message = '自社情報を登録しました。';
+    $message = 'データを登録しました。';
 
     // セッションから登録データを削除
     $request->session()->forget('company_info_data');

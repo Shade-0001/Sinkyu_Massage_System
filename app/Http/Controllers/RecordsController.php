@@ -280,12 +280,12 @@ class RecordsController extends Controller
         \Log::info('[DEBUG RecordsController::store] スケジュール画面へリダイレクト');
         return redirect()
           ->route('schedules.index')
-          ->with('success', '実績データを登録しました。');
+          ->with('success', 'データを登録しました。');
       } else {
         \Log::info('[DEBUG RecordsController::store] 実績データ画面へリダイレクト');
         return redirect()
           ->route('records.index', ['clinic_user_id' => $validated['clinic_user_id']])
-          ->with('success', '実績データを登録しました。');
+          ->with('success', 'データを登録しました。');
       }
 
     } catch (\Exception $e) {
@@ -464,11 +464,11 @@ class RecordsController extends Controller
       if ($request->input('from') === 'schedule') {
         return redirect()
           ->route('schedules.index')
-          ->with('success', '実績データを更新しました。');
+          ->with('success', 'データを更新しました。');
       } else {
         return redirect()
           ->route('records.index', ['clinic_user_id' => $validated['clinic_user_id']])
-          ->with('success', '実績データを更新しました。');
+          ->with('success', 'データを更新しました。');
       }
 
     } catch (\Exception $e) {
@@ -692,7 +692,7 @@ class RecordsController extends Controller
 
       return redirect()
         ->route('records.index', ['clinic_user_id' => $validated['clinic_user_id']])
-        ->with('success', '実績データを複製しました。');
+        ->with('success', 'データを複製しました。');
 
     } catch (\Exception $e) {
       return redirect()
@@ -746,7 +746,7 @@ class RecordsController extends Controller
 
       return redirect()
         ->route('records.index', ['clinic_user_id' => $record->clinic_user_id])
-        ->with('success', '実績データを削除しました。');
+        ->with('success', 'データを削除しました。');
 
     } catch (\Exception $e) {
       DB::rollBack();
