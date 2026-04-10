@@ -1,6 +1,6 @@
 @props(['title', 'breadcrumbs' => []])
 
-<div class="page-header mb-5">
+<div class="page-header mb-4">
   <h4 class="mb-2 fs-4 fw-semibold">
     {{ $title }}
   </h4>
@@ -16,7 +16,7 @@
               {{ $breadcrumb['label'] }}
             </a>
           @else
-            <span class="text-muted d-flex align-items-center gap-1">
+            <span class="fw-medium text-muted d-flex align-items-center gap-1">
               @if(isset($breadcrumb['icon']))<i class="{{ $breadcrumb['icon'] }}"></i>@endif
               {{ $breadcrumb['label'] }}
             </span>
@@ -31,7 +31,7 @@
   </nav>
   @endif
 
-  <hr class="border border-1 border-secondary opacity-50">
+  <hr class="border border-1 border-secondary opacity-50 mt-2">
 </div>
 
 @if(session('success'))
