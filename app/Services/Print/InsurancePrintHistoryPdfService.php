@@ -166,6 +166,11 @@ class InsurancePrintHistoryPdfService extends BasePdfService
     // 列幅を動的に計算（ヘッダーラベルとサンプルデータから最小幅を算出）
     $colW = $this->calculateColumnWidths($pdf, $headers);
 
+    // デバッグ: 列幅の合計確認
+    $totalW = array_sum($colW);
+    error_log("DEBUG: col widths sum = {$totalW}mm (insurer_name = {$colW['insurer_name']}mm)");
+
+
     // ヘッダー行
     $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
     $pdf->SetFillColor(230, 230, 230);
@@ -224,15 +229,18 @@ class InsurancePrintHistoryPdfService extends BasePdfService
         $pdf->AddPage();
         $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
         $pdf->SetFillColor(230, 230, 230);
+        $pdf->SetDrawColor(80, 80, 80);
+        $pdf->SetLineWidth(0.2);
         $pdf->setCellPaddings(1, 0, 1, 0);
+        $newPageHeaderY = 8;  // ページ上部の Y座標
         $curX = $x;
         foreach ($headers as $key => $label) {
-          $pdf->SetXY($curX, self::MARGIN_X);
+          $pdf->SetXY($curX, $newPageHeaderY);
           $pdf->Cell($colW[$key], self::HEADER_H, $label, 1, 0, 'C', true);
           $curX += $colW[$key];
         }
         $pdf->SetFillColor(255, 255, 255);
-        $currentY = self::MARGIN_X + self::HEADER_H;
+        $currentY = $newPageHeaderY + self::HEADER_H;
       }
 
       // 状態列の色
