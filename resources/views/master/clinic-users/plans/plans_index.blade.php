@@ -20,6 +20,11 @@
     <button class="btn-ex-main btn-ex-blue">計画情報新規登録</button>
   </a>
 
+  <!-- 計画情報一覧表印刷ボタン -->
+  <a href="{{ route('clinic-users.plans.print-history', $id) }}">
+    <button class="btn-ex-main btn-ex-blue">計画情報一覧表印刷</button>
+  </a>
+
   <br><br>
 
   <!-- 計画情報一覧テーブル -->

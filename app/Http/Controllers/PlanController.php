@@ -285,6 +285,27 @@ class PlanController extends Controller
     }
 
     /**
+     * 計画情報一覧表PDF出力
+     */
+    public function printHistory($id)
+    {
+        $clinicUser = ClinicUser::findOrFail($id);
+
+        $pdfService = new \App\Services\Print\PlanPrintHistoryPdfService();
+        $pdfBinary  = $pdfService->generateHistory($id);
+
+        $fileName = '計画情報一覧表_' . $clinicUser->last_name . $clinicUser->first_name . '_' . date('YmdHis') . '.pdf';
+
+        return response($pdfBinary, 200, [
+            'Content-Type'              => 'application/pdf',
+            'Content-Disposition'       => 'attachment; filename="' . $fileName . '"',
+            'Cache-Control'             => 'no-cache, no-store, must-revalidate',
+            'Pragma'                    => 'no-cache',
+            'Expires'                   => '0',
+        ]);
+    }
+
+    /**
      * 計画情報のバリデーションルール
      */
     private function getValidationRules()
