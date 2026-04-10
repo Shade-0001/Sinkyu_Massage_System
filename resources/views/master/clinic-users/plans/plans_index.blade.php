@@ -97,8 +97,15 @@
 
       // 計画情報一覧表印刷
       $('#printPlanHistory').on('click', function() {
-        const url = '{{ route('clinic-users.plans.print-history', $id) }}';
-        window.open(url, '_blank');
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+
+        const filename = `計画情報一覧表_${year}${month}${day}${hours}${minutes}.pdf`;
+        window.open(`{{ route('clinic-users.plans.print-history', $id) }}/${encodeURIComponent(filename)}`, '_blank');
       });
     });
   </script>
