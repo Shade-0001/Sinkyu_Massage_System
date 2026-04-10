@@ -47,6 +47,35 @@ class ClinicUserRequest extends FormRequest
   }
 
   /**
+   * フィールドのラベル名を定義
+   */
+  public function attributes(): array
+  {
+    return [
+      'last_name'                    => '姓',
+      'first_name'                   => '名',
+      'last_kana'                    => 'セイ',
+      'first_kana'                   => 'メイ',
+      'birthday'                     => '生年月日',
+      'age'                          => '年齢',
+      'gender_id'                    => '性別',
+      'postal_code'                  => '郵便番号',
+      'address_1'                    => '都道府県',
+      'address_2'                    => '市区町村番地以下',
+      'address_3'                    => 'アパート・マンション名等',
+      'phone'                        => '電話番号',
+      'cell_phone'                   => '携帯番号',
+      'fax'                          => 'FAX番号',
+      'email'                        => 'メールアドレス',
+      'housecall_distance'           => '往診距離',
+      'housecall_additional_distance' => '往診加算距離',
+      'is_redeemed'                  => '償還対象',
+      'application_count'            => '申請書提出開始回数',
+      'note'                         => 'メモ',
+    ];
+  }
+
+  /**
    * バリデーション前の処理（チェックボックスの変換）
    */
   protected function prepareForValidation(): void
