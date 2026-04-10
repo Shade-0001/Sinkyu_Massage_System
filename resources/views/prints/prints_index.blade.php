@@ -9,8 +9,6 @@
     :breadcrumbs="App\Support\Breadcrumbs::generate('prints.index')"
   />
 
-  <br>
-
   <div class="bg-gray-98 p-3 rounded-1 border border-black border-3 border-opacity-10 mb-4">
     <h5 class="text-nowrap">はり・きゅう関連</h5>
     <hr class="mt-0">

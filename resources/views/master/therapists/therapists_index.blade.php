@@ -5,13 +5,9 @@
     :breadcrumbs="App\Support\Breadcrumbs::generate('therapists.index')"
   />
 
-  <br>
-
   <a href="{{ route('therapists.create') }}">
     <button class="btn-ex-main btn-ex-blue">施術者新規登録</button>
   </a>
-
-  <br><br>
 
   <!-- 施術者一覧テーブル -->
   <table id="therapistTable" class="table table-bordered">

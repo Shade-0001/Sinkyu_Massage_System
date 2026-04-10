@@ -5,13 +5,9 @@
     :breadcrumbs="App\Support\Breadcrumbs::generate('system-users.index')"
   />
 
-  <br>
-
   <a href="{{ route('system-users.create') }}">
   <button class="btn-ex-main btn-ex-blue">新規登録</button>
   </a>
-
-  <br><br>
 
   <!-- ユーザーアカウント一覧テーブル -->
   <table id="systemUsersTable" class="table table-bordered">

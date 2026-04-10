@@ -5,13 +5,9 @@
     :breadcrumbs="App\Support\Breadcrumbs::generate('clinic-users.index')"
   />
 
-  <br>
-
   <a href="{{ route('clinic-users.create') }}">
   <button class="btn-ex-main btn-ex-blue">利用者新規登録</button>
   </a>
-
-  <br><br>
 
   <!-- 利用者一覧テーブル -->
   <table id="userTable" class="table table-bordered">

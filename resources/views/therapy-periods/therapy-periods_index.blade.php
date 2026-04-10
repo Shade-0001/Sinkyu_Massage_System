@@ -4,8 +4,6 @@
     :title="$page_header_title"
   />
 
-  <br>
-
   @if($errors->any())
   <div class="alert alert-danger">
     <ul>

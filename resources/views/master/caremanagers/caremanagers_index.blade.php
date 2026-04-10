@@ -5,13 +5,9 @@
     :breadcrumbs="App\Support\Breadcrumbs::generate('caremanagers.index')"
   />
 
-  <br>
-
   <a href="{{ route('caremanagers.create') }}">
     <button class="btn-ex-main btn-ex-blue">ケアマネ新規登録</button>
   </a>
-
-  <br><br>
 
   <!-- ケアマネ一覧テーブル -->
   <table id="careManagerTable" class="table table-bordered">

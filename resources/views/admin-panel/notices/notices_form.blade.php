@@ -18,8 +18,6 @@
     :breadcrumbs="App\Support\Breadcrumbs::generate($breadcrumb_key)"
   />
 
-  <br>
-
   @if($errors->any())
   <div class="alert alert-danger">
     <ul class="mb-0">

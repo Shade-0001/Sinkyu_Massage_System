@@ -29,7 +29,6 @@
       <button type="button" class="btn-ex-main btn-ex-blue btn-ex-sm ms-3" onclick="openUserSearchPopup()">利用者検索</button>
     </div>
   </form>
-  <br>
 
   @if ($errors->any())
     <div class="alert alert-danger">

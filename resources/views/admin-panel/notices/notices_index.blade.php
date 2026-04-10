@@ -5,13 +5,9 @@
     :breadcrumbs="App\Support\Breadcrumbs::generate('notices.index')"
   />
 
-  <br>
-
   <a href="{{ route('notices.create') }}">
   <button class="btn-ex-main btn-ex-blue">新規登録</button>
   </a>
-
-  <br><br>
 
   <!-- お知らせ一覧テーブル -->
   <table id="noticesTable" class="table table-bordered">

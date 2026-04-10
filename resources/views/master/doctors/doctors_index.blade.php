@@ -9,8 +9,6 @@
     <button class="btn-ex-main btn-ex-blue">医師新規登録</button>
   </a>
 
-  <br><br>
-
   <!-- 医師一覧テーブル -->
   <table id="doctorTable" class="table table-bordered">
   <thead>

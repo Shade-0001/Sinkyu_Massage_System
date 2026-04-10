@@ -5,8 +5,6 @@
     :breadcrumbs="App\Support\Breadcrumbs::generate('clinic-users.plans.index')"
   />
 
-  <br>
-
   @if($errors->any())
   <div class="alert alert-danger">
     <ul>
