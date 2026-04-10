@@ -41,16 +41,34 @@ class CareManagerRequest extends FormRequest
   }
 
   /**
+   * フィールドのラベル名を定義
+   */
+  public function attributes(): array
+  {
+    return [
+      'last_name'                    => '姓',
+      'first_name'                   => '名',
+      'last_name_kana'               => 'セイ',
+      'first_name_kana'              => 'メイ',
+      'service_providers_id'         => '事業所',
+      'service_provider_name_custom' => '事業所名（新規）',
+      'postal_code'                  => '郵便番号',
+      'address_1'                    => '都道府県',
+      'address_2'                    => '市区町村番地以下',
+      'address_3'                    => 'アパート・マンション名等',
+      'phone'                        => '電話番号',
+      'cell_phone'                   => '携帯番号',
+      'fax'                          => 'FAX番号',
+      'email'                        => 'メールアドレス',
+      'note'                         => 'メモ',
+    ];
+  }
+
+  /**
    * カスタムエラーメッセージ
    */
   public function messages(): array
   {
-    return [
-      'last_name.required' => '姓は必須です。',
-      'last_name.max' => '姓は255文字以内で入力してください。',
-      'first_name.required' => '名は必須です。',
-      'first_name.max' => '名は255文字以内で入力してください。',
-      'email.email' => '正しいメールアドレス形式で入力してください。',
-    ];
+    return [];
   }
 }

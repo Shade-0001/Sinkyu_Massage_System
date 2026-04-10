@@ -71,16 +71,39 @@ class TherapistRequest extends FormRequest
   }
 
   /**
+   * フィールドのラベル名を定義
+   */
+  public function attributes(): array
+  {
+    return [
+      'last_name'                   => '姓',
+      'first_name'                  => '名',
+      'last_name_kana'              => 'セイ',
+      'first_name_kana'             => 'メイ',
+      'postal_code'                 => '郵便番号',
+      'address_1'                   => '都道府県',
+      'address_2'                   => '市区町村番地以下',
+      'address_3'                   => 'アパート・マンション名等',
+      'phone'                       => '電話番号',
+      'cell_phone'                  => '携帯番号',
+      'fax'                         => 'FAX番号',
+      'email'                       => 'メールアドレス',
+      'license_hari_code_number'    => '免許番号（はり）',
+      'license_hari_issued_date'    => '免許交付日（はり）',
+      'license_kyu_code_number'     => '免許番号（きゅう）',
+      'license_kyu_issued_date'     => '免許交付日（きゅう）',
+      'license_massage_code_number' => '免許番号（マッサージ）',
+      'license_massage_issued_date' => '免許交付日（マッサージ）',
+      'member_number'               => '会員番号',
+      'note'                        => 'メモ',
+    ];
+  }
+
+  /**
    * カスタムエラーメッセージ
    */
   public function messages(): array
   {
-    return [
-      'last_name.required' => '姓は必須です。',
-      'last_name.max' => '姓は255文字以内で入力してください。',
-      'first_name.required' => '名は必須です。',
-      'first_name.max' => '名は255文字以内で入力してください。',
-      'email.email' => '正しいメールアドレス形式で入力してください。',
-    ];
+    return [];
   }
 }

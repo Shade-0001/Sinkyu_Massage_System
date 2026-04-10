@@ -14,6 +14,17 @@ class ProfileUpdateRequest extends FormRequest
    *
    * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
    */
+  /**
+   * フィールドのラベル名を定義
+   */
+  public function attributes(): array
+  {
+    return [
+      'name'  => '名前',
+      'email' => 'メールアドレス',
+    ];
+  }
+
   public function rules(): array
   {
     return [

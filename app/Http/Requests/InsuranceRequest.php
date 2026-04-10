@@ -61,6 +61,43 @@ class InsuranceRequest extends FormRequest
   }
 
   /**
+   * フィールドのラベル名を定義
+   */
+  public function attributes(): array
+  {
+    return [
+      'insurance_type_1'                  => '保険種別１',
+      'insurance_type_2'                  => '保険種別２',
+      'insurance_type_3'                  => '保険種別３',
+      'insured_person_type'               => '被保険者区分',
+      'insured_number'                    => '被保険者番号',
+      'code_number'                       => '記号',
+      'account_number'                    => '番号',
+      'locality_code'                     => '地区コード',
+      'recipient_code'                    => '受給者番号',
+      'license_acquisition_date'          => '資格取得日',
+      'certification_date'                => '認定日',
+      'issue_date'                        => '交付年月日',
+      'expenses_borne_ratio'              => '負担割合',
+      'expiry_date'                       => '有効期限',
+      'is_redeemed'                       => '償還対象',
+      'insured_name'                      => '被保険者氏名',
+      'relationship_with_clinic_user'     => '続柄',
+      'is_healthcare_subsidized'          => '医療費助成対象',
+      'public_funds_payer_code'           => '公費負担者番号',
+      'public_funds_recipient_code'       => '公費受給者番号',
+      'locality_code_family'              => '地区コード（家族）',
+      'recipient_code_family'             => '受給者番号（家族）',
+      'selected_insurer'                  => '保険者',
+      'new_insurer_number'                => '保険者番号',
+      'new_insurer_name'                  => '保険者名',
+      'new_postal_code'                   => '郵便番号',
+      'new_address'                       => '所在地',
+      'new_recipient_name'                => '給付担当者名',
+    ];
+  }
+
+  /**
    * カスタムエラーメッセージ
    */
   public function messages(): array

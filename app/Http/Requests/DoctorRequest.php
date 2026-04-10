@@ -41,18 +41,36 @@ class DoctorRequest extends FormRequest
   }
 
   /**
+   * フィールドのラベル名を定義
+   */
+  public function attributes(): array
+  {
+    return [
+      'last_name'                      => '姓',
+      'first_name'                     => '名',
+      'last_name_kana'                 => 'セイ',
+      'first_name_kana'                => 'メイ',
+      'medical_institutions_id'        => '医療機関',
+      'new_medical_institution_name'   => '医療機関名（新規）',
+      'postal_code'                    => '郵便番号',
+      'address_1'                      => '都道府県',
+      'address_2'                      => '市区町村番地以下',
+      'address_3'                      => 'アパート・マンション名等',
+      'phone'                          => '電話番号',
+      'cell_phone'                     => '携帯番号',
+      'fax'                            => 'FAX番号',
+      'email'                          => 'メールアドレス',
+      'note'                           => 'メモ',
+    ];
+  }
+
+  /**
    * カスタムエラーメッセージ
    */
   public function messages(): array
   {
     return [
-      'last_name.required' => '姓は必須です。',
-      'last_name.max' => '姓は255文字以内で入力してください。',
-      'first_name.max' => '名は255文字以内で入力してください。',
-      'last_name_kana.max' => 'セイは255文字以内で入力してください。',
-      'first_name_kana.max' => 'メイは255文字以内で入力してください。',
       'medical_institutions_id.exists' => '選択された医療機関が存在しません。',
-      'email.email' => '正しいメールアドレス形式で入力してください。',
     ];
   }
 }
