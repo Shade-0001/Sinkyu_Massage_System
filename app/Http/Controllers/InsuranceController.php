@@ -136,13 +136,8 @@ class InsuranceController extends Controller
         // セッションをクリア
         $request->session()->forget('insurances_registration_data');
 
-        return view('registration-done', [
-            'page_header_title' => '保険情報登録完了',
-            'message' => '保険情報を登録しました。',
-            'index_route' => 'clinic-users.insurances.index',
-            'index_id' => $id,
-            'list_route' => null
-        ])->with('index_id', $id);
+        return redirect()->route('clinic-users.insurances.index', $id)
+            ->with('success', '保険情報を登録しました。');
     }
 
     /**

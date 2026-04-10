@@ -110,13 +110,8 @@ class PlanController extends Controller
 
         $request->session()->forget('plan_infos_registration_data');
 
-        return view('registration-done', [
-            'page_header_title' => '計画情報登録完了',
-            'message' => '計画情報を登録しました。',
-            'index_route' => 'clinic-users.plans.index',
-            'index_id' => $id,
-            'list_route' => null
-        ]);
+        return redirect()->route('clinic-users.plans.index', $id)
+            ->with('success', '計画情報を登録しました。');
     }
 
     /**
@@ -273,13 +268,8 @@ class PlanController extends Controller
 
         $request->session()->forget('plan_infos_duplicate_data');
 
-        return view('registration-done', [
-            'page_header_title' => '計画情報複製完了',
-            'message' => '計画情報を複製登録しました。',
-            'index_route' => 'clinic-users.plans.index',
-            'index_id' => $id,
-            'list_route' => null
-        ]);
+        return redirect()->route('clinic-users.plans.index', $id)
+            ->with('success', '計画情報を複製登録しました。');
     }
 
     /**

@@ -104,13 +104,8 @@ class ClinicUserController extends Controller
         // セッションをクリア
         $request->session()->forget('registration_data');
 
-        return view('registration-done', [
-            'page_header_title' => '利用者登録完了',
-            'message' => '入力された内容を登録しました。',
-            'index_route' => 'clinic-users.index',
-            'index_id' => null,
-            'list_route' => null
-        ]);
+        return redirect()->route('clinic-users.index')
+            ->with('success', '入力された内容を登録しました。');
     }
 
     /**
@@ -184,13 +179,8 @@ class ClinicUserController extends Controller
         // セッションをクリア
         $request->session()->forget('edit_data');
 
-        return view('registration-done', [
-            'page_header_title' => '利用者更新完了',
-            'message' => '入力された内容を更新しました。',
-            'index_route' => 'clinic-users.index',
-            'index_id' => null,
-            'list_route' => null
-        ]);
+        return redirect()->route('clinic-users.index')
+            ->with('success', '入力された内容を更新しました。');
     }
 
     /**
