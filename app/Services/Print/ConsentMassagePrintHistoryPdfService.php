@@ -25,15 +25,15 @@ class ConsentMassagePrintHistoryPdfService extends BasePdfService
   // カラム幅（合計 281mm）
   const COL_WIDTHS = [
     'status'              => 12,
-    'doctor'              => 46,
-    'consenting_date'     => 26,
-    'start_date'          => 26,
-    'end_date'            => 26,
-    'benefit_start'       => 26,
-    'benefit_end'         => 26,
-    'first_care'          => 26,
-    'reconsenting_expiry' => 26,
-    'registered_at'       => 15,
+    'doctor'              => 54,
+    'consenting_date'     => 28,
+    'start_date'          => 28,
+    'end_date'            => 28,
+    'benefit_start'       => 28,
+    'benefit_end'         => 28,
+    'first_care'          => 28,
+    'reconsenting_expiry' => 28,
+    'registered_at'       => 19,
   ];
 
   protected function getDefaultCoordinatesPath(): string

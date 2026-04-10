@@ -25,20 +25,20 @@ class InsurancePrintHistoryPdfService extends BasePdfService
   // カラム幅（合計 281mm）
   const COL_WIDTHS = [
     'status'            => 10,
-    'insurance_type'    => 20,
-    'insured_number'    => 24,
-    'license_date'      => 18,
-    'certification_date'=> 18,
-    'issue_date'        => 18,
-    'copayment'         => 13,
-    'expiry_date'       => 18,
-    'household_name'    => 16,  // -4
-    'insured_name'      => 16,  // -4
-    'subsidized'        => 10,  // -2
-    'public_payer'      => 22,
-    'public_recipient'  => 22,
-    'insurer_number'    => 24,
-    'insurer_name'      => 32,  // +10（はみ出し対策）
+    'insurance_type'    => 18,
+    'insured_number'    => 22,
+    'license_date'      => 17,
+    'certification_date'=> 17,
+    'issue_date'        => 17,
+    'copayment'         => 12,
+    'expiry_date'       => 17,
+    'household_name'    => 15,
+    'insured_name'      => 15,
+    'subsidized'        => 10,
+    'public_payer'      => 20,
+    'public_recipient'  => 20,
+    'insurer_number'    => 22,
+    'insurer_name'      => 49,
   ];
 
   protected function getDefaultCoordinatesPath(): string
