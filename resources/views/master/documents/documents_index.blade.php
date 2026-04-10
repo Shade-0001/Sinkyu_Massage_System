@@ -15,13 +15,10 @@
   <table id="documentsTable" class="table table-bordered">
     <thead>
       <tr>
-        <th style="width: 12%;">文書カテゴリ</th>
-        <th style="width: 35%;">文面名称</th>
-        <th style="width: 13%;">登録日時</th>
-        <th style="width: 10%;">プレビュー</th>
-        <th style="width: 10%;">編集</th>
-        <th style="width: 10%;">複製</th>
-        <th style="width: 10%;">削除</th>
+        <th class="text-center" style="width: 12%;">文書カテゴリ</th>
+        <th class="text-center" style="width: 35%;">文面名称</th>
+        <th class="text-center" style="width: 13%;">登録日時</th>
+        <th class="text-center">操作</th>
       </tr>
     </thead>
     <tbody>
@@ -30,17 +27,13 @@
         <td>{{ $item->document_category }}</td>
         <td>{{ $item->document_name }}</td>
         <td>{{ $item->created_at ? \Carbon\Carbon::parse($item->created_at)->format('Y-m-d H:i') : '' }}</td>
-        <td style="text-align: center;">
-          <button type="button" class="preview-btn" data-id="{{ $item->id }}">プレビュー</button>
-        </td>
-        <td style="text-align: center;">
-          <button type="button" class="edit-btn" data-id="{{ $item->id }}">編集</button>
-        </td>
-        <td style="text-align: center;">
-          <button type="button" class="duplicate-btn" data-id="{{ $item->id }}">複製</button>
-        </td>
-        <td style="text-align: center;">
-          <button type="button" class="delete-btn" data-id="{{ $item->id }}">削除</button>
+        <td class="text-center">
+        <div class="d-flex flex-wrap justify-content-center gap-1">
+          <button type="button" class="preview-btn btn-ex-main btn-ex-blue btn-ex-sm" data-id="{{ $item->id }}">プレビュー</button>
+          <button type="button" class="edit-btn btn-ex-main btn-ex-blue btn-ex-sm" data-id="{{ $item->id }}">編集</button>
+          <button type="button" class="duplicate-btn btn-ex-main btn-ex-blue btn-ex-sm" data-id="{{ $item->id }}">複製</button>
+          <button type="button" class="delete-btn btn-ex-main btn-ex-red btn-ex-sm" data-id="{{ $item->id }}">削除</button>
+        </div>
         </td>
       </tr>
       @endforeach
@@ -54,7 +47,7 @@
       var table = initDataTable('#documentsTable', {
         order: [[2, 'desc']],
         columnDefs: [
-          { orderable: false, targets: [3, 4, 5, 6] }
+          { orderable: false, targets: [3] }
         ]
       });
 

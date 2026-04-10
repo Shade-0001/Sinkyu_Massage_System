@@ -28,27 +28,23 @@
   <table id="consentingTable" class="table table-bordered">
   <thead>
     <tr>
-    <th>同意医師名</th>
-    <th>同意日</th>
-    <th>同意開始日</th>
-    <th>同意終了日</th>
-    <th>データ登録日</th>
-    <th>複製</th>
-    <th>削除</th>
+    <th class="text-center">同意医師名</th>
+    <th class="text-center">同意日</th>
+    <th class="text-center">同意開始日</th>
+    <th class="text-center">同意終了日</th>
+    <th class="text-center">データ登録日</th>
+    <th class="text-center">操作</th>
     </tr>
   </thead>
   <tbody>
     @forelse($consentingHistories as $history)
     <tr>
       <td>
-      <a href="{{ route('clinic-users.consents-massage.edit', ['id' => $id, 'history_id' => $history->id]) }}">
-        @if($history->consentingDoctor)
-          {{ $history->consentingDoctor->doctor_name }}
-        @else
-          同意医師未設定
-        @endif
-        [編集]
-      </a>
+      @if($history->consentingDoctor)
+        {{ $history->consentingDoctor->doctor_name }}
+      @else
+        同意医師未設定
+      @endif
       </td>
       <td data-order="{{ $history->consenting_date ? strtotime($history->consenting_date) : 0 }}">
       @if($history->consenting_date)
@@ -68,20 +64,21 @@
       <td data-order="{{ strtotime($history->created_at) }}">
       {{ \Carbon\Carbon::parse($history->created_at)->format('Y/n/j') }}
       </td>
-      <td>
-      <a href="{{ route('clinic-users.consents-massage.duplicate', ['id' => $id, 'history_id' => $history->id]) }}">[複製]</a>
-      </td>
-      <td>
-      <form action="{{ route('clinic-users.consents-massage.delete', ['id' => $id, 'history_id' => $history->id]) }}" method="POST" class="delete-form d-inline">
-        @csrf
-        @method('DELETE')
-        <button type="submit" class="delete-btn btn-ex-main btn-ex-red btn-ex-sm">削除</button>
-      </form>
+      <td class="text-center">
+      <div class="d-flex flex-wrap justify-content-center gap-1">
+        <a class="btn-ex-main btn-ex-blue btn-ex-sm" href="{{ route('clinic-users.consents-massage.edit', ['id' => $id, 'history_id' => $history->id]) }}">編集</a>
+        <a class="btn-ex-main btn-ex-blue btn-ex-sm" href="{{ route('clinic-users.consents-massage.duplicate', ['id' => $id, 'history_id' => $history->id]) }}">複製</a>
+        <form action="{{ route('clinic-users.consents-massage.delete', ['id' => $id, 'history_id' => $history->id]) }}" method="POST" class="delete-form d-inline">
+          @csrf
+          @method('DELETE')
+          <button type="submit" class="delete-btn btn-ex-main btn-ex-red btn-ex-sm">削除</button>
+        </form>
+      </div>
       </td>
     </tr>
     @empty
     <tr>
-      <td colspan="7" class="text-center">データがありません</td>
+      <td colspan="6" class="text-center">データがありません</td>
     </tr>
     @endforelse
   </tbody>

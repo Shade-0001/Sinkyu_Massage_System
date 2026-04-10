@@ -14,11 +14,11 @@ $(document).ready(function() {
           next: '<span class="nf nf-fa-caret_right fs-5"></span>'
         }
       },
-      order: [[3, 'desc']], // データ登録日の降順
+      order: [[4, 'desc']], // データ登録日の降順
       pageLength: 10,
       lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
       columnDefs: [
-        { orderable: false, targets: [4, 5] } // 複製・削除列はソート無効
+        { orderable: false, targets: [5] } // 操作列はソート無効
       ]
     });
   }

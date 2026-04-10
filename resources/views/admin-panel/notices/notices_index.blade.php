@@ -17,8 +17,7 @@
     <th class="text-center text-nowrap">作成日</th>
     <th class="text-center">タイトル</th>
     <th class="text-center">内容</th>
-    <th class="text-center">編集</th>
-    <th class="text-center">削除</th>
+    <th class="text-center">操作</th>
     </tr>
   </thead>
   <tbody>
@@ -30,16 +29,16 @@
       </td>
       <td>{{ $notice->title }}</td>
       <td>{{ $notice->content }}</td>
-      <td>
+      <td class="text-center">
+      <div class="d-flex flex-wrap justify-content-center gap-1">
         <a class="btn-ex-main btn-ex-blue btn-ex-sm" href="{{ route('notices.edit', ['id' => $notice->id]) }}">編集</a>
         <a class="btn-ex-main btn-ex-blue btn-ex-sm" href="{{ route('notices.duplicate', ['id' => $notice->id]) }}">複製</a>
-      </td>
-      <td>
-      <form action="{{ route('notices.delete', ['id' => $notice->id]) }}" method="POST" class="delete-form d-inline">
-        @csrf
-        @method('DELETE')
-        <button type="submit" class="delete-btn btn-ex-main btn-ex-red btn-ex-sm">削除</button>
-      </form>
+        <form action="{{ route('notices.delete', ['id' => $notice->id]) }}" method="POST" class="delete-form d-inline">
+          @csrf
+          @method('DELETE')
+          <button type="submit" class="delete-btn btn-ex-main btn-ex-red btn-ex-sm">削除</button>
+        </form>
+      </div>
       </td>
     </tr>
     @endforeach
@@ -53,7 +52,7 @@
       initDataTable('#noticesTable', {
         order: [[0, 'desc']],
         columnDefs: [
-          { orderable: false, targets: [4, 5] }
+          { orderable: false, targets: [4] }
         ]
       });
 

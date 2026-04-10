@@ -28,21 +28,18 @@
   <table id="insuranceTable" class="table table-bordered">
   <thead>
     <tr>
-    <th>保険区分</th>
-    <th>被保険番号</th>
-    <th>資格取得日</th>
-    <th>有効期限</th>
-    <th>データ登録日</th>
-    <th>複製</th>
-    <th>削除</th>
+    <th class="text-center">保険区分</th>
+    <th class="text-center">被保険番号</th>
+    <th class="text-center">資格取得日</th>
+    <th class="text-center">有効期限</th>
+    <th class="text-center">データ登録日</th>
+    <th class="text-center">操作</th>
     </tr>
   </thead>
   <tbody>
     @forelse($insurances as $insurance)
     <tr>
-      <td>
-      <a href="{{ route('clinic-users.insurances.edit', ['id' => $id, 'insurance_id' => $insurance->id]) }}">{{ $insurance->insurer?->insurer_category ?? '保険' }} [編集]</a>
-      </td>
+      <td>{{ $insurance->insurer?->insurer_category ?? '保険' }}</td>
       <td>{{ $insurance->insured_number }}</td>
       <td data-order="{{ $insurance->license_acquisition_date ? $insurance->license_acquisition_date->timestamp : 0 }}">
       @if($insurance->license_acquisition_date)
@@ -57,20 +54,21 @@
       <td data-order="{{ $insurance->created_at->timestamp }}">
       {{ $insurance->created_at->format('Y/n/j') }}
       </td>
-      <td>
-      <a href="{{ route('clinic-users.insurances.duplicate', ['id' => $id, 'insurance_id' => $insurance->id]) }}">[複製]</a>
-      </td>
-      <td>
-      <form action="{{ route('clinic-users.insurances.delete', ['id' => $id, 'insurance_id' => $insurance->id]) }}" method="POST" class="delete-form d-inline">
-        @csrf
-        @method('DELETE')
-        <button type="submit" class="delete-btn btn-ex-main btn-ex-red btn-ex-sm">削除</button>
-      </form>
+      <td class="text-center">
+      <div class="d-flex flex-wrap justify-content-center gap-1">
+        <a class="btn-ex-main btn-ex-blue btn-ex-sm" href="{{ route('clinic-users.insurances.edit', ['id' => $id, 'insurance_id' => $insurance->id]) }}">編集</a>
+        <a class="btn-ex-main btn-ex-blue btn-ex-sm" href="{{ route('clinic-users.insurances.duplicate', ['id' => $id, 'insurance_id' => $insurance->id]) }}">複製</a>
+        <form action="{{ route('clinic-users.insurances.delete', ['id' => $id, 'insurance_id' => $insurance->id]) }}" method="POST" class="delete-form d-inline">
+          @csrf
+          @method('DELETE')
+          <button type="submit" class="delete-btn btn-ex-main btn-ex-red btn-ex-sm">削除</button>
+        </form>
+      </div>
       </td>
     </tr>
     @empty
     <tr>
-      <td colspan="7" class="text-center">データがありません</td>
+      <td colspan="6" class="text-center">データがありません</td>
     </tr>
     @endforelse
   </tbody>
@@ -89,7 +87,7 @@
         initDataTable('#insuranceTable', {
           order: [[4, 'desc']], // データ登録日の降順
           columnDefs: [
-            { orderable: false, targets: [5, 6] } // 複製・削除列はソート無効
+            { orderable: false, targets: [5] } // 操作列はソート無効
           ]
         });
       }

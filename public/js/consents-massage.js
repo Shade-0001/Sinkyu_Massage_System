@@ -18,7 +18,7 @@ $(document).ready(function() {
       pageLength: 10,
       lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
       columnDefs: [
-        { orderable: false, targets: [5, 6] } // 複製・削除列はソート無効
+        { orderable: false, targets: [5] } // 操作列はソート無効
       ]
     });
   }

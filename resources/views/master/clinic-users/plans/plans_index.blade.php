@@ -26,25 +26,21 @@
   <table id="planInfoTable" class="table table-bordered">
   <thead>
     <tr>
-    <th>評価日</th>
-    <th>評価者</th>
-    <th>聴衆者</th>
-    <th>ADL合計</th>
-    <th>データ登録日</th>
-    <th>複製</th>
-    <th>削除</th>
+    <th class="text-center">評価日</th>
+    <th class="text-center">評価者</th>
+    <th class="text-center">聴衆者</th>
+    <th class="text-center">ADL合計</th>
+    <th class="text-center">データ登録日</th>
+    <th class="text-center">操作</th>
     </tr>
   </thead>
   <tbody>
     @forelse($planInfos as $planInfo)
     <tr>
       <td data-order="{{ $planInfo->assessment_date ? strtotime($planInfo->assessment_date) : 0 }}">
-      <a href="{{ route('clinic-users.plans.edit', ['id' => $id, 'plan_id' => $planInfo->id]) }}">
-        @if($planInfo->assessment_date)
-          {{ \Carbon\Carbon::parse($planInfo->assessment_date)->format('Y/n/j') }}
-        @endif
-        [編集]
-      </a>
+      @if($planInfo->assessment_date)
+        {{ \Carbon\Carbon::parse($planInfo->assessment_date)->format('Y/n/j') }}
+      @endif
       </td>
       <td>{{ $planInfo->assessor }}</td>
       <td>{{ $planInfo->audience }}</td>
@@ -52,20 +48,21 @@
       <td data-order="{{ strtotime($planInfo->created_at) }}">
       {{ \Carbon\Carbon::parse($planInfo->created_at)->format('Y/n/j') }}
       </td>
-      <td>
-      <a href="{{ route('clinic-users.plans.duplicate', ['id' => $id, 'plan_id' => $planInfo->id]) }}">[複製]</a>
-      </td>
-      <td>
-      <form action="{{ route('clinic-users.plans.delete', ['id' => $id, 'plan_id' => $planInfo->id]) }}" method="POST" class="delete-form d-inline">
-        @csrf
-        @method('DELETE')
-        <button type="submit" class="delete-btn btn-ex-main btn-ex-red btn-ex-sm">削除</button>
-      </form>
+      <td class="text-center">
+      <div class="d-flex flex-wrap justify-content-center gap-1">
+        <a class="btn-ex-main btn-ex-blue btn-ex-sm" href="{{ route('clinic-users.plans.edit', ['id' => $id, 'plan_id' => $planInfo->id]) }}">編集</a>
+        <a class="btn-ex-main btn-ex-blue btn-ex-sm" href="{{ route('clinic-users.plans.duplicate', ['id' => $id, 'plan_id' => $planInfo->id]) }}">複製</a>
+        <form action="{{ route('clinic-users.plans.delete', ['id' => $id, 'plan_id' => $planInfo->id]) }}" method="POST" class="delete-form d-inline">
+          @csrf
+          @method('DELETE')
+          <button type="submit" class="delete-btn btn-ex-main btn-ex-red btn-ex-sm">削除</button>
+        </form>
+      </div>
       </td>
     </tr>
     @empty
     <tr>
-      <td colspan="7" class="text-center">データがありません</td>
+      <td colspan="6" class="text-center">データがありません</td>
     </tr>
     @endforelse
   </tbody>
