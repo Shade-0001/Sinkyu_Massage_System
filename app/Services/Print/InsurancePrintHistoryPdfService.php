@@ -22,23 +22,23 @@ class InsurancePrintHistoryPdfService extends BasePdfService
   const FONT_SIZE   = 8;
   const TITLE_SIZE  = 14;
 
-  // カラム幅（合計 281mm）
-  const COL_WIDTHS = [
-    'status'            => 10,
-    'insurance_type'    => 21,
-    'insured_number'    => 21,
-    'license_date'      => 18,
-    'certification_date'=> 13,
-    'issue_date'        => 13,
-    'copayment'         => 16,
-    'expiry_date'       => 16,
-    'household_name'    => 18,
-    'insured_name'      => 21,
-    'subsidized'        => 16,
-    'public_payer'      => 21,
-    'public_recipient'  => 21,
-    'insurer_number'    => 18,
-    'insurer_name'      => 38,
+  // 代表データ（列幅計算用）insurer_name は折り返し前提なのでラベル幅のみ使用
+  const COL_SAMPLE_DATA = [
+    'status'             => ['最新', '履歴'],
+    'insurance_type'     => ['協会けんぽ', '後期高齢者', '国保組合'],
+    'insured_number'     => ['12345678901234'],
+    'license_date'       => ['2025/12/31'],
+    'certification_date' => ['2025/12/31'],
+    'issue_date'         => ['2025/12/31'],
+    'copayment'          => ['3割'],
+    'expiry_date'        => ['2025/12/31'],
+    'household_name'     => ['山田　太郎'],
+    'insured_name'       => ['山田　太郎'],
+    'subsidized'         => ['非対象'],
+    'public_payer'       => ['12345678901'],
+    'public_recipient'   => ['12345678901'],
+    'insurer_number'     => ['123456789'],
+    'insurer_name'       => null,  // 折り返し前提のためラベル幅のみ
   ];
 
   protected function getDefaultCoordinatesPath(): string
@@ -145,7 +145,6 @@ class InsurancePrintHistoryPdfService extends BasePdfService
   protected function renderTable(Fpdi $pdf, array $insurances, float $startY): void
   {
     $x       = self::MARGIN_X;
-    $colW    = self::COL_WIDTHS;
     $headers = [
       'status'             => '状態',
       'insurance_type'     => '保険区分',
@@ -163,6 +162,9 @@ class InsurancePrintHistoryPdfService extends BasePdfService
       'insurer_number'     => '保険者番号',
       'insurer_name'       => '保険者名',
     ];
+
+    // 列幅を動的に計算（ヘッダーラベルとサンプルデータから最小幅を算出）
+    $colW = $this->calculateColumnWidths($pdf, $headers);
 
     // ヘッダー行
     $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
@@ -293,6 +295,49 @@ class InsurancePrintHistoryPdfService extends BasePdfService
       $pdf->Cell($totalW, self::ROW_H, 'データがありません', 1, 0, 'C');
       $pdf->SetTextColor(0, 0, 0);
     }
+  }
+
+  /**
+   * 列幅を動的に計算
+   * 各列の最小幅（ヘッダーラベル幅 + 左右パディング2mm）を確保した後、
+   * 余り分を insurer_name に優先的に割り当てる
+   */
+  protected function calculateColumnWidths(Fpdi $pdf, array $headers): array
+  {
+    $pad         = 2.0;  // 左右パディング合計（mm）
+    $minWidths   = [];
+    $totalMinW   = 0;
+
+    // 各列の最小幅を計算（ヘッダーラベル + サンプルデータの最大幅）
+    foreach ($headers as $key => $label) {
+      $labelW = $pdf->GetStringWidth($label);
+
+      // insurer_name は折り返し前提のためラベル幅のみ、他はサンプルデータとの比較
+      if ($key === 'insurer_name') {
+        $minW = ceil($labelW + $pad);
+      } else {
+        $sampleData = self::COL_SAMPLE_DATA[$key] ?? [];
+        if (is_array($sampleData) && !empty($sampleData)) {
+          $dataW = max(array_map(fn($s) => $pdf->GetStringWidth($s), $sampleData));
+          $minW  = ceil(max($labelW, $dataW) + $pad);
+        } else {
+          $minW = ceil($labelW + $pad);
+        }
+      }
+
+      $minWidths[$key] = $minW;
+      $totalMinW       += $minW;
+    }
+
+    // 余り分を計算
+    $remainder = self::AVAILABLE_W - $totalMinW;
+
+    // 余り分を insurer_name に全振り
+    if ($remainder > 0) {
+      $minWidths['insurer_name'] += $remainder;
+    }
+
+    return $minWidths;
   }
 
   /**
