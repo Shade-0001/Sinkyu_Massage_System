@@ -13,10 +13,10 @@
   <table id="doctorTable" class="table table-bordered">
   <thead>
     <tr>
-    <th>名前 / カナ</th>
-    <th>医療機関名</th>
-    <th>住所 / TEL</th>
-    <th>データ登録日</th>
+    <th class="text-center">名前 / カナ</th>
+    <th class="text-center">医療機関名</th>
+    <th class="text-center">住所 / TEL</th>
+    <th class="text-center">データ登録日</th>
     <th class="text-center">操作</th>
     </tr>
   </thead>
@@ -44,15 +44,15 @@
       {{ $doctor->created_at ? \Carbon\Carbon::parse($doctor->created_at)->format('H:i') : '' }}
       </td>
       <td class="text-center">
-      <div class="d-flex flex-wrap justify-content-center gap-1">
-        <a class="btn-ex-main btn-ex-blue btn-ex-sm" href="{{ route('doctors.edit', $doctor->id) }}">編集</a>
-        <a class="btn-ex-main btn-ex-green btn-ex-sm" href="{{ route('doctors.duplicate', $doctor->id) }}">複製</a>
-        <form action="{{ route('doctors.delete', ['id' => $doctor->id]) }}" method="POST" class="delete-form d-inline">
-          @csrf
-          @method('DELETE')
-          <button type="submit" class="delete-btn btn-ex-main btn-ex-red btn-ex-sm">削除</button>
-        </form>
-      </div>
+        <div class="d-flex flex-wrap justify-content-center gap-1">
+          <a class="btn-ex-main btn-ex-blue btn-ex-sm" href="{{ route('doctors.edit', $doctor->id) }}">編集</a>
+          <a class="btn-ex-main btn-ex-blue btn-ex-sm" href="{{ route('doctors.duplicate', $doctor->id) }}">複製</a>
+          <form action="{{ route('doctors.delete', ['id' => $doctor->id]) }}" method="POST" class="delete-form d-inline">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="delete-btn btn-ex-main btn-ex-red btn-ex-sm">削除</button>
+          </form>
+        </div>
       </td>
     </tr>
     @endforeach
