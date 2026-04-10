@@ -214,9 +214,8 @@ class ConsentAcupuncturePrintHistoryPdfService extends BasePdfService
       ];
 
       foreach ($cells as $key => $val) {
-        $align = ($key === 'status') ? 'C' : 'L';
         $pdf->SetXY($curX, $currentY);
-        $pdf->Cell($colW[$key], self::ROW_H, $val, 1, 0, $align);
+        $pdf->Cell($colW[$key], self::ROW_H, $val, 1, 0, 'C', false, '', 0, false, 'T', 'M');
         $curX += $colW[$key];
       }
 

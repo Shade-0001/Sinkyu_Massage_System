@@ -255,15 +255,34 @@ class InsurancePrintHistoryPdfService extends BasePdfService
       $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
       $curX = $x;
       foreach ($cells as $key => $val) {
-        $align = \in_array($key, ['status', 'copayment', 'subsidized']) ? 'C' : 'L';
         $pdf->SetXY($curX, $currentY);
-        $pdf->Cell($colW[$key], $rowH, $val, 1, 0, $align, false, '', 0, false, 'T', 'M');
+        $pdf->Cell($colW[$key], $rowH, $val, 1, 0, 'C', false, '', 0, false, 'T', 'M');
         $curX += $colW[$key];
       }
 
-      // insurer_name: 折り返しあり（MultiCell）
+      // insurer_name: 枠を rowH で描いてからテキストを手動で折り返し配置
+      $nameW  = $colW['insurer_name'];
+      $innerW = $nameW - 1.6 * 2;
       $pdf->SetXY($curX, $currentY);
-      $pdf->MultiCell($colW['insurer_name'], self::ROW_H, $insurerName, 1, 'L', false, 0, '', '', true, 0, false, true, $rowH, 'M');
+      $pdf->Cell($nameW, $rowH, '', 1, 0, 'C');  // 枠のみ
+      if ($nameRows === 1) {
+        // 1行：垂直中央
+        $textY = $currentY + ($rowH - self::FONT_SIZE * 0.352777) / 2;
+        $pdf->SetXY($curX + 1.6, $textY);
+        $pdf->Cell($innerW, self::FONT_SIZE * 0.352777, $insurerName, 0, 0, 'C');
+      } else {
+        // 2行：上半分・下半分それぞれ垂直中央
+        $lineH = $rowH / 2;
+        $fh    = self::FONT_SIZE * 0.352777;
+        // 1行目
+        $line1 = $this->truncateToFit($pdf, $insurerName, $innerW);
+        $rest  = mb_substr($insurerName, mb_strlen($line1));
+        $pdf->SetXY($curX + 1.6, $currentY + ($lineH - $fh) / 2);
+        $pdf->Cell($innerW, $fh, $line1, 0, 0, 'C');
+        // 2行目
+        $pdf->SetXY($curX + 1.6, $currentY + $lineH + ($lineH - $fh) / 2);
+        $pdf->Cell($innerW, $fh, $rest, 0, 0, 'C');
+      }
 
       $pdf->SetTextColor(0, 0, 0);
       $currentY += $rowH;
@@ -277,6 +296,21 @@ class InsurancePrintHistoryPdfService extends BasePdfService
       $pdf->Cell($totalW, self::ROW_H, 'データがありません', 1, 0, 'C');
       $pdf->SetTextColor(0, 0, 0);
     }
+  }
+
+  /**
+   * 指定幅に収まる最大の文字列を返す（折り返し1行目用）
+   */
+  protected function truncateToFit(Fpdi $pdf, string $text, float $maxW): string
+  {
+    $len = mb_strlen($text);
+    for ($i = $len; $i > 0; $i--) {
+      $sub = mb_substr($text, 0, $i);
+      if ($pdf->GetStringWidth($sub) <= $maxW) {
+        return $sub;
+      }
+    }
+    return '';
   }
 
   /**
