@@ -209,12 +209,12 @@ class InsurancePrintHistoryPdfService extends BasePdfService
 
       $insurerName = $ins->insurer_name ?? '';
 
-      // insurer_name が1行に収まるか判定して行高を決定
+      // insurer_name の行数を wrapText で判定して行高を決定
       $pdf->SetFont('kozgopromedium', '', self::FONT_SIZE);
-      $nameW    = $pdf->GetStringWidth($insurerName);
       $innerW   = $colW['insurer_name'] - 1.6 * 2;
-      $nameRows = ($nameW > $innerW) ? 2 : 1;
-      $rowH     = self::ROW_H * $nameRows;
+      $nameLines = $this->wrapText($pdf, $insurerName, $innerW);
+      $nameRows  = count($nameLines);
+      $rowH      = self::ROW_H * $nameRows;
 
       // ページ溢れチェック
       if ($currentY + $rowH > $bottomLimit) {
@@ -263,31 +263,18 @@ class InsurancePrintHistoryPdfService extends BasePdfService
         $curX += $colW[$key];
       }
 
-      // insurer_name: 枠を rowH で描いてからテキストを手動で折り返し配置
-      $nameW  = $colW['insurer_name'];
-      $innerW = $nameW - 1.6 * 2;
+      // insurer_name: 枠を rowH で描いてからテキストを wrapText で折り返し配置
+      $nameColW  = $colW['insurer_name'];
       $pdf->SetXY($curX, $currentY);
-      $pdf->Cell($nameW, $rowH, '', 1, 0, 'C');  // 枠のみ
-      $fh = self::FONT_SIZE * 0.352777;  // 1行のテキスト高さ（mm）
-      if ($nameRows === 1) {
-        // 1行：セル全体の垂直中央
-        $textY = $currentY + ($rowH - $fh) / 2;
-        $pdf->SetXY($curX, $textY);
-        $pdf->Cell($nameW, $fh, $insurerName, 0, 0, 'C');
-      } else {
-        // 2行：2行まとめてセル垂直中央に配置（行間 = 1pt相当）
-        $lineGap   = 1 * 0.352777;  // 1pt行間
-        $blockH    = $fh * 2 + $lineGap;
-        $blockTopY = $currentY + ($rowH - $blockH) / 2;
-        $line1     = $this->truncateToFit($pdf, $insurerName, $innerW);
-        $rest      = ltrim(mb_substr($insurerName, mb_strlen($line1)));
-        $textX     = $curX + ($nameW - $pdf->GetStringWidth($line1)) / 2;  // 1行目の左端X（中央配置基準）
-        // 1行目
-        $pdf->SetXY($textX, $blockTopY);
-        $pdf->Cell($pdf->GetStringWidth($line1), $fh, $line1, 0, 0, 'L');
-        // 2行目（同じ左端X）
-        $pdf->SetXY($textX, $blockTopY + $fh + $lineGap);
-        $pdf->Cell($pdf->GetStringWidth($rest), $fh, $rest, 0, 0, 'L');
+      $pdf->Cell($nameColW, $rowH, '', 1, 0, 'C');  // 枠のみ
+      $fh        = self::FONT_SIZE * 0.352 * 1.25;   // 1行のテキスト高さ（mm）
+      $linePitch = 3.2;                               // 折り返し行ピッチ（LINE_PITCH準拠）
+      $totalTextH = $nameRows > 1 ? $fh + ($nameRows - 1) * $linePitch : $fh;
+      $offsetY    = ($rowH - $totalTextH) / 2;
+      foreach ($nameLines as $li => $line) {
+        $lineY = $currentY + $offsetY + $li * $linePitch;
+        $pdf->SetXY($curX + 1.6, $lineY);
+        $pdf->Cell($innerW, 0, $line, 0, 0, 'L');
       }
 
       $pdf->SetTextColor(0, 0, 0);
@@ -305,18 +292,28 @@ class InsurancePrintHistoryPdfService extends BasePdfService
   }
 
   /**
-   * 指定幅に収まる最大の文字列を返す（折り返し1行目用）
+   * セル幅に応じてテキストを折り返した行配列を返す（UserInfoBasicList準拠）
    */
-  protected function truncateToFit(Fpdi $pdf, string $text, float $maxW): string
+  protected function wrapText(Fpdi $pdf, string $text, float $innerW): array
   {
-    $len = mb_strlen($text);
-    for ($i = $len; $i > 0; $i--) {
-      $sub = mb_substr($text, 0, $i);
-      if ($pdf->GetStringWidth($sub) <= $maxW) {
-        return $sub;
+    if ($text === '') {
+      return [''];
+    }
+    $lines = [];
+    $chars = preg_split('//u', $text, -1, PREG_SPLIT_NO_EMPTY);
+    $line  = '';
+    foreach ($chars as $ch) {
+      if ($pdf->GetStringWidth($line . $ch) > $innerW) {
+        $lines[] = $line;
+        $line    = $ch;
+      } else {
+        $line .= $ch;
       }
     }
-    return '';
+    if ($line !== '') {
+      $lines[] = $line;
+    }
+    return $lines;
   }
 
   /**
