@@ -1,4 +1,3 @@
-# GitHub Copilot Custom Instructions
 〈 対話･文章スタイル関連ルール 〉
 ◆  共通事項
 　▪  当ルール読み込み完了時にテキスト "📄 Custom rules loaded." を出力。

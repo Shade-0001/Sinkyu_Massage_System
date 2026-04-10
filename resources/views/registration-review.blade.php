@@ -9,7 +9,7 @@
 
   <h4 class="mb-4">以下の内容で登録します。</h4>
 
-  <div class="d-flex flex-column gap-3 container ms-0">
+  <div class="d-flex flex-column gap-4 container ms-0">
     @foreach($labels as $key => $label)
       {{-- データに存在するキーのみ表示 --}}
       @if(array_key_exists($key, $data))
@@ -17,7 +17,7 @@
         <div class="form-label-tab">{{ $label }}</div>
         <div class="form-field px-3 py-2">
           <div class="form-field-top"></div>
-          <div class="fw-medium fs-5-5">
+          <div class="fw-medium">
             @if(isset($data[$key]) && $data[$key] !== null && $data[$key] !== '')
               @if($key === 'gender_id')
                 {{ $data[$key] == 1 ? '男性' : ($data[$key] == 2 ? '女性' : '') }}

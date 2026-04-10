@@ -178,7 +178,7 @@
 }
 
 /*──────────────────────────────────────────────*/
-/*  ボーダーラディウス                            */
+/*  角丸                                        */
 /*──────────────────────────────────────────────*/
 .rounded-tl-0 { border-top-left-radius: 0 !important; }
 .rounded-tr-0 { border-top-right-radius: 0 !important; }

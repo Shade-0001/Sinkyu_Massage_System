@@ -19,7 +19,7 @@
   <input type="hidden" name="id" value="{{ $clinicUser->id }}">
   @endif
 
-  <div class="d-flex flex-column gap-3 container ms-0">
+  <div class="d-flex flex-column gap-4 container ms-0">
 
     {{-- 氏名 --}}
     <div>
