@@ -719,7 +719,11 @@
   --btn-br-br: 9999px;
 }
 
-.btn-ex-rounded-
+/* テキスト折り返し */
+.btn-ex-text-wrap {
+  text-wrap: balance !important;
+  text-align: center;
+}
 
 /* メインEXボタン - トグル効果 - カラー変更 */
 /* トグル効果使用方法：
