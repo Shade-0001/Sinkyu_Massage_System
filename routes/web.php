@@ -27,6 +27,10 @@ use App\Http\Controllers\DepositsController;
 use App\Http\Controllers\PrintsController;
 use App\Http\Controllers\NoticesController;
 use App\Http\Controllers\SystemUsersController;
+use App\Models\ClinicUser;
+use App\Models\Doctor;
+use App\Models\Therapist;
+use App\Models\CareManager;
 
 Route::get('/', fn() => redirect()->route('login'));
 
@@ -41,7 +45,14 @@ Route::middleware('auth')->group(function () {
 
 	Route::view('/index', 'index')->name('index');
 
-	Route::view('/master/index', 'master.master_index')->name('master.index');
+	Route::get('/master/index', function () {
+    return view('master.master_index', [
+      'clinicUserCount' => ClinicUser::count(),
+      'doctorCount'     => Doctor::count(),
+      'therapistCount'  => Therapist::count(),
+      'careManagerCount'=> CareManager::count(),
+    ]);
+  })->name('master.index');
 
   // システム管理（is_admin=1のみアクセス可）
   Route::middleware('admin')->group(function () {
