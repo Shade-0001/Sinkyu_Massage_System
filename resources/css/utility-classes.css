@@ -472,6 +472,37 @@
 }
 
 /*----------------------------------------------*/
+/*  EXボタン - スキンクラス（外観のみ・挙動なし）  */
+/*  btn-ex-main/btn-ex-sub の子要素に使用         */
+/*  CSS変数は親のbtn-ex-main/btn-ex-subから継承   */
+/*----------------------------------------------*/
+.btn-ex-skin {
+  background-color: var(--btn-bg-color-base);
+  color: var(--btn-text-color-base);
+  font-size: var(--btn-font-size, var(--btn-font-size-base));
+  font-weight: var(--btn-font-weight, var(--btn-font-weight-base));
+  padding: var(--btn-padding-y, var(--btn-padding-y-base)) var(--btn-padding-x, var(--btn-padding-x-base));
+  border-radius: var(--btn-br-tl, var(--btn-br-tl-base)) var(--btn-br-tr, var(--btn-br-tr-base)) var(--btn-br-br, var(--btn-br-br-base)) var(--btn-br-bl, var(--btn-br-bl-base));
+  border: none;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-wrap: nowrap;
+  line-height: 1;
+  vertical-align: middle;
+  box-shadow:
+    inset var(--btn-shadow-size) var(--btn-shadow-size) 1px var(--btn-shadow-color-light-base),
+    inset 0 var(--btn-shadow-size) 1px var(--btn-shadow-color-light-base),
+    inset var(--btn-shadow-size) 0 1px var(--btn-shadow-color-light-base),
+    inset var(--btn-shadow-size) var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-mid-base),
+    inset var(--btn-shadow-size-neg) var(--btn-shadow-size) 1px var(--btn-shadow-color-mid-base),
+    inset var(--btn-shadow-size-neg) 0 1px var(--btn-shadow-color-dark-base),
+    inset 0 var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-dark-base),
+    inset var(--btn-shadow-size-neg) var(--btn-shadow-size-neg) 1px var(--btn-shadow-color-dark-base);
+}
+
+/*----------------------------------------------*/
 /*  EXボタン - サブEXボタン                      */
 /*----------------------------------------------*/
 .btn-ex-sub {
@@ -721,7 +752,7 @@
 
 /* テキスト折り返し */
 .btn-ex-text-wrap {
-  text-wrap: balance !important;
+  text-wrap: balance;
   text-align: center;
 }
 
