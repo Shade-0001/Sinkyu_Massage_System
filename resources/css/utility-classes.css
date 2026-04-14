@@ -199,9 +199,13 @@
 /*──────────────────────────────────────────────*/
 .fs-5-5 { font-size: 1.125rem !important; }
 .fs-6-5 { font-size: 0.9375rem !important; }
-/* .fs-7 { font-size: 0.875rem !important; } = .small */
+.fs-7 { font-size: 0.875rem !important; } /* = .small */
 .fs-7-5 { font-size: 0.8125rem !important; }
 .fs-8 { font-size: 0.75rem !important; }
+.fs-8-5 { font-size: 0.6875rem !important; }
+.fs-9 { font-size: 0.625rem !important; }
+.fs-9-5 { font-size: 0.5625rem !important; }
+.fs-10 { font-size: 0.5rem !important; }
 
 /*──────────────────────────────────────────────*/
 /*  フォントカラー（グレースケール）               */
@@ -258,27 +262,39 @@
 /*──────────────────────────────────────────────*/
 /*  スペーシング                                 */
 /*──────────────────────────────────────────────*/
+/* パディング */
 /* p-0.25 */
 .p-025 { padding: 0.0625rem !important; }
 .pt-025 { padding-top: 0.0625rem !important; }
 .pb-025 { padding-bottom: 0.0625rem !important; }
 .pl-025 { padding-left: 0.0625rem !important; }
 .pr-025 { padding-right: 0.0625rem !important; }
-
 /* p-0.5 */
 .p-05 { padding: 0.125rem !important; }
 .pt-05 { padding-top: 0.125rem !important; }
 .pb-05 { padding-bottom: 0.125rem !important; }
 .pl-05 { padding-left: 0.125rem !important; }
 .pr-05 { padding-right: 0.125rem !important; }
+/* p-1.5 */
+.p-1-5 { padding: 0.375rem !important; }
+.pt-1-5 { padding-top: 0.375rem !important; }
+.pb-1-5 { padding-bottom: 0.375rem !important; }
+.pl-1-5 { padding-left: 0.375rem !important; }
+.pr-1-5 { padding-right: 0.375rem !important; }
+/* p-2.5 */
+.p-2-5 { padding: 0.75rem !important; }
+.pt-2-5 { padding-top: 0.75rem !important; }
+.pb-2-5 { padding-bottom: 0.75rem !important; }
+.pl-2-5 { padding-left: 0.75rem !important; }
+.pr-2-5 { padding-right: 0.75rem !important; }
 
+/* マージン */
 /* m-0.25 */
 .m-025 { margin: 0.0625rem !important; }
 .mt-025 { margin-top: 0.0625rem !important; }
 .mb-025 { margin-bottom: 0.0625rem !important; }
 .ml-025 { margin-left: 0.0625rem !important; }
 .mr-025 { margin-right: 0.0625rem !important; }
-
 /* m-0.5 */
 .m-05 { margin: 0.125rem !important; }
 .mt-05 { margin-top: 0.125rem !important; }
@@ -649,6 +665,10 @@
 /* btn-ex-main/btn-ex-sub の子要素に使用 */
 /* CSS変数は親のbtn-ex-main/btn-ex-subから継承 */
 .btn-ex-skin {
+  --btn-shadow-size: var(--btn-shadow-size-base);
+  --btn-shadow-size-neg: calc(var(--btn-shadow-size) * -1);
+  --btn-shadow-size-half: calc(var(--btn-shadow-size) / 1.5);
+  --btn-shadow-size-half-neg: calc(var(--btn-shadow-size) / 1.5 * -1);
   background-color: var(--btn-bg-color-base);
   color: var(--btn-text-color-base);
   font-size: var(--btn-font-size, var(--btn-font-size-base));
@@ -688,7 +708,7 @@
 .btn-ex-purple { --btn-bg-color-base: #b164e4; }
 .btn-ex-gray { --btn-bg-color-base: hsl(200, 8%, 50%); }
 .btn-ex-gray-light { --btn-bg-color-base: hsl(200, 8%, 60%); }
-.btn-ex-white { --btn-bg-color-base: hsl(200, 100%, 99.5%); --btn-text-color-base: hsl(0, 0%, 30%); }
+.btn-ex-white { --btn-bg-color-base: hsl(200, 100%, 99.5%); --btn-text-color-base: hsl(0, 0%, 35%); }
 
 /* サイズ */
 .btn-ex-xs {
