@@ -303,6 +303,14 @@
 .mr-05 { margin-right: 0.125rem !important; }
 
 /* ネガティブマージン */
+/* n05: -0.125rem */
+.m-n05 { margin: -0.125rem !important; }
+.my-n05 { margin-top: -0.125rem !important; margin-bottom: -0.125rem !important; }
+.mx-n05 { margin-left: -0.125rem !important; margin-right: -0.125rem !important; }
+.mt-n05 { margin-top: -0.125rem !important; }
+.mb-n05 { margin-bottom: -0.125rem !important; }
+.ml-n05 { margin-left: -0.125rem !important; }
+.mr-n05 { margin-right: -0.125rem !important; }
 /* n1: -0.25rem */
 .m-n1  { margin: -0.25rem !important; }
 .my-n1 { margin-top: -0.25rem !important; margin-bottom: -0.25rem !important; }
@@ -347,6 +355,15 @@
 /*──────────────────────────────────────────────*/
 /*  サイジング                                   */
 /*──────────────────────────────────────────────*/
+/* 最大幅 */
+.mw-25 { max-width: 25% !important; }
+.mw-50 { max-width: 50% !important; }
+.mw-75 { max-width: 75% !important; }
+/* 最小幅 */
+.mw-25 { min-width: 25% !important; }
+.mw-50 { min-width: 50% !important; }
+.mw-75 { min-width: 75% !important; }
+
 /* アスペクト比 - 正方形 */
 .aspect-square { width: auto; aspect-ratio: 1 / 1; } /*高さに合わせて幅を調整*/
 

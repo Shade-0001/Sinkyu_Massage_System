@@ -21,7 +21,7 @@
 }
 
 :root {
-  --bs-body-color: #3a3a3a;
+  --bs-body-color: #3A3A3A;
 }
 
 /* リンク下線の削除 */
@@ -107,7 +107,6 @@ table.table-bordered.dataTable {
   border-bottom-width: var(--table-border-width) !important;
   border-color: var(--table-border-color) !important;
 }
-
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
 
@@ -639,34 +638,3 @@ html[data-sidebar="closed"] #sidebar-content {
   cursor: default;
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

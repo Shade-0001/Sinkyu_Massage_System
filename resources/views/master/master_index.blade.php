@@ -10,8 +10,7 @@
   />
   
   
-  <div class="row g-3 m-3" style="max-width: 30%;">
-    <div class="col-12 btn-ex-main btn-ex-blue">ボタン</div>
+  <div class="row g-3 m-3">
     <div class="col-12">
       <a href="{{ route('clinic-users.index') }}" class="btn-ex-main btn-ex-blue btn-ex-rounded-full">
         <div class="btn-ex-skin btn-ex-white btn-ex-rounded-full aspect-square m-n05">
