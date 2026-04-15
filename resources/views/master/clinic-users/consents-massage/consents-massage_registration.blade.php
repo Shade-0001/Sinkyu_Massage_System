@@ -52,7 +52,7 @@
   <form action="{{ $formAction }}" method="POST">
     @include('master.clinic-users.consents-massage.components.consents-massage_form', [
       'history' => $history ?? null,
-      'submitLabel' => '登録確認へ',
+      'submitLabel' => $mode === 'edit' ? '編集確認へ' : ($mode === 'duplicate' ? '複製確認へ' : '登録確認へ'),
       'cancelRoute' => route('clinic-users.consents-massage.index', $id)
     ])
   </form>

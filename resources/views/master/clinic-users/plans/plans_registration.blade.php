@@ -49,7 +49,7 @@
     @include('master.clinic-users.plans.components.plans_form', [
       'planInfo' => $planInfo ?? null,
       'assistanceLevels' => $assistanceLevels,
-      'submitLabel' => '登録確認へ',
+      'submitLabel' => $mode === 'edit' ? '編集確認へ' : ($mode === 'duplicate' ? '複製確認へ' : '登録確認へ'),
       'cancelRoute' => route('clinic-users.plans.index', $id)
     ])
   </form>

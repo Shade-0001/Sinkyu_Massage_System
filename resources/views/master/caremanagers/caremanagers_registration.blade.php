@@ -38,7 +38,7 @@
   <form action="{{ $formAction }}" method="POST">
     @include('master.caremanagers.components.caremanagers_form', [
       'careManager' => $careManager,
-      'submitLabel' => '登録確認へ',
+      'submitLabel' => $mode === 'edit' ? '編集確認へ' : ($mode === 'duplicate' ? '複製確認へ' : '登録確認へ'),
       'cancelRoute' => route('caremanagers.index')
     ])
   </form>
