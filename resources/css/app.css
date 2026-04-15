@@ -21,7 +21,7 @@
 }
 
 :root {
-  --bs-body-color: #3A3A3A;
+  --bs-body-color: #444444;
 }
 
 /* リンク下線の削除 */
@@ -422,6 +422,26 @@ html[data-sidebar="closed"] #sidebar-content {
 .submenu {
   max-height: 0;
   transition: max-height 0.3s ease;
+}
+
+/* サブメニューアイコンスタック（●の上にアイコンを重ねる） */
+.submenu-icon-stack {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1em;
+  height: 1em;
+  font-size: 1rem;
+}
+.submenu-icon-stack .icon-circle {
+  font-size: 1rem;
+}
+.submenu-icon-stack .icon-inner {
+  position: absolute;
+  font-size: 0.5rem;
+  color: hsl(200, 5%, 20%);
+  line-height: 1;
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
 
