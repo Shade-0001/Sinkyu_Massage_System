@@ -59,15 +59,57 @@
           <span class="submenu-arrow"><i class="nf nf-md-chevron_down"></i></span>
         </div>
         <ul id="master-submenu" class="submenu bg-gray-20 list-unstyled overflow-hidden border-top border-1 border-secondary">
-          <li class="border-bottom border-secondary"><a href="{{ route('clinic-users.index') }}" class="submenu-link text-gray-85 {{ $onClinicUsers ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none"><span class="submenu-icon-stack me-2"><i class="nf nf-fa-circle icon-circle"></i><i class="nf nf-fa-user icon-inner"></i></span>利用者</a></li>
-          <li class="border-bottom border-secondary"><a href="{{ route('doctors.index') }}" class="submenu-link text-gray-85 {{ $onDoctors ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none"><span class="submenu-icon-stack me-2"><i class="nf nf-fa-circle icon-circle"></i><i class="nf nf-fa-user_doctor icon-inner"></i></span>医師</a></li>
-          <li class="border-bottom border-secondary"><a href="{{ route('therapists.index') }}" class="submenu-link text-gray-85 {{ $onTherapists ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none"><span class="submenu-icon-stack me-2"><i class="nf nf-fa-circle icon-circle"></i><i class="nf nf-fa-user_nurse icon-inner"></i></span>施術者</a></li>
-          <li class="border-bottom border-secondary"><a href="{{ route('caremanagers.index') }}" class="submenu-link text-gray-85 {{ $onCaremanagers ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none"><span class="submenu-icon-stack me-2"><i class="nf nf-fa-circle icon-circle"></i><i class="nf nf-md-account_tie icon-inner"></i></span>ケアマネ</a></li>
-          <li class="border-bottom border-secondary"><a href="{{ route('clinic-info.index') }}" class="submenu-link text-gray-85 {{ $onClinicInfo ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none"><span class="submenu-icon-stack me-2"><i class="nf nf-fa-circle icon-circle"></i><i class="nf nf-fa-building icon-inner"></i></span>自社情報</a></li>
-          <li class="border-bottom border-secondary"><a href="{{ route('master.documents.index') }}" class="submenu-link text-gray-85 {{ $onDocuments ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none"><span class="submenu-icon-stack me-2"><i class="nf nf-fa-circle icon-circle"></i><i class="nf nf-md-file_document icon-inner"></i></span>文面編集</a></li>
-          <li class="border-bottom border-secondary"><a href="{{ route('master.treatment-fees.index') }}" class="submenu-link text-gray-85 {{ $onTreatmentFees ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none"><span class="submenu-icon-stack me-2"><i class="nf nf-fa-circle icon-circle"></i><i class="nf nf-fa-yen icon-inner"></i></span>施術料金</a></li>
-          <li class="border-bottom border-secondary"><a href="{{ route('master.self-fees.index') }}" class="submenu-link text-gray-85 {{ $onSelfFees ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none"><span class="submenu-icon-stack me-2"><i class="nf nf-fa-circle icon-circle"></i><i class="nf nf-fa-yen icon-inner"></i></span>自費施術料金</a></li>
-          <li class="border-bottom border-secondary border-1"><a href="{{ route('master.document-association.index') }}" class="submenu-link text-gray-85 {{ $onDocAssoc ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none"><span class="submenu-icon-stack me-2"><i class="nf nf-fa-circle icon-circle"></i><i class="nf nf-oct-link icon-inner"></i></span>登録済み標準文書の確認･関連付け</a></li>
+          <li class="border-bottom border-secondary">
+            <a href="{{ route('clinic-users.index') }}" class="submenu-link text-gray-85 {{ $onClinicUsers ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none">
+              <span class="submenu-icon-stack me-2">
+                <i class="nf nf-fa-circle icon-circle"></i>
+                <i class="nf nf-fa-user icon-inner text-gray-20"></i>
+              </span>利用者
+            </a>
+          </li>
+          <li class="border-bottom border-secondary">
+            <a href="{{ route('doctors.index') }}" class="submenu-link text-gray-85 {{ $onDoctors ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none">
+              <span class="submenu-icon-stack me-2">
+                <i class="nf nf-fa-circle icon-circle"></i>
+                <i class="nf nf-fa-user_doctor icon-inner text-gray-20"></i>
+              </span>医師
+            </a>
+          </li>
+          <li class="border-bottom border-secondary">
+            <a href="{{ route('therapists.index') }}" class="submenu-link text-gray-85 {{ $onTherapists ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none">
+              <span class="submenu-icon-stack me-2">
+                <i class="nf nf-fa-circle icon-circle"></i>
+                <i class="nf nf-fa-user_nurse icon-inner text-gray-20"></i>
+              </span>施術者
+            </a>
+          </li>
+          <li class="border-bottom border-secondary">
+            <a href="{{ route('caremanagers.index') }}" class="submenu-link text-gray-85 {{ $onCaremanagers ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none">
+              <span class="submenu-icon-stack me-2">
+                <i class="nf nf-fa-circle icon-circle"></i>
+                <i class="nf nf-md-account_tie icon-inner text-gray-20"></i>
+              </span>ケアマネ
+            </a>
+          </li>
+          <li class="border-bottom border-secondary">
+            <a href="{{ route('clinic-info.index') }}" class="submenu-link text-gray-85 {{ $onClinicInfo ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none">
+              <span class="submenu-icon-stack me-2">
+                <i class="nf nf-fa-circle icon-circle"></i>
+                <i class="nf nf-fa-building icon-inner text-gray-20"></i>
+              </span>自社情報
+            </a>
+          </li>
+          <li class="border-bottom border-secondary">
+            <a href="{{ route('master.documents.index') }}" class="submenu-link text-gray-85 {{ $onDocuments ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none">
+              <span class="submenu-icon-stack me-2">
+                <i class="nf nf-fa-circle icon-circle"></i>
+                <i class="nf nf-md-file_document icon-inner text-gray-20"></i>
+              </span>文面編集
+            </a>
+          </li>
+          <li class="border-bottom border-secondary"><a href="{{ route('master.treatment-fees.index') }}" class="submenu-link text-gray-85 {{ $onTreatmentFees ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none"><span class="submenu-icon-stack me-2"><i class="nf nf-fa-circle icon-circle"></i><i class="nf nf-fa-yen icon-inner text-gray-20"></i></span>施術料金</a></li>
+          <li class="border-bottom border-secondary"><a href="{{ route('master.self-fees.index') }}" class="submenu-link text-gray-85 {{ $onSelfFees ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none"><span class="submenu-icon-stack me-2"><i class="nf nf-fa-circle icon-circle"></i><i class="nf nf-fa-yen icon-inner text-gray-20"></i></span>自費施術料金</a></li>
+          <li class="border-bottom border-secondary border-1"><a href="{{ route('master.document-association.index') }}" class="submenu-link text-gray-85 {{ $onDocAssoc ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none"><span class="submenu-icon-stack me-2"><i class="nf nf-fa-circle icon-circle"></i><i class="nf nf-oct-link icon-inner text-gray-20"></i></span>登録済み標準文書の確認･関連付け</a></li>
         </ul>
       </li>
       <li class="border-bottom border-1 border-secondary">
@@ -76,20 +118,24 @@
           <span class="submenu-arrow"><i class="nf nf-md-chevron_down"></i></span>
         </div>
         <ul id="submaster-submenu" class="submenu bg-gray-20 list-unstyled overflow-hidden border-top border-1 border-secondary">
-          <li class="border-bottom border-1 border-secondary"><a href="{{ route('submaster.medical-institutions') }}" class="submenu-link text-gray-85 {{ $onSubMedInst ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none"><span class="submenu-icon-stack me-2"><i class="nf nf-fa-circle icon-circle"></i><i class="nf nf-md-hospital icon-inner"></i></span>医療機関名</a></li>
-          <li class="border-bottom border-1 border-secondary"><a href="{{ route('submaster.service-providers') }}" class="submenu-link text-gray-85 {{ $onSubSvcProv ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none"><span class="submenu-icon-stack me-2"><i class="nf nf-fa-circle icon-circle"></i><i class="nf nf-fa-building icon-inner"></i></span>サービス事業者名</a></li>
-          <li class="border-bottom border-1 border-secondary"><a href="{{ route('submaster.conditions') }}" class="submenu-link text-gray-85 {{ $onSubCond ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none"><span class="submenu-icon-stack me-2"><i class="nf nf-fa-circle icon-circle"></i><i class="nf nf-md-clipboard_pulse icon-inner"></i></span>発病負傷経過（あんま･マッサージ）</a></li>
-          <li class="border-bottom border-1 border-secondary"><a href="{{ route('submaster.illnesses-massage') }}" class="submenu-link text-gray-85 {{ $onSubIllness ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none"><span class="submenu-icon-stack me-2"><i class="nf nf-fa-circle icon-circle"></i><i class="nf nf-md-text icon-inner"></i></span>傷病名（あんま･マッサージ）</a></li>
+          <li class="border-bottom border-1 border-secondary"><a href="{{ route('submaster.medical-institutions') }}" class="submenu-link text-gray-85 {{ $onSubMedInst ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none"><span class="submenu-icon-stack me-2"><i class="nf nf-fa-circle icon-circle"></i><i class="nf nf-md-hospital icon-inner text-gray-20"></i></span>医療機関名</a></li>
+          <li class="border-bottom border-1 border-secondary"><a href="{{ route('submaster.service-providers') }}" class="submenu-link text-gray-85 {{ $onSubSvcProv ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none"><span class="submenu-icon-stack me-2"><i class="nf nf-fa-circle icon-circle"></i><i class="nf nf-fa-building icon-inner text-gray-20"></i></span>サービス事業者名</a></li>
+          <li class="border-bottom border-1 border-secondary"><a href="{{ route('submaster.conditions') }}" class="submenu-link text-gray-85 {{ $onSubCond ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none"><span class="submenu-icon-stack me-2"><i class="nf nf-fa-circle icon-circle"></i><i class="nf nf-md-clipboard_pulse icon-inner text-gray-20"></i></span>発病負傷経過（あんま･マッサージ）</a></li>
+          <li class="border-bottom border-1 border-secondary"><a href="{{ route('submaster.illnesses-massage') }}" class="submenu-link text-gray-85 {{ $onSubIllness ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none"><span class="submenu-icon-stack me-2"><i class="nf nf-fa-circle icon-circle"></i><i class="nf nf-md-text icon-inner text-gray-20"></i></span>傷病名（あんま･マッサージ）</a></li>
         </ul>
       </li>
       <li class="border-bottom border-2 border-secondary">
         <a href="{{ route('prints.index') }}" class="sidebar-link text-gray-85 {{ $onPrints ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none"><i class="nf nf-md-printer me-2"></i>印刷メニュー</a>
       </li>
       <li class="border-bottom border-2 border-secondary">
-        <a href="{{ route('therapy-periods.index') }}" class="sidebar-link text-gray-85 {{ $onTherapyPeriod ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none"><i class="nf nf-fa-list me-2"></i>要加療期間リスト</a>
+        <a href="{{ route('therapy-periods.index') }}" class="sidebar-link text-gray-85 {{ $onTherapyPeriod ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none">
+          <i class="nf nf-fa-list me-2"></i>要加療期間リスト
+        </a>
       </li>
       <li class="border-bottom border-3 border-secondary">
-        <a href="{{ route('deposits.index') }}" class="sidebar-link text-gray-85 {{ $onDeposits ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none"><i class="nf nf-fa-yen me-2"></i>入金管理</a>
+        <a href="{{ route('deposits.index') }}" class="sidebar-link text-gray-85 {{ $onDeposits ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none">
+          <i class="nf nf-fa-yen me-2"></i>入金管理
+        </a>
       </li>
       @if(Auth::user()->is_admin)
       <li class="border-bottom border-1 border-secondary">
@@ -98,9 +144,30 @@
           <span class="submenu-arrow"><i class="nf nf-md-chevron_down"></i></span>
         </div>
         <ul id="admin-panel-submenu" class="submenu bg-gray-20 list-unstyled overflow-hidden border-top border-1 border-secondary">
-          <li class="border-bottom border-1 border-secondary"><a href="{{ route('system-users.index') }}" class="submenu-link text-gray-85 {{ $onAdminSysUsers ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none"><span class="submenu-icon-stack me-2"><i class="nf nf-fa-circle icon-circle"></i><i class="nf nf-md-account_circle icon-inner"></i></span>ユーザーアカウント</a></li>
-          <li class="border-bottom border-1 border-secondary"><a href="{{ route('notices.index') }}" class="submenu-link text-gray-85 {{ $onAdminNotices ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none"><span class="submenu-icon-stack me-2"><i class="nf nf-fa-circle icon-circle"></i><i class="nf nf-fa-bell icon-inner"></i></span>お知らせ</a></li>
-          <li class="border-bottom border-1 border-secondary"><a href="{{ route('admin-panel.coordinate-adjuster') }}" class="submenu-link text-gray-85 {{ $onAdminCoordAdj ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none"><span class="submenu-icon-stack me-2"><i class="nf nf-fa-circle icon-circle"></i><i class="nf nf-md-view_dashboard icon-inner"></i></span>PDFレイアウト調整ツール</a></li>
+          <li class="border-bottom border-1 border-secondary">
+            <a href="{{ route('system-users.index') }}" class="submenu-link text-gray-85 {{ $onAdminSysUsers ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none">
+              <span class="submenu-icon-stack me-2">
+                <i class="nf nf-fa-circle icon-circle"></i>
+                <i class="nf nf-md-account_circle icon-inner text-gray-20"></i>
+              </span>ユーザーアカウント
+            </a>
+          </li>
+          <li class="border-bottom border-1 border-secondary">
+            <a href="{{ route('notices.index') }}" class="submenu-link text-gray-85 {{ $onAdminNotices ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none">
+              <span class="submenu-icon-stack me-2">
+                <i class="nf nf-fa-circle icon-circle"></i>
+                <i class="nf nf-fa-bell icon-inner text-gray-20"></i>
+              </span>お知らせ
+            </a>
+          </li>
+          <li class="border-bottom border-1 border-secondary">
+            <a href="{{ route('admin-panel.coordinate-adjuster') }}" class="submenu-link text-gray-85 {{ $onAdminCoordAdj ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none">
+              <span class="submenu-icon-stack me-2">
+                <i class="nf nf-fa-circle icon-circle"></i>
+                <i class="nf nf-md-view_dashboard icon-inner text-gray-20"></i>
+              </span>PDFレイアウト調整ツール
+            </a>
+          </li>
         </ul>
       </li>
       @endif
