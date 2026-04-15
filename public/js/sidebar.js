@@ -20,6 +20,14 @@ document.addEventListener('DOMContentLoaded', function() {
       const newState = document.documentElement.dataset.sidebar === 'open' ? 'closed' : 'open';
       document.documentElement.dataset.sidebar = newState;
       localStorage.setItem('sidebarState', newState);
+
+      if (newState === 'closed') {
+        document.querySelectorAll('.submenu').forEach(submenu => {
+          const toggle = document.querySelector(`[data-target="${submenu.id}"]`);
+          closeSubmenu(submenu, toggle);
+        });
+        localStorage.removeItem('submenuStates');
+      }
     });
   }
 
