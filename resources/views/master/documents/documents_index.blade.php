@@ -6,10 +6,8 @@
   />
 
   <!-- 新規登録ボタン -->
-  <div style="margin-bottom: 15px;">
-    <button type="button" id="newDocumentBtn">
-      新規登録
-    </button>
+  <div class="mb-2">
+    <button type="button" id="newDocumentBtn" class="btn-ex-main btn-ex-blue mb-1">新規登録</button>
   </div>
 
   <table id="documentsTable" class="table table-bordered">
@@ -18,7 +16,7 @@
         <th class="text-center" style="width: 12%;">文書カテゴリ</th>
         <th class="text-center" style="width: 35%;">文面名称</th>
         <th class="text-center" style="width: 13%;">登録日時</th>
-        <th class="text-center">操作</th>
+        <th class="text-center" style="max-width: 280px;">操作</th>
       </tr>
     </thead>
     <tbody>
