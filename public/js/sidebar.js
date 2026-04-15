@@ -169,16 +169,6 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('.submenu').forEach(submenu => {
     const state = submenuStates[submenu.id];
     if (!state) return;
-    if (state === 'auto' && submenu.id !== activeSubmenuId) {
-      // 強制展開かつ別系統ページ → アニメーションなしで即格納（展開済みでなければ何もしない）
-      submenu.classList.remove('open');
-      submenu.style.maxHeight = '0';
-      const toggle = document.querySelector(`[data-target="${submenu.id}"]`);
-      const arrow = toggle ? toggle.querySelector('.submenu-arrow') : null;
-      if (arrow) arrow.classList.remove('rotated');
-      saveSubmenuStates(submenu.id, null);
-      return;
-    }
     if (!submenu.classList.contains('open')) {
       const toggle = document.querySelector(`[data-target="${submenu.id}"]`);
       openSubmenu(submenu, toggle, false);
@@ -196,9 +186,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       // 他の展開中サブメニューを格納（ページロード後にtransitionが有効になってから実行）
       setTimeout(() => {
-        document.querySelectorAll('.submenu').forEach(submenu => {
-          console.log('[sidebar]', submenu.id, 'open:', submenu.classList.contains('open'), 'maxHeight:', submenu.style.maxHeight);
-        });
         document.querySelectorAll('.submenu.open').forEach(submenu => {
           if (submenu.id !== parentSubmenu.id) {
             const toggle = document.querySelector(`[data-target="${submenu.id}"]`);

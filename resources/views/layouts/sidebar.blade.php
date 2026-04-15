@@ -252,11 +252,7 @@
       if (!states[id]) return;
       var el = document.getElementById(id);
       if (!el) return;
-      // 'auto'展開の場合、現在ページがそのサブメニュー配下かをチェック
-      if (states[id] === 'auto') {
-        var hasActive = el.querySelector('.sidebar-active');
-        if (!hasActive) return; // 別系統ページなら展開しない
-      }
+      // 'auto'展開の場合も一旦展開してJS側でアニメーション付き格納させる
       el.classList.add('open');
       el.style.maxHeight = 'none';
       var toggle = document.querySelector('[data-target="' + id + '"]');
