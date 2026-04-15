@@ -567,11 +567,11 @@ Breadcrumbs::define('submaster.service-providers', function() {
   ];
 });
 
-// サブマスター登録 ｰ 状態
+// サブマスター登録 ｰ 発病負傷経過（あんま・マッサージ）
 Breadcrumbs::define('submaster.conditions', function() {
   return [
     ...getSubMasterBreadcrumbs(),
-    ['url' => null, 'label' => '状態'],
+    ['url' => null, 'label' => '発病負傷経過（あんま・マッサージ）'],
   ];
 });
 

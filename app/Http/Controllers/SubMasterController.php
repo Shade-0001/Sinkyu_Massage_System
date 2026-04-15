@@ -137,7 +137,7 @@ class SubMasterController extends Controller
     $items = DB::table('conditions')->orderBy('id')->get();
     return view('submaster.conditions', [
       'items' => $items,
-      'page_header_title' => '状態'
+      'page_header_title' => '発病負傷経過（あんま・マッサージ）'
     ]);
   }
 
