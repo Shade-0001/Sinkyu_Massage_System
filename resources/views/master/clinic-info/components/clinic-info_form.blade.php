@@ -468,7 +468,7 @@
       </div>
     </div>
 
-    <div class="mt-4 text-end">
+    <div class="mt-4 d-flex gap-2 justify-content-end">
       <button type="submit" class="btn-ex-main btn-ex-blue">{{ $submitLabel }}</button>
       <a href="{{ $cancelRoute }}">
         <button type="button" class="btn-ex-main btn-ex-gray">キャンセル</button>

@@ -67,7 +67,7 @@
       </div>
     </div>
 
-    <div class="mt-4 text-end">
+    <div class="mt-4 d-flex gap-2 justify-content-end">
       <button type="submit" class="btn-ex-main btn-ex-blue">
         @if($mode === 'edit') 更新する
         @elseif($mode === 'duplicate') 複製して登録する

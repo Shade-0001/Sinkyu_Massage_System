@@ -182,7 +182,7 @@
     </div>
   </div>
 
-  <div class="mt-4 text-end">
+  <div class="mt-4 d-flex gap-2 justify-content-end">
     <button type="submit" class="btn-ex-main btn-ex-blue">{{ $submitLabel ?? '登録' }}</button>
     <a href="{{ $cancelRoute ?? route('master.treatment-fees.index') }}">
       <button type="button" class="btn-ex-main btn-ex-gray">キャンセル</button>
