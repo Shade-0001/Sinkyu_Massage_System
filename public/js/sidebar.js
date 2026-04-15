@@ -33,16 +33,19 @@ document.addEventListener('DOMContentLoaded', function() {
         if (activeLink) {
           const parentSubmenu = activeLink.closest('.submenu');
           if (parentSubmenu && !parentSubmenu.classList.contains('open')) {
-            // 強制展開時：他の展開中サブメニューを全て格納
-            document.querySelectorAll('.submenu.open').forEach(submenu => {
-              if (submenu.id !== parentSubmenu.id) {
-                const toggle = document.querySelector(`[data-target="${submenu.id}"]`);
-                closeSubmenu(submenu, toggle);
-              }
-            });
             const parentToggle = document.querySelector(`[data-target="${parentSubmenu.id}"]`);
             openSubmenu(parentSubmenu, parentToggle, true);
             saveSubmenuStates(parentSubmenu.id, 'auto');
+            // 強制展開時：他の展開中サブメニューを1フレーム後に格納（transitionを確実に発火させるため）
+            requestAnimationFrame(() => {
+              document.querySelectorAll('.submenu.open').forEach(submenu => {
+                if (submenu.id !== parentSubmenu.id) {
+                  const toggle = document.querySelector(`[data-target="${submenu.id}"]`);
+                  closeSubmenu(submenu, toggle);
+                }
+              });
+              saveSubmenuStates(parentSubmenu.id, 'auto');
+            });
           }
         }
       }
@@ -181,16 +184,19 @@ document.addEventListener('DOMContentLoaded', function() {
   if (activeSubmenuLink) {
     const parentSubmenu = activeSubmenuLink.closest('.submenu');
     if (parentSubmenu && !parentSubmenu.classList.contains('open')) {
-      // 強制展開時：他の展開中サブメニューを全て格納
-      document.querySelectorAll('.submenu.open').forEach(submenu => {
-        if (submenu.id !== parentSubmenu.id) {
-          const toggle = document.querySelector(`[data-target="${submenu.id}"]`);
-          closeSubmenu(submenu, toggle);
-        }
-      });
       const parentToggle = document.querySelector(`[data-target="${parentSubmenu.id}"]`);
       openSubmenu(parentSubmenu, parentToggle, true);
       saveSubmenuStates(parentSubmenu.id, 'auto');
+      // 強制展開時：他の展開中サブメニューを1フレーム後に格納（transitionを確実に発火させるため）
+      requestAnimationFrame(() => {
+        document.querySelectorAll('.submenu.open').forEach(submenu => {
+          if (submenu.id !== parentSubmenu.id) {
+            const toggle = document.querySelector(`[data-target="${submenu.id}"]`);
+            closeSubmenu(submenu, toggle);
+          }
+        });
+        saveSubmenuStates(parentSubmenu.id, 'auto');
+      });
     }
   }
 });
