@@ -69,7 +69,7 @@
 
     <div class="mt-4 d-flex gap-2 justify-content-end">
       <a href="{{ route('notices.index') }}" class="btn-ex-main btn-ex-gray"><i class="nf nf-fa-caret_left me-1" style="transform: scale(1.2)"></i>戻る</a>
-      <button type="submit" class="btn-ex-main btn-ex-blue">
+      <button type="submit" class="btn-ex-main btn-ex-green">
         @if($mode === 'edit') 更新する
         @elseif($mode === 'duplicate') 複製して登録する
         @else 登録する

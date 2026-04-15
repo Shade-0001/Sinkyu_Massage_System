@@ -114,7 +114,7 @@
 
       <div class="mt-4 d-flex gap-2 justify-content-end">
         <a href="{{ route('reports.index', ['clinic_user_id' => $clinicUserId, 'scroll_year' => $year, 'scroll_month' => $month]) }}" class="btn-ex-main btn-ex-gray"><i class="nf nf-fa-caret_left me-1" style="transform: scale(1.2)"></i>戻る</a>
-        <button type="submit" class="btn-ex-main btn-ex-blue">登録</button>
+        <button type="submit" class="btn-ex-main btn-ex-green">登録</button>
       </div>
 
     </div>
