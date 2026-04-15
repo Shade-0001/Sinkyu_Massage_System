@@ -424,22 +424,24 @@ html[data-sidebar="closed"] #sidebar-content {
   transition: max-height 0.3s ease;
 }
 
-/* サブメニューアイコンスタック（●の上にアイコンを重ねる） */
+/* サブメニューアイコンスタック（白丸の上にアイコンを重ねる） */
 .submenu-icon-stack {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1em;
-  height: 1em;
+  width: 1.2rem;
+  height: 1.2rem;
   font-size: 1rem;
+  flex-shrink: 0;
+  vertical-align: middle;
 }
 .submenu-icon-stack .icon-circle {
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 .submenu-icon-stack .icon-inner {
   position: absolute;
-  font-size: 0.5rem;
+  font-size: 0.7rem;
   line-height: 1;
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
