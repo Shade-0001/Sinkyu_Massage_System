@@ -33,7 +33,7 @@
     <div class="col-12">
       <a href="{{ route('submaster.illnesses-massage') }}" class="btn-ex-main btn-ex-blue btn-ex-rounded-full">
         <div class="btn-ex-skin btn-ex-white btn-ex-xs btn-ex-rounded-full aspect-square m-n05 p-3">
-          <i class="nf nf-md-clipboard_plus fs-6 m-n2"></i>
+          <i class="nf nf-md-text fs-6 m-n2"></i>
         </div>
         <div class="fs-5-5 ms-4 me-3">傷病名（あんま・マッサージ）（{{ $counts['illnesses_massage'] }}件）</div>
       </a>

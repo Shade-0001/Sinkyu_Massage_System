@@ -7,9 +7,9 @@
 
   @if(count($breadcrumbs) > 0)
   <nav aria-label="breadcrumb">
-    <ol class="list-unstyled p-0 m-0 d-flex flex-wrap gap-0 small text-muted">
+    <ol class="list-unstyled p-0 m-0 d-flex flex-wrap gap-2 small text-muted">
       @foreach($breadcrumbs as $index => $breadcrumb)
-        <li class="d-flex align-items-center gap-1">
+        <li class="d-flex align-items-center gap-0">
           @if(isset($breadcrumb['url']))
             <a href="{{ $breadcrumb['url'] }}" class="fw-medium text-decoration-none d-flex align-items-center gap-1">
               @if(isset($breadcrumb['icon']))<i class="{{ $breadcrumb['icon'] }}"></i>@endif
@@ -23,7 +23,7 @@
           @endif
 
           @if($index < count($breadcrumbs) - 1)
-            <span class="text-secondary lh-1 d-flex align-items-center" style="transform: scaleX(0.7); display: inline-flex;"><i class="nf nf-cod-chevron_right"></i></span>
+            <span class="text-secondary lh-1 d-flex align-items-center" style="transform: scaleX(0.75); font-size: 1.15rem; display: inline-flex;"><i class="nf nf-cod-chevron_right"></i></span>
           @endif
         </li>
       @endforeach
