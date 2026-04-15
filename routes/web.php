@@ -75,6 +75,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin-panel/notices/{id}/duplicate', [NoticesController::class, 'duplicate'])->name('notices.duplicate');
     Route::post('/admin-panel/notices/duplicate/store', [NoticesController::class, 'duplicateStore'])->name('notices.duplicate.store');
     Route::delete('/admin-panel/notices/{id}', [NoticesController::class, 'destroy'])->name('notices.delete');
+
+    // PDFレイアウト調整ツール
+    Route::get('/admin-panel/coordinate-adjuster', [PrintsController::class, 'coordinateAdjuster'])->name('admin-panel.coordinate-adjuster');
+    Route::get('/admin-panel/get-coordinates', [PrintsController::class, 'getCoordinates'])->name('admin-panel.get-coordinates');
+    Route::post('/admin-panel/save-coordinates', [PrintsController::class, 'saveCoordinates'])->name('admin-panel.save-coordinates');
+    Route::post('/admin-panel/preview-pdf', [PrintsController::class, 'previewPdf'])->name('admin-panel.preview-pdf');
+    Route::get('/admin-panel/get-treatment-days', [PrintsController::class, 'getTreatmentDays'])->name('admin-panel.get-treatment-days');
   });
 
   // 医師情報
@@ -334,12 +341,6 @@ Route::middleware('auth')->group(function () {
   Route::get('/prints/power-of-attorney-application', [PrintsController::class, 'powerOfAttorneyApplication'])->name('prints.power-of-attorney-application');
   Route::get('/prints/power-of-attorney-consent', [PrintsController::class, 'powerOfAttorneyConsent'])->name('prints.power-of-attorney-consent');
 
-  // PDFレイアウト調整ツール
-  Route::get('/prints/coordinate-adjuster', [PrintsController::class, 'coordinateAdjuster'])->name('prints.coordinate-adjuster');
-  Route::get('/prints/get-coordinates', [PrintsController::class, 'getCoordinates'])->name('prints.get-coordinates');
-  Route::post('/prints/save-coordinates', [PrintsController::class, 'saveCoordinates'])->name('prints.save-coordinates');
-  Route::post('/prints/preview-pdf', [PrintsController::class, 'previewPdf'])->name('prints.preview-pdf');
-  Route::get('/prints/get-treatment-days', [PrintsController::class, 'getTreatmentDays'])->name('prints.get-treatment-days');
 });
 
 require __DIR__.'/auth.php';

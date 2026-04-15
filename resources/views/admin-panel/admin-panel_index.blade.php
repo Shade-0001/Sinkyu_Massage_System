@@ -14,7 +14,7 @@
     <div class="col-12">
       <a href="{{ route('system-users.index') }}" class="btn-ex-main btn-ex-blue btn-ex-rounded-full">
         <div class="btn-ex-skin btn-ex-white btn-ex-xs btn-ex-rounded-full aspect-square m-n05 p-3">
-          <i class="nf nf-md-account_circle fs-6 m-n2"></i>
+          <i class="nf nf-fa-user fs-6 m-n2"></i>
         </div>
         <div class="fs-5-5 ms-4 me-3">ユーザーアカウント</div>
       </a>
@@ -28,9 +28,9 @@
       </a>
     </div>
     <div class="col-12">
-      <a href="{{ route('prints.coordinate-adjuster') }}" class="btn-ex-main btn-ex-blue btn-ex-rounded-full">
+      <a href="{{ route('admin-panel.coordinate-adjuster') }}" class="btn-ex-main btn-ex-blue btn-ex-rounded-full">
         <div class="btn-ex-skin btn-ex-white btn-ex-xs btn-ex-rounded-full aspect-square m-n05 p-3">
-          <i class="nf nf-md-file_pdf_box fs-6 m-n2"></i>
+          <i class="nf nf-md-view_dashboard fs-6 m-n2"></i>
         </div>
         <div class="fs-5-5 ms-4 me-3">PDFレイアウト調整ツール</div>
       </a>

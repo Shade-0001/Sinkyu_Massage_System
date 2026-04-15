@@ -228,7 +228,7 @@ function resetRadioGroupsToDefault() {
 
 // 座標読み込み
 function loadCoordinates() {
-  fetch('/prints/get-coordinates?pdf_type=' + currentPdfType)
+  fetch('/admin-panel/get-coordinates?pdf_type=' + currentPdfType)
     .then(response => response.json())
     .then(data => {
       if (data.success) {
@@ -500,7 +500,7 @@ function saveCoordinates(isAuto = false) {
   // 座標データをそのまま保存（isSelectedフラグも含む）
   const coordinatesToSave = JSON.parse(JSON.stringify(coordinates));
 
-  fetch('/prints/save-coordinates', {
+  fetch('/admin-panel/save-coordinates', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -624,7 +624,7 @@ function previewPdf() {
     requestBody.custom_title_text = customTitleText;
   }
 
-  fetch('/prints/preview-pdf', {
+  fetch('/admin-panel/preview-pdf', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -684,7 +684,7 @@ function loadTreatmentDays() {
   }
 
   // 施術日を取得
-  fetch(`/prints/get-treatment-days?clinic_user_id=${clinicUserId}&service_year_month=${serviceYearMonth}&pdf_type=${currentPdfType}`)
+  fetch(`/admin-panel/get-treatment-days?clinic_user_id=${clinicUserId}&service_year_month=${serviceYearMonth}&pdf_type=${currentPdfType}`)
     .then(response => response.json())
     .then(data => {
       if (data.success) {
