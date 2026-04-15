@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function openSubmenu(submenu, toggle, animate) {
-    const arrow = toggle ? toggle.querySelector('.submenu-arrow') : null;
+    const arrow = toggle ? (toggle.classList.contains('submenu-arrow') ? toggle : toggle.querySelector('.submenu-arrow')) : null;
     submenu.classList.add('open');
     if (arrow) arrow.classList.add('rotated');
     if (animate) {
@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function closeSubmenu(submenu, toggle) {
-    const arrow = toggle ? toggle.querySelector('.submenu-arrow') : null;
+    const arrow = toggle ? (toggle.classList.contains('submenu-arrow') ? toggle : toggle.querySelector('.submenu-arrow')) : null;
     submenu.style.maxHeight = submenu.scrollHeight + 'px';
     setTimeout(() => {
       submenu.style.maxHeight = '0';
@@ -126,11 +126,12 @@ document.addEventListener('DOMContentLoaded', function() {
       e.preventDefault();
       const targetId = this.getAttribute('data-target');
       const submenu = document.getElementById(targetId);
+      const arrowEl = this.classList.contains('submenu-arrow') ? this : this.querySelector('.submenu-arrow');
 
       if (submenu.classList.contains('open')) {
-        closeSubmenu(submenu, this);
+        closeSubmenu(submenu, arrowEl);
       } else {
-        openSubmenu(submenu, this, true);
+        openSubmenu(submenu, arrowEl, true);
       }
       saveSubmenuStates();
     });
