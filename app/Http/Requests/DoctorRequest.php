@@ -22,6 +22,7 @@ class DoctorRequest extends FormRequest
   public function rules(): array
   {
     return [
+      'source_doctor_id' => 'nullable|integer|exists:doctors,id',
       'last_name' => 'required|max:255',
       'first_name' => 'nullable|max:255',
       'last_name_kana' => 'nullable|max:255',
