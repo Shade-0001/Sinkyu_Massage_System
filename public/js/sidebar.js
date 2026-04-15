@@ -27,6 +27,18 @@ document.addEventListener('DOMContentLoaded', function() {
           closeSubmenu(submenu, toggle);
         });
         localStorage.removeItem('submenuStates');
+      } else {
+        // 現在ページのサブメニューを強制展開
+        document.querySelectorAll('.submenu-link').forEach(link => {
+          if (link.getAttribute('href') === currentPath) {
+            const parentSubmenu = link.closest('.submenu');
+            if (parentSubmenu && !parentSubmenu.classList.contains('open')) {
+              const parentToggle = document.querySelector(`[data-target="${parentSubmenu.id}"]`);
+              openSubmenu(parentSubmenu, parentToggle, true);
+              saveSubmenuStates();
+            }
+          }
+        });
       }
     });
   }
