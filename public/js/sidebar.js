@@ -196,6 +196,9 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       // 他の展開中サブメニューを格納（ページロード後にtransitionが有効になってから実行）
       setTimeout(() => {
+        document.querySelectorAll('.submenu').forEach(submenu => {
+          console.log('[sidebar]', submenu.id, 'open:', submenu.classList.contains('open'), 'maxHeight:', submenu.style.maxHeight);
+        });
         document.querySelectorAll('.submenu.open').forEach(submenu => {
           if (submenu.id !== parentSubmenu.id) {
             const toggle = document.querySelector(`[data-target="${submenu.id}"]`);
