@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('.submenu').forEach(submenu => {
     if (submenuStates[submenu.id] && !submenu.classList.contains('open')) {
       const toggle = document.querySelector(`[data-target="${submenu.id}"]`);
-      openSubmenu(submenu, toggle, false);
+      openSubmenu(submenu, toggle, true);
     }
   });
 
@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const parentSubmenu = activeSubmenuLink.closest('.submenu');
     if (parentSubmenu && !parentSubmenu.classList.contains('open')) {
       const parentToggle = document.querySelector(`[data-target="${parentSubmenu.id}"]`);
-      openSubmenu(parentSubmenu, parentToggle, false);
+      openSubmenu(parentSubmenu, parentToggle, true);
       saveSubmenuStates();
     }
   }

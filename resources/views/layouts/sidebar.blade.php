@@ -42,20 +42,28 @@
   <nav>
     <ul class="list-unstyled">
       <li class="border-bottom border-2 border-secondary">
-        <a href="{{ route('index') }}" class="sidebar-link text-gray-90 {{ $onHome ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none"><i class="nf nf-fa-home me-2"></i>ホーム</a>
+        <a href="{{ route('index') }}" class="sidebar-link text-gray-90 {{ $onHome ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none">
+          <i class="nf nf-fa-home me-2 fs-5-5"></i>ホーム
+        </a>
       </li>
       <li class="border-bottom border-2 border-secondary">
-        <a href="{{ route('records.index') }}" class="sidebar-link text-gray-90 {{ $onRecords ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none"><i class="nf nf-md-square_edit_outline me-2"></i>実績データ</a>
+        <a href="{{ route('records.index') }}" class="sidebar-link text-gray-90 {{ $onRecords ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none">
+          <i class="nf nf-md-square_edit_outline me-2 fs-5-5"></i>実績データ
+        </a>
       </li>
       <li class="border-bottom border-2 border-secondary">
-        <a href="{{ route('reports.index') }}" class="sidebar-link text-gray-90 {{ $onReports ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none"><i class="nf nf-md-file_document me-2"></i>報告書データ</a>
+        <a href="{{ route('reports.index') }}" class="sidebar-link text-gray-90 {{ $onReports ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none">
+          <i class="nf nf-md-file_document me-2 fs-5-5"></i>報告書データ
+        </a>
       </li>
       <li class="border-bottom border-2 border-secondary">
-        <a href="{{ route('schedules.index') }}" class="sidebar-link text-gray-90 {{ $onSchedules ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none"><i class="nf nf-md-calendar_month_outline me-2"></i>スケジュール</a>
+        <a href="{{ route('schedules.index') }}" class="sidebar-link text-gray-90 {{ $onSchedules ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none">
+          <i class="nf nf-md-calendar_month_outline me-2 fs-5-5"></i>スケジュール
+        </a>
       </li>
       <li class="border-bottom border-1 border-secondary">
         <div class="sidebar-link text-gray-90 {{ $onMaster ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 sidebar-submenu-toggle fw-medium user-select-none d-flex justify-content-between align-items-center text-nowrap" data-target="master-submenu">
-          <span><i class="nf nf-fa-gear me-2"></i>マスター登録</span>
+          <span><i class="nf nf-fa-gear me-2 fs-5-5"></i>マスター登録</span>
           <span class="submenu-arrow"><i class="nf nf-md-chevron_down"></i></span>
         </div>
         <ul id="master-submenu" class="submenu bg-gray-20 list-unstyled overflow-hidden border-top border-1 border-secondary">
@@ -114,7 +122,7 @@
       </li>
       <li class="border-bottom border-1 border-secondary">
         <div class="sidebar-link text-gray-85 {{ $onSubmaster ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 sidebar-submenu-toggle fw-medium user-select-none d-flex justify-content-between align-items-center text-nowrap" data-target="submaster-submenu">
-          <span><i class="nf nf-fa-gear me-2"></i>サブマスター登録</span>
+          <span><i class="nf nf-fa-gear me-2 fs-5-5"></i>サブマスター登録</span>
           <span class="submenu-arrow"><i class="nf nf-md-chevron_down"></i></span>
         </div>
         <ul id="submaster-submenu" class="submenu bg-gray-20 list-unstyled overflow-hidden border-top border-1 border-secondary">
@@ -125,22 +133,22 @@
         </ul>
       </li>
       <li class="border-bottom border-2 border-secondary">
-        <a href="{{ route('prints.index') }}" class="sidebar-link text-gray-85 {{ $onPrints ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none"><i class="nf nf-md-printer me-2"></i>印刷メニュー</a>
+        <a href="{{ route('prints.index') }}" class="sidebar-link text-gray-85 {{ $onPrints ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none"><i class="nf nf-md-printer me-2 fs-5-5"></i>印刷メニュー</a>
       </li>
       <li class="border-bottom border-2 border-secondary">
         <a href="{{ route('therapy-periods.index') }}" class="sidebar-link text-gray-85 {{ $onTherapyPeriod ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none">
-          <i class="nf nf-fa-list me-2"></i>要加療期間リスト
+          <i class="nf nf-fa-list me-2 fs-5-5"></i>要加療期間リスト
         </a>
       </li>
       <li class="border-bottom border-3 border-secondary">
         <a href="{{ route('deposits.index') }}" class="sidebar-link text-gray-85 {{ $onDeposits ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 d-block text-decoration-none fw-medium text-nowrap user-select-none">
-          <i class="nf nf-fa-yen me-2"></i>入金管理
+          <i class="nf nf-fa-yen me-2 fs-5-5"></i>入金管理
         </a>
       </li>
       @if(Auth::user()->is_admin)
       <li class="border-bottom border-1 border-secondary">
         <div class="sidebar-link text-gray-85 {{ $onAdminPanel ? 'sidebar-active' : 'hover-highlight-30 highlight-target-text-white' }} p-3 sidebar-submenu-toggle fw-medium user-select-none d-flex justify-content-between align-items-center text-nowrap" data-target="admin-panel-submenu">
-          <span><i class="nf nf-md-wrench me-2"></i>システム管理</span>
+          <span><i class="nf nf-md-wrench me-2 fs-5-5"></i>システム管理</span>
           <span class="submenu-arrow"><i class="nf nf-md-chevron_down"></i></span>
         </div>
         <ul id="admin-panel-submenu" class="submenu bg-gray-20 list-unstyled overflow-hidden border-top border-1 border-secondary">
@@ -174,21 +182,3 @@
     </ul>
   </nav>
 
-{{-- サブメニュー描画前に展開状態を復元（フリッカー防止） --}}
-<script>
-  (function() {
-    var states = JSON.parse(localStorage.getItem('submenuStates') || '{}');
-    Object.keys(states).forEach(function(id) {
-      if (!states[id]) return;
-      var el = document.getElementById(id);
-      if (!el) return;
-      el.classList.add('open');
-      el.style.maxHeight = 'none';
-      var toggle = document.querySelector('[data-target="' + id + '"]');
-      if (toggle) {
-        var arrow = toggle.querySelector('.submenu-arrow');
-        if (arrow) arrow.classList.add('rotated');
-      }
-    });
-  })();
-</script>
