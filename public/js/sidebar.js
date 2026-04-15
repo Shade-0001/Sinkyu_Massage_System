@@ -28,17 +28,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         localStorage.removeItem('submenuStates');
       } else {
-        // 現在ページのサブメニューを強制展開
-        document.querySelectorAll('.submenu-link').forEach(link => {
-          if (link.getAttribute('href') === currentPath) {
-            const parentSubmenu = link.closest('.submenu');
-            if (parentSubmenu && !parentSubmenu.classList.contains('open')) {
-              const parentToggle = document.querySelector(`[data-target="${parentSubmenu.id}"]`);
-              openSubmenu(parentSubmenu, parentToggle, true);
-              saveSubmenuStates();
-            }
+        // 現在ページのサブメニューを強制展開（sidebar-activeクラスで判定）
+        const activeLink = document.querySelector('.submenu-link.sidebar-active');
+        if (activeLink) {
+          const parentSubmenu = activeLink.closest('.submenu');
+          if (parentSubmenu && !parentSubmenu.classList.contains('open')) {
+            const parentToggle = document.querySelector(`[data-target="${parentSubmenu.id}"]`);
+            openSubmenu(parentSubmenu, parentToggle, true);
+            saveSubmenuStates();
           }
-        });
+        }
       }
     });
   }
