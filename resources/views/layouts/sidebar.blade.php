@@ -247,10 +247,16 @@
 <script>
   (function() {
     var states = JSON.parse(localStorage.getItem('submenuStates') || '{}');
+    var currentPath = window.location.pathname;
     Object.keys(states).forEach(function(id) {
       if (!states[id]) return;
       var el = document.getElementById(id);
       if (!el) return;
+      // 'auto'展開の場合、現在ページがそのサブメニュー配下かをチェック
+      if (states[id] === 'auto') {
+        var hasActive = el.querySelector('.sidebar-active');
+        if (!hasActive) return; // 別系統ページなら展開しない
+      }
       el.classList.add('open');
       el.style.maxHeight = 'none';
       var toggle = document.querySelector('[data-target="' + id + '"]');

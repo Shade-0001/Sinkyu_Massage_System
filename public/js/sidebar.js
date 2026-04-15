@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
           if (parentSubmenu && !parentSubmenu.classList.contains('open')) {
             const parentToggle = document.querySelector(`[data-target="${parentSubmenu.id}"]`);
             openSubmenu(parentSubmenu, parentToggle, true);
-            saveSubmenuStates();
+            saveSubmenuStates(parentSubmenu.id, 'auto');
           }
         }
       }
@@ -83,10 +83,18 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // サブメニュー展開状態の保存・復元ユーティリティ
-  function saveSubmenuStates() {
-    const states = {};
+  // type: 'manual'（ユーザー操作）| 'auto'（強制展開）| null（状態のみ更新）
+  function saveSubmenuStates(changedId, type) {
+    const states = JSON.parse(localStorage.getItem('submenuStates') || '{}');
     document.querySelectorAll('.submenu').forEach(submenu => {
-      states[submenu.id] = submenu.classList.contains('open');
+      const isOpen = submenu.classList.contains('open');
+      if (!isOpen) {
+        states[submenu.id] = false;
+      } else if (submenu.id === changedId && type) {
+        states[submenu.id] = type;
+      } else if (!states[submenu.id]) {
+        states[submenu.id] = 'manual';
+      }
     });
     localStorage.setItem('submenuStates', JSON.stringify(states));
   }
@@ -132,27 +140,43 @@ document.addEventListener('DOMContentLoaded', function() {
       } else {
         openSubmenu(submenu, this, true);
       }
-      saveSubmenuStates();
+      saveSubmenuStates(targetId, 'manual');
     });
   });
 
-  // localStorageから展開状態を復元（インラインスクリプト未適用分のみ）
+  // 現在ページのアクティブサブメニューIDを取得
+  const activeSubmenuLink = document.querySelector('.submenu-link.sidebar-active');
+  const activeSubmenuId = activeSubmenuLink ? activeSubmenuLink.closest('.submenu')?.id : null;
+
+  // localStorageから展開状態を復元
+  // 'auto'展開かつ現在ページがそのサブメニュー配下でない場合は格納
   const submenuStates = JSON.parse(localStorage.getItem('submenuStates') || '{}');
   document.querySelectorAll('.submenu').forEach(submenu => {
-    if (submenuStates[submenu.id] && !submenu.classList.contains('open')) {
+    const state = submenuStates[submenu.id];
+    if (!state) return;
+    if (state === 'auto' && submenu.id !== activeSubmenuId) {
+      // 強制展開かつ別系統ページ → 格納（インラインスクリプトで展開済みの場合も閉じる）
+      submenu.classList.remove('open');
+      submenu.style.maxHeight = '0';
+      const toggle = document.querySelector(`[data-target="${submenu.id}"]`);
+      const arrow = toggle ? toggle.querySelector('.submenu-arrow') : null;
+      if (arrow) arrow.classList.remove('rotated');
+      saveSubmenuStates(submenu.id, null);
+      return;
+    }
+    if (!submenu.classList.contains('open')) {
       const toggle = document.querySelector(`[data-target="${submenu.id}"]`);
       openSubmenu(submenu, toggle, false);
     }
   });
 
   // アクティブなサブメニューリンクの親を強制展開（sidebar-activeクラスで判定）
-  const activeSubmenuLink = document.querySelector('.submenu-link.sidebar-active');
   if (activeSubmenuLink) {
     const parentSubmenu = activeSubmenuLink.closest('.submenu');
     if (parentSubmenu && !parentSubmenu.classList.contains('open')) {
       const parentToggle = document.querySelector(`[data-target="${parentSubmenu.id}"]`);
       openSubmenu(parentSubmenu, parentToggle, true);
-      saveSubmenuStates();
+      saveSubmenuStates(parentSubmenu.id, 'auto');
     }
   }
 });
