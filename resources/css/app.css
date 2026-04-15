@@ -415,7 +415,7 @@ html[data-sidebar="closed"] #sidebar-content {
 }
 
 .sidebar-active,
-.sidebar-active * {
+.sidebar-active *:not(.icon-inner) {
   color: #ffffff !important;
   transition: none;
 }
