@@ -10,7 +10,7 @@
       <tr>
         <th class="text-center" style="width: 10%;">ID</th>
         <th class="text-center" style="width: 50%;">名称</th>
-        <th class="text-center" style="width: 40%;">操作</th>
+        <th class="text-center" style="max-width: 160px;">操作</th>
       </tr>
     </thead>
     <tbody>
