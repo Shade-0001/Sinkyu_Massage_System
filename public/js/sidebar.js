@@ -145,18 +145,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // サブメニューリンクのアクティブ状態設定（アクティブな親は強制展開）
-  const submenuLinks = document.querySelectorAll('.submenu-link');
-
-  submenuLinks.forEach(link => {
-    if (link.getAttribute('href') === currentPath) {
-      link.classList.add('active');
-      const parentSubmenu = link.closest('.submenu');
-      if (parentSubmenu && !parentSubmenu.classList.contains('open')) {
-        const parentToggle = document.querySelector(`[data-target="${parentSubmenu.id}"]`);
-        openSubmenu(parentSubmenu, parentToggle, false);
-        saveSubmenuStates();
-      }
+  // アクティブなサブメニューリンクの親を強制展開（sidebar-activeクラスで判定）
+  const activeSubmenuLink = document.querySelector('.submenu-link.sidebar-active');
+  if (activeSubmenuLink) {
+    const parentSubmenu = activeSubmenuLink.closest('.submenu');
+    if (parentSubmenu && !parentSubmenu.classList.contains('open')) {
+      const parentToggle = document.querySelector(`[data-target="${parentSubmenu.id}"]`);
+      openSubmenu(parentSubmenu, parentToggle, false);
+      saveSubmenuStates();
     }
-  });
+  }
 });
