@@ -23,7 +23,7 @@
           @endif
 
           @if($index < count($breadcrumbs) - 1)
-            <span class="text-secondary lh-1 d-flex align-items-center"><i class="nf nf-cod-chevron_right"></i></span>
+            <span class="text-secondary lh-1 d-flex align-items-center" style="transform: scaleX(0.7); display: inline-flex;"><i class="nf nf-cod-chevron_right"></i></span>
           @endif
         </li>
       @endforeach
