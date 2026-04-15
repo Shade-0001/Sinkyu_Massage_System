@@ -166,10 +166,8 @@
     </div>
 
     <div class="mt-4 d-flex gap-2 justify-content-end">
+      <a href="{{ $cancelRoute }}" class="btn-ex-main btn-ex-gray"><i class="nf nf-fa-caret_left me-1" style="transform: scale(1.2)"></i>戻る</a>
       <button type="submit" class="btn-ex-main btn-ex-blue">{{ $submitLabel }}</button>
-      <a href="{{ $cancelRoute }}">
-        <button type="button" class="btn-ex-main btn-ex-gray">キャンセル</button>
-      </a>
     </div>
 
   </div>
