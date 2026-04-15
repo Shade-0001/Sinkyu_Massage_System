@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const state = submenuStates[submenu.id];
     if (!state) return;
     if (state === 'auto' && submenu.id !== activeSubmenuId) {
-      // 強制展開かつ別系統ページ → 格納（インラインスクリプトで展開済みの場合も閉じる）
+      // 強制展開かつ別系統ページ → アニメーションなしで即格納（展開済みでなければ何もしない）
       submenu.classList.remove('open');
       submenu.style.maxHeight = '0';
       const toggle = document.querySelector(`[data-target="${submenu.id}"]`);
@@ -185,11 +185,13 @@ document.addEventListener('DOMContentLoaded', function() {
   // アクティブなサブメニューリンクの親を強制展開（sidebar-activeクラスで判定）
   if (activeSubmenuLink) {
     const parentSubmenu = activeSubmenuLink.closest('.submenu');
-    if (parentSubmenu && !parentSubmenu.classList.contains('open')) {
-      const parentToggle = document.querySelector(`[data-target="${parentSubmenu.id}"]`);
-      openSubmenu(parentSubmenu, parentToggle, true);
-      saveSubmenuStates(parentSubmenu.id, 'auto');
-      // 強制展開時：他の展開中サブメニューを1フレーム後に格納（transitionを確実に発火させるため）
+    if (parentSubmenu) {
+      if (!parentSubmenu.classList.contains('open')) {
+        const parentToggle = document.querySelector(`[data-target="${parentSubmenu.id}"]`);
+        openSubmenu(parentSubmenu, parentToggle, true);
+        saveSubmenuStates(parentSubmenu.id, 'auto');
+      }
+      // 他の展開中サブメニューを格納（アクティブサブメニューが既に開いてる場合も実行）
       requestAnimationFrame(() => {
         document.querySelectorAll('.submenu.open').forEach(submenu => {
           if (submenu.id !== parentSubmenu.id) {
