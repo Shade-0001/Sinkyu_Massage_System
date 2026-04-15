@@ -9,7 +9,7 @@
     <div class="col-12">
       <a href="{{ route('submaster.medical-institutions') }}" class="btn-ex-main btn-ex-blue btn-ex-rounded-full">
         <div class="btn-ex-skin btn-ex-white btn-ex-xs btn-ex-rounded-full aspect-square m-n05 p-3">
-          <i class="nf nf-fa-hospital fs-6 m-n2"></i>
+          <i class="nf nf-md-hospital fs-6 m-n2"></i>
         </div>
         <div class="fs-5-5 ms-4 me-3">医療機関名（{{ $counts['medical_institutions'] }}件）</div>
       </a>
