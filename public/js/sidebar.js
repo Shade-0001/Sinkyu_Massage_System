@@ -128,12 +128,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function closeSubmenu(submenu, toggle) {
     const arrow = toggle ? toggle.querySelector('.submenu-arrow') : null;
-    submenu.style.maxHeight = submenu.scrollHeight + 'px';
-    setTimeout(() => {
-      submenu.style.maxHeight = '0';
-    }, 10);
     submenu.classList.remove('open');
     if (arrow) arrow.classList.remove('rotated');
+    submenu.style.maxHeight = submenu.scrollHeight + 'px';
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        submenu.style.maxHeight = '0';
+      });
+    });
   }
 
   // サブメニューの展開･格納機能
