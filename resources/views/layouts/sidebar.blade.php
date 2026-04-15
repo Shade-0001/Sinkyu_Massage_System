@@ -182,3 +182,21 @@
     </ul>
   </nav>
 
+{{-- サブメニュー描画前に展開状態を復元（フリッカー防止） --}}
+<script>
+  (function() {
+    var states = JSON.parse(localStorage.getItem('submenuStates') || '{}');
+    Object.keys(states).forEach(function(id) {
+      if (!states[id]) return;
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.classList.add('open');
+      el.style.maxHeight = 'none';
+      var toggle = document.querySelector('[data-target="' + id + '"]');
+      if (toggle) {
+        var arrow = toggle.querySelector('.submenu-arrow');
+        if (arrow) arrow.classList.add('rotated');
+      }
+    });
+  })();
+</script>

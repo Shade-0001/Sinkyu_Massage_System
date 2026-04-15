@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('.submenu').forEach(submenu => {
     if (submenuStates[submenu.id] && !submenu.classList.contains('open')) {
       const toggle = document.querySelector(`[data-target="${submenu.id}"]`);
-      openSubmenu(submenu, toggle, true);
+      openSubmenu(submenu, toggle, false);
     }
   });
 
