@@ -79,7 +79,14 @@
       <form action="{{ route($store_route) }}" method="POST" class="d-inline-block">
       @endif
       @csrf
-      <button type="submit" class="btn-ex-main btn-ex-green">登録</button>
+      @php
+        $submitLabel = $submit_label ?? (
+          str_ends_with($store_route, '.update') || str_ends_with($store_route, '.edit.update')
+            ? '更新'
+            : (str_contains($store_route, 'duplicate') ? '複製登録' : '登録')
+        );
+      @endphp
+      <button type="submit" class="btn-ex-main btn-ex-green">{{ $submitLabel }}</button>
       </form>
     </div>
   </div>
