@@ -23,7 +23,7 @@
         <td class="text-center">
           <form action="{{ route('submaster.conditions.store') }}" method="POST" id="form-new" class="d-inline">
             @csrf
-            <button type="submit">新規登録</button>
+            <button type="submit" class="btn-ex-main btn-ex-blue btn-ex-sm">新規登録</button>
           </form>
         </td>
       </tr>
@@ -39,11 +39,11 @@
           </form>
         </td>
         <td class="text-center">
-          <button type="submit" form="form-{{ $item->id }}">更新</button>
+          <button type="submit" form="form-{{ $item->id }}" class="btn-ex-main btn-ex-blue btn-ex-sm">更新</button>
           <form action="{{ route('submaster.conditions.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('本当に削除する？');">
             @csrf
             @method('DELETE')
-            <button type="submit">削除</button>
+            <button type="submit" class="btn-ex-main btn-ex-red btn-ex-sm">削除</button>
           </form>
         </td>
       </tr>

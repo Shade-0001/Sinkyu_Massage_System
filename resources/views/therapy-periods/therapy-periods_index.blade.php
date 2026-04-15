@@ -55,11 +55,11 @@
       <td>
       @if($period->category === 'あんま・マッサージ')
         <a href="{{ route('clinic-users.consents-massage.edit', ['id' => $period->clinic_user_id, 'history_id' => $period->consent_id]) }}">
-        <button type="button">編集</button>
+        <button type="button" class="btn-ex-main btn-ex-blue btn-ex-sm">編集</button>
         </a>
       @else
         <a href="{{ route('clinic-users.consents-acupuncture.edit', ['id' => $period->clinic_user_id, 'history_id' => $period->consent_id]) }}">
-        <button type="button">編集</button>
+        <button type="button" class="btn-ex-main btn-ex-blue btn-ex-sm">編集</button>
         </a>
       @endif
       </td>
