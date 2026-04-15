@@ -418,9 +418,9 @@ html[data-sidebar="closed"] #sidebar-content {
 
 /* アクティブ要素はホバーによる文字色変化を無効化 */
 .sidebar-active.highlight-target-text-white,
-.sidebar-active.highlight-target-text-white *,
+.sidebar-active.highlight-target-text-white *:not(.icon-inner),
 .sidebar-active .highlight-target-text-white,
-.sidebar-active .highlight-target-text-white * {
+.sidebar-active .highlight-target-text-white *:not(.icon-inner) {
   color: #ffffff !important;
 }
 
