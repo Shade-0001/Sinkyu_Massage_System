@@ -63,7 +63,7 @@
       </li>
       <li class="border-bottom border-1 border-secondary">
         <div class="sidebar-link text-gray-90 {{ $onMaster ? 'sidebar-active' : '' }} fw-medium user-select-none d-flex align-items-center text-nowrap">
-          <span class="{{ $onMaster ? '' : 'hover-highlight-30 highlight-target-text-white' }} p-3 flex-grow-1"><i class="nf nf-fa-gear me-2 fs-5-5"></i>マスター登録</span>
+          <a href="{{ route('master.index') }}" class="text-gray-90 text-decoration-none {{ $onMaster ? '' : 'hover-highlight-30 highlight-target-text-white' }} p-3 flex-grow-1"><i class="nf nf-fa-gear me-2 fs-5-5"></i>マスター登録</a>
           <span class="submenu-arrow sidebar-submenu-toggle {{ $onMaster ? '' : 'hover-highlight-30 highlight-target-text-white' }} p-3" data-target="master-submenu">
             <i class="nf nf-md-chevron_down fs-7"></i>
           </span>
@@ -145,9 +145,9 @@
       </li>
       <li class="border-bottom border-1 border-secondary">
         <div class="sidebar-link text-gray-85 {{ $onSubmaster ? 'sidebar-active' : '' }} fw-medium user-select-none d-flex align-items-center text-nowrap">
-          <span class="{{ $onSubmaster ? '' : 'hover-highlight-30 highlight-target-text-white' }} p-3 flex-grow-1">
+          <a href="{{ route('submaster.index') }}" class="text-gray-85 text-decoration-none {{ $onSubmaster ? '' : 'hover-highlight-30 highlight-target-text-white' }} p-3 flex-grow-1">
             <i class="nf nf-fa-gear me-2 fs-5-5"></i>サブマスター登録
-          </span>
+          </a>
           <span class="submenu-arrow sidebar-submenu-toggle {{ $onSubmaster ? '' : 'hover-highlight-30 highlight-target-text-white' }} p-3" data-target="submaster-submenu">
             <i class="nf nf-md-chevron_down fs-7"></i>
           </span>
@@ -205,9 +205,9 @@
       @if(Auth::user()->is_admin)
       <li class="border-bottom border-1 border-secondary">
         <div class="sidebar-link text-gray-85 {{ $onAdminPanel ? 'sidebar-active' : '' }} fw-medium user-select-none d-flex align-items-center text-nowrap">
-          <span class="{{ $onAdminPanel ? '' : 'hover-highlight-30 highlight-target-text-white' }} p-3 flex-grow-1">
+          <a href="{{ route('admin-panel.index') }}" class="text-gray-85 text-decoration-none {{ $onAdminPanel ? '' : 'hover-highlight-30 highlight-target-text-white' }} p-3 flex-grow-1">
             <i class="nf nf-md-wrench me-2 fs-5-5"></i>システム管理
-          </span>
+          </a>
           <span class="submenu-arrow sidebar-submenu-toggle {{ $onAdminPanel ? '' : 'hover-highlight-30 highlight-target-text-white' }} p-3" data-target="admin-panel-submenu">
             <i class="nf nf-md-chevron_down fs-7"></i>
           </span>
