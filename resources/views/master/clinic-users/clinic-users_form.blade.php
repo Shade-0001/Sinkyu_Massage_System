@@ -221,6 +221,7 @@
     </div>
 
     <div class="mt-4 text-end">
+      <a href="{{ route('clinic-users.index') }}" class="btn-ex-main btn-ex-gray"><i class="nf nf-fa-caret_left me-1" style="transform: scale(1.2)"></i>戻る</a>
       <button type="submit" class="btn-ex-main btn-ex-blue">登録確認へ</button>
     </div>
   </div>
