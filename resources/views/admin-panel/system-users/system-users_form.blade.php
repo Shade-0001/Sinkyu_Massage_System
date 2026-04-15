@@ -25,78 +25,90 @@
   <form action="{{ $action }}" method="POST">
   @csrf
 
-  <div class="mb-3">
-    <label for="name" class="form-label fw-bold">名前 <span class="text-danger">*</span></label>
-    <input
-      type="text"
-      id="name"
-      name="name"
-      class="form-control @error('name') is-invalid @enderror"
-      value="{{ old('name', $systemUser->name ?? '') }}"
-      required
-    >
-    @error('name')
-    <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
-  </div>
+  <div class="d-flex flex-column gap-4 container ms-0">
 
-  <div class="mb-3">
-    <label for="login_id" class="form-label fw-bold">ログインID <span class="text-danger">*</span></label>
-    <input
-      type="text"
-      id="login_id"
-      name="login_id"
-      class="form-control @error('login_id') is-invalid @enderror"
-      value="{{ old('login_id', $systemUser->login_id ?? '') }}"
-      required
-    >
-    @error('login_id')
-    <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
-  </div>
+    {{-- 名前 --}}
+    <div>
+      <label class="form-label-tab" for="name">名前 <span class="text-danger">*</span>
+        @error('name')<span class="text-danger ms-2">{{ $message }}</span>@enderror
+      </label>
+      <div class="form-field px-3 py-2">
+        <div class="form-field-top"></div>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value="{{ old('name', $systemUser->name ?? '') }}"
+          required
+        >
+      </div>
+    </div>
 
-  <div class="mb-3">
-    <label for="plain_password" class="form-label fw-bold">パスワード <span class="text-danger">*</span></label>
-    @if($mode === 'edit')
-    <div class="form-text mb-1 text-muted">現在のパスワードを入力してください（変更する場合は新しいパスワードを入力）</div>
-    @endif
-    <input
-      type="text"
-      id="plain_password"
-      name="plain_password"
-      class="form-control @error('plain_password') is-invalid @enderror"
-      value="{{ old('plain_password', $mode === 'edit' ? ($systemUser->plain_password ?? '') : '') }}"
-      required
-    >
-    @error('plain_password')
-    <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
-  </div>
+    {{-- ログインID --}}
+    <div>
+      <label class="form-label-tab" for="login_id">ログインID <span class="text-danger">*</span>
+        @error('login_id')<span class="text-danger ms-2">{{ $message }}</span>@enderror
+      </label>
+      <div class="form-field px-3 py-2">
+        <div class="form-field-top"></div>
+        <input
+          type="text"
+          id="login_id"
+          name="login_id"
+          value="{{ old('login_id', $systemUser->login_id ?? '') }}"
+          required
+        >
+      </div>
+    </div>
 
-  <div class="mb-3">
-    <label for="is_admin" class="form-label fw-bold">権限 <span class="text-danger">*</span></label>
-    <select
-      id="is_admin"
-      name="is_admin"
-      class="form-select @error('is_admin') is-invalid @enderror"
-      required
-    >
-      <option value="" disabled {{ old('is_admin', $systemUser->is_admin ?? '') === '' ? 'selected' : '' }}>選択してください</option>
-      <option value="0" {{ old('is_admin', $systemUser->is_admin ?? '') === 0 || old('is_admin', $systemUser->is_admin ?? '') === '0' ? 'selected' : '' }}>通常</option>
-      <option value="1" {{ old('is_admin', $systemUser->is_admin ?? '') === 1 || old('is_admin', $systemUser->is_admin ?? '') === '1' ? 'selected' : '' }} {{ !Auth::user()->is_admin ? 'disabled' : '' }}>管理者</option>
-    </select>
-    @error('is_admin')
-    <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
-  </div>
+    {{-- パスワード --}}
+    <div>
+      <label class="form-label-tab" for="plain_password">パスワード <span class="text-danger">*</span>
+        @error('plain_password')<span class="text-danger ms-2">{{ $message }}</span>@enderror
+      </label>
+      <div class="form-field px-3 py-2">
+        <div class="form-field-top"></div>
+        @if($mode === 'edit')
+        <div class="small mb-1 text-muted">現在のパスワードを入力してください（変更する場合は新しいパスワードを入力）</div>
+        @endif
+        <input
+          type="text"
+          id="plain_password"
+          name="plain_password"
+          value="{{ old('plain_password', $mode === 'edit' ? ($systemUser->plain_password ?? '') : '') }}"
+          required
+        >
+      </div>
+    </div>
 
-  <div class="d-flex gap-2">
-    <button type="submit" class="btn-ex-main btn-ex-blue">
-      @if($mode === 'edit') 更新する
-      @else 登録する
-      @endif
-    </button>
-    <a href="{{ route('system-users.index') }}" class="btn-ex-main btn-ex-gray">一覧へ戻る</a>
+    {{-- 権限 --}}
+    <div>
+      <label class="form-label-tab" for="is_admin">権限 <span class="text-danger">*</span>
+        @error('is_admin')<span class="text-danger ms-2">{{ $message }}</span>@enderror
+      </label>
+      <div class="form-field px-3 py-2">
+        <div class="form-field-top"></div>
+        <select
+          id="is_admin"
+          name="is_admin"
+          required
+        >
+          <option value="" disabled {{ old('is_admin', $systemUser->is_admin ?? '') === '' ? 'selected' : '' }}>選択してください</option>
+          <option value="0" {{ old('is_admin', $systemUser->is_admin ?? '') === 0 || old('is_admin', $systemUser->is_admin ?? '') === '0' ? 'selected' : '' }}>通常</option>
+          <option value="1" {{ old('is_admin', $systemUser->is_admin ?? '') === 1 || old('is_admin', $systemUser->is_admin ?? '') === '1' ? 'selected' : '' }} {{ !Auth::user()->is_admin ? 'disabled' : '' }}>管理者</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="mt-4 text-end">
+      <button type="submit" class="btn-ex-main btn-ex-blue">
+        @if($mode === 'edit') 更新する
+        @else 登録する
+        @endif
+      </button>
+      <a href="{{ route('system-users.index') }}" class="btn-ex-main btn-ex-gray">一覧へ戻る</a>
+    </div>
+
   </div>
 
   </form>

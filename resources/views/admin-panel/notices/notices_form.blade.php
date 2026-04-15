@@ -31,43 +31,52 @@
   <form action="{{ $action }}" method="POST">
   @csrf
 
-  <div class="mb-3">
-    <label for="title" class="form-label fw-bold">タイトル <span class="text-danger">*</span></label>
-    <input
-      type="text"
-      id="title"
-      name="title"
-      class="form-control @error('title') is-invalid @enderror"
-      value="{{ old('title', $notice->title ?? '') }}"
-      required
-    >
-    @error('title')
-    <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
-  </div>
+  <div class="d-flex flex-column gap-4 container ms-0">
 
-  <div class="mb-3">
-    <label for="content" class="form-label fw-bold">内容 <span class="text-danger">*</span></label>
-    <textarea
-      id="content"
-      name="content"
-      class="form-control @error('content') is-invalid @enderror"
-      rows="10"
-      required
-    >{{ old('content', $notice->content ?? '') }}</textarea>
-    @error('content')
-    <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
-  </div>
+    {{-- タイトル --}}
+    <div>
+      <label class="form-label-tab" for="title">タイトル <span class="text-danger">*</span>
+        @error('title')<span class="text-danger ms-2">{{ $message }}</span>@enderror
+      </label>
+      <div class="form-field px-3 py-2">
+        <div class="form-field-top"></div>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          value="{{ old('title', $notice->title ?? '') }}"
+          required
+        >
+      </div>
+    </div>
 
-  <div class="d-flex gap-2">
-    <button type="submit" class="btn-ex-main btn-ex-blue">
-      @if($mode === 'edit') 更新する
-      @elseif($mode === 'duplicate') 複製して登録する
-      @else 登録する
-      @endif
-    </button>
-    <a href="{{ route('notices.index') }}" class="btn-ex-main btn-ex-gray">一覧へ戻る</a>
+    {{-- 内容 --}}
+    <div>
+      <label class="form-label-tab" for="content">内容 <span class="text-danger">*</span>
+        @error('content')<span class="text-danger ms-2">{{ $message }}</span>@enderror
+      </label>
+      <div class="form-field px-3 py-2">
+        <div class="form-field-top"></div>
+        <textarea
+          id="content"
+          name="content"
+          rows="10"
+          style="width: 100%;"
+          required
+        >{{ old('content', $notice->content ?? '') }}</textarea>
+      </div>
+    </div>
+
+    <div class="mt-4 text-end">
+      <button type="submit" class="btn-ex-main btn-ex-blue">
+        @if($mode === 'edit') 更新する
+        @elseif($mode === 'duplicate') 複製して登録する
+        @else 登録する
+        @endif
+      </button>
+      <a href="{{ route('notices.index') }}" class="btn-ex-main btn-ex-gray">一覧へ戻る</a>
+    </div>
+
   </div>
 
   </form>

@@ -37,67 +37,86 @@
     @csrf
     <input type="hidden" name="clinic_user_id" value="{{ $clinicUserId }}">
 
-    <div class="mb-4">
-      @if($mode === 'duplicate')
-        <!-- 複製モードでは年月を変更可能 -->
-        <div class="d-flex gap-3 align-items-center">
-          <label class="fw-bold">複製先年月</label>
-          <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
-          <select id="duplicate-date-select" required>
-              @php
-                $currentDate = new DateTime();
-                $maxDate = (clone $currentDate)->modify('+6 months');
-                $maxYear = (int)$maxDate->format('Y');
-                $maxMonth = (int)$maxDate->format('m');
-              @endphp
-              @for($y = $maxYear; $y >= 2000; $y--)
+    <div class="d-flex flex-column gap-4 container ms-0">
+
+      {{-- 複製先年月 / 年月表示 --}}
+      <div class="mb-2">
+        @if($mode === 'duplicate')
+          <div class="d-flex gap-3 align-items-center">
+            <label class="fw-bold">複製先年月</label>
+            <div class="vr ms-1 me-2" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
+            <select id="duplicate-date-select" required>
                 @php
-                  $startMonth = ($y == $maxYear) ? $maxMonth : 12;
-                  $endMonth = ($y == 2000) ? 1 : 1;
+                  $currentDate = new DateTime();
+                  $maxDate = (clone $currentDate)->modify('+6 months');
+                  $maxYear = (int)$maxDate->format('Y');
+                  $maxMonth = (int)$maxDate->format('m');
                 @endphp
-                @for($m = $startMonth; $m >= $endMonth; $m--)
+                @for($y = $maxYear; $y >= 2000; $y--)
                   @php
-                    $value = sprintf('%04d-%02d', $y, $m);
-                    $isSelected = old('year', $year) == $y && old('month', $month) == $m;
+                    $startMonth = ($y == $maxYear) ? $maxMonth : 12;
+                    $endMonth = ($y == 2000) ? 1 : 1;
                   @endphp
-                  <option value="{{ $value }}" {{ $isSelected ? 'selected' : '' }}>{{ $y }} 年 {{ sprintf('%02d', $m) }}</option>
+                  @for($m = $startMonth; $m >= $endMonth; $m--)
+                    @php
+                      $value = sprintf('%04d-%02d', $y, $m);
+                      $isSelected = old('year', $year) == $y && old('month', $month) == $m;
+                    @endphp
+                    <option value="{{ $value }}" {{ $isSelected ? 'selected' : '' }}>{{ $y }} 年 {{ sprintf('%02d', $m) }}</option>
+                  @endfor
                 @endfor
-              @endfor
-            </select>
-          <input type="hidden" name="year" id="year" value="{{ old('year', $year) }}">
-          <input type="hidden" name="month" id="month" value="{{ old('month', $month) }}">
+              </select>
+            <input type="hidden" name="year" id="year" value="{{ old('year', $year) }}">
+            <input type="hidden" name="month" id="month" value="{{ old('month', $month) }}">
+          </div>
+        @else
+          <h5 class="fw-bold mb-3">{{ $year }}年 {{ sprintf('%02d', $month) }}月の報告書データ</h5>
+          <input type="hidden" name="year" value="{{ $year }}">
+          <input type="hidden" name="month" value="{{ $month }}">
+        @endif
+      </div>
+
+      {{-- 主観症状 --}}
+      <div>
+        <label class="form-label-tab" for="subjective_symptom_and_wish">主観症状</label>
+        <div class="form-field px-3 py-2">
+          <div class="form-field-top"></div>
+          <textarea id="subjective_symptom_and_wish" name="subjective_symptom_and_wish" class="w-100" rows="5" maxlength="1000">{{ old('subjective_symptom_and_wish', $report->subjective_symptom_and_wish ?? '') }}</textarea>
         </div>
-      @else
-        <!-- 新規登録・編集モードでは年月を固定表示 -->
-        <h5 class="fw-bold mb-3">{{ $year }}年 {{ sprintf('%02d', $month) }}月の報告書データ</h5>
-        <input type="hidden" name="year" value="{{ $year }}">
-        <input type="hidden" name="month" value="{{ $month }}">
-      @endif
-    </div>
+      </div>
 
-    <div class="mb-3">
-      <label for="subjective_symptom_and_wish" class="form-label fw-bold">主観症状</label><br>
-      <textarea id="subjective_symptom_and_wish" name="subjective_symptom_and_wish" class="w-100" rows="5" maxlength="1000">{{ old('subjective_symptom_and_wish', $report->subjective_symptom_and_wish ?? '') }}</textarea>
-    </div>
+      {{-- 客観症状 --}}
+      <div>
+        <label class="form-label-tab" for="objective_symptom">客観症状</label>
+        <div class="form-field px-3 py-2">
+          <div class="form-field-top"></div>
+          <textarea id="objective_symptom" name="objective_symptom" class="w-100" rows="5" maxlength="1000">{{ old('objective_symptom', $report->objective_symptom ?? '') }}</textarea>
+        </div>
+      </div>
 
-    <div class="mb-3">
-      <label for="objective_symptom" class="form-label fw-bold">客観症状</label><br>
-      <textarea id="objective_symptom" name="objective_symptom"  class="w-100" rows="5" maxlength="1000">{{ old('objective_symptom', $report->objective_symptom ?? '') }}</textarea>
-    </div>
+      {{-- 施術内容 --}}
+      <div>
+        <label class="form-label-tab" for="therapy_content">施術内容</label>
+        <div class="form-field px-3 py-2">
+          <div class="form-field-top"></div>
+          <textarea id="therapy_content" name="therapy_content" class="w-100" rows="5" maxlength="1000">{{ old('therapy_content', $report->therapy_content ?? '') }}</textarea>
+        </div>
+      </div>
 
-    <div class="mb-3">
-      <label for="therapy_content" class="form-label fw-bold">施術内容</label><br>
-      <textarea id="therapy_content" name="therapy_content" class="w-100" rows="5" maxlength="1000">{{ old('therapy_content', $report->therapy_content ?? '') }}</textarea>
-    </div>
+      {{-- 治療計画 --}}
+      <div>
+        <label class="form-label-tab" for="therapy_plan">治療計画</label>
+        <div class="form-field px-3 py-2">
+          <div class="form-field-top"></div>
+          <textarea id="therapy_plan" name="therapy_plan" class="w-100" rows="5" maxlength="1000">{{ old('therapy_plan', $report->therapy_plan ?? '') }}</textarea>
+        </div>
+      </div>
 
-    <div class="mb-3">
-      <label for="therapy_plan" class="form-label fw-bold">治療計画</label><br>
-      <textarea id="therapy_plan" name="therapy_plan" class="w-100" rows="5" maxlength="1000">{{ old('therapy_plan', $report->therapy_plan ?? '') }}</textarea>
-    </div>
+      <div class="mt-4 text-end">
+        <button type="submit" class="btn-ex-main btn-ex-blue">登録</button>
+        <button type="button" class="btn-ex-main btn-ex-gray" onclick="window.location.href='{{ route('reports.index', ['clinic_user_id' => $clinicUserId, 'scroll_year' => $year, 'scroll_month' => $month]) }}'">キャンセル</button>
+      </div>
 
-    <div class="d-flex gap-2 mt-4">
-      <button type="button" onclick="window.location.href='{{ route('reports.index', ['clinic_user_id' => $clinicUserId, 'scroll_year' => $year, 'scroll_month' => $month]) }}'">キャンセル</button>
-      <button type="submit">登録</button>
     </div>
   </form>
 

@@ -2,58 +2,79 @@
 
 @csrf
 
-<div class="mb-3">
-  <label class="fw-semibold" for="document_category">文書カテゴリ</span></label><br>
-  <select name="document_category" id="document_category">
-    <option value="">╌╌╌</option>
-    @foreach($categories as $category)
-      <option value="{{ $category }}" {{ old('document_category', $item->document_category ?? '') == $category ? 'selected' : '' }}>
-        {{ $category }}
-      </option>
-    @endforeach
-  </select>
-  @error('document_category')
-    <div class="text-danger">{{ $message }}</div>
-  @enderror
-</div>
+<div class="d-flex flex-column gap-4 container ms-0">
 
-<div class="mb-3">
-  <label class="fw-semibold" for="document_name">文面名称</label><br>
-  <input type="text" name="document_name" id="document_name" value="{{ old('document_name', $item->document_name ?? '') }}" placeholder="文面名称を入力…">
-  <div id="name-duplicate-error" class="text-danger" style="display: none;">既存の文面名称と重複。文面名称を変更が必要。</div>
-  @error('document_name')
-    <div class="text-danger">{{ $message }}</div>
-  @enderror
-</div>
+  {{-- 文書カテゴリ --}}
+  <div>
+    <label class="form-label-tab" for="document_category">文書カテゴリ
+      @error('document_category')<span class="text-danger ms-2">{{ $message }}</span>@enderror
+    </label>
+    <div class="form-field px-3 py-2">
+      <div class="form-field-top"></div>
+      <select name="document_category" id="document_category">
+        <option value="">╌╌╌</option>
+        @foreach($categories as $category)
+          <option value="{{ $category }}" {{ old('document_category', $item->document_category ?? '') == $category ? 'selected' : '' }}>
+            {{ $category }}
+          </option>
+        @endforeach
+      </select>
+    </div>
+  </div>
 
-<div class="mb-3">
-  <label class="fw-semibold" for="content">本文</span></label><br>
-  <textarea name="content" id="content" rows="6" maxlength="2000">{{ old('content', $item->content ?? '') }}</textarea>
-  @error('content')
-    <div class="text-danger">{{ $message }}</div>
-  @enderror
-</div>
+  {{-- 文面名称 --}}
+  <div>
+    <label class="form-label-tab" for="document_name">文面名称
+      @error('document_name')<span class="text-danger ms-2">{{ $message }}</span>@enderror
+    </label>
+    <div class="form-field px-3 py-2">
+      <div class="form-field-top"></div>
+      <input type="text" name="document_name" id="document_name" value="{{ old('document_name', $item->document_name ?? '') }}" placeholder="文面名称を入力…">
+      <div id="name-duplicate-error" class="text-danger mt-1" style="display: none;">既存の文面名称と重複。文面名称を変更が必要。</div>
+    </div>
+  </div>
 
-<div class="mb-3">
-  <label class="fw-semibold" for="font_size">フォントサイズ</label><br>
-  <input type="number" name="font_size" id="font_size" value="{{ old('font_size', $item->font_size ?? 12) }}" style="width: 100px;">
-  @error('font_size')
-    <div class="text-danger">{{ $message }}</div>
-  @enderror
-</div>
+  {{-- 本文 --}}
+  <div>
+    <label class="form-label-tab" for="content">本文
+      @error('content')<span class="text-danger ms-2">{{ $message }}</span>@enderror
+    </label>
+    <div class="form-field px-3 py-2">
+      <div class="form-field-top"></div>
+      <textarea name="content" id="content" rows="6" maxlength="2000" style="width: 100%;">{{ old('content', $item->content ?? '') }}</textarea>
+    </div>
+  </div>
 
-<div class="mb-3">
-  <label class="fw-semibold" for="line_height">行間隔</label><br>
-  <input type="number" name="line_height" id="line_height" value="{{ old('line_height', $item->line_height ?? 7) }}" style="width: 100px;">
-  @error('line_height')
-    <div class="text-danger">{{ $message }}</div>
-  @enderror
-</div>
+  {{-- フォントサイズ --}}
+  <div>
+    <label class="form-label-tab" for="font_size">フォントサイズ
+      @error('font_size')<span class="text-danger ms-2">{{ $message }}</span>@enderror
+    </label>
+    <div class="form-field px-3 py-2">
+      <div class="form-field-top"></div>
+      <input type="number" name="font_size" id="font_size" value="{{ old('font_size', $item->font_size ?? 12) }}" style="width: 100px;">
+    </div>
+  </div>
 
-<button type="submit" id="submit-btn">{{ $submitLabel ?? '登録' }}</button>
-<a href="{{ $cancelRoute ?? route('master.documents.index') }}">
-  <button type="button">キャンセル</button>
-</a>
+  {{-- 行間隔 --}}
+  <div>
+    <label class="form-label-tab" for="line_height">行間隔
+      @error('line_height')<span class="text-danger ms-2">{{ $message }}</span>@enderror
+    </label>
+    <div class="form-field px-3 py-2">
+      <div class="form-field-top"></div>
+      <input type="number" name="line_height" id="line_height" value="{{ old('line_height', $item->line_height ?? 7) }}" style="width: 100px;">
+    </div>
+  </div>
+
+  <div class="mt-4 text-end">
+    <button type="submit" id="submit-btn" class="btn-ex-main btn-ex-blue">{{ $submitLabel ?? '登録' }}</button>
+    <a href="{{ $cancelRoute ?? route('master.documents.index') }}">
+      <button type="button" class="btn-ex-main btn-ex-gray">キャンセル</button>
+    </a>
+  </div>
+
+</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
