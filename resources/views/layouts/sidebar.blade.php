@@ -63,8 +63,8 @@
       </li>
       <li class="border-bottom border-1 border-secondary">
         <div class="sidebar-link text-gray-90 {{ $onMaster ? 'sidebar-active' : '' }} fw-medium user-select-none d-flex align-items-center text-nowrap">
-          <a href="{{ route('master.index') }}" class="text-gray-90 text-decoration-none {{ $onMaster ? '' : 'hover-highlight-30 highlight-target-text-white' }} p-3 flex-grow-1"><i class="nf nf-fa-gear me-2 fs-5-5"></i>マスター登録</a>
-          <span class="sidebar-submenu-toggle {{ $onMaster ? '' : 'hover-highlight-30 highlight-target-text-white' }} p-3" data-target="master-submenu">
+          <a href="{{ route('master.index') }}" class="text-gray-90 text-decoration-none {{ $onMaster ? '' : 'hover-highlight-30 highlight-target-text-white' }} p-3 flex-grow-1 min-w-0"><i class="nf nf-fa-gear me-2 fs-5-5"></i>マスター登録</a>
+          <span class="sidebar-submenu-toggle flex-shrink-0 {{ $onMaster ? '' : 'hover-highlight-30 highlight-target-text-white' }} p-3" data-target="master-submenu">
             <i class="nf nf-md-chevron_down fs-7 submenu-arrow"></i>
           </span>
         </div>
@@ -145,10 +145,10 @@
       </li>
       <li class="border-bottom border-1 border-secondary">
         <div class="sidebar-link text-gray-85 {{ $onSubmaster ? 'sidebar-active' : '' }} fw-medium user-select-none d-flex align-items-center text-nowrap">
-          <a href="{{ route('submaster.index') }}" class="text-gray-85 text-decoration-none {{ $onSubmaster ? '' : 'hover-highlight-30 highlight-target-text-white' }} p-3 flex-grow-1">
+          <a href="{{ route('submaster.index') }}" class="text-gray-85 text-decoration-none {{ $onSubmaster ? '' : 'hover-highlight-30 highlight-target-text-white' }} p-3 flex-grow-1 min-w-0">
             <i class="nf nf-fa-gear me-2 fs-5-5"></i>サブマスター登録
           </a>
-          <span class="sidebar-submenu-toggle {{ $onSubmaster ? '' : 'hover-highlight-30 highlight-target-text-white' }} p-3" data-target="submaster-submenu">
+          <span class="sidebar-submenu-toggle flex-shrink-0 {{ $onSubmaster ? '' : 'hover-highlight-30 highlight-target-text-white' }} p-3" data-target="submaster-submenu">
             <i class="nf nf-md-chevron_down fs-7 submenu-arrow"></i>
           </span>
         </div>
@@ -205,10 +205,10 @@
       @if(Auth::user()->is_admin)
       <li class="border-bottom border-1 border-secondary">
         <div class="sidebar-link text-gray-85 {{ $onAdminPanel ? 'sidebar-active' : '' }} fw-medium user-select-none d-flex align-items-center text-nowrap">
-          <a href="{{ route('admin-panel.index') }}" class="text-gray-85 text-decoration-none {{ $onAdminPanel ? '' : 'hover-highlight-30 highlight-target-text-white' }} p-3 flex-grow-1">
+          <a href="{{ route('admin-panel.index') }}" class="text-gray-85 text-decoration-none {{ $onAdminPanel ? '' : 'hover-highlight-30 highlight-target-text-white' }} p-3 flex-grow-1 min-w-0">
             <i class="nf nf-md-wrench me-2 fs-5-5"></i>システム管理
           </a>
-          <span class="sidebar-submenu-toggle {{ $onAdminPanel ? '' : 'hover-highlight-30 highlight-target-text-white' }} p-3" data-target="admin-panel-submenu">
+          <span class="sidebar-submenu-toggle flex-shrink-0 {{ $onAdminPanel ? '' : 'hover-highlight-30 highlight-target-text-white' }} p-3" data-target="admin-panel-submenu">
             <i class="nf nf-md-chevron_down fs-7 submenu-arrow"></i>
           </span>
         </div>
