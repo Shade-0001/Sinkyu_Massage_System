@@ -579,7 +579,7 @@ Breadcrumbs::define('submaster.conditions', function() {
 Breadcrumbs::define('submaster.illnesses-massage', function() {
   return [
     ...getSubMasterBreadcrumbs(),
-    ['url' => null, 'label' => '疾病（あんま・マッサージ）'],
+    ['url' => null, 'label' => '傷病名（あんま・マッサージ）'],
   ];
 });
 

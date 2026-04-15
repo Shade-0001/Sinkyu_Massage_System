@@ -188,7 +188,7 @@ class SubMasterController extends Controller
     $items = DB::table('illnesses_massage')->orderBy('id')->get();
     return view('submaster.illnesses-massage', [
       'items' => $items,
-      'page_header_title' => '疾病（マッサージ）'
+      'page_header_title' => '傷病名（あんま・マッサージ）'
     ]);
   }
 
