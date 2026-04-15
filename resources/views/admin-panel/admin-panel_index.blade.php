@@ -10,7 +10,30 @@
   />
 
 
-  <a href="{{ route('system-users.index') }}">ユーザーアカウント</a><br>
-  <a href="{{ route('notices.index') }}">お知らせ</a><br>
-  <a href="{{ route('prints.coordinate-adjuster') }}">PDFレイアウト調整ツール</a><br>
+  <div class="row g-3 m-3">
+    <div class="col-12">
+      <a href="{{ route('system-users.index') }}" class="btn-ex-main btn-ex-blue btn-ex-rounded-full">
+        <div class="btn-ex-skin btn-ex-white btn-ex-xs btn-ex-rounded-full aspect-square m-n05 p-3">
+          <i class="nf nf-md-account_circle fs-6 m-n2"></i>
+        </div>
+        <div class="fs-5-5 ms-4 me-3">ユーザーアカウント</div>
+      </a>
+    </div>
+    <div class="col-12">
+      <a href="{{ route('notices.index') }}" class="btn-ex-main btn-ex-blue btn-ex-rounded-full">
+        <div class="btn-ex-skin btn-ex-white btn-ex-xs btn-ex-rounded-full aspect-square m-n05 p-3">
+          <i class="nf nf-fa-bell fs-6 m-n2"></i>
+        </div>
+        <div class="fs-5-5 ms-4 me-3">お知らせ</div>
+      </a>
+    </div>
+    <div class="col-12">
+      <a href="{{ route('prints.coordinate-adjuster') }}" class="btn-ex-main btn-ex-blue btn-ex-rounded-full">
+        <div class="btn-ex-skin btn-ex-white btn-ex-xs btn-ex-rounded-full aspect-square m-n05 p-3">
+          <i class="nf nf-md-file_pdf_box fs-6 m-n2"></i>
+        </div>
+        <div class="fs-5-5 ms-4 me-3">PDFレイアウト調整ツール</div>
+      </a>
+    </div>
+  </div>
 </x-app-layout>
