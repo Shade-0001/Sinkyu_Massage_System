@@ -194,8 +194,8 @@ document.addEventListener('DOMContentLoaded', function() {
         openSubmenu(parentSubmenu, parentToggle, true);
         saveSubmenuStates(parentSubmenu.id, 'auto');
       }
-      // 他の展開中サブメニューを格納（アクティブサブメニューが既に開いてる場合も実行）
-      requestAnimationFrame(() => {
+      // 他の展開中サブメニューを格納（ページロード後にtransitionが有効になってから実行）
+      setTimeout(() => {
         document.querySelectorAll('.submenu.open').forEach(submenu => {
           if (submenu.id !== parentSubmenu.id) {
             const toggle = document.querySelector(`[data-target="${submenu.id}"]`);
@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function() {
           }
         });
         saveSubmenuStates(parentSubmenu.id, 'auto');
-      });
+      }, 50);
     }
   }
 });
