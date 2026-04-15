@@ -128,9 +128,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function closeSubmenu(submenu, toggle) {
     const arrow = toggle ? toggle.querySelector('.submenu-arrow') : null;
+    // scrollHeightをopen状態のまま取得してからmax-heightに固定
+    const height = submenu.scrollHeight;
+    submenu.style.maxHeight = height + 'px';
     submenu.classList.remove('open');
     if (arrow) arrow.classList.remove('rotated');
-    submenu.style.maxHeight = submenu.scrollHeight + 'px';
+    // 1フレーム待って確実にmax-height: heightが描画されてからアニメーション開始
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         submenu.style.maxHeight = '0';
