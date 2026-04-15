@@ -52,40 +52,6 @@
   color: #333333 !important;
 }
 
-/* サイドバーアクティブ状態 */
-.sidebar-active {
-  position: relative;
-}
-
-.sidebar-active::after {
-  background: #ffffff;
-  mix-blend-mode: overlay;
-  opacity: 0.3;
-  pointer-events: none;
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  z-index: 2;
-}
-
-.sidebar-active:hover::after {
-  opacity: 0.3;
-}
-
-.sidebar-active,
-.sidebar-active * {
-  color: #ffffff !important;
-  transition: none;
-}
-
-/* アクティブ要素はホバー効果無効化 */
-.sidebar-active.highlight-target-text-white,
-.sidebar-active.highlight-target-text-white *,
-.sidebar-active .highlight-target-text-white,
-.sidebar-active .highlight-target-text-white * {
-  color: #ffffff !important;
-}
 
 /*──────────────────────────────────────────────*/
 /*  ホバー時輝度上昇                             */
