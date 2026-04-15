@@ -399,7 +399,7 @@ html[data-sidebar="closed"] #sidebar-content {
 }
 
 .sidebar-active::after {
-  background: #ffffff;
+  background: hsl(200, 100%, 50%);
   mix-blend-mode: overlay;
   opacity: 0.3;
   pointer-events: none;
@@ -434,6 +434,7 @@ html[data-sidebar="closed"] #sidebar-content {
 }
 
 .submenu-arrow {
+  display: inline-block;
   font-size: 12px;
   transition: transform 0.2s ease;
   will-change: transform;
@@ -472,7 +473,7 @@ html[data-sidebar="closed"] #sidebar-content {
   vertical-align: middle;
 }
 .submenu-icon-stack .icon-circle {
-  font-size: 1.2rem;
+  font-size: 1.0rem;
 }
 .submenu-icon-stack .icon-inner {
   position: absolute;
