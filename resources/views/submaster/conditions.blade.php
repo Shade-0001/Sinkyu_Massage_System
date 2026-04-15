@@ -10,7 +10,7 @@
       <tr>
         <th class="text-center" style="width: 10%;">ID</th>
         <th class="text-center" style="width: 50%;">名称</th>
-        <th class="text-center" style="max-width: 140px;">操作</th>
+        <th class="text-center" style="width: 140px;">操作</th>
       </tr>
     </thead>
     <tbody>
@@ -58,6 +58,7 @@
       
       // DataTables 初期化（定義ファイル：resources/js/app.js）
       var table = initDataTable('#conditionsTable', {
+        autoWidth: false,
         order: [[0, 'desc']],
         columnDefs: [
           { orderable: false, targets: [2] }
