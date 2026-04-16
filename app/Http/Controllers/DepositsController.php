@@ -25,18 +25,31 @@ class DepositsController extends Controller
     $currentDate = new \DateTime();
     $endDate = (clone $currentDate)->modify('+2 months');
 
+    // 年月ごとの件数を一括取得（N+1解消）
+    $monthCounts = Deposit::selectRaw('year_month, COUNT(*) as count')
+      ->groupBy('year_month')
+      ->pluck('count', 'year_month')
+      ->toArray();
+
+    // 年ごとの件数を集計
+    $yearCounts = [];
+    foreach ($monthCounts as $ym => $cnt) {
+      $year = (int)substr($ym, 0, 4);
+      $yearCounts[$year] = ($yearCounts[$year] ?? 0) + $cnt;
+    }
+
     $yearMonths = [];
     $tempDate = clone $startDate;
     while ($tempDate <= $endDate) {
       $yearMonth = $tempDate->format('Y-m');
-      // 各月のデータ有無をチェック
-      $hasData = Deposit::where('year_month', $yearMonth)->exists();
+      $count = $monthCounts[$yearMonth] ?? 0;
 
       $yearMonths[] = [
         'year' => (int)$tempDate->format('Y'),
         'month' => (int)$tempDate->format('m'),
         'year_month' => $yearMonth,
-        'has_data' => $hasData,
+        'has_data' => $count > 0,
+        'count' => $count,
       ];
       $tempDate->modify('+1 month');
     }
@@ -44,20 +57,8 @@ class DepositsController extends Controller
     // 逆順に並べる
     $yearMonths = array_reverse($yearMonths);
 
-    // 年ごとのデータ件数を取得
-    $depositsData = Deposit::select('year_month')->get();
-    $yearCounts = [];
-    foreach ($depositsData as $deposit) {
-      $year = (int)substr($deposit->year_month, 0, 4);
-      if (!isset($yearCounts[$year])) {
-        $yearCounts[$year] = 0;
-      }
-      $yearCounts[$year]++;
-    }
-
     // 年ごとにグループ化
     $depositsByYear = collect($yearMonths)->groupBy('year')->map(function ($months, $year) use ($yearCounts) {
-      // その年に入金データが1件でもあるかチェック（月データのhas_dataフラグを確認）
       $hasDeposits = collect($months)->contains('has_data', true);
       $count = $yearCounts[$year] ?? 0;
 

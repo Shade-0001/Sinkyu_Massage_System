@@ -1,153 +1,273 @@
-// 展開中の月を追跡
+//-- public/js/deposits.js --//
+
+// 状態管理
 let currentExpandedMonth = null;
 let isLoadingData = false;
-let isScrolling = false; // スクロール中フラグ
-let initialExpansionDone = false; // 初期展開完了フラグ
+let initialExpansionDone = false;
 
-// 年ヘッダーのアイコン切り替え
-document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('.collapse').forEach(function(collapseElement) {
-    collapseElement.addEventListener('show.bs.collapse', function(event) {
-      const button = document.querySelector(`[data-bs-target="#${this.id}"]`);
-      if (button) {
-        const icon = button.querySelector('.toggle-icon');
-        if (icon) icon.textContent = '▼';
-      }
-    });
+// ── hr2 ヘルパー ──────────────────────────────
+function getHr1Metrics(block) {
+  const topHr = block.querySelector('.year-top-hr');
+  return { top: topHr.offsetTop, left: topHr.offsetLeft, width: topHr.offsetWidth };
+}
 
-    collapseElement.addEventListener('hide.bs.collapse', function() {
-      const button = document.querySelector(`[data-bs-target="#${this.id}"]`);
-      if (button) {
-        const icon = button.querySelector('.toggle-icon');
-        if (icon) icon.textContent = '▶';
-      }
-    });
+function blockExpandedTop(block) {
+  const pb = parseFloat(getComputedStyle(block).paddingBottom) || 0;
+  const bottomHr = block.querySelector('.year-bottom-hr');
+  const hrH = bottomHr ? bottomHr.offsetHeight : 0;
+  return block.clientHeight - pb - hrH;
+}
 
-    // 年が展開されたら、その年の最新月（最初の月セクション）を自動展開
-    collapseElement.addEventListener('shown.bs.collapse', function() {
-      // 初期展開が既に完了している場合は、自動展開をスキップ（ユーザーの手動操作のみ許可）
-      if (initialExpansionDone) {
-        return;
-      }
+function setHr2ToHr1(block) {
+  const bottomHr = block.querySelector('.year-bottom-hr');
+  const m = getHr1Metrics(block);
+  bottomHr.style.transition = 'none';
+  bottomHr.style.top = m.top + 'px';
+  bottomHr.style.left = m.left + 'px';
+  bottomHr.style.width = m.width + 'px';
+}
 
-      // 既にスクロール処理中の場合はスキップ
-      if (isScrolling) {
-        return;
-      }
+function setHr2Expanded(block) {
+  const bottomHr = block.querySelector('.year-bottom-hr');
+  const cs = getComputedStyle(block);
+  const pl = parseFloat(cs.paddingLeft) || 0;
+  const pr = parseFloat(cs.paddingRight) || 0;
+  const hrWidth = block.clientWidth - pl - pr;
+  const hrLeft = (block.clientWidth - hrWidth) / 2;
+  bottomHr.style.transition = 'none';
+  bottomHr.style.top = blockExpandedTop(block) + 'px';
+  bottomHr.style.left = hrLeft + 'px';
+  bottomHr.style.width = hrWidth + 'px';
+}
 
-      // データがある最初の月セクションを取得
-      const firstMonthSection = this.querySelector('.deposit-month-section[data-has-data="true"]');
-      if (firstMonthSection) {
-        const yearMonth = firstMonthSection.getAttribute('data-year-month');
-        if (yearMonth && yearMonth !== currentExpandedMonth) {
-          isScrolling = true;
-          const collapseEl = this;
-          expandMonth(yearMonth, () => {
-            scrollToYear(collapseEl);
-            // スクロール完了後、フラグをリセット
-            setTimeout(() => {
-              isScrolling = false;
-              initialExpansionDone = true;
-            }, 1000);
-          });
-        }
-      }
-    });
+// rAFループでblock.clientHeightの変化に追従してhr2のtopを更新
+const hr2Loops = new Map();
+function startHr2Tracking(block) {
+  const id = block.id || (block._hr2id = block._hr2id || Math.random());
+  if (hr2Loops.has(id)) cancelAnimationFrame(hr2Loops.get(id));
+  const bottomHr = block.querySelector('.year-bottom-hr');
+  let last = -1;
+  let stable = 0;
+  function loop() {
+    const h = block.clientHeight;
+    bottomHr.style.top = blockExpandedTop(block) + 'px';
+    if (h === last) { stable++; if (stable >= 3) { hr2Loops.delete(id); return; } }
+    else stable = 0;
+    last = h;
+    hr2Loops.set(id, requestAnimationFrame(loop));
+  }
+  hr2Loops.set(id, requestAnimationFrame(loop));
+}
+
+// ── アニメーション ────────────────────────────
+function expandContent(content) {
+  content.style.height = content.scrollHeight + 'px';
+  content.style.transform = 'scaleY(1)';
+  content.style.opacity = '1';
+  content.addEventListener('transitionend', function onEnd(e) {
+    if (e.target !== content || e.propertyName !== 'height') return;
+    content.removeEventListener('transitionend', onEnd);
+    content.style.height = 'auto';
+  });
+}
+
+function collapseContent(content) {
+  content.style.height = content.scrollHeight + 'px';
+  requestAnimationFrame(() => {
+    content.style.height = '0';
+    content.style.transform = 'scaleY(0)';
+    content.style.opacity = '0';
+  });
+}
+
+// ── 年展開格納 ────────────────────────────────
+function toggleYear(btn) {
+  const targetId = btn.dataset.toggleYear;
+  const content = document.getElementById(targetId);
+  const block = btn.closest('.year-block');
+  const arrow = btn.querySelector('.year-toggle-arrow');
+  const bottomHr = block.querySelector('.year-bottom-hr');
+  const isExpanded = content.classList.contains('expanded');
+
+  // 他の展開中の年を格納
+  document.querySelectorAll('.year-content.expanded').forEach(openContent => {
+    if (openContent.id === targetId) return;
+    const openBlock = openContent.closest('.year-block');
+    const openBtn = document.querySelector(`[data-toggle-year="${openContent.id}"]`);
+    const openArrow = openBtn ? openBtn.querySelector('.year-toggle-arrow') : null;
+    const openBottomHr = openBlock ? openBlock.querySelector('.year-bottom-hr') : null;
+    openContent.classList.remove('expanded');
+    if (openBtn) {
+      openBtn.setAttribute('aria-expanded', 'false');
+      openBtn.classList.remove('btn-ex-active');
+    }
+    if (openArrow) openArrow.classList.remove('rotated');
+    collapseContent(openContent);
+    if (openBottomHr) {
+      const m = getHr1Metrics(openBlock);
+      openBottomHr.style.transition = 'top 0.3s ease, left 0.3s ease, width 0.3s ease';
+      openBottomHr.style.top = m.top + 'px';
+      openBottomHr.style.left = m.left + 'px';
+      openBottomHr.style.width = m.width + 'px';
+      openContent.addEventListener('transitionend', function onEnd(e) {
+        if (e.target !== openContent || e.propertyName !== 'height') return;
+        openContent.removeEventListener('transitionend', onEnd);
+        openBottomHr.style.transition = 'none';
+        openBottomHr.style.display = 'none';
+      });
+    }
   });
 
-  // 現在年月を自動展開（1回のみ）
-  if (window.depositsConfig.scrollToYearMonth && !initialExpansionDone) {
-    const targetSection = document.querySelector(`[data-year-month="${window.depositsConfig.scrollToYearMonth}"]`);
-    if (targetSection) {
-      const collapseParent = targetSection.closest('.collapse');
-      if (collapseParent) {
-        const collapseInstance = new bootstrap.Collapse(collapseParent, { toggle: true });
+  if (isExpanded) {
+    // 格納
+    content.classList.remove('expanded');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.classList.remove('btn-ex-active');
+    if (arrow) arrow.classList.remove('rotated');
+    collapseContent(content);
+    const m = getHr1Metrics(block);
+    bottomHr.style.transition = 'top 0.3s ease, left 0.3s ease, width 0.3s ease';
+    bottomHr.style.top = m.top + 'px';
+    bottomHr.style.left = m.left + 'px';
+    bottomHr.style.width = m.width + 'px';
+    content.addEventListener('transitionend', function onEnd(e) {
+      if (e.target !== content || e.propertyName !== 'height') return;
+      content.removeEventListener('transitionend', onEnd);
+      bottomHr.style.transition = 'none';
+      bottomHr.style.display = 'none';
+    });
+  } else {
+    // 展開
+    content.classList.add('expanded');
+    btn.setAttribute('aria-expanded', 'true');
+    btn.classList.add('btn-ex-active');
+    if (arrow) arrow.classList.add('rotated');
+    setHr2ToHr1(block);
+    bottomHr.style.display = 'block';
+    expandContent(content);
+    const cs = getComputedStyle(block);
+    const pl = parseFloat(cs.paddingLeft) || 0;
+    const pr = parseFloat(cs.paddingRight) || 0;
+    const hrWidth = block.clientWidth - pl - pr;
+    const hrLeft = (block.clientWidth - hrWidth) / 2;
+    requestAnimationFrame(() => {
+      bottomHr.style.transition = 'left 0.3s ease, width 0.3s ease';
+      bottomHr.style.left = hrLeft + 'px';
+      bottomHr.style.width = hrWidth + 'px';
+      startHr2Tracking(block);
+    });
+
+    // 年展開時に最初のデータあり月を自動展開（初回のみ）
+    if (!initialExpansionDone) {
+      const firstMonthBtn = content.querySelector('[data-toggle-month]');
+      if (firstMonthBtn) {
+        setTimeout(() => toggleMonth(firstMonthBtn), 350);
       }
     }
   }
-});
+}
 
-// 月データを展開
-function expandMonth(yearMonth, callback) {
-  // 既に同じ月を展開中、またはデータ読み込み中の場合はスキップ
-  if (yearMonth === currentExpandedMonth || isLoadingData) {
-    return;
-  }
+// ── 月展開格納 ────────────────────────────────
+function toggleMonth(btn) {
+  const targetId = btn.dataset.toggleMonth;
+  const content = document.getElementById(targetId);
+  const block = btn.closest('.year-block');
+  const arrow = btn.querySelector('.year-toggle-arrow');
+  const isExpanded = content.classList.contains('expanded');
+  const monthSection = btn.closest('.deposit-month-section');
+  const yearMonth = monthSection ? monthSection.dataset.yearMonth : null;
 
   // 他の展開中の月を格納
-  if (currentExpandedMonth && currentExpandedMonth !== yearMonth) {
-    const prevContainer = document.querySelector(`[data-year-month="${currentExpandedMonth}"] .deposit-data-container`);
-    if (prevContainer) {
-      prevContainer.innerHTML = '';
+  document.querySelectorAll('.month-content.expanded').forEach(openContent => {
+    if (openContent.id === targetId) return;
+    const openBtn = document.querySelector(`[data-toggle-month="${openContent.id}"]`);
+    if (openBtn) {
+      openBtn.classList.remove('btn-ex-active');
+      openBtn.setAttribute('aria-expanded', 'false');
+      const openArrow = openBtn.querySelector('.year-toggle-arrow');
+      if (openArrow) openArrow.classList.remove('rotated');
     }
+    openContent.classList.remove('expanded');
+    collapseContent(openContent);
+  });
+  currentExpandedMonth = null;
 
-    const prevMonthSection = document.querySelector(`[data-year-month="${currentExpandedMonth}"]`);
-    if (prevMonthSection) {
-      const prevIcon = prevMonthSection.querySelector('.month-toggle-icon');
-      if (prevIcon) prevIcon.textContent = '▸';
-    }
+  if (isExpanded) {
+    // 格納
+    content.classList.remove('expanded');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.classList.remove('btn-ex-active');
+    if (arrow) arrow.classList.remove('rotated');
+    collapseContent(content);
+    startHr2Tracking(block);
+  } else {
+    // 展開 → アニメーション開始、その後AJAXロード
+    content.classList.add('expanded');
+    btn.setAttribute('aria-expanded', 'true');
+    btn.classList.add('btn-ex-active');
+    if (arrow) arrow.classList.add('rotated');
+    expandContent(content);
+    currentExpandedMonth = yearMonth;
+    startHr2Tracking(block);
 
-    const prevSection = document.querySelector(`[data-year-month="${currentExpandedMonth}"]`);
-    if (prevSection) {
-      const prevCollapseParent = prevSection.closest('.collapse');
-      if (prevCollapseParent && prevCollapseParent.classList.contains('show')) {
-        const prevYear = prevCollapseParent.getAttribute('data-year');
-        const currentYear = yearMonth.split('-')[0];
-        if (prevYear !== currentYear) {
-          prevCollapseParent.classList.remove('show');
-        }
-      }
+    if (yearMonth) {
+      loadMonthData(yearMonth, content, block);
     }
   }
+}
 
-  currentExpandedMonth = yearMonth;
+// ── AJAXデータロード ──────────────────────────
+function loadMonthData(yearMonth, monthContent, block) {
+  if (isLoadingData) return;
+  isLoadingData = true;
 
-  // データを取得して表示
-  const container = document.querySelector(`[data-year-month="${yearMonth}"] .deposit-data-container`);
+  const container = monthContent.querySelector('.deposit-data-container');
   if (!container) {
+    isLoadingData = false;
     return;
   }
 
   container.innerHTML = '<div class="text-center py-3"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> 読み込み中...</div>';
 
-  const monthSection = document.querySelector(`[data-year-month="${yearMonth}"]`);
-  if (monthSection) {
-    const monthIcon = monthSection.querySelector('.month-toggle-icon');
-    if (monthIcon) monthIcon.textContent = '▾';
-  }
+  // spinner表示後にheightを再計算
+  requestAnimationFrame(() => {
+    monthContent.style.height = monthContent.scrollHeight + 'px';
+    startHr2Tracking(block);
+  });
 
   const url = window.depositsConfig.getMonthDataUrl.replace(':yearMonth', yearMonth);
-
-  isLoadingData = true;
 
   fetch(url)
     .then(response => response.json())
     .then(data => {
       if (data.success) {
-        if (data.deposits.length === 0) {
-          container.innerHTML = '<span class="text-secondary">該当データなし</span>';
-        } else {
-          container.innerHTML = renderDepositsTable(data.deposits);
-        }
+        container.innerHTML = data.deposits.length === 0
+          ? '<span class="text-secondary ms-2 d-inline-block py-2">該当データなし</span>'
+          : renderDepositsTable(data.deposits);
       } else {
-        container.innerHTML = '<span class="text-danger">データの取得に失敗しました</span>';
+        container.innerHTML = '<span class="text-danger ms-2">データの取得に失敗しました</span>';
       }
     })
-    .catch(error => {
-      console.error('Error:', error);
-      container.innerHTML = '<span class="text-danger">データの取得に失敗しました</span>';
+    .catch(() => {
+      container.innerHTML = '<span class="text-danger ms-2">データの取得に失敗しました</span>';
     })
     .finally(() => {
       isLoadingData = false;
-      if (callback && typeof callback === 'function') {
-        callback();
-      }
+      // テーブル注入後にheightを再計算
+      monthContent.style.height = monthContent.scrollHeight + 'px';
+      monthContent.addEventListener('transitionend', function onEnd(e) {
+        if (e.propertyName !== 'height') return;
+        monthContent.removeEventListener('transitionend', onEnd);
+        monthContent.style.height = 'auto';
+        startHr2Tracking(block);
+      });
+      startHr2Tracking(block);
     });
 }
 
-// 入金データテーブルをレンダリング
+// ── 入金データテーブルをレンダリング ────────────
 function renderDepositsTable(deposits) {
-  let html = '<div class="table-responsive"><table class="table table-bordered table-sm w-100" style="table-layout: auto;"><thead style=" font-size: 0.9rem" class="table-light"><tr>';
+  let html = '<div class="table-responsive"><table class="table table-bordered table-sm w-100" style="table-layout: auto;"><thead style="font-size: 0.9rem;" class="table-light"><tr>';
   html += '<th class="text-center align-middle" style="width: 3%;">ID</th>';
   html += '<th class="text-center align-middle text-nowrap" style="width: 10%;">保険者</th>';
   html += '<th class="text-center align-middle text-nowrap" style="width: 8%;">被保険者</th>';
@@ -183,7 +303,7 @@ function renderDepositsTable(deposits) {
   return html;
 }
 
-// 入金データを保存
+// ── 入金データを保存 ──────────────────────────
 function saveDeposit(depositId) {
   const inputs = document.querySelectorAll(`input[data-id="${depositId}"]`);
   const data = { _token: window.depositsConfig.csrfToken };
@@ -211,109 +331,80 @@ function saveDeposit(depositId) {
       alert('エラー: ' + data.message);
     }
   })
-  .catch(error => {
-    console.error('Error:', error);
+  .catch(() => {
     alert('データの保存に失敗しました');
   });
 }
 
-// 指定年月へスクロール
-function scrollToMonth(yearMonth) {
-  const targetSection = document.querySelector(`[data-year-month="${yearMonth}"]`);
-  if (targetSection) {
-    const container = document.getElementById('deposits-list-area');
-    if (container) {
-      const containerRect = container.getBoundingClientRect();
-      const targetRect = targetSection.getBoundingClientRect();
-      const scrollOffset = targetRect.top - containerRect.top + container.scrollTop;
-
-      container.scrollTo({
-        top: scrollOffset,
-        behavior: 'smooth'
-      });
-    }
-  }
+// ── スクロールヘルパー ────────────────────────
+function scrollToSection(targetSection) {
+  if (!targetSection) return;
+  const container = document.getElementById('deposits-list-area');
+  if (!container) return;
+  const containerRect = container.getBoundingClientRect();
+  const targetRect = targetSection.getBoundingClientRect();
+  const scrollOffset = targetRect.top - containerRect.top + container.scrollTop;
+  container.scrollTo({ top: scrollOffset, behavior: 'smooth' });
 }
 
-// 指定年要素へスクロール
-function scrollToYear(collapseElement) {
-  const yearHeader = collapseElement.previousElementSibling;
-  if (yearHeader && yearHeader.classList.contains('year-header')) {
-    const container = document.getElementById('deposits-list-area');
-    if (container) {
-      const containerRect = container.getBoundingClientRect();
-      const yearHeaderRect = yearHeader.getBoundingClientRect();
-      const scrollOffset = yearHeaderRect.top - containerRect.top + container.scrollTop;
-
-      container.scrollTo({
-        top: scrollOffset,
-        behavior: 'smooth'
+// ── 初期化 ────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  // 初期状態のheight・hr2セット（expanded クラス付きブロックの初期化）
+  document.querySelectorAll('.year-block').forEach(block => {
+    const yearContent = block.querySelector('.year-content');
+    const bottomHr = block.querySelector('.year-bottom-hr');
+    if (!bottomHr) return;
+    if (yearContent && yearContent.classList.contains('expanded')) {
+      yearContent.style.height = 'auto';
+      yearContent.style.transform = 'scaleY(1)';
+      yearContent.style.opacity = '1';
+      setHr2ToHr1(block);
+      bottomHr.style.display = 'block';
+      requestAnimationFrame(() => {
+        const cs = getComputedStyle(block);
+        const pl = parseFloat(cs.paddingLeft) || 0;
+        const pr = parseFloat(cs.paddingRight) || 0;
+        const hrWidth = block.clientWidth - pl - pr;
+        const hrLeft = (block.clientWidth - hrWidth) / 2;
+        bottomHr.style.transition = 'none';
+        bottomHr.style.top = blockExpandedTop(block) + 'px';
+        bottomHr.style.left = hrLeft + 'px';
+        bottomHr.style.width = hrWidth + 'px';
       });
+    } else {
+      setHr2ToHr1(block);
     }
-  }
-}
+  });
 
-// 年ボタンのクリックイベントを監視
-document.addEventListener('click', function(e) {
-  const yearButton = e.target.closest('[data-bs-toggle="collapse"]');
-  if (yearButton) {
-    const targetId = yearButton.getAttribute('data-bs-target');
-    if (targetId && targetId.startsWith('#year-')) {
-      const collapseElement = document.querySelector(targetId);
-      const isCurrentlyClosed = !collapseElement.classList.contains('show');
+  // 年ボタンのクリックイベント
+  document.querySelectorAll('[data-toggle-year]').forEach(btn => {
+    btn.addEventListener('click', () => toggleYear(btn));
+  });
 
-      // 他の展開中の年を全て格納
-      document.querySelectorAll('.collapse.show').forEach(function(openCollapse) {
-        if (openCollapse.id !== collapseElement.id && openCollapse.id.startsWith('year-')) {
-          const collapseInstance = bootstrap.Collapse.getInstance(openCollapse);
-          if (collapseInstance) {
-            collapseInstance.hide();
-          } else {
-            openCollapse.classList.remove('show');
-          }
-        }
-      });
+  // 月ボタンのクリックイベント
+  document.querySelectorAll('[data-toggle-month]').forEach(btn => {
+    btn.addEventListener('click', () => toggleMonth(btn));
+  });
 
-      // 年を展開する場合のみ、月データ展開とスクロールを実行
-      if (isCurrentlyClosed) {
-        setTimeout(() => {
-          // データがある最初の月セクションを取得
-          const firstMonthSection = collapseElement.querySelector('.deposit-month-section[data-has-data="true"]');
-          if (firstMonthSection) {
-            const yearMonth = firstMonthSection.getAttribute('data-year-month');
-            // currentExpandedMonthをリセットして必ず実行されるようにする
-            const prevExpandedMonth = currentExpandedMonth;
-            currentExpandedMonth = null;
-            expandMonth(yearMonth, () => {
-              scrollToYear(collapseElement);
-            });
-            // expandMonthが実行されなかった場合に備えて復元
-            if (currentExpandedMonth === null) {
-              currentExpandedMonth = prevExpandedMonth;
-            }
-          } else {
-            // データがない年の場合でもスクロールを実行
-            scrollToYear(collapseElement);
-          }
-        }, 400);
-      }
+  // scrollToYearMonth への自動展開・スクロール
+  if (window.depositsConfig.scrollToYearMonth) {
+    const targetYearMonth = window.depositsConfig.scrollToYearMonth;
+    const targetYear = targetYearMonth.split('-')[0];
+    const yearBtn = document.querySelector(`[data-toggle-year="year-${targetYear}"]`);
+
+    if (yearBtn) {
+      toggleYear(yearBtn);
+
+      // 年展開(350ms) + 月自動展開(350ms) 完了後にスクロール
+      setTimeout(() => {
+        const targetSection = document.querySelector(`[data-year-month="${targetYearMonth}"]`);
+        scrollToSection(targetSection);
+        initialExpansionDone = true;
+      }, 750);
+    } else {
+      initialExpansionDone = true;
     }
-  }
-});
-
-// 月セクションのクリックイベントを監視
-document.addEventListener('click', function(e) {
-  const monthSection = e.target.closest('.deposit-month-section');
-  if (monthSection && !e.target.closest('button') && !e.target.closest('input')) {
-    // データがある月のみ処理
-    const hasData = monthSection.getAttribute('data-has-data') === 'true';
-    if (!hasData) return;
-
-    const yearMonth = monthSection.getAttribute('data-year-month');
-    if (yearMonth !== currentExpandedMonth) {
-      expandMonth(yearMonth, () => {
-        scrollToMonth(yearMonth);
-      });
-    }
+  } else {
+    initialExpansionDone = true;
   }
 });
