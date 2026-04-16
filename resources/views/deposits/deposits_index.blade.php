@@ -62,11 +62,11 @@
         <!-- 年ヘッダー -->
         <div class="year-header d-flex align-items-center">
           @if($hasDeposits)
-            <button class="btn-ex-sub btn-ex-blue btn-ex-xl btn-ex-sub-toggle-invert fs-2 gap-2 me-2 {{ $isYearExpanded ? 'btn-ex-active' : '' }}"
+            <button class="btn-ex-sub btn-ex-blue btn-ex-xl btn-ex-sub-toggle-invert fs-2 gap-3 me-2 {{ $isYearExpanded ? 'btn-ex-active' : '' }}"
                     type="button" data-toggle-year="{{ $collapseId }}"
                     aria-expanded="{{ $isYearExpanded ? 'true' : 'false' }}">
               <span class="align-self-center lh-1 pt-05 pb-1">{{ $year }}</span>
-              <div class="vr ms-3 me-3 align-self-center" style="height: 1.4rem; width: 2px;"></div>
+              <div class="vr mx-2 align-self-center opacity-50" style="height: 1.4rem; width: 2px;"></div>
               <span class="fs-6 fw-normal opacity-75 align-self-center">{{ $count }}件</span>
               <span class="year-toggle-arrow {{ $isYearExpanded ? 'rotated' : '' }} d-inline-flex align-items-center align-self-center">
                 <i class="nf nf-md-chevron_down fs-5 ps-2"></i>
@@ -88,20 +88,20 @@
               $monthCollapseId = "month-{$item['year']}-{$item['month']}";
               $monthCount = $item['count'] ?? 0;
             @endphp
-            <div class="deposit-month-section ms-4 {{ $loop->first ? 'mt-3' : '' }}" data-year-month="{{ $yearMonth }}">
+            <div class="deposit-month-section ms-4 {{ $loop->first ? 'mt-4' : '' }}" data-year-month="{{ $yearMonth }}">
               @if($item['has_data'])
                 <!-- 入金データあり -->
-                <div class="btn-ex-sub btn-ex-blue btn-ex-lg btn-ex-sub-toggle-invert mb-1"
-                     role="button"
+                <button class="btn-ex-sub btn-ex-blue btn-ex-lg btn-ex-sub-toggle-invert mb-1"
+                     type="button"
                      data-toggle-month="{{ $monthCollapseId }}"
                      aria-expanded="false">
                   {{ $item['year'] }}年{{ "\u{2000}" }}{{ $item['month'] }}月
-                  <div class="vr ms-3 me-3 align-self-center" style="height: 1.2rem;"></div>
+                  <div class="vr mx-1 align-self-center opacity-50" style="height: 1.2rem;"></div>
                   <span class="fs-7 fw-normal opacity-75">{{ $monthCount }}件</span>
                   <span class="year-toggle-arrow d-inline-flex align-items-center align-self-center">
                     <i class="nf nf-md-chevron_down ps-2"></i>
                   </span>
-                </div>
+                </button>
                 <div class="month-content" id="{{ $monthCollapseId }}" style="overflow-x: hidden;">
                   <div class="deposit-data-container" data-year-month="{{ $yearMonth }}">
                     <!-- データはAjaxで動的に読み込まれる -->
