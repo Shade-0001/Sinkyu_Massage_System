@@ -130,7 +130,7 @@
                   <option value="{{ $user->id }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
                 @endforeach
               </select>
-              <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
+              <div class="form-text fw-medium">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
             </div>
 
             <!-- 提出年月日 -->
@@ -141,8 +141,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="submitAcupunctureBenefit()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitAcupunctureBenefit()">印刷</button>
         </div>
       </div>
     </div>
@@ -191,7 +191,7 @@
                   <option value="{{ $user->id }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
                 @endforeach
               </select>
-              <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
+              <div class="form-text fw-medium">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
             </div>
 
             <!-- 施術報告書交付料 -->
@@ -216,8 +216,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="submitTreatmentReceipt()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitTreatmentReceipt()">印刷</button>
         </div>
       </div>
     </div>
@@ -265,7 +265,7 @@
                   <option value="{{ $user->id }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
                 @endforeach
               </select>
-              <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
+              <div class="form-text fw-medium">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
             </div>
 
             <!-- 提出年月日 -->
@@ -276,8 +276,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="submitMassageBenefit()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitMassageBenefit()">印刷</button>
         </div>
       </div>
     </div>
@@ -326,7 +326,7 @@
                   <option value="{{ $user->id }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
                 @endforeach
               </select>
-              <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
+              <div class="form-text fw-medium">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
             </div>
 
             <!-- オプション -->
@@ -354,8 +354,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="submitMedicalAssistance()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitMedicalAssistance()">印刷</button>
         </div>
       </div>
     </div>
@@ -404,7 +404,7 @@
                   <option value="{{ $user->id }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
                 @endforeach
               </select>
-              <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
+              <div class="form-text fw-medium">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
             </div>
 
             <!-- オプション -->
@@ -432,8 +432,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="submitLateElderlyMedical()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitLateElderlyMedical()">印刷</button>
         </div>
       </div>
     </div>
@@ -472,8 +472,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="submitTreatmentFeeList()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitTreatmentFeeList()">印刷</button>
         </div>
       </div>
     </div>
@@ -511,8 +511,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="submitSelfFeeList()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitSelfFeeList()">印刷</button>
         </div>
       </div>
     </div>
@@ -542,7 +542,7 @@
                   <option value="{{ $user->id }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
                 @endforeach
               </select>
-              <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
+              <div class="form-text fw-medium">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
             </div>
 
             <!-- 提出年月日 -->
@@ -553,8 +553,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="submitConsentRequestSample()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitConsentRequestSample()">印刷</button>
         </div>
       </div>
     </div>
@@ -584,7 +584,7 @@
                   <option value="{{ $user->id }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
                 @endforeach
               </select>
-              <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
+              <div class="form-text fw-medium">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
             </div>
 
             <!-- 医師選択 -->
@@ -607,8 +607,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="submitConsentRequestDesignated()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitConsentRequestDesignated()">印刷</button>
         </div>
       </div>
     </div>
@@ -657,7 +657,7 @@
                   <option value="{{ $user->id }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
                 @endforeach
               </select>
-              <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
+              <div class="form-text fw-medium">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
             </div>
 
             <!-- 提出年月日 -->
@@ -668,8 +668,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="submitTreatmentRecord()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitTreatmentRecord()">印刷</button>
         </div>
       </div>
     </div>
@@ -717,8 +717,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="submitSummaryTable()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitSummaryTable()">印刷</button>
         </div>
       </div>
     </div>
@@ -757,8 +757,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="submitPaymentList()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitPaymentList()">印刷</button>
         </div>
       </div>
     </div>
@@ -788,7 +788,7 @@
                   <option value="{{ $user->id }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
                 @endforeach
               </select>
-              <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
+              <div class="form-text fw-medium">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
             </div>
 
             <!-- 同意区分 -->
@@ -829,8 +829,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="submitConsentForm()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitConsentForm()">印刷</button>
         </div>
       </div>
     </div>
@@ -859,7 +859,7 @@
                   <option value="{{ $user->id }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
                 @endforeach
               </select>
-              <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
+              <div class="form-text fw-medium">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
             </div>
 
             <!-- 医師選択 -->
@@ -897,8 +897,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="submitDoctorThankYou()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitDoctorThankYou()">印刷</button>
         </div>
       </div>
     </div>
@@ -927,7 +927,7 @@
                   <option value="{{ $user->id }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
                 @endforeach
               </select>
-              <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
+              <div class="form-text fw-medium">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
             </div>
 
             <!-- ケアマネ選択 -->
@@ -950,8 +950,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="submitReferrerThankYou()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitReferrerThankYou()">印刷</button>
         </div>
       </div>
     </div>
@@ -999,13 +999,13 @@
                   <option value="{{ $user->id }}" data-plan-months="{{ json_encode($implementationPlanUserMonths[$user->id] ?? []) }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
                 @endforeach
               </select>
-              <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
+              <div class="form-text fw-medium">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="submitImplementationPlan()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitImplementationPlan()">印刷</button>
         </div>
       </div>
     </div>
@@ -1061,8 +1061,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="submitReport()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitReport()">印刷</button>
         </div>
       </div>
     </div>
@@ -1144,8 +1144,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="submitReportGreeting()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitReportGreeting()">印刷</button>
         </div>
       </div>
     </div>
@@ -1185,8 +1185,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="submitUserCountSummary()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitUserCountSummary()">印刷</button>
         </div>
       </div>
     </div>
@@ -1234,13 +1234,13 @@
                   <option value="{{ $user->id }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
                 @endforeach
               </select>
-              <div class="form-text">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
+              <div class="form-text fw-medium">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="submitScheduleList()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitScheduleList()">印刷</button>
         </div>
       </div>
     </div>
@@ -1285,8 +1285,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="submitTreatmentExpiryList()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitTreatmentExpiryList()">印刷</button>
         </div>
       </div>
     </div>
@@ -1325,8 +1325,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="submitAddressLabel()">出力</button>
+          <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitAddressLabel()">出力</button>
         </div>
       </div>
     </div>
