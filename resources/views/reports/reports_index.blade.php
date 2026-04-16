@@ -79,7 +79,7 @@
         @endphp
 
         @if (!$loop->first)
-          <div style="margin: 5rem 0 0 0;"></div>
+          <div class="mt-5"></div>
         @endif
 
         <div class="bg-gray-96 rounded-1 p-2 me-2 year-block" style="position: relative;">
