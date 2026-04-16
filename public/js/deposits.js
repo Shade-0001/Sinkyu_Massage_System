@@ -276,7 +276,7 @@ function loadMonthData(yearMonth, monthContent, block) {
 function renderDepositsTable(deposits) {
   let html = '<div class="table-responsive"><table class="table table-bordered table-sm w-100" style="table-layout: auto;"><thead style="font-size: 0.9rem;" class="table-light"><tr>';
   html += '<th class="text-center align-middle" style="width: 3%;">ID</th>';
-  html += '<th class="text-center align-middle text-nowrap" style="width: 10%;">保険者</th>';
+  html += '<th class="text-center align-middle text-nowrap" style="width: 15%;">保険者</th>';
   html += '<th class="text-center align-middle text-nowrap" style="width: 8%;">被保険者</th>';
   html += '<th class="text-center align-middle text-nowrap" style="width: 8%;">受療者</th>';
   html += '<th class="text-center align-middle text-nowrap" style="width: 8%;">治療日</th>';
@@ -287,7 +287,7 @@ function renderDepositsTable(deposits) {
   html += '<th class="text-center align-middle text-nowrap" style="width: 9%;">入金額</th>';
   html += '<th class="text-center align-middle text-nowrap" style="width: 10%;">入金日</th>';
   html += '<th class="text-center align-middle text-nowrap" style="width: 5%;">操作</th>';
-  html += '</tr></thead><tbody class="small">';
+  html += '</tr></thead><tbody class="small fw-medium">';
 
   deposits.forEach(deposit => {
     html += '<tr>';
