@@ -75,7 +75,7 @@
           @else
             <div class="fs-2 fw-bold text-secondary opacity-75 ps-3">{{ $year }}</div>
             <div class="vr mx-4 align-self-center opacity-25" style="height: 2.4rem; width: 2px;"></div>
-            <span class="fs-6 fw-medium text-secondary align-self-center me-3">該当データなし</span>
+            <span class="fs-6 fw-medium text-secondary opacity-75 align-self-center me-3">該当データなし</span>
           @endif
           <hr class="year-top-hr" style="flex-grow: 1; border: none; border-top: 4px solid #000; margin: 0rem;">
         </div>
@@ -91,7 +91,7 @@
             <div class="deposit-month-section ms-4 {{ $loop->first ? 'mt-4' : '' }}" data-year-month="{{ $yearMonth }}">
               @if($item['has_data'])
                 <!-- 入金データあり -->
-                <button class="btn-ex-sub btn-ex-blue btn-ex-lg btn-ex-sub-toggle-invert mb-1 gap-2"
+                <button class="btn-ex-sub btn-ex-blue btn-ex-lg btn-ex-sub-toggle-invert mb-2 gap-2"
                      type="button"
                      data-toggle-month="{{ $monthCollapseId }}"
                      aria-expanded="false">
@@ -110,9 +110,9 @@
               @else
                 <!-- 入金データなし -->
                 <div class="d-flex align-items-center gap-3">
-                  <div class="fw-medium fs-5 mb-0 opacity-75">{{ $item['year'] }}年{{ "\u{2000}" }}{{ $item['month'] }}月</div>
+                  <div class="fw-medium fs-5 text-secondary mb-0 opacity-75">{{ $item['year'] }}年{{ "\u{2000}" }}{{ $item['month'] }}月</div>
                   <div class="vr align-self-center opacity-50" style="height: 1.6rem;"></div>
-                  <span class="text-secondary fw-medium">該当データなし</span>
+                  <span class="text-secondary fw-medium opacity-75">該当データなし</span>
                 </div>
               @endif
             </div>

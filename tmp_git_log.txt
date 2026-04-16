@@ -1,0 +1,50 @@
+81eb7d4 ［auto-commit_260416-1556｜prints/index：利用者optionのID-***順序を元に戻す（ID-***｜姓 名｜セイ メイ）］
+c9113ea ［auto-commit_260416-1555｜prints/index：利用者optionのID-***を3番目に移動（姓 名｜セイ メイ｜ID-***）］
+699ac34 ［auto-commit_260416-1554｜prints/index：医師・ケアマネoptionフォーマットを「姓 名｜セイ メイ」に変更］
+88a556b ［auto-commit_260416-1552｜prints/index：利用者選択ラベルを「利用者」に簡略化・全選択ボタンテキスト修正］
+1302ac5 ［auto-commit_260416-1549｜prints/index：form-check-labelからfs-5-5を除去］
+e0f6cc4 ［auto-commit_260416-1548｜prints/index：全labelにfs-5-5付与］
+5bb0c5d ［auto-commit_260416-1546｜prints/index：form-label mb-0・form-check-labelにfw-medium付与（漏れ修正）］
+ceeb87a ［auto-commit_260416-1545｜prints/index：form-labelにfw-medium付与（46箇所）］
+8e288dd ［auto-commit_260416-1543｜prints/index：モーダルフッターボタンをbtn-ex-main（gray/blue）に変更・form-textにfw-medium付与］
+6fd7429 ［auto-commit_260416-1535｜reports：depositsと共通化（年月ヘッダースタイル・expanded管理JS一元化・データなし行・mt-4・DOMContentLoaded簡略化）］
+814ac67 ［auto-commit_260416-1527｜deposits：collapseContentの2段階rAFを1段階に変更しreportsと統一（展開格納の軽量化）］
+c09e8f5 ［auto-commit_260416-1524｜deposits：toggleYear・toggleMonthからbtn-ex-activeロジックを削除しreportsと同仕様に統一］
+ddae2b1 ［auto-commit_260416-1521｜deposits：ボタンスタイル管理をJS側に一元化（Bladeからbtn-ex-active・rotated・expandedを削除しtoggleYearに委譲）］
+45a9d73 ［auto-commit_260416-1516｜deposits：自動展開時の年ヘッダーボタンスタイル初期化を修正（btn-ex-active・rotated・aria-expanded）］
+b272e0f ［auto-commit_260416-1458｜reports：月ヘッダーをdivからbutton要素に変更］
+07f42ab ［auto-commit_260416-1457｜deposits：月ヘッダーをdivからbutton要素に変更］
+ceae88d ［auto-commit_260416-1450｜deposits：各年の最初のdeposit-month-sectionにmt-3を付与］
+d8358df ［auto-commit_260416-1444｜deposits/reports：年ブロック間スペーサーをmt-5に変更］
+08e3383 ［auto-commit_260416-1432｜入金管理：施術種類の表記を全角ＨＫ・ＡＭに変更］
+1722225 ［auto-commit_260416-1428｜deposits.js：テーブル列幅を内容に合わせて調整（保険者20%、被保険者・受療者7%、施術種類7%、金額系8%、入金日11%）］
+4e39157 ［auto-commit_260416-1424｜deposits.js：保険者列の幅を10%から15%に変更］
+977f4c0 ［auto-commit_260416-1415｜deposits.js：治療日セルのsmallクラス二重適用を除去（tbodyにsmall済みのため）］
+0d81516 ［auto-commit_260416-1412｜deposits.js：テーブルの保険者・被保険者・受療者カラムのtext-truncate・max-widthを削除してテキスト省略を解除］
+67cd772 ［auto-commit_260416-1410｜deposits.js：月ヘッダー格納後に領域が残存するバグ修正（loadMonthData finallyのtransitionendリスナーが格納後にheight:autoを上書きする問題を修正・collapseContentを2段階rAFに変更）］
+715337a ［auto-commit_260416-1407｜deposits/index：年ヘッダーのvr・件数をボタン内に移動、操作列名変更・ボタンをbtn-ex-mainに変更、ページ読み込み時の自動展開バグ修正（expandedクラス付き初期ブロックにtoggledを呼ぶ誤りを修正）］
+4fb7fa7 ［auto-commit_260416-1359｜DepositsController：selectRawのcountエイリアスをバッククォートで囲みMariaDB予約語衝突を修正］
+fb61c81 ［auto-commit_260416-1316｜入金管理(/deposits/index)を報告書データ(/reports/index)に準拠してリファイン：btn-ex-subボタン・scaleYアニメーション・hr2追従・年月件数表示・Bootstrap collapse撤廃・DBクエリN+1解消］
+e7e7318 ［auto-commit_260416-1233｜ホームメニュー：4アイテムの親divにd-flex flex-column gap-3を追加してアイテム間隔をgapで制御］
+2f342ff ［auto-commit_260416-1220｜ホームメニュー：2列×4行レイアウトに変更（flex-wrap・home-menu-item・サイドバー状態連動メディアクエリ）］
+dc84674 ［auto-commit_260416-1218｜ホームメニュー：全8要素のフォーマットを統一（btn-ex-main・gap-3・d-flex flex-column・fw-lighter適用）］
+ec8d89d ［auto-commit_260416-1151｜icon-circleをposition:absoluteに変更して円の右ズレを修正］
+0540223 ［auto-commit_260416-1148｜icon-circle内の<i>にline-height:1とdisplay:blockを追加してフォントアイコンによる縦長崩れを修正］
+a3865c5 ［auto-commit_260416-1145｜サブメニューアイコン円（nf-cod-circle_large）の縦長崩れを修正：icon-circleをposition:absoluteに変更してフォントの行高による膨張を解消］
+6274aa5 ［auto-commit_260416-1111｜サイドバー：サブメニュー無関係ページ遷移時に展開中サブメニューを自動格納する仕組みを追加］
+f367298 ［auto-commit_260416-1103｜sidebar：強制展開(auto)はlocalStorage/インラインスクリプトから除外・手動展開(manual)のみ復元対象とし自動展開はページ遷移の都度判定する設計に統一］
+ba6a57e ［normal-commit_260415-1633｜〈サイドバー改修｜サブメニューのアコーディオン展開・localState管理・アイコンスタック化・activeクラス検出・格納アニメーション改善〉〈UI統一｜全フォームページのボタン順序/スタイル/ラベルをmode別に統一、操作列幅のmax-width調整、confirmページのボタンラベル自動判定〉〈マスター/サブマスター/admin-panel｜ページアイコン専用化・ボタンフォーマット統一・傷病名ページヘッダー修正・パンくずgap/chevronサイズ調整〉〈coordinate-adjuster｜ルートをadmin-panel配下に移動・adminミドルウェアグループに統合〉〈複製機能修正｜DoctorRequestにsource_doctor_idバリデーション追加・confirmページ経由フォームのstore_routeからボタンラベル自動判定〉］
+36df765 ［auto-commit_260415-1633｜パンくずのgap・セパレーターサイズ調整、マスター一覧の医師/施術者/ケアマネアイコンを専用アイコンに変更、サブマスター傷病名（あんま・マッサージ）アイコン変更］
+4dd50f9 ［auto-commit_260415-1632｜illnesses-massageページヘッダー表記を「疾病（マッサージ）」から「傷病名（あんま・マッサージ）」に修正し、サブマスター登録ページ・パンくずと統一］
+8f66b50 ［auto-commit_260415-1631｜confirmページ前のボタンラベルをmode別に切り替え（登録確認へ/編集確認へ/複製確認へ）］
+19a3724 ［auto-commit_260415-1629｜DoctorRequest：source_doctor_idをバリデーションルールに追加（複製確認画面エラー修正）］
+080eeff ［auto-commit_260415-1628｜registration-review：store_routeからボタンラベルを自動判定（更新/複製登録/登録）］
+6af3f54 ［auto-commit_260415-1626｜確認ページ経由フォームのボタンをbtn-ex-greenからbtn-ex-blueに戻す（登録確認へ系はblue）］
+81c55ba ［auto-commit_260415-1624｜reports_form：edit時のボタンラベルを「更新」・duplicate時を「複製登録」に変更］
+56df090 ［auto-commit_260415-1623｜全フォームページのDB反映ボタンをbtn-ex-blueからbtn-ex-greenに変更］
+49601dd ［auto-commit_260415-1617｜documents/index：操作列にmax-width: 280px追加・新規登録ボタンにbtn-ex-mainクラス追加］
+47893d5 ［auto-commit_260415-1616｜操作列幅修正：autoWidth: false削除・widthをmax-widthに戻す（max-width: 140px）］
+5bce8ae ［auto-commit_260415-1615｜操作列幅修正：max-widthをwidthに変更＋DataTablesにautoWidth: falseを追加してウィンドウ幅変化時も140px固定を維持］
+89683a0 ［auto-commit_260415-1612｜操作列幅修正：width: 140pxをmax-width: 140pxに変更］
+2301eb8 ［auto-commit_260415-1610｜操作列幅調整：max-width: 160pxをwidth: 140pxに変更（2ボタン構成の適正幅に縮小）］
+46305f5 ［auto-commit_260415-1608｜操作列幅修正：submaster4ページ・self-fees/indexの操作列をwidth%指定からmax-width: 160pxに変更（更新+削除の2ボタン横並びに適した幅）］

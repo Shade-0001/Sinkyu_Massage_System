@@ -163,6 +163,7 @@
 /*──────────────────────────────────────────────*/
 /*  フォントサイズ                               */
 /*──────────────────────────────────────────────*/
+.fs-4-5 { font-size: 1.375rem !important; }
 .fs-5-5 { font-size: 1.125rem !important; }
 .fs-6-5 { font-size: 0.9375rem !important; }
 .fs-7 { font-size: 0.875rem !important; } /* = .small */
