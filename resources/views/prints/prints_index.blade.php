@@ -592,9 +592,7 @@
               <label for="consent_request_designated_doctor_ids" class="form-label fw-medium fs-5-5">医師 <span class="text-danger">*</span></label>
               <select class="form-select" id="consent_request_designated_doctor_ids" name="doctor_ids[]" size="10" required>
                 @foreach($doctors as $doctor)
-                  <option value="{{ $doctor->id }}">
-                    {{ $doctor->last_name }}{{ "\u{2000}" }}{{ $doctor->first_name }}（{{ $doctor->last_name_kana }}{{ "\u{2000}" }}{{ $doctor->first_name_kana }}）
-                  </option>
+                  <option value="{{ $doctor->id }}">{{ $doctor->last_name }} {{ $doctor->first_name }}｜{{ $doctor->last_name_kana }} {{ $doctor->first_name_kana }}</option>
                 @endforeach
               </select>
             </div>
@@ -867,9 +865,7 @@
               <label for="doctor_thank_you_doctor_id" class="form-label fw-medium fs-5-5">医師 <span class="text-danger">*</span></label>
               <select class="form-select" id="doctor_thank_you_doctor_id" name="doctor_id" size="10" required>
                 @foreach($doctors as $doctor)
-                  <option value="{{ $doctor->id }}">
-                    {{ $doctor->last_name }}{{ "\u{2000}" }}{{ $doctor->first_name }}（{{ $doctor->last_name_kana }}{{ "\u{2000}" }}{{ $doctor->first_name_kana }}）
-                  </option>
+                  <option value="{{ $doctor->id }}">{{ $doctor->last_name }} {{ $doctor->first_name }}｜{{ $doctor->last_name_kana }} {{ $doctor->first_name_kana }}</option>
                 @endforeach
               </select>
             </div>
@@ -935,9 +931,7 @@
               <label for="referrer_thank_you_caremanager_id" class="form-label fw-medium fs-5-5">ケアマネ <span class="text-danger">*</span></label>
               <select class="form-select" id="referrer_thank_you_caremanager_id" name="caremanager_id" size="10" required>
                 @foreach($caremanagers as $cm)
-                  <option value="{{ $cm->id }}">
-                    {{ $cm->last_name }}{{ "\u{2000}" }}{{ $cm->first_name }}（{{ $cm->last_name_kana }}{{ "\u{2000}" }}{{ $cm->first_name_kana }}）
-                  </option>
+                  <option value="{{ $cm->id }}">{{ $cm->last_name }} {{ $cm->first_name }}｜{{ $cm->last_name_kana }} {{ $cm->first_name_kana }}</option>
                 @endforeach
               </select>
             </div>
@@ -1116,9 +1110,7 @@
               <select class="form-select" id="report_greeting_doctor_id" name="doctor_id" required>
                 <option value="">選択してください</option>
                 @foreach($doctors as $doctor)
-                  <option value="{{ $doctor->id }}">
-                    {{ $doctor->last_name }}{{ "\u{2000}" }}{{ $doctor->first_name }}（{{ $doctor->last_name_kana }}{{ "\u{2000}" }}{{ $doctor->first_name_kana }}）
-                  </option>
+                  <option value="{{ $doctor->id }}">{{ $doctor->last_name }} {{ $doctor->first_name }}｜{{ $doctor->last_name_kana }} {{ $doctor->first_name_kana }}</option>
                 @endforeach
               </select>
             </div>
@@ -1129,9 +1121,7 @@
               <select class="form-select" id="report_greeting_caremanager_id" name="caremanager_id">
                 <option value="">選択してください</option>
                 @foreach($caremanagers as $cm)
-                  <option value="{{ $cm->id }}">
-                    {{ $cm->last_name }}{{ "\u{2000}" }}{{ $cm->first_name }}（{{ $cm->last_name_kana }}{{ "\u{2000}" }}{{ $cm->first_name_kana }}）
-                  </option>
+                  <option value="{{ $cm->id }}">{{ $cm->last_name }} {{ $cm->first_name }}｜{{ $cm->last_name_kana }} {{ $cm->first_name_kana }}</option>
                 @endforeach
               </select>
             </div>
