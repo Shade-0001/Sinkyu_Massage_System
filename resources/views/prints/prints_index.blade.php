@@ -102,7 +102,7 @@
 
             <!-- サービス提供年月 -->
             <div class="mb-3">
-              <label for="service_year_month" class="form-label fw-medium">サービス提供年月 <span class="text-danger">*</span></label>
+              <label for="service_year_month" class="form-label fw-medium fs-5-5">サービス提供年月 <span class="text-danger">*</span></label>
               <select class="form-select" id="service_year_month" name="service_year_month" required>
                 <option value="">選択してください</option>
                 @php
@@ -122,7 +122,7 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="clinic_user_ids" class="form-label fw-medium mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
+                <label for="clinic_user_ids" class="form-label fw-medium fs-5-5 mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
@@ -135,7 +135,7 @@
 
             <!-- 提出年月日 -->
             <div class="mb-3">
-              <label for="submission_date" class="form-label fw-medium">提出年月日 <span class="text-danger">*</span></label>
+              <label for="submission_date" class="form-label fw-medium fs-5-5">提出年月日 <span class="text-danger">*</span></label>
               <input type="date" class="form-control" id="submission_date" name="submission_date" value="{{ now()->format('Y-m-d') }}" required>
             </div>
           </form>
@@ -163,7 +163,7 @@
 
             <!-- サービス提供年月 -->
             <div class="mb-3">
-              <label for="receipt_service_year_month" class="form-label fw-medium">サービス提供年月 <span class="text-danger">*</span></label>
+              <label for="receipt_service_year_month" class="form-label fw-medium fs-5-5">サービス提供年月 <span class="text-danger">*</span></label>
               <select class="form-select" id="receipt_service_year_month" name="service_year_month" required>
                 <option value="">選択してください</option>
                 @php
@@ -183,7 +183,7 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="receipt_clinic_user_ids" class="form-label fw-medium mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
+                <label for="receipt_clinic_user_ids" class="form-label fw-medium fs-5-5 mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('receipt_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="receipt_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
@@ -198,19 +198,19 @@
             <div class="mb-3">
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" id="report_fee" name="include_report_fee" value="1">
-                <label class="form-check-label fw-medium" for="report_fee">施術報告書交付料あり</label>
+                <label class="form-check-label fw-medium fs-5-5" for="report_fee">施術報告書交付料あり</label>
               </div>
             </div>
 
             <!-- 備考 -->
             <div class="mb-3">
-              <label for="receipt_remarks" class="form-label fw-medium">備考</label>
+              <label for="receipt_remarks" class="form-label fw-medium fs-5-5">備考</label>
               <textarea class="form-control" id="receipt_remarks" name="remarks" rows="3"></textarea>
             </div>
 
             <!-- 提出年月日 -->
             <div class="mb-3">
-              <label for="receipt_submission_date" class="form-label fw-medium">提出年月日 <span class="text-danger">*</span></label>
+              <label for="receipt_submission_date" class="form-label fw-medium fs-5-5">提出年月日 <span class="text-danger">*</span></label>
               <input type="date" class="form-control" id="receipt_submission_date" name="submission_date" value="{{ now()->format('Y-m-d') }}" required>
             </div>
           </form>
@@ -237,7 +237,7 @@
 
             <!-- サービス提供年月 -->
             <div class="mb-3">
-              <label for="massage_service_year_month" class="form-label fw-medium">サービス提供年月 <span class="text-danger">*</span></label>
+              <label for="massage_service_year_month" class="form-label fw-medium fs-5-5">サービス提供年月 <span class="text-danger">*</span></label>
               <select class="form-select" id="massage_service_year_month" name="service_year_month" required>
                 <option value="">選択してください</option>
                 @php
@@ -257,7 +257,7 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="massage_clinic_user_ids" class="form-label fw-medium mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
+                <label for="massage_clinic_user_ids" class="form-label fw-medium fs-5-5 mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('massage_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="massage_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
@@ -270,7 +270,7 @@
 
             <!-- 提出年月日 -->
             <div class="mb-3">
-              <label for="massage_submission_date" class="form-label fw-medium">提出年月日 <span class="text-danger">*</span></label>
+              <label for="massage_submission_date" class="form-label fw-medium fs-5-5">提出年月日 <span class="text-danger">*</span></label>
               <input type="date" class="form-control" id="massage_submission_date" name="submission_date" value="{{ now()->format('Y-m-d') }}" required>
             </div>
           </form>
@@ -298,7 +298,7 @@
 
             <!-- サービス提供年月 -->
             <div class="mb-3">
-              <label for="medical_assistance_service_year_month" class="form-label fw-medium">サービス提供年月 <span class="text-danger">*</span></label>
+              <label for="medical_assistance_service_year_month" class="form-label fw-medium fs-5-5">サービス提供年月 <span class="text-danger">*</span></label>
               <select class="form-select" id="medical_assistance_service_year_month" name="service_year_month" required>
                 <option value="">選択してください</option>
                 @php
@@ -318,7 +318,7 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="medical_assistance_clinic_user_ids" class="form-label fw-medium mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
+                <label for="medical_assistance_clinic_user_ids" class="form-label fw-medium fs-5-5 mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('medical_assistance_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="medical_assistance_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
@@ -331,16 +331,16 @@
 
             <!-- オプション -->
             <div class="mb-3">
-              <label class="form-label fw-medium">オプション</label>
+              <label class="form-label fw-medium fs-5-5">オプション</label>
               <div class="form-check">
                 <input class="form-check-input signature-option-checkbox" type="checkbox" name="signature_option" id="signature_option_1" value="user_signature_blank">
-                <label class="form-check-label fw-medium" for="signature_option_1">
+                <label class="form-check-label fw-medium fs-5-5" for="signature_option_1">
                   利用者署名欄空白
                 </label>
               </div>
               <div class="form-check">
                 <input class="form-check-input signature-option-checkbox" type="checkbox" name="signature_option" id="signature_option_2" value="user_address_signature_blank">
-                <label class="form-check-label fw-medium" for="signature_option_2">
+                <label class="form-check-label fw-medium fs-5-5" for="signature_option_2">
                   利用者住所・署名欄空白
                 </label>
               </div>
@@ -348,7 +348,7 @@
 
             <!-- 提出年月 -->
             <div class="mb-3">
-              <label for="medical_assistance_submission_month" class="form-label fw-medium">提出年月 <span class="text-danger">*</span></label>
+              <label for="medical_assistance_submission_month" class="form-label fw-medium fs-5-5">提出年月 <span class="text-danger">*</span></label>
               <input type="month" class="form-control" id="medical_assistance_submission_month" name="submission_month" value="{{ now()->format('Y-m') }}" required>
             </div>
           </form>
@@ -376,7 +376,7 @@
 
             <!-- サービス提供年月 -->
             <div class="mb-3">
-              <label for="late_elderly_medical_service_year_month" class="form-label fw-medium">サービス提供年月 <span class="text-danger">*</span></label>
+              <label for="late_elderly_medical_service_year_month" class="form-label fw-medium fs-5-5">サービス提供年月 <span class="text-danger">*</span></label>
               <select class="form-select" id="late_elderly_medical_service_year_month" name="service_year_month" required>
                 <option value="">選択してください</option>
                 @php
@@ -396,7 +396,7 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="late_elderly_medical_clinic_user_ids" class="form-label fw-medium mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
+                <label for="late_elderly_medical_clinic_user_ids" class="form-label fw-medium fs-5-5 mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('late_elderly_medical_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="late_elderly_medical_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
@@ -409,16 +409,16 @@
 
             <!-- オプション -->
             <div class="mb-3">
-              <label class="form-label fw-medium">オプション</label>
+              <label class="form-label fw-medium fs-5-5">オプション</label>
               <div class="form-check">
                 <input class="form-check-input late-elderly-signature-option-checkbox" type="checkbox" name="signature_option" id="late_elderly_signature_option_1" value="user_signature_blank">
-                <label class="form-check-label fw-medium" for="late_elderly_signature_option_1">
+                <label class="form-check-label fw-medium fs-5-5" for="late_elderly_signature_option_1">
                   利用者署名欄空白
                 </label>
               </div>
               <div class="form-check">
                 <input class="form-check-input late-elderly-signature-option-checkbox" type="checkbox" name="signature_option" id="late_elderly_signature_option_2" value="user_address_signature_blank">
-                <label class="form-check-label fw-medium" for="late_elderly_signature_option_2">
+                <label class="form-check-label fw-medium fs-5-5" for="late_elderly_signature_option_2">
                   利用者住所・署名欄空白
                 </label>
               </div>
@@ -426,7 +426,7 @@
 
             <!-- 提出年月 -->
             <div class="mb-3">
-              <label for="late_elderly_medical_submission_month" class="form-label fw-medium">提出年月 <span class="text-danger">*</span></label>
+              <label for="late_elderly_medical_submission_month" class="form-label fw-medium fs-5-5">提出年月 <span class="text-danger">*</span></label>
               <input type="month" class="form-control" id="late_elderly_medical_submission_month" name="submission_month" value="{{ now()->format('Y-m') }}" required>
             </div>
           </form>
@@ -454,7 +454,7 @@
 
             <!-- サービス提供年月 -->
             <div class="mb-3">
-              <label for="fee_list_service_year_month" class="form-label fw-medium">サービス提供年月 <span class="text-danger">*</span></label>
+              <label for="fee_list_service_year_month" class="form-label fw-medium fs-5-5">サービス提供年月 <span class="text-danger">*</span></label>
               <select class="form-select" id="fee_list_service_year_month" name="service_year_month" required>
                 @php
                   $currentDate = now();
@@ -493,7 +493,7 @@
 
             <!-- サービス提供年月 -->
             <div class="mb-3">
-              <label for="self_fee_list_service_year_month" class="form-label fw-medium">サービス提供年月 <span class="text-danger">*</span></label>
+              <label for="self_fee_list_service_year_month" class="form-label fw-medium fs-5-5">サービス提供年月 <span class="text-danger">*</span></label>
               <select class="form-select" id="self_fee_list_service_year_month" name="service_year_month" required>
                 @php
                   $currentDate = now();
@@ -534,7 +534,7 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="consent_request_sample_clinic_user_ids" class="form-label fw-medium mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
+                <label for="consent_request_sample_clinic_user_ids" class="form-label fw-medium fs-5-5 mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('consent_request_sample_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="consent_request_sample_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
@@ -547,7 +547,7 @@
 
             <!-- 提出年月日 -->
             <div class="mb-3">
-              <label for="consent_request_sample_submission_date" class="form-label fw-medium">提出年月日 <span class="text-danger">*</span></label>
+              <label for="consent_request_sample_submission_date" class="form-label fw-medium fs-5-5">提出年月日 <span class="text-danger">*</span></label>
               <input type="date" class="form-control" id="consent_request_sample_submission_date" name="submission_date" value="{{ now()->format('Y-m-d') }}" required>
             </div>
           </form>
@@ -576,7 +576,7 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="consent_request_designated_clinic_user_ids" class="form-label fw-medium mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
+                <label for="consent_request_designated_clinic_user_ids" class="form-label fw-medium fs-5-5 mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('consent_request_designated_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="consent_request_designated_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
@@ -589,7 +589,7 @@
 
             <!-- 医師選択 -->
             <div class="mb-3">
-              <label for="consent_request_designated_doctor_ids" class="form-label fw-medium">医師 <span class="text-danger">*</span></label>
+              <label for="consent_request_designated_doctor_ids" class="form-label fw-medium fs-5-5">医師 <span class="text-danger">*</span></label>
               <select class="form-select" id="consent_request_designated_doctor_ids" name="doctor_ids[]" size="10" required>
                 @foreach($doctors as $doctor)
                   <option value="{{ $doctor->id }}">
@@ -601,7 +601,7 @@
 
             <!-- 提出年月 -->
             <div class="mb-3">
-              <label for="consent_request_designated_submission_month" class="form-label fw-medium">提出年月 <span class="text-danger">*</span></label>
+              <label for="consent_request_designated_submission_month" class="form-label fw-medium fs-5-5">提出年月 <span class="text-danger">*</span></label>
               <input type="month" class="form-control" id="consent_request_designated_submission_month" name="submission_month" value="{{ now()->format('Y-m') }}" required>
             </div>
           </form>
@@ -629,7 +629,7 @@
 
             <!-- サービス提供年月 -->
             <div class="mb-3">
-              <label for="treatment_record_service_year_month" class="form-label fw-medium">サービス提供年月 <span class="text-danger">*</span></label>
+              <label for="treatment_record_service_year_month" class="form-label fw-medium fs-5-5">サービス提供年月 <span class="text-danger">*</span></label>
               <select class="form-select" id="treatment_record_service_year_month" name="service_year_month" required>
                 <option value="">選択してください</option>
                 @php
@@ -649,7 +649,7 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="treatment_record_clinic_user_ids" class="form-label fw-medium mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
+                <label for="treatment_record_clinic_user_ids" class="form-label fw-medium fs-5-5 mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('treatment_record_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="treatment_record_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
@@ -662,7 +662,7 @@
 
             <!-- 提出年月日 -->
             <div class="mb-3">
-              <label for="treatment_record_submission_date" class="form-label fw-medium">提出年月日 <span class="text-danger">*</span></label>
+              <label for="treatment_record_submission_date" class="form-label fw-medium fs-5-5">提出年月日 <span class="text-danger">*</span></label>
               <input type="date" class="form-control" id="treatment_record_submission_date" name="submission_date" value="{{ now()->format('Y-m-d') }}" required>
             </div>
           </form>
@@ -690,7 +690,7 @@
 
             <!-- サービス提供年月 -->
             <div class="mb-3">
-              <label for="summary_table_service_year_month" class="form-label fw-medium">サービス提供年月 <span class="text-danger">*</span></label>
+              <label for="summary_table_service_year_month" class="form-label fw-medium fs-5-5">サービス提供年月 <span class="text-danger">*</span></label>
               <select class="form-select" id="summary_table_service_year_month" name="service_year_month" required
                 data-acupuncture-months="{{ json_encode($summaryTableDataMonths['acupuncture']) }}"
                 data-massage-months="{{ json_encode($summaryTableDataMonths['massage']) }}">
@@ -711,7 +711,7 @@
 
             <!-- 提出年月日 -->
             <div class="mb-3">
-              <label for="summary_table_submission_date" class="form-label fw-medium">提出年月日 <span class="text-danger">*</span></label>
+              <label for="summary_table_submission_date" class="form-label fw-medium fs-5-5">提出年月日 <span class="text-danger">*</span></label>
               <input type="date" class="form-control" id="summary_table_submission_date" name="submission_date" value="{{ now()->format('Y-m-d') }}" required>
             </div>
           </form>
@@ -738,7 +738,7 @@
 
             <!-- サービス提供年月 -->
             <div class="mb-3">
-              <label for="payment_list_service_year_month" class="form-label fw-medium">サービス提供年月 <span class="text-danger">*</span></label>
+              <label for="payment_list_service_year_month" class="form-label fw-medium fs-5-5">サービス提供年月 <span class="text-danger">*</span></label>
               <select class="form-select" id="payment_list_service_year_month" name="service_year_month" required>
                 <option value="">選択してください</option>
                 @php
@@ -780,7 +780,7 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="consent_form_clinic_user_ids" class="form-label fw-medium mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
+                <label for="consent_form_clinic_user_ids" class="form-label fw-medium fs-5-5 mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('consent_form_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="consent_form_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
@@ -793,17 +793,17 @@
 
             <!-- 同意区分 -->
             <div class="mb-3">
-              <label class="form-label fw-medium">同意区分 <span class="text-danger">*</span></label>
+              <label class="form-label fw-medium fs-5-5">同意区分 <span class="text-danger">*</span></label>
               <div class="d-flex gap-3">
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="consent_category" id="consent_category_new" value="new" checked>
-                  <label class="form-check-label fw-medium" for="consent_category_new">
+                  <label class="form-check-label fw-medium fs-5-5" for="consent_category_new">
                     新規同意
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="consent_category" id="consent_category_renewal" value="renewal">
-                  <label class="form-check-label fw-medium" for="consent_category_renewal">
+                  <label class="form-check-label fw-medium fs-5-5" for="consent_category_renewal">
                     再同意
                   </label>
                 </div>
@@ -812,10 +812,10 @@
 
             <!-- オプション -->
             <div class="mb-3">
-              <label class="form-label fw-medium">オプション</label>
+              <label class="form-label fw-medium fs-5-5">オプション</label>
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" name="consent_form_option" id="consent_form_option_doctor_blank" value="doctor_info_blank">
-                <label class="form-check-label fw-medium" for="consent_form_option_doctor_blank">
+                <label class="form-check-label fw-medium fs-5-5" for="consent_form_option_doctor_blank">
                   医師情報空白
                 </label>
               </div>
@@ -823,7 +823,7 @@
 
             <!-- 提出年月日 -->
             <div class="mb-3">
-              <label for="consent_form_submission_date" class="form-label fw-medium">提出年月日 <span class="text-danger">*</span></label>
+              <label for="consent_form_submission_date" class="form-label fw-medium fs-5-5">提出年月日 <span class="text-danger">*</span></label>
               <input type="date" class="form-control" id="consent_form_submission_date" name="submission_date" value="{{ now()->format('Y-m-d') }}" required>
             </div>
           </form>
@@ -851,7 +851,7 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="doctor_thank_you_clinic_user_ids" class="form-label fw-medium mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
+                <label for="doctor_thank_you_clinic_user_ids" class="form-label fw-medium fs-5-5 mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('doctor_thank_you_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="doctor_thank_you_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
@@ -864,7 +864,7 @@
 
             <!-- 医師選択 -->
             <div class="mb-3">
-              <label for="doctor_thank_you_doctor_id" class="form-label fw-medium">医師 <span class="text-danger">*</span></label>
+              <label for="doctor_thank_you_doctor_id" class="form-label fw-medium fs-5-5">医師 <span class="text-danger">*</span></label>
               <select class="form-select" id="doctor_thank_you_doctor_id" name="doctor_id" size="10" required>
                 @foreach($doctors as $doctor)
                   <option value="{{ $doctor->id }}">
@@ -876,22 +876,22 @@
 
             <!-- オプション -->
             <div class="mb-3">
-              <label class="form-label fw-medium">オプション <span class="text-danger">*</span></label>
+              <label class="form-label fw-medium fs-5-5">オプション <span class="text-danger">*</span></label>
               <div class="d-flex gap-3">
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="thank_you_option" id="thank_you_option_consent" value="consent" checked>
-                  <label class="form-check-label fw-medium" for="thank_you_option_consent">同意書発行</label>
+                  <label class="form-check-label fw-medium fs-5-5" for="thank_you_option_consent">同意書発行</label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="thank_you_option" id="thank_you_option_general" value="general">
-                  <label class="form-check-label fw-medium" for="thank_you_option_general">一般</label>
+                  <label class="form-check-label fw-medium fs-5-5" for="thank_you_option_general">一般</label>
                 </div>
               </div>
             </div>
 
             <!-- 提出年月日 -->
             <div class="mb-3">
-              <label for="doctor_thank_you_submission_date" class="form-label fw-medium">提出年月日 <span class="text-danger">*</span></label>
+              <label for="doctor_thank_you_submission_date" class="form-label fw-medium fs-5-5">提出年月日 <span class="text-danger">*</span></label>
               <input type="date" class="form-control" id="doctor_thank_you_submission_date" name="submission_date" value="{{ now()->format('Y-m-d') }}" required>
             </div>
           </form>
@@ -919,7 +919,7 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="referrer_thank_you_clinic_user_ids" class="form-label fw-medium mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
+                <label for="referrer_thank_you_clinic_user_ids" class="form-label fw-medium fs-5-5 mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('referrer_thank_you_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="referrer_thank_you_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
@@ -932,7 +932,7 @@
 
             <!-- ケアマネ選択 -->
             <div class="mb-3">
-              <label for="referrer_thank_you_caremanager_id" class="form-label fw-medium">ケアマネ <span class="text-danger">*</span></label>
+              <label for="referrer_thank_you_caremanager_id" class="form-label fw-medium fs-5-5">ケアマネ <span class="text-danger">*</span></label>
               <select class="form-select" id="referrer_thank_you_caremanager_id" name="caremanager_id" size="10" required>
                 @foreach($caremanagers as $cm)
                   <option value="{{ $cm->id }}">
@@ -944,7 +944,7 @@
 
             <!-- 提出年月日 -->
             <div class="mb-3">
-              <label for="referrer_thank_you_submission_date" class="form-label fw-medium">提出年月日 <span class="text-danger">*</span></label>
+              <label for="referrer_thank_you_submission_date" class="form-label fw-medium fs-5-5">提出年月日 <span class="text-danger">*</span></label>
               <input type="date" class="form-control" id="referrer_thank_you_submission_date" name="submission_date" value="{{ now()->format('Y-m-d') }}" required>
             </div>
           </form>
@@ -971,7 +971,7 @@
 
             <!-- サービス提供年月 -->
             <div class="mb-3">
-              <label for="implementation_plan_service_year_month" class="form-label fw-medium">サービス提供年月 <span class="text-danger">*</span></label>
+              <label for="implementation_plan_service_year_month" class="form-label fw-medium fs-5-5">サービス提供年月 <span class="text-danger">*</span></label>
               <select class="form-select" id="implementation_plan_service_year_month" name="service_year_month" required onchange="updateImplementationPlanUserLabels()">
                 <option value="">選択してください</option>
                 @php
@@ -991,7 +991,7 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="implementation_plan_clinic_user_ids" class="form-label fw-medium mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
+                <label for="implementation_plan_clinic_user_ids" class="form-label fw-medium fs-5-5 mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('implementation_plan_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="implementation_plan_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
@@ -1025,7 +1025,7 @@
 
             <!-- 利用者 -->
             <div class="mb-3">
-              <label for="report_clinic_user_id" class="form-label fw-medium">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
+              <label for="report_clinic_user_id" class="form-label fw-medium fs-5-5">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
               <select class="form-select" id="report_clinic_user_id" name="clinic_user_id" required>
                 <option value="">選択してください</option>
                 @foreach($clinicUsers as $user)
@@ -1036,7 +1036,7 @@
 
             <!-- サービス提供年月 -->
             <div class="mb-3">
-              <label for="report_service_year_month" class="form-label fw-medium">サービス提供年月 <span class="text-danger">*</span></label>
+              <label for="report_service_year_month" class="form-label fw-medium fs-5-5">サービス提供年月 <span class="text-danger">*</span></label>
               <select class="form-select" id="report_service_year_month" name="service_year_month" required>
                 <option value="">選択してください</option>
                 @php
@@ -1055,7 +1055,7 @@
 
             <!-- 提出年月日 -->
             <div class="mb-3">
-              <label for="report_submission_date" class="form-label fw-medium">提出年月日 <span class="text-danger">*</span></label>
+              <label for="report_submission_date" class="form-label fw-medium fs-5-5">提出年月日 <span class="text-danger">*</span></label>
               <input type="date" class="form-control" id="report_submission_date" name="submission_date" required>
             </div>
           </form>
@@ -1082,26 +1082,26 @@
 
             <!-- オプション -->
             <div class="mb-3">
-              <label class="form-label fw-medium">オプション <span class="text-danger">*</span></label>
+              <label class="form-label fw-medium fs-5-5">オプション <span class="text-danger">*</span></label>
               <div class="d-flex gap-4">
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="greeting_type" id="greeting_type_doctor" value="doctor" required checked onchange="updateReportGreetingFields()">
-                  <label class="form-check-label fw-medium" for="greeting_type_doctor">医師向け</label>
+                  <label class="form-check-label fw-medium fs-5-5" for="greeting_type_doctor">医師向け</label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="greeting_type" id="greeting_type_caremanager" value="caremanager" onchange="updateReportGreetingFields()">
-                  <label class="form-check-label fw-medium" for="greeting_type_caremanager">ケアマネ向け</label>
+                  <label class="form-check-label fw-medium fs-5-5" for="greeting_type_caremanager">ケアマネ向け</label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="greeting_type" id="greeting_type_user" value="user" onchange="updateReportGreetingFields()">
-                  <label class="form-check-label fw-medium" for="greeting_type_user">利用者向け</label>
+                  <label class="form-check-label fw-medium fs-5-5" for="greeting_type_user">利用者向け</label>
                 </div>
               </div>
             </div>
 
             <!-- 利用者 -->
             <div class="mb-3">
-              <label for="report_greeting_clinic_user_id" class="form-label fw-medium">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
+              <label for="report_greeting_clinic_user_id" class="form-label fw-medium fs-5-5">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
               <select class="form-select" id="report_greeting_clinic_user_id" name="clinic_user_id" required>
                 <option value="">選択してください</option>
                 @foreach($clinicUsers as $user)
@@ -1112,7 +1112,7 @@
 
             <!-- 医師 -->
             <div class="mb-3" id="report_greeting_doctor_section">
-              <label for="report_greeting_doctor_id" class="form-label fw-medium">医師 <span class="text-danger">*</span></label>
+              <label for="report_greeting_doctor_id" class="form-label fw-medium fs-5-5">医師 <span class="text-danger">*</span></label>
               <select class="form-select" id="report_greeting_doctor_id" name="doctor_id" required>
                 <option value="">選択してください</option>
                 @foreach($doctors as $doctor)
@@ -1125,7 +1125,7 @@
 
             <!-- ケアマネ -->
             <div class="mb-3 d-none" id="report_greeting_caremanager_section">
-              <label for="report_greeting_caremanager_id" class="form-label fw-medium">ケアマネ <span class="text-danger">*</span></label>
+              <label for="report_greeting_caremanager_id" class="form-label fw-medium fs-5-5">ケアマネ <span class="text-danger">*</span></label>
               <select class="form-select" id="report_greeting_caremanager_id" name="caremanager_id">
                 <option value="">選択してください</option>
                 @foreach($caremanagers as $cm)
@@ -1138,7 +1138,7 @@
 
             <!-- 提出年月日 -->
             <div class="mb-3">
-              <label for="report_greeting_submission_date" class="form-label fw-medium">提出年月日 <span class="text-danger">*</span></label>
+              <label for="report_greeting_submission_date" class="form-label fw-medium fs-5-5">提出年月日 <span class="text-danger">*</span></label>
               <input type="date" class="form-control" id="report_greeting_submission_date" name="submission_date" required>
             </div>
           </form>
@@ -1165,7 +1165,7 @@
 
             <!-- サービス提供年月 -->
             <div class="mb-3">
-              <label for="user_count_summary_service_year_month" class="form-label fw-medium">サービス提供年月 <span class="text-danger">*</span></label>
+              <label for="user_count_summary_service_year_month" class="form-label fw-medium fs-5-5">サービス提供年月 <span class="text-danger">*</span></label>
               <select class="form-select" id="user_count_summary_service_year_month" name="service_year_month" required
                 data-months="{{ json_encode($userCountDataMonths) }}">
                 <option value="">選択してください</option>
@@ -1206,7 +1206,7 @@
 
             <!-- サービス提供年月 -->
             <div class="mb-3">
-              <label for="schedule_list_service_year_month" class="form-label fw-medium">サービス提供年月 <span class="text-danger">*</span></label>
+              <label for="schedule_list_service_year_month" class="form-label fw-medium fs-5-5">サービス提供年月 <span class="text-danger">*</span></label>
               <select class="form-select" id="schedule_list_service_year_month" name="service_year_month" required>
                 <option value="">選択してください</option>
                 @php
@@ -1226,7 +1226,7 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="schedule_list_clinic_user_ids" class="form-label fw-medium mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
+                <label for="schedule_list_clinic_user_ids" class="form-label fw-medium fs-5-5 mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('schedule_list_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="schedule_list_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
@@ -1260,7 +1260,7 @@
 
             <!-- 対象年月 -->
             <div class="mb-3">
-              <label for="treatment_expiry_list_target_year_month" class="form-label fw-medium">対象年月 <span class="text-danger">*</span></label>
+              <label for="treatment_expiry_list_target_year_month" class="form-label fw-medium fs-5-5">対象年月 <span class="text-danger">*</span></label>
               <select class="form-select" id="treatment_expiry_list_target_year_month" name="target_year_month" required>
                 <option value="">選択してください</option>
                 @php
@@ -1279,7 +1279,7 @@
 
             <!-- 出力年月日 -->
             <div class="mb-3">
-              <label for="treatment_expiry_list_output_date" class="form-label fw-medium">出力年月日 <span class="text-danger">*</span></label>
+              <label for="treatment_expiry_list_output_date" class="form-label fw-medium fs-5-5">出力年月日 <span class="text-danger">*</span></label>
               <input type="date" class="form-control" id="treatment_expiry_list_output_date" name="output_date" required>
             </div>
           </form>
@@ -1304,7 +1304,7 @@
           <form id="addressLabelForm">
             <!-- 出力データ -->
             <div class="mb-3">
-              <label for="address_label_data_type" class="form-label fw-medium">出力データ <span class="text-danger">*</span></label>
+              <label for="address_label_data_type" class="form-label fw-medium fs-5-5">出力データ <span class="text-danger">*</span></label>
               <select class="form-select" id="address_label_data_type" name="data_type" required>
                 <option value="clinic_user">利用者関連</option>
                 <option value="doctor">医師関連</option>
@@ -1315,7 +1315,7 @@
 
             <!-- 出力方式 -->
             <div class="mb-3">
-              <label for="address_label_output_type" class="form-label fw-medium">出力方式 <span class="text-danger">*</span></label>
+              <label for="address_label_output_type" class="form-label fw-medium fs-5-5">出力方式 <span class="text-danger">*</span></label>
               <select class="form-select" id="address_label_output_type" name="output_type" required>
                 <option value="csv">CSV</option>
                 <option value="label_12">宛名シール（12面）</option>
