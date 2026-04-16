@@ -72,11 +72,14 @@ function expandContent(content) {
 }
 
 function collapseContent(content) {
+  // height:auto からでも transition が効くよう2段階のrAFで確定させる
   content.style.height = content.scrollHeight + 'px';
   requestAnimationFrame(() => {
-    content.style.height = '0';
-    content.style.transform = 'scaleY(0)';
-    content.style.opacity = '0';
+    requestAnimationFrame(() => {
+      content.style.height = '0';
+      content.style.transform = 'scaleY(0)';
+      content.style.opacity = '0';
+    });
   });
 }
 
@@ -253,11 +256,15 @@ function loadMonthData(yearMonth, monthContent, block) {
     })
     .finally(() => {
       isLoadingData = false;
-      // テーブル注入後にheightを再計算
+      // 格納済みなら何もしない
+      if (!monthContent.classList.contains('expanded')) return;
+      // テーブル注入後にheightを再計算してautoへ移行
       monthContent.style.height = monthContent.scrollHeight + 'px';
       monthContent.addEventListener('transitionend', function onEnd(e) {
         if (e.propertyName !== 'height') return;
         monthContent.removeEventListener('transitionend', onEnd);
+        // 格納済みなら上書きしない
+        if (!monthContent.classList.contains('expanded')) return;
         monthContent.style.height = 'auto';
         startHr2Tracking(block);
       });
