@@ -66,12 +66,12 @@
                     type="button" data-toggle-year="{{ $collapseId }}"
                     aria-expanded="{{ $isYearExpanded ? 'true' : 'false' }}">
               <span class="align-self-center lh-1 pt-05 pb-1">{{ $year }}</span>
+              <div class="vr ms-3 me-3 align-self-center" style="height: 1.4rem;"></div>
+              <span class="fs-6 fw-normal opacity-75 align-self-center">{{ $count }}件</span>
               <span class="year-toggle-arrow {{ $isYearExpanded ? 'rotated' : '' }} d-inline-flex align-items-center align-self-center">
                 <i class="nf nf-md-chevron_down fs-5 ps-2"></i>
               </span>
             </button>
-            <div class="vr ms-2 me-3 align-self-center" style="height: 1.4rem;"></div>
-            <span class="fs-6 fw-normal text-secondary align-self-center">{{ $count }}件</span>
           @else
             <div class="fs-2 fw-bold text-secondary opacity-50 me-2 px-3 py-2">{{ $year }}</div>
             <div class="vr ms-2 me-3 align-self-center" style="height: 1.4rem;"></div>

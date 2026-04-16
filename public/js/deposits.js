@@ -279,7 +279,7 @@ function renderDepositsTable(deposits) {
   html += '<th class="text-center align-middle text-nowrap" style="width: 9%;">保険請求額</th>';
   html += '<th class="text-center align-middle text-nowrap" style="width: 9%;">入金額</th>';
   html += '<th class="text-center align-middle text-nowrap" style="width: 10%;">入金日</th>';
-  html += '<th class="text-center align-middle text-nowrap" style="width: 5%;">登録</th>';
+  html += '<th class="text-center align-middle text-nowrap" style="width: 5%;">操作</th>';
   html += '</tr></thead><tbody class="small">';
 
   deposits.forEach(deposit => {
@@ -295,7 +295,7 @@ function renderDepositsTable(deposits) {
     html += `<td class="text-end align-middle px-2">${deposit.insurance_billing_amount.toLocaleString()}</td>`;
     html += `<td class="align-middle p-1"><input type="number" class="form-control form-control-sm w-100" data-id="${deposit.id}" data-field="deposit_amount" value="${deposit.deposit_amount}" min="0"></td>`;
     html += `<td class="align-middle p-1"><input type="date" class="form-control form-control-sm w-100" data-id="${deposit.id}" data-field="deposit_date" value="${deposit.deposit_date}"></td>`;
-    html += `<td class="text-center align-middle p-1"><button type="button" class="btn btn-sm btn-primary" onclick="saveDeposit(${deposit.id})">登録</button></td>`;
+    html += `<td class="text-center align-middle p-1"><button type="button" class="btn-ex-main btn-ex-blue btn-ex-sm" onclick="saveDeposit(${deposit.id})">登録</button></td>`;
     html += '</tr>';
   });
 
@@ -387,13 +387,31 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // scrollToYearMonth への自動展開・スクロール
+  // ※ toggleYear は isExpanded を見てトグルするため、初期展開には使わず直接展開処理を呼ぶ
   if (window.depositsConfig.scrollToYearMonth) {
     const targetYearMonth = window.depositsConfig.scrollToYearMonth;
     const targetYear = targetYearMonth.split('-')[0];
     const yearBtn = document.querySelector(`[data-toggle-year="year-${targetYear}"]`);
 
     if (yearBtn) {
-      toggleYear(yearBtn);
+      const content = document.getElementById(yearBtn.dataset.toggleYear);
+      const block = yearBtn.closest('.year-block');
+      const arrow = yearBtn.querySelector('.year-toggle-arrow');
+      const bottomHr = block ? block.querySelector('.year-bottom-hr') : null;
+
+      // 既に expanded クラスが付いてる（Blade 側で初期展開済み）場合は
+      // hr2・aria 等の状態だけを確定させてアニメーションは行わない
+      if (content && content.classList.contains('expanded')) {
+        // 状態はすでに初期化済み（DOMContentLoaded 冒頭ループで実施）
+        // 月の自動展開のみ実行
+        const firstMonthBtn = content.querySelector('[data-toggle-month]');
+        if (firstMonthBtn) {
+          toggleMonth(firstMonthBtn);
+        }
+      } else if (content) {
+        // expanded でない場合のみ toggleYear で展開
+        toggleYear(yearBtn);
+      }
 
       // 年展開(350ms) + 月自動展開(350ms) 完了後にスクロール
       setTimeout(() => {
