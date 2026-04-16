@@ -84,10 +84,10 @@
 
         <div class="bg-gray-96 rounded-1 p-2 me-2 year-block" style="position: relative;">
           <!-- 年ヘッダー（折り畳み・展開ボタン） -->
-          <div class="year-header mb-2 d-flex align-items-center">
-            <button class="btn-ex-sub btn-ex-blue btn-ex-xl btn-ex-sub-toggle-invert fs-2 gap-2 me-2" type="button" data-toggle-year="{{ $collapseId }}" aria-expanded="{{ $isYearExpanded ? 'true' : 'false' }}">
-              <span class="align-self-center lh-1 pt-05 pb-1">{{ $year }}</span>
-              <span class="year-toggle-arrow {{ $isYearExpanded ? 'rotated' : '' }} d-inline-flex align-items-center align-self-center">
+          <div class="year-header d-flex align-items-center">
+            <button class="btn-ex-sub btn-ex-blue btn-ex-xl btn-ex-sub-toggle-invert fs-2 gap-3 me-2" type="button" data-toggle-year="{{ $collapseId }}" aria-expanded="false">
+              <span class="align-self-center ps-1">{{ $year }}</span>
+              <span class="year-toggle-arrow d-inline-flex align-items-center align-self-center">
                 <i class="nf nf-md-chevron_down fs-5 ps-2"></i>
               </span>
             </button>
@@ -95,23 +95,23 @@
           </div>
 
           <!-- 月別データ（scaleY展開） -->
-          <div class="year-content {{ $isYearExpanded ? 'expanded' : '' }}" id="{{ $collapseId }}" data-year="{{ $year }}">
+          <div class="year-content" id="{{ $collapseId }}" data-year="{{ $year }}">
             @foreach ($months as $item)
             @php
               $yearMonth = sprintf('%04d-%02d', $item['year'], $item['month']);
               $monthCollapseId = "month-{$year}-{$item['month']}";
               $isMonthExpanded = $item['year'] == $closestYear && $item['month'] == $closestMonth;
             @endphp
-            <div class="report-month-section ms-4" data-year-month="{{ $yearMonth }}">
+            <div class="report-month-section ms-4 {{ $loop->first ? 'mt-4' : '' }}" data-year-month="{{ $yearMonth }}">
               @if ($item['report'])
                 <!-- 報告書データあり -->
-                <button class="btn-ex-sub btn-ex-blue btn-ex-lg btn-ex-sub-toggle-invert mb-1" type="button" data-toggle-month="{{ $monthCollapseId }}" aria-expanded="{{ $isMonthExpanded ? 'true' : 'false' }}">
+                <button class="btn-ex-sub btn-ex-blue btn-ex-lg btn-ex-sub-toggle-invert mb-2 gap-2" type="button" data-toggle-month="{{ $monthCollapseId }}" aria-expanded="false">
                   {{ $item['year'] }}年{{ "\u{2000}" }}{{ $item['month'] }}月
-                  <span class="year-toggle-arrow {{ $isMonthExpanded ? 'rotated' : '' }}" style="display: inline-flex; align-items: center; align-self: center;">
+                  <span class="year-toggle-arrow d-inline-flex align-items-center align-self-center">
                     <i class="nf nf-md-chevron_down ps-2"></i>
                   </span>
                 </button>
-                <div class="month-content {{ $isMonthExpanded ? 'expanded' : '' }}" id="{{ $monthCollapseId }}" style="overflow-x: hidden;">
+                <div class="month-content" id="{{ $monthCollapseId }}" style="overflow-x: hidden;">
                   <table class="table table-bordered mb-0" style="font-size: 0.9rem; table-layout: fixed; width: 100%;">
                     <colgroup>
                       <col style="width: 5rem;">
@@ -152,10 +152,10 @@
                 </div>
               @else
                 <!-- 報告書データなし -->
-                <div class="d-flex align-items-center">
-                  <div class="fw-medium fs-5 mb-0 opacity-75">{{ $item['year'] }}年{{ "\u{2000}" }}{{ $item['month'] }}月</div>
-                  <div class="vr ms-3 me-5" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
-                  <span class="text-secondary me-3">該当データなし</span>
+                <div class="d-flex align-items-center gap-3">
+                  <div class="fw-medium fs-5 text-secondary mb-0 opacity-75">{{ $item['year'] }}年{{ "\u{2000}" }}{{ $item['month'] }}月</div>
+                  <div class="vr align-self-center opacity-50" style="height: 1.6rem;"></div>
+                  <span class="text-secondary fw-medium opacity-75 me-1">該当データなし</span>
                   <a href="{{ route('reports.create', ['clinic_user_id' => $selectedUserId, 'year' => $item['year'], 'month' => $item['month']]) }}">
                     <button type="button" class="btn-ex-main btn-ex-blue btn-ex-sm">新規登録</button>
                   </a>
@@ -328,38 +328,10 @@
       }
 
       document.addEventListener('DOMContentLoaded', function() {
-        // 初期状態のheight・hr2セット
+        // 全年ブロックのhr2を初期位置にセット
         document.querySelectorAll('.year-block').forEach(function(block) {
-          const yearContent = block.querySelector('.year-content');
           const bottomHr = block.querySelector('.year-bottom-hr');
-          if (!bottomHr) return;
-          if (yearContent && yearContent.classList.contains('expanded')) {
-            yearContent.style.height = 'auto';
-            yearContent.style.transform = 'scaleY(1)';
-            yearContent.style.opacity = '1';
-            setHr2ToHr1(block);
-            bottomHr.style.display = 'block';
-            requestAnimationFrame(() => {
-              const cs = getComputedStyle(block);
-              const pl = parseFloat(cs.paddingLeft) || 0;
-              const pr = parseFloat(cs.paddingRight) || 0;
-              const hrWidth = block.clientWidth - pl - pr;
-              const hrLeft = (block.clientWidth - hrWidth) / 2;
-              bottomHr.style.transition = 'none';
-              bottomHr.style.top = blockExpandedTop(block) + 'px';
-              bottomHr.style.left = hrLeft + 'px';
-              bottomHr.style.width = hrWidth + 'px';
-            });
-          } else {
-            setHr2ToHr1(block);
-          }
-        });
-
-        // 初期状態で展開済みの月コンテンツも height をセット
-        document.querySelectorAll('.month-content.expanded').forEach(function(content) {
-          content.style.height = 'auto';
-          content.style.transform = 'scaleY(1)';
-          content.style.opacity = '1';
+          if (bottomHr) setHr2ToHr1(block);
         });
 
         // 年ボタンのクリックイベント
@@ -371,40 +343,16 @@
         document.querySelectorAll('[data-toggle-month]').forEach(function(btn) {
           btn.addEventListener('click', () => toggleMonth(btn));
         });
-      });
 
-      // -webkit-line-clamp: 2 によるCSS省略のため、JS処理は不要
-      function adjustReportTextCells() {}
-
-      // デバウンス関数（リサイズイベントの頻度を制限）
-      function debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-          const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-          };
-          clearTimeout(timeout);
-          timeout = setTimeout(later, wait);
-        };
-      }
-
-      // ページ読み込み時に指定された年月へ自動スクロール
-      document.addEventListener('DOMContentLoaded', function() {
-        // テキストセルの調整
-        adjustReportTextCells();
-
+        // scrollToYearMonth への自動展開・スクロール
         if (window.reportsConfig.scrollToYearMonth) {
           const targetSection = document.querySelector(`[data-year-month="${window.reportsConfig.scrollToYearMonth}"]`);
           if (targetSection) {
-            // ターゲットセクションが属する年を展開
             const yearContent = targetSection.closest('.year-content');
-            if (yearContent && !yearContent.classList.contains('expanded')) {
+            if (yearContent) {
               const btn = document.querySelector(`[data-toggle-year="${yearContent.id}"]`);
               if (btn) toggleYear(btn);
             }
-
-            // スクロール処理（展開アニメーション完了後に実行）
             setTimeout(() => {
               const container = document.getElementById('reports-list-area');
               if (container) {
@@ -417,9 +365,6 @@
           }
         }
       });
-
-      // ウィンドウリサイズ時にもテキストセルを再調整（デバウンス適用：150ms）
-      window.addEventListener('resize', debounce(adjustReportTextCells, 150));
 
       // 利用者検索ポップアップを開く
       function openUserSearchPopup() {
