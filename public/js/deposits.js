@@ -292,9 +292,9 @@ function renderDepositsTable(deposits) {
   deposits.forEach(deposit => {
     html += '<tr>';
     html += `<td class="text-center align-middle">${deposit.id}</td>`;
-    html += `<td class="align-middle text-truncate" style="max-width: 150px;" title="${deposit.insurer_name}">${deposit.insurer_name}</td>`;
-    html += `<td class="align-middle text-truncate" style="max-width: 120px;" title="${deposit.insured_name}">${deposit.insured_name}</td>`;
-    html += `<td class="align-middle text-truncate" style="max-width: 120px;" title="${deposit.clinic_user_name}">${deposit.clinic_user_name}</td>`;
+    html += `<td class="align-middle">${deposit.insurer_name}</td>`;
+    html += `<td class="align-middle">${deposit.insured_name}</td>`;
+    html += `<td class="align-middle">${deposit.clinic_user_name}</td>`;
     html += `<td class="align-middle small" style="white-space: pre-line; word-break: break-word;">${deposit.treatment_dates}</td>`;
     html += `<td class="text-center align-middle">${deposit.treatment_type}</td>`;
     html += `<td class="text-end align-middle px-2">${deposit.total_amount.toLocaleString()}</td>`;
