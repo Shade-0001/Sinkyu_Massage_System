@@ -105,12 +105,12 @@
             <div class="report-month-section ms-4" data-year-month="{{ $yearMonth }}">
               @if ($item['report'])
                 <!-- 報告書データあり -->
-                <div class="btn-ex-sub btn-ex-blue btn-ex-lg btn-ex-sub-toggle-invert mb-1" role="button" data-toggle-month="{{ $monthCollapseId }}" aria-expanded="{{ $isMonthExpanded ? 'true' : 'false' }}">
+                <button class="btn-ex-sub btn-ex-blue btn-ex-lg btn-ex-sub-toggle-invert mb-1" type="button" data-toggle-month="{{ $monthCollapseId }}" aria-expanded="{{ $isMonthExpanded ? 'true' : 'false' }}">
                   {{ $item['year'] }}年{{ "\u{2000}" }}{{ $item['month'] }}月
                   <span class="year-toggle-arrow {{ $isMonthExpanded ? 'rotated' : '' }}" style="display: inline-flex; align-items: center; align-self: center;">
                     <i class="nf nf-md-chevron_down ps-2"></i>
                   </span>
-                </div>
+                </button>
                 <div class="month-content {{ $isMonthExpanded ? 'expanded' : '' }}" id="{{ $monthCollapseId }}" style="overflow-x: hidden;">
                   <table class="table table-bordered mb-0" style="font-size: 0.9rem; table-layout: fixed; width: 100%;">
                     <colgroup>
