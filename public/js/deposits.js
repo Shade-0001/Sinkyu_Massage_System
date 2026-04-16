@@ -295,7 +295,7 @@ function renderDepositsTable(deposits) {
     html += `<td class="align-middle">${deposit.insurer_name}</td>`;
     html += `<td class="align-middle">${deposit.insured_name}</td>`;
     html += `<td class="align-middle">${deposit.clinic_user_name}</td>`;
-    html += `<td class="align-middle small" style="white-space: pre-line; word-break: break-word;">${deposit.treatment_dates}</td>`;
+    html += `<td class="align-middle" style="white-space: pre-line; word-break: break-word;">${deposit.treatment_dates}</td>`;
     html += `<td class="text-center align-middle">${deposit.treatment_type}</td>`;
     html += `<td class="text-end align-middle px-2">${deposit.total_amount.toLocaleString()}</td>`;
     html += `<td class="text-end align-middle px-2">${deposit.selfpay_amount.toLocaleString()}</td>`;
