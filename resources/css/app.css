@@ -21,7 +21,7 @@
 }
 
 :root {
-  --bs-body-color: #444444;
+  --bs-body-color: #555555;
 }
 
 /* リンク下線の削除 */
@@ -469,7 +469,9 @@ html[data-sidebar="closed"] #sidebar-content {
   vertical-align: middle;
 }
 .submenu-icon-stack .icon-circle {
-  font-size: 1.0rem;
+  position: absolute;
+  font-size: 1.2rem;
+  line-height: 1;
 }
 .submenu-icon-stack .icon-inner {
   position: absolute;
