@@ -72,14 +72,11 @@ function expandContent(content) {
 }
 
 function collapseContent(content) {
-  // height:auto からでも transition が効くよう2段階のrAFで確定させる
   content.style.height = content.scrollHeight + 'px';
   requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      content.style.height = '0';
-      content.style.transform = 'scaleY(0)';
-      content.style.opacity = '0';
-    });
+    content.style.height = '0';
+    content.style.transform = 'scaleY(0)';
+    content.style.opacity = '0';
   });
 }
 
