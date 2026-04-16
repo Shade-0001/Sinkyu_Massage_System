@@ -100,10 +100,7 @@ function toggleYear(btn) {
     const openArrow = openBtn ? openBtn.querySelector('.year-toggle-arrow') : null;
     const openBottomHr = openBlock ? openBlock.querySelector('.year-bottom-hr') : null;
     openContent.classList.remove('expanded');
-    if (openBtn) {
-      openBtn.setAttribute('aria-expanded', 'false');
-      openBtn.classList.remove('btn-ex-active');
-    }
+    if (openBtn) openBtn.setAttribute('aria-expanded', 'false');
     if (openArrow) openArrow.classList.remove('rotated');
     collapseContent(openContent);
     if (openBottomHr) {
@@ -125,7 +122,6 @@ function toggleYear(btn) {
     // 格納
     content.classList.remove('expanded');
     btn.setAttribute('aria-expanded', 'false');
-    btn.classList.remove('btn-ex-active');
     if (arrow) arrow.classList.remove('rotated');
     collapseContent(content);
     const m = getHr1Metrics(block);
@@ -143,7 +139,6 @@ function toggleYear(btn) {
     // 展開
     content.classList.add('expanded');
     btn.setAttribute('aria-expanded', 'true');
-    btn.classList.add('btn-ex-active');
     if (arrow) arrow.classList.add('rotated');
     setHr2ToHr1(block);
     bottomHr.style.display = 'block';
@@ -185,7 +180,6 @@ function toggleMonth(btn) {
     if (openContent.id === targetId) return;
     const openBtn = document.querySelector(`[data-toggle-month="${openContent.id}"]`);
     if (openBtn) {
-      openBtn.classList.remove('btn-ex-active');
       openBtn.setAttribute('aria-expanded', 'false');
       const openArrow = openBtn.querySelector('.year-toggle-arrow');
       if (openArrow) openArrow.classList.remove('rotated');
@@ -195,24 +189,16 @@ function toggleMonth(btn) {
   });
   currentExpandedMonth = null;
 
+  content.classList.toggle('expanded', !isExpanded);
+  btn.setAttribute('aria-expanded', String(!isExpanded));
+  if (arrow) arrow.classList.toggle('rotated', !isExpanded);
   if (isExpanded) {
-    // 格納
-    content.classList.remove('expanded');
-    btn.setAttribute('aria-expanded', 'false');
-    btn.classList.remove('btn-ex-active');
-    if (arrow) arrow.classList.remove('rotated');
     collapseContent(content);
     startHr2Tracking(block);
   } else {
-    // 展開 → アニメーション開始、その後AJAXロード
-    content.classList.add('expanded');
-    btn.setAttribute('aria-expanded', 'true');
-    btn.classList.add('btn-ex-active');
-    if (arrow) arrow.classList.add('rotated');
     expandContent(content);
     currentExpandedMonth = yearMonth;
     startHr2Tracking(block);
-
     if (yearMonth) {
       loadMonthData(yearMonth, content, block);
     }
