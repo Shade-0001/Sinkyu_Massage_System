@@ -122,7 +122,7 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="clinic_user_ids" class="form-label mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
+                <label for="clinic_user_ids" class="form-label fw-medium mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
@@ -183,7 +183,7 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="receipt_clinic_user_ids" class="form-label mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
+                <label for="receipt_clinic_user_ids" class="form-label fw-medium mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('receipt_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="receipt_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
@@ -198,7 +198,7 @@
             <div class="mb-3">
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" id="report_fee" name="include_report_fee" value="1">
-                <label class="form-check-label" for="report_fee">施術報告書交付料あり</label>
+                <label class="form-check-label fw-medium" for="report_fee">施術報告書交付料あり</label>
               </div>
             </div>
 
@@ -257,7 +257,7 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="massage_clinic_user_ids" class="form-label mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
+                <label for="massage_clinic_user_ids" class="form-label fw-medium mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('massage_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="massage_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
@@ -318,7 +318,7 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="medical_assistance_clinic_user_ids" class="form-label mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
+                <label for="medical_assistance_clinic_user_ids" class="form-label fw-medium mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('medical_assistance_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="medical_assistance_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
@@ -334,13 +334,13 @@
               <label class="form-label fw-medium">オプション</label>
               <div class="form-check">
                 <input class="form-check-input signature-option-checkbox" type="checkbox" name="signature_option" id="signature_option_1" value="user_signature_blank">
-                <label class="form-check-label" for="signature_option_1">
+                <label class="form-check-label fw-medium" for="signature_option_1">
                   利用者署名欄空白
                 </label>
               </div>
               <div class="form-check">
                 <input class="form-check-input signature-option-checkbox" type="checkbox" name="signature_option" id="signature_option_2" value="user_address_signature_blank">
-                <label class="form-check-label" for="signature_option_2">
+                <label class="form-check-label fw-medium" for="signature_option_2">
                   利用者住所・署名欄空白
                 </label>
               </div>
@@ -396,7 +396,7 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="late_elderly_medical_clinic_user_ids" class="form-label mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
+                <label for="late_elderly_medical_clinic_user_ids" class="form-label fw-medium mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('late_elderly_medical_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="late_elderly_medical_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
@@ -412,13 +412,13 @@
               <label class="form-label fw-medium">オプション</label>
               <div class="form-check">
                 <input class="form-check-input late-elderly-signature-option-checkbox" type="checkbox" name="signature_option" id="late_elderly_signature_option_1" value="user_signature_blank">
-                <label class="form-check-label" for="late_elderly_signature_option_1">
+                <label class="form-check-label fw-medium" for="late_elderly_signature_option_1">
                   利用者署名欄空白
                 </label>
               </div>
               <div class="form-check">
                 <input class="form-check-input late-elderly-signature-option-checkbox" type="checkbox" name="signature_option" id="late_elderly_signature_option_2" value="user_address_signature_blank">
-                <label class="form-check-label" for="late_elderly_signature_option_2">
+                <label class="form-check-label fw-medium" for="late_elderly_signature_option_2">
                   利用者住所・署名欄空白
                 </label>
               </div>
@@ -534,7 +534,7 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="consent_request_sample_clinic_user_ids" class="form-label mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
+                <label for="consent_request_sample_clinic_user_ids" class="form-label fw-medium mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('consent_request_sample_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="consent_request_sample_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
@@ -576,7 +576,7 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="consent_request_designated_clinic_user_ids" class="form-label mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
+                <label for="consent_request_designated_clinic_user_ids" class="form-label fw-medium mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('consent_request_designated_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="consent_request_designated_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
@@ -649,7 +649,7 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="treatment_record_clinic_user_ids" class="form-label mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
+                <label for="treatment_record_clinic_user_ids" class="form-label fw-medium mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('treatment_record_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="treatment_record_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
@@ -780,7 +780,7 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="consent_form_clinic_user_ids" class="form-label mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
+                <label for="consent_form_clinic_user_ids" class="form-label fw-medium mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('consent_form_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="consent_form_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
@@ -797,13 +797,13 @@
               <div class="d-flex gap-3">
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="consent_category" id="consent_category_new" value="new" checked>
-                  <label class="form-check-label" for="consent_category_new">
+                  <label class="form-check-label fw-medium" for="consent_category_new">
                     新規同意
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="consent_category" id="consent_category_renewal" value="renewal">
-                  <label class="form-check-label" for="consent_category_renewal">
+                  <label class="form-check-label fw-medium" for="consent_category_renewal">
                     再同意
                   </label>
                 </div>
@@ -815,7 +815,7 @@
               <label class="form-label fw-medium">オプション</label>
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" name="consent_form_option" id="consent_form_option_doctor_blank" value="doctor_info_blank">
-                <label class="form-check-label" for="consent_form_option_doctor_blank">
+                <label class="form-check-label fw-medium" for="consent_form_option_doctor_blank">
                   医師情報空白
                 </label>
               </div>
@@ -851,7 +851,7 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="doctor_thank_you_clinic_user_ids" class="form-label mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
+                <label for="doctor_thank_you_clinic_user_ids" class="form-label fw-medium mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('doctor_thank_you_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="doctor_thank_you_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
@@ -880,11 +880,11 @@
               <div class="d-flex gap-3">
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="thank_you_option" id="thank_you_option_consent" value="consent" checked>
-                  <label class="form-check-label" for="thank_you_option_consent">同意書発行</label>
+                  <label class="form-check-label fw-medium" for="thank_you_option_consent">同意書発行</label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="thank_you_option" id="thank_you_option_general" value="general">
-                  <label class="form-check-label" for="thank_you_option_general">一般</label>
+                  <label class="form-check-label fw-medium" for="thank_you_option_general">一般</label>
                 </div>
               </div>
             </div>
@@ -919,7 +919,7 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="referrer_thank_you_clinic_user_ids" class="form-label mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
+                <label for="referrer_thank_you_clinic_user_ids" class="form-label fw-medium mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('referrer_thank_you_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="referrer_thank_you_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
@@ -991,7 +991,7 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="implementation_plan_clinic_user_ids" class="form-label mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
+                <label for="implementation_plan_clinic_user_ids" class="form-label fw-medium mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('implementation_plan_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="implementation_plan_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
@@ -1086,15 +1086,15 @@
               <div class="d-flex gap-4">
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="greeting_type" id="greeting_type_doctor" value="doctor" required checked onchange="updateReportGreetingFields()">
-                  <label class="form-check-label" for="greeting_type_doctor">医師向け</label>
+                  <label class="form-check-label fw-medium" for="greeting_type_doctor">医師向け</label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="greeting_type" id="greeting_type_caremanager" value="caremanager" onchange="updateReportGreetingFields()">
-                  <label class="form-check-label" for="greeting_type_caremanager">ケアマネ向け</label>
+                  <label class="form-check-label fw-medium" for="greeting_type_caremanager">ケアマネ向け</label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="greeting_type" id="greeting_type_user" value="user" onchange="updateReportGreetingFields()">
-                  <label class="form-check-label" for="greeting_type_user">利用者向け</label>
+                  <label class="form-check-label fw-medium" for="greeting_type_user">利用者向け</label>
                 </div>
               </div>
             </div>
@@ -1226,7 +1226,7 @@
             <!-- 利用者選択 -->
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label for="schedule_list_clinic_user_ids" class="form-label mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
+                <label for="schedule_list_clinic_user_ids" class="form-label fw-medium mb-0">利用者（ID｜氏名｜カナ） <span class="text-danger">*</span></label>
                 <button type="button" class="btn btn-sm btn-secondary" onclick="toggleSelectAll('schedule_list_clinic_user_ids')">全て選択 / 解除</button>
               </div>
               <select class="form-select" id="schedule_list_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
