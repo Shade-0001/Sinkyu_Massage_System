@@ -469,18 +469,14 @@ html[data-sidebar="closed"] #sidebar-content {
   vertical-align: middle;
 }
 .submenu-icon-stack .icon-circle {
+  position: absolute;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 1.2rem;
+  height: 1.2rem;
   border: 1px solid currentColor;
   border-radius: 50%;
-  line-height: 1;
-}
-.submenu-icon-stack .icon-circle > i {
-  line-height: 1;
-  display: block;
 }
 .submenu-icon-stack .icon-inner {
   position: absolute;
