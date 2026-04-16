@@ -26,14 +26,14 @@ class DepositsController extends Controller
     $endDate = (clone $currentDate)->modify('+2 months');
 
     // 年月ごとの件数を一括取得（N+1解消）
-    $monthCounts = Deposit::selectRaw('year_month, COUNT(*) as `count`')
+    $monthCounts = Deposit::selectRaw('`year_month`, COUNT(*) as `cnt`')
       ->groupBy('year_month')
-      ->pluck('count', 'year_month')
+      ->pluck('cnt', 'year_month')
       ->toArray();
 
     // 年ごとの件数を集計
     $yearCounts = [];
-    foreach ($monthCounts as $ym => $cnt) {
+    foreach ((array)$monthCounts as $ym => $cnt) {
       $year = (int)substr($ym, 0, 4);
       $yearCounts[$year] = ($yearCounts[$year] ?? 0) + $cnt;
     }
@@ -156,7 +156,7 @@ class DepositsController extends Controller
           'insured_name' => $deposit->insured_name ?? '',
           'clinic_user_name' => $deposit->clinicUser ? ($deposit->clinicUser->last_name . ' ' . $deposit->clinicUser->first_name) : '',
           'treatment_dates' => $treatmentDatesFormatted,
-          'treatment_type' => $deposit->treatment_type == 1 ? '鍼灸' : 'マッサージ',
+          'treatment_type' => $deposit->treatment_type == 1 ? 'ＨＫ' : 'ＡＭ',
           'total_amount' => $totalAmount,
           'selfpay_amount' => $selfpayAmount,
           'insurance_billing_amount' => $insuranceBillingAmount,
