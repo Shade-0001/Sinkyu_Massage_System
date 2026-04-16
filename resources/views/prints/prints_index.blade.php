@@ -127,7 +127,7 @@
               </div>
               <select class="form-select" id="clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
+                  <option value="{{ $user->id }}">{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}｜ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}</option>
                 @endforeach
               </select>
               <div class="form-text fw-medium">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -188,7 +188,7 @@
               </div>
               <select class="form-select" id="receipt_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
+                  <option value="{{ $user->id }}">{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}｜ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}</option>
                 @endforeach
               </select>
               <div class="form-text fw-medium">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -262,7 +262,7 @@
               </div>
               <select class="form-select" id="massage_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
+                  <option value="{{ $user->id }}">{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}｜ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}</option>
                 @endforeach
               </select>
               <div class="form-text fw-medium">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -323,7 +323,7 @@
               </div>
               <select class="form-select" id="medical_assistance_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
+                  <option value="{{ $user->id }}">{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}｜ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}</option>
                 @endforeach
               </select>
               <div class="form-text fw-medium">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -401,7 +401,7 @@
               </div>
               <select class="form-select" id="late_elderly_medical_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
+                  <option value="{{ $user->id }}">{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}｜ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}</option>
                 @endforeach
               </select>
               <div class="form-text fw-medium">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -539,7 +539,7 @@
               </div>
               <select class="form-select" id="consent_request_sample_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
+                  <option value="{{ $user->id }}">{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}｜ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}</option>
                 @endforeach
               </select>
               <div class="form-text fw-medium">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -581,7 +581,7 @@
               </div>
               <select class="form-select" id="consent_request_designated_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
+                  <option value="{{ $user->id }}">{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}｜ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}</option>
                 @endforeach
               </select>
               <div class="form-text fw-medium">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -652,7 +652,7 @@
               </div>
               <select class="form-select" id="treatment_record_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
+                  <option value="{{ $user->id }}">{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}｜ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}</option>
                 @endforeach
               </select>
               <div class="form-text fw-medium">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -783,7 +783,7 @@
               </div>
               <select class="form-select" id="consent_form_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
+                  <option value="{{ $user->id }}">{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}｜ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}</option>
                 @endforeach
               </select>
               <div class="form-text fw-medium">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -854,7 +854,7 @@
               </div>
               <select class="form-select" id="doctor_thank_you_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
+                  <option value="{{ $user->id }}">{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}｜ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}</option>
                 @endforeach
               </select>
               <div class="form-text fw-medium">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -920,7 +920,7 @@
               </div>
               <select class="form-select" id="referrer_thank_you_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
+                  <option value="{{ $user->id }}">{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}｜ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}</option>
                 @endforeach
               </select>
               <div class="form-text fw-medium">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -990,7 +990,7 @@
               </div>
               <select class="form-select" id="implementation_plan_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}" data-plan-months="{{ json_encode($implementationPlanUserMonths[$user->id] ?? []) }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
+                  <option value="{{ $user->id }}" data-plan-months="{{ json_encode($implementationPlanUserMonths[$user->id] ?? []) }}">{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}｜ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}</option>
                 @endforeach
               </select>
               <div class="form-text fw-medium">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
@@ -1023,7 +1023,7 @@
               <select class="form-select" id="report_clinic_user_id" name="clinic_user_id" required>
                 <option value="">選択してください</option>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
+                  <option value="{{ $user->id }}">{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}｜ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}</option>
                 @endforeach
               </select>
             </div>
@@ -1099,7 +1099,7 @@
               <select class="form-select" id="report_greeting_clinic_user_id" name="clinic_user_id" required>
                 <option value="">選択してください</option>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
+                  <option value="{{ $user->id }}">{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}｜ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}</option>
                 @endforeach
               </select>
             </div>
@@ -1221,7 +1221,7 @@
               </div>
               <select class="form-select" id="schedule_list_clinic_user_ids" name="clinic_user_ids[]" multiple size="10" required>
                 @foreach($clinicUsers as $user)
-                  <option value="{{ $user->id }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
+                  <option value="{{ $user->id }}">{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}｜ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}</option>
                 @endforeach
               </select>
               <div class="form-text fw-medium">複数選択可（クリックで選択/解除、長押し+ドラッグで連続選択）</div>
