@@ -198,7 +198,7 @@
             <div class="mb-3">
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" id="report_fee" name="include_report_fee" value="1">
-                <label class="form-check-label fw-medium fs-5-5" for="report_fee">施術報告書交付料あり</label>
+                <label class="form-check-label fw-medium" for="report_fee">施術報告書交付料あり</label>
               </div>
             </div>
 
@@ -334,13 +334,13 @@
               <label class="form-label fw-medium fs-5-5">オプション</label>
               <div class="form-check">
                 <input class="form-check-input signature-option-checkbox" type="checkbox" name="signature_option" id="signature_option_1" value="user_signature_blank">
-                <label class="form-check-label fw-medium fs-5-5" for="signature_option_1">
+                <label class="form-check-label fw-medium" for="signature_option_1">
                   利用者署名欄空白
                 </label>
               </div>
               <div class="form-check">
                 <input class="form-check-input signature-option-checkbox" type="checkbox" name="signature_option" id="signature_option_2" value="user_address_signature_blank">
-                <label class="form-check-label fw-medium fs-5-5" for="signature_option_2">
+                <label class="form-check-label fw-medium" for="signature_option_2">
                   利用者住所・署名欄空白
                 </label>
               </div>
@@ -412,13 +412,13 @@
               <label class="form-label fw-medium fs-5-5">オプション</label>
               <div class="form-check">
                 <input class="form-check-input late-elderly-signature-option-checkbox" type="checkbox" name="signature_option" id="late_elderly_signature_option_1" value="user_signature_blank">
-                <label class="form-check-label fw-medium fs-5-5" for="late_elderly_signature_option_1">
+                <label class="form-check-label fw-medium" for="late_elderly_signature_option_1">
                   利用者署名欄空白
                 </label>
               </div>
               <div class="form-check">
                 <input class="form-check-input late-elderly-signature-option-checkbox" type="checkbox" name="signature_option" id="late_elderly_signature_option_2" value="user_address_signature_blank">
-                <label class="form-check-label fw-medium fs-5-5" for="late_elderly_signature_option_2">
+                <label class="form-check-label fw-medium" for="late_elderly_signature_option_2">
                   利用者住所・署名欄空白
                 </label>
               </div>
@@ -797,13 +797,13 @@
               <div class="d-flex gap-3">
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="consent_category" id="consent_category_new" value="new" checked>
-                  <label class="form-check-label fw-medium fs-5-5" for="consent_category_new">
+                  <label class="form-check-label fw-medium" for="consent_category_new">
                     新規同意
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="consent_category" id="consent_category_renewal" value="renewal">
-                  <label class="form-check-label fw-medium fs-5-5" for="consent_category_renewal">
+                  <label class="form-check-label fw-medium" for="consent_category_renewal">
                     再同意
                   </label>
                 </div>
@@ -815,7 +815,7 @@
               <label class="form-label fw-medium fs-5-5">オプション</label>
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" name="consent_form_option" id="consent_form_option_doctor_blank" value="doctor_info_blank">
-                <label class="form-check-label fw-medium fs-5-5" for="consent_form_option_doctor_blank">
+                <label class="form-check-label fw-medium" for="consent_form_option_doctor_blank">
                   医師情報空白
                 </label>
               </div>
@@ -880,11 +880,11 @@
               <div class="d-flex gap-3">
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="thank_you_option" id="thank_you_option_consent" value="consent" checked>
-                  <label class="form-check-label fw-medium fs-5-5" for="thank_you_option_consent">同意書発行</label>
+                  <label class="form-check-label fw-medium" for="thank_you_option_consent">同意書発行</label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="thank_you_option" id="thank_you_option_general" value="general">
-                  <label class="form-check-label fw-medium fs-5-5" for="thank_you_option_general">一般</label>
+                  <label class="form-check-label fw-medium" for="thank_you_option_general">一般</label>
                 </div>
               </div>
             </div>
@@ -1086,15 +1086,15 @@
               <div class="d-flex gap-4">
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="greeting_type" id="greeting_type_doctor" value="doctor" required checked onchange="updateReportGreetingFields()">
-                  <label class="form-check-label fw-medium fs-5-5" for="greeting_type_doctor">医師向け</label>
+                  <label class="form-check-label fw-medium" for="greeting_type_doctor">医師向け</label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="greeting_type" id="greeting_type_caremanager" value="caremanager" onchange="updateReportGreetingFields()">
-                  <label class="form-check-label fw-medium fs-5-5" for="greeting_type_caremanager">ケアマネ向け</label>
+                  <label class="form-check-label fw-medium" for="greeting_type_caremanager">ケアマネ向け</label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="greeting_type" id="greeting_type_user" value="user" onchange="updateReportGreetingFields()">
-                  <label class="form-check-label fw-medium fs-5-5" for="greeting_type_user">利用者向け</label>
+                  <label class="form-check-label fw-medium" for="greeting_type_user">利用者向け</label>
                 </div>
               </div>
             </div>
