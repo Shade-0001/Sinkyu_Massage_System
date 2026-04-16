@@ -60,7 +60,7 @@
 
       <div class="bg-gray-96 rounded-1 p-2 me-2 year-block" style="position: relative;">
         <!-- 年ヘッダー -->
-        <div class="year-header mb-3 d-flex align-items-center">
+        <div class="year-header d-flex align-items-center">
           @if($hasDeposits)
             <button class="btn-ex-sub btn-ex-blue btn-ex-xl btn-ex-sub-toggle-invert fs-2 gap-2 me-2 {{ $isYearExpanded ? 'btn-ex-active' : '' }}"
                     type="button" data-toggle-year="{{ $collapseId }}"
@@ -73,8 +73,8 @@
               </span>
             </button>
           @else
-            <div class="fs-2 fw-bold text-secondary opacity-50 me-2 px-3 py-2">{{ $year }}</div>
-            <div class="vr ms-2 me-3 align-self-center" style="height: 1.4rem;"></div>
+            <div class="fs-2 fw-bold text-secondary opacity-50 ps-3">{{ $year }}</div>
+            <div class="vr mx-3 align-self-center" style="height: 1.4rem;"></div>
             <span class="fs-6 fw-normal text-secondary align-self-center">該当データなし</span>
           @endif
           <hr class="year-top-hr" style="flex-grow: 1; border: none; border-top: 4px solid #000; margin: 0rem;">
@@ -88,7 +88,7 @@
               $monthCollapseId = "month-{$item['year']}-{$item['month']}";
               $monthCount = $item['count'] ?? 0;
             @endphp
-            <div class="deposit-month-section ms-4" data-year-month="{{ $yearMonth }}">
+            <div class="deposit-month-section ms-4 {{ $loop->first ? 'mt-3' : '' }}" data-year-month="{{ $yearMonth }}">
               @if($item['has_data'])
                 <!-- 入金データあり -->
                 <div class="btn-ex-sub btn-ex-blue btn-ex-lg btn-ex-sub-toggle-invert mb-1"
