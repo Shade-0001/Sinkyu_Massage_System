@@ -164,11 +164,11 @@ document.addEventListener('DOMContentLoaded', function() {
   const activeSubmenuId = activeSubmenuLink ? activeSubmenuLink.closest('.submenu')?.id : null;
 
   // localStorageから展開状態を復元
-  // 'manual'のみ復元・'auto'はスキップ（強制展開は後段で改めて処理）
+  // 'auto'展開かつ現在ページがそのサブメニュー配下でない場合は格納
   const submenuStates = JSON.parse(localStorage.getItem('submenuStates') || '{}');
   document.querySelectorAll('.submenu').forEach(submenu => {
     const state = submenuStates[submenu.id];
-    if (state !== 'manual') return;
+    if (!state) return;
     if (!submenu.classList.contains('open')) {
       const toggle = document.querySelector(`[data-target="${submenu.id}"]`);
       openSubmenu(submenu, toggle, false);
@@ -193,6 +193,18 @@ document.addEventListener('DOMContentLoaded', function() {
           }
         });
         saveSubmenuStates(parentSubmenu.id, 'auto');
+      }, 50);
+    }
+  } else {
+    // サブメニュー無関係なページに遷移した場合：全展開サブメニューを格納
+    const hasOpenSubmenu = document.querySelector('.submenu.open');
+    if (hasOpenSubmenu) {
+      setTimeout(() => {
+        document.querySelectorAll('.submenu.open').forEach(submenu => {
+          const toggle = document.querySelector(`[data-target="${submenu.id}"]`);
+          closeSubmenu(submenu, toggle);
+        });
+        localStorage.removeItem('submenuStates');
       }, 50);
     }
   }
