@@ -365,6 +365,14 @@ document.addEventListener('DOMContentLoaded', function() {
       yearContent.style.height = 'auto';
       yearContent.style.transform = 'scaleY(1)';
       yearContent.style.opacity = '1';
+      // 年ボタンのスタイル・aria状態を初期化
+      const yearBtn = block.querySelector('[data-toggle-year]');
+      if (yearBtn) {
+        yearBtn.classList.add('btn-ex-active');
+        yearBtn.setAttribute('aria-expanded', 'true');
+        const arrow = yearBtn.querySelector('.year-toggle-arrow');
+        if (arrow) arrow.classList.add('rotated');
+      }
       setHr2ToHr1(block);
       bottomHr.style.display = 'block';
       requestAnimationFrame(() => {
