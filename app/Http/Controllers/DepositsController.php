@@ -26,7 +26,7 @@ class DepositsController extends Controller
     $endDate = (clone $currentDate)->modify('+2 months');
 
     // 年月ごとの件数を一括取得（N+1解消）
-    $monthCounts = Deposit::selectRaw('year_month, COUNT(*) as count')
+    $monthCounts = Deposit::selectRaw('year_month, COUNT(*) as `count`')
       ->groupBy('year_month')
       ->pluck('count', 'year_month')
       ->toArray();
