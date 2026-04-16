@@ -62,26 +62,26 @@
         <!-- 年ヘッダー -->
         <div class="year-header d-flex align-items-center">
           @if($hasDeposits)
-            <button class="btn-ex-sub btn-ex-blue btn-ex-xl btn-ex-sub-toggle-invert fs-2 gap-3 me-2 {{ $isYearExpanded ? 'btn-ex-active' : '' }}"
+            <button class="btn-ex-sub btn-ex-blue btn-ex-xl btn-ex-sub-toggle-invert fs-2 gap-3 me-2"
                     type="button" data-toggle-year="{{ $collapseId }}"
-                    aria-expanded="{{ $isYearExpanded ? 'true' : 'false' }}">
-              <span class="align-self-center lh-1 pt-05 pb-1">{{ $year }}</span>
-              <div class="vr mx-2 align-self-center opacity-50" style="height: 1.4rem; width: 2px;"></div>
-              <span class="fs-6 fw-normal opacity-75 align-self-center">{{ $count }}件</span>
-              <span class="year-toggle-arrow {{ $isYearExpanded ? 'rotated' : '' }} d-inline-flex align-items-center align-self-center">
+                    aria-expanded="false">
+              <span class="align-self-center ps-1">{{ $year }}</span>
+              <div class="vr mx-2 align-self-center opacity-50" style="height: 1.5rem; width: 2px;"></div>
+              <span class="fs-6 fw-medium align-self-center">{{ $count }}件</span>
+              <span class="year-toggle-arrow d-inline-flex align-items-center align-self-center">
                 <i class="nf nf-md-chevron_down fs-5 ps-2"></i>
               </span>
             </button>
           @else
-            <div class="fs-2 fw-bold text-secondary opacity-50 ps-3">{{ $year }}</div>
-            <div class="vr mx-3 align-self-center" style="height: 1.4rem;"></div>
-            <span class="fs-6 fw-normal text-secondary align-self-center">該当データなし</span>
+            <div class="fs-2 fw-bold text-secondary opacity-75 ps-3">{{ $year }}</div>
+            <div class="vr mx-4 align-self-center opacity-25" style="height: 2.4rem; width: 2px;"></div>
+            <span class="fs-6 fw-medium text-secondary align-self-center me-3">該当データなし</span>
           @endif
           <hr class="year-top-hr" style="flex-grow: 1; border: none; border-top: 4px solid #000; margin: 0rem;">
         </div>
 
         <!-- 月別データ（scaleY展開） -->
-        <div class="year-content {{ $isYearExpanded ? 'expanded' : '' }}" id="{{ $collapseId }}" data-year="{{ $year }}">
+        <div class="year-content" id="{{ $collapseId }}" data-year="{{ $year }}">
           @foreach($months as $item)
             @php
               $yearMonth = $item['year_month'];
@@ -91,13 +91,13 @@
             <div class="deposit-month-section ms-4 {{ $loop->first ? 'mt-4' : '' }}" data-year-month="{{ $yearMonth }}">
               @if($item['has_data'])
                 <!-- 入金データあり -->
-                <button class="btn-ex-sub btn-ex-blue btn-ex-lg btn-ex-sub-toggle-invert mb-1"
+                <button class="btn-ex-sub btn-ex-blue btn-ex-lg btn-ex-sub-toggle-invert mb-1 gap-2"
                      type="button"
                      data-toggle-month="{{ $monthCollapseId }}"
                      aria-expanded="false">
                   {{ $item['year'] }}年{{ "\u{2000}" }}{{ $item['month'] }}月
-                  <div class="vr mx-1 align-self-center opacity-50" style="height: 1.2rem;"></div>
-                  <span class="fs-7 fw-normal opacity-75">{{ $monthCount }}件</span>
+                  <div class="vr mx-1 align-self-center opacity-75" style="height: 1.4rem;"></div>
+                  <span class="fs-7 fw-medium">{{ $monthCount }}件</span>
                   <span class="year-toggle-arrow d-inline-flex align-items-center align-self-center">
                     <i class="nf nf-md-chevron_down ps-2"></i>
                   </span>
@@ -109,10 +109,10 @@
                 </div>
               @else
                 <!-- 入金データなし -->
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center gap-3">
                   <div class="fw-medium fs-5 mb-0 opacity-75">{{ $item['year'] }}年{{ "\u{2000}" }}{{ $item['month'] }}月</div>
-                  <div class="vr ms-3 me-5" style="height: 1.4rem; position: relative; top: 0.3rem;"></div>
-                  <span class="text-secondary">該当データなし</span>
+                  <div class="vr align-self-center opacity-50" style="height: 1.6rem;"></div>
+                  <span class="text-secondary fw-medium">該当データなし</span>
                 </div>
               @endif
             </div>

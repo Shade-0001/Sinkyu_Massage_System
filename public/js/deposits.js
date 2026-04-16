@@ -356,39 +356,10 @@ function scrollToSection(targetSection) {
 
 // ── 初期化 ────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function() {
-  // 初期状態のheight・hr2セット（expanded クラス付きブロックの初期化）
+  // 全年ブロックのhr2を初期位置（hr1と同位置）にセット
   document.querySelectorAll('.year-block').forEach(block => {
-    const yearContent = block.querySelector('.year-content');
     const bottomHr = block.querySelector('.year-bottom-hr');
-    if (!bottomHr) return;
-    if (yearContent && yearContent.classList.contains('expanded')) {
-      yearContent.style.height = 'auto';
-      yearContent.style.transform = 'scaleY(1)';
-      yearContent.style.opacity = '1';
-      // 年ボタンのスタイル・aria状態を初期化
-      const yearBtn = block.querySelector('[data-toggle-year]');
-      if (yearBtn) {
-        yearBtn.classList.add('btn-ex-active');
-        yearBtn.setAttribute('aria-expanded', 'true');
-        const arrow = yearBtn.querySelector('.year-toggle-arrow');
-        if (arrow) arrow.classList.add('rotated');
-      }
-      setHr2ToHr1(block);
-      bottomHr.style.display = 'block';
-      requestAnimationFrame(() => {
-        const cs = getComputedStyle(block);
-        const pl = parseFloat(cs.paddingLeft) || 0;
-        const pr = parseFloat(cs.paddingRight) || 0;
-        const hrWidth = block.clientWidth - pl - pr;
-        const hrLeft = (block.clientWidth - hrWidth) / 2;
-        bottomHr.style.transition = 'none';
-        bottomHr.style.top = blockExpandedTop(block) + 'px';
-        bottomHr.style.left = hrLeft + 'px';
-        bottomHr.style.width = hrWidth + 'px';
-      });
-    } else {
-      setHr2ToHr1(block);
-    }
+    if (bottomHr) setHr2ToHr1(block);
   });
 
   // 年ボタンのクリックイベント
@@ -402,31 +373,14 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // scrollToYearMonth への自動展開・スクロール
-  // ※ toggleYear は isExpanded を見てトグルするため、初期展開には使わず直接展開処理を呼ぶ
   if (window.depositsConfig.scrollToYearMonth) {
     const targetYearMonth = window.depositsConfig.scrollToYearMonth;
     const targetYear = targetYearMonth.split('-')[0];
     const yearBtn = document.querySelector(`[data-toggle-year="year-${targetYear}"]`);
 
     if (yearBtn) {
-      const content = document.getElementById(yearBtn.dataset.toggleYear);
-      const block = yearBtn.closest('.year-block');
-      const arrow = yearBtn.querySelector('.year-toggle-arrow');
-      const bottomHr = block ? block.querySelector('.year-bottom-hr') : null;
-
-      // 既に expanded クラスが付いてる（Blade 側で初期展開済み）場合は
-      // hr2・aria 等の状態だけを確定させてアニメーションは行わない
-      if (content && content.classList.contains('expanded')) {
-        // 状態はすでに初期化済み（DOMContentLoaded 冒頭ループで実施）
-        // 月の自動展開のみ実行
-        const firstMonthBtn = content.querySelector('[data-toggle-month]');
-        if (firstMonthBtn) {
-          toggleMonth(firstMonthBtn);
-        }
-      } else if (content) {
-        // expanded でない場合のみ toggleYear で展開
-        toggleYear(yearBtn);
-      }
+      // toggleYear で年を展開（ボタンスタイル・hr2・アニメーションを一括処理）
+      toggleYear(yearBtn);
 
       // 年展開(350ms) + 月自動展開(350ms) 完了後にスクロール
       setTimeout(() => {
