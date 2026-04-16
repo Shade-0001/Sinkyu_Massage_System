@@ -164,11 +164,11 @@ document.addEventListener('DOMContentLoaded', function() {
   const activeSubmenuId = activeSubmenuLink ? activeSubmenuLink.closest('.submenu')?.id : null;
 
   // localStorageから展開状態を復元
-  // 'auto'展開かつ現在ページがそのサブメニュー配下でない場合は格納
+  // 'manual'のみ復元・'auto'はスキップ（強制展開は後段で改めて処理）
   const submenuStates = JSON.parse(localStorage.getItem('submenuStates') || '{}');
   document.querySelectorAll('.submenu').forEach(submenu => {
     const state = submenuStates[submenu.id];
-    if (!state) return;
+    if (state !== 'manual') return;
     if (!submenu.classList.contains('open')) {
       const toggle = document.querySelector(`[data-target="${submenu.id}"]`);
       openSubmenu(submenu, toggle, false);

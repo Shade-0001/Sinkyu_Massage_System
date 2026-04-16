@@ -249,10 +249,9 @@
     var states = JSON.parse(localStorage.getItem('submenuStates') || '{}');
     var currentPath = window.location.pathname;
     Object.keys(states).forEach(function(id) {
-      if (!states[id]) return;
+      if (states[id] !== 'manual') return;
       var el = document.getElementById(id);
       if (!el) return;
-      // 'auto'展開の場合も一旦展開してJS側でアニメーション付き格納させる
       el.classList.add('open');
       el.style.maxHeight = 'none';
       var toggle = document.querySelector('[data-target="' + id + '"]');
