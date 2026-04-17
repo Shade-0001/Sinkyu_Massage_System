@@ -15,7 +15,9 @@ class ConsentMassageSeeder extends Seeder
     DB::connection('sinkyu_massage_system_db')->table('consents_massage')->truncate();
     DB::connection('sinkyu_massage_system_db')->statement('SET FOREIGN_KEY_CHECKS=1');
 
-    $clinicUserIds    = DB::connection('sinkyu_massage_system_db')->table('clinic_users')->pluck('id')->toArray();
+    $clinicUserIds    = DB::connection('sinkyu_massage_system_db')->table('clinic_users')->orderBy('id')->pluck('id')->toArray();
+    // 末尾10人はPhase2（3〜6月）を確実にカバーする同意書日付に固定
+    $lastTenIds = array_slice($clinicUserIds, -10);
     $doctorIds        = DB::connection('sinkyu_massage_system_db')->table('doctors')->pluck('id')->toArray();
     $billCategoryIds  = DB::connection('sinkyu_massage_system_db')->table('bill_categories')->pluck('id')->toArray();
     $outcomeIds       = DB::connection('sinkyu_massage_system_db')->table('outcomes')->pluck('id')->toArray();
@@ -58,6 +60,18 @@ class ConsentMassageSeeder extends Seeder
       $row['housecall_reason_id']      = $housecallIds[array_rand($housecallIds)];
       $row['injury_and_illness_name_id'] = !empty($illnessIds) ? $illnessIds[array_rand($illnessIds)] : null;
       $row['first_therapy_content_id'] = !empty($massageContentIds) ? $massageContentIds[array_rand($massageContentIds)] : null;
+      // 末尾10人はPhase2（3〜6月）を確実にカバーするconsenting_dateに上書き
+      if (in_array($userId, $lastTenIds, true)) {
+        $consentingDate = (new \DateTime())->setTimestamp(rand(strtotime('2026-01-01'), strtotime('2026-03-01')));
+        $endDate        = (clone $consentingDate)->modify('+6 months');
+        $row['consenting_date']           = $consentingDate->format('Y-m-d');
+        $row['consenting_start_date']     = $consentingDate->format('Y-m-d');
+        $row['consenting_end_date']       = $endDate->format('Y-m-d');
+        $row['benefit_period_start_date'] = $consentingDate->format('Y-m-d');
+        $row['benefit_period_end_date']   = $endDate->format('Y-m-d');
+        $row['first_care_date']           = $consentingDate->format('Y-m-d');
+        $row['reconsenting_expiry']       = $endDate->format('Y-m-d');
+      }
       $row['created_at'] = now();
       $row['updated_at'] = now();
       $data[] = $row;

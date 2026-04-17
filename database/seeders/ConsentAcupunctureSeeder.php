@@ -35,6 +35,10 @@ class ConsentAcupunctureSeeder extends Seeder
     // 両方組＋HKのみ組が対象（合計75%）
     $targetIds = array_merge($groupCache['both'] ?? [], $groupCache['hk_only'] ?? []);
 
+    // 末尾10人はPhase2（3〜6月）を確実にカバーする同意書日付に固定
+    $allUserIds = DB::connection('sinkyu_massage_system_db')->table('clinic_users')->orderBy('id')->pluck('id')->toArray();
+    $lastTenIds = array_slice($allUserIds, -10);
+
     $data = [];
     foreach ($targetIds as $userId) {
       $row = ConsentAcupuncture::factory()->make()->getAttributes();
@@ -51,7 +55,19 @@ class ConsentAcupunctureSeeder extends Seeder
       } elseif (!empty($illnessDummyIds)) {
         $row['illness_name_acupuncture_id'] = $illnessDummyIds[array_rand($illnessDummyIds)];
       }
-      $row['condition_id']             = $conditionIds[array_rand($conditionIds)];
+      $row['condition_id'] = $conditionIds[array_rand($conditionIds)];
+      // 末尾10人はPhase2（3〜6月）を確実にカバーするconsenting_dateに上書き
+      if (in_array($userId, $lastTenIds, true)) {
+        $consentingDate = (new \DateTime())->setTimestamp(rand(strtotime('2026-01-01'), strtotime('2026-03-01')));
+        $endDate        = (clone $consentingDate)->modify('+6 months');
+        $row['consenting_date']           = $consentingDate->format('Y-m-d');
+        $row['consenting_start_date']     = $consentingDate->format('Y-m-d');
+        $row['consenting_end_date']       = $endDate->format('Y-m-d');
+        $row['benefit_period_start_date'] = $consentingDate->format('Y-m-d');
+        $row['benefit_period_end_date']   = $endDate->format('Y-m-d');
+        $row['first_care_date']           = $consentingDate->format('Y-m-d');
+        $row['reconsenting_expiry']       = $endDate->format('Y-m-d');
+      }
       $row['created_at'] = now();
       $row['updated_at'] = now();
       $data[] = $row;

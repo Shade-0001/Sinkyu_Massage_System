@@ -341,7 +341,7 @@ class RecordSeeder extends Seeder
       // 末尾10人: 20~40件
       // その他:   70%で0~10件、30%で10~20件
       if ($isLastTen) {
-        $target2 = rand(20, 40);
+        $target2 = rand(90, 150);
       } else {
         $target2 = (rand(1, 10) <= 7) ? rand(0, 10) : rand(10, 20);
       }
