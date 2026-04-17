@@ -28,6 +28,17 @@ class PlanSeeder extends Seeder
       $byUser[$row->clinic_user_id][] = $row->date;
     }
 
+    // ユーザーごとの最小consenting_date（HK・AM両方持つ場合は早い方）
+    $consentingDateMap = [];
+    $massageConsents     = DB::connection('sinkyu_massage_system_db')->table('consents_massage')->select('clinic_user_id', 'consenting_date')->get()->keyBy('clinic_user_id');
+    $acupunctureConsents = DB::connection('sinkyu_massage_system_db')->table('consents_acupuncture')->select('clinic_user_id', 'consenting_date')->get()->keyBy('clinic_user_id');
+    foreach (array_keys($byUser) as $uid) {
+      $dates = [];
+      if (isset($massageConsents[$uid]))     $dates[] = $massageConsents[$uid]->consenting_date;
+      if (isset($acupunctureConsents[$uid])) $dates[] = $acupunctureConsents[$uid]->consenting_date;
+      $consentingDateMap[$uid] = !empty($dates) ? max($dates) : null;
+    }
+
     $data = [];
 
     foreach ($byUser as $userId => $dates) {
@@ -54,13 +65,17 @@ class PlanSeeder extends Seeder
         }
       }
 
+      $minConsentingTs = $consentingDateMap[$userId] ? strtotime($consentingDateMap[$userId]) : 0;
+
       foreach ($planStartDates as $startDate) {
         $row = Plan::factory()->make()->getAttributes();
         $row['clinic_user_id'] = $userId;
-        // assessment_dateは施術開始日の0〜7日前
-        $offset = rand(0, 7);
-        $row['assessment_date']            = date('Y-m-d', strtotime($startDate . " -{$offset} days"));
-        $row['user_and_family_consent_date'] = $row['assessment_date'];
+        // assessment_dateは施術開始日の0〜7日前、ただし最小consenting_date以上に制限
+        $offset         = rand(0, 7);
+        $assessmentTs   = max(strtotime($startDate . " -{$offset} days"), $minConsentingTs);
+        $assessmentDate = date('Y-m-d', $assessmentTs);
+        $row['assessment_date']              = $assessmentDate;
+        $row['user_and_family_consent_date'] = $assessmentDate;
         $row['created_at'] = now();
         $row['updated_at'] = now();
         $data[] = $row;
