@@ -35,7 +35,7 @@
         {{ $period->last_name }}{{ "\u{2000}" }}{{ $period->first_name }}
       </a>
       </td>
-      <td class="fw-medium">{{ $period->category }}</td>
+      <td class="fw-medium">{{ $period->category === 'あんま・マッサージ' ? 'ＡＭ' : 'ＨＫ' }}</td>
       <td class="fw-medium">{{ $period->therapy_period }}</td>
       <td class="fw-medium">
       @if($period->consenting_start_date && $period->consenting_end_date)
