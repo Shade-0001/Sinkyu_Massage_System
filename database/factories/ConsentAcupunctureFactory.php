@@ -9,7 +9,7 @@ class ConsentAcupunctureFactory extends Factory
 {
   public function definition(): array
   {
-    $consentingDate     = $this->faker->dateTimeBetween('-2 years', '-6 months');
+    $consentingDate     = $this->faker->dateTimeBetween('2025-01-01', '2026-06-30');
     $startDate          = $consentingDate;
     $endDate            = (clone $consentingDate)->modify('+6 months');
     $benefitStart       = $consentingDate;
