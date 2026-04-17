@@ -30,19 +30,19 @@
   <tbody>
     @forelse($therapyPeriods as $period)
     <tr>
-      <td>
+      <td class="fw-medium">
       <a href="{{ route('clinic-users.index', ['search_name' => $period->last_name . "\u{2000}" . $period->first_name]) }}">
         {{ $period->last_name }}{{ "\u{2000}" }}{{ $period->first_name }}
       </a>
       </td>
-      <td>{{ $period->category }}</td>
-      <td>{{ $period->therapy_period }}</td>
-      <td>
+      <td class="fw-medium">{{ $period->category }}</td>
+      <td class="fw-medium">{{ $period->therapy_period }}</td>
+      <td class="fw-medium">
       @if($period->consenting_start_date && $period->consenting_end_date)
         {{ \Carbon\Carbon::parse($period->consenting_start_date)->format('Y/n/j') }} ~ {{ \Carbon\Carbon::parse($period->consenting_end_date)->format('Y/n/j') }}
       @endif
       </td>
-      <td>
+      <td class="fw-medium">
       @if($period->doctor_id)
         <a href="{{ route('doctors.index', ['search_name' => $period->consenting_doctor_name]) }}">
         {{ $period->consenting_doctor_name }}
@@ -51,8 +51,8 @@
         {{ $period->consenting_doctor_name }}
       @endif
       </td>
-      <td>{{ $period->medical_institution_name }}</td>
-      <td>
+      <td class="fw-medium">{{ $period->medical_institution_name }}</td>
+      <td class="fw-medium">
       @if($period->category === 'あんま・マッサージ')
         <a href="{{ route('clinic-users.consents-massage.edit', ['id' => $period->clinic_user_id, 'history_id' => $period->consent_id]) }}">
         <button type="button" class="btn-ex-main btn-ex-blue btn-ex-sm">編集</button>
