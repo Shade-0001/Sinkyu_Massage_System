@@ -139,6 +139,7 @@ class AcupunctureBenefitPdfService extends BasePdfService
 
     if (!$consent) {
       \Log::warning('はり・きゅう同意書情報が見つかりません', ['clinic_user_id' => $clinicUserId]);
+      return null;
     }
 
     // 施術実績取得（対象年月）

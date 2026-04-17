@@ -153,6 +153,7 @@ class MedicalAssistanceAcupuncturePdfService extends BasePdfService
 
     if (!$consent) {
       \Log::warning('はり・きゅう同意書情報が見つかりません', ['clinic_user_id' => $clinicUserId]);
+      return null;
     }
 
     // 同意医師情報取得
