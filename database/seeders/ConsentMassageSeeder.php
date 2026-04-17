@@ -27,9 +27,24 @@ class ConsentMassageSeeder extends Seeder
     $massageContentIds = DB::connection('sinkyu_massage_system_db')
       ->table('therapy_contents')->where('therapy_type', 2)->pluck('id')->toArray();
 
-    // 約60%のclinic_userに同意書を付与
+    // 両方50%・AMのみ25%・HKのみ25% の割り当て
     shuffle($clinicUserIds);
-    $targetIds = array_slice($clinicUserIds, 0, (int) round(count($clinicUserIds) * 0.6));
+    $total       = count($clinicUserIds);
+    $bothCount   = (int) round($total * 0.50);
+    $amOnlyCount = (int) round($total * 0.25);
+
+    $bothIds   = array_slice($clinicUserIds, 0,                    $bothCount);
+    $amOnlyIds = array_slice($clinicUserIds, $bothCount,           $amOnlyCount);
+    $hkOnlyIds = array_slice($clinicUserIds, $bothCount + $amOnlyCount);
+
+    // ConsentAcupunctureSeederと共有するためキャッシュファイルに書き出す
+    file_put_contents(storage_path('app/consent_group_cache.json'), json_encode([
+      'both'    => $bothIds,
+      'am_only' => $amOnlyIds,
+      'hk_only' => $hkOnlyIds,
+    ]));
+
+    $targetIds = array_merge($bothIds, $amOnlyIds);
 
     $data = [];
     foreach ($targetIds as $userId) {
