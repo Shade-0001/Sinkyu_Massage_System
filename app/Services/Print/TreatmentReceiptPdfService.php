@@ -90,6 +90,20 @@ class TreatmentReceiptPdfService
     }
   }
 
+  protected function getClinicInfoForDate(string $referenceDate): ?object
+  {
+    $info = DB::table('clinic_info')
+      ->where('created_at', '<=', $referenceDate . ' 23:59:59')
+      ->orderByDesc('created_at')
+      ->first();
+
+    if (!$info) {
+      $info = DB::table('clinic_info')->orderBy('created_at')->first();
+    }
+
+    return $info;
+  }
+
   /**
    * PDF生成（複数利用者対応）
    *
