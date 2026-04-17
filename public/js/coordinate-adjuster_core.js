@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const clinicUserSelect = document.getElementById('clinic-user-select');
     const clinicUserId = clinicUserSelect ? clinicUserSelect.value : '';
     // ページをリロードして新しいPDFタイプを適用（利用者IDも保持）
-    let url = '/prints/coordinate-adjuster?pdf_type=' + newPdfType;
+    let url = '/admin-panel/coordinate-adjuster?pdf_type=' + newPdfType;
     if (clinicUserId) {
       url += '&clinic_user_id=' + clinicUserId;
     }
