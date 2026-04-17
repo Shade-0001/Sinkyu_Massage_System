@@ -166,6 +166,11 @@ trait MassageFormFieldsTrait
         $pdf->SetFontSize($this->coord('illness_name_symptom', 'fontSize'));
         $this->drawTextByKey($pdf, 'illness_name_symptom', $symptomText);
         $pdf->SetFontSize(10);
+      } elseif (empty($symptomTexts) && $this->hasCoord('illness_name_symptom') && !empty($consent->illness_name)) {
+        // is_symptom_*フラグが全て0の場合はillnesses_massageの傷病名をフォールバック描画
+        $pdf->SetFontSize($this->coord('illness_name_symptom', 'fontSize'));
+        $this->drawTextByKey($pdf, 'illness_name_symptom', (string)$consent->illness_name);
+        $pdf->SetFontSize(10);
       }
     }
 
