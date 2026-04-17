@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
     $this->call([
       ConditionSeeder::class,
       IllnessMassageSeeder::class,
+      IllnessAcupunctureSeeder::class,
     ]);
 
     // Group B: マスタダミーデータ
