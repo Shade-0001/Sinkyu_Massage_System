@@ -20,6 +20,19 @@ class RecordSeeder extends Seeder
     $billCategoryIds = DB::connection('sinkyu_massage_system_db')->table('bill_categories')->pluck('id')->toArray();
     $therapyContents = DB::connection('sinkyu_massage_system_db')->table('therapy_contents')->get()->groupBy('therapy_type');
 
+    // 各利用者が所有する同意書カテゴリを取得（1=HK, 2=AM）
+    $hasAcupuncture = DB::connection('sinkyu_massage_system_db')->table('consents_acupuncture')->pluck('clinic_user_id')->flip()->toArray();
+    $hasMassage     = DB::connection('sinkyu_massage_system_db')->table('consents_massage')->pluck('clinic_user_id')->flip()->toArray();
+
+    // ユーザーごとに使用可能なtherapy_typeリストを作成
+    $userTherapyTypes = [];
+    foreach ($clinicUserIds as $uid) {
+      $types = [];
+      if (isset($hasAcupuncture[$uid])) $types[] = 1; // HK
+      if (isset($hasMassage[$uid]))     $types[] = 2; // AM
+      $userTherapyTypes[$uid] = $types;
+    }
+
     $massageContentIds = $therapyContents->get(2, collect())->pluck('id')->toArray();
     $acuContentIds     = $therapyContents->get(1, collect())->pluck('id')->toArray();
 
@@ -86,7 +99,7 @@ class RecordSeeder extends Seeder
     $p1Start = (clone $now)->modify('-14 months');
     $p1End   = (clone $now)->modify('-2 months')->modify('last day of this month');
     $p2Start = (clone $now)->modify('-1 month');
-    $p2End   = (clone $now)->modify('+1 month')->modify('last day of this month');
+    $p2End   = (clone $now)->modify('+2 months')->modify('last day of this month');
 
     $phase1Start = $p1Start->getTimestamp();
     $phase1End   = $p1End->setTime(0, 0, 0)->getTimestamp();
@@ -115,7 +128,8 @@ class RecordSeeder extends Seeder
       $isOverlapping,
       $therapistIds, $billCategoryIds,
       $massageContentIds, $acuContentIds,
-      $userHousecallDistance
+      $userHousecallDistance,
+      $userTherapyTypes
     ): bool {
       // 日付時点で有効な clinic_info から営業時間を取得
       $clinicInfo       = $getClinicInfoForDate($date);
@@ -218,7 +232,9 @@ class RecordSeeder extends Seeder
 
         $startTime      = sprintf('%02d:%02d', intdiv($startMin, 60), $startMin % 60);
         $endTime        = sprintf('%02d:%02d', intdiv($endMin, 60), $endMin % 60);
-        $therapyType    = rand(1, 2);
+        $availableTypes = $userTherapyTypes[$userId] ?? [];
+        if (empty($availableTypes)) return false;
+        $therapyType    = $availableTypes[array_rand($availableTypes)];
         $contentIds     = $therapyType === 2 ? $massageContentIds : $acuContentIds;
         $contentId      = !empty($contentIds) ? $contentIds[array_rand($contentIds)] : null;
         $therapyCategory    = (rand(1, 10) <= 6) ? 1 : 2; // 60%で1（通院）、40%で2（往療）
