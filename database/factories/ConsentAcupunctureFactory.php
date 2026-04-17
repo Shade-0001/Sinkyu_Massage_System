@@ -29,7 +29,7 @@ class ConsentAcupunctureFactory extends Factory
       'reconsenting_expiry'                  => $endDate->format('Y-m-d'),
       'bill_category_id'                     => null,
       'outcome_id'                           => null,
-      'illness_name_acupuncture_id'          => $this->faker->randomElement([1, 2, 3, 4, 5]),
+      'illness_name_acupuncture_id'          => null,
       'illness_name_acupuncture_addendum'    => $this->faker->boolean(30)
         ? $this->faker->randomElement($addendumOptions)
         : null,
