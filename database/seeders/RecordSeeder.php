@@ -21,8 +21,19 @@ class RecordSeeder extends Seeder
     $therapyContents = DB::connection('sinkyu_massage_system_db')->table('therapy_contents')->get()->groupBy('therapy_type');
 
     // 各利用者が所有する同意書カテゴリを取得（1=HK, 2=AM）
-    $hasAcupuncture = DB::connection('sinkyu_massage_system_db')->table('consents_acupuncture')->pluck('clinic_user_id')->flip()->toArray();
-    $hasMassage     = DB::connection('sinkyu_massage_system_db')->table('consents_massage')->pluck('clinic_user_id')->flip()->toArray();
+    $acupunctureConsents = DB::connection('sinkyu_massage_system_db')
+      ->table('consents_acupuncture')
+      ->select('clinic_user_id', 'consenting_date', 'consenting_end_date')
+      ->get()
+      ->keyBy('clinic_user_id');
+    $massageConsents = DB::connection('sinkyu_massage_system_db')
+      ->table('consents_massage')
+      ->select('clinic_user_id', 'consenting_date', 'consenting_end_date')
+      ->get()
+      ->keyBy('clinic_user_id');
+
+    $hasAcupuncture = $acupunctureConsents->keys()->flip()->toArray();
+    $hasMassage     = $massageConsents->keys()->flip()->toArray();
 
     // ユーザーごとに使用可能なtherapy_typeリストを作成
     $userTherapyTypes = [];
@@ -129,7 +140,8 @@ class RecordSeeder extends Seeder
       $therapistIds, $billCategoryIds,
       $massageContentIds, $acuContentIds,
       $userHousecallDistance,
-      $userTherapyTypes
+      $userTherapyTypes,
+      $acupunctureConsents, $massageConsents
     ): bool {
       // 日付時点で有効な clinic_info から営業時間を取得
       $clinicInfo       = $getClinicInfoForDate($date);
@@ -232,13 +244,26 @@ class RecordSeeder extends Seeder
 
         $startTime      = sprintf('%02d:%02d', intdiv($startMin, 60), $startMin % 60);
         $endTime        = sprintf('%02d:%02d', intdiv($endMin, 60), $endMin % 60);
-        $availableTypes = $userTherapyTypes[$userId] ?? [];
+        // 施術日に有効な同意書を持つtherapy_typeのみに絞り込む
+        $availableTypes = array_values(array_filter(
+          $userTherapyTypes[$userId] ?? [],
+          function ($type) use ($date, $acupunctureConsents, $massageConsents, $userId) {
+            $consent = $type === 1 ? ($acupunctureConsents[$userId] ?? null) : ($massageConsents[$userId] ?? null);
+            if (!$consent) return false;
+            // 施術日が同意書有効期間内（取得日以降かつ終了日以前）であること
+            return $date >= $consent->consenting_date && $date <= $consent->consenting_end_date;
+          }
+        ));
         if (empty($availableTypes)) return false;
         $therapyType    = $availableTypes[array_rand($availableTypes)];
         $contentIds     = $therapyType === 2 ? $massageContentIds : $acuContentIds;
         $contentId      = !empty($contentIds) ? $contentIds[array_rand($contentIds)] : null;
         $therapyCategory    = (rand(1, 10) <= 6) ? 1 : 2; // 60%で1（通院）、40%で2（往療）
         $housecallDistance  = ($therapyCategory === 1) ? null : $userHousecallDistance[$userId];
+
+        // consent_expiryは対応する同意書のconsenting_end_dateから取得
+        $consentRow    = $therapyType === 1 ? ($acupunctureConsents[$userId] ?? null) : ($massageConsents[$userId] ?? null);
+        $consentExpiry = $consentRow ? $consentRow->consenting_end_date : date('Y-m-d', strtotime('+6 months'));
 
         $data[] = [
           'clinic_user_id'     => $userId,
@@ -250,7 +275,7 @@ class RecordSeeder extends Seeder
           'insurance_category' => rand(1, 3),
           'housecall_distance' => $housecallDistance,
           'therapy_days'       => rand(1, 30),
-          'consent_expiry'     => date('Y-m-d', strtotime('+' . rand(1, 12) . ' months')),
+          'consent_expiry'     => $consentExpiry,
           'therapy_content_id' => $contentId,
           'self_fee_id'        => null,
           'bill_category_id'   => $billCategoryIds[array_rand($billCategoryIds)],
@@ -276,22 +301,43 @@ class RecordSeeder extends Seeder
     foreach ($clinicUserIds as $userId) {
       $isLastTen = in_array($userId, $lastTenUserIds, true);
 
+      // 同意書取得日を考慮した施術日の下限（HK・AM両方持つ場合は早い方）
+      // 同意書終了日を考慮した施術日の上限（HK・AM両方持つ場合は遅い方）
+      $consentingTs    = PHP_INT_MAX;
+      $consentEndTs    = 0;
+      if (isset($acupunctureConsents[$userId])) {
+        $consentingTs = min($consentingTs, strtotime($acupunctureConsents[$userId]->consenting_date));
+        $consentEndTs = max($consentEndTs, strtotime($acupunctureConsents[$userId]->consenting_end_date));
+      }
+      if (isset($massageConsents[$userId])) {
+        $consentingTs = min($consentingTs, strtotime($massageConsents[$userId]->consenting_date));
+        $consentEndTs = max($consentEndTs, strtotime($massageConsents[$userId]->consenting_end_date));
+      }
+      if ($consentingTs === PHP_INT_MAX) continue; // 同意書なし（therapy_typeなし）はスキップ
+
+      $user1Start = max($phase1Start, $consentingTs);
+      $user1End   = min($phase1End, $consentEndTs);
+      $user2Start = max($phase2Start, $consentingTs);
+      $user2End   = min($phase2End, $consentEndTs);
+
       // Phase 1: 現在年月-14月 〜 現在年月-2月 → 70%で0~100件、30%で0~300件
       $target1      = (rand(1, 10) <= 7) ? rand(0, 100) : rand(0, 300);
       $placed1      = 0;
       $attempts1    = 0;
       $maxAttempts1 = max($target1 * 15, 50);
 
-      while ($placed1 < $target1 && $attempts1 < $maxAttempts1) {
-        $attempts1++;
-        $date = $generateDate($phase1Start, $phase1End);
-        if ($date === null) continue;
-        if ($placeSlot($date, $userId)) {
-          $placed1++;
+      if ($user1Start <= $user1End) {
+        while ($placed1 < $target1 && $attempts1 < $maxAttempts1) {
+          $attempts1++;
+          $date = $generateDate($user1Start, $user1End);
+          if ($date === null) continue;
+          if ($placeSlot($date, $userId)) {
+            $placed1++;
+          }
         }
       }
 
-      // Phase 2: 現在年月-1月 〜 現在年月+1月
+      // Phase 2: 現在年月-1月 〜 現在年月+2月
       // 末尾10人: 20~40件
       // その他:   70%で0~10件、30%で10~20件
       if ($isLastTen) {
@@ -303,12 +349,14 @@ class RecordSeeder extends Seeder
       $attempts2    = 0;
       $maxAttempts2 = max($target2 * 15, 50);
 
-      while ($placed2 < $target2 && $attempts2 < $maxAttempts2) {
-        $attempts2++;
-        $date = $generateDate($phase2Start, $phase2End);
-        if ($date === null) continue;
-        if ($placeSlot($date, $userId)) {
-          $placed2++;
+      if ($user2Start <= $user2End) {
+        while ($placed2 < $target2 && $attempts2 < $maxAttempts2) {
+          $attempts2++;
+          $date = $generateDate($user2Start, $user2End);
+          if ($date === null) continue;
+          if ($placeSlot($date, $userId)) {
+            $placed2++;
+          }
         }
       }
     }
