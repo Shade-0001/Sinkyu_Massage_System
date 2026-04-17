@@ -71,6 +71,8 @@ class ElderlyTherapyBenefitAcupuncturePdfService extends BasePdfService
 
       if ($data) {
         $this->addPage($pdf, $data, $submissionDate);
+      } else {
+        $this->addNoConsentPage($pdf, 'acupuncture');
       }
     }
 

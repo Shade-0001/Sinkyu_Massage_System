@@ -93,6 +93,8 @@ class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
 
       if ($data) {
         $this->addPage($pdf, $data, $submissionDate);
+      } else {
+        $this->addNoConsentPage($pdf, 'massage');
       }
     }
 
@@ -165,7 +167,9 @@ class ElderlyTherapyBenefitMassagePdfService extends BasePdfService
       )
       ->first();
 
-
+    if (!$consent) {
+      return null;
+    }
 
     // 同意医師情報取得
     $doctor = null;

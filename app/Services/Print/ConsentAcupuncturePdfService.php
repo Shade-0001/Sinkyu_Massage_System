@@ -33,6 +33,8 @@ class ConsentAcupuncturePdfService extends BasePdfService
 
       if ($data) {
         $this->addPage($pdf, $data, $submissionDate, $remarks);
+      } else {
+        $this->addNoConsentPage($pdf, 'acupuncture');
       }
     }
 

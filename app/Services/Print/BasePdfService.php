@@ -690,6 +690,25 @@ abstract class BasePdfService
   }
 
   /**
+   * 同意書未登録時のエラーページPDFを生成してFpdiに追加
+   *
+   * @param Fpdi   $pdf
+   * @param string $consentType 'acupuncture' | 'massage'
+   */
+  protected function addNoConsentPage(Fpdi $pdf, string $consentType): void
+  {
+    $message = $consentType === 'acupuncture'
+      ? '当該利用者のはり･きゅう同意書が登録されていません。'
+      : '当該利用者のあんま･マッサージ同意書が登録されていません。';
+
+    $pdf->AddPage();
+    $pdf->SetFont('kozminproregular', '', 14);
+    $pdf->SetTextColor(0, 0, 0);
+    $pdf->SetXY(20, 130);
+    $pdf->Cell(0, 10, $message, 0, 1, 'C');
+  }
+
+  /**
    * PDF生成（サブクラスで実装）
    */
   abstract public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate = '', string $remarks = ''): string;

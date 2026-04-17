@@ -33,6 +33,8 @@ class ConsentMassagePdfService extends BasePdfService
 
       if ($data) {
         $this->addPage($pdf, $data, $submissionDate, $remarks);
+      } else {
+        $this->addNoConsentPage($pdf, 'massage');
       }
     }
 
