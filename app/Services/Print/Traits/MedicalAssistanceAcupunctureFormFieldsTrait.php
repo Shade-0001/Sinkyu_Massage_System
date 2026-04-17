@@ -659,14 +659,25 @@ trait MedicalAssistanceAcupunctureFormFieldsTrait
       // 実データモード：illness_name_acupuncture_idに応じて楕円を表示
       // 1:神経痛, 2:リウマチ, 3:頸腕症候群, 4:五十肩, 5:腰痛症, 6:頸椎捻挫後遺症, 7:その他
       $illnessId = (int)$consent->illness_name_acupuncture_id;
-      if ($illnessId >= 1 && $illnessId <= 7) {
+      if ($illnessId >= 1 && $illnessId <= 6) {
         $this->drawEllipseByKey($pdf, 'illness_name_' . $illnessId);
-      }
-      // 「その他」の場合、追記テキストを表示
-      if ($illnessId === 7 && isset($consent->illness_name_acupuncture_addendum) && $consent->illness_name_acupuncture_addendum) {
-        $pdf->SetFontSize($this->coord('illness_name_other_text', 'fontSize'));
-        $this->drawTextByKey($pdf, 'illness_name_other_text', (string)$consent->illness_name_acupuncture_addendum);
-        $pdf->SetFontSize(10);
+      } else {
+        // ID7以上は「その他」（7番楕円）として描画
+        $this->drawEllipseByKey($pdf, 'illness_name_7');
+        // ID=7: addendumテキストを使用、ID>=8: illnesses_acupunctureの傷病名を使用
+        if ($illnessId === 7 && isset($consent->illness_name_acupuncture_addendum) && $consent->illness_name_acupuncture_addendum) {
+          $otherText = $consent->illness_name_acupuncture_addendum;
+        } elseif ($illnessId >= 8) {
+          $illnessRow = DB::table('illnesses_acupuncture')->where('id', $illnessId)->value('illness_name_acupuncture');
+          $otherText = $illnessRow ?? '';
+        } else {
+          $otherText = '';
+        }
+        if ($otherText) {
+          $pdf->SetFontSize($this->coord('illness_name_other_text', 'fontSize'));
+          $this->drawTextByKey($pdf, 'illness_name_other_text', (string)$otherText);
+          $pdf->SetFontSize(10);
+        }
       }
     }
   }
