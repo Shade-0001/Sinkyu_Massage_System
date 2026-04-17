@@ -23,14 +23,14 @@
   <tbody>
     @foreach($doctors as $doctor)
     <tr>
-      <td>
+      <td class="fw-medium">
       {{ $doctor->last_name }}{{ "\u{2000}" }}{{ $doctor->first_name }}<br>
       {{ $doctor->last_name_kana }}{{ "\u{2000}" }}{{ $doctor->first_name_kana }}
       </td>
-      <td>
+      <td class="fw-medium">
       {{ $doctor->medical_institution_name }}
       </td>
-      <td>
+      <td class="fw-medium">
       @if(!empty($doctor->postal_code))
         〒{{ $doctor->postal_code }}<br>
       @endif
@@ -43,7 +43,7 @@
       {{ $doctor->created_at ? \Carbon\Carbon::parse($doctor->created_at)->format('Y/n/j') : '' }}<br>
       {{ $doctor->created_at ? \Carbon\Carbon::parse($doctor->created_at)->format('H:i') : '' }}
       </td>
-      <td class="text-center">
+      <td class="text-center fw-medium">
         <div class="d-flex flex-wrap justify-content-center gap-1">
           <a class="btn-ex-main btn-ex-blue btn-ex-sm" href="{{ route('doctors.edit', $doctor->id) }}">編集</a>
           <a class="btn-ex-main btn-ex-blue btn-ex-sm" href="{{ route('doctors.duplicate', $doctor->id) }}">複製</a>

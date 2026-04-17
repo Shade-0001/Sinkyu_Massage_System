@@ -45,13 +45,13 @@
         {{ \Carbon\Carbon::parse($planInfo->assessment_date)->format('Y/n/j') }}
       @endif
       </td>
-      <td>{{ $planInfo->assessor }}</td>
-      <td>{{ $planInfo->audience }}</td>
-      <td>{{ $planInfo->adl_total ?? '' }}</td>
+      <td class="fw-medium">{{ $planInfo->assessor }}</td>
+      <td class="fw-medium">{{ $planInfo->audience }}</td>
+      <td class="fw-medium">{{ $planInfo->adl_total ?? '' }}</td>
       <td data-order="{{ strtotime($planInfo->created_at) }}">
       {{ \Carbon\Carbon::parse($planInfo->created_at)->format('Y/n/j') }}
       </td>
-      <td class="text-center">
+      <td class="text-center fw-medium">
       <div class="d-flex flex-wrap justify-content-center gap-1">
         <a class="btn-ex-main btn-ex-blue btn-ex-sm" href="{{ route('clinic-users.plans.edit', ['id' => $id, 'plan_id' => $planInfo->id]) }}">編集</a>
         <a class="btn-ex-main btn-ex-blue btn-ex-sm" href="{{ route('clinic-users.plans.duplicate', ['id' => $id, 'plan_id' => $planInfo->id]) }}">複製</a>

@@ -22,10 +22,10 @@
     <tbody>
       @foreach($items as $item)
       <tr>
-        <td>{{ $item->document_category }}</td>
-        <td>{{ $item->document_name }}</td>
-        <td>{{ $item->created_at ? \Carbon\Carbon::parse($item->created_at)->format('Y-m-d H:i') : '' }}</td>
-        <td class="text-center">
+        <td class="fw-medium">{{ $item->document_category }}</td>
+        <td class="fw-medium">{{ $item->document_name }}</td>
+        <td class="fw-medium">{{ $item->created_at ? \Carbon\Carbon::parse($item->created_at)->format('Y-m-d H:i') : '' }}</td>
+        <td class="text-center fw-medium">
         <div class="d-flex flex-wrap justify-content-center gap-1">
           <button type="button" class="preview-btn btn-ex-main btn-ex-blue btn-ex-sm" data-id="{{ $item->id }}">プレビュー</button>
           <button type="button" class="edit-btn btn-ex-main btn-ex-blue btn-ex-sm" data-id="{{ $item->id }}">編集</button>

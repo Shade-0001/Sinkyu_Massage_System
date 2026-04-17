@@ -23,13 +23,13 @@
   <tbody>
     @foreach($notices as $notice)
     <tr>
-      <td>{{ $notice->id }}</td>
+      <td class="fw-medium">{{ $notice->id }}</td>
       <td data-order="{{ $notice->created_at ? $notice->created_at->timestamp : 0 }}">
       {{ optional($notice->created_at)->format('Y/n/j') }}
       </td>
-      <td>{{ $notice->title }}</td>
-      <td>{{ $notice->content }}</td>
-      <td class="text-center">
+      <td class="fw-medium">{{ $notice->title }}</td>
+      <td class="fw-medium">{{ $notice->content }}</td>
+      <td class="text-center fw-medium">
       <div class="d-flex flex-wrap justify-content-center gap-1">
         <a class="btn-ex-main btn-ex-blue btn-ex-sm" href="{{ route('notices.edit', ['id' => $notice->id]) }}">編集</a>
         <a class="btn-ex-main btn-ex-blue btn-ex-sm" href="{{ route('notices.duplicate', ['id' => $notice->id]) }}">複製</a>

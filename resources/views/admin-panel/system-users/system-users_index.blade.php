@@ -24,12 +24,12 @@
   <tbody>
     @foreach($systemUsers as $systemUser)
     <tr>
-      <td>{{ $systemUser->id }}</td>
-      <td>{{ $systemUser->is_admin ? '管理者' : '通常' }}</td>
-      <td>{{ $systemUser->name }}</td>
-      <td>{{ $systemUser->login_id }}</td>
-      <td>{{ $systemUser->plain_password ? '●●●●●' : '―' }}</td>
-      <td>
+      <td class="fw-medium">{{ $systemUser->id }}</td>
+      <td class="fw-medium">{{ $systemUser->is_admin ? '管理者' : '通常' }}</td>
+      <td class="fw-medium">{{ $systemUser->name }}</td>
+      <td class="fw-medium">{{ $systemUser->login_id }}</td>
+      <td class="fw-medium">{{ $systemUser->plain_password ? '●●●●●' : '―' }}</td>
+      <td class="fw-medium">
         <button
           class="btn-ex-main btn-ex-blue btn-ex-sm edit-btn"
           data-id="{{ $systemUser->id }}"

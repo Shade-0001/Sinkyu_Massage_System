@@ -39,8 +39,8 @@
   <tbody>
     @forelse($insurances as $insurance)
     <tr>
-      <td>{{ $insurance->insurer?->insurer_category ?? '保険' }}</td>
-      <td>{{ $insurance->insured_number }}</td>
+      <td class="fw-medium">{{ $insurance->insurer?->insurer_category ?? '保険' }}</td>
+      <td class="fw-medium">{{ $insurance->insured_number }}</td>
       <td data-order="{{ $insurance->license_acquisition_date ? $insurance->license_acquisition_date->timestamp : 0 }}">
       @if($insurance->license_acquisition_date)
         {{ $insurance->license_acquisition_date->format('Y/n/j') }}
@@ -54,7 +54,7 @@
       <td data-order="{{ $insurance->created_at->timestamp }}">
       {{ $insurance->created_at->format('Y/n/j') }}
       </td>
-      <td class="text-center">
+      <td class="text-center fw-medium">
       <div class="d-flex flex-wrap justify-content-center gap-1">
         <a class="btn-ex-main btn-ex-blue btn-ex-sm" href="{{ route('clinic-users.insurances.edit', ['id' => $id, 'insurance_id' => $insurance->id]) }}">編集</a>
         <a class="btn-ex-main btn-ex-blue btn-ex-sm" href="{{ route('clinic-users.insurances.duplicate', ['id' => $id, 'insurance_id' => $insurance->id]) }}">複製</a>

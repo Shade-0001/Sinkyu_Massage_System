@@ -30,7 +30,7 @@
               @if($index === 0)
                 <td rowspan="{{ $docCount }}">{{ $category }}</td>
               @endif
-              <td>
+              <td class="fw-medium">
                 <div style="display: flex; align-items: center; gap: 10px;">
                   <div style="flex: 1;">
                     {{ $document['document_name'] }}
@@ -55,7 +55,7 @@
           @endforeach
         @else
           <tr>
-            <td>{{ $category }}</td>
+            <td class="fw-medium">{{ $category }}</td>
             <td style="color: #999;">（文書未登録）</td>
           </tr>
         @endif

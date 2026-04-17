@@ -23,14 +23,14 @@
     <tbody>
       @foreach($careManagers as $careManager)
       <tr>
-        <td>
+        <td class="fw-medium">
           {{ $careManager->last_name }}{{ "\u{2000}" }}{{ $careManager->first_name }}<br>
           {{ $careManager->last_name_kana }}{{ "\u{2000}" }}{{ $careManager->first_name_kana }}
         </td>
-        <td>
+        <td class="fw-medium">
           {{ $careManager->service_provider_name ?? '-' }}
         </td>
-        <td>
+        <td class="fw-medium">
           @if(!empty($careManager->postal_code))
             〒{{ $careManager->postal_code }}<br>
           @endif
@@ -43,7 +43,7 @@
           {{ $careManager->created_at ? \Carbon\Carbon::parse($careManager->created_at)->format('Y/n/j') : '' }}<br>
           {{ $careManager->created_at ? \Carbon\Carbon::parse($careManager->created_at)->format('H:i') : '' }}
         </td>
-        <td class="text-center">
+        <td class="text-center fw-medium">
         <div class="d-flex flex-wrap justify-content-center gap-1">
           <a class="btn-ex-main btn-ex-blue btn-ex-sm" href="{{ route('caremanagers.edit', $careManager->id) }}">編集</a>
           <form action="{{ route('caremanagers.delete', ['id' => $careManager->id]) }}" method="POST" class="delete-form d-inline">

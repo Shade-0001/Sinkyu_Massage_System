@@ -25,18 +25,18 @@
   <tbody>
     @foreach($clinicUsers as $user)
     <tr>
-      <td>{{ $user->id }}</td>
+      <td class="fw-medium">{{ $user->id }}</td>
       <td data-order="{{ $user->full_kana }}">
       {{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}<br>
       {{ $user->full_kana }}<br>
       </td>
-      <td>
+      <td class="fw-medium">
       @if(!empty($user->birthday))
         {{ optional($user->birthday)->format('Y/n/j') }}
         （{{ $user->birthday ? \Carbon\Carbon::parse($user->birthday)->age : '' }}才）
       @endif
       </td>
-      <td>
+      <td class="fw-medium">
       @if(!empty($user->postal_code))
         〒{{ $user->postal_code }}<br>
       @endif

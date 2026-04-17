@@ -23,11 +23,11 @@
     <tbody>
       @foreach($therapists as $therapist)
       <tr>
-        <td>
+        <td class="fw-medium">
           {{ $therapist->last_name }}{{ "\u{2000}" }}{{ $therapist->first_name }}<br>
           {{ $therapist->last_name_kana }}{{ "\u{2000}" }}{{ $therapist->first_name_kana }}
         </td>
-        <td>
+        <td class="fw-medium">
           @if(!empty($therapist->license_hari_code_number) || !empty($therapist->license_hari_issued_date))
             <strong>はり:</strong>
             {{ $therapist->license_hari_code_number }}
@@ -55,7 +55,7 @@
             -
           @endif
         </td>
-        <td>
+        <td class="fw-medium">
           @if(!empty($therapist->postal_code))
             〒{{ $therapist->postal_code }}<br>
           @endif
@@ -68,7 +68,7 @@
           {{ $therapist->created_at ? \Carbon\Carbon::parse($therapist->created_at)->format('Y/n/j') : '' }}<br>
           {{ $therapist->created_at ? \Carbon\Carbon::parse($therapist->created_at)->format('H:i') : '' }}
         </td>
-        <td class="text-center">
+        <td class="text-center fw-medium">
         <div class="d-flex flex-wrap justify-content-center gap-1">
           <a class="btn-ex-main btn-ex-blue btn-ex-sm" href="{{ route('therapists.edit', $therapist->id) }}">編集</a>
           <form action="{{ route('therapists.delete', ['id' => $therapist->id]) }}" method="POST" class="delete-form d-inline">

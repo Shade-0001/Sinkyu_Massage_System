@@ -39,7 +39,7 @@
   <tbody>
     @forelse($consentingHistories as $history)
     <tr>
-      <td>
+      <td class="fw-medium">
       @if($history->consentingDoctor)
         {{ $history->consentingDoctor->doctor_name }}
       @else
@@ -64,7 +64,7 @@
       <td data-order="{{ strtotime($history->created_at) }}">
       {{ \Carbon\Carbon::parse($history->created_at)->format('Y/n/j') }}
       </td>
-      <td class="text-center">
+      <td class="text-center fw-medium">
       <div class="d-flex flex-wrap justify-content-center gap-1">
         <a class="btn-ex-main btn-ex-blue btn-ex-sm" href="{{ route('clinic-users.consents-acupuncture.edit', ['id' => $id, 'history_id' => $history->id]) }}">編集</a>
         <a class="btn-ex-main btn-ex-blue btn-ex-sm" href="{{ route('clinic-users.consents-acupuncture.duplicate', ['id' => $id, 'history_id' => $history->id]) }}">複製</a>

@@ -16,11 +16,11 @@
     <tbody>
       <!-- 新規登録行 -->
       <tr class="new-entry-row">
-        <td>新規登録</td>
-        <td>
+        <td class="fw-medium">新規登録</td>
+        <td class="fw-medium">
           <input type="text" name="condition_name" value="" required class="form-control" form="form-new">
         </td>
-        <td class="text-center">
+        <td class="text-center fw-medium">
           <form action="{{ route('submaster.conditions.store') }}" method="POST" id="form-new" class="d-inline">
             @csrf
             <button type="submit" class="btn-ex-main btn-ex-blue btn-ex-sm">新規登録</button>
@@ -31,14 +31,14 @@
       <!-- 既存データ行 -->
       @foreach($items as $item)
       <tr>
-        <td>{{ $item->id }}</td>
-        <td>
+        <td class="fw-medium">{{ $item->id }}</td>
+        <td class="fw-medium">
           <form action="{{ route('submaster.conditions.update', $item->id) }}" method="POST" id="form-{{ $item->id }}">
             @csrf
             <input type="text" name="condition_name" value="{{ $item->condition_name }}" required class="form-control">
           </form>
         </td>
-        <td class="text-center">
+        <td class="text-center fw-medium">
           <button type="submit" form="form-{{ $item->id }}" class="btn-ex-main btn-ex-blue btn-ex-sm">更新</button>
           <form action="{{ route('submaster.conditions.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('本当に削除する？');">
             @csrf
