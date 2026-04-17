@@ -49,7 +49,6 @@ class DatabaseSeeder extends Seeder
       ReportSeeder::class,
       DepositSeeder::class,
       PlanSeeder::class,
-      PlanInfoSeeder::class,
     ]);
   }
 }
