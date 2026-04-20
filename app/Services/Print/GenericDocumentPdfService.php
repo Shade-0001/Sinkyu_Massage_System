@@ -178,7 +178,7 @@ class GenericDocumentPdfService extends BasePdfService
     if (!$this->showPatientInfo) {
       // 白矩形で上書きして隠す
       $pdf->SetFillColor(0, 0, 255);
-      $pdf->Rect(10, 238, 195, 22, 'F');
+      $pdf->Rect(10, 238, 59, 22, 'F');
     } else {
       // 患者氏名・傷病名を描画
       if ($this->hasCoord('user_name')) {
