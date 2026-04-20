@@ -107,6 +107,18 @@
     </div>
   </div>
 
+  {{-- 本文開始Y座標 --}}
+  <div>
+    <label class="form-label-tab" for="content_start_y">本文開始Y座標（mm）
+      <span class="text-muted ms-1" style="font-size: 0.85em;">空白=デフォルト（{{ \App\Services\Print\GenericDocumentPdfService::HEADER_CONTENT_Y }}mm）</span>
+      @error('content_start_y')<span class="text-danger ms-2">{{ $message }}</span>@enderror
+    </label>
+    <div class="form-field px-3 py-2">
+      <div class="form-field-top"></div>
+      <input type="number" name="content_start_y" id="content_start_y" value="{{ old('content_start_y', isset($item->content_start_y) ? number_format((float)$item->content_start_y, 1) : '') }}" step="0.5" style="width: 100px;" placeholder="{{ \App\Services\Print\GenericDocumentPdfService::HEADER_CONTENT_Y }}">
+    </div>
+  </div>
+
   <div class="mt-4 d-flex gap-2 justify-content-end">
     <a href="{{ $cancelRoute ?? route('master.documents.index') }}" class="btn-ex-main btn-ex-gray"><i class="nf nf-fa-caret_left me-1" style="transform: scale(1.2)"></i>戻る</a>
     <button type="submit" id="submit-btn" class="btn-ex-main btn-ex-green">{{ $submitLabel ?? '登録' }}</button>

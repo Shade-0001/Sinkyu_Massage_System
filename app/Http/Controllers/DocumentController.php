@@ -101,6 +101,7 @@ class DocumentController extends Controller
       'content' => 'required|string',
       'font_size' => 'nullable|numeric',
       'line_height' => 'nullable|numeric',
+      'content_start_y' => 'nullable|numeric|min:1|max:290',
       'show_patient_info' => 'nullable|boolean',
       'patient_name' => 'nullable|string|max:100',
       'patient_illness' => 'nullable|string|max:100',
@@ -116,6 +117,7 @@ class DocumentController extends Controller
         'content'           => $request->content,
         'font_size'         => $request->font_size ?? 12,
         'line_height'       => $request->line_height ?? 7,
+        'content_start_y'   => $request->content_start_y ?: null,
         'show_patient_info' => $showPatientInfo,
         'patient_name'      => $showPatientInfo ? $request->patient_name : null,
         'patient_illness'   => $showPatientInfo ? $request->patient_illness : null,
@@ -149,6 +151,7 @@ class DocumentController extends Controller
       'content' => 'required|string',
       'font_size' => 'nullable|numeric',
       'line_height' => 'nullable|numeric',
+      'content_start_y' => 'nullable|numeric|min:1|max:290',
       'show_patient_info' => 'nullable|boolean',
       'patient_name' => 'nullable|string|max:100',
       'patient_illness' => 'nullable|string|max:100',
@@ -162,6 +165,7 @@ class DocumentController extends Controller
       'content'            => $request->content,
       'font_size'          => $request->font_size ?? 12,
       'line_height'        => $request->line_height ?? 7,
+      'content_start_y'    => $request->content_start_y ?: null,
       'show_patient_info'  => $showPatientInfo,
       'patient_name'       => $showPatientInfo ? $request->patient_name : null,
       'patient_illness'    => $showPatientInfo ? $request->patient_illness : null,
@@ -232,6 +236,7 @@ class DocumentController extends Controller
       'content' => 'required|string',
       'font_size' => 'nullable|numeric',
       'line_height' => 'nullable|numeric',
+      'content_start_y' => 'nullable|numeric|min:1|max:290',
       'show_patient_info' => 'nullable|boolean',
       'patient_name' => 'nullable|string|max:100',
       'patient_illness' => 'nullable|string|max:100',
@@ -245,6 +250,7 @@ class DocumentController extends Controller
       'content'           => $request->content,
       'font_size'         => $request->font_size ?? 12,
       'line_height'       => $request->line_height ?? 7,
+      'content_start_y'   => $request->content_start_y ?: null,
       'show_patient_info' => $showPatientInfo,
       'patient_name'      => $showPatientInfo ? $request->patient_name : null,
       'patient_illness'   => $showPatientInfo ? $request->patient_illness : null,
@@ -319,12 +325,16 @@ class DocumentController extends Controller
       $service->setOverrideDocumentContent($document->content);
     }
 
-    // フォントサイズ・行間隔をDBの設定値で上書き
+    // フォントサイズ・行間隔・本文開始Y座標をDBの設定値で上書き
     if (isset($document->font_size) && $document->font_size !== null) {
       $service->setFontSize((float)$document->font_size);
     }
     if (isset($document->line_height) && $document->line_height !== null) {
       $service->setLineHeight((float)$document->line_height);
+    }
+    if (isset($document->content_start_y) && $document->content_start_y !== null
+      && method_exists($service, 'setContentStartY')) {
+      $service->setContentStartY((float)$document->content_start_y);
     }
 
     // タイトルをセット（DocumentController の default_title を優先）
@@ -418,6 +428,9 @@ class DocumentController extends Controller
     }
     if (isset($document->line_height) && $document->line_height !== null) {
       $service->setLineHeight((float)$document->line_height);
+    }
+    if (isset($document->content_start_y) && $document->content_start_y !== null) {
+      $service->setContentStartY((float)$document->content_start_y);
     }
 
     $today = now()->format('Y-m-d');

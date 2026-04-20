@@ -18,6 +18,7 @@ class GenericDocumentPdfService extends BasePdfService
   protected bool $showPatientInfo = false;
   protected string $patientName = '';
   protected string $patientIllness = '';
+  protected ?float $overrideContentStartY = null;
 
   // 各領域の座標定数
   const HEADER_CONTENT_Y = 65.0;   // ヘッダーあり時の本文開始Y
@@ -25,9 +26,10 @@ class GenericDocumentPdfService extends BasePdfService
   const FOOTER_START_Y   = 238.0;  // フッター開始Y（本文終端）
   const PAGE_BOTTOM_Y    = 290.0;  // ページ下端（余白込み）
 
-  public function setShowPatientInfo(bool $value): void  { $this->showPatientInfo = $value; }
-  public function setPatientName(string $value): void    { $this->patientName = $value; }
-  public function setPatientIllness(string $value): void { $this->patientIllness = $value; }
+  public function setShowPatientInfo(bool $value): void    { $this->showPatientInfo = $value; }
+  public function setPatientName(string $value): void      { $this->patientName = $value; }
+  public function setPatientIllness(string $value): void   { $this->patientIllness = $value; }
+  public function setContentStartY(?float $value): void    { $this->overrideContentStartY = $value; }
 
   protected function getDefaultCoordinatesPath(): string
   {
@@ -113,8 +115,9 @@ class GenericDocumentPdfService extends BasePdfService
     $allLines = $this->expandLines($documentContent, $maxChars);
 
     // 各ページタイプで収容できる行数を計算
-    $linesInFirstWithFooter  = $this->calcLines(self::HEADER_CONTENT_Y, self::FOOTER_START_Y, $lineHeight); // 1ページ完結
-    $linesInFirstNoFooter    = $this->calcLines(self::HEADER_CONTENT_Y, self::PAGE_BOTTOM_Y, $lineHeight);  // 1ページ目（続きあり）
+    $firstPageStartY = $this->overrideContentStartY ?? self::HEADER_CONTENT_Y;
+    $linesInFirstWithFooter  = $this->calcLines($firstPageStartY, self::FOOTER_START_Y, $lineHeight); // 1ページ完結
+    $linesInFirstNoFooter    = $this->calcLines($firstPageStartY, self::PAGE_BOTTOM_Y, $lineHeight);  // 1ページ目（続きあり）
     $linesInLastNoHeader     = $this->calcLines(self::BODY_TOP_Y, self::FOOTER_START_Y, $lineHeight);       // 最終ページ
     // 中間ページはlinesInLastNoHeaderより少なくして、残りが必ず最終ページに収まるようにする
     $linesInMiddle           = max(1, min($this->calcLines(self::BODY_TOP_Y, self::PAGE_BOTTOM_Y, $lineHeight), $linesInLastNoHeader - 1));
@@ -274,7 +277,10 @@ class GenericDocumentPdfService extends BasePdfService
     }
 
     // 本文
-    $contentStartY = $isFirst ? self::HEADER_CONTENT_Y : self::BODY_TOP_Y;
+    $defaultStartY = $isFirst ? self::HEADER_CONTENT_Y : self::BODY_TOP_Y;
+    $contentStartY = ($isFirst && $this->overrideContentStartY !== null)
+      ? $this->overrideContentStartY
+      : $defaultStartY;
     $contentEndY = $isLast ? self::FOOTER_START_Y : self::PAGE_BOTTOM_Y;
     $x = $this->coord('document_content', 'x') ?: 15;
     $pdf->SetFontSize($fontSize);
