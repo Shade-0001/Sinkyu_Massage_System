@@ -177,7 +177,7 @@ class GenericDocumentPdfService extends BasePdfService
     // 患者情報エリア（テンプレートに印字された「記 氏名： 発病：」を制御）
     if (!$this->showPatientInfo) {
       // 白矩形で上書きして隠す
-      $pdf->SetFillColor(0, 0, 255);
+      $pdf->SetFillColor(255, 255, 255);
       $pdf->Rect(10, 238, 70, 22, 'F');
     } else {
       // 患者氏名・傷病名を描画
