@@ -267,7 +267,7 @@ class GenericDocumentPdfService extends BasePdfService
     // 最終ページ以外：テンプレートの患者情報エリアを白矩形で隠す（本文描画前）
     if (!$isLast) {
       $pdf->SetFillColor(255, 255, 255);
-      $pdf->Rect(10, 238, 70, 22, 'F');
+      $pdf->Rect(10, 225, 45, 45, 'F');
     }
 
     // ヘッダー（1ページ目のみ）
@@ -277,15 +277,19 @@ class GenericDocumentPdfService extends BasePdfService
 
     // 本文
     $contentStartY = $isFirst ? self::HEADER_CONTENT_Y : self::BODY_TOP_Y;
-    $contentEndY   = $isLast  ? self::FOOTER_START_Y   : self::PAGE_BOTTOM_Y;
+    $rawEndY       = $isLast  ? self::FOOTER_START_Y   : self::PAGE_BOTTOM_Y;
+    // calcLinesと同じマージン計算：(int)(高さ/lineHeight)-1 行分のみ描画
+    $maxLines      = max(1, (int)(($rawEndY - $contentStartY) / $lineHeight) - 1);
     $x = $this->coord('document_content', 'x') ?: 15;
     $pdf->SetFontSize($fontSize);
-    $currentY = $contentStartY;
+    $currentY  = $contentStartY;
+    $lineCount = 0;
     foreach ($lines as $line) {
-      if ($currentY >= $contentEndY) break;
+      if ($lineCount >= $maxLines) break;
       $pdf->SetXY($x, $currentY);
       $pdf->Cell(0, 0, $line, 0, 0, 'L', false);
       $currentY += $lineHeight;
+      $lineCount++;
     }
 
     // フッター（最終ページのみ）
