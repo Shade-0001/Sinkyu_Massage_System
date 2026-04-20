@@ -87,7 +87,7 @@
 
   {{-- フォントサイズ --}}
   <div>
-    <label class="form-label-tab" for="font_size">フォントサイズ
+    <label class="form-label-tab" for="font_size">フォントサイズ（pt）
       @error('font_size')<span class="text-danger ms-2">{{ $message }}</span>@enderror
     </label>
     <div class="form-field px-3 py-2">
@@ -98,7 +98,7 @@
 
   {{-- 行間隔 --}}
   <div>
-    <label class="form-label-tab" for="line_height">行間隔
+    <label class="form-label-tab" for="line_height">行間隔（mm）
       @error('line_height')<span class="text-danger ms-2">{{ $message }}</span>@enderror
     </label>
     <div class="form-field px-3 py-2">
