@@ -101,8 +101,10 @@ class GenericDocumentPdfService extends BasePdfService
   protected function generatePages(Fpdi $pdf, array $data, string $submissionDate): void
   {
     $documentContent = $data['document_content'] ?? '';
-    $fontSize      = $this->overrideFontSize   ?? $this->coord('document_content', 'fontSize')   ?: 12;
-    $lineSpacing   = $this->overrideLineHeight ?? $this->coord('document_content', 'lineHeight') ?: 6.5;
+    $rawFontSize   = $this->overrideFontSize   ?? $this->coord('document_content', 'fontSize');
+    $fontSize      = ($rawFontSize !== null && $rawFontSize !== 0.0) ? $rawFontSize : 12;
+    $rawLineSpacing = $this->overrideLineHeight ?? $this->coord('document_content', 'lineHeight');
+    $lineSpacing    = ($rawLineSpacing !== null) ? $rawLineSpacing : 6.5;
     // 実際の描画ステップ = フォントサイズ(mm換算) + 行間余白
     // pt→mm: 1pt = 0.3528mm。lineSpacingはフォント高さへの追加余白として扱う
     $fontSizeMm  = $fontSize * 0.3528;
