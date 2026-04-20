@@ -263,6 +263,12 @@ class GenericDocumentPdfService extends BasePdfService
     $pdf->SetFont('kozminproregular', '', 10);
     $pdf->SetTextColor(0, 0, 0);
 
+    // 非最終ページ：テンプレートの患者情報エリアを白矩形で隠す
+    if (!$isLast) {
+      $pdf->SetFillColor(255, 255, 255);
+      $pdf->Rect(10, 238, 70, 22, 'F');
+    }
+
     // ヘッダー（1ページ目のみ）
     if ($isFirst) {
       $this->drawHeader($pdf, $submissionDate);
