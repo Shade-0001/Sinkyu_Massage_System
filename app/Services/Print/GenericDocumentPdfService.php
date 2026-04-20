@@ -222,8 +222,7 @@ class GenericDocumentPdfService extends BasePdfService
 
     while (!empty($remaining)) {
       // 残りが最終ページ（ヘッダーなし・フッターあり）に収まるか確認
-      // linesInMiddle以下でも最終ページとして扱う（中間ページで全部取り切るのを防ぐ）
-      if (count($remaining) <= $linesInLastNoHeader || count($remaining) <= $linesInMiddle) {
+      if (count($remaining) <= $linesInLastNoHeader) {
         $pages[] = $remaining;
         break;
       }
@@ -231,8 +230,16 @@ class GenericDocumentPdfService extends BasePdfService
         $pages[] = $remaining;
         break;
       }
-      $pages[]   = array_slice($remaining, 0, $linesInMiddle);
-      $remaining = array_slice($remaining, $linesInMiddle);
+      // 中間ページは「残り - linesInLastNoHeader」行だけ取る
+      // こうすることで次のループで必ず最終ページ判定が発動する
+      $takeLines = count($remaining) - $linesInLastNoHeader;
+      if ($takeLines <= 0) {
+        $pages[] = $remaining;
+        break;
+      }
+      $takeLines = min($takeLines, $linesInMiddle);
+      $pages[]   = array_slice($remaining, 0, $takeLines);
+      $remaining = array_slice($remaining, $takeLines);
     }
 
     return $pages;
