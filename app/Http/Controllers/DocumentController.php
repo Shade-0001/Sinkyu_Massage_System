@@ -405,6 +405,13 @@ class DocumentController extends Controller
       $service->setPatientIllness($document->patient_illness ?? '');
     }
 
+    if (!empty($document->font_size)) {
+      $service->setFontSize((float)$document->font_size);
+    }
+    if (!empty($document->line_height)) {
+      $service->setLineHeight((float)$document->line_height);
+    }
+
     $today = now()->format('Y-m-d');
     $pdfBinary = $service->generate([], now()->format('Y-m'), $today);
 

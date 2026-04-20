@@ -18,6 +18,8 @@ class GenericDocumentPdfService extends BasePdfService
   protected bool $showPatientInfo = false;
   protected string $patientName = '';
   protected string $patientIllness = '';
+  protected ?float $overrideFontSize = null;
+  protected ?float $overrideLineHeight = null;
 
   // 各領域の座標定数
   const HEADER_CONTENT_Y = 65.0;   // ヘッダーあり時の本文開始Y
@@ -25,9 +27,11 @@ class GenericDocumentPdfService extends BasePdfService
   const FOOTER_START_Y   = 238.0;  // フッター開始Y（本文終端）
   const PAGE_BOTTOM_Y    = 290.0;  // ページ下端（余白込み）
 
-  public function setShowPatientInfo(bool $value): void { $this->showPatientInfo = $value; }
+  public function setShowPatientInfo(bool $value): void  { $this->showPatientInfo = $value; }
   public function setPatientName(string $value): void    { $this->patientName = $value; }
   public function setPatientIllness(string $value): void { $this->patientIllness = $value; }
+  public function setFontSize(float $value): void        { $this->overrideFontSize = $value; }
+  public function setLineHeight(float $value): void      { $this->overrideLineHeight = $value; }
 
   protected function getDefaultCoordinatesPath(): string
   {
@@ -97,8 +101,8 @@ class GenericDocumentPdfService extends BasePdfService
   protected function generatePages(Fpdi $pdf, array $data, string $submissionDate): void
   {
     $documentContent = $data['document_content'] ?? '';
-    $fontSize   = $this->coord('document_content', 'fontSize') ?: 12;
-    $lineHeight = $this->coord('document_content', 'lineHeight') ?: 6.5;
+    $fontSize   = $this->overrideFontSize   ?? $this->coord('document_content', 'fontSize')   ?: 12;
+    $lineHeight = $this->overrideLineHeight ?? $this->coord('document_content', 'lineHeight') ?: 6.5;
 
     // 本文を全行に展開（改行のみで分割・文字数制限なし）
     $allLines = $this->expandLines($documentContent);
