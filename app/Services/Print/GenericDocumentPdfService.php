@@ -157,8 +157,9 @@ class GenericDocumentPdfService extends BasePdfService
    */
   protected function calcLines(float $startY, float $endY, float $lineHeight): int
   {
-    if ($lineHeight <= 0) return 1;
-    return max(1, (int)(($endY - $startY) / $lineHeight));
+    $absHeight = abs($lineHeight);
+    if ($absHeight < 0.1) return 1;
+    return max(1, (int)(($endY - $startY) / $absHeight));
   }
 
   /**

@@ -100,7 +100,7 @@ class DocumentController extends Controller
       ],
       'content' => 'required|string',
       'font_size' => 'nullable|integer',
-      'line_height' => 'nullable|integer',
+      'line_height' => 'nullable|numeric',
       'show_patient_info' => 'nullable|boolean',
       'patient_name' => 'nullable|string|max:100',
       'patient_illness' => 'nullable|string|max:100',
@@ -148,7 +148,7 @@ class DocumentController extends Controller
       ],
       'content' => 'required|string',
       'font_size' => 'nullable|integer',
-      'line_height' => 'nullable|integer',
+      'line_height' => 'nullable|numeric',
       'show_patient_info' => 'nullable|boolean',
       'patient_name' => 'nullable|string|max:100',
       'patient_illness' => 'nullable|string|max:100',
@@ -231,7 +231,7 @@ class DocumentController extends Controller
       ],
       'content' => 'required|string',
       'font_size' => 'nullable|integer',
-      'line_height' => 'nullable|integer',
+      'line_height' => 'nullable|numeric',
       'show_patient_info' => 'nullable|boolean',
       'patient_name' => 'nullable|string|max:100',
       'patient_illness' => 'nullable|string|max:100',
@@ -405,10 +405,10 @@ class DocumentController extends Controller
       $service->setPatientIllness($document->patient_illness ?? '');
     }
 
-    if (!empty($document->font_size)) {
+    if (isset($document->font_size) && $document->font_size !== null) {
       $service->setFontSize((float)$document->font_size);
     }
-    if (!empty($document->line_height)) {
+    if (isset($document->line_height) && $document->line_height !== null) {
       $service->setLineHeight((float)$document->line_height);
     }
 
