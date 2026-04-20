@@ -127,6 +127,18 @@ class GenericDocumentPdfService extends BasePdfService
 
       $this->addPage($pdf, $data, $submissionDate, $pageLines, $isFirst, $isLast, $fontSize, $lineHeight);
     }
+
+    // 複数ページの場合、全ページにページ番号を後処理で描画
+    if ($totalPages >= 2) {
+      for ($p = 1; $p <= $totalPages; $p++) {
+        $pdf->setPage($p);
+        $pageText = '-' . "\u{2002}" . "\u{2002}" . $p . ' / ' . $totalPages . "\u{2002}" . "\u{2002}" . '-';
+        $pdf->SetFont('kozgopromedium', '', 9);
+        $pdf->SetTextColor(0, 0, 0);
+        $pdf->SetXY(0, 290);
+        $pdf->Cell(210, 0, $pageText, 0, 0, 'C');
+      }
+    }
   }
 
   /**
