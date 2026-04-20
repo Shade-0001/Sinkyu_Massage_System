@@ -221,12 +221,12 @@ class GenericDocumentPdfService extends BasePdfService
     $remaining = array_slice($allLines, $linesInFirstNoFooter);
 
     while (!empty($remaining)) {
-      // 残りが最終ページ1枚に収まるか確認
-      if (count($remaining) <= $linesInLastNoHeader) {
+      // 残りが最終ページ（ヘッダーなし・フッターあり）に収まるか確認
+      // linesInMiddle以下でも最終ページとして扱う（中間ページで全部取り切るのを防ぐ）
+      if (count($remaining) <= $linesInLastNoHeader || count($remaining) <= $linesInMiddle) {
         $pages[] = $remaining;
         break;
       }
-      // 中間ページ（linesInMiddleが1未満なら強制的に残り全部を1ページに押し込んで終了）
       if ($linesInMiddle < 1) {
         $pages[] = $remaining;
         break;
@@ -276,18 +276,15 @@ class GenericDocumentPdfService extends BasePdfService
 
     // 本文
     $contentStartY = $isFirst ? self::HEADER_CONTENT_Y : self::BODY_TOP_Y;
-    $rawEndY  = $isLast ? self::FOOTER_START_Y : self::PAGE_BOTTOM_Y;
-    $maxLines = max(1, (int)(($rawEndY - $contentStartY) / $lineHeight));
+    $contentEndY = $isLast ? self::FOOTER_START_Y : self::PAGE_BOTTOM_Y;
     $x = $this->coord('document_content', 'x') ?: 15;
     $pdf->SetFontSize($fontSize);
-    $currentY  = $contentStartY;
-    $lineCount = 0;
+    $currentY = $contentStartY;
     foreach ($lines as $line) {
-      if ($lineCount >= $maxLines) break;
       $pdf->SetXY($x, $currentY);
       $pdf->Cell(0, 0, $line, 0, 0, 'L', false);
       $currentY += $lineHeight;
-      $lineCount++;
+      if ($currentY >= $contentEndY) break;
     }
 
     // フッター（最終ページのみ）
