@@ -100,17 +100,25 @@ class DocumentController extends Controller
       'content' => 'required|string|max:2000',
       'font_size' => 'nullable|integer',
       'line_height' => 'nullable|integer',
+      'show_patient_info' => 'nullable|boolean',
+      'patient_name' => 'nullable|string|max:100',
+      'patient_illness' => 'nullable|string|max:100',
     ]);
+
+    $showPatientInfo = $request->boolean('show_patient_info');
 
     DB::table('documents')
       ->where('id', $id)
       ->update([
         'document_category' => $request->document_category,
-        'document_name' => $request->document_name,
-        'content' => $request->content,
-        'font_size' => $request->font_size ?? 12,
-        'line_height' => $request->line_height ?? 7,
-        'updated_at' => now(),
+        'document_name'     => $request->document_name,
+        'content'           => $request->content,
+        'font_size'         => $request->font_size ?? 12,
+        'line_height'       => $request->line_height ?? 7,
+        'show_patient_info' => $showPatientInfo,
+        'patient_name'      => $showPatientInfo ? $request->patient_name : null,
+        'patient_illness'   => $showPatientInfo ? $request->patient_illness : null,
+        'updated_at'        => now(),
       ]);
 
     return redirect()->route('master.documents.index')->with('success', 'データを更新しました。');
@@ -139,16 +147,24 @@ class DocumentController extends Controller
       'content' => 'required|string|max:2000',
       'font_size' => 'nullable|integer',
       'line_height' => 'nullable|integer',
+      'show_patient_info' => 'nullable|boolean',
+      'patient_name' => 'nullable|string|max:100',
+      'patient_illness' => 'nullable|string|max:100',
     ]);
 
+    $showPatientInfo = $request->boolean('show_patient_info');
+
     DB::table('documents')->insert([
-      'document_category' => $request->document_category,
-      'document_name' => $request->document_name,
-      'content' => $request->content,
-      'font_size' => $request->font_size ?? 12,
-      'line_height' => $request->line_height ?? 7,
-      'created_at' => now(),
-      'updated_at' => now(),
+      'document_category'  => $request->document_category,
+      'document_name'      => $request->document_name,
+      'content'            => $request->content,
+      'font_size'          => $request->font_size ?? 12,
+      'line_height'        => $request->line_height ?? 7,
+      'show_patient_info'  => $showPatientInfo,
+      'patient_name'       => $showPatientInfo ? $request->patient_name : null,
+      'patient_illness'    => $showPatientInfo ? $request->patient_illness : null,
+      'created_at'         => now(),
+      'updated_at'         => now(),
     ]);
 
     return redirect()->route('master.documents.index')->with('success', 'データを登録しました。');
@@ -213,16 +229,24 @@ class DocumentController extends Controller
       'content' => 'required|string|max:2000',
       'font_size' => 'nullable|integer',
       'line_height' => 'nullable|integer',
+      'show_patient_info' => 'nullable|boolean',
+      'patient_name' => 'nullable|string|max:100',
+      'patient_illness' => 'nullable|string|max:100',
     ]);
+
+    $showPatientInfo = $request->boolean('show_patient_info');
 
     DB::table('documents')->insert([
       'document_category' => $request->document_category,
-      'document_name' => $request->document_name,
-      'content' => $request->content,
-      'font_size' => $request->font_size ?? 12,
-      'line_height' => $request->line_height ?? 7,
-      'created_at' => now(),
-      'updated_at' => now(),
+      'document_name'     => $request->document_name,
+      'content'           => $request->content,
+      'font_size'         => $request->font_size ?? 12,
+      'line_height'       => $request->line_height ?? 7,
+      'show_patient_info' => $showPatientInfo,
+      'patient_name'      => $showPatientInfo ? $request->patient_name : null,
+      'patient_illness'   => $showPatientInfo ? $request->patient_illness : null,
+      'created_at'        => now(),
+      'updated_at'        => now(),
     ]);
 
     return redirect()->route('master.documents.index')->with('success', 'データを複製しました。');
@@ -369,6 +393,12 @@ class DocumentController extends Controller
     $templatePath = storage_path('app/templates/汎用文書.pdf');
     if (file_exists($templatePath) && method_exists($service, 'setTemplatePath')) {
       $service->setTemplatePath($templatePath);
+    }
+
+    $service->setShowPatientInfo((bool)($document->show_patient_info ?? false));
+    if ($document->show_patient_info) {
+      $service->setPatientName($document->patient_name ?? '');
+      $service->setPatientIllness($document->patient_illness ?? '');
     }
 
     $today = now()->format('Y-m-d');

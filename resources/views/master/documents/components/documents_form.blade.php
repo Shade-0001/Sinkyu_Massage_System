@@ -45,6 +45,46 @@
     </div>
   </div>
 
+  {{-- 患者情報 --}}
+  <div>
+    <label class="form-label-tab">患者情報</label>
+    <div class="form-field px-3 py-2">
+      <div class="form-field-top"></div>
+      <div class="d-flex gap-4 align-items-center">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="show_patient_info" id="patient_info_none" value="0"
+            {{ old('show_patient_info', $item->show_patient_info ?? 0) == 0 ? 'checked' : '' }}>
+          <label class="form-check-label" for="patient_info_none">なし</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="show_patient_info" id="patient_info_show" value="1"
+            {{ old('show_patient_info', $item->show_patient_info ?? 0) == 1 ? 'checked' : '' }}>
+          <label class="form-check-label" for="patient_info_show">あり</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{-- 患者氏名・傷病名（患者情報ありの場合のみ表示） --}}
+  <div id="patient-info-fields" style="{{ old('show_patient_info', $item->show_patient_info ?? 0) == 1 ? '' : 'display:none;' }}">
+    <div class="d-flex flex-column gap-4">
+      <div>
+        <label class="form-label-tab" for="patient_name">患者氏名</label>
+        <div class="form-field px-3 py-2">
+          <div class="form-field-top"></div>
+          <input type="text" name="patient_name" id="patient_name" value="{{ old('patient_name', $item->patient_name ?? '') }}" placeholder="患者氏名を入力…" maxlength="100">
+        </div>
+      </div>
+      <div>
+        <label class="form-label-tab" for="patient_illness">傷病名</label>
+        <div class="form-field px-3 py-2">
+          <div class="form-field-top"></div>
+          <input type="text" name="patient_illness" id="patient_illness" value="{{ old('patient_illness', $item->patient_illness ?? '') }}" placeholder="傷病名を入力…" maxlength="100">
+        </div>
+      </div>
+    </div>
+  </div>
+
   {{-- フォントサイズ --}}
   <div>
     <label class="form-label-tab" for="font_size">フォントサイズ
@@ -76,6 +116,14 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+  // 患者情報ラジオボタンの切り替え
+  const patientInfoFields = document.getElementById('patient-info-fields');
+  document.querySelectorAll('input[name="show_patient_info"]').forEach(function(radio) {
+    radio.addEventListener('change', function() {
+      patientInfoFields.style.display = this.value === '1' ? '' : 'none';
+    });
+  });
+
   const nameInput = document.getElementById('document_name');
   const duplicateError = document.getElementById('name-duplicate-error');
   const submitBtn = document.getElementById('submit-btn');

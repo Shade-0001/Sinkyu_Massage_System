@@ -13,6 +13,25 @@ use Illuminate\Support\Facades\DB;
  */
 class GenericDocumentPdfService extends BasePdfService
 {
+  protected bool $showPatientInfo = false;
+  protected string $patientName = '';
+  protected string $patientIllness = '';
+
+  public function setShowPatientInfo(bool $value): void
+  {
+    $this->showPatientInfo = $value;
+  }
+
+  public function setPatientName(string $value): void
+  {
+    $this->patientName = $value;
+  }
+
+  public function setPatientIllness(string $value): void
+  {
+    $this->patientIllness = $value;
+  }
+
   protected function getDefaultCoordinatesPath(): string
   {
     return storage_path('app/config/report_greeting_coordinates.json');
@@ -153,6 +172,23 @@ class GenericDocumentPdfService extends BasePdfService
       $ownerName = ($clinicInfo->owner_last_name ?? '') . '  ' . ($clinicInfo->owner_first_name ?? '');
       $pdf->SetFontSize($this->coord('clinic_owner_name', 'fontSize'));
       $this->drawTextByKey($pdf, 'clinic_owner_name', $ownerName);
+    }
+
+    // 患者情報エリア（テンプレートに印字された「記 氏名： 発病：」を制御）
+    if (!$this->showPatientInfo) {
+      // 白矩形で上書きして隠す
+      $pdf->SetFillColor(255, 255, 255);
+      $pdf->Rect(10, 238, 195, 22, 'F');
+    } else {
+      // 患者氏名・傷病名を描画
+      if ($this->hasCoord('user_name')) {
+        $pdf->SetFontSize($this->coord('user_name', 'fontSize'));
+        $this->drawTextByKey($pdf, 'user_name', $this->patientName);
+      }
+      if ($this->hasCoord('illness_name')) {
+        $pdf->SetFontSize($this->coord('illness_name', 'fontSize'));
+        $this->drawTextByKey($pdf, 'illness_name', $this->patientIllness);
+      }
     }
   }
 
