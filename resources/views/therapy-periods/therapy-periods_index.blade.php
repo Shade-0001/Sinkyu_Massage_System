@@ -17,14 +17,14 @@
   <!-- 要加療期間リストテーブル -->
   <table id="therapyPeriodsTable" class="table table-bordered">
   <thead>
-    <tr class="text-center">
-    <th>利用者名</th>
-    <th>区分</th>
-    <th>要加療期間</th>
-    <th>同意期間</th>
-    <th>医師名</th>
-    <th>医療機関名</th>
-    <th>操作</th>
+    <tr>
+    <th class="text-center">利用者名</th>
+    <th class="text-center">区分</th>
+    <th class="text-center">要加療期間</th>
+    <th class="text-center">同意期間</th>
+    <th class="text-center">医師名</th>
+    <th class="text-center">医療機関名</th>
+    <th class="text-center">操作</th>
     </tr>
   </thead>
   <tbody>
