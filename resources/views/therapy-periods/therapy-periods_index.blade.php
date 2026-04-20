@@ -24,7 +24,7 @@
     <th>同意期間</th>
     <th>医師名</th>
     <th>医療機関名</th>
-    <th>編集</th>
+    <th>操作</th>
     </tr>
   </thead>
   <tbody>
