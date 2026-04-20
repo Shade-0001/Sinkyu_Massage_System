@@ -369,7 +369,7 @@ class DocumentController extends Controller
     $pdf->SetAutoPageBreak(TRUE, 0);
     $pdf->AddPage();
 
-    $html = view('master.documents.templates.request_doc', compact('document', 'clinicInfo'))->render();
+    $html = view('master.documents.templates.generic_doc', compact('document', 'clinicInfo'))->render();
     $pdf->writeHTML($html, true, false, true, false, '');
 
     $filename = ($document->document_name ?? 'document') . '.pdf';
