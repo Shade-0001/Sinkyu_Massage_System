@@ -319,6 +319,14 @@ class DocumentController extends Controller
       $service->setOverrideDocumentContent($document->content);
     }
 
+    // フォントサイズ・行間隔をDBの設定値で上書き
+    if (isset($document->font_size) && $document->font_size !== null) {
+      $service->setFontSize((float)$document->font_size);
+    }
+    if (isset($document->line_height) && $document->line_height !== null) {
+      $service->setLineHeight((float)$document->line_height);
+    }
+
     // タイトルをセット（DocumentController の default_title を優先）
     if (method_exists($service, 'setCustomTitleText')) {
       $service->setCustomTitleText($config['default_title'] ?? $document->document_category ?? '');

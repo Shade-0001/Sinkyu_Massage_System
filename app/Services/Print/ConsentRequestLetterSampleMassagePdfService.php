@@ -210,48 +210,6 @@ class ConsentRequestLetterSampleMassagePdfService extends BasePdfService
   }
 
   /**
-   * 複数行テキスト描画（1行あたり文字数調節機能付き、改行保持）
-   */
-  protected function drawMultilineTextByKey(Fpdi $pdf, string $key, string $text): void
-  {
-    if (!$this->hasCoord($key)) {
-      return;
-    }
-
-    $x = $this->coord($key, 'x');
-    $y = $this->coord($key, 'y');
-    $fontSize = $this->coord($key, 'fontSize') ?: 10;
-    $lineHeight = $this->coord($key, 'lineHeight') ?: 5;
-    $maxCharsPerLine = $this->coord($key, 'maxCharsPerLine') ?: 40;
-
-    $pdf->SetFontSize($fontSize);
-
-    // まず元のテキストの改行で分割
-    $originalLines = preg_split('/\r\n|\r|\n/', $text);
-
-    $allLines = [];
-    foreach ($originalLines as $originalLine) {
-      // 各行が最大文字数を超える場合は自動分割
-      if (mb_strlen($originalLine) > $maxCharsPerLine) {
-        $chunks = mb_str_split($originalLine, $maxCharsPerLine);
-        foreach ($chunks as $chunk) {
-          $allLines[] = $chunk;
-        }
-      } else {
-        $allLines[] = $originalLine;
-      }
-    }
-
-    // 描画
-    $currentY = $y;
-    foreach ($allLines as $line) {
-      $pdf->SetXY($x, $currentY);
-      $pdf->Cell(0, 0, $line, 0, 0, 'L', false);
-      $currentY += $lineHeight;
-    }
-  }
-
-  /**
    * 電話番号フォーマット
    */
   protected function formatPhoneNumber(string $phone): string

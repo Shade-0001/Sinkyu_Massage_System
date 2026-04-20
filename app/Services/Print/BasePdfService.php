@@ -47,6 +47,12 @@ abstract class BasePdfService
    */
   protected $customTemplatePath = null;
 
+  protected ?float $overrideFontSize = null;
+  protected ?float $overrideLineHeight = null;
+
+  public function setFontSize(float $value): void    { $this->overrideFontSize = $value; }
+  public function setLineHeight(float $value): void  { $this->overrideLineHeight = $value; }
+
   /**
    * コンストラクタ
    */
@@ -381,6 +387,45 @@ abstract class BasePdfService
     foreach ($lines as $i => $line) {
       $currentY = $startY + ($i * $lineHeight);
       $this->drawSingleLineText($pdf, $x, $currentY, $line, $letterSpacing, $textAlign);
+    }
+  }
+
+  /**
+   * 複数行テキスト描画（font_size/line_heightオーバーライド対応）
+   */
+  protected function drawMultilineTextByKey(Fpdi $pdf, string $key, string $text): void
+  {
+    if (!$this->hasCoord($key)) {
+      return;
+    }
+
+    $x               = $this->coord($key, 'x');
+    $y               = $this->coord($key, 'y');
+    $fontSize        = ($this->overrideFontSize !== null) ? $this->overrideFontSize : ($this->coord($key, 'fontSize') ?: 10);
+    $lineHeight      = ($this->overrideLineHeight !== null) ? max($fontSize * 0.3528 * 0.5, (float)$this->overrideLineHeight) : ($this->coord($key, 'lineHeight') ?: 5);
+    $maxCharsPerLine = $this->coord($key, 'maxCharsPerLine') ?: 40;
+
+    $pdf->SetFontSize($fontSize);
+
+    $originalLines = preg_split('/\r\n|\r|\n/', $text);
+
+    $allLines = [];
+    foreach ($originalLines as $originalLine) {
+      if (mb_strlen($originalLine) > $maxCharsPerLine) {
+        $chunks = mb_str_split($originalLine, $maxCharsPerLine);
+        foreach ($chunks as $chunk) {
+          $allLines[] = $chunk;
+        }
+      } else {
+        $allLines[] = $originalLine;
+      }
+    }
+
+    $currentY = $y;
+    foreach ($allLines as $line) {
+      $pdf->SetXY($x, $currentY);
+      $pdf->Cell(0, 0, $line, 0, 0, 'L', false);
+      $currentY += $lineHeight;
     }
   }
 
