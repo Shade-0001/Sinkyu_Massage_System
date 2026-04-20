@@ -26,7 +26,7 @@
     @foreach($clinicUsers as $user)
     <tr>
       <td class="fw-medium">{{ $user->id }}</td>
-      <td data-order="{{ $user->full_kana }}">
+      <td class="fw-medium" data-order="{{ $user->full_kana }}">
       {{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}<br>
       {{ $user->full_kana }}<br>
       </td>
@@ -47,10 +47,10 @@
         {{ $user->cell_phone }}<br>
       @endif
       </td>
-      <td data-order="{{ $user->created_at ? $user->created_at->timestamp : 0 }}">
+      <td class="fw-medium" data-order="{{ $user->created_at ? $user->created_at->timestamp : 0 }}">
       {{ optional($user->created_at)->format('Y/n/j') }}{{ "\u{2000}" }}{{ optional($user->created_at)->format('H:i') }}
       </td>
-      <td style="max-width: 350px;">
+      <td class="fw-medium" style="max-width: 350px;">
         <div class="d-flex flex-wrap gap-0">
           <a class="btn-ex-main btn-ex-blue btn-ex-sm m-025" href="{{ route('clinic-users.edit', ['id' => $user->id]) }}">利用者情報</a>
           <a class="btn-ex-main btn-ex-blue btn-ex-sm m-025" href="{{ route('clinic-users.insurances.index', ['id' => $user->id]) }}">保険情報</a>
@@ -59,7 +59,7 @@
           <a class="btn-ex-main btn-ex-blue btn-ex-sm m-025" href="{{ route('clinic-users.consents-massage.index', ['id' => $user->id]) }}">同意医師履歴（ＡＭ）</a>
         </div>
       </td>
-      <td  class="text-center">
+      <td class="fw-medium text-center">
       <form action="{{ route('clinic-users.delete', ['id' => $user->id]) }}" method="POST" class="delete-form d-inline">
         @csrf
         @method('DELETE')
