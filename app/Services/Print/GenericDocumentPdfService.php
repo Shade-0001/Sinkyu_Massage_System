@@ -115,8 +115,9 @@ class GenericDocumentPdfService extends BasePdfService
     // 各ページタイプで収容できる行数を計算
     $linesInFirstWithFooter  = $this->calcLines(self::HEADER_CONTENT_Y, self::FOOTER_START_Y, $lineHeight); // 1ページ完結
     $linesInFirstNoFooter    = $this->calcLines(self::HEADER_CONTENT_Y, self::PAGE_BOTTOM_Y, $lineHeight);  // 1ページ目（続きあり）
-    $linesInMiddle           = $this->calcLines(self::BODY_TOP_Y, self::PAGE_BOTTOM_Y, $lineHeight);        // 中間ページ
     $linesInLastNoHeader     = $this->calcLines(self::BODY_TOP_Y, self::FOOTER_START_Y, $lineHeight);       // 最終ページ
+    // 中間ページはlinesInLastNoHeaderより少なくして、残りが必ず最終ページに収まるようにする
+    $linesInMiddle           = max(1, min($this->calcLines(self::BODY_TOP_Y, self::PAGE_BOTTOM_Y, $lineHeight), $linesInLastNoHeader - 1));
 
     // ページ割り付け
     $pages = $this->paginateLines(
@@ -221,7 +222,6 @@ class GenericDocumentPdfService extends BasePdfService
     $remaining = array_slice($allLines, $linesInFirstNoFooter);
 
     while (!empty($remaining)) {
-      // 残りが最終ページ（ヘッダーなし・フッターあり）に収まるか確認
       if (count($remaining) <= $linesInLastNoHeader) {
         $pages[] = $remaining;
         break;
@@ -230,16 +230,8 @@ class GenericDocumentPdfService extends BasePdfService
         $pages[] = $remaining;
         break;
       }
-      // 中間ページは「残り - linesInLastNoHeader」行だけ取る
-      // こうすることで次のループで必ず最終ページ判定が発動する
-      $takeLines = count($remaining) - $linesInLastNoHeader;
-      if ($takeLines <= 0) {
-        $pages[] = $remaining;
-        break;
-      }
-      $takeLines = min($takeLines, $linesInMiddle);
-      $pages[]   = array_slice($remaining, 0, $takeLines);
-      $remaining = array_slice($remaining, $takeLines);
+      $pages[]   = array_slice($remaining, 0, $linesInMiddle);
+      $remaining = array_slice($remaining, $linesInMiddle);
     }
 
     return $pages;
