@@ -41,7 +41,7 @@
     </label>
     <div class="form-field px-3 py-2">
       <div class="form-field-top"></div>
-      <textarea name="content" id="content" rows="6" maxlength="2000" style="width: 100%;">{{ old('content', $item->content ?? '') }}</textarea>
+      <textarea name="content" id="content" rows="6" style="width: 100%;">{{ old('content', $item->content ?? '') }}</textarea>
     </div>
   </div>
 

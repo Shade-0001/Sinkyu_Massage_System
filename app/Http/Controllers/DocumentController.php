@@ -98,7 +98,7 @@ class DocumentController extends Controller
           }
         }
       ],
-      'content' => 'required|string|max:2000',
+      'content' => 'required|string',
       'font_size' => 'nullable|integer',
       'line_height' => 'nullable|integer',
       'show_patient_info' => 'nullable|boolean',
@@ -146,7 +146,7 @@ class DocumentController extends Controller
           }
         }
       ],
-      'content' => 'required|string|max:2000',
+      'content' => 'required|string',
       'font_size' => 'nullable|integer',
       'line_height' => 'nullable|integer',
       'show_patient_info' => 'nullable|boolean',
@@ -229,7 +229,7 @@ class DocumentController extends Controller
           }
         }
       ],
-      'content' => 'required|string|max:2000',
+      'content' => 'required|string',
       'font_size' => 'nullable|integer',
       'line_height' => 'nullable|integer',
       'show_patient_info' => 'nullable|boolean',
