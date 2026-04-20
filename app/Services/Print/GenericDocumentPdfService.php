@@ -276,10 +276,12 @@ class GenericDocumentPdfService extends BasePdfService
 
     // 本文
     $contentStartY = $isFirst ? self::HEADER_CONTENT_Y : self::BODY_TOP_Y;
+    $contentEndY   = $isLast  ? self::FOOTER_START_Y   : self::PAGE_BOTTOM_Y;
     $x = $this->coord('document_content', 'x') ?: 15;
     $pdf->SetFontSize($fontSize);
     $currentY = $contentStartY;
     foreach ($lines as $line) {
+      if ($currentY >= $contentEndY) break;
       $pdf->SetXY($x, $currentY);
       $pdf->Cell(0, 0, $line, 0, 0, 'L', false);
       $currentY += $lineHeight;
