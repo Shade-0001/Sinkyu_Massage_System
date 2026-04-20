@@ -192,7 +192,8 @@ class GenericDocumentPdfService extends BasePdfService
   protected function calcLines(float $startY, float $endY, float $lineHeight): int
   {
     if ($lineHeight < 0.1) return 1;
-    return max(1, (int)(($endY - $startY) / $lineHeight));
+    // 1行分の安全マージンを引く（フォント描画高さとlineHeightの誤差吸収）
+    return max(1, (int)(($endY - $startY) / $lineHeight) - 1);
   }
 
   /**
