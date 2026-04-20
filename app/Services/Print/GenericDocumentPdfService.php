@@ -22,7 +22,7 @@ class GenericDocumentPdfService extends BasePdfService
   // 各領域の座標定数
   const HEADER_CONTENT_Y = 65.0;   // ヘッダーあり時の本文開始Y
   const BODY_TOP_Y       = 10.0;   // ヘッダーなし時の本文開始Y
-  const FOOTER_START_Y   = 225.0;  // フッター開始Y（本文終端・非最終ページ白矩形のY座標に合わせる）
+  const FOOTER_START_Y   = 238.0;  // フッター開始Y（本文終端）
   const PAGE_BOTTOM_Y    = 290.0;  // ページ下端（余白込み）
 
   public function setShowPatientInfo(bool $value): void  { $this->showPatientInfo = $value; }
@@ -192,8 +192,7 @@ class GenericDocumentPdfService extends BasePdfService
   protected function calcLines(float $startY, float $endY, float $lineHeight): int
   {
     if ($lineHeight < 0.1) return 1;
-    // 1行分の安全マージンを引く（フォント描画高さとlineHeightの誤差吸収）
-    return max(1, (int)(($endY - $startY) / $lineHeight) - 1);
+    return max(1, (int)(($endY - $startY) / $lineHeight));
   }
 
   /**
@@ -264,12 +263,6 @@ class GenericDocumentPdfService extends BasePdfService
     $pdf->SetFont('kozminproregular', '', 10);
     $pdf->SetTextColor(0, 0, 0);
 
-    // 最終ページ以外：テンプレートの患者情報エリアを白矩形で隠す（本文描画前）
-    if (!$isLast) {
-      $pdf->SetFillColor(255, 255, 255);
-      $pdf->Rect(10, 225, 45, 45, 'F');
-    }
-
     // ヘッダー（1ページ目のみ）
     if ($isFirst) {
       $this->drawHeader($pdf, $submissionDate);
@@ -277,9 +270,8 @@ class GenericDocumentPdfService extends BasePdfService
 
     // 本文
     $contentStartY = $isFirst ? self::HEADER_CONTENT_Y : self::BODY_TOP_Y;
-    $rawEndY       = $isLast  ? self::FOOTER_START_Y   : self::PAGE_BOTTOM_Y;
-    // calcLinesと同じマージン計算：(int)(高さ/lineHeight)-1 行分のみ描画
-    $maxLines      = max(1, (int)(($rawEndY - $contentStartY) / $lineHeight) - 1);
+    $rawEndY  = $isLast ? self::FOOTER_START_Y : self::PAGE_BOTTOM_Y;
+    $maxLines = max(1, (int)(($rawEndY - $contentStartY) / $lineHeight));
     $x = $this->coord('document_content', 'x') ?: 15;
     $pdf->SetFontSize($fontSize);
     $currentY  = $contentStartY;
