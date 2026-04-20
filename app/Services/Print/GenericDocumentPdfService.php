@@ -101,8 +101,12 @@ class GenericDocumentPdfService extends BasePdfService
   protected function generatePages(Fpdi $pdf, array $data, string $submissionDate): void
   {
     $documentContent = $data['document_content'] ?? '';
-    $fontSize   = $this->overrideFontSize   ?? $this->coord('document_content', 'fontSize')   ?: 12;
-    $lineHeight = $this->overrideLineHeight ?? $this->coord('document_content', 'lineHeight') ?: 6.5;
+    $fontSize      = $this->overrideFontSize   ?? $this->coord('document_content', 'fontSize')   ?: 12;
+    $lineSpacing   = $this->overrideLineHeight ?? $this->coord('document_content', 'lineHeight') ?: 6.5;
+    // 実際の描画ステップ = フォントサイズ(mm換算) + 行間余白
+    // pt→mm: 1pt = 0.3528mm。lineSpacingはフォント高さへの追加余白として扱う
+    $fontSizeMm  = $fontSize * 0.3528;
+    $lineHeight  = max($fontSizeMm * 0.5, $fontSizeMm + $lineSpacing); // 最小はフォント高さの50%
 
     // 本文を全行に展開（改行のみで分割・文字数制限なし）
     $allLines = $this->expandLines($documentContent);
@@ -157,9 +161,8 @@ class GenericDocumentPdfService extends BasePdfService
    */
   protected function calcLines(float $startY, float $endY, float $lineHeight): int
   {
-    $absHeight = abs($lineHeight);
-    if ($absHeight < 0.1) return 1;
-    return max(1, (int)(($endY - $startY) / $absHeight));
+    if ($lineHeight < 0.1) return 1;
+    return max(1, (int)(($endY - $startY) / $lineHeight));
   }
 
   /**
