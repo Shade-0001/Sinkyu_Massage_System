@@ -22,15 +22,15 @@
     </div>
   </div>
 
-  {{-- 文面名称 --}}
+  {{-- 文書名称 --}}
   <div>
-    <label class="form-label-tab" for="document_name">文面名称
+    <label class="form-label-tab" for="document_name">文書名称
       @error('document_name')<span class="text-danger ms-2">{{ $message }}</span>@enderror
     </label>
     <div class="form-field px-3 py-2">
       <div class="form-field-top"></div>
-      <input type="text" name="document_name" id="document_name" value="{{ old('document_name', $item->document_name ?? '') }}" placeholder="文面名称を入力…">
-      <div id="name-duplicate-error" class="text-danger mt-1" style="display: none;">既存の文面名称と重複。文面名称を変更が必要。</div>
+      <input type="text" name="document_name" id="document_name" value="{{ old('document_name', $item->document_name ?? '') }}" placeholder="文書名称を入力…（任意）">
+      <div id="name-duplicate-error" class="text-danger mt-1" style="display: none;">既存の文書名称と重複。文書名称を変更が必要。</div>
     </div>
   </div>
 

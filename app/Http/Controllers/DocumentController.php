@@ -84,16 +84,17 @@ class DocumentController extends Controller
     $request->validate([
       'document_category' => 'required|string|max:255',
       'document_name' => [
-        'required',
+        'nullable',
         'string',
         'max:255',
         function ($attribute, $value, $fail) use ($id) {
+          if (!$value) return;
           $exists = DB::table('documents')
             ->where('document_name', $value)
             ->where('id', '!=', $id)
             ->exists();
           if ($exists) {
-            $fail('既存の文面名称と重複。文面名称を変更が必要。');
+            $fail('既存の文書名称と重複。文書名称を変更が必要。');
           }
         }
       ],
@@ -132,15 +133,16 @@ class DocumentController extends Controller
     $request->validate([
       'document_category' => 'required|string|max:255',
       'document_name' => [
-        'required',
+        'nullable',
         'string',
         'max:255',
         function ($attribute, $value, $fail) {
+          if (!$value) return;
           $exists = DB::table('documents')
             ->where('document_name', $value)
             ->exists();
           if ($exists) {
-            $fail('既存の文面名称と重複。文面名称を変更が必要。');
+            $fail('既存の文書名称と重複。文書名称を変更が必要。');
           }
         }
       ],
@@ -214,15 +216,16 @@ class DocumentController extends Controller
     $request->validate([
       'document_category' => 'required|string|max:255',
       'document_name' => [
-        'required',
+        'nullable',
         'string',
         'max:255',
         function ($attribute, $value, $fail) {
+          if (!$value) return;
           $exists = DB::table('documents')
             ->where('document_name', $value)
             ->exists();
           if ($exists) {
-            $fail('既存の文面名称と重複。文面名称を変更が必要。');
+            $fail('既存の文書名称と重複。文書名称を変更が必要。');
           }
         }
       ],
@@ -387,7 +390,8 @@ class DocumentController extends Controller
     }
 
     if (method_exists($service, 'setCustomTitleText')) {
-      $service->setCustomTitleText($document->document_category ?? '');
+      $titleText = !empty($document->document_name) ? $document->document_name : ($document->document_category ?? '');
+      $service->setCustomTitleText($titleText);
     }
 
     $templatePath = storage_path('app/templates/汎用文書.pdf');
@@ -416,7 +420,11 @@ class DocumentController extends Controller
   public function checkDuplicateName(Request $request)
   {
     $name = $request->input('document_name');
-    $excludeId = $request->input('exclude_id'); // 編集時は自分自身を除外
+    $excludeId = $request->input('exclude_id');
+
+    if (empty($name)) {
+      return response()->json(['exists' => false]);
+    }
 
     $query = DB::table('documents')->where('document_name', $name);
 
