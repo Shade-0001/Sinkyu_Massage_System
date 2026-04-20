@@ -356,25 +356,28 @@ class DocumentController extends Controller
    */
   private function previewFallback($document): \Illuminate\Http\Response
   {
-    $clinicInfo = DB::table('clinic_info')->orderByDesc('id')->first();
+    $service = new \App\Services\Print\GenericDocumentPdfService();
 
-    $pdf = new \TCPDF('P', 'mm', 'A4', true, 'UTF-8');
-    $pdf->SetCreator('Sinkyu Massage System');
-    $pdf->SetAuthor('System');
-    $pdf->SetTitle($document->document_name ?? 'Document');
-    $pdf->setPrintHeader(false);
-    $pdf->setPrintFooter(false);
-    $pdf->SetFont('kozgopromedium', '', 12);
-    $pdf->SetMargins(0, 0, 0);
-    $pdf->SetAutoPageBreak(TRUE, 0);
-    $pdf->AddPage();
+    if (!empty($document->content)) {
+      $service->setOverrideDocumentContent($document->content);
+    }
 
-    $html = view('master.documents.templates.generic_doc', compact('document', 'clinicInfo'))->render();
-    $pdf->writeHTML($html, true, false, true, false, '');
+    if (method_exists($service, 'setCustomTitleText')) {
+      $service->setCustomTitleText($document->document_category ?? '');
+    }
 
-    $filename = ($document->document_name ?? 'document') . '.pdf';
-    return response($pdf->Output($filename, 'I'))
-      ->header('Content-Type', 'application/pdf');
+    $templatePath = storage_path('app/templates/汎用文書.pdf');
+    if (file_exists($templatePath) && method_exists($service, 'setTemplatePath')) {
+      $service->setTemplatePath($templatePath);
+    }
+
+    $today = now()->format('Y-m-d');
+    $pdfBinary = $service->generate([], now()->format('Y-m'), $today);
+
+    return response($pdfBinary, 200, [
+      'Content-Type'        => 'application/pdf',
+      'Content-Disposition' => 'inline',
+    ]);
   }
 
   /**
