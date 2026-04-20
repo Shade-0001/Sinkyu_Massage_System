@@ -46,22 +46,22 @@
         同意医師未設定
       @endif
       </td>
-      <td data-order="{{ $history->consenting_date ? strtotime($history->consenting_date) : 0 }}">
+      <td class="fw-medium" data-order="{{ $history->consenting_date ? strtotime($history->consenting_date) : 0 }}">
       @if($history->consenting_date)
         {{ \Carbon\Carbon::parse($history->consenting_date)->format('Y/n/j') }}
       @endif
       </td>
-      <td data-order="{{ $history->consenting_start_date ? strtotime($history->consenting_start_date) : 0 }}">
+      <td class="fw-medium" data-order="{{ $history->consenting_start_date ? strtotime($history->consenting_start_date) : 0 }}">
       @if($history->consenting_start_date)
         {{ \Carbon\Carbon::parse($history->consenting_start_date)->format('Y/n/j') }}
       @endif
       </td>
-      <td data-order="{{ $history->consenting_end_date ? strtotime($history->consenting_end_date) : 0 }}">
+      <td class="fw-medium" data-order="{{ $history->consenting_end_date ? strtotime($history->consenting_end_date) : 0 }}">
       @if($history->consenting_end_date)
         {{ \Carbon\Carbon::parse($history->consenting_end_date)->format('Y/n/j') }}
       @endif
       </td>
-      <td data-order="{{ strtotime($history->created_at) }}">
+      <td class="fw-medium" data-order="{{ strtotime($history->created_at) }}">
       {{ \Carbon\Carbon::parse($history->created_at)->format('Y/n/j') }}
       </td>
       <td class="text-center fw-medium">

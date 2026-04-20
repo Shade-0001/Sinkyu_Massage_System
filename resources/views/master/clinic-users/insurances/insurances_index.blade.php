@@ -41,17 +41,17 @@
     <tr>
       <td class="fw-medium">{{ $insurance->insurer?->insurer_category ?? '保険' }}</td>
       <td class="fw-medium">{{ $insurance->insured_number }}</td>
-      <td data-order="{{ $insurance->license_acquisition_date ? $insurance->license_acquisition_date->timestamp : 0 }}">
+      <td class="fw-medium" data-order="{{ $insurance->license_acquisition_date ? $insurance->license_acquisition_date->timestamp : 0 }}">
       @if($insurance->license_acquisition_date)
         {{ $insurance->license_acquisition_date->format('Y/n/j') }}
       @endif
       </td>
-      <td data-order="{{ $insurance->expiry_date ? $insurance->expiry_date->timestamp : 0 }}">
+      <td class="fw-medium" data-order="{{ $insurance->expiry_date ? $insurance->expiry_date->timestamp : 0 }}">
       @if($insurance->expiry_date)
         {{ $insurance->expiry_date->format('Y/n/j') }}
       @endif
       </td>
-      <td data-order="{{ $insurance->created_at->timestamp }}">
+      <td class="fw-medium" data-order="{{ $insurance->created_at->timestamp }}">
       {{ $insurance->created_at->format('Y/n/j') }}
       </td>
       <td class="text-center fw-medium">

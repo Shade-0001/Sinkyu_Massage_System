@@ -39,7 +39,7 @@
         <br>TEL: {{ $doctor->phone }}
       @endif
       </td>
-      <td data-order="{{ $doctor->created_at ? strtotime($doctor->created_at) : 0 }}">
+      <td class="fw-medium" data-order="{{ $doctor->created_at ? strtotime($doctor->created_at) : 0 }}">
       {{ $doctor->created_at ? \Carbon\Carbon::parse($doctor->created_at)->format('Y/n/j') : '' }}<br>
       {{ $doctor->created_at ? \Carbon\Carbon::parse($doctor->created_at)->format('H:i') : '' }}
       </td>

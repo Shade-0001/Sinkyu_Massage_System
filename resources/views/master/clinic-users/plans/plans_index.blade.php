@@ -40,7 +40,7 @@
   <tbody>
     @forelse($planInfos as $planInfo)
     <tr>
-      <td data-order="{{ $planInfo->assessment_date ? strtotime($planInfo->assessment_date) : 0 }}">
+      <td class="fw-medium" data-order="{{ $planInfo->assessment_date ? strtotime($planInfo->assessment_date) : 0 }}">
       @if($planInfo->assessment_date)
         {{ \Carbon\Carbon::parse($planInfo->assessment_date)->format('Y/n/j') }}
       @endif
@@ -48,7 +48,7 @@
       <td class="fw-medium">{{ $planInfo->assessor }}</td>
       <td class="fw-medium">{{ $planInfo->audience }}</td>
       <td class="fw-medium">{{ $planInfo->adl_total ?? '' }}</td>
-      <td data-order="{{ strtotime($planInfo->created_at) }}">
+      <td class="fw-medium" data-order="{{ strtotime($planInfo->created_at) }}">
       {{ \Carbon\Carbon::parse($planInfo->created_at)->format('Y/n/j') }}
       </td>
       <td class="text-center fw-medium">

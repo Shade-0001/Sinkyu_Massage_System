@@ -24,7 +24,7 @@
     @foreach($notices as $notice)
     <tr>
       <td class="fw-medium">{{ $notice->id }}</td>
-      <td data-order="{{ $notice->created_at ? $notice->created_at->timestamp : 0 }}">
+      <td class="fw-medium" data-order="{{ $notice->created_at ? $notice->created_at->timestamp : 0 }}">
       {{ optional($notice->created_at)->format('Y/n/j') }}
       </td>
       <td class="fw-medium">{{ $notice->title }}</td>

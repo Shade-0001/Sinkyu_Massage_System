@@ -56,7 +56,7 @@
         @else
           <tr>
             <td class="fw-medium">{{ $category }}</td>
-            <td style="color: #999;">（文書未登録）</td>
+            <td class="fw-medium" style="color: #999;">（文書未登録）</td>
           </tr>
         @endif
       @endforeach
