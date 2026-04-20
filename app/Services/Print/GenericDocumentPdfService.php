@@ -249,10 +249,49 @@ class GenericDocumentPdfService extends BasePdfService
 
   protected function drawHeader(Fpdi $pdf, string $submissionDate): void
   {
-    // タイトル
+    // タイトル（幅超過時は文字間隔→フォントサイズの順で調整）
     if ($this->hasCoord('custom_title_text')) {
-      $pdf->SetFontSize($this->coord('custom_title_text', 'fontSize'));
-      $this->drawTextByKey($pdf, 'custom_title_text', (string)($this->customTitleText ?? ''));
+      $titleText     = (string)($this->customTitleText ?? '');
+      $baseFontSize  = $this->coord('custom_title_text', 'fontSize') ?: 28;
+      $baseSpacing   = $this->coord('custom_title_text', 'letterSpacing') ?: 4;
+      $maxWidth      = 180.0; // 印字可能幅（mm）
+      $chars         = mb_str_split($titleText);
+      $charCount     = count($chars);
+
+      $pdf->SetFont('kozgopromedium', '', $baseFontSize);
+      $charsWidth = array_sum(array_map(fn($c) => $pdf->GetStringWidth($c), $chars));
+      $totalWidth = $charsWidth + $baseSpacing * max(0, $charCount - 1);
+
+      $spacing  = $baseSpacing;
+      $fontSize = $baseFontSize;
+
+      if ($totalWidth > $maxWidth) {
+        // Step1: 文字間隔を0まで段階的に縮小
+        if ($charCount > 1) {
+          $spacing = max(0, ($maxWidth - $charsWidth) / ($charCount - 1));
+        } else {
+          $spacing = 0;
+        }
+        $totalWidth = $charsWidth + $spacing * max(0, $charCount - 1);
+
+        // Step2: それでも収まらなければフォントサイズを縮小
+        if ($totalWidth > $maxWidth) {
+          $spacing  = 0;
+          $fontSize = $baseFontSize;
+          while ($fontSize > 8) {
+            $fontSize -= 0.5;
+            $pdf->SetFont('kozgopromedium', '', $fontSize);
+            $charsWidth = array_sum(array_map(fn($c) => $pdf->GetStringWidth($c), $chars));
+            if ($charsWidth <= $maxWidth) {
+              break;
+            }
+          }
+        }
+      }
+
+      $pdf->SetFontSize($fontSize);
+      $y = $this->coord('custom_title_text', 'y');
+      $this->drawTextWithSpacing($pdf, 0, $y, $titleText, $spacing, 'center', 210);
     }
 
     // 提出年月日
