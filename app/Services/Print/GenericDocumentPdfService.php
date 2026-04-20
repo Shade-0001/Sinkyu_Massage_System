@@ -22,7 +22,7 @@ class GenericDocumentPdfService extends BasePdfService
   // 各領域の座標定数
   const HEADER_CONTENT_Y = 65.0;   // ヘッダーあり時の本文開始Y
   const BODY_TOP_Y       = 10.0;   // ヘッダーなし時の本文開始Y
-  const FOOTER_START_Y   = 238.0;  // フッター開始Y（本文終端）
+  const FOOTER_START_Y   = 225.0;  // フッター開始Y（本文終端・非最終ページ白矩形のY座標に合わせる）
   const PAGE_BOTTOM_Y    = 290.0;  // ページ下端（余白込み）
 
   public function setShowPatientInfo(bool $value): void  { $this->showPatientInfo = $value; }
