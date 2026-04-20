@@ -157,7 +157,8 @@ class GenericDocumentPdfService extends BasePdfService
    */
   protected function calcLines(float $startY, float $endY, float $lineHeight): int
   {
-    return (int)(($endY - $startY) / $lineHeight);
+    if ($lineHeight <= 0) return 1;
+    return max(1, (int)(($endY - $startY) / $lineHeight));
   }
 
   /**
@@ -191,7 +192,11 @@ class GenericDocumentPdfService extends BasePdfService
         $pages[] = $remaining;
         break;
       }
-      // 中間ページ
+      // 中間ページ（linesInMiddleが1未満なら強制的に残り全部を1ページに押し込んで終了）
+      if ($linesInMiddle < 1) {
+        $pages[] = $remaining;
+        break;
+      }
       $pages[]   = array_slice($remaining, 0, $linesInMiddle);
       $remaining = array_slice($remaining, $linesInMiddle);
     }
