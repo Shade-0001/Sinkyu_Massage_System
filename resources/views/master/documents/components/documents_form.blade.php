@@ -103,7 +103,7 @@
     </label>
     <div class="form-field px-3 py-2">
       <div class="form-field-top"></div>
-      <input type="number" name="line_height" id="line_height" value="{{ old('line_height', $item->line_height ?? 7) }}" step="0.01" style="width: 100px;">
+      <input type="number" name="line_height" id="line_height" value="{{ old('line_height', $item->line_height ?? 7) }}" step="0.1" style="width: 100px;">
     </div>
   </div>
 
