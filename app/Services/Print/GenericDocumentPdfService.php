@@ -101,14 +101,13 @@ class GenericDocumentPdfService extends BasePdfService
   protected function generatePages(Fpdi $pdf, array $data, string $submissionDate): void
   {
     $documentContent = $data['document_content'] ?? '';
-    $rawFontSize   = $this->overrideFontSize   ?? $this->coord('document_content', 'fontSize');
-    $fontSize      = ($rawFontSize !== null && $rawFontSize !== 0.0) ? $rawFontSize : 12;
-    $rawLineSpacing = $this->overrideLineHeight ?? $this->coord('document_content', 'lineHeight');
-    $lineSpacing    = ($rawLineSpacing !== null) ? $rawLineSpacing : 6.5;
-    // 実際の描画ステップ = フォントサイズ(mm換算) + 行間余白
-    // pt→mm: 1pt = 0.3528mm。lineSpacingはフォント高さへの追加余白として扱う
-    $fontSizeMm  = $fontSize * 0.3528;
-    $lineHeight  = max($fontSizeMm * 0.5, $fontSizeMm + $lineSpacing); // 最小はフォント高さの50%
+    $rawFontSize = $this->overrideFontSize ?? $this->coord('document_content', 'fontSize');
+    $fontSize    = ($rawFontSize !== null && $rawFontSize !== 0.0) ? $rawFontSize : 12;
+    $rawLineHeight = $this->overrideLineHeight ?? $this->coord('document_content', 'lineHeight');
+    // lineHeightは描画ステップ幅の絶対値(mm)。ReportGreetingPdfServiceと同じ扱い。
+    // 最小値はフォント高さの50%（極端な値でのページ溢れ防止）
+    $fontSizeMm = $fontSize * 0.3528;
+    $lineHeight = ($rawLineHeight !== null) ? max($fontSizeMm * 0.5, (float)$rawLineHeight) : 6.5;
 
     // 本文を全行に展開（改行＋幅超過の折り返しも行展開）
     $x        = $this->coord('document_content', 'x') ?: 15;
