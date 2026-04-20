@@ -110,8 +110,12 @@ class GenericDocumentPdfService extends BasePdfService
     $fontSizeMm  = $fontSize * 0.3528;
     $lineHeight  = max($fontSizeMm * 0.5, $fontSizeMm + $lineSpacing); // 最小はフォント高さの50%
 
-    // 本文を全行に展開（改行のみで分割・文字数制限なし）
-    $allLines = $this->expandLines($documentContent);
+    // 本文を全行に展開（改行＋幅超過の折り返しも行展開）
+    $x        = $this->coord('document_content', 'x') ?: 15;
+    $maxWidth = 210 - $x - 15; // 右余白15mm
+    // 全角1文字 ≈ fontSizeMm幅で1行あたりの最大文字数を推定
+    $maxChars = (int)($maxWidth / $fontSizeMm);
+    $allLines = $this->expandLines($documentContent, $maxChars);
 
     // 各ページタイプで収容できる行数を計算
     $linesInFirstWithFooter  = $this->calcLines(self::HEADER_CONTENT_Y, self::FOOTER_START_Y, $lineHeight); // 1ページ完結
@@ -151,11 +155,40 @@ class GenericDocumentPdfService extends BasePdfService
   }
 
   /**
-   * テキストを maxCharsPerLine で折り返した全行配列を返す
+   * テキストを改行＋maxChars文字数で折り返した全行配列を返す
+   * 半角2文字=全角1文字換算でカウント
    */
-  protected function expandLines(string $text): array
+  protected function expandLines(string $text, int $maxChars = 0): array
   {
-    return preg_split('/\r\n|\r|\n/', $text) ?: [];
+    $paragraphs = preg_split('/\r\n|\r|\n/', $text) ?: [];
+    if ($maxChars <= 0) {
+      return $paragraphs;
+    }
+
+    $result = [];
+    foreach ($paragraphs as $para) {
+      if ($para === '') {
+        $result[] = '';
+        continue;
+      }
+      // 半角=0.5文字、全角=1文字換算で折り返し
+      $chars    = mb_str_split($para);
+      $line     = '';
+      $lineWidth = 0.0;
+      foreach ($chars as $ch) {
+        $w = mb_strwidth($ch) === 1 ? 0.5 : 1.0;
+        if ($lineWidth + $w > $maxChars && $line !== '') {
+          $result[] = $line;
+          $line      = $ch;
+          $lineWidth = $w;
+        } else {
+          $line      .= $ch;
+          $lineWidth += $w;
+        }
+      }
+      $result[] = $line;
+    }
+    return $result;
   }
 
   /**
