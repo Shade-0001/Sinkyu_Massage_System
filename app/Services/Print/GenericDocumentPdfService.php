@@ -219,6 +219,12 @@ class GenericDocumentPdfService extends BasePdfService
     $pdf->SetFont('kozminproregular', '', 10);
     $pdf->SetTextColor(0, 0, 0);
 
+    // 最終ページ以外：テンプレートの患者情報エリアを白矩形で隠す（本文描画前）
+    if (!$isLast) {
+      $pdf->SetFillColor(255, 255, 255);
+      $pdf->Rect(10, 238, 70, 22, 'F');
+    }
+
     // ヘッダー（1ページ目のみ）
     if ($isFirst) {
       $this->drawHeader($pdf, $submissionDate);
@@ -235,13 +241,9 @@ class GenericDocumentPdfService extends BasePdfService
       $currentY += $lineHeight;
     }
 
+    // フッター（最終ページのみ）
     if ($isLast) {
-      // 最終ページ：フッター全体を描画
       $this->drawFooter($pdf, $data['clinic_info'] ?? null);
-    } else {
-      // 最終ページ以外：テンプレートの患者情報エリアを白矩形で隠す
-      $pdf->SetFillColor(255, 255, 255);
-      $pdf->Rect(10, 238, 70, 22, 'F');
     }
   }
 
