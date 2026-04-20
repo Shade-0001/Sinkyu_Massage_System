@@ -211,6 +211,7 @@ class GenericDocumentPdfService extends BasePdfService
 
     $templatePath = $this->customTemplatePath ?? storage_path('app/templates/汎用文書.pdf');
     if (file_exists($templatePath)) {
+      $pdf->setSourceFile($templatePath);
       $tplId = $pdf->importPage(1);
       $pdf->useTemplate($tplId, 0, 0, null, null, true);
     }
