@@ -266,7 +266,7 @@ class GenericDocumentPdfService extends BasePdfService
     // 非最終ページ：テンプレートの患者情報エリアを白矩形で隠す
     if (!$isLast) {
       $pdf->SetFillColor(255, 255, 255);
-      $pdf->Rect(10, 238, 70, 22, 'F');
+      $pdf->Rect(10, 225, 45, 45, 'F');
     }
 
     // ヘッダー（1ページ目のみ）
