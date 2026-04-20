@@ -235,9 +235,13 @@ class GenericDocumentPdfService extends BasePdfService
       $currentY += $lineHeight;
     }
 
-    // フッター（最終ページのみ）
     if ($isLast) {
+      // 最終ページ：フッター全体を描画
       $this->drawFooter($pdf, $data['clinic_info'] ?? null);
+    } else {
+      // 最終ページ以外：テンプレートの患者情報エリアを白矩形で隠す
+      $pdf->SetFillColor(255, 255, 255);
+      $pdf->Rect(10, 238, 70, 22, 'F');
     }
   }
 
