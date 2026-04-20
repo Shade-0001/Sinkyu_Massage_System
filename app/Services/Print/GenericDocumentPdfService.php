@@ -97,12 +97,11 @@ class GenericDocumentPdfService extends BasePdfService
   protected function generatePages(Fpdi $pdf, array $data, string $submissionDate): void
   {
     $documentContent = $data['document_content'] ?? '';
-    $fontSize        = $this->coord('document_content', 'fontSize') ?: 12;
-    $lineHeight      = $this->coord('document_content', 'lineHeight') ?: 6.5;
-    $maxCharsPerLine = $this->coord('document_content', 'maxCharsPerLine') ?: 42;
+    $fontSize   = $this->coord('document_content', 'fontSize') ?: 12;
+    $lineHeight = $this->coord('document_content', 'lineHeight') ?: 6.5;
 
-    // 本文を全行に展開
-    $allLines = $this->expandLines($documentContent, $maxCharsPerLine);
+    // 本文を全行に展開（改行のみで分割・文字数制限なし）
+    $allLines = $this->expandLines($documentContent);
 
     // 各ページタイプで収容できる行数を計算
     $linesInFirstWithFooter  = $this->calcLines(self::HEADER_CONTENT_Y, self::FOOTER_START_Y, $lineHeight); // 1ページ完結
@@ -144,19 +143,9 @@ class GenericDocumentPdfService extends BasePdfService
   /**
    * テキストを maxCharsPerLine で折り返した全行配列を返す
    */
-  protected function expandLines(string $text, int $maxCharsPerLine): array
+  protected function expandLines(string $text): array
   {
-    $allLines = [];
-    foreach (preg_split('/\r\n|\r|\n/', $text) as $line) {
-      if (mb_strlen($line) > $maxCharsPerLine) {
-        foreach (mb_str_split($line, $maxCharsPerLine) as $chunk) {
-          $allLines[] = $chunk;
-        }
-      } else {
-        $allLines[] = $line;
-      }
-    }
-    return $allLines;
+    return preg_split('/\r\n|\r|\n/', $text) ?: [];
   }
 
   /**
