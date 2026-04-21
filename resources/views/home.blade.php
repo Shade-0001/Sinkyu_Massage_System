@@ -28,8 +28,12 @@
       }
     }
 
+    #home-menu .btn-ex-main {
+      -webkit-user-drag: none;
+    }
+
     #home-menu .btn-ex-main:active {
-      transform: scale(0.975, 0.975);
+      transform: scale(0.985, 0.985);
     }
 
     .home-menu-label {
