@@ -14,25 +14,29 @@
     <!-- 左パネル：検索ツール -->
     <div class="flex-shrink-0">
       <!-- 氏名/TEL検索 -->
-      <div class="position-relative border border-2 border-dark-subtle rounded-1 px-3 pb-3 bg-gray-100 mb-5">
-        <!-- 検索対象指定ラジオボタン -->
-        <span class="position-absolute top-0 start-0 translate-middle-y ms-3 py-1 px-2 bg-gray-100 border border-3 border-top-0 border-bottom-0 border-dark-subtle rounded-3 fw-medium">氏名/TEL検索</span>
-        <div class="mt-4 mb-1">
-          <label><input type="radio" name="search-target" value="name" checked> 氏名</label>
-          <label><input type="radio" name="search-target" value="kana"> カナ</label>
-          <label><input type="radio" name="search-target" value="tel"> TEL</label>
+      <div class="mb-5">
+        <div class="form-label-tab">氏名/TEL検索</div>
+        <div class="form-field px-3 py-2">
+          <div class="form-field-top"></div>
+          <!-- 検索対象指定ラジオボタン -->
+          <div class="mb-1">
+            <label><input type="radio" name="search-target" value="name" checked> 氏名</label>
+            <label><input type="radio" name="search-target" value="kana"> カナ</label>
+            <label><input type="radio" name="search-target" value="tel"> TEL</label>
+          </div>
+          <!-- 検索ワード入力フィールドと検索ボタン -->
+          <input type="text" id="search-keyword" placeholder="検索ワード入力" class="align-middle">
+          <button type="button" id="search-btn" class="btn-ex-main btn-ex-blue btn-ex-sm align-middle">検索</button>
         </div>
-
-        <!-- 検索ワード入力フィールドと検索ボタン -->
-        <input type="text" id="search-keyword" placeholder="検索ワード入力" class="align-middle">
-        <button type="button" id="search-btn" class="btn-ex-main btn-ex-blue btn-ex-sm align-middle">検索</button>
       </div>
 
 
       <!-- 50音検索 -->
-      <div class="position-relative border border-2 border-dark-subtle rounded-1 px-3 pb-3 bg-gray-100 mb-5">
-        <span class="position-absolute top-0 start-0 translate-middle-y ms-3 py-1 px-2 bg-gray-100 border border-3 border-top-0 border-bottom-0 border-dark-subtle rounded-3 fw-medium">50音検索</span>
-        <table id="katakana-table" class="mt-4">
+      <div class="mb-5">
+        <div class="form-label-tab">50音検索</div>
+        <div class="form-field px-3 py-2">
+          <div class="form-field-top"></div>
+          <table id="katakana-table">
           <thead>
             <tr>
               <th class="text-center"><input type="checkbox" class="katakana-column-checkbox" value="wa" data-chars="ワ,ヲ,ン"></th>
@@ -110,28 +114,35 @@
             </tr>
           </tbody>
         </table>
+        </div>
       </div>
 
 
       <!-- 該当利用者一覧ボックス -->
-      <div class="position-relative border border-2 border-dark-subtle rounded-1 px-3 pb-3 bg-gray-100">
-        <p class="position-absolute top-0 start-0 translate-middle-y ms-3 py-1 px-2 bg-gray-100 border border-3 border-top-0 border-bottom-0 border-dark-subtle rounded-3 fw-medium">該当者 (<span id="match-count">{{ count($users) }}</span>件)</p>
-        <select id="user-list" size="6" class="mt-4 border border-0">
-          @foreach ($users as $user)
-            <option value="{{ $user->id }}" data-last-name="{{ $user->last_name }}" data-first-name="{{ $user->first_name }}" data-last-kana="{{ $user->last_kana }}" data-first-kana="{{ $user->first_kana }}" data-phone="{{ $user->phone }}" data-cell-phone="{{ $user->cell_phone }}" data-address="{{ trim(($user->address_1 ?? '') . ' ' . ($user->address_2 ?? '') . ' ' . ($user->address_3 ?? '')) }}" data-email="{{ $user->email }}" data-birthday="{{ $user->birthday ? $user->birthday->format('Y/n/j') : '' }}" data-age="{{ $user->age }}" data-note="{{ $user->note }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
-          @endforeach
-        </select>
+      <div>
+        <div class="form-label-tab">該当者 (<span id="match-count">{{ count($users) }}</span>件)</div>
+        <div class="form-field px-3 py-2">
+          <div class="form-field-top"></div>
+          <select id="user-list" size="6" class="border border-0">
+            @foreach ($users as $user)
+              <option value="{{ $user->id }}" data-last-name="{{ $user->last_name }}" data-first-name="{{ $user->first_name }}" data-last-kana="{{ $user->last_kana }}" data-first-kana="{{ $user->first_kana }}" data-phone="{{ $user->phone }}" data-cell-phone="{{ $user->cell_phone }}" data-address="{{ trim(($user->address_1 ?? '') . ' ' . ($user->address_2 ?? '') . ' ' . ($user->address_3 ?? '')) }}" data-email="{{ $user->email }}" data-birthday="{{ $user->birthday ? $user->birthday->format('Y/n/j') : '' }}" data-age="{{ $user->age }}" data-note="{{ $user->note }}">ID-{{ str_pad($user->id, $clinicUserIdLength, '0', STR_PAD_LEFT) }}｜{{ $user->last_name }}{{ "\u{2000}" }}{{ $user->first_name }}｜{{ $user->last_kana }}{{ "\u{2000}" }}{{ $user->first_kana }}</option>
+            @endforeach
+          </select>
+        </div>
       </div>
     </div>
 
     <!-- 右パネル：利用者情報表示ボックス -->
     <div class="flex-shrink-0" style="width: 400px">
-      <div id="selected-user-box" class="position-relative border border-2 border-dark-subtle rounded-1 px-3 pb-3 bg-gray-100">
-        <span class="position-absolute top-0 start-0 translate-middle-y ms-3 py-1 px-2 bg-gray-100 border border-3 border-top-0 border-bottom-0 border-dark-subtle rounded-3 fw-medium">利用者情報</span>
-        <div id="selected-user-info" class="mt-4">
-          <p>利用者を選択してください</p>
+      <div id="selected-user-box">
+        <div class="form-label-tab">利用者情報</div>
+        <div class="form-field px-3 py-2">
+          <div class="form-field-top"></div>
+          <div id="selected-user-info">
+            <p>利用者を選択してください</p>
+          </div>
+          <button type="button" id="select-user-btn" class="btn-ex-main btn-ex-blue ms-auto" style="display: none;">この利用者を選択</button>
         </div>
-        <button type="button" id="select-user-btn" class="btn-ex-main btn-ex-blue ms-auto" style="display: none;">この利用者を選択</button>
       </div>
     </div>
   </div>
