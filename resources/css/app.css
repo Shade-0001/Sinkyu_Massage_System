@@ -29,6 +29,12 @@
   text-decoration-line: none;
 }
 
+/* EXボタン - ドラッグ時リンク表示無効化 */
+.btn-ex-main,
+.btn-ex-sub {
+  -webkit-user-drag: none;
+}
+
 /* 通常状態select&input&textareaのスタイル */
 select:not(:disabled),
 input:not(:disabled),
@@ -114,7 +120,6 @@ table.table-bordered.dataTable {
   border-color: var(--table-border-color) !important;
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-
 
 
 
@@ -362,7 +367,6 @@ html[data-sidebar="open"] #sidebar-toggle-icon span:nth-of-type(3)::after {
 
 
 
-
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  サイドバー                                  ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
@@ -495,7 +499,6 @@ html[data-sidebar="closed"] #sidebar-content {
 
 
 
-
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  ページネーション（DataTables）               ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
@@ -618,7 +621,6 @@ html[data-sidebar="closed"] #sidebar-content {
   opacity: 0.5;
 }
 /*━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━*/
-
 
 
 
