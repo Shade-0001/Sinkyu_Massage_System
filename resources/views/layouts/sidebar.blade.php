@@ -248,7 +248,7 @@
             <a href="{{ route('admin-panel.coordinate-adjuster') }}" class="submenu-link text-gray-85 {{ $onAdminCoordAdj ? 'sidebar-active hover-highlight-30 highlight-target-text-white' : 'hover-highlight-30 highlight-target-text-white' }} small py-2 px-3 d-flex align-items-center text-decoration-none fw-normal user-select-none">
               <span class="submenu-icon-stack me-2">
                 <span class="icon-circle">
-                  <i class="nf nf-md-view_dashboard icon-inner"></i>
+                  <i class="nf nf-md-cursor_move icon-inner"></i>
                 </span>
               </span>PDFレイアウト調整ツール
             </a>
