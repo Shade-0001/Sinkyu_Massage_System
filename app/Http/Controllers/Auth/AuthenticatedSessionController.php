@@ -55,13 +55,14 @@ class AuthenticatedSessionController extends Controller
     $request->session()->put('remember_login', $rememberLogin);
 
     if ($rememberLogin) {
-      // ログイン状態を保持する場合: 72時間（4320分）
+      // ログイン状態を保持する場合: 72時間（4320分）・タイムアウト無効
       config(['session.lifetime' => 4320]);
       Log::info('Session configured with remember: 72 hours (4320 minutes)');
     } else {
-      // ログイン状態を保持しない場合: デフォルト値（ミドルウェアで制御）
+      // ログイン状態を保持しない場合: アイドルタイムアウト（ミドルウェアで制御）
       config(['session.lifetime' => 120]);
-      Log::info('Session configured without remember: controlled by middleware');
+      $request->session()->put('last_activity', time());
+      Log::info('Session configured without remember: idle timeout enabled');
     }
 
     Log::info('Session regenerated, redirecting to index');
@@ -81,5 +82,20 @@ class AuthenticatedSessionController extends Controller
     $request->session()->regenerateToken();
 
     return redirect()->route('login');
+  }
+
+  /**
+   * sendBeacon によるタブ全閉じ時のログアウト。
+   * remember=true のユーザーは対象外。
+   */
+  public function destroyByBeacon(Request $request): \Illuminate\Http\Response
+  {
+    if (Auth::check() && !$request->session()->get('remember_login', false)) {
+      Auth::guard('web')->logout();
+      $request->session()->invalidate();
+      $request->session()->regenerateToken();
+    }
+
+    return response('', 204);
   }
 }

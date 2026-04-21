@@ -367,6 +367,53 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
+/*┃  タブ全閉じ検知 → ログアウト                  ┃*/
+/*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
+// remember=true のユーザーはサーバー側で除外するため、JS側では常にビーコンを送信する。
+// 各タブは固有IDをsessionStorageに持ち、アクティブタブIDセットをlocalStorageで共有する。
+// pagehide 時に自IDを除去し、残り0件ならビーコンを送信してログアウト。
+(function () {
+  const TABS_KEY   = 'app_active_tabs';
+  const BEACON_URL = '/logout/beacon';
+  const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]')?.content ?? '';
+
+  // このタブ固有ID（ページリロード時も同じIDを維持する）
+  let tabId = sessionStorage.getItem('app_tab_id');
+  if (!tabId) {
+    tabId = Math.random().toString(36).slice(2);
+    sessionStorage.setItem('app_tab_id', tabId);
+  }
+
+  function getTabs() {
+    try { return new Set(JSON.parse(localStorage.getItem(TABS_KEY) ?? '[]')); }
+    catch (_) { return new Set(); }
+  }
+  function saveTabs(set) {
+    localStorage.setItem(TABS_KEY, JSON.stringify([...set]));
+  }
+
+  // このタブを登録
+  const tabs = getTabs();
+  tabs.add(tabId);
+  saveTabs(tabs);
+
+  window.addEventListener('pagehide', () => {
+    const current = getTabs();
+    current.delete(tabId);
+    saveTabs(current);
+
+    if (current.size === 0) {
+      const blob = new Blob(
+        [JSON.stringify({ _token: CSRF_TOKEN })],
+        { type: 'application/json' }
+      );
+      navigator.sendBeacon(BEACON_URL, blob);
+    }
+  });
+})();
+
+
+/*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  DataTables 共通初期化                        ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 window.initDataTable = function(tableId, options) {

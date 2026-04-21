@@ -15,6 +15,11 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectGuestsTo('/login');
         $middleware->redirectUsersTo('/index');
 
+        // sendBeacon はリクエストボディからCSRFトークンを読み取れないため除外
+        $middleware->validateCsrfTokens(except: [
+            'logout/beacon',
+        ]);
+
         // セッション有効性チェックミドルウェアをwebグループに追加
         $middleware->web(append: [
             \App\Http\Middleware\CheckSessionValidity::class,
