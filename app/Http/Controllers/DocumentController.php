@@ -390,9 +390,10 @@ class DocumentController extends Controller
       $pdfBinary = $service->generate($clinicUsers, $yearMonth, $today);
     }
 
+    $filename = rawurlencode($document->document_name ?? 'プレビュー') . '.pdf';
     return response($pdfBinary, 200, [
       'Content-Type'        => 'application/pdf',
-      'Content-Disposition' => 'inline',
+      'Content-Disposition' => "inline; filename=\"{$filename}\"; filename*=UTF-8''{$filename}",
     ]);
   }
 
@@ -436,9 +437,10 @@ class DocumentController extends Controller
     $today = now()->format('Y-m-d');
     $pdfBinary = $service->generate([], now()->format('Y-m'), $today);
 
+    $filename = rawurlencode($document->document_name ?? 'プレビュー') . '.pdf';
     return response($pdfBinary, 200, [
       'Content-Type'        => 'application/pdf',
-      'Content-Disposition' => 'inline',
+      'Content-Disposition' => "inline; filename=\"{$filename}\"; filename*=UTF-8''{$filename}",
     ]);
   }
 
