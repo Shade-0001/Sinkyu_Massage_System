@@ -10,9 +10,9 @@
 </head>
 
 <body class="bg-gray-90">
-  <div class="d-inline-flex gap-3 align-items-start m-4 pt-2">
+  <div class="d-inline-flex gap-3 align-items-start m-4 pt-2" style="align-items: stretch !important;">
     <!-- 左パネル：検索ツール -->
-    <div class="flex-shrink-0">
+    <div class="flex-shrink-0 d-flex flex-column">
       <!-- 氏名/TEL検索 -->
       <div class="mb-5">
         <div class="form-label-tab">氏名/TEL検索</div>
@@ -133,10 +133,10 @@
     </div>
 
     <!-- 右パネル：利用者情報表示ボックス -->
-    <div class="flex-shrink-0" style="width: 400px">
-      <div id="selected-user-box">
+    <div class="flex-shrink-0 d-flex flex-column" style="width: 400px; min-height: 0;">
+      <div id="selected-user-box" class="d-flex flex-column flex-grow-1">
         <div class="form-label-tab">利用者情報</div>
-        <div class="form-field px-3 py-2">
+        <div class="form-field px-3 py-2 d-flex flex-column flex-grow-1">
           <div class="form-field-top"></div>
           <div id="selected-user-info">
             <p>利用者を選択してください</p>
