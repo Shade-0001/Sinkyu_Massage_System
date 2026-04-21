@@ -27,7 +27,7 @@
         <td class="fw-medium">{{ $item->created_at ? \Carbon\Carbon::parse($item->created_at)->format('Y-m-d H:i') : '' }}</td>
         <td class="text-center fw-medium">
         <div class="d-flex flex-wrap justify-content-center gap-1">
-          <button type="button" class="preview-btn btn-ex-main btn-ex-blue btn-ex-sm" data-id="{{ $item->id }}">プレビュー</button>
+          <button type="button" class="preview-btn btn-ex-main btn-ex-blue btn-ex-sm" data-id="{{ $item->id }}" data-name="{{ $item->document_name }}">プレビュー</button>
           <button type="button" class="edit-btn btn-ex-main btn-ex-blue btn-ex-sm" data-id="{{ $item->id }}">編集</button>
           <button type="button" class="duplicate-btn btn-ex-main btn-ex-blue btn-ex-sm" data-id="{{ $item->id }}">複製</button>
           <button type="button" class="delete-btn btn-ex-main btn-ex-red btn-ex-sm" data-id="{{ $item->id }}">削除</button>
@@ -68,8 +68,9 @@
 
       // プレビューボタン
       $('.preview-btn').on('click', function() {
-        var id = $(this).data('id');
-        const url = '/master/documents/' + id + '/preview';
+        var id   = $(this).data('id');
+        var name = encodeURIComponent($(this).data('name') || 'プレビュー');
+        const url = '/master/documents/' + id + '/preview/' + name;
         window.open(url, '_blank');
       });
 

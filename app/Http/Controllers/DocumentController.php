@@ -288,7 +288,7 @@ class DocumentController extends Controller
    * 文面のプレビューを表示
    * document_association で関連付けられたPDFサービスをサンプルモードで呼び出す
    */
-  public function preview($id)
+  public function preview($id, string $filename = '')
   {
     $document = DB::table('documents')->where('id', $id)->first();
 

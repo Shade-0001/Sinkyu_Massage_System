@@ -166,7 +166,7 @@ Route::middleware('auth')->group(function () {
   Route::get('/master/documents/{id}/duplicate', [DocumentController::class, 'duplicate'])->name('master.documents.duplicate');
   Route::post('/master/documents/duplicate/store', [DocumentController::class, 'duplicateStore'])->name('master.documents.duplicate.store');
   Route::delete('/master/documents/{id}', [DocumentController::class, 'destroy'])->name('master.documents.destroy');
-  Route::get('/master/documents/{id}/preview', [DocumentController::class, 'preview'])->name('master.documents.preview');
+  Route::get('/master/documents/{id}/preview/{filename}', [DocumentController::class, 'preview'])->name('master.documents.preview');
 
   // 施術料金編集
   Route::get('/master/treatment-fees/index', [TreatmentFeeController::class, 'index'])->name('master.treatment-fees.index');
