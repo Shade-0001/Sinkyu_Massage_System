@@ -35,6 +35,9 @@ use App\Models\CareManager;
 Route::get('/', fn() => redirect()->route('login'));
 
 Route::middleware('auth')->group(function () {
+  // アイドルタイムアウト延長PING（フロントエンドタイマーリセット時に呼び出す）
+  Route::post('/ping', fn() => response('', 204))->name('ping');
+
   // お知らせAPI（ヘッダー通知ウィジェット用）
   Route::get('/notices/api/list', [NoticesController::class, 'apiList'])->name('notices.api.list');
   Route::post('/notices/api/{id}/toggle-read', [NoticesController::class, 'apiToggleRead'])->name('notices.api.toggle-read');

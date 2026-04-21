@@ -378,14 +378,28 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!window.IDLE_TIMEOUT_ENABLED) return;
 
   const TIMEOUT_MS  = 10 * 60 * 1000;
+  const PING_MS     = 5 * 60 * 1000;
   const LOGOUT_URL  = '/logout';
+  const PING_URL    = '/ping';
   const CSRF_TOKEN  = document.querySelector('meta[name="csrf-token"]')?.content ?? '';
 
-  let timer = null;
+  let timer    = null;
+  let lastPing = 0;
+
+  function ping() {
+    const now = Date.now();
+    if (now - lastPing < PING_MS) return;
+    lastPing = now;
+    fetch(PING_URL, {
+      method: 'POST',
+      headers: { 'X-CSRF-TOKEN': CSRF_TOKEN },
+    }).catch(() => {});
+  }
 
   function resetTimer() {
     clearTimeout(timer);
     timer = setTimeout(logout, TIMEOUT_MS);
+    ping();
   }
 
   function logout() {
