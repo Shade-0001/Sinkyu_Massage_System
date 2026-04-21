@@ -452,8 +452,9 @@ class MonthlySchedulePdfService extends BasePdfService
     float $bodyStartY,
     float $rowH
   ): void {
-    $fontMm   = self::FONT_MIN * 0.352 * 1.25;
-    $totalW   = array_sum($colWidths);
+    $timeFontPt = self::FONT_MIN + 1;
+    $fontMm     = $timeFontPt * 0.352 * 1.25;
+    $totalW     = array_sum($colWidths);
 
     $slotCount = count($timeSlots);
     $tableH    = $slotCount * $rowH;
@@ -465,7 +466,7 @@ class MonthlySchedulePdfService extends BasePdfService
 
       $pdf->SetFillColor(240, 240, 240);
       $pdf->Rect($startX, $rowY, $colWidths[0], $rowH, 'F');
-      $pdf->SetFont('kozgopromedium', '', self::FONT_MIN);
+      $pdf->SetFont('kozgopromedium', '', $timeFontPt);
       $pdf->SetTextColor(0, 0, 0);
       $pdf->setCellPaddings(0, 0, 0, 0);
       $pdf->SetXY($startX, $rowY + $offsetY);
