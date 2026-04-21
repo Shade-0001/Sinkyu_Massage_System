@@ -28,12 +28,13 @@
       }
     }
 
-    #home-menu .btn-ex-main {
-      -webkit-user-drag: none;
+    #home-menu .btn-ex-main:active {
+      transform: scale(0.98, 0.98);
     }
 
-    #home-menu .btn-ex-main:active {
-      transform: scale(0.985, 0.985);
+    #home-menu .btn-ex-main:active::after {
+      transition: opacity 0.05s linear;
+      opacity: 0.03;
     }
 
     .home-menu-label {

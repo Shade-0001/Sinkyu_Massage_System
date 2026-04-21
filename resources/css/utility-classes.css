@@ -52,27 +52,6 @@
   color: #333333 !important;
 }
 
-
-/*──────────────────────────────────────────────*/
-/*  ホバー時輝度上昇                             */
-/*──────────────────────────────────────────────*/
-[class*="bright-target-"] {
-  transition: filter 0.1s ease;
-}
-
-.hover-bright-trigger:hover .bright-target-105,
-.bright-target-105:hover {
-  filter: brightness(1.05); }
-.hover-bright-trigger:hover .bright-target-110,
-.bright-target-110:hover {
-  filter: brightness(1.1); }
-.hover-bright-trigger:hover .bright-target-120,
-.bright-target-120:hover {
-  filter: brightness(1.2); }
-.hover-bright-trigger:hover .bright-target-130,
-.bright-target-130:hover {
-  filter: brightness(1.3); }
-
 /*──────────────────────────────────────────────*/
 /*  ホバー時白背景                               */
 /*──────────────────────────────────────────────*/
@@ -106,7 +85,7 @@
 }
 
 /*──────────────────────────────────────────────*/
-/*  立体ボーダー                                 */
+/*  ボーダーベベル                               */
 /*──────────────────────────────────────────────*/
 .border-bevel-1 {
   box-shadow:
@@ -135,7 +114,7 @@
   padding-bottom: calc(var(--bs-btn-padding-y) + 2px);
 }
 
-/* 立体ボーダー（明） */
+/* ボーダーベベル（明） */
 .border-bevel-light {
   box-shadow:
     inset 4px 4px 1px hsla(0, 0%, 100%, 0.5),
@@ -154,11 +133,6 @@
 /*  不透明度90%                                  */
 /*──────────────────────────────────────────────*/
 .opacity-90 { opacity: 0.9 !important; }
-
-/*──────────────────────────────────────────────*/
-/*  背景不透明度90%                              */
-/*──────────────────────────────────────────────*/
-.bg-opacity-90 { --bs-bg-opacity: 0.9; }
 
 /*──────────────────────────────────────────────*/
 /*  フォントサイズ                               */
@@ -322,15 +296,6 @@
 /*──────────────────────────────────────────────*/
 /*  サイジング                                   */
 /*──────────────────────────────────────────────*/
-/* 最大幅 */
-.mw-25 { max-width: 25% !important; }
-.mw-50 { max-width: 50% !important; }
-.mw-75 { max-width: 75% !important; }
-/* 最小幅 */
-.mw-25 { min-width: 25% !important; }
-.mw-50 { min-width: 50% !important; }
-.mw-75 { min-width: 75% !important; }
-
 /* アスペクト比 - 正方形 */
 .aspect-square { width: auto; aspect-ratio: 1 / 1; } /*高さに合わせて幅を調整*/
 
@@ -428,7 +393,7 @@
 }
 .btn-ex-main:active {
   transition: all 0.05s;
-  transform: scale(0.95, 0.95);
+  transform: scale(0.97, 0.97);
   --btn-text-color-base: hsl(0, 0%, 100%);
   border-radius: calc(var(--btn-br-tl, var(--btn-br-tl-base)) * 0.75) calc(var(--btn-br-tr, var(--btn-br-tr-base)) * 0.75) calc(var(--btn-br-br, var(--btn-br-br-base)) * 0.75) calc(var(--btn-br-bl, var(--btn-br-bl-base)) * 0.75);
   box-shadow:
@@ -804,13 +769,6 @@
 .btn-ex-sub-toggle-expand.btn-ex-active.btn-ex-lg,
 .btn-ex-sub-toggle-expand.btn-ex-active.btn-ex-xl {
   --btn-border-size: calc(var(--btn-shadow-size) * 2.8);
-}
-
-/*──────────────────────────────────────────────*/
-/*  テーブル - ストライプ（拡張）                 */
-/*──────────────────────────────────────────────*/
-.table-striped-ex > tbody > tr:nth-of-type(even) > * {
-  background-color: #F5F5F5;
 }
 
 /*──────────────────────────────────────────────*/
