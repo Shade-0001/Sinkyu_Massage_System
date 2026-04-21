@@ -377,8 +377,8 @@
 
         @if ($records->count() > 0)
           <div class="mb-3">
-            <button type="button" class="btn-ex-main btn-ex-blue" onclick="openRecordAcupunctureBenefitModal()">印刷｜はり･きゅう支給申請書</button>
-            <button type="button" class="btn-ex-main btn-ex-blue" onclick="openRecordMassageBenefitModal()">印刷｜あんま･マッサージ支給申請書</button>
+            <button type="button" class="btn-ex-main btn-ex-blue" onclick="openRecordAcupunctureBenefitModal()">PDF出力｜はり･きゅう支給申請書</button>
+            <button type="button" class="btn-ex-main btn-ex-blue" onclick="openRecordMassageBenefitModal()">PDF出力｜あんま･マッサージ支給申請書</button>
           </div>
 
           <div class="table-responsive">
@@ -538,7 +538,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="submitRecordAcupunctureBenefit()">印刷</button>
+          <button type="button" class="btn btn-primary" onclick="submitRecordAcupunctureBenefit()">PDF出力</button>
         </div>
       </div>
     </div>
@@ -603,7 +603,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="submitRecordMassageBenefit()">印刷</button>
+          <button type="button" class="btn btn-primary" onclick="submitRecordMassageBenefit()">PDF出力</button>
         </div>
       </div>
     </div>

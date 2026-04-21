@@ -21,7 +21,7 @@
   </a>
 
   <!-- 医療保険履歴印刷ボタン -->
-  <button type="button" id="printInsuranceHistory" class="btn-ex-main btn-ex-blue ms-2">医療保険履歴印刷</button>
+  <button type="button" id="printInsuranceHistory" class="btn-ex-main btn-ex-blue ms-2">PDF出力｜医療保険履歴</button>
   <br><br>
 
   <!-- 保険情報一覧テーブル -->

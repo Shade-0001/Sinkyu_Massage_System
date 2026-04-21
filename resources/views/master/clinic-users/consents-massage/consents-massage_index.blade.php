@@ -21,7 +21,7 @@
   </a>
 
   <!-- 同意医師履歴印刷ボタン -->
-  <button type="button" id="printConsentingHistory" class="btn-ex-main btn-ex-blue ms-2" data-print-url="{{ route('clinic-users.consents-massage.print-history', $id) }}">同意医師履歴印刷</button>
+  <button type="button" id="printConsentingHistory" class="btn-ex-main btn-ex-blue ms-2" data-print-url="{{ route('clinic-users.consents-massage.print-history', $id) }}">PDF出力｜同意医師履歴</button>
   <br><br>
 
   <!-- 同意医師履歴一覧テーブル -->

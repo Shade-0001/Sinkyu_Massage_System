@@ -139,7 +139,7 @@
                         <td class="align-middle" style="white-space: nowrap;">
                           <a href="{{ route('reports.edit', $item['report']->id) }}"><button type="button" class="btn-ex-main btn-ex-blue btn-ex-sm">編集</button></a>
                           <a href="{{ route('reports.duplicate', $item['report']->id) }}"><button type="button" class="btn-ex-main btn-ex-blue btn-ex-sm">複製</button></a>
-                          <button type="button" class="btn-ex-main btn-ex-blue btn-ex-sm" onclick="openReportPrintModal('{{ $selectedUserId }}', '{{ $yearMonth }}')">印刷</button>
+                          <button type="button" class="btn-ex-main btn-ex-blue btn-ex-sm" onclick="openReportPrintModal('{{ $selectedUserId }}', '{{ $yearMonth }}')">PDF出力</button>
                           <form method="POST" action="{{ route('reports.destroy', $item['report']->id) }}" style="display:inline;" onsubmit="return confirm('この報告書データを削除してもよろしいですか？');">
                             @csrf
                             @method('DELETE')

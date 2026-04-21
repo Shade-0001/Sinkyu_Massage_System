@@ -21,7 +21,7 @@
   </a>
 
   <!-- 計画情報一覧表印刷ボタン -->
-  <button type="button" id="printPlanHistory" class="btn-ex-main btn-ex-blue ms-2">計画情報一覧表印刷</button>
+  <button type="button" id="printPlanHistory" class="btn-ex-main btn-ex-blue ms-2">PDF出力｜計画情報一覧表</button>
 
   <br><br>
 
