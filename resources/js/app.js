@@ -370,10 +370,18 @@ document.addEventListener('DOMContentLoaded', () => {
 /*┃  タブ全閉じ検知 → ログアウト                  ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 // remember=true のユーザーはサーバー側で除外するため、JS側では常にビーコンを送信する。
-// 各タブは固有IDをsessionStorageに持ち、アクティブタブIDセットをlocalStorageで共有する。
-// pagehide 時に自IDを除去し、残り0件ならビーコンを送信してログアウト。
+// 各タブは固有IDをsessionStorageに持ち、ハートビートをlocalStorageで管理する。
+//
+// 判定方式：
+//   - 各タブは1秒ごとに自分の生存タイムスタンプを localStorage に書き込む（ハートビート）
+//   - visibilitychange(hidden) 発火時にタイマーを停止し、5秒後に全タブのタイムスタンプを確認
+//   - 全タブのタイムスタンプが5秒以上古ければ「全タブ閉じ」と判断してビーコン送信
+//   - ページ遷移の場合は遷移先タブがハートビートを継続するため誤検知しない
 (function () {
-  const TABS_KEY   = 'app_active_tabs';
+  const HB_PREFIX  = 'app_tab_hb_';
+  const HB_INTERVAL = 1000;
+  const DEAD_THRESHOLD = 5000;
+  const CHECK_DELAY = 5000;
   const BEACON_URL = '/logout/beacon';
   const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]')?.content ?? '';
 
@@ -384,31 +392,62 @@ document.addEventListener('DOMContentLoaded', () => {
     sessionStorage.setItem('app_tab_id', tabId);
   }
 
-  function getTabs() {
-    try { return new Set(JSON.parse(localStorage.getItem(TABS_KEY) ?? '[]')); }
-    catch (_) { return new Set(); }
-  }
-  function saveTabs(set) {
-    localStorage.setItem(TABS_KEY, JSON.stringify([...set]));
+  const hbKey = HB_PREFIX + tabId;
+
+  function beat() {
+    localStorage.setItem(hbKey, String(Date.now()));
   }
 
-  // このタブを登録
-  const tabs = getTabs();
-  tabs.add(tabId);
-  saveTabs(tabs);
-
-  window.addEventListener('pagehide', () => {
-    const current = getTabs();
-    current.delete(tabId);
-    saveTabs(current);
-
-    if (current.size === 0) {
-      const blob = new Blob(
-        [JSON.stringify({ _token: CSRF_TOKEN })],
-        { type: 'application/json' }
-      );
-      navigator.sendBeacon(BEACON_URL, blob);
+  function getAllTabTimestamps() {
+    const result = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith(HB_PREFIX)) {
+        result.push(parseInt(localStorage.getItem(key) ?? '0', 10));
+      }
     }
+    return result;
+  }
+
+  function allTabsDead() {
+    const now = Date.now();
+    const timestamps = getAllTabTimestamps();
+    if (timestamps.length === 0) return true;
+    return timestamps.every(ts => now - ts > DEAD_THRESHOLD);
+  }
+
+  function sendLogout() {
+    const blob = new Blob(
+      [JSON.stringify({ _token: CSRF_TOKEN })],
+      { type: 'application/json' }
+    );
+    navigator.sendBeacon(BEACON_URL, blob);
+  }
+
+  // ハートビート開始
+  beat();
+  const hbTimer = setInterval(beat, HB_INTERVAL);
+
+  // タブ非表示時にハートビート停止 → 一定時間後に全タブ死亡チェック
+  let checkTimer = null;
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') {
+      clearInterval(hbTimer);
+      checkTimer = setTimeout(() => {
+        if (allTabsDead()) sendLogout();
+      }, CHECK_DELAY);
+    } else {
+      // タブが再表示されたらハートビート再開・チェックキャンセル
+      clearTimeout(checkTimer);
+      beat();
+      setInterval(beat, HB_INTERVAL);
+    }
+  });
+
+  // タブ終了時にハートビートキーを削除
+  window.addEventListener('pagehide', () => {
+    clearInterval(hbTimer);
+    localStorage.removeItem(hbKey);
   });
 })();
 

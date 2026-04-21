@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 class CheckSessionValidity
 {
     // アイドルタイムアウト: 60分
-    const IDLE_TIMEOUT = 60 * 60;
+    public const IDLE_TIMEOUT = 60 * 60;
 
     public function handle(Request $request, Closure $next): Response
     {
