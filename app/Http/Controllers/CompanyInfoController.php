@@ -57,9 +57,42 @@ class CompanyInfoController extends Controller
     // 確認画面のラベル設定
     $labels = $this->getCompanyInfoLabels();
 
+    // closed_day_* を「定休日」1行に集約
+    $closedDayMap = [
+      'closed_day_monday'    => '月曜日',
+      'closed_day_tuesday'   => '火曜日',
+      'closed_day_wednesday' => '水曜日',
+      'closed_day_thursday'  => '木曜日',
+      'closed_day_friday'    => '金曜日',
+      'closed_day_saturday'  => '土曜日',
+      'closed_day_sunday'    => '日曜日',
+    ];
+    $closedDays = [];
+    foreach ($closedDayMap as $key => $dayLabel) {
+      if (!empty($validated[$key])) {
+        $closedDays[] = $dayLabel;
+      }
+    }
+
+    // closed_day_* を除去し、closed_days に差し替え
+    $displayData = array_filter($validated, fn($k) => !array_key_exists($k, $closedDayMap), ARRAY_FILTER_USE_KEY);
+    $displayLabels = array_filter($labels, fn($k) => !array_key_exists($k, $closedDayMap), ARRAY_FILTER_USE_KEY);
+
+    // business_hours_end の直後に挿入するため順序を組み立て
+    $orderedData = [];
+    $orderedLabels = [];
+    foreach ($displayLabels as $k => $v) {
+      $orderedData[$k] = $displayData[$k] ?? null;
+      $orderedLabels[$k] = $v;
+      if ($k === 'business_hours_end') {
+        $orderedData['closed_days'] = empty($closedDays) ? null : implode('、', $closedDays);
+        $orderedLabels['closed_days'] = '定休日';
+      }
+    }
+
     return view('registration-review', [
-      'data' => $validated,
-      'labels' => $labels,
+      'data' => $orderedData,
+      'labels' => $orderedLabels,
       'back_route' => 'clinic-info.index',
       'store_route' => 'clinic-info.store',
       'page_header_title' => '自社情報登録内容確認',
