@@ -11,7 +11,7 @@
         <div class="btn-ex-skin btn-ex-white btn-ex-xs btn-ex-rounded-full aspect-square m-n05 p-3">
           <i class="nf nf-md-hospital fs-6 m-n2"></i>
         </div>
-        <div class="fs-5-5 ms-4 me-3">医療機関名（{{ $counts['medical_institutions'] }}件）</div>
+        <div class="fs-5-5 ms-4 me-4">医療機関名（{{ $counts['medical_institutions'] }}件）</div>
       </a>
     </div>
     <div class="col-12">
@@ -19,7 +19,7 @@
         <div class="btn-ex-skin btn-ex-white btn-ex-xs btn-ex-rounded-full aspect-square m-n05 p-3">
           <i class="nf nf-fa-building fs-6 m-n2"></i>
         </div>
-        <div class="fs-5-5 ms-4 me-3">サービス事業者名（{{ $counts['service_providers'] }}件）</div>
+        <div class="fs-5-5 ms-4 me-4">サービス事業者名（{{ $counts['service_providers'] }}件）</div>
       </a>
     </div>
     <div class="col-12">
@@ -27,7 +27,7 @@
         <div class="btn-ex-skin btn-ex-white btn-ex-xs btn-ex-rounded-full aspect-square m-n05 p-3">
           <i class="nf nf-md-clipboard_pulse fs-6 m-n2"></i>
         </div>
-        <div class="fs-5-5 ms-4 me-3">発病負傷経過（あんま・マッサージ）（{{ $counts['conditions'] }}件）</div>
+        <div class="fs-5-5 ms-4 me-4">発病負傷経過（あんま・マッサージ）（{{ $counts['conditions'] }}件）</div>
       </a>
     </div>
     <div class="col-12">
@@ -35,7 +35,7 @@
         <div class="btn-ex-skin btn-ex-white btn-ex-xs btn-ex-rounded-full aspect-square m-n05 p-3">
           <i class="nf nf-md-text fs-6 m-n2"></i>
         </div>
-        <div class="fs-5-5 ms-4 me-3">傷病名（あんま・マッサージ）（{{ $counts['illnesses_massage'] }}件）</div>
+        <div class="fs-5-5 ms-4 me-4">傷病名（あんま・マッサージ）（{{ $counts['illnesses_massage'] }}件）</div>
       </a>
     </div>
   </div>
