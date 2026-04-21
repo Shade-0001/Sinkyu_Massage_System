@@ -10,8 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CheckSessionValidity
 {
-    // アイドルタイムアウト: 60分
-    public const IDLE_TIMEOUT = 60 * 60;
+    // アイドルタイムアウト: 90分（フロントエンドタイマー60分のバックアップ）
+    public const IDLE_TIMEOUT = 90 * 60;
 
     public function handle(Request $request, Closure $next): Response
     {

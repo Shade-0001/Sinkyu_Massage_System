@@ -87,6 +87,11 @@
 				localStorage.getItem('sidebarState') === 'open' ? 'open' : 'closed';
 		</script>
 
+		<!-- フロントエンドアイドルタイムアウト設定 -->
+		<script>
+			window.IDLE_TIMEOUT_ENABLED = {{ auth()->check() && !session('remember_login') ? 'true' : 'false' }};
+		</script>
+
 	</head>
 
 	<body class="d-flex flex-column vh-100">

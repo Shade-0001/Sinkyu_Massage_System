@@ -369,6 +369,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 /*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
+/*┃  フロントエンドアイドルタイムアウト            ┃*/
+/*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
+// remember=true のユーザーはBladeで IDLE_TIMEOUT_ENABLED=false を渡してスキップ。
+// マウス/キーボード/タッチ操作から60分無操作でログアウトAPIを叩く（メイン）。
+// サーバー側90分タイムアウトはJSが動かない場合のバックアップ。
+(function () {
+  if (!window.IDLE_TIMEOUT_ENABLED) return;
+
+  const TIMEOUT_MS  = 60 * 60 * 1000;
+  const LOGOUT_URL  = '/logout';
+  const CSRF_TOKEN  = document.querySelector('meta[name="csrf-token"]')?.content ?? '';
+
+  let timer = null;
+
+  function resetTimer() {
+    clearTimeout(timer);
+    timer = setTimeout(logout, TIMEOUT_MS);
+  }
+
+  function logout() {
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = LOGOUT_URL;
+    const token = document.createElement('input');
+    token.type  = 'hidden';
+    token.name  = '_token';
+    token.value = CSRF_TOKEN;
+    form.appendChild(token);
+    document.body.appendChild(form);
+    form.submit();
+  }
+
+  ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll', 'click'].forEach(ev => {
+    document.addEventListener(ev, resetTimer, { passive: true });
+  });
+
+  resetTimer();
+})();
+
+
+/*┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓*/
 /*┃  DataTables 共通初期化                        ┃*/
 /*┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛*/
 window.initDataTable = function(tableId, options) {
