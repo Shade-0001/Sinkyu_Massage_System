@@ -39,7 +39,7 @@
             <br>TEL: {{ $careManager->phone }}
           @endif
         </td>
-        <td data-order="{{ $careManager->created_at ? strtotime($careManager->created_at) : 0 }}">
+        <td class="fw-medium" data-order="{{ $careManager->created_at ? strtotime($careManager->created_at) : 0 }}">
           {{ $careManager->created_at ? \Carbon\Carbon::parse($careManager->created_at)->format('Y/n/j') : '' }}<br>
           {{ $careManager->created_at ? \Carbon\Carbon::parse($careManager->created_at)->format('H:i') : '' }}
         </td>
@@ -59,7 +59,7 @@
   </table>
 
   @if($careManagers->isEmpty())
-  <p class="text-center">データがありません</p>
+  <p class="text-center fw-medium">データがありません</p>
   @endif
 
   @push('scripts')
