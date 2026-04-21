@@ -20,9 +20,17 @@ class CheckSessionValidity
 
             // 「ログイン状態を保持」の場合はタイムアウト無効
             if (!$remember) {
-                $lastActivity = $request->session()->get('last_activity');
+                // タブ/ウィンドウ全閉じ検知：セッションCookieが消えていたらログアウト
+                if (!$request->cookie('tab_alive')) {
+                    Auth::logout();
+                    $request->session()->invalidate();
+                    $request->session()->regenerateToken();
+                    return redirect()->route('login');
+                }
 
-                if ($lastActivity && (time() - $lastActivity) > self::IDLE_TIMEOUT) {
+                // アイドルタイムアウト（1時間）
+                $lastActivity = $request->session()->get('last_activity');
+                if ($lastActivity && time() - $lastActivity > self::IDLE_TIMEOUT) {
                     Auth::logout();
                     $request->session()->invalidate();
                     $request->session()->regenerateToken();

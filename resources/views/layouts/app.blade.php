@@ -86,6 +86,15 @@
 			document.documentElement.dataset.sidebar =
 				localStorage.getItem('sidebarState') === 'open' ? 'open' : 'closed';
 		</script>
+
+		@auth
+		@unless(session('remember_login'))
+		<!-- タブ全閉じ検知用セッションCookie（タブ/ウィンドウを全て閉じると消える） -->
+		<script>
+			document.cookie = 'tab_alive=1; path=/; SameSite=Lax';
+		</script>
+		@endunless
+		@endauth
 	</head>
 
 	<body class="d-flex flex-column vh-100">
