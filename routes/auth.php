@@ -57,8 +57,4 @@ Route::middleware('auth')->group(function () {
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
-
-    // タブ/ウィンドウ全閉じ時のビーコンログアウト（sendBeacon用）
-    Route::post('logout/beacon', [AuthenticatedSessionController::class, 'destroyByBeacon'])
-        ->name('logout.beacon');
 });

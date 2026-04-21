@@ -84,18 +84,4 @@ class AuthenticatedSessionController extends Controller
     return redirect()->route('login');
   }
 
-  /**
-   * sendBeacon によるタブ全閉じ時のログアウト。
-   * remember=true のユーザーは対象外。
-   */
-  public function destroyByBeacon(Request $request): \Illuminate\Http\Response
-  {
-    if (Auth::check() && !$request->session()->get('remember_login', false)) {
-      Auth::guard('web')->logout();
-      $request->session()->invalidate();
-      $request->session()->regenerateToken();
-    }
-
-    return response('', 204);
-  }
 }
