@@ -43,7 +43,7 @@ Route::middleware('auth')->group(function () {
 	Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 	Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-	Route::view('/index', 'index')->name('index');
+	Route::view('/home', 'home')->name('home');
 
 	Route::get('/master/index', function () {
     return view('master.master_index', [

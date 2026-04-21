@@ -9,7 +9,7 @@ use App\Support\Breadcrumbs;
 // ホーム
 function getIndexBreadcrumbs() {
   return [
-    ['url' => route('index'), 'label' => 'ホーム', 'icon' => 'nf nf-fa-home'],
+    ['url' => route('home'), 'label' => 'ホーム', 'icon' => 'nf nf-fa-home'],
   ];
 }
 

@@ -66,7 +66,7 @@ class AuthenticatedSessionController extends Controller
 
     Log::info('Session regenerated, redirecting to index');
 
-    return redirect()->route('index');
+    return redirect()->route('home');
   }
 
   /**
