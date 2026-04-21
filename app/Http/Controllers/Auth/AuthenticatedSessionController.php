@@ -62,8 +62,6 @@ class AuthenticatedSessionController extends Controller
       // ログイン状態を保持しない場合: アイドルタイムアウト（ミドルウェアで制御）
       config(['session.lifetime' => 120]);
       $request->session()->put('last_activity', time());
-      // ログイン直後はCookieがまだセットされていないためチェックをスキップ
-      $request->session()->put('just_logged_in', true);
       Log::info('Session configured without remember: idle timeout enabled');
     }
 

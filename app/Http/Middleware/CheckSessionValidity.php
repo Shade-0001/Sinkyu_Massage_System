@@ -10,8 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CheckSessionValidity
 {
-    // アイドルタイムアウト: 5秒
-    public const IDLE_TIMEOUT = 5;
+    // アイドルタイムアウト: 60分
+    public const IDLE_TIMEOUT = 60 * 60;
 
     public function handle(Request $request, Closure $next): Response
     {
@@ -20,21 +20,7 @@ class CheckSessionValidity
 
             // 「ログイン状態を保持」の場合はタイムアウト無効
             if (!$remember) {
-                // タブ/ウィンドウ全閉じ検知：セッションCookieが消えていたらログアウト
-                // ログイン直後はCookieがまだブラウザに届いていないためスキップ
-                // Cookieが届いた時点でフラグを解除する
-                if ($request->cookie('tab_alive')) {
-                    // Cookieが届いた時点でログイン直後フラグを解除
-                    $request->session()->forget('just_logged_in');
-                } elseif (!$request->session()->get('just_logged_in', false)) {
-                    // Cookieなし かつ ログイン直後フラグもない → タブが閉じられた
-                    Auth::logout();
-                    $request->session()->invalidate();
-                    $request->session()->regenerateToken();
-                    return redirect()->route('login');
-                }
-
-                // アイドルタイムアウト（1時間）
+                // アイドルタイムアウト（60分）
                 $lastActivity = $request->session()->get('last_activity');
                 if ($lastActivity && time() - $lastActivity > self::IDLE_TIMEOUT) {
                     Auth::logout();
