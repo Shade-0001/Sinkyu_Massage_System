@@ -20,8 +20,11 @@ class CheckSessionValidity
 
             // 「ログイン状態を保持」の場合はタイムアウト無効
             if (!$remember) {
+                // ログイン直後はCookieがまだブラウザに届いていないためスキップ
+                $justLoggedIn = $request->session()->pull('just_logged_in', false);
+
                 // タブ/ウィンドウ全閉じ検知：セッションCookieが消えていたらログアウト
-                if (!$request->cookie('tab_alive')) {
+                if (!$justLoggedIn && !$request->cookie('tab_alive')) {
                     Auth::logout();
                     $request->session()->invalidate();
                     $request->session()->regenerateToken();
