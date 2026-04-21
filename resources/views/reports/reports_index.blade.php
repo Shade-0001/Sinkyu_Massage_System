@@ -369,7 +369,7 @@
       // 利用者検索ポップアップを開く
       function openUserSearchPopup() {
         const url = window.reportsConfig.userSearchUrl;
-        const popup = window.open(url, 'UserSearch', 'width=800,height=600,scrollbars=yes');
+        const popup = window.open(url, 'UserSearch', 'width=960,height=800,scrollbars=yes');
         if (popup) {
           popup.focus();
         }

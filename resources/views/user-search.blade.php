@@ -154,9 +154,9 @@
         const body = document.body;
         const html = document.documentElement;
 
-        // コンテンツサイズを取得
-        const contentWidth = Math.max(body.scrollWidth, body.offsetWidth, html.scrollWidth);
-        const contentHeight = Math.max(body.scrollHeight, body.offsetHeight, html.scrollHeight);
+        // コンテンツサイズを取得（スクロールバーが出ない余裕を持たせる）
+        const contentWidth = Math.max(body.scrollWidth, body.offsetWidth, html.scrollWidth) + 2;
+        const contentHeight = Math.max(body.scrollHeight, body.offsetHeight, html.scrollHeight) + 2;
 
         // ウィンドウの装飾部分（タイトルバー、境界線など）のサイズを計算
         const chromeWidth = window.outerWidth - window.innerWidth;
@@ -166,21 +166,21 @@
         const targetHeight = contentHeight + chromeHeight;
 
         // 画面サイズを超えないように制限
-        const maxWidth = screen.availWidth * 0.9;
-        const maxHeight = screen.availHeight * 0.9;
+        const maxWidth = screen.availWidth * 0.95;
+        const maxHeight = screen.availHeight * 0.95;
         const finalWidth = Math.min(targetWidth, maxWidth);
         const finalHeight = Math.min(targetHeight, maxHeight);
 
         // ウィンドウをリサイズして中央に配置
-        const left = (screen.availWidth - finalWidth) / 2;
-        const top = (screen.availHeight - finalHeight) / 2;
+        const left = Math.round((screen.availWidth - finalWidth) / 2);
+        const top = Math.round((screen.availHeight - finalHeight) / 2);
 
         window.resizeTo(finalWidth, finalHeight);
         window.moveTo(left, top);
       }
 
-      // ページ読み込み完了後にリサイズ（少し遅延させてレンダリング完了を待つ）
-      setTimeout(resizeToContent, 100);
+      // ページ読み込み完了後にリサイズ（CSS適用後のレンダリング完了を待つ）
+      setTimeout(resizeToContent, 200);
 
       const allUsers = @json($users);
       const clinicUserIdLength = {{ $clinicUserIdLength }};
