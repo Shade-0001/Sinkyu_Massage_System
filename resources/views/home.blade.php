@@ -28,6 +28,10 @@
       }
     }
 
+    #home-menu .btn-ex-main:active {
+      transform: scale(0.975, 0.975);
+    }
+
     .home-menu-label {
       font-family: "M PLUS Rounded 1c", sans-serif;
       font-size: 2rem;
