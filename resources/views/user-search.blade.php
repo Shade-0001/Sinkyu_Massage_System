@@ -138,10 +138,10 @@
         <div class="form-label-tab">利用者情報</div>
         <div class="form-field px-3 py-2 d-flex flex-column flex-grow-1">
           <div class="form-field-top"></div>
-          <div id="selected-user-info">
+          <div id="selected-user-info" class="flex-grow-1">
             <p>利用者を選択してください</p>
           </div>
-          <button type="button" id="select-user-btn" class="btn-ex-main btn-ex-blue ms-auto" style="display: none;">この利用者を選択</button>
+          <button type="button" id="select-user-btn" class="btn-ex-main btn-ex-blue ms-auto mt-2" style="display: none;">この利用者を選択</button>
         </div>
       </div>
     </div>
