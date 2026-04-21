@@ -377,7 +377,7 @@ document.addEventListener('DOMContentLoaded', () => {
 (function () {
   if (!window.IDLE_TIMEOUT_ENABLED) return;
 
-  const TIMEOUT_MS  = 60 * 60 * 1000;
+  const TIMEOUT_MS  = 10 * 60 * 1000;
   const LOGOUT_URL  = '/logout';
   const CSRF_TOKEN  = document.querySelector('meta[name="csrf-token"]')?.content ?? '';
 
