@@ -142,7 +142,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitAcupunctureBenefit()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitAcupunctureBenefit()">PDF出力</button>
         </div>
       </div>
     </div>
@@ -217,7 +217,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitTreatmentReceipt()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitTreatmentReceipt()">PDF出力</button>
         </div>
       </div>
     </div>
@@ -277,7 +277,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitMassageBenefit()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitMassageBenefit()">PDF出力</button>
         </div>
       </div>
     </div>
@@ -355,7 +355,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitMedicalAssistance()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitMedicalAssistance()">PDF出力</button>
         </div>
       </div>
     </div>
@@ -433,7 +433,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitLateElderlyMedical()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitLateElderlyMedical()">PDF出力</button>
         </div>
       </div>
     </div>
@@ -473,7 +473,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitTreatmentFeeList()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitTreatmentFeeList()">PDF出力</button>
         </div>
       </div>
     </div>
@@ -512,7 +512,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitSelfFeeList()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitSelfFeeList()">PDF出力</button>
         </div>
       </div>
     </div>
@@ -554,7 +554,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitConsentRequestSample()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitConsentRequestSample()">PDF出力</button>
         </div>
       </div>
     </div>
@@ -606,7 +606,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitConsentRequestDesignated()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitConsentRequestDesignated()">PDF出力</button>
         </div>
       </div>
     </div>
@@ -667,7 +667,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitTreatmentRecord()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitTreatmentRecord()">PDF出力</button>
         </div>
       </div>
     </div>
@@ -716,7 +716,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitSummaryTable()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitSummaryTable()">PDF出力</button>
         </div>
       </div>
     </div>
@@ -756,7 +756,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitPaymentList()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitPaymentList()">PDF出力</button>
         </div>
       </div>
     </div>
@@ -828,7 +828,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitConsentForm()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitConsentForm()">PDF出力</button>
         </div>
       </div>
     </div>
@@ -894,7 +894,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitDoctorThankYou()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitDoctorThankYou()">PDF出力</button>
         </div>
       </div>
     </div>
@@ -945,7 +945,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitReferrerThankYou()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitReferrerThankYou()">PDF出力</button>
         </div>
       </div>
     </div>
@@ -999,7 +999,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitImplementationPlan()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitImplementationPlan()">PDF出力</button>
         </div>
       </div>
     </div>
@@ -1056,7 +1056,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitReport()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitReport()">PDF出力</button>
         </div>
       </div>
     </div>
@@ -1135,7 +1135,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitReportGreeting()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitReportGreeting()">PDF出力</button>
         </div>
       </div>
     </div>
@@ -1176,7 +1176,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitUserCountSummary()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitUserCountSummary()">PDF出力</button>
         </div>
       </div>
     </div>
@@ -1230,7 +1230,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitScheduleList()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitScheduleList()">PDF出力</button>
         </div>
       </div>
     </div>
@@ -1276,7 +1276,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitTreatmentExpiryList()">印刷</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitTreatmentExpiryList()">PDF出力</button>
         </div>
       </div>
     </div>
