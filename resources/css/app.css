@@ -12,6 +12,7 @@
 /* 全体 */
 * {
   font-family: "Noto Sans JP", sans-serif;
+  font-weight: 500;
   scroll-behavior: smooth;
 }
 
@@ -29,7 +30,7 @@
   text-decoration-line: none;
 }
 
-/* EXボタン - ドラッグ時リンク表示無効化 */
+/* <a>タグEXボタンのドラッグ時リンク表示無効化 */
 .btn-ex-main,
 .btn-ex-sub {
   -webkit-user-drag: none;
