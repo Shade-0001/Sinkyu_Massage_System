@@ -25,6 +25,8 @@
                 {{ $data[$key] ? '対象' : '非対象' }}
               @elseif($key === 'is_housecall_required')
                 {{ $data[$key] == 1 ? '必要とする' : ($data[$key] == 0 ? '必要としない' : '') }}
+              @elseif($key === 'should_round_amount')
+                {{ $data[$key] == 1 ? '1桁目を四捨五入する' : '四捨五入しない' }}
               @elseif($key === 'symptom2_joint_disorder' || $key === 'symptom2_other' || $key === 'symptom3_other' || $key === 'treatment_type2_corrective_hand')
                 {{ $data[$key] ? 'あり' : 'なし' }}
               @elseif(is_array($data[$key]))
