@@ -135,7 +135,7 @@
     <!-- 右パネル：利用者情報表示ボックス -->
     <div class="flex-shrink-0 d-flex flex-column" style="width: 400px; min-height: 0;">
       <div id="selected-user-box" class="d-flex flex-column flex-grow-1">
-        <div class="form-label-tab">利用者情報</div>
+        <div class="form-label-tab align-self-start">利用者情報</div>
         <div class="form-field px-3 py-2 d-flex flex-column flex-grow-1">
           <div class="form-field-top"></div>
           <div id="selected-user-info" class="flex-grow-1">
