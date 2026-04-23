@@ -25,6 +25,6 @@ class AppServiceProvider extends ServiceProvider
     Paginator::useBootstrapFive();
 
     // パンくずリストの定義を読み込む
-    require base_path('routes/breadcrumbs.php');
+    require_once base_path('routes/breadcrumbs.php');
   }
 }
