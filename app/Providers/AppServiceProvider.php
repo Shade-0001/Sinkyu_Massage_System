@@ -5,6 +5,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +24,10 @@ class AppServiceProvider extends ServiceProvider
   {
     // Bootstrap 5のページネーションビューを全体で使用する設定
     Paginator::useBootstrapFive();
+
+    if (config('app.env') === 'production') {
+      URL::forceScheme('https');
+    }
 
     // パンくずリストの定義を読み込む
     require_once base_path('routes/breadcrumbs.php');
