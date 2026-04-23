@@ -19,7 +19,7 @@ class FirstExperienceMaterialPdfService extends BasePdfService
 
   public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate = '', string $remarks = ''): string
   {
-    // 未実装：テンプレートのみ表示
-    return $this->generateTemplatePdf();
+    $templatePath = $this->customTemplatePath ?? storage_path('app/templates/others_1/初回体験用資料.pdf');
+    return $this->generateTemplatePdf($templatePath);
   }
 }
