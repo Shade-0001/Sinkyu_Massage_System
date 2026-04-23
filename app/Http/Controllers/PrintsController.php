@@ -673,8 +673,11 @@ class PrintsController extends Controller
         'clinic_user_ids' => 'required|array',
         'clinic_user_ids.*' => 'exists:clinic_users,id',
         'consent_request_type' => 'required|in:acupuncture,massage',
-        'submission_month' => 'required|date_format:Y-m',
+        'submission_date' => 'required|date_format:Y-m-d',
       ]);
+
+      // submission_dateからsubmission_monthを導出
+      $validated['submission_month'] = \Carbon\Carbon::parse($validated['submission_date'])->format('Y-m');
 
       $consentRequestType = $validated['consent_request_type'];
       $typeName = $consentRequestType === 'acupuncture' ? '同意書依頼状（サンプル版）はり･きゅう' : '同意書依頼状（サンプル版）あんま･マッサージ';
