@@ -11,7 +11,7 @@ class ConsentMassage extends Model
 {
   use HasFactory;
 
-  protected $connection = 'sinkyu_massage_system_db';
+  protected $connection = null;
   protected $table = 'consents_massage';
 
   protected $fillable = [

@@ -10,7 +10,7 @@ class AssistanceLevel extends Model
 {
   use HasFactory;
 
-  protected $connection = 'sinkyu_massage_system_db';
+  protected $connection = null;
   protected $table = 'assistance_levels';
 
   protected $fillable = [

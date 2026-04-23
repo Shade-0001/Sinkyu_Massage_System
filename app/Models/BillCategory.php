@@ -10,7 +10,7 @@ class BillCategory extends Model
 {
   use HasFactory;
 
-  protected $connection = 'sinkyu_massage_system_db';
+  protected $connection = null;
   protected $table = 'bill_categories';
 
   protected $fillable = [

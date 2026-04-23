@@ -10,7 +10,7 @@ class WorkScopeType extends Model
 {
   use HasFactory;
 
-  protected $connection = 'sinkyu_massage_system_db';
+  protected $connection = null;
   protected $table = 'work_scope_types';
 
   protected $fillable = [

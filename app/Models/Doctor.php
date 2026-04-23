@@ -10,7 +10,7 @@ class Doctor extends Model
 {
   use HasFactory;
 
-  protected $connection = 'sinkyu_massage_system_db';
+  protected $connection = null;
   protected $table = 'doctors';
 
   protected $fillable = [

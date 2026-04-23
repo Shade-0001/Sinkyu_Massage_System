@@ -10,7 +10,7 @@ class Plan extends Model
 {
   use HasFactory;
 
-  protected $connection = 'sinkyu_massage_system_db';
+  protected $connection = null;
   protected $table = 'plans';
 
   protected $fillable = [

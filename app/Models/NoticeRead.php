@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class NoticeRead extends Model
 {
-  protected $connection = 'sinkyu_massage_system_db';
+  protected $connection = null;
   protected $table = 'notice_reads';
 
   protected $fillable = [
