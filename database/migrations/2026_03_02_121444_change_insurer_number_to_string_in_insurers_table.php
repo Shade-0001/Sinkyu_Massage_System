@@ -6,18 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-  protected $connection = 'sinkyu_massage_system_db';
+  protected $connection = null;
 
   public function up(): void
   {
-    Schema::connection('sinkyu_massage_system_db')->table('insurers', function (Blueprint $table) {
+    Schema::connection(env('DB_CONNECTION', 'mysql'))->table('insurers', function (Blueprint $table) {
       $table->string('insurer_number', 20)->change();
     });
   }
 
   public function down(): void
   {
-    Schema::connection('sinkyu_massage_system_db')->table('insurers', function (Blueprint $table) {
+    Schema::connection(env('DB_CONNECTION', 'mysql'))->table('insurers', function (Blueprint $table) {
       $table->integer('insurer_number')->change();
     });
   }

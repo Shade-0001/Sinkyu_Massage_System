@@ -7,18 +7,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-  protected $connection = 'sinkyu_massage_system_db';
+  protected $connection = null;
 
   public function up(): void
   {
-    Schema::connection('sinkyu_massage_system_db')->table('clinic_users', function (Blueprint $table) {
+    Schema::connection(env('DB_CONNECTION', 'mysql'))->table('clinic_users', function (Blueprint $table) {
       $table->string('address_3')->nullable()->change();
     });
   }
 
   public function down(): void
   {
-    Schema::connection('sinkyu_massage_system_db')->table('clinic_users', function (Blueprint $table) {
+    Schema::connection(env('DB_CONNECTION', 'mysql'))->table('clinic_users', function (Blueprint $table) {
       $table->string('address_3')->nullable(false)->change();
     });
   }

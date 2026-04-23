@@ -6,18 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-  protected $connection = 'sinkyu_massage_system_db';
+  protected $connection = null;
 
   public function up(): void
   {
-    Schema::connection('sinkyu_massage_system_db')->table('consents_acupuncture', function (Blueprint $table) {
+    Schema::connection(env('DB_CONNECTION', 'mysql'))->table('consents_acupuncture', function (Blueprint $table) {
       $table->renameColumn('condition', 'condition_id');
     });
   }
 
   public function down(): void
   {
-    Schema::connection('sinkyu_massage_system_db')->table('consents_acupuncture', function (Blueprint $table) {
+    Schema::connection(env('DB_CONNECTION', 'mysql'))->table('consents_acupuncture', function (Blueprint $table) {
       $table->renameColumn('condition_id', 'condition');
     });
   }

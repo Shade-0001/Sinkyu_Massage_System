@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::connection('sinkyu_massage_system_db')->create('housecall_reasons', function (Blueprint $table) {
+        Schema::connection(env('DB_CONNECTION', 'mysql'))->create('housecall_reasons', function (Blueprint $table) {
             $table->id();
             $table->string('housecall_reason');
             $table->timestamps();
         });
 
         // 初期データ投入
-        DB::connection('sinkyu_massage_system_db')->table('housecall_reasons')->insert([
+        DB::connection(env('DB_CONNECTION', 'mysql'))->table('housecall_reasons')->insert([
             ['housecall_reason' => '独歩による公共交通機関を使っての外出が困難', 'created_at' => now(), 'updated_at' => now()],
             ['housecall_reason' => '認知症や視覚･内部･精神障害などにより単独での外出が困難', 'created_at' => now(), 'updated_at' => now()],
             ['housecall_reason' => 'その他', 'created_at' => now(), 'updated_at' => now()],
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::connection('sinkyu_massage_system_db')->dropIfExists('housecall_reasons');
+        Schema::connection(env('DB_CONNECTION', 'mysql'))->dropIfExists('housecall_reasons');
     }
 };

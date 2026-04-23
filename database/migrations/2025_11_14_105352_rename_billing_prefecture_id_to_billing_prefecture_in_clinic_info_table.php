@@ -12,12 +12,12 @@ return new class extends Migration
    */
   public function up(): void
   {
-    Schema::connection('sinkyu_massage_system_db')->table('clinic_info', function (Blueprint $table) {
+    Schema::connection(env('DB_CONNECTION', 'mysql'))->table('clinic_info', function (Blueprint $table) {
       // カラム名を変更してstring型に変換
       $table->renameColumn('billing_prefecture_id', 'billing_prefecture');
     });
 
-    Schema::connection('sinkyu_massage_system_db')->table('clinic_info', function (Blueprint $table) {
+    Schema::connection(env('DB_CONNECTION', 'mysql'))->table('clinic_info', function (Blueprint $table) {
       // string型に変更
       $table->string('billing_prefecture')->nullable()->change();
     });
@@ -28,12 +28,12 @@ return new class extends Migration
    */
   public function down(): void
   {
-    Schema::connection('sinkyu_massage_system_db')->table('clinic_info', function (Blueprint $table) {
+    Schema::connection(env('DB_CONNECTION', 'mysql'))->table('clinic_info', function (Blueprint $table) {
       // int型に戻す
       $table->integer('billing_prefecture')->nullable()->change();
     });
 
-    Schema::connection('sinkyu_massage_system_db')->table('clinic_info', function (Blueprint $table) {
+    Schema::connection(env('DB_CONNECTION', 'mysql'))->table('clinic_info', function (Blueprint $table) {
       // カラム名を元に戻す
       $table->renameColumn('billing_prefecture', 'billing_prefecture_id');
     });

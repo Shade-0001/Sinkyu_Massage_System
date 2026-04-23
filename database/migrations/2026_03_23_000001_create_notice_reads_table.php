@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-  protected $connection = 'sinkyu_massage_system_db';
+  protected $connection = null;
 
   public function up(): void
   {
-    Schema::connection('sinkyu_massage_system_db')->create('notice_reads', function (Blueprint $table) {
+    Schema::connection(env('DB_CONNECTION', 'mysql'))->create('notice_reads', function (Blueprint $table) {
       $table->id();
       $table->unsignedBigInteger('user_id');
       $table->unsignedBigInteger('notice_id');
@@ -22,6 +22,6 @@ return new class extends Migration
 
   public function down(): void
   {
-    Schema::connection('sinkyu_massage_system_db')->dropIfExists('notice_reads');
+    Schema::connection(env('DB_CONNECTION', 'mysql'))->dropIfExists('notice_reads');
   }
 };

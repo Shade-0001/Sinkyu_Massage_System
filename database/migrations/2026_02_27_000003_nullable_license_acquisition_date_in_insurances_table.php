@@ -8,14 +8,14 @@ return new class extends Migration
 {
   public function up(): void
   {
-    Schema::connection('sinkyu_massage_system_db')->table('insurances', function (Blueprint $table) {
+    Schema::connection(env('DB_CONNECTION', 'mysql'))->table('insurances', function (Blueprint $table) {
       $table->date('license_acquisition_date')->nullable()->change();
     });
   }
 
   public function down(): void
   {
-    Schema::connection('sinkyu_massage_system_db')->table('insurances', function (Blueprint $table) {
+    Schema::connection(env('DB_CONNECTION', 'mysql'))->table('insurances', function (Blueprint $table) {
       $table->date('license_acquisition_date')->nullable(false)->change();
     });
   }
