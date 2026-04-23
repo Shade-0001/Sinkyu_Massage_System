@@ -12,13 +12,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // テーブル名を変更
-        Schema::rename('house_visit_reasons', 'housecall_reasons');
+        if (!Schema::hasTable('housecall_reasons') && Schema::hasTable('house_visit_reasons')) {
+            Schema::rename('house_visit_reasons', 'housecall_reasons');
 
-        // カラム名を変更
-        Schema::table('housecall_reasons', function (Blueprint $table) {
-            $table->renameColumn('house_visit_reason', 'housecall_reason');
-        });
+            Schema::table('housecall_reasons', function (Blueprint $table) {
+                $table->renameColumn('house_visit_reason', 'housecall_reason');
+            });
+        }
     }
 
     /**
