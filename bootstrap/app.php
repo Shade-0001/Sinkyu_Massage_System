@@ -13,7 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->redirectGuestsTo('/login');
-        $middleware->redirectUsersTo('/index');
+        $middleware->redirectUsersTo('/home');
 
 
         // セッション有効性チェックミドルウェアをwebグループに追加
