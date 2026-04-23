@@ -4,11 +4,11 @@
 .idea
 node_modules
 database/dumps
-storage/framework/cache
+storage/framework/cache/data
 storage/framework/sessions
-storage/framework/views
-storage/logs
-bootstrap/cache
+storage/framework/views/*.php
+storage/logs/*.log
+bootstrap/cache/*.php
 .env
 .env.*
 !.env.example
