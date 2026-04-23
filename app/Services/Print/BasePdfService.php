@@ -26,6 +26,7 @@ abstract class BasePdfService
    * サンプルデータ表示モード
    */
   protected $sampleDataMode = false;
+  protected $serviceYearMonth = '';
 
   /**
    * カスタムサンプルデータ

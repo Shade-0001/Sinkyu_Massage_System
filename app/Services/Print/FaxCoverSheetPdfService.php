@@ -22,6 +22,8 @@ class FaxCoverSheetPdfService extends BasePdfService
 
   public function generate(array $clinicUserIds, string $serviceYearMonth, string $submissionDate = '', string $remarks = ''): string
   {
+    $this->serviceYearMonth = $serviceYearMonth;
+
     $pdf = new Fpdi('P', 'mm', 'A4', true, 'UTF-8', false);
     $pdf->SetAutoPageBreak(false);
     $pdf->setPrintHeader(false);
@@ -43,7 +45,7 @@ class FaxCoverSheetPdfService extends BasePdfService
       return $this->getSampleData('');
     }
 
-    $clinicInfo = $this->getClinicInfoForDate($serviceYearMonth . '-01');
+    $clinicInfo = $this->getClinicInfoForDate($this->serviceYearMonth . '-01');
 
     return [
       'clinic_info' => $clinicInfo,
