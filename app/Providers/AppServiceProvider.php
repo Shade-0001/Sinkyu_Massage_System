@@ -6,6 +6,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\App;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,6 +23,8 @@ class AppServiceProvider extends ServiceProvider
    */
   public function boot(): void
   {
+    App::setLocale('ja');
+
     // Bootstrap 5のページネーションビューを全体で使用する設定
     Paginator::useBootstrapFive();
 
