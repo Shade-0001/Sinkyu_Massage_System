@@ -120,6 +120,29 @@ class RecordRequest extends FormRequest
     ];
   }
 
+  public function attributes(): array
+  {
+    return [
+      'clinic_user_id'           => '利用者',
+      'start_time'               => '開始時刻',
+      'end_time'                 => '終了時刻',
+      'therapy_type'             => '施術種類',
+      'therapy_category'         => '施術区分',
+      'insurance_category'       => '保険区分',
+      'housecall_distance'       => '往療距離',
+      'consent_expiry'           => '同意有効期限',
+      'therapy_content_id'       => '施術内容',
+      'bill_category_id'         => '請求区分',
+      'therapist_id'             => '施術者',
+      'bodyparts'                => '身体部位',
+      'duplicate_massage'        => '重複（マッサージ）',
+      'duplicate_warm_compress'  => '重複（温罨法）',
+      'duplicate_warm_electric'  => '重複（温電気）',
+      'duplicate_manual_correction' => '重複（変形徒手矯正術）',
+      'abstract'                 => '摘要',
+    ];
+  }
+
   /**
    * カスタムエラーメッセージ
    */

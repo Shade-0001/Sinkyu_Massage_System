@@ -69,6 +69,48 @@ class ConsentMassageRequest extends FormRequest
     ];
   }
 
+  public function attributes(): array
+  {
+    return [
+      'consenting_doctor_id'              => '同意医師',
+      'consenting_date'                   => '同意日',
+      'consenting_start_date'             => '同意開始日',
+      'consenting_end_date'               => '同意終了日',
+      'benefit_period_start_date'         => '給付期間開始日',
+      'benefit_period_end_date'           => '給付期間終了日',
+      'first_care_date'                   => '初療日',
+      'injury_and_illness_name_id'        => '傷病名',
+      'disease_name_custom'               => '傷病名（新規）',
+      'illness_name_acupuncture_id'       => '病名',
+      'illness_name_acupuncture_addendum' => '病名（補足）',
+      'reconsenting_expiry'               => '再同意期限',
+      'bill_category_id'                  => '請求区分',
+      'outcome_id'                        => '転帰',
+      'symptom1'                          => '症状１',
+      'symptom2'                          => '症状２',
+      'symptom2_joint_disorder'           => '症状２（関節拘縮）',
+      'symptom2_other'                    => '症状２（その他）',
+      'symptom2_other_text'               => '症状２（その他テキスト）',
+      'symptom3_other'                    => '症状３（その他）',
+      'symptom3'                          => '症状３',
+      'treatment_type1'                   => '施術種類１',
+      'treatment_type2'                   => '施術種類２',
+      'treatment_type2_corrective_hand'   => '施術種類２（矯正手技）',
+      'is_housecall_required'             => '往療要否',
+      'housecall_reason_id'               => '往療理由',
+      'housecall_reason_addendum'         => '往療理由（補足）',
+      'care_level'                        => '介護度',
+      'notes'                             => '備考',
+      'therapy_period'                    => '施術期間',
+      'first_therapy_content_id'          => '初回施術内容',
+      'condition_id'                      => '発病負傷経過',
+      'disease_progress_custom'           => '発病負傷経過（新規）',
+      'condition_custom'                  => '発病負傷経過（新規）',
+      'work_scope_type_id'                => '業務上外等区分',
+      'onset_and_injury_date'             => '発症・負傷日',
+    ];
+  }
+
   /**
    * カスタムエラーメッセージ
    */

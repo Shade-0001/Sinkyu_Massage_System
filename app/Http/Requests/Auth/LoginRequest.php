@@ -33,6 +33,14 @@ class LoginRequest extends FormRequest
     ];
   }
 
+  public function attributes(): array
+  {
+    return [
+      'login_id' => 'ログインID',
+      'password' => 'パスワード',
+    ];
+  }
+
   /**
    * Attempt to authenticate the request's credentials.
    *
