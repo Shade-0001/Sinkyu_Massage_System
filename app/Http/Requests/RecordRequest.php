@@ -135,10 +135,10 @@ class RecordRequest extends FormRequest
       'bill_category_id'         => '請求区分',
       'therapist_id'             => '施術者',
       'bodyparts'                => '身体部位',
-      'duplicate_massage'        => '重複（マッサージ）',
-      'duplicate_warm_compress'  => '重複（温罨法）',
-      'duplicate_warm_electric'  => '重複（温電気）',
-      'duplicate_manual_correction' => '重複（変形徒手矯正術）',
+      'duplicate_massage'           => 'マッサージ複製',
+      'duplicate_warm_compress'     => '温罨法複製',
+      'duplicate_warm_electric'     => '温罨法・電気光線器具複製',
+      'duplicate_manual_correction' => '変形徒手矯正術複製',
       'abstract'                 => '摘要',
     ];
   }
