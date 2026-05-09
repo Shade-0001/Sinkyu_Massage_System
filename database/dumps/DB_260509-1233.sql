@@ -988,7 +988,7 @@ CREATE TABLE `migrations` (
   `migration` varchar(255) NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -997,7 +997,7 @@ CREATE TABLE `migrations` (
 
 LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
-INSERT INTO `migrations` VALUES (1,'2025_10_09_153328_rename_concenting_tables_to_consenting',1),(2,'2025_10_09_153935_rename_concenting_tables_to_consenting_v2',2),(3,'2025_11_11_121503_create_house_visit_reasons_table',3),(4,'2025_11_12_121217_rename_house_visit_reasons_to_housecall_reasons',4),(5,'2025_11_13_110509_create_plan_infos_table',5),(6,'2025_11_14_105352_rename_billing_prefecture_id_to_billing_prefecture_in_clinic_info_table',6),(7,'0001_01_01_000000_create_users_table',7),(8,'0001_01_01_000001_create_cache_table',7),(9,'0001_01_01_000002_create_jobs_table',7),(10,'2025_11_17_151942_add_columns_to_document_templates_table',8),(11,'2025_11_18_110145_change_documents_content_to_text',9),(12,'2025_11_11_121503_create_housecall_reasons_table',5),(13,'2025_11_18_111128_change_documents_name_to_varchar',10),(19,'2025_11_18_140329_change_clinic_info_columns_to_varchar',11),(20,'2025_11_19_112642_create_self_paid_fees_table',12),(21,'2025_11_20_103519_fix_document_association_foreign_keys',12),(22,'2025_11_20_104322_rename_document_association_columns',13),(23,'2025_11_21_130944_add_last_login_at_to_system_users_table',14),(24,'2025_11_21_140341_add_clinic_user_id_to_records_table',15),(25,'2025_11_28_105101_rename_consents_massage_bodyparts_table',16),(26,'2025_11_28_112410_rename_consenting_doctor_history_massage_id_column_in_bodyparts_consents_massage_table',17),(27,'2025_12_08_152118_modify_therapists_name_fields',18),(28,'2025_12_08_152238_update_doctors_table_split_name_to_first_last',19),(29,'2025_12_08_152412_modify_caremanagers_name_fields',19),(30,'2025_12_11_150230_add_therapy_period_dates_to_consent_tables',20),(31,'2025_12_12_151309_add_columns_to_deposits_table',21),(32,'2025_12_16_150407_change_insurance_number_columns_to_bigint_in_insurances_table',22),(33,'2025_12_17_135648_add_housecall_reason_columns_to_consents_acupuncture_table',23),(35,'2026_01_08_113432_add_therapy_type_to_therapy_contents_table',24),(36,'2026_01_08_113502_update_therapy_contents_data',24),(37,'2026_01_09_142907_rename_therapy_conetnt_id_to_therapy_content_id_in_records_table',25),(38,'2026_01_17_151011_add_self_fee_id_to_records_table',26),(39,'2026_01_20_105254_split_owner_name_in_clinic_info_table',27),(40,'2026_01_30_145709_drop_foreign_keys_from_therapists_table',28),(41,'2026_01_30_145938_drop_license_number_fields_from_therapists_table',29),(42,'2026_01_30_150511_rename_license_id_to_code_number_in_therapists_table',30),(43,'2026_01_30_152007_change_license_code_number_to_bigint_in_therapists_table',31),(48,'2026_02_27_000002_nullable_address3_in_clinic_users_table',33),(49,'2026_02_13_153341_add_comment_to_document_association_table',34),(50,'2026_02_27_000003_nullable_license_acquisition_date_in_insurances_table',34),(51,'2026_02_27_160839_remove_therapy_period_dates_from_consent_tables',35),(52,'2026_03_02_121444_change_insurer_number_to_string_in_insurers_table',36),(53,'2026_03_02_150125_rename_condition_to_condition_id_in_consents_acupuncture_table',37),(55,'2026_03_21_123004_create_notices_table',38),(56,'2026_03_21_134605_add_plain_password_to_system_users_table',39),(57,'2026_03_23_000001_create_notice_reads_table',40),(58,'2026_03_25_174552_add_is_admin_to_system_users_table',40),(59,'2026_04_02_104327_rename_system_users_to_user_accounts',41),(60,'2026_04_20_104538_add_patient_info_to_documents_table',42),(61,'2026_04_20_133240_change_line_height_font_size_to_decimal_in_documents_table',43),(62,'2026_04_20_153103_add_content_start_y_to_documents_table',44);
+INSERT INTO `migrations` VALUES (1,'2025_10_09_153328_rename_concenting_tables_to_consenting',1),(2,'2025_10_09_153935_rename_concenting_tables_to_consenting_v2',2),(3,'2025_11_11_121503_create_house_visit_reasons_table',3),(4,'2025_11_12_121217_rename_house_visit_reasons_to_housecall_reasons',4),(5,'2025_11_13_110509_create_plan_infos_table',5),(6,'2025_11_14_105352_rename_billing_prefecture_id_to_billing_prefecture_in_clinic_info_table',6),(7,'0001_01_01_000000_create_users_table',7),(8,'0001_01_01_000001_create_cache_table',7),(9,'0001_01_01_000002_create_jobs_table',7),(10,'2025_11_17_151942_add_columns_to_document_templates_table',8),(11,'2025_11_18_110145_change_documents_content_to_text',9),(12,'2025_11_11_121503_create_housecall_reasons_table',5),(13,'2025_11_18_111128_change_documents_name_to_varchar',10),(19,'2025_11_18_140329_change_clinic_info_columns_to_varchar',11),(20,'2025_11_19_112642_create_self_paid_fees_table',12),(21,'2025_11_20_103519_fix_document_association_foreign_keys',12),(22,'2025_11_20_104322_rename_document_association_columns',13),(23,'2025_11_21_130944_add_last_login_at_to_system_users_table',14),(24,'2025_11_21_140341_add_clinic_user_id_to_records_table',15),(25,'2025_11_28_105101_rename_consents_massage_bodyparts_table',16),(26,'2025_11_28_112410_rename_consenting_doctor_history_massage_id_column_in_bodyparts_consents_massage_table',17),(27,'2025_12_08_152118_modify_therapists_name_fields',18),(28,'2025_12_08_152238_update_doctors_table_split_name_to_first_last',19),(29,'2025_12_08_152412_modify_caremanagers_name_fields',19),(30,'2025_12_11_150230_add_therapy_period_dates_to_consent_tables',20),(31,'2025_12_12_151309_add_columns_to_deposits_table',21),(32,'2025_12_16_150407_change_insurance_number_columns_to_bigint_in_insurances_table',22),(33,'2025_12_17_135648_add_housecall_reason_columns_to_consents_acupuncture_table',23),(35,'2026_01_08_113432_add_therapy_type_to_therapy_contents_table',24),(36,'2026_01_08_113502_update_therapy_contents_data',24),(37,'2026_01_09_142907_rename_therapy_conetnt_id_to_therapy_content_id_in_records_table',25),(38,'2026_01_17_151011_add_self_fee_id_to_records_table',26),(39,'2026_01_20_105254_split_owner_name_in_clinic_info_table',27),(40,'2026_01_30_145709_drop_foreign_keys_from_therapists_table',28),(41,'2026_01_30_145938_drop_license_number_fields_from_therapists_table',29),(42,'2026_01_30_150511_rename_license_id_to_code_number_in_therapists_table',30),(43,'2026_01_30_152007_change_license_code_number_to_bigint_in_therapists_table',31),(48,'2026_02_27_000002_nullable_address3_in_clinic_users_table',33),(49,'2026_02_13_153341_add_comment_to_document_association_table',34),(50,'2026_02_27_000003_nullable_license_acquisition_date_in_insurances_table',34),(51,'2026_02_27_160839_remove_therapy_period_dates_from_consent_tables',35),(52,'2026_03_02_121444_change_insurer_number_to_string_in_insurers_table',36),(53,'2026_03_02_150125_rename_condition_to_condition_id_in_consents_acupuncture_table',37),(55,'2026_03_21_123004_create_notices_table',38),(56,'2026_03_21_134605_add_plain_password_to_system_users_table',39),(57,'2026_03_23_000001_create_notice_reads_table',40),(58,'2026_03_25_174552_add_is_admin_to_system_users_table',40),(59,'2026_04_02_104327_rename_system_users_to_user_accounts',41),(60,'2026_04_20_104538_add_patient_info_to_documents_table',42),(61,'2026_04_20_133240_change_line_height_font_size_to_decimal_in_documents_table',43),(62,'2026_04_20_153103_add_content_start_y_to_documents_table',44),(63,'2026_04_21_133241_create_sessions_table',45);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1348,6 +1348,35 @@ INSERT INTO `service_providers` VALUES (1,'2026-02-28 15:12:32','2026-02-28 15:1
 UNLOCK TABLES;
 
 --
+-- Table structure for table `sessions`
+--
+
+DROP TABLE IF EXISTS `sessions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sessions` (
+  `id` varchar(255) NOT NULL,
+  `user_id` bigint(20) unsigned DEFAULT NULL,
+  `ip_address` varchar(45) DEFAULT NULL,
+  `user_agent` text DEFAULT NULL,
+  `payload` longtext NOT NULL,
+  `last_activity` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `sessions_user_id_index` (`user_id`),
+  KEY `sessions_last_activity_index` (`last_activity`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sessions`
+--
+
+LOCK TABLES `sessions` WRITE;
+/*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `therapists`
 --
 
@@ -1509,7 +1538,7 @@ CREATE TABLE `user_accounts` (
 
 LOCK TABLES `user_accounts` WRITE;
 /*!40000 ALTER TABLE `user_accounts` DISABLE KEYS */;
-INSERT INTO `user_accounts` VALUES (1,'2025-09-19 11:37:39','2026-04-21 13:19:32','AdminUser-01','au-01','$2y$12$kx1gkBDMSImvCuKo20sHEOjUayWFXf.T.CEsOKEvQJeoInmrLyi7C','au-01','gcsttNfgQYKHzMuUb4tUOHHbYn4R86hcgLLtBaw7eY5I6YkhvCqYgxJh8Hex','2026-04-21 04:19:32',1),(2,'2026-03-09 06:36:13','2026-04-02 10:57:27','StandardUser-01','su-01','$2y$12$O47EHbYQI/SwJPwXyuV.M.orcpt0O99s0AgbORcGmnuqvt07hiBCa','su-01','9ku1kEmCH3OUJPE9tZ7Ce5A4XMzEsglPnvLAfICIsVXOUGtE3RaV0OeQXdg5','2026-04-02 01:56:43',0);
+INSERT INTO `user_accounts` VALUES (1,'2025-09-19 11:37:39','2026-05-09 12:18:48','AdminUser-01','au-01','$2y$12$kx1gkBDMSImvCuKo20sHEOjUayWFXf.T.CEsOKEvQJeoInmrLyi7C','au-01','DzVnocpSViM6lJeqUEwuIYIPE12SvJOMvztnShF8IcdRcBY5LgA4OtGlqbDc','2026-05-09 03:18:48',1),(2,'2026-03-09 06:36:13','2026-04-21 15:10:53','StandardUser-01','su-01','$2y$12$O47EHbYQI/SwJPwXyuV.M.orcpt0O99s0AgbORcGmnuqvt07hiBCa','su-01','yFqCdeysm4gIIH8raNdD4taDqmPfDg32kP4cZhan4sWdgCzYzzinVhEwh8vx','2026-04-21 06:10:49',0);
 /*!40000 ALTER TABLE `user_accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1548,4 +1577,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-04-21 13:21:33
+-- Dump completed on 2026-05-09 12:33:40
