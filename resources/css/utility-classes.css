@@ -784,8 +784,8 @@
   border-radius: 4px 0 0 0;
   font-size: 0.875rem;
   font-weight: 700;
-  margin-bottom: -1px;
   position: relative;
+  top: 1px;
   z-index: 1;
 }
 .form-label-tab::after {
