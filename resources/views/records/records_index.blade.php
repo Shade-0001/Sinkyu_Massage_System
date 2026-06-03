@@ -479,11 +479,11 @@
   @endif
 
   <!-- はり・きゅう支給申請書モーダル -->
-  <div class="modal fade" id="recordAcupunctureBenefitModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+  <div class="modal fade" id="recordAcupunctureBenefitModal" tabindex="-1" aria-labelledby="recordAcupunctureBenefitModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">はり･きゅう支給申請書 出力設定</h5>
+          <h5 class="modal-title" id="recordAcupunctureBenefitModalLabel">はり･きゅう支給申請書 出力設定</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -494,13 +494,13 @@
 
             <!-- 出力年月日 -->
             <div class="mb-3">
-              <label class="form-label">出力年月日 <span class="text-danger">*</span></label>
+              <label class="form-label fw-medium fs-5-5">出力年月日 <span class="text-danger">*</span></label>
               <input type="date" class="form-control" name="submission_date" id="recordAcuBenefitSubmissionDate" value="{{ now()->format('Y-m-d') }}" required>
             </div>
 
             <!-- 施術報告交付料金 × 回数 -->
             <div class="mb-3">
-              <label class="form-label">施術報告交付料金　　　回数</label>
+              <label class="form-label fw-medium fs-5-5">施術報告交付料金　　　回数</label>
               <div class="d-flex align-items-center gap-2">
                 <input type="number" class="form-control" name="report_fee_unit" id="recordAcuBenefitReportFeeUnit" min="0" value="0" style="width: 100px;" onfocus="if(this.value==='0')this.value=''" onblur="if(this.value==='')this.value='0'">
                 <span>円</span>
@@ -512,7 +512,7 @@
 
             <!-- 前回年月 -->
             <div class="mb-3">
-              <label class="form-label">前回年月</label>
+              <label class="form-label fw-medium fs-5-5">前回年月</label>
               <select class="form-select" name="previous_year_month" id="recordAcuBenefitPreviousYearMonth">
                 <option value="">選択してください</option>
                 @php
@@ -537,19 +537,19 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="submitRecordAcupunctureBenefit()">PDF出力</button>
+          <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitRecordAcupunctureBenefit()">PDF出力</button>
         </div>
       </div>
     </div>
   </div>
 
   <!-- あんま・マッサージ支給申請書モーダル -->
-  <div class="modal fade" id="recordMassageBenefitModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+  <div class="modal fade" id="recordMassageBenefitModal" tabindex="-1" aria-labelledby="recordMassageBenefitModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">あんま･マッサージ支給申請書 出力設定</h5>
+          <h5 class="modal-title" id="recordMassageBenefitModalLabel">あんま･マッサージ支給申請書 出力設定</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -560,13 +560,13 @@
 
             <!-- 出力年月日 -->
             <div class="mb-3">
-              <label class="form-label">出力年月日 <span class="text-danger">*</span></label>
+              <label class="form-label fw-medium fs-5-5">出力年月日 <span class="text-danger">*</span></label>
               <input type="date" class="form-control" name="submission_date" id="recordMsgBenefitSubmissionDate" required>
             </div>
 
             <!-- 施術報告交付料金 × 回数 -->
             <div class="mb-3">
-              <label class="form-label">施術報告交付料金 × 回数</label>
+              <label class="form-label fw-medium fs-5-5">施術報告交付料金 × 回数</label>
               <div class="d-flex align-items-center gap-2">
                 <input type="number" class="form-control" name="report_fee_unit" id="recordMsgBenefitReportFeeUnit" min="0" value="0" style="width: 100px;" onfocus="if(this.value==='0')this.value=''" onblur="if(this.value==='')this.value='0'">
                 <span>円 ×</span>
@@ -577,7 +577,7 @@
 
             <!-- 前回年月 -->
             <div class="mb-3">
-              <label class="form-label">前回年月</label>
+              <label class="form-label fw-medium fs-5-5">前回年月</label>
               <select class="form-select" name="previous_year_month" id="recordMsgBenefitPreviousYearMonth">
                 <option value="">選択してください</option>
                 @php
@@ -602,8 +602,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-          <button type="button" class="btn btn-primary" onclick="submitRecordMassageBenefit()">PDF出力</button>
+          <button type="button" class="btn-ex-main btn-ex-gray" data-bs-dismiss="modal">キャンセル</button>
+          <button type="button" class="btn-ex-main btn-ex-blue" onclick="submitRecordMassageBenefit()">PDF出力</button>
         </div>
       </div>
     </div>
